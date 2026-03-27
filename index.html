@@ -194,21 +194,35 @@
         /* ── Navigation buttons ── */
         .nav-buttons {
             display: flex;
-            flex-wrap: nowrap;
+            flex-direction: column;
+            align-items: center;
             gap: 0.8rem;
             margin-bottom: 3.5rem;
             width: 100%;
+        }
+        .nav-row {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 0.8rem;
             justify-content: center;
+        }
+        .about-btn {
+            background: linear-gradient(170deg, #1e3440 0%, #111f28 100%) !important;
+            border-color: #3a6070 !important;
+        }
+        .about-btn:hover, .about-btn:focus-visible {
+            background: linear-gradient(170deg, #26424f 0%, #172830 100%) !important;
+            border-color: #5a8fa0 !important;
         }
 
         .nav-btn {
             font-family: 'IM Fell English', Georgia, serif;
-            font-size: clamp(0.78rem, 1.5vw, 0.95rem);
-            letter-spacing: 0.08em;
+            font-size: clamp(0.9rem, 1.9vw, 1.06rem);
+            letter-spacing: 0.1em;
             color: var(--text-parchment);
             background: linear-gradient(170deg, var(--btn-bg-from) 0%, var(--btn-bg-to) 100%);
             border: 1px solid var(--btn-border);
-            padding: 0.72em 1.2em;
+            padding: 0.88em 2.2em;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
@@ -414,7 +428,7 @@
                 padding: 1.8rem 1rem 3rem;
             }
 
-            .nav-buttons {
+            .nav-row {
                 flex-wrap: wrap;
                 gap: 0.8rem;
             }
@@ -494,19 +508,24 @@
 
         <!-- Navigation -->
         <nav class="nav-buttons" aria-label="Leonoria tools and sections">
-            <a href="map.html" class="nav-btn">
-                <span class="btn-icon" aria-hidden="true">⚔</span>
-                Create a Map
-            </a>
-            <a href="characters.html" class="nav-btn">
-                <span class="btn-icon" aria-hidden="true">✦</span>
-                Create Characters
-            </a>
-            <a href="#" class="nav-btn" aria-disabled="true" tabindex="-1">
-                <span class="btn-icon" aria-hidden="true">📖</span>
-                Create a Campaign
-            </a>
-            <a href="about.html" class="nav-btn">
+            <div class="nav-row">
+                <a href="map.html" class="nav-btn">
+                    <span class="btn-icon" aria-hidden="true">⚔</span>
+                    Create a Map
+                </a>
+                <a href="characters.html" class="nav-btn">
+                    <span class="btn-icon" aria-hidden="true">✦</span>
+                    Create Characters
+                </a>
+                <a href="#" class="nav-btn" aria-disabled="true" tabindex="-1">
+                    <span class="btn-icon" aria-hidden="true">📖</span>
+                    Create a Campaign
+                </a>
+            </div>
+            <div class="path-divider" role="separator" aria-hidden="true">
+                <span class="path-divider-glyph">✦ ✦ ✦</span>
+            </div>
+            <a href="about.html" class="nav-btn about-btn">
                 <span class="btn-icon" aria-hidden="true">📜</span>
                 About Leonoria
             </a>
