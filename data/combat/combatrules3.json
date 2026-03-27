@@ -1,0 +1,276 @@
+{
+  "meta": {
+    "purpose": "Universal entity schema for players, NPCs, and monsters",
+    "compatible_with": "dnd_combat_system_v1"
+  },
+
+  "entity_template": {
+    "id": "unique_entity_id",
+    "name": "string",
+    "type": "player | npc | monster",
+    "level_or_cr": "number",
+
+    "stats": {
+      "strength": 10,
+      "dexterity": 10,
+      "constitution": 10,
+      "intelligence": 10,
+      "wisdom": 10,
+      "charisma": 10
+    },
+
+    "modifiers": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+
+    "proficiency_bonus": 2,
+
+    "combat": {
+      "armor_class": 10,
+      "initiative_bonus": 0,
+      "speed": 30,
+      "hit_points": {
+        "max": 10,
+        "current": 10,
+        "temporary": 0
+      },
+      "hit_dice": "1d8"
+    },
+
+    "attacks": [
+      {
+        "name": "Longsword",
+        "type": "melee",
+        "attack_bonus": 5,
+        "reach": 5,
+        "damage": {
+          "dice": "1d8",
+          "modifier": 3,
+          "type": "slashing"
+        },
+        "properties": ["versatile"]
+      }
+    ],
+
+    "actions": [
+      {
+        "name": "Attack",
+        "type": "action",
+        "effect": "Use one attack from attacks list"
+      }
+    ],
+
+    "bonus_actions": [],
+    "reactions": [
+      {
+        "name": "Opportunity Attack",
+        "trigger": "Enemy leaves melee range",
+        "effect": "Make one melee attack"
+      }
+    ],
+
+    "saving_throws": {
+      "strength": 0,
+      "dexterity": 2,
+      "constitution": 1,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 0
+    },
+
+    "skills": {
+      "perception": 2,
+      "stealth": 2
+    },
+
+    "resistances": [],
+    "vulnerabilities": [],
+    "immunities": [],
+
+    "condition_immunities": [],
+
+    "senses": {
+      "passive_perception": 12,
+      "darkvision": 0
+    },
+
+    "status": {
+      "conditions": [],
+      "is_concentrating": false,
+      "concentration_spell": null,
+      "death_saves": {
+        "successes": 0,
+        "failures": 0
+      }
+    },
+
+    "spellcasting": {
+      "spellcasting_ability": null,
+      "spell_save_dc": null,
+      "spell_attack_bonus": null,
+      "slots": {},
+      "known_spells": []
+    },
+
+    "inventory": [
+      {
+        "name": "Longsword",
+        "type": "weapon"
+      }
+    ],
+
+    "ai": {
+      "behavior": "aggressive | defensive | tactical | passive",
+      "target_priority": "nearest | lowest_hp | highest_threat",
+      "flee_condition": "hp < 20%"
+    }
+  },
+
+  "example_player": {
+    "id": "player_001",
+    "name": "Aric the Fighter",
+    "type": "player",
+    "level_or_cr": 3,
+
+    "stats": {
+      "strength": 16,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 11,
+      "charisma": 10
+    },
+
+    "modifiers": {
+      "strength": 3,
+      "dexterity": 1,
+      "constitution": 2,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+
+    "proficiency_bonus": 2,
+
+    "combat": {
+      "armor_class": 16,
+      "initiative_bonus": 1,
+      "speed": 30,
+      "hit_points": {
+        "max": 28,
+        "current": 28,
+        "temporary": 0
+      },
+      "hit_dice": "3d10"
+    },
+
+    "attacks": [
+      {
+        "name": "Longsword",
+        "type": "melee",
+        "attack_bonus": 5,
+        "reach": 5,
+        "damage": {
+          "dice": "1d8",
+          "modifier": 3,
+          "type": "slashing"
+        }
+      }
+    ],
+
+    "saving_throws": {
+      "strength": 5,
+      "constitution": 4
+    },
+
+    "status": {
+      "conditions": [],
+      "is_concentrating": false,
+      "death_saves": {
+        "successes": 0,
+        "failures": 0
+      }
+    }
+  },
+
+  "example_monster": {
+    "id": "monster_001",
+    "name": "Goblin",
+    "type": "monster",
+    "level_or_cr": 0.25,
+
+    "stats": {
+      "strength": 8,
+      "dexterity": 14,
+      "constitution": 10,
+      "intelligence": 10,
+      "wisdom": 8,
+      "charisma": 8
+    },
+
+    "modifiers": {
+      "strength": -1,
+      "dexterity": 2,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": -1,
+      "charisma": -1
+    },
+
+    "proficiency_bonus": 2,
+
+    "combat": {
+      "armor_class": 15,
+      "initiative_bonus": 2,
+      "speed": 30,
+      "hit_points": {
+        "max": 7,
+        "current": 7,
+        "temporary": 0
+      }
+    },
+
+    "attacks": [
+      {
+        "name": "Scimitar",
+        "type": "melee",
+        "attack_bonus": 4,
+        "reach": 5,
+        "damage": {
+          "dice": "1d6",
+          "modifier": 2,
+          "type": "slashing"
+        }
+      },
+      {
+        "name": "Shortbow",
+        "type": "ranged",
+        "attack_bonus": 4,
+        "range": "80/320",
+        "damage": {
+          "dice": "1d6",
+          "modifier": 2,
+          "type": "piercing"
+        }
+      }
+    ],
+
+    "traits": [
+      {
+        "name": "Nimble Escape",
+        "effect": "Can Disengage or Hide as bonus action"
+      }
+    ],
+
+    "ai": {
+      "behavior": "tactical",
+      "target_priority": "lowest_hp",
+      "flee_condition": "hp < 30%"
+    }
+  }
+}

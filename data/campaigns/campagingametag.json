@@ -1,0 +1,147 @@
+[
+  {
+    "tag": "Introductory",
+    "definition": "Tutorial-heavy. High density of tooltips, scripted 'safe' encounters, and linear progression to teach core mechanics.",
+    "game_impact": "Lower lethality; high frequency of 'Long Rest' opportunities."
+  },
+  {
+    "tag": "Sandbox-Lite",
+    "definition": "Semi-open world. Players have a central hub with 3-5 branching quest paths that can be completed in any order.",
+    "game_impact": "Requires a 'Quest Log' capable of tracking multiple concurrent primary objectives."
+  },
+  {
+    "tag": "High-Fantasy",
+    "definition": "Standard heroic tone. Magic is common, NPCs are generally helpful, and the world is vibrant/colorful.",
+    "game_impact": "Standard lighting presets; wide variety of magical loot in shops."
+  },
+  {
+    "tag": "Cosmic-Horror",
+    "definition": "Focuses on the alien, the unknown, and the psychological. Themes of mutation and loss of control.",
+    "game_impact": "Activates 'Sanity' UI elements and 'Eldritch' visual shaders (purples/greens/distortions)."
+  },
+  {
+    "tag": "Dungeon-Delve",
+    "definition": "The gameplay loop is centered on a specific indoor/underground location with multiple 'Rooms' and 'Encounters'.",
+    "game_impact": "Optimizes for 'Fog of War' and 'Line of Sight' lighting mechanics."
+  },
+  {
+    "tag": "Epic-War",
+    "definition": "Large-scale conflict involving armies. The player's actions affect the fate of nations rather than just individuals.",
+    "game_impact": "Triggers 'Mass Combat' scripts and 'Battlefield' background ambient audio."
+  },
+  {
+    "tag": "Dragon-Slaying",
+    "definition": "Boss-centric gameplay. The progression is designed around preparing for and fighting high-CR (Challenge Rating) flying monsters.",
+    "game_impact": "Requires advanced 'Flight AI' and 'Legendary Action' combat logic."
+  },
+  {
+    "tag": "Sandbox",
+    "definition": "Fully non-linear. The player is dropped into a large map and must find their own path to the objective.",
+    "game_impact": "Requires 'Dynamic Level Scaling' so areas don't become trivial or impossible too early."
+  },
+  {
+    "tag": "Elemental-Evil",
+    "definition": "Thematic focus on the four elements (Air, Earth, Fire, Water) as antagonistic forces.",
+    "game_impact": "Activates 'Environmental Resistance' gear and 'Hazardous Terrain' (Lava, Whirlpools, etc.)."
+  },
+  {
+    "tag": "Survival-Horror",
+    "definition": "Focuses on resource management, fear, and the constant threat of death or madness.",
+    "game_impact": "Decreases 'Loot Drop' rates; increases 'Enemy Aggro' range; enables 'Limited Save' points."
+  },
+  {
+    "tag": "Gritty",
+    "definition": "Low-resource, high-consequence realism. Injuries take longer to heal and combat is fast and lethal.",
+    "game_impact": "Enables 'Lingering Injuries' table; rests provide less HP/Resource recovery."
+  },
+  {
+    "tag": "Gothic-Horror",
+    "definition": "Stylized horror based on atmosphere, vampires, and classical monsters. Moody and dramatic.",
+    "game_impact": "Activates 'Permanent Night' or 'Mist' skyboxes; unlocks 'Vampiric' enemy archetypes."
+  },
+  {
+    "tag": "Open-World",
+    "definition": "Complete freedom of movement across a massive geographic area without loading screens between zones.",
+    "game_impact": "Requires 'World Partitioning' and 'LOD' (Level of Detail) optimization."
+  },
+  {
+    "tag": "Traveling",
+    "definition": "The core loop involves moving from Point A to Point B across vast distances.",
+    "game_impact": "Triggers 'Random Encounter' tables and 'Travel Speed' modifiers."
+  },
+  {
+    "tag": "Giant-Themed",
+    "definition": "Focuses on 'Large' and 'Huge' sized enemies with high physical damage and reach.",
+    "game_impact": "Requires 'Vertical Camera' adjustments and 'Environmental Destruction' physics."
+  },
+  {
+    "tag": "Hardcore",
+    "definition": "Designed for veteran players. One mistake can lead to a 'Game Over' or irreversible loss.",
+    "game_impact": "Enables 'Permadeath'; disables 'Auto-Saves' during combat."
+  },
+  {
+    "tag": "Jungle-Exploration",
+    "definition": "Specific wilderness type focused on dense vegetation, hidden ruins, and navigational puzzles.",
+    "game_impact": "Activates 'Disease' and 'Dehydration' debuff logic."
+  },
+  {
+    "tag": "Mystery",
+    "definition": "Information-gathering is more important than combat. Players must talk to NPCs and find clues.",
+    "game_impact": "Activates 'Clue Tracker' UI and 'Insight/Investigation' dialogue checks."
+  },
+  {
+    "tag": "Political-Intrigue",
+    "definition": "Focuses on social standing, factions, and secret alliances within an urban setting.",
+    "game_impact": "Activates 'Renown' meters and 'Social Stealth' mechanics."
+  },
+  {
+    "tag": "Mega-Dungeon",
+    "definition": "A singular, massive location with dozens of floors that could take an entire game to complete.",
+    "game_impact": "Requires 'Persistent World State' (enemies killed on Floor 1 stay dead when you return from Floor 5)."
+  },
+  {
+    "tag": "Combat-Heavy",
+    "definition": "Encounters happen frequently. Success is determined primarily by tactical positioning and build optimization.",
+    "game_impact": "Increases 'XP' gains from kills; reduces 'Roleplay' XP rewards."
+  },
+  {
+    "tag": "Dark-Fantasy",
+    "definition": "Grim tone where the world is dying or corrupted. Heroism is rare and costly.",
+    "game_impact": "Desaturated color palettes; 'Morality' system with significant negative consequences."
+  },
+  {
+    "tag": "Mad-Max-Style",
+    "definition": "High-octane, chaotic action involving vehicles and wasteland scavengers.",
+    "game_impact": "Activates 'Vehicle Physics' and 'Fuel Management'."
+  },
+  {
+    "tag": "Survival",
+    "definition": "General tag for games where the environment is the primary enemy (Cold, Heat, Hunger).",
+    "game_impact": "Constant 'Tick' damage or debuffs if environmental needs aren't met."
+  },
+  {
+    "tag": "Roleplay-Heavy",
+    "definition": "Most conflicts can be resolved through dialogue, stealth, or clever use of skills rather than combat.",
+    "game_impact": "Unlocks 'Pacifist' achievements; expands 'Dialogue Trees'."
+  },
+  {
+    "tag": "Whimsical",
+    "definition": "Lighthearted, strange, and colorful. Rules of logic are often replaced by 'Fey' rules.",
+    "game_impact": "Saturated colors; 'Non-Lethal' combat options by default."
+  },
+  {
+    "tag": "Character-Driven",
+    "definition": "The story changes based on the personal relationships and backstories of the protagonists.",
+    "game_impact": "Requires 'Relationship Meters' with companions and key NPCs."
+  },
+  {
+    "tag": "Multiverse",
+    "definition": "The game spans multiple realities, often with different physics or rules in each.",
+    "game_impact": "Enables 'Inter-dimensional' asset loading; rapid 'Skybox' changes."
+  },
+  {
+    "tag": "High-Level",
+    "definition": "Late-game content (Level 10-20). Characters have god-like powers.",
+    "game_impact": "Requires 'Epic-Scale' boss AI and 'Reality-Warping' spell effects."
+  }
+]

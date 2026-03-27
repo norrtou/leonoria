@@ -1,0 +1,98 @@
+[
+  {
+    "school": "Abjuration",
+    "tactical_role": "The Universal Nullifier",
+    "hard_counters": ["Evocation", "Conjuration"],
+    "interaction_logic": {
+      "vs_evocation": "Directly absorbs or negates elemental energy (Shield, Absorb Elements).",
+      "vs_conjuration": "Banishes summoned entities and closes planar rifts (Banishment, Dispel Magic).",
+      "engine_hook": "INTERRUPT_ON_CAST: If target is Abjurer, trigger 'Counterspell' check on incoming spells."
+    },
+    "strategic_weakness": "Divination",
+    "weakness_logic": "Abjuration creates visible or tangible barriers; Divination bypasses them by finding weaknesses or 'True Seeing' through magical wards."
+  },
+  {
+    "school": "Conjuration",
+    "tactical_role": "Battlefield Controller",
+    "hard_counters": ["Enchantment", "Transmutation"],
+    "interaction_logic": {
+      "vs_enchantment": "Summoned creatures are often immune to 'Charm' if they lack a biological soul or follow distinct planar logic.",
+      "vs_transmutation": "Teleportation negates 'Restrained' or 'Slowed' status effects caused by physical alteration.",
+      "engine_hook": "ENTITY_SPAWN: Track summoned unit count; check for 'Concentration' break to de-spawn."
+    },
+    "strategic_weakness": "Abjuration",
+    "weakness_logic": "Highly vulnerable to 'Dispel Magic' and 'Antimagic Field', which instantly unbinds the summoned matter."
+  },
+  {
+    "school": "Divination",
+    "tactical_role": "Precision & Accuracy",
+    "hard_counters": ["Illusion", "Abjuration"],
+    "interaction_logic": {
+      "vs_illusion": "Automatically pierces falsehoods (True Seeing, See Invisibility).",
+      "vs_abjuration": "Finds gaps in magical shielding; reduces target AC by predicting movements.",
+      "engine_hook": "ROLL_REPLACEMENT: Use 'Portent' logic to replace d20 rolls in the combat queue."
+    },
+    "strategic_weakness": "Enchantment",
+    "weakness_logic": "The Diviner's mind is 'open' to information, making it more susceptible to psychic intrusion or memory modification."
+  },
+  {
+    "school": "Enchantment",
+    "tactical_role": "Turn-Economy Disruptor",
+    "hard_counters": ["Divination", "Evocation"],
+    "interaction_logic": {
+      "vs_divination": "Overwhelms the info-gathering mind with false emotions or 'Feeblemind'.",
+      "vs_evocation": "The most effective counter to high damage is 'Charming' the damage dealer to attack their own allies.",
+      "engine_hook": "AFFILIATION_SWAP: Temporarily change 'Unit_Faction' tag of the target."
+    },
+    "strategic_weakness": "Conjuration",
+    "weakness_logic": "Summoned swarms and extraplanar entities often have high mental saves or 'Mindless' traits (Constructs/Undead)."
+  },
+  {
+    "school": "Evocation",
+    "tactical_role": "The Glass Cannon",
+    "hard_counters": ["Necromancy", "Illusion"],
+    "interaction_logic": {
+      "vs_necromancy": "Radiant Evocation (Holy Fire) stops undead regeneration and destroys hordes instantly.",
+      "vs_illusion": "AoE (Area of Effect) damage clears illusions by hitting the entire area, forcing 'Displacement' to fail.",
+      "engine_hook": "AOE_RESOLUTION: Calculate damage for all units within 'Radius_Value' geometry."
+    },
+    "strategic_weakness": "Abjuration",
+    "weakness_logic": "Abjuration was specifically evolved to withstand Evocation; 'Evasion' and 'Magic Resistance' are Evocation's hardest walls."
+  },
+  {
+    "school": "Illusion",
+    "tactical_role": "Stealth & Avoidance",
+    "hard_counters": ["Evocation", "Enchantment"],
+    "interaction_logic": {
+      "vs_evocation": "Redirects attacks to 'Mirror Images' or decoy duplicates, wasting the attacker's resources.",
+      "vs_enchantment": "If the Enchanter cannot see the real target, they cannot cast 'Targeted' mind spells.",
+      "engine_hook": "MISS_CHANCE_REPLACEMENT: If Illusion active, check 'Target_Identity' vs 'Image_Count' before roll."
+    },
+    "strategic_weakness": "Divination",
+    "weakness_logic": "A Diviner makes Illusion irrelevant. One 'See Invisibility' spell renders the entire school moot."
+  },
+  {
+    "school": "Necromancy",
+    "tactical_role": "Attrition & Resource Drain",
+    "hard_counters": ["Transmutation", "Divination"],
+    "interaction_logic": {
+      "vs_transmutation": "Necrotic rot and decay target the life force directly, often bypassing 'Hardened Skin' or 'Armor' buffs.",
+      "vs_divination": "Darkness and Necrotic mists often blind Diviners or cause 'Psychic Backlash' when scried upon.",
+      "engine_hook": "HP_CAP_MODIFIER: Implement 'Maximum_HP_Reduction' that persists past healing."
+    },
+    "strategic_weakness": "Evocation",
+    "weakness_logic": "Necromancy is slow and requires 'Build-up' (corpses/rituals); Evocation’s instant, high-burst Fire/Radiant damage destroys it before it scales."
+  },
+  {
+    "school": "Transmutation",
+    "tactical_role": "Stat Mastery & Versatility",
+    "hard_counters": ["Necromancy", "Abjuration"],
+    "interaction_logic": {
+      "vs_necromancy": "Can 'Purify' blood or transmute necrotic flesh back to healthy tissue; 'Polymorph' gives a fresh HP pool.",
+      "vs_abjuration": "Alters the physical properties of weapons (Magic Weapon/Elemental Weapon) to bypass Abjuration wards.",
+      "engine_hook": "STAT_OVERRIDE: Replace 'Base_Stat_Block' with 'New_Form_Block' (e.g., Polymorph to T-Rex)."
+    },
+    "strategic_weakness": "Conjuration",
+    "weakness_logic": "A Transmuter can only be in one place; a Conjurer controls the battlefield map and can surround the Transmuter with summons."
+  }
+]

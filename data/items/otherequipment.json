@@ -1,0 +1,153 @@
+{
+  "utility_and_logistics_registry": {
+    "metadata": {
+      "version": "1.0",
+      "categories": ["Consumables", "Adventuring Gear", "Tools & Kits"],
+      "usage": "Resource management and skill-based interaction"
+    },
+    "consumables": [
+      {
+        "id": "potion_healing_standard",
+        "name": "Potion of Healing",
+        "category": "Consumable",
+        "rarity": "Common",
+        "effect": "Restore 2d4 + 2 Hit Points.",
+        "use_case": "Standard combat recovery.",
+        "cost": "50 gp",
+        "weight": "0.5 lb"
+      },
+      {
+        "id": "potion_healing_greater",
+        "name": "Greater Potion of Healing",
+        "category": "Consumable",
+        "rarity": "Uncommon",
+        "effect": "Restore 4d4 + 4 Hit Points.",
+        "cost": "150 gp",
+        "weight": "0.5 lb"
+      },
+      {
+        "id": "antitoxin",
+        "name": "Antitoxin",
+        "category": "Consumable",
+        "rarity": "Common",
+        "effect": "Advantage on saving throws against Poison for 1 hour.",
+        "cost": "50 gp",
+        "weight": "0 lb"
+      },
+      {
+        "id": "spell_scroll_lv1",
+        "name": "Spell Scroll (Level 1)",
+        "category": "Consumable / Arcane",
+        "rarity": "Common",
+        "effect": "Cast a Level 1 spell without a spell slot. Scroll is destroyed after use.",
+        "requirement": "Must have the spell on your class list.",
+        "cost": "75 gp",
+        "weight": "0 lb"
+      },
+      {
+        "id": "alchemists_fire",
+        "name": "Alchemist's Fire",
+        "category": "Consumable / Offensive",
+        "rarity": "Common",
+        "effect": "Thrown (20ft). Target takes 1d4 fire damage at start of every turn until doused.",
+        "cost": "50 gp",
+        "weight": "1 lb"
+      }
+    ],
+    "adventuring_gear": [
+      {
+        "id": "crowbar",
+        "name": "Crowbar",
+        "category": "Gear",
+        "effect": "Advantage on Strength checks where leverage can be applied.",
+        "cost": "2 gp",
+        "weight": "5 lb"
+      },
+      {
+        "id": "grappling_hook",
+        "name": "Grappling Hook",
+        "category": "Gear",
+        "effect": "Required for climbing surfaces without natural handholds.",
+        "cost": "2 gp",
+        "weight": "4 lb"
+      },
+      {
+        "id": "lantern_hooded",
+        "name": "Lantern, Hooded",
+        "category": "Gear",
+        "effect": "Bright light (30ft), Dim light (30ft). Hood can be closed to hide light.",
+        "burn_time": "6 hours per 1 pint of oil.",
+        "cost": "5 gp",
+        "weight": "2 lb"
+      },
+      {
+        "id": "spyglass",
+        "name": "Spyglass",
+        "category": "Gear / Luxury",
+        "effect": "Magnifies objects to twice their size. Required for long-range scouting.",
+        "cost": "1,000 gp",
+        "weight": "1 lb"
+      },
+      {
+        "id": "rations_standard",
+        "name": "Rations (1 Day)",
+        "category": "Gear / Survival",
+        "effect": "Prevents Exhaustion. Includes jerky, dried fruit, and hardtack.",
+        "cost": "5 sp",
+        "weight": "2 lb"
+      },
+      {
+        "id": "healers_kit",
+        "name": "Healer's Kit",
+        "category": "Gear / Survival",
+        "charges": 10,
+        "effect": "Stabilize a creature at 0 HP without an Ability Check.",
+        "cost": "5 gp",
+        "weight": "3 lb"
+      }
+    ],
+    "tools_and_kits": [
+      {
+        "id": "thieves_tools",
+        "name": "Thieves' Tools",
+        "category": "Tool Kit",
+        "effect": "Required to pick locks and disarm traps. Uses Dexterity (Proficiency).",
+        "contents": "Small file, lock picks, mirror, pliers.",
+        "cost": "25 gp",
+        "weight": "1 lb"
+      },
+      {
+        "id": "alchemists_supplies",
+        "name": "Alchemist's Supplies",
+        "category": "Tool Kit",
+        "effect": "Required to craft Potions, Acid, and Alchemist's Fire.",
+        "cost": "50 gp",
+        "weight": "8 lb"
+      },
+      {
+        "id": "disguise_kit",
+        "name": "Disguise Kit",
+        "category": "Tool Kit",
+        "effect": "Required to create physical disguises. Uses Charisma (Proficiency).",
+        "cost": "25 gp",
+        "weight": "3 lb"
+      },
+      {
+        "id": "poisoners_kit",
+        "name": "Poisoner's Kit",
+        "category": "Tool Kit",
+        "effect": "Required to harvest venom and craft toxins for weapons.",
+        "cost": "50 gp",
+        "weight": "2 lb"
+      },
+      {
+        "id": "smiths_tools",
+        "name": "Smith's Tools",
+        "category": "Tool Kit",
+        "effect": "Required to repair damaged armor/weapons and craft metal items.",
+        "cost": "20 gp",
+        "weight": "8 lb"
+      }
+    ]
+  }
+}

@@ -1,0 +1,184 @@
+[
+  {
+    "era": "Ancient & Mythic",
+    "date_range": "Prehistory – c. -5000 DR (varies by setting)",
+    "suberas": [
+      {
+        "name": "Primordial & Creator Age",
+        "date_range": "Prehistory – c. -30000 DR",
+        "description": "Creation myths, primordials, gods shape the world; earliest sentient races emerge."
+      },
+      {
+        "name": "Age of First Empires",
+        "date_range": "c. -30000 DR to -10000 DR",
+        "description": "Sarrukh, Batrachi, and Aearee dominate; proto-civilizations rise and fall."
+      },
+      {
+        "name": "Age of Elven Dominance",
+        "date_range": "c. -10000 DR to -5000 DR",
+        "description": "Elven high magic realms flourish (Aryvandaar, Miyeritar, Ilythiir conflicts)."
+      },
+      {
+        "name": "Age of Early Human Kingdoms",
+        "date_range": "c. -5000 DR to -2000 DR",
+        "description": "Netheril, Imaskar, and Jhaamdath rise; human arcane empires dominate."
+      }
+    ]
+  },
+  {
+    "era": "Classical Age",
+    "date_range": "c. -2000 DR to 0 DR",
+    "suberas": [
+      {
+        "name": "Age of Arcane Empires",
+        "date_range": "c. -2000 DR to -339 DR",
+        "description": "Netheril at its peak; Imaskar declines; powerful magic reshapes the world."
+      },
+      {
+        "name": "Age of Cataclysm",
+        "date_range": "c. -339 DR to 0 DR",
+        "description": "Fall of Netheril; magical disasters; collapse of major ancient civilizations."
+      }
+    ]
+  },
+  {
+    "era": "Early Historic Era",
+    "date_range": "0 DR to 900 DR",
+    "suberas": [
+      {
+        "name": "Dawn of Recorded History",
+        "date_range": "0 DR to 500 DR",
+        "description": "Dalereckoning begins; regional kingdoms stabilize; post-cataclysm recovery."
+      },
+      {
+        "name": "Rise of Regional Kingdoms",
+        "date_range": "500 DR to 900 DR",
+        "description": "Cormyr, early Greyhawk states, and Mystaran empires consolidate power."
+      }
+    ]
+  },
+  {
+    "era": "Middle Era (Age of Kingdoms)",
+    "date_range": "900 DR to 1350 DR",
+    "suberas": [
+      {
+        "name": "Age of Expansion",
+        "date_range": "900 DR to 1200 DR",
+        "description": "Kingdoms expand; trade routes flourish; feudal systems dominate."
+      },
+      {
+        "name": "Age of Intrigue",
+        "date_range": "1200 DR to 1350 DR",
+        "description": "Political fragmentation, espionage, and regional conflicts intensify."
+      }
+    ]
+  },
+  {
+    "era": "Late Historic Era (Pre-Modern)",
+    "date_range": "1350 DR to 1480 DR",
+    "suberas": [
+      {
+        "name": "Age of Turmoil",
+        "date_range": "1350 DR to 1385 DR",
+        "description": "Major conflicts across settings; instability rises."
+      },
+      {
+        "name": "Spellplague Era",
+        "date_range": "1385 DR to 1479 DR",
+        "description": "Magical catastrophe reshapes reality (Forgotten Realms-specific but widely mapped)."
+      }
+    ]
+  },
+  {
+    "era": "Modern Era (Standard Campaign Era)",
+    "date_range": "1480 DR to 1500+ DR",
+    "suberas": [
+      {
+        "name": "Second Sundering",
+        "date_range": "1480 DR to 1490 DR",
+        "description": "Worlds stabilize; divine order restored; geography partially resets."
+      },
+      {
+        "name": "Contemporary Age",
+        "date_range": "1490 DR onward",
+        "description": "Default 5e timeline; active adventuring era across most settings."
+      }
+    ]
+  },
+  {
+    "era": "Setting-Specific Parallel Eras",
+    "date_range": "Varies",
+    "suberas": [
+      {
+        "name": "Age of Arcanum (Exandria)",
+        "date_range": "Pre-Calamity",
+        "description": "Floating cities, extreme magical advancement."
+      },
+      {
+        "name": "The Calamity (Exandria)",
+        "date_range": "Ends c. -800 PD",
+        "description": "Gods war; civilizations collapse."
+      },
+      {
+        "name": "Post-Calamity Era (Exandria)",
+        "date_range": "0 PD onward",
+        "description": "Rebuilding of mortal civilizations."
+      },
+      {
+        "name": "Age of Demons (Eberron)",
+        "date_range": "Prehistory",
+        "description": "Fiends dominate before dragon intervention."
+      },
+      {
+        "name": "Age of Giants (Eberron)",
+        "date_range": "Ancient",
+        "description": "Giant empires dominate Xen’drik."
+      },
+      {
+        "name": "Age of Monsters (Eberron)",
+        "date_range": "Ancient to mid-history",
+        "description": "Dhakaani Empire and other non-human powers rise."
+      },
+      {
+        "name": "Age of Galifar (Eberron)",
+        "date_range": "c. 1 YK to 894 YK",
+        "description": "Unified kingdom dominates Khorvaire."
+      },
+      {
+        "name": "Last War (Eberron)",
+        "date_range": "894 YK to 996 YK",
+        "description": "Massive continental war."
+      },
+      {
+        "name": "Current Age (Eberron)",
+        "date_range": "998 YK onward",
+        "description": "Post-war tension; unstable peace."
+      },
+      {
+        "name": "Age of Despair (Dragonlance)",
+        "date_range": "Cataclysm to War of the Lance",
+        "description": "Gods withdraw; world declines."
+      },
+      {
+        "name": "Age of Mortals (Dragonlance)",
+        "date_range": "Post-Chaos War",
+        "description": "Mortal-driven world order."
+      },
+      {
+        "name": "Green Age (Dark Sun)",
+        "date_range": "Ancient",
+        "description": "Lush world before arcane devastation."
+      },
+      {
+        "name": "Brown Age (Dark Sun)",
+        "date_range": "Post-defiling magic",
+        "description": "Ecological collapse begins."
+      },
+      {
+        "name": "Age of Sorcerer-Kings (Dark Sun)",
+        "date_range": "Current",
+        "description": "City-states ruled by tyrants."
+      }
+    ]
+  }
+]

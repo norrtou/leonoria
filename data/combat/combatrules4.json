@@ -1,0 +1,304 @@
+{
+  "meta": {
+    "purpose": "Unified status effect system (conditions, buffs, debuffs, ongoing effects)",
+    "design": "Event-driven, stack-aware, duration-based",
+    "compatible_with": [
+      "dnd_combat_engine_v1",
+      "dnd_ability_spell_system_v1",
+      "dnd_entity_schema_v1"
+    ]
+  },
+
+  "core_concepts": {
+    "status_effect": "A persistent modifier applied to an entity",
+    "instance": "A runtime copy of an effect applied to a specific entity",
+    "tick": "A timing point where effects update (start/end of turn)",
+    "stacking": "Rules for how multiple effects interact"
+  },
+
+  "status_template": {
+    "id": "string",
+    "name": "string",
+
+    "type": "condition | buff | debuff | damage_over_time | heal_over_time",
+
+    "duration": {
+      "type": "rounds | infinite | until_condition",
+      "value": 0,
+      "tick_timing": "start_of_turn | end_of_turn"
+    },
+
+    "stacking": {
+      "mode": "none | refresh | stack | replace",
+      "max_stacks": 1
+    },
+
+    "effects": [
+      {
+        "type": "stat_modifier | advantage | disadvantage | damage | heal | restriction",
+        "target": "self",
+        "data": {}
+      }
+    ],
+
+    "triggers": [
+      {
+        "event": "on_apply | on_remove | on_turn_start | on_turn_end | on_damage_taken | on_attack",
+        "condition": {},
+        "effects": []
+      }
+    ],
+
+    "removal_conditions": [
+      {
+        "type": "saving_throw | damage_taken | manual",
+        "data": {}
+      }
+    ]
+  },
+
+  "effect_types": {
+    "stat_modifier": {
+      "fields": {
+        "stat": "AC | speed | attack_bonus | damage_bonus",
+        "value": "number",
+        "operation": "add | multiply | set"
+      }
+    },
+
+    "advantage": {
+      "fields": {
+        "scope": "attack | defense | saving_throw",
+        "type": "grant"
+      }
+    },
+
+    "disadvantage": {
+      "fields": {
+        "scope": "attack | defense | saving_throw",
+        "type": "impose"
+      }
+    },
+
+    "restriction": {
+      "fields": {
+        "cannot_move": false,
+        "cannot_act": false,
+        "cannot_react": false
+      }
+    },
+
+    "damage": {
+      "fields": {
+        "dice": "string",
+        "type": "damage_type"
+      }
+    },
+
+    "heal": {
+      "fields": {
+        "dice": "string"
+      }
+    }
+  },
+
+  "runtime_model": {
+    "status_instance": {
+      "template_id": "string",
+      "remaining_duration": 0,
+      "stacks": 1,
+      "source": "entity_id"
+    }
+  },
+
+  "engine_logic": {
+    "apply_status": [
+      "check immunity",
+      "check stacking rules",
+      "if stacking=refresh → reset duration",
+      "if stacking=stack → increment stacks",
+      "if stacking=replace → overwrite",
+      "create instance",
+      "trigger on_apply"
+    ],
+
+    "tick_statuses": {
+      "timing": [
+        "start_of_turn",
+        "end_of_turn"
+      ],
+      "steps": [
+        "for each active status:",
+        "  apply tick effects",
+        "  reduce duration",
+        "  if duration <= 0 → remove"
+      ]
+    },
+
+    "remove_status": [
+      "trigger on_remove",
+      "delete instance"
+    ]
+  },
+
+  "standard_conditions": [
+    {
+      "id": "prone",
+      "name": "Prone",
+      "type": "condition",
+      "duration": {
+        "type": "infinite"
+      },
+      "effects": [
+        {
+          "type": "disadvantage",
+          "data": {
+            "scope": "attack"
+          }
+        },
+        {
+          "type": "advantage",
+          "data": {
+            "scope": "incoming_melee_attacks"
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "stunned",
+      "name": "Stunned",
+      "type": "condition",
+      "duration": {
+        "type": "rounds",
+        "value": 1
+      },
+      "effects": [
+        {
+          "type": "restriction",
+          "data": {
+            "cannot_move": true,
+            "cannot_act": true,
+            "cannot_react": true
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "poisoned",
+      "name": "Poisoned",
+      "type": "condition",
+      "duration": {
+        "type": "rounds",
+        "value": 3
+      },
+      "effects": [
+        {
+          "type": "disadvantage",
+          "data": {
+            "scope": "attack"
+          }
+        }
+      ]
+    }
+  ],
+
+  "example_effects": [
+    {
+      "id": "burning",
+      "name": "Burning",
+      "type": "damage_over_time",
+      "duration": {
+        "type": "rounds",
+        "value": 3,
+        "tick_timing": "start_of_turn"
+      },
+      "stacking": {
+        "mode": "stack",
+        "max_stacks": 3
+      },
+      "effects": [],
+      "triggers": [
+        {
+          "event": "on_turn_start",
+          "effects": [
+            {
+              "type": "damage",
+              "data": {
+                "dice": "1d6",
+                "type": "fire"
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "bless",
+      "name": "Bless",
+      "type": "buff",
+      "duration": {
+        "type": "rounds",
+        "value": 10
+      },
+      "effects": [
+        {
+          "type": "stat_modifier",
+          "data": {
+            "stat": "attack_bonus",
+            "value": 1,
+            "operation": "add"
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "hold_person",
+      "name": "Hold Person",
+      "type": "condition",
+      "duration": {
+        "type": "rounds",
+        "value": 10
+      },
+      "effects": [
+        {
+          "type": "restriction",
+          "data": {
+            "cannot_move": true,
+            "cannot_act": true
+          }
+        }
+      ],
+      "removal_conditions": [
+        {
+          "type": "saving_throw",
+          "data": {
+            "type": "WIS",
+            "frequency": "end_of_turn"
+          }
+        }
+      ]
+    }
+  ],
+
+  "integration": {
+    "combat_engine_hooks": [
+      "on_turn_start → tick_statuses(start)",
+      "on_turn_end → tick_statuses(end)",
+      "on_damage → trigger status reactions",
+      "on_action → check restrictions"
+    ],
+
+    "ability_system_hooks": [
+      "effects can apply status by ID",
+      "statuses can trigger abilities"
+    ],
+
+    "entity_storage": [
+      "entity.status.active_effects[] stores instances"
+    ]
+  }
+}

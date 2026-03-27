@@ -1,0 +1,433 @@
+{
+  "landmarks": [
+    {
+      "name": "Abyssal Rift",
+      "description": "A jagged wound in the earth descending into total darkness, from which cold air and faint screaming rise at dusk. No one who has descended has returned with their mind intact.",
+      "category": "dark",
+      "biomes": ["badlands", "highlands", "moorland", "swamp"]
+    },
+    {
+      "name": "Alchemist's Garden",
+      "description": "An overgrown estate of rare reagent-plants tended by someone long dead. Luminous fungi, venomous blooms and crystallised sap still grow in eerie abundance.",
+      "category": "magical",
+      "biomes": ["temperate_forest", "rainforest", "swamp", "moorland"]
+    },
+    {
+      "name": "Ancestral Tomb",
+      "description": "A sealed burial mound built by a long-vanished people. The carved glyphs on its entrance warn of guardians within — and the warnings appear freshly scratched.",
+      "category": "dungeon",
+      "biomes": ["plains", "highlands", "moorland", "temperate_forest"]
+    },
+    {
+      "name": "Ancient Machinery",
+      "description": "Enormous interlocking gears and pistons of unknown metal jut from the hillside, still turning slowly after centuries. Whatever they once powered lies buried beneath.",
+      "category": "magical",
+      "biomes": ["highlands", "badlands", "plains", "desert"]
+    },
+    {
+      "name": "Ancient Ruin",
+      "description": "Collapsed walls and shattered colonnades of a settlement older than memory. Treasure-seekers and scholars alike pick through its rubble, rarely leaving empty-handed — or unscathed.",
+      "category": "dungeon",
+      "biomes": ["plains", "desert", "badlands", "temperate_forest", "moorland", "highlands"]
+    },
+    {
+      "name": "Arcane Conduit",
+      "description": "A towering pillar of fused crystal and iron that hums with raw magical energy. Spells cast nearby are amplified unpredictably, and the ground around it never grows frost.",
+      "category": "magical",
+      "biomes": ["temperate_forest", "highlands", "plains", "moorland", "arctic"]
+    },
+    {
+      "name": "Astral Observatory",
+      "description": "A crumbling tower capped with a brass dome, its telescopes still trained on skies that haven't existed for millennia. The star charts inside depict constellations that scholars cannot place.",
+      "category": "magical",
+      "biomes": ["highlands", "plains", "desert", "moorland"]
+    },
+    {
+      "name": "Bandit Camp",
+      "description": "A fortified outlaw encampment carved into the wilderness, where hardened brigands plot raids on passing trade caravans. Crude palisades and rope bridges ring a cluster of firelit hovels.",
+      "category": "military",
+      "biomes": ["badlands", "plains", "highlands", "moorland", "temperate_forest", "savanna"]
+    },
+    {
+      "name": "Blood Fountain",
+      "description": "A stone basin carved in the shape of a many-mouthed beast, from which dark red liquid wells without cease. The source is unknown. The liquid is not water.",
+      "category": "dark",
+      "biomes": ["badlands", "swamp", "moorland", "highlands"]
+    },
+    {
+      "name": "Bone Yard",
+      "description": "An open field blanketed in the sun-bleached bones of enormous creatures — dragons, giants, or something larger still. A strange reverence keeps scavengers at bay.",
+      "category": "dark",
+      "biomes": ["desert", "badlands", "savanna", "plains"]
+    },
+    {
+      "name": "Burning Monolith",
+      "description": "An upright standing stone that has burned with cold blue flame for as long as records exist. It does not consume itself and nothing around it chars — but animals refuse to pass within fifty paces.",
+      "category": "dark",
+      "biomes": ["moorland", "badlands", "plains", "highlands"]
+    },
+    {
+      "name": "Carnivorous Flora",
+      "description": "A dense thicket where the plants are the apex predators. Vines coil with purpose, pitcher-growths dissolve bone, and the trees move — slowly, but they move.",
+      "category": "nature",
+      "biomes": ["rainforest", "swamp", "temperate_forest"]
+    },
+    {
+      "name": "Celestial Spire",
+      "description": "A needle of pale stone taller than any natural formation, covered in silver runes that only glow during new moon. Pilgrims come to stand at its base and make impossible wishes.",
+      "category": "shrine",
+      "biomes": ["highlands", "plains", "arctic", "desert"]
+    },
+    {
+      "name": "Cult Temple",
+      "description": "A hidden place of worship for a banned or forgotten faith. The idol at its centre has been smashed and re-assembled so many times it no longer resembles anything recognisable.",
+      "category": "shrine",
+      "biomes": ["swamp", "badlands", "moorland", "temperate_forest", "highlands"]
+    },
+    {
+      "name": "Crypt of Ancients",
+      "description": "A subterranean burial complex predating the current age. Its architects left no written record, but the traps inside are still active and the interred are not entirely at rest.",
+      "category": "dungeon",
+      "biomes": ["plains", "highlands", "desert", "temperate_forest", "moorland"]
+    },
+    {
+      "name": "Cursed Orchard",
+      "description": "Rows of gnarled fruit trees bearing fruit year-round regardless of season. The fruit looks perfect. Those who eat it do not die — but something in them changes, and they often return to eat again.",
+      "category": "dark",
+      "biomes": ["temperate_forest", "plains", "moorland"]
+    },
+    {
+      "name": "Draconic Roost",
+      "description": "The scarred peak or deep gorge where a dragon lairs, littered with the wreckage of those who came seeking glory or treasure. The air smells of sulfur and rendered fat.",
+      "category": "nature",
+      "biomes": ["highlands", "badlands", "desert", "arctic", "boreal_forest"]
+    },
+    {
+      "name": "Dreamer's Cairn",
+      "description": "A pile of river stones arranged by unknown hands in a place where multiple ley lines meet. Those who sleep against it experience visions indistinguishable from memory.",
+      "category": "shrine",
+      "biomes": ["moorland", "highlands", "plains", "temperate_forest"]
+    },
+    {
+      "name": "Dungeon",
+      "description": "The entrance to a delved underground complex — whether carved by dwarves, opened by collapse, or excavated by something else entirely. What lurks below changes with every expedition report.",
+      "category": "dungeon",
+      "biomes": ["highlands", "plains", "badlands", "temperate_forest", "swamp", "moorland"]
+    },
+    {
+      "name": "Echoing Chasm",
+      "description": "A vast rift where sounds return distorted and delayed, sometimes carrying words that were never spoken. Rope bridges cross it in places, though the ropes look far too old to trust.",
+      "category": "nature",
+      "biomes": ["highlands", "badlands", "desert", "moorland"]
+    },
+    {
+      "name": "Eldritch Obelisk",
+      "description": "A perfectly smooth black monolith with no visible chisel marks and no seams. It predates every civilisation in the region. Standing near it causes nosebleeds and the sensation of being watched.",
+      "category": "dark",
+      "biomes": ["moorland", "plains", "badlands", "desert", "arctic"]
+    },
+    {
+      "name": "Elemental Nexus",
+      "description": "A convergence point where all four elemental planes bleed into the material world — earth groans, water springs from dry stone, fire dances without fuel, and the wind carries ice and heat simultaneously.",
+      "category": "magical",
+      "biomes": ["highlands", "badlands", "swamp", "desert", "arctic"]
+    },
+    {
+      "name": "Emerald Grotto",
+      "description": "A cave system whose walls are thick with green crystal formations that hum at a frequency felt in the teeth. The water inside is ice-cold and unnervingly clear.",
+      "category": "nature",
+      "biomes": ["highlands", "rainforest", "temperate_forest", "coastal"]
+    },
+    {
+      "name": "Evil Fortress",
+      "description": "A stronghold occupied by a warlord, dark cult, or something worse. Its banner changes but its reputation does not. Caravans reroute to avoid its shadow.",
+      "category": "military",
+      "biomes": ["badlands", "highlands", "moorland", "plains"]
+    },
+    {
+      "name": "Fairy Ring",
+      "description": "A perfect circle of pale mushrooms where the grass grows in a colour that has no name. Animals avoid it. Children are drawn to it. Those who dance inside it sometimes don't come out until years have passed.",
+      "category": "magical",
+      "biomes": ["temperate_forest", "moorland", "boreal_forest", "rainforest"]
+    },
+    {
+      "name": "Forbidden Library",
+      "description": "A sealed archive — sometimes a ruined building, sometimes cut into cliff rock — filled with texts in a dozen languages, most of them banned or burned elsewhere. The librarian, if there is one, is never friendly.",
+      "category": "dungeon",
+      "biomes": ["highlands", "plains", "desert", "badlands"]
+    },
+    {
+      "name": "Forgotten Battlefield",
+      "description": "A wide expanse of ground where no crops will grow and animals will not graze. The earth is still black with old ash. Fog collects here even on clear days, and shapes move within it at night.",
+      "category": "military",
+      "biomes": ["plains", "moorland", "badlands", "highlands", "savanna"]
+    },
+    {
+      "name": "Ghostly Shipwreck",
+      "description": "A vessel run aground or sunk in shallows, its hull still largely intact though it has sat there for centuries. Lights are seen in its portholes at night. The manifest lists a crew that never arrived at port.",
+      "category": "coastal",
+      "biomes": ["coastal"],
+      "requiresCoast": true
+    },
+    {
+      "name": "Giant Skeleton",
+      "description": "The colossal remains of something — a titan, a sea-leviathan, a god — half-buried and exposed over millennia. Scavengers pick at the bones but never take the teeth, which are each as large as a house.",
+      "category": "dark",
+      "biomes": ["desert", "plains", "badlands", "coastal", "arctic"]
+    },
+    {
+      "name": "Gladiator Arena",
+      "description": "A tiered fighting pit, now abandoned or still in use depending on who controls the territory. The sand in the centre never fully loses its red tinge, no matter how often it's raked.",
+      "category": "military",
+      "biomes": ["badlands", "plains", "savanna", "highlands"]
+    },
+    {
+      "name": "Hanging Garden",
+      "description": "An impossibly lush cascade of vegetation clinging to cliff faces or suspended on ancient wooden scaffolding. Someone tends it — the cuts are fresh and the irrigation channels run clear.",
+      "category": "nature",
+      "biomes": ["highlands", "rainforest", "coastal"]
+    },
+    {
+      "name": "Haunted Grove",
+      "description": "A stand of ancient trees where the branches grow inward, shutting out light even at noon. The trunks are carved with faces that seem different each time you look. Local hunters will not enter it.",
+      "category": "dark",
+      "biomes": ["temperate_forest", "moorland", "boreal_forest", "swamp"]
+    },
+    {
+      "name": "Hermit's Hut",
+      "description": "A remote dwelling belonging to someone who knows far more than they should. They may be dangerous, prophetic, mad, or all three — but travellers stop here because the hermit is never wrong.",
+      "category": "shrine",
+      "biomes": ["highlands", "boreal_forest", "moorland", "temperate_forest", "arctic"]
+    },
+    {
+      "name": "Hidden Temple",
+      "description": "A place of worship concealed behind a waterfall, inside a hill, or beneath an ordinary-looking building. Its congregation has survived every purge by the simple expedient of not being found.",
+      "category": "shrine",
+      "biomes": ["temperate_forest", "highlands", "rainforest", "swamp", "desert"]
+    },
+    {
+      "name": "Hollow Tree",
+      "description": "An oak or pine of impossible age, its trunk wide enough to house a family and its interior carved into a multi-level dwelling. Whether its current occupants are friendly depends entirely on the season.",
+      "category": "nature",
+      "biomes": ["temperate_forest", "boreal_forest", "rainforest", "moorland"]
+    },
+    {
+      "name": "Ice Cathedral",
+      "description": "A cathedral-shaped formation of glacial ice standing alone on the tundra, its interior columns and arches formed by natural melt and refreeze over millennia. Worshippers of cold gods hold it sacred.",
+      "category": "shrine",
+      "biomes": ["arctic"]
+    },
+    {
+      "name": "Iron Mine",
+      "description": "A productive or played-out mine shaft driven deep into mineral-rich rock. Whether it's actively worked or abandoned, something has taken up residence in the lower passages.",
+      "category": "military",
+      "biomes": ["highlands", "badlands", "boreal_forest", "moorland"]
+    },
+    {
+      "name": "Lava Field",
+      "description": "A hardened expanse of cooled lava fractured by slow-moving flows still visible beneath the crust. The heat here is intense even at night, and the air reeks of sulfur.",
+      "category": "nature",
+      "biomes": ["badlands", "highlands", "desert"]
+    },
+    {
+      "name": "Lich's Phylactery Vault",
+      "description": "A heavily warded chamber — sometimes a tower, sometimes a sunken room — where an undead sorcerer has hidden their soul-vessel. The lich does not live here. It watches from elsewhere.",
+      "category": "dark",
+      "biomes": ["badlands", "moorland", "swamp", "highlands"]
+    },
+    {
+      "name": "Lost City",
+      "description": "The ruins of an entire urban settlement swallowed by desert, jungle, or floodwater. Maps of it circulate in every port and scholar's hall. Expeditions go in regularly. Fewer come back.",
+      "category": "dungeon",
+      "biomes": ["desert", "rainforest", "swamp", "badlands"]
+    },
+    {
+      "name": "Luminous Crater",
+      "description": "A bowl-shaped depression in the earth left by a fallen star or a magical detonation, its floor covered in iridescent mineral dust that glows softly after dark. The air inside is sweet and slightly wrong.",
+      "category": "magical",
+      "biomes": ["plains", "desert", "badlands", "moorland", "arctic"]
+    },
+    {
+      "name": "Magic Portal",
+      "description": "A freestanding stone archway with no wall attached, through which a shimmering distortion is sometimes visible. Nobody is entirely sure where it leads — or whether the destination is always the same.",
+      "category": "magical",
+      "biomes": ["plains", "highlands", "desert", "temperate_forest", "moorland"]
+    },
+    {
+      "name": "Mana Wellspring",
+      "description": "A natural spring or pool where raw magical energy seeps from the earth in visible eddies. Plants around it grow in impossible shapes. Mages pay fortunes to spend a night here.",
+      "category": "magical",
+      "biomes": ["temperate_forest", "highlands", "swamp", "rainforest", "moorland"]
+    },
+    {
+      "name": "Mausoleum of Kings",
+      "description": "A grand funerary monument to a dynasty or a lineage long since ended. The crypts below hold the wealth the kings were buried with — and whatever was placed there to keep anyone from taking it.",
+      "category": "dungeon",
+      "biomes": ["plains", "desert", "highlands", "badlands"]
+    },
+    {
+      "name": "Mushroom Forest",
+      "description": "A stand of enormous fungi growing to the height of trees, their caps wide enough to shelter under. What grows beneath them in the permanent damp is not always edible — or harmless.",
+      "category": "nature",
+      "biomes": ["swamp", "boreal_forest", "temperate_forest", "rainforest"]
+    },
+    {
+      "name": "Necromantic Altar",
+      "description": "A raised slab of dark stone encrusted with old blood and bone-dust, surrounded by evidence of ritual — ash circles, carved sigils, the remains of components. Something answered the prayers made here.",
+      "category": "dark",
+      "biomes": ["badlands", "moorland", "swamp", "highlands", "desert"]
+    },
+    {
+      "name": "Oracle",
+      "description": "A cave mouth, a chasm vent, or a still pool where an entity of unknown nature answers questions for a price. The answers are always accurate. The price is never predictable.",
+      "category": "shrine",
+      "biomes": ["highlands", "desert", "moorland", "plains"]
+    },
+    {
+      "name": "Overgrown Labyrinth",
+      "description": "The ruins of a hedge maze or stone corridor complex that nature has half-reclaimed. The paths shift with the seasons and something in the centre — visible from the outer walls — has never been successfully reached.",
+      "category": "dungeon",
+      "biomes": ["temperate_forest", "rainforest", "swamp", "plains"]
+    },
+    {
+      "name": "Petrified Forest",
+      "description": "A stand of ancient trees turned entirely to stone over eons, their bark and grain preserved in perfect mineral detail. Local legend says they were people once, and the eyes in the stone trunks seem to track movement.",
+      "category": "nature",
+      "biomes": ["badlands", "desert", "moorland", "plains"]
+    },
+    {
+      "name": "Plague Well",
+      "description": "A sealed well or cistern that was plugged after an outbreak of something the locals still refuse to name. The seal shows signs of strain. Nobody will dig a new well within a half-mile of it.",
+      "category": "dark",
+      "biomes": ["plains", "badlands", "swamp", "moorland"]
+    },
+    {
+      "name": "Primal Monolith",
+      "description": "A roughhewn standing stone older than written history, placed by hands unknown in a location that seems deliberately chosen. Animals rest against it peacefully. Druids consider it a place of power.",
+      "category": "shrine",
+      "biomes": ["moorland", "plains", "highlands", "boreal_forest", "arctic"]
+    },
+    {
+      "name": "Raven Post",
+      "description": "A remote message station where trained ravens are kept for long-distance communication. The keeper is usually eccentric and often knows too much about what passes through the region.",
+      "category": "military",
+      "biomes": ["highlands", "moorland", "plains", "boreal_forest"]
+    },
+    {
+      "name": "Razed Town",
+      "description": "The charred foundations and collapsed timbers of a settlement destroyed in living memory, though nobody who passes through agrees on who burned it or why. A few chimneys still stand.",
+      "category": "military",
+      "biomes": ["plains", "moorland", "badlands", "highlands"]
+    },
+    {
+      "name": "Sacrificial Altar",
+      "description": "A broad flat stone or raised platform in the open, grooved to channel blood outward. Whatever culture built it is gone, but fresh offerings appear regularly from sources unknown.",
+      "category": "dark",
+      "biomes": ["moorland", "badlands", "desert", "plains", "highlands"]
+    },
+    {
+      "name": "Sanctuary",
+      "description": "A neutral ground — a monastery, a walled garden, a waystation — where by ancient oath no violence may be done. The oath is observed even by those who have no reason to honour it.",
+      "category": "shrine",
+      "biomes": ["plains", "highlands", "temperate_forest", "moorland", "coastal"]
+    },
+    {
+      "name": "Shadowfell Breach",
+      "description": "A spot where the barrier between this world and the plane of shadow has worn thin. Colour drains here; sound arrives muffled and slightly late. Undead are drawn to it like moths to flame.",
+      "category": "dark",
+      "biomes": ["swamp", "moorland", "badlands", "arctic"]
+    },
+    {
+      "name": "Smuggler's Cove",
+      "description": "A hidden sea-cut harbour with no legitimate record of its existence, used to land contraband, refugees, or worse. The locals know of it and know better than to speak of it.",
+      "category": "coastal",
+      "biomes": ["coastal"],
+      "requiresCoast": true
+    },
+    {
+      "name": "Solar Forge",
+      "description": "A circular platform or roofless temple oriented to focus sunlight onto a central slab at specific times of year. On those days, metal placed on the slab emerges tempered to a hardness found nowhere else.",
+      "category": "magical",
+      "biomes": ["desert", "highlands", "plains"]
+    },
+    {
+      "name": "Spectral Graveyard",
+      "description": "A burial ground where the dead do not rest quietly. The graves are intact and the headstones legible, but every night the recently-interred are seen walking the rows as though looking for something.",
+      "category": "dark",
+      "biomes": ["moorland", "plains", "swamp", "badlands"]
+    },
+    {
+      "name": "Spirit Bridge",
+      "description": "A bridge of unknown construction spanning a chasm or river, its stones requiring no mortar and its surface never slippery. Local belief holds that paying a toll to the invisible toll-keeper ensures safe crossing.",
+      "category": "shrine",
+      "biomes": ["highlands", "moorland", "temperate_forest", "swamp"]
+    },
+    {
+      "name": "Star-Fallen Crater",
+      "description": "Where a meteor struck generations ago, leaving a glassy bowl lined with fused earth and strange mineral veins. Stargazers and mages argue over whether the object that fell is still buried at the centre.",
+      "category": "nature",
+      "biomes": ["plains", "desert", "badlands", "arctic", "moorland"]
+    },
+    {
+      "name": "Stone Titan",
+      "description": "A statue of a humanoid figure larger than a hill, seated or supine, carved from the natural landscape rather than placed upon it. Whether it is art, a tomb, or something waiting is unclear.",
+      "category": "nature",
+      "biomes": ["highlands", "plains", "badlands", "desert"]
+    },
+    {
+      "name": "Sunken Temple",
+      "description": "A sacred structure that has partially subsided into sea, lake, or bog. Its upper levels remain accessible at low tide or in dry seasons, and what is preserved below the waterline is extraordinary.",
+      "category": "dungeon",
+      "biomes": ["coastal", "swamp"],
+      "requiresCoast": true
+    },
+    {
+      "name": "Watchtower",
+      "description": "A stone or timber tower built to command a view of the surrounding land. Now abandoned, crumbling, or occupied by something other than soldiers — but the view remains excellent.",
+      "category": "military",
+      "biomes": ["highlands", "plains", "moorland", "coastal", "badlands", "savanna"]
+    },
+    {
+      "name": "Whispering Cave",
+      "description": "A cave system where the acoustics carry sounds from deep within — murmurs, footsteps, breathing — to the entrance without apparent source. Explorers who go in to find the source rarely find it.",
+      "category": "nature",
+      "biomes": ["highlands", "coastal", "badlands", "moorland"]
+    },
+    {
+      "name": "Witch's Circle",
+      "description": "A ring of standing stones or knotted thorn-trees where a coven once gathered. The ground inside grows nothing. Candles placed at the stones are found burned to nothing by morning, even unlit.",
+      "category": "dark",
+      "biomes": ["moorland", "temperate_forest", "swamp", "highlands"]
+    },
+    {
+      "name": "Wizard College",
+      "description": "An institution for arcane study — functional, ruined, or something in between. Its library is priceless, its experiments ongoing, and its graduates ranging from the legendary to the catastrophic.",
+      "category": "magical",
+      "biomes": ["plains", "highlands", "temperate_forest"]
+    },
+    {
+      "name": "Wyrm's Graveyard",
+      "description": "A valley or canyon floor littered with the massive skeletal remains of multiple dragons, gathered here across centuries by some unknown compulsion. The bones hoard trace amounts of lingering magic.",
+      "category": "dark",
+      "biomes": ["highlands", "badlands", "desert", "arctic"]
+    },
+    {
+      "name": "Floating Island",
+      "description": "A mass of earth and rock suspended in the air by old magic or geological anomaly, trailing vines and waterfalls. Something has built a settlement on its flat top, accessible only by wing or by rope.",
+      "category": "nature",
+      "biomes": ["highlands", "rainforest", "temperate_forest", "plains"]
+    },
+    {
+      "name": "Wailing Hollow",
+      "description": "A sunken dell or cave mouth from which a continuous mournful sound rises, varying in pitch with the wind. Locals say it is the voice of something sealed inside. Locals do not go near it.",
+      "category": "dark",
+      "biomes": ["moorland", "swamp", "badlands", "boreal_forest"]
+    },
+    {
+      "name": "Overgrown Colosseum",
+      "description": "The ruin of a massive arena whose tiered stone seats are split by root growth and colonised by wildlife. The fighting floor is still disconcertingly clear of vegetation.",
+      "category": "military",
+      "biomes": ["plains", "badlands", "savanna", "temperate_forest"]
+    }
+  ]
+}

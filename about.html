@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <!-- Primary SEO -->
+    <title>About Leonoria</title>
+    <meta name="description" content="About Leonoria — the story behind the world, its creators, and the vision that breathes life into this procedurally generated D&D realm.">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Leonoria">
+    <link rel="canonical" href="https://norrtou.github.io/leonoria/about.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="About Leonoria">
+    <meta property="og:description" content="The story behind the world, its creators, and the vision that breathes life into this procedurally generated D&D realm.">
+    <meta property="og:url" content="https://norrtou.github.io/leonoria/about.html">
+    <meta property="og:image" content="https://norrtou.github.io/leonoria/webpageassets/leonoria1.jpg">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About Leonoria">
+    <meta name="twitter:description" content="The story behind the world, its creators, and the vision that breathes life into this procedurally generated D&D realm.">
+    <meta name="twitter:image" content="https://norrtou.github.io/leonoria/webpageassets/leonoria1.jpg">
+
+    <!-- Mobile / PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Leonoria">
+    <meta name="theme-color" content="#141d0e">
+
+    <!-- Google Fonts: IM Fell English -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-deep:        #111a0a;
+            --border-gold:    #c9a84c;
+            --border-green:   #4e6e32;
+            --text-parchment: #ede0c4;
+            --text-muted:     #a89878;
+            --accent-gold:    #c9a84c;
+            --btn-bg-from:    #2e4a1c;
+            --btn-bg-to:      #1e3210;
+            --btn-hover-from: #3e6428;
+            --btn-hover-to:   #2a4818;
+            --btn-border:     #5a7a3a;
+            --btn-border-hover: #8aaa5a;
+        }
+
+        html { -webkit-text-size-adjust: 100%; }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(74,110,42,0.18) 0%, transparent 70%);
+            color: var(--text-parchment);
+            font-family: 'IM Fell English', Georgia, 'Times New Roman', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 1rem;
+            background: var(--accent-gold);
+            color: #111;
+            padding: 0.5em 1em;
+            font-size: 0.9rem;
+            z-index: 9999;
+            transition: top 0.2s;
+        }
+        .skip-link:focus { top: 0.5rem; }
+
+        .page-wrapper {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .back-link {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4em;
+            font-size: 0.88rem;
+            font-style: italic;
+            color: var(--text-muted);
+            text-decoration: none;
+            letter-spacing: 0.06em;
+            margin-bottom: 2.5rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--text-parchment); }
+        .back-link:focus-visible { outline: 2px solid var(--accent-gold); outline-offset: 3px; }
+
+        .page-title {
+            font-size: clamp(2rem, 5.5vw, 3.2rem);
+            color: var(--accent-gold);
+            letter-spacing: 0.15em;
+            text-shadow: 0 2px 12px rgba(201,168,76,0.3);
+            margin-bottom: 0.4rem;
+            font-weight: normal;
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            font-style: italic;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 2.5rem;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-green), transparent);
+        }
+        .divider-glyph { color: var(--accent-gold); opacity: 0.55; font-size: 0.9rem; letter-spacing: 0.2em; white-space: nowrap; }
+
+        .about-card {
+            width: 100%;
+            border: 1px solid rgba(78, 110, 50, 0.3);
+            padding: 2.5rem 2rem 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .about-card::before,
+        .about-card::after {
+            content: '';
+            display: block;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
+            opacity: 0.35;
+            margin: 0 1rem;
+        }
+        .about-card::before { margin-bottom: 2rem; }
+        .about-card::after { margin-top: 2rem; }
+
+        .about-section { margin-bottom: 1.8rem; }
+        .about-section:last-child { margin-bottom: 0; }
+
+        .about-heading {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-weight: normal;
+            color: var(--accent-gold);
+            letter-spacing: 0.12em;
+            margin-bottom: 0.7rem;
+            opacity: 0.9;
+        }
+
+        .about-text {
+            font-size: clamp(1rem, 2.1vw, 1.08rem);
+            line-height: 1.88;
+            color: var(--text-parchment);
+        }
+
+        .section-divider {
+            display: block;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(78,110,50,0.35), transparent);
+            margin: 1.8rem 0;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0.6rem 0 0;
+        }
+        .feature-list li {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            font-size: clamp(1rem, 2.1vw, 1.08rem);
+            color: var(--text-parchment);
+            line-height: 1.88;
+            padding: 0.45rem 0;
+            border-bottom: 1px solid rgba(78, 110, 50, 0.15);
+        }
+        .feature-list li:last-child { border-bottom: none; }
+        .feature-list .bullet {
+            color: var(--accent-gold);
+            opacity: 0.8;
+            flex-shrink: 0;
+            font-size: 0.8em;
+        }
+        .feature-list a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-style: italic;
+            transition: color 0.2s;
+        }
+        .feature-list a:hover { color: var(--text-parchment); text-decoration: underline; }
+
+        .nav-btn {
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            color: var(--text-parchment);
+            background: linear-gradient(170deg, var(--btn-bg-from) 0%, var(--btn-bg-to) 100%);
+            border: 1px solid var(--btn-border);
+            padding: 0.78em 2.4em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45em;
+            transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.15s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.5), inset 0 1px 0 rgba(201,168,76,0.12);
+            clip-path: polygon(12px 0%, calc(100% - 12px) 0%, 100% 50%, calc(100% - 12px) 100%, 12px 100%, 0% 50%);
+        }
+        .nav-btn:hover, .nav-btn:focus-visible {
+            background: linear-gradient(170deg, var(--btn-hover-from) 0%, var(--btn-hover-to) 100%);
+            border-color: var(--btn-border-hover);
+            box-shadow: 0 5px 18px rgba(0,0,0,0.55), 0 0 14px rgba(90,140,58,0.25), inset 0 1px 0 rgba(201,168,76,0.2);
+            transform: translateY(-2px);
+            outline: none;
+        }
+        .nav-btn:focus-visible { outline: 2px solid var(--accent-gold); outline-offset: 4px; }
+
+        .feature-list {
+            width: 100%;
+            list-style: none;
+            border: 1px solid rgba(78, 110, 50, 0.3);
+            padding: 2rem 2rem 2rem 2rem;
+            margin-bottom: 2.5rem;
+        }
+        .feature-list li {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            font-size: clamp(1rem, 2.1vw, 1.08rem);
+            color: var(--text-parchment);
+            line-height: 1.88;
+            padding: 0.45rem 0;
+            border-bottom: 1px solid rgba(78, 110, 50, 0.15);
+        }
+        .feature-list li:last-child { border-bottom: none; }
+        .feature-list .bullet {
+            color: var(--accent-gold);
+            opacity: 0.8;
+            flex-shrink: 0;
+            font-size: 0.8em;
+        }
+        .feature-list a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-style: italic;
+            transition: color 0.2s;
+        }
+        .feature-list a:hover { color: var(--text-parchment); text-decoration: underline; }
+
+        .site-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(78,110,50,0.25);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-style: italic;
+            width: 100%;
+            letter-spacing: 0.06em;
+        }
+
+        @media (max-width: 480px) {
+            .nav-btn { clip-path: none; }
+            .page-wrapper { padding: 1.8rem 1rem 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <main id="main-content" class="page-wrapper">
+
+        <a href="index.html" class="back-link" aria-label="Return to Leonoria home">
+            ← Return to Leonoria
+        </a>
+
+        <h1 class="page-title">Leonoria</h1>
+        <p class="page-subtitle">The lore and myths behind the world</p>
+
+        <div class="divider" aria-hidden="true">
+            <span class="divider-glyph">❧ ✦ ❧</span>
+        </div>
+
+        <article class="about-card" aria-label="About Leonoria">
+
+            <section class="about-section">
+                <p class="about-text">
+                    So you made it here, to a realm where the ink never dries and the dice of destiny are always in flight.
+                    You have stumbled upon Leonoria — a sanctuary for the bold and a digital canvas for the dreamer.
+                </p>
+            </section>
+
+            <span class="section-divider" aria-hidden="true"></span>
+
+            <section class="about-section">
+                <h2 class="about-heading">What Is Dungeons &amp; Dragons?</h2>
+                <p class="about-text">
+                    At its heart, Dungeons &amp; Dragons is a collaborative storytelling game powered by imagination and guided
+                    by the roll of a twenty-sided die. One player — the Dungeon Master — acts as narrator and referee,
+                    while others portray heroes embarking on epic quests. Whether you are bartering with a fickle goblin
+                    or facing the fiery breath of a dragon, your success and your survival rest on a blend of strategy,
+                    luck, and the rules of the 5th Edition (5e).
+                </p>
+            </section>
+
+            <span class="section-divider" aria-hidden="true"></span>
+
+            <section class="about-section">
+                <h2 class="about-heading">The Vision</h2>
+                <p class="about-text">
+                    Leonoria is designed to be a complete, web-based solution for the modern adventurer. Built from the
+                    ground up using HTML, CSS, and Javascript, this platform brings the tabletop experience to your browser
+                    — no downloads, no accounts, no barriers.
+                </p>
+            </section>
+
+            <span class="section-divider" aria-hidden="true"></span>
+
+            <section class="about-section">
+                <h2 class="about-heading">A Note for the Bold</h2>
+                <p class="about-text">
+                    Be warned, adventurer: Leonoria is currently in early development. Like a fledgling wizard practicing
+                    their first cantrips, the experience can be a bit shaky. You may encounter bugs, and many features are
+                    still being forged in the elemental fires of our code. We are a living tapestry in progress, and your
+                    patience is the thread that helps us weave it.
+                </p>
+                <p class="about-text" style="margin-top: 0.9rem;">
+                    Step forth, traveler. The taverns are warm, the horizon is vast, and your seat at the table is waiting.
+                </p>
+            </section>
+
+            <span class="section-divider" aria-hidden="true"></span>
+
+            <section class="about-section">
+                <h2 class="about-heading">Leonoria at a Glance</h2>
+                <ul class="feature-list" aria-label="Leonoria feature overview">
+                    <li><span class="bullet">✦</span> A Dungeons &amp; Dragons 5e browser-based game built on HTML, CSS, and Javascript</li>
+                    <li><span class="bullet">✦</span> Open development — follow the forge at <a href="https://github.com/norrtou" target="_blank" rel="noopener noreferrer" style="color:var(--accent-gold);text-decoration:none;">github.com/norrtou</a></li>
+                    <li><span class="bullet">✦</span> Procedural map generator — every world is unique, forged by seed and chance</li>
+                    <li><span class="bullet">✦</span> Character generator — craft heroes with class, race, stats, and lore</li>
+                    <li><span class="bullet">✦</span> Procedurally generated campaigns — adventures assembled from the chaos of randomness</li>
+                    <li><span class="bullet">✦</span> Works on any modern browser and computer — no installation required</li>
+                    <li><span class="bullet">✦</span> Free to use — premium features may be added in the future</li>
+                    <li><span class="bullet">✦</span> Multiplayer support — planned for the far future</li>
+                    <li><span class="bullet">✦</span> This is pre-alpha development — many features are still unfinished or not yet started</li>
+                </ul>
+            </section>
+
+        </article>
+
+        <a href="index.html" class="nav-btn" aria-label="Return to the Leonoria home page">
+            <span aria-hidden="true">⚔</span> Back to Home
+        </a>
+
+        <footer class="site-footer">
+            <p>&copy; 2026 < href="https://norrtou.se" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">Norrtou Creations</a>. All rights reserved.</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>

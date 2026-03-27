@@ -1,0 +1,23 @@
+{
+  "lakes": [
+    "Mirror Lake", "Clearwater", "Black Mere", "Silver Tarn", "Stillwater",
+    "Greymere", "Ironwater", "Coldwell", "Duskwater", "Ashwater",
+    "Deepmere", "Hollowmere", "Stonewater", "Emberglass", "Frostmere",
+    "Shadowpool", "Glasswater", "Thornmere", "Copperpool", "Siltmere",
+    "Morrowmere", "Tanwater", "Hollowfen", "Marshglass", "Shallowmere",
+    "Brackenpool", "Dunwater", "Mudpool", "Redmere", "Saltmere",
+    "Velmyr", "Aelthas", "Sylvara", "Mourndeep", "Galadris",
+    "Eloryn", "Vaelthor", "Caladwen", "Syreth", "Naerath",
+    "Thornveil", "Misthollow", "Wraithpool", "Emberveil", "Shadowdeep",
+    "Moonshard", "Starwell", "Dawnmere", "Twilightpool", "Nightglass",
+    "Ashenveil", "Cinderpool", "Frosthollow", "Grimwater", "Bonewater",
+    "Keldrath", "Mirthas", "Gorrath", "Dunrath", "Varroth",
+    "Coldmere", "Icemere", "Sleetmere", "Snowglass", "Hailwater",
+    "Harrowmere", "Gloomwater", "Blightpool", "Sorrowdeep", "Dreadwater",
+    "Aurenmere", "Goldwater", "Amberdeep", "Sunmere", "Brightpool",
+    "Thornwater", "Briarmere", "Willowmere", "Fernpool", "Mosswater",
+    "Aldwater", "Eldenmere", "Greywood Pool", "Ironmere", "Stormwater",
+    "Crystalmere", "Prismwater", "Opalmere", "Pearlwater", "Jadepool",
+    "Stormhaven Pool", "Ravendeep", "Crowmere", "Swiftwater", "Rushpool"
+  ]
+}

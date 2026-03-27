@@ -1,0 +1,240 @@
+{
+  "meta": {
+    "system": "D&D 5e Combat Engine",
+    "architecture": "Event-driven state machine",
+    "time_unit": "round (6 seconds)"
+  },
+
+  "state": {
+    "round": 1,
+    "initiative_order": [],
+    "active_index": 0,
+    "entities": [],
+    "event_queue": [],
+    "combat_active": true
+  },
+
+  "setup": {
+    "steps": [
+      {
+        "action": "roll_initiative",
+        "logic": "each entity rolls 1d20 + initiative_bonus"
+      },
+      {
+        "action": "sort_initiative",
+        "logic": "descending order"
+      },
+      {
+        "action": "apply_surprise",
+        "logic": "flag surprised entities"
+      }
+    ]
+  },
+
+  "main_loop": {
+    "while": "combat_active == true",
+    "steps": [
+      "process_start_of_turn",
+      "process_turn",
+      "process_end_of_turn",
+      "advance_turn"
+    ]
+  },
+
+  "turn_engine": {
+    "process_start_of_turn": {
+      "effects": [
+        "resolve_condition_timers",
+        "apply_start_effects",
+        "reset_reaction"
+      ]
+    },
+
+    "process_turn": {
+      "phases": [
+        "movement_phase",
+        "action_phase",
+        "bonus_action_phase",
+        "free_interaction_phase"
+      ]
+    },
+
+    "process_end_of_turn": {
+      "effects": [
+        "resolve_end_effects",
+        "check_concentration",
+        "check_death"
+      ]
+    },
+
+    "advance_turn": {
+      "logic": [
+        "active_index += 1",
+        "if active_index >= len(initiative_order):",
+        "  active_index = 0",
+        "  round += 1"
+      ]
+    }
+  },
+
+  "event_system": {
+    "event_types": [
+      "ATTACK",
+      "DAMAGE",
+      "HEAL",
+      "MOVE",
+      "CONDITION_APPLY",
+      "CONDITION_REMOVE",
+      "DEATH",
+      "CAST_SPELL",
+      "TRIGGER_REACTION"
+    ],
+
+    "event_structure": {
+      "type": "string",
+      "source": "entity_id",
+      "target": "entity_id",
+      "data": {}
+    },
+
+    "processing": {
+      "loop": "while event_queue not empty",
+      "steps": [
+        "pop event",
+        "resolve event",
+        "trigger reactions",
+        "enqueue resulting events"
+      ]
+    }
+  },
+
+  "action_resolution": {
+    "attack": {
+      "steps": [
+        "roll = d20 + attack_bonus",
+        "if roll >= target.AC:",
+        "  if natural 20 → critical",
+        "  damage_event",
+        "else miss"
+      ]
+    },
+
+    "damage": {
+      "steps": [
+        "roll damage dice",
+        "apply modifiers",
+        "apply resistance/vulnerability/immunity",
+        "subtract from HP",
+        "if HP <= 0 → trigger death_check"
+      ]
+    },
+
+    "healing": {
+      "steps": [
+        "add HP up to max",
+        "if target at 0 HP → revive"
+      ]
+    }
+  },
+
+  "reaction_system": {
+    "triggers": [
+      {
+        "name": "opportunity_attack",
+        "condition": "enemy leaves melee range",
+        "effect": "enqueue ATTACK event"
+      },
+      {
+        "name": "readied_action",
+        "condition": "custom trigger",
+        "effect": "execute stored action"
+      }
+    ],
+
+    "rules": {
+      "limit": 1,
+      "reset": "start_of_turn"
+    }
+  },
+
+  "condition_engine": {
+    "structure": {
+      "name": "string",
+      "duration": "rounds or infinite",
+      "effects": []
+    },
+
+    "tick": {
+      "timing": [
+        "start_of_turn",
+        "end_of_turn"
+      ],
+      "logic": [
+        "reduce duration",
+        "remove if duration <= 0"
+      ]
+    }
+  },
+
+  "death_engine": {
+    "at_zero_hp": {
+      "state": "unconscious",
+      "start_death_saves": true
+    },
+
+    "death_save": {
+      "roll": "d20",
+      "success": ">= 10",
+      "failure": "< 10",
+      "track": {
+        "3_success": "stabilized",
+        "3_failure": "dead"
+      }
+    },
+
+    "instant_death": {
+      "condition": "damage exceeds negative max HP"
+    }
+  },
+
+  "ai_engine": {
+    "decision_loop": [
+      "evaluate_targets",
+      "select_action",
+      "select_movement",
+      "execute"
+    ],
+
+    "targeting_rules": [
+      "nearest",
+      "lowest_hp",
+      "highest_threat"
+    ],
+
+    "behavior_types": {
+      "aggressive": "prioritize damage",
+      "defensive": "prioritize survival",
+      "tactical": "use abilities intelligently"
+    }
+  },
+
+  "movement_engine": {
+    "rules": [
+      "movement up to speed",
+      "can split movement",
+      "leaving melee range triggers opportunity attack"
+    ]
+  },
+
+  "combat_end": {
+    "conditions": [
+      "all enemies dead",
+      "all enemies fled",
+      "manual stop"
+    ],
+    "effects": [
+      "set combat_active = false",
+      "clear event_queue"
+    ]
+  }
+}

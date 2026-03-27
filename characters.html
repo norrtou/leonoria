@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Creator — Leonoria</title>
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:          #0d1208;
+            --bg-panel:    #131608;
+            --bg-parch:    #18160a;
+            --bg-card:     #1c1a0e;
+            --bg-input:    #0f1208;
+            --gold:        #c9a84c;
+            --gold-dim:    rgba(201,168,76,0.25);
+            --gold-faint:  rgba(201,168,76,0.08);
+            --green:       #4e6e32;
+            --green-dim:   rgba(78,110,50,0.3);
+            --text:        #e8d4a8;
+            --text-muted:  #8a7850;
+            --text-bright: #f5e8c0;
+            --core-bg:     #162a0a;
+            --core-txt:    #7acc50;
+            --exp-bg:      #2a1e4a;
+            --exp-txt:     #a88af0;
+        }
+
+        html, body { height: 100%; overflow: hidden; font-family: 'IM Fell English', Georgia, serif; }
+
+        body {
+            background: var(--bg);
+            background-image: radial-gradient(ellipse 90% 50% at 50% 0%, rgba(74,110,42,0.12) 0%, transparent 65%);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Header ─────────────────────────────────────────────── */
+        .cc-header {
+            height: 58px; flex-shrink: 0;
+            display: flex; align-items: center;
+            padding: 0 1.2rem;
+            border-bottom: 1px solid var(--gold-dim);
+            background: rgba(13,18,8,0.9);
+            gap: 1rem;
+        }
+        .cc-header a {
+            font-size: 0.88rem; font-style: italic;
+            color: var(--text-muted); text-decoration: none;
+            transition: color 0.2s;
+        }
+        .cc-header a:hover { color: var(--text); }
+        .cc-header h1 {
+            flex: 1; text-align: center;
+            font-size: 1.2rem; font-weight: normal;
+            letter-spacing: 0.2em; color: var(--gold);
+        }
+        .hdr-btn {
+            font-family: inherit; font-size: 0.84rem;
+            letter-spacing: 0.08em; padding: 0.35em 1.1em;
+            border: 1px solid var(--green-dim); background: transparent;
+            color: var(--text-muted); cursor: pointer;
+            transition: border-color 0.15s, color 0.15s;
+        }
+        .hdr-btn:hover { border-color: var(--green); color: var(--text); }
+
+        /* ── Party bar ──────────────────────────────────────────── */
+        .party-bar {
+            height: 82px; flex-shrink: 0;
+            display: flex; align-items: center;
+            padding: 0 1.2rem;
+            border-bottom: 1px solid var(--gold-dim);
+            background: var(--bg-panel);
+            gap: 1rem;
+        }
+        .party-label {
+            font-size: 0.8rem; letter-spacing: 0.12em;
+            color: var(--text-muted); text-transform: uppercase;
+        }
+        .party-name-inp {
+            font-family: inherit; font-size: 0.88rem;
+            background: var(--bg-input); border: 1px solid var(--green-dim);
+            color: var(--text); padding: 0.32em 0.7em;
+            width: 148px; letter-spacing: 0.04em;
+        }
+        .party-name-inp:focus { outline: 1px solid var(--gold); }
+        .party-slots {
+            display: flex; gap: 0.5rem;
+            flex: 1;
+        }
+        .party-slot {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 0.2rem; cursor: pointer; opacity: 0.5;
+        }
+        .party-slot.filled { opacity: 1; }
+        .party-slot-port {
+            width: 42px; height: 54px;
+            border: 1px solid var(--green-dim);
+            overflow: hidden; background: var(--bg-card);
+        }
+        .party-slot-port img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .party-slot-name {
+            font-size: 0.72rem; color: var(--text-muted);
+            letter-spacing: 0.03em; max-width: 52px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            text-align: center;
+        }
+        .party-slot.active-slot .party-slot-port { border-color: var(--gold); }
+
+        .party-size { display: flex; gap: 2px; }
+        .sz-btn {
+            font-family: inherit; font-size: 0.84rem;
+            padding: 0.25em 0.7em; border: 1px solid var(--green-dim);
+            background: transparent; color: var(--text-muted); cursor: pointer;
+            transition: border-color 0.15s, color 0.15s;
+        }
+        .sz-btn.sel { border-color: var(--gold); color: var(--gold); }
+        .party-acts { display: flex; gap: 0.4rem; }
+
+        /* ── Main layout ────────────────────────────────────────── */
+        .cc-main {
+            flex: 1; min-height: 0;
+            display: grid;
+            grid-template-columns: 240px 1fr 295px;
+        }
+
+        /* shared panel scroll */
+        .panel-left, .panel-center, .panel-right {
+            overflow-y: auto;
+        }
+        .panel-left::-webkit-scrollbar,
+        .panel-center::-webkit-scrollbar,
+        .panel-right::-webkit-scrollbar { width: 5px; }
+        .panel-left::-webkit-scrollbar-thumb,
+        .panel-center::-webkit-scrollbar-thumb,
+        .panel-right::-webkit-scrollbar-thumb { background: var(--green-dim); }
+
+        /* ── Left panel ─────────────────────────────────────────── */
+        .panel-left {
+            border-right: 1px solid var(--gold-dim);
+            background: var(--bg-panel);
+            padding: 1.1rem 0.9rem 1.5rem;
+            display: flex; flex-direction: column; gap: 0.75rem;
+        }
+
+        .portrait-frame {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            max-height: 200px;
+            border: 1px solid var(--gold-dim);
+            overflow: hidden;
+            background: var(--bg-card);
+            flex-shrink: 0;
+        }
+        .portrait-frame::before, .portrait-frame::after {
+            content: ''; display: block;
+            position: absolute; width: 14px; height: 14px;
+            border-color: var(--gold); border-style: solid; opacity: 0.6;
+            z-index: 1;
+        }
+        .portrait-frame::before { top: 4px; left: 4px; border-width: 2px 0 0 2px; }
+        .portrait-frame::after  { bottom: 4px; right: 4px; border-width: 0 2px 2px 0; }
+        .portrait-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .nameplate-wrap { text-align: center; }
+        .nameplate-input {
+            font-family: inherit; font-size: 1.05rem;
+            letter-spacing: 0.08em; text-align: center;
+            background: transparent; border: none;
+            border-bottom: 1px solid var(--gold-dim);
+            color: var(--gold); width: 100%; padding: 0.2em 0;
+        }
+        .nameplate-input:focus { outline: none; border-bottom-color: var(--gold); }
+        .nameplate-input::placeholder { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+
+        .identity-line {
+            text-align: center; font-size: 0.88rem;
+            font-style: italic; color: var(--text-muted);
+            letter-spacing: 0.06em; min-height: 1.2em;
+        }
+
+        .derived-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 0.35rem;
+        }
+        .dbox {
+            background: var(--bg-card);
+            border: 1px solid var(--green-dim);
+            padding: 0.4rem 0.3rem;
+            text-align: center;
+        }
+        .dbox-val { font-size: 1.05rem; color: var(--gold); line-height: 1.2; }
+        .dbox-lbl { font-size: 0.76rem; color: var(--text-muted); letter-spacing: 0.08em; margin-top: 0.15rem; }
+
+        .saves-row {
+            display: flex; gap: 0.3rem; flex-wrap: wrap;
+            justify-content: center;
+        }
+        .save-pill {
+            font-size: 0.78rem; letter-spacing: 0.06em;
+            padding: 0.18em 0.55em;
+            border: 1px solid var(--gold-dim);
+            background: var(--gold-faint); color: var(--gold);
+        }
+
+        .left-actions { display: flex; flex-direction: column; gap: 0.4rem; }
+
+        .rpg-btn {
+            font-family: inherit; font-size: 0.88rem;
+            letter-spacing: 0.1em; padding: 0.55em 0;
+            width: 100%; text-align: center;
+            border: 1px solid var(--green);
+            background: linear-gradient(170deg, #2e4a1c, #1e3210);
+            color: var(--text); cursor: pointer;
+            clip-path: polygon(8px 0%, calc(100% - 8px) 0%, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0% 50%);
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .rpg-btn:hover { border-color: #8aaa5a; background: linear-gradient(170deg, #3e6428, #2a4818); }
+        .rpg-btn.gold-btn { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.06); }
+        .rpg-btn.gold-btn:hover { background: rgba(201,168,76,0.14); }
+
+        .saved-label { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+        .saved-list { display: flex; flex-direction: column; gap: 0.25rem; max-height: 180px; overflow-y: auto; }
+        .saved-list::-webkit-scrollbar { width: 3px; }
+        .saved-list::-webkit-scrollbar-thumb { background: var(--green-dim); }
+        .saved-item {
+            display: flex; align-items: center; gap: 0.4rem;
+            font-size: 0.84rem; padding: 0.35rem 0.5rem;
+            border: 1px solid var(--green-dim); background: var(--bg-card);
+            cursor: pointer; transition: border-color 0.15s;
+        }
+        .saved-item:hover { border-color: var(--green); }
+        .saved-item-info { flex: 1; min-width: 0; }
+        .saved-item-name { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .saved-item-sub { font-size: 0.76rem; color: var(--text-muted); font-style: italic; }
+        .del-btn { font-family: inherit; font-size: 0.78rem; background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.1em; }
+        .del-btn:hover { color: #c04040; }
+        .empty-msg { font-size: 0.82rem; color: var(--text-muted); font-style: italic; }
+
+        /* ── Center panel ───────────────────────────────────────── */
+        .panel-center {
+            background: var(--bg-parch);
+            border-right: 1px solid var(--gold-dim);
+            display: flex; flex-direction: column;
+        }
+
+        .cc-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gold-dim);
+            flex-shrink: 0;
+            background: var(--bg-panel);
+        }
+        .cc-tab {
+            font-family: inherit; font-size: 0.88rem;
+            letter-spacing: 0.1em; padding: 0.7em 1.2em;
+            border: none; border-right: 1px solid var(--gold-dim);
+            background: transparent; color: var(--text-muted);
+            cursor: pointer; transition: color 0.2s, background 0.2s;
+            white-space: nowrap;
+        }
+        .cc-tab:last-child { border-right: none; }
+        .cc-tab:hover { color: var(--text); background: var(--gold-faint); }
+        .cc-tab.active { color: var(--gold); background: var(--bg-parch); border-bottom: 1px solid var(--bg-parch); margin-bottom: -1px; }
+
+        .tab-area { flex: 1; overflow-y: auto; padding: 1.2rem 1.4rem 2rem; }
+        .tab-area::-webkit-scrollbar { width: 5px; }
+        .tab-area::-webkit-scrollbar-thumb { background: var(--green-dim); }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* form rows */
+        .form-block { margin-bottom: 1.4rem; }
+        .form-block-title {
+            font-size: 0.84rem; letter-spacing: 0.14em;
+            color: var(--text-muted); text-transform: uppercase;
+            border-bottom: 1px solid var(--green-dim);
+            padding-bottom: 0.35rem; margin-bottom: 0.75rem;
+        }
+        .form-row {
+            display: flex; align-items: center;
+            gap: 0.7rem; padding: 0.42rem 0;
+            border-bottom: 1px solid rgba(78,110,50,0.1);
+        }
+        .form-row:last-child { border-bottom: none; }
+        .form-lbl {
+            font-size: 0.88rem; color: var(--text-muted);
+            letter-spacing: 0.06em; min-width: 100px; flex-shrink: 0;
+        }
+        .form-ctrl { flex: 1; display: flex; align-items: center; gap: 0.5rem; }
+
+        .rpg-select {
+            flex: 1; font-family: inherit; font-size: 0.82rem;
+            background: var(--bg-input); color: var(--text);
+            border: 1px solid var(--green-dim); padding: 0.38em 2em 0.38em 0.6em;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5'%3E%3Cpath d='M0 0l4.5 5L9 0z' fill='%238a7850'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 0.6em center;
+            cursor: pointer; letter-spacing: 0.03em;
+            transition: border-color 0.15s;
+        }
+        .rpg-select:hover { border-color: var(--green); }
+        .rpg-select:focus { outline: 1px solid var(--gold); }
+        .rpg-select option { background: #141a0a; }
+        .rpg-select optgroup { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+
+        .src-badge {
+            font-size: 0.76rem; letter-spacing: 0.06em;
+            padding: 0.18em 0.55em; flex-shrink: 0;
+        }
+        .src-badge.core     { background: var(--core-bg); color: var(--core-txt); }
+        .src-badge.expanded { background: var(--exp-bg);  color: var(--exp-txt); }
+
+        /* level row */
+        .level-ctrl { display: flex; align-items: center; gap: 0.6rem; }
+        .level-disp { font-size: 1.2rem; color: var(--gold); min-width: 2rem; text-align: center; }
+        .rpg-range {
+            flex: 1; -webkit-appearance: none;
+            height: 3px; background: var(--green-dim); outline: none; max-width: 200px;
+        }
+        .rpg-range::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 13px; height: 13px;
+            background: var(--gold); border-radius: 50%;
+            border: 2px solid var(--bg); cursor: pointer;
+        }
+        .form-hint { font-size: 0.82rem; color: var(--text-muted); font-style: italic; }
+
+        /* alignment grid */
+        .alignment-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 0.3rem; max-width: 300px;
+        }
+        .align-btn {
+            font-family: inherit; font-size: 0.84rem;
+            letter-spacing: 0.04em; padding: 0.55em 0.2em;
+            border: 1px solid var(--green-dim);
+            background: var(--bg-card); color: var(--text-muted);
+            cursor: pointer; text-align: center; line-height: 1.3;
+            transition: border-color 0.15s, color 0.15s, background 0.15s;
+        }
+        .align-btn:hover { border-color: var(--green); color: var(--text); }
+        .align-btn.sel { border-color: var(--gold); background: var(--gold-faint); color: var(--gold); }
+
+        /* ability scores - attributes tab */
+        .method-row {
+            display: flex; gap: 2px; margin-bottom: 0.9rem;
+        }
+        .mth-btn {
+            font-family: inherit; font-size: 0.86rem;
+            letter-spacing: 0.08em; padding: 0.4em 1em;
+            border: 1px solid var(--green-dim);
+            background: transparent; color: var(--text-muted);
+            cursor: pointer; transition: color 0.15s, background 0.15s;
+        }
+        .mth-btn:not(:last-child) { border-right: none; }
+        .mth-btn.active { background: var(--bg-card); color: var(--gold); border-color: var(--gold-dim); }
+
+        .ab-panel { display: none; }
+        .ab-panel.active { display: block; }
+
+        .ab-row {
+            display: flex; align-items: center;
+            gap: 0.5rem; padding: 0.45rem 0;
+            border-bottom: 1px solid rgba(78,110,50,0.1);
+        }
+        .ab-abbr {
+            font-size: 0.82rem; letter-spacing: 0.1em;
+            color: var(--text-muted); min-width: 38px; text-align: center;
+        }
+        .ab-name { font-size: 0.9rem; color: var(--text-muted); flex: 1; font-style: italic; }
+        .ab-score {
+            font-size: 1.15rem; color: var(--gold);
+            min-width: 2.2rem; text-align: center;
+        }
+        .ab-mod { font-size: 0.78rem; color: var(--text); min-width: 2.4rem; text-align: center; }
+
+        .ab-pb-ctrl { display: flex; align-items: center; gap: 4px; }
+        .pb-adj {
+            font-family: inherit; font-size: 0.9rem; width: 22px; height: 22px;
+            background: var(--bg-card); border: 1px solid var(--green-dim);
+            color: var(--text-muted); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: border-color 0.15s; line-height: 1;
+        }
+        .pb-adj:hover { border-color: var(--green); color: var(--text); }
+        .pb-pts { font-size: 0.86rem; color: var(--text-muted); margin-top: 0.4rem; }
+        .pb-pts span { color: var(--gold); }
+
+        .roll-btn {
+            font-family: inherit; font-size: 0.88rem;
+            letter-spacing: 0.08em; padding: 0.4em 1.2em;
+            border: 1px solid var(--green); background: var(--bg-card);
+            color: var(--text); cursor: pointer; margin-bottom: 0.6rem;
+            transition: border-color 0.15s;
+        }
+        .roll-btn:hover { border-color: var(--gold); }
+        .roll-hint { font-size: 0.84rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.5rem; }
+
+        .ab-roll-sel {
+            font-family: inherit; font-size: 0.82rem;
+            background: var(--bg-input); color: var(--text);
+            border: 1px solid var(--green-dim); padding: 0.3em 1.6em 0.3em 0.5em;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5'%3E%3Cpath d='M0 0l4.5 5L9 0z' fill='%238a7850'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 0.5em center;
+            cursor: pointer; min-width: 60px;
+        }
+
+        /* skills tab */
+        .skill-info { font-size: 0.86rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.7rem; }
+        .skills-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 0.28rem;
+        }
+        .skill-row {
+            display: flex; align-items: center; gap: 0.4rem;
+            padding: 0.38rem 0.55rem;
+            border: 1px solid var(--green-dim);
+            background: var(--bg-card); cursor: pointer;
+            font-size: 0.88rem; transition: border-color 0.15s, background 0.15s;
+            user-select: none;
+        }
+        .skill-row:hover:not(.sk-disabled) { border-color: var(--green); }
+        .skill-row.sk-on { border-color: var(--gold); background: var(--gold-faint); }
+        .skill-row.sk-disabled { opacity: 0.3; pointer-events: none; }
+        .sk-check { width: 12px; height: 12px; border: 1px solid var(--gold-dim); flex-shrink: 0; }
+        .sk-on .sk-check { background: var(--gold); }
+        .sk-name { flex: 1; color: var(--text); }
+        .sk-ab { font-size: 0.76rem; color: var(--text-muted); }
+        .sk-tag {
+            font-size: 0.72rem; padding: 0.12em 0.4em;
+        }
+        .sk-tag.core     { background: var(--core-bg); color: var(--core-txt); }
+        .sk-tag.expanded { background: var(--exp-bg);  color: var(--exp-txt); }
+
+        /* equipment tab */
+        .equip-choice { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .equip-opt {
+            flex: 1; padding: 0.7em 0.8em;
+            border: 1px solid var(--green-dim); background: var(--bg-card);
+            cursor: pointer; text-align: center; font-size: 0.8rem;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .equip-opt:hover { border-color: var(--green); }
+        .equip-opt.sel { border-color: var(--gold); background: var(--gold-faint); color: var(--gold); }
+        .equip-opt small { display: block; font-size: 0.8rem; color: var(--text-muted); font-style: italic; margin-top: 0.2rem; }
+
+        /* ── View sheet (read-only) ──────────────────────────────── */
+        #view-sheet { display: none; }
+        #view-sheet.active { display: block; }
+
+        .vs-name {
+            font-size: 1.5rem; color: var(--gold);
+            letter-spacing: 0.12em; text-align: center;
+            margin-bottom: 0.3rem;
+        }
+        .vs-sub {
+            text-align: center; font-size: 0.9rem;
+            color: var(--text-muted); font-style: italic; margin-bottom: 1rem;
+        }
+        .vs-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+            margin: 0.8rem 0;
+        }
+        .vs-section { margin-bottom: 1rem; }
+        .vs-section-title {
+            font-size: 0.82rem; letter-spacing: 0.14em;
+            color: var(--text-muted); text-transform: uppercase;
+            border-bottom: 1px solid var(--green-dim);
+            padding-bottom: 0.25rem; margin-bottom: 0.5rem;
+        }
+        .vs-row { display: flex; gap: 0.5rem; padding: 0.2rem 0; font-size: 0.9rem; }
+        .vs-lbl { color: var(--text-muted); min-width: 120px; }
+        .vs-val { color: var(--text-bright); }
+        .vs-ab-grid {
+            display: grid; grid-template-columns: repeat(6, 1fr);
+            gap: 0.4rem; margin-top: 0.4rem;
+        }
+        .vs-ab-cell {
+            background: var(--bg-card); border: 1px solid var(--green-dim);
+            text-align: center; padding: 0.4rem 0.2rem;
+        }
+        .vs-ab-abbr { font-size: 0.78rem; color: var(--text-muted); display: block; }
+        .vs-ab-score { font-size: 1.1rem; color: var(--gold); }
+        .vs-ab-mod { font-size: 0.7rem; color: var(--text); display: block; margin-top: 0.1rem; }
+        .vs-skills { font-size: 0.9rem; color: var(--text); line-height: 1.7; }
+
+        .view-new-btn {
+            font-family: inherit; font-size: 0.8rem;
+            letter-spacing: 0.1em; padding: 0.55em 1.8em;
+            border: 1px solid var(--gold); background: var(--gold-faint);
+            color: var(--gold); cursor: pointer; margin-top: 1.2rem;
+            display: block; width: fit-content; margin-left: auto; margin-right: auto;
+            transition: background 0.2s;
+        }
+        .view-new-btn:hover { background: rgba(201,168,76,0.16); }
+
+        /* ── Right panel ────────────────────────────────────────── */
+        .panel-right {
+            background: var(--bg-panel);
+            padding: 1rem 1rem 2rem;
+            display: flex; flex-direction: column; gap: 0;
+        }
+        .pane-title {
+            font-size: 0.86rem; letter-spacing: 0.12em;
+            color: var(--gold); margin-bottom: 0.6rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 1px solid var(--gold-dim);
+        }
+        .flavor-text {
+            font-size: 0.9rem; line-height: 1.75;
+            color: var(--text-muted); font-style: italic;
+            min-height: 120px; margin-bottom: 1.2rem;
+        }
+        .flavor-text strong { color: var(--text); font-style: normal; }
+
+        .right-divider { height: 1px; background: var(--green-dim); margin: 0.6rem 0 1rem; }
+
+        .inventory-list { display: flex; flex-direction: column; gap: 0.25rem; }
+        .inv-item {
+            display: flex; align-items: flex-start; gap: 0.4rem;
+            font-size: 0.88rem; color: var(--text);
+            padding: 0.32rem 0; border-bottom: 1px solid rgba(78,110,50,0.1);
+        }
+        .inv-bullet { color: var(--gold); flex-shrink: 0; font-size: 0.8rem; padding-top: 0.1em; }
+        .inv-empty { font-size: 0.88rem; color: var(--text-muted); font-style: italic; }
+
+        .bg-detail-text {
+            font-size: 0.86rem; color: var(--text-muted);
+            font-style: italic; line-height: 1.6; margin-top: 0.8rem;
+        }
+
+        /* ── Toast ──────────────────────────────────────────────── */
+        #toast {
+            position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%);
+            background: var(--bg-panel); border: 1px solid var(--green);
+            color: var(--text); font-size: 0.9rem; letter-spacing: 0.05em;
+            padding: 0.5em 1.3em; pointer-events: none;
+            opacity: 0; transition: opacity 0.25s; z-index: 999;
+        }
+        #toast.show { opacity: 1; }
+
+        /* ── Tab footer nav ─────────────────────────────────────── */
+        .tab-footer-nav {
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.6rem 1.4rem;
+            border-top: 1px solid var(--gold-dim);
+            background: var(--bg-panel);
+            gap: 1rem;
+        }
+        .tab-footer-nav.hidden { display: none; }
+        .tab-nav-btn {
+            font-family: inherit; font-size: 0.88rem;
+            letter-spacing: 0.1em; padding: 0.42em 1.4em;
+            border: 1px solid var(--green-dim);
+            background: var(--bg-card); color: var(--text-muted);
+            cursor: pointer; transition: border-color 0.15s, color 0.15s;
+        }
+        .tab-nav-btn:hover:not(:disabled) { border-color: var(--green); color: var(--text); }
+        .tab-nav-btn:disabled { opacity: 0.28; cursor: default; }
+        .tab-step-ind {
+            font-size: 0.86rem; color: var(--text-muted);
+            letter-spacing: 0.12em; text-align: center; flex: 1;
+        }
+
+        /* ── Sheet back button (used in view-sheet & party-sheet) ── */
+        .sheet-back-btn {
+            font-family: inherit; font-size: 0.86rem;
+            letter-spacing: 0.08em; padding: 0.35em 1em;
+            border: 1px solid var(--green-dim); background: transparent;
+            color: var(--text-muted); cursor: pointer;
+            transition: border-color 0.15s, color 0.15s;
+            flex-shrink: 0;
+        }
+        .sheet-back-btn:hover { border-color: var(--green); color: var(--text); }
+
+        .sheet-header {
+            display: flex; align-items: center; gap: 0.8rem;
+            margin-bottom: 0.9rem; padding-bottom: 0.7rem;
+            border-bottom: 1px solid var(--gold-dim);
+        }
+        .sheet-header-title {
+            flex: 1; text-align: center; font-size: 0.86rem;
+            letter-spacing: 0.14em; color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* ── Party sheet ─────────────────────────────────────────── */
+        #party-sheet { display: none; }
+        #party-sheet.active { display: block; }
+
+        .ps-party-name {
+            font-size: 1.1rem; color: var(--gold);
+            letter-spacing: 0.1em; flex: 1; text-align: center;
+        }
+        .ps-count {
+            font-size: 0.84rem; color: var(--text-muted);
+            font-style: italic; white-space: nowrap;
+        }
+        .ps-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+            gap: 0.75rem; margin-top: 0.5rem;
+        }
+        .ps-card {
+            background: var(--bg-card); border: 1px solid var(--green-dim);
+            padding: 0.7rem; cursor: pointer;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .ps-card:hover { border-color: var(--gold); background: var(--gold-faint); }
+        .ps-card-port {
+            width: 100%; aspect-ratio: 3/4; max-height: 130px;
+            overflow: hidden; margin-bottom: 0.55rem;
+            border: 1px solid var(--green-dim);
+        }
+        .ps-card-port img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .ps-card-name {
+            font-size: 0.85rem; color: var(--text-bright);
+            letter-spacing: 0.04em; margin-bottom: 0.2rem;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .ps-card-sub {
+            font-size: 0.78rem; color: var(--text-muted);
+            font-style: italic; margin-bottom: 0.45rem; line-height: 1.4;
+        }
+        .ps-card-stats { display: flex; flex-direction: column; gap: 0.18rem; }
+        .ps-stat { font-size: 0.8rem; color: var(--text-muted); line-height: 1.35; }
+        .ps-stat strong { color: var(--text); font-weight: normal; }
+        .ps-click-hint {
+            font-size: 0.78rem; color: var(--text-muted); font-style: italic;
+            text-align: center; margin-top: 0.7rem; opacity: 0.7;
+            letter-spacing: 0.06em;
+        }
+
+        /* view button in saved party rows */
+        .view-btn {
+            font-family: inherit; font-size: 0.8rem;
+            background: none; border: none;
+            color: var(--text-muted); cursor: pointer; padding: 0.1em 0.3em;
+            transition: color 0.15s;
+        }
+        .view-btn:hover { color: var(--gold); }
+    </style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────────────── -->
+<header class="cc-header">
+    <a href="index.html">← Leonoria</a>
+    <h1>Character Creator</h1>
+    <div style="display:flex;gap:0.4rem;">
+        <button class="hdr-btn" id="btn-new-char">New</button>
+    </div>
+</header>
+
+<!-- ── Party bar ───────────────────────────────────────────────────── -->
+<div class="party-bar">
+    <span class="party-label">Party</span>
+    <input class="party-name-inp" id="party-name" type="text" placeholder="Party name…" maxlength="36">
+    <div class="party-slots" id="party-slots"></div>
+    <div class="party-size">
+        <button class="sz-btn sel" data-size="3">3</button>
+        <button class="sz-btn" data-size="5">5</button>
+    </div>
+    <div class="party-acts">
+        <button class="hdr-btn" id="btn-view-party">View Details</button>
+        <button class="hdr-btn" id="btn-save-party">Save Party</button>
+        <button class="hdr-btn" id="btn-load-party">Load Party</button>
+    </div>
+</div>
+
+<!-- ── Main ────────────────────────────────────────────────────────── -->
+<div class="cc-main">
+
+    <!-- Left: portrait + stats + actions -->
+    <div class="panel-left">
+        <div class="portrait-frame">
+            <img id="char-portrait-img" src="assets/images/characterportraits/elfrougefemale.jpg" alt="Character Portrait">
+        </div>
+
+        <div class="nameplate-wrap">
+            <input class="nameplate-input" id="char-name" type="text" placeholder="Name your hero…" maxlength="44">
+        </div>
+        <div class="identity-line" id="identity-line">Choose race &amp; class</div>
+
+        <div class="derived-grid">
+            <div class="dbox"><div class="dbox-val" id="d-hp">—</div><div class="dbox-lbl">HP (Lv 1)</div></div>
+            <div class="dbox"><div class="dbox-val" id="d-hd">—</div><div class="dbox-lbl">Hit Die</div></div>
+            <div class="dbox"><div class="dbox-val" id="d-prof">+2</div><div class="dbox-lbl">Prof. Bonus</div></div>
+            <div class="dbox"><div class="dbox-val" id="d-speed">30 ft</div><div class="dbox-lbl">Speed</div></div>
+        </div>
+
+        <div>
+            <div class="saved-label" style="margin-bottom:0.3rem;">Saving Throw Proficiencies</div>
+            <div class="saves-row" id="saves-row">
+                <span class="save-pill">—</span>
+            </div>
+        </div>
+
+        <div class="left-actions">
+            <button class="rpg-btn gold-btn" id="btn-save-char">Save Character</button>
+            <button class="rpg-btn" id="btn-add-party">Add to Party</button>
+        </div>
+
+        <div>
+            <div class="saved-label">Saved Characters</div>
+            <div class="saved-list" id="saved-char-list">
+                <p class="empty-msg">No saved characters.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Center: tabs + forms / view sheet -->
+    <div class="panel-center">
+        <nav class="cc-tabs" id="cc-tabs">
+            <button class="cc-tab active" data-tab="identity">Identity</button>
+            <button class="cc-tab" data-tab="attributes">Attributes</button>
+            <button class="cc-tab" data-tab="skills">Skills</button>
+            <button class="cc-tab" data-tab="equipment">Equipment</button>
+        </nav>
+
+        <div class="tab-area">
+
+            <!-- VIEW SHEET (read-only) -->
+            <div id="view-sheet">
+                <div class="sheet-header">
+                    <button class="sheet-back-btn" id="btn-vs-back">&#8592; Back</button>
+                    <span class="sheet-header-title">Character Sheet</span>
+                    <span style="min-width:4rem;"></span>
+                </div>
+                <div class="vs-name" id="vs-name">—</div>
+                <div class="vs-sub" id="vs-sub">—</div>
+                <div class="vs-divider"></div>
+                <div class="vs-section">
+                    <div class="vs-section-title">Identity</div>
+                    <div class="vs-row"><span class="vs-lbl">Race</span><span class="vs-val" id="vs-race">—</span></div>
+                    <div class="vs-row"><span class="vs-lbl">Subrace</span><span class="vs-val" id="vs-subrace">—</span></div>
+                    <div class="vs-row"><span class="vs-lbl">Gender</span><span class="vs-val" id="vs-gender">—</span></div>
+                    <div class="vs-row"><span class="vs-lbl">Class</span><span class="vs-val" id="vs-class">—</span></div>
+                    <div class="vs-row"><span class="vs-lbl">Subclass</span><span class="vs-val" id="vs-subclass">—</span></div>
+                    <div class="vs-row"><span class="vs-lbl">Background</span><span class="vs-val" id="vs-background">—</span></div>
+                    <div class="vs-row"><span class="vs-lbl">Alignment</span><span class="vs-val" id="vs-alignment">—</span></div>
+                    <div class="vs-row"><span class="vs-lbl">Level</span><span class="vs-val" id="vs-level">—</span></div>
+                </div>
+                <div class="vs-divider"></div>
+                <div class="vs-section">
+                    <div class="vs-section-title">Ability Scores</div>
+                    <div class="vs-ab-grid" id="vs-ab-grid"></div>
+                </div>
+                <div class="vs-divider"></div>
+                <div class="vs-section">
+                    <div class="vs-section-title">Skills</div>
+                    <div class="vs-skills" id="vs-skills">—</div>
+                </div>
+                <div class="vs-section">
+                    <div class="vs-section-title">Equipment</div>
+                    <div class="vs-row"><span class="vs-lbl">Method</span><span class="vs-val" id="vs-equip">—</span></div>
+                </div>
+                <button class="view-new-btn" id="btn-view-new">✦ Create New Character</button>
+            </div>
+
+            <!-- PARTY SHEET (read-only party overview) -->
+            <div id="party-sheet">
+                <div class="sheet-header">
+                    <button class="sheet-back-btn" id="btn-ps-back">&#8592; Back</button>
+                    <span class="ps-party-name" id="ps-party-name">Party</span>
+                    <span class="ps-count" id="ps-count"></span>
+                </div>
+                <div class="ps-members" id="ps-members"></div>
+                <p class="ps-click-hint">Click any member to view their full character sheet.</p>
+            </div>
+
+            <!-- IDENTITY TAB -->
+            <div class="tab-panel active" id="tab-identity">
+                <div class="form-block">
+                    <div class="form-block-title">Race &amp; Origin</div>
+                    <div class="form-row">
+                        <span class="form-lbl">Race</span>
+                        <div class="form-ctrl">
+                            <select id="sel-race" class="rpg-select">
+                                <option value="">— Choose Race —</option>
+                            </select>
+                            <span id="race-badge" class="src-badge"></span>
+                        </div>
+                    </div>
+                    <div class="form-row" id="row-subrace" style="display:none">
+                        <span class="form-lbl">Subrace</span>
+                        <div class="form-ctrl">
+                            <select id="sel-subrace" class="rpg-select">
+                                <option value="">— Choose Subrace —</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <span class="form-lbl">Gender</span>
+                        <div class="form-ctrl">
+                            <select id="sel-gender" class="rpg-select">
+                                <option value="">— Choose —</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Non-binary</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-block">
+                    <div class="form-block-title">Class &amp; Path</div>
+                    <div class="form-row">
+                        <span class="form-lbl">Class</span>
+                        <div class="form-ctrl">
+                            <select id="sel-class" class="rpg-select">
+                                <option value="">— Choose Class —</option>
+                            </select>
+                            <span id="class-badge" class="src-badge"></span>
+                        </div>
+                    </div>
+                    <div class="form-row" id="row-subclass" style="display:none">
+                        <span class="form-lbl">Subclass</span>
+                        <div class="form-ctrl">
+                            <select id="sel-subclass" class="rpg-select">
+                                <option value="">— Choose Subclass —</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <span class="form-lbl">Background</span>
+                        <div class="form-ctrl">
+                            <select id="sel-background" class="rpg-select">
+                                <option value="">— Choose Background —</option>
+                            </select>
+                            <span id="bg-badge" class="src-badge"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <span class="form-lbl">Level</span>
+                        <div class="form-ctrl level-ctrl">
+                            <span class="level-disp" id="level-disp">1</span>
+                            <input type="range" id="level-slider" class="rpg-range" min="1" max="20" value="1">
+                            <span class="form-hint">Max 20</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-block">
+                    <div class="form-block-title">Alignment</div>
+                    <div class="alignment-grid" id="alignment-grid"></div>
+                </div>
+            </div>
+
+            <!-- ATTRIBUTES TAB -->
+            <div class="tab-panel" id="tab-attributes">
+                <div class="form-block-title" style="margin-bottom:0.7rem;">Ability Score Method</div>
+                <div class="method-row">
+                    <button class="mth-btn active" data-method="standard">Standard Array</button>
+                    <button class="mth-btn" data-method="pointbuy">Point Buy</button>
+                    <button class="mth-btn" data-method="roll">Roll 4d6</button>
+                </div>
+
+                <!-- Standard Array -->
+                <div class="ab-panel active" id="ab-standard">
+                    <p class="form-hint" style="margin-bottom:0.6rem;">Assign 15, 14, 13, 12, 10, 8 to each ability.</p>
+                    <div id="std-rows"></div>
+                </div>
+
+                <!-- Point Buy -->
+                <div class="ab-panel" id="ab-pointbuy">
+                    <p class="pb-pts">Points remaining: <span id="pb-remain">27</span> / 27</p>
+                    <div id="pb-rows" style="margin-top:0.4rem;"></div>
+                </div>
+
+                <!-- Roll 4d6 -->
+                <div class="ab-panel" id="ab-roll">
+                    <p class="roll-hint">Roll 6 sets of 4d6 (drop lowest), then assign each to an ability.</p>
+                    <button class="roll-btn" id="btn-roll">Roll 4d6 ×6</button>
+                    <div id="roll-rows"></div>
+                </div>
+            </div>
+
+            <!-- SKILLS TAB -->
+            <div class="tab-panel" id="tab-skills">
+                <p class="skill-info" id="skill-info">Select a class to see available skills.</p>
+                <div class="skills-grid" id="skills-grid"></div>
+            </div>
+
+            <!-- EQUIPMENT TAB -->
+            <div class="tab-panel" id="tab-equipment">
+                <div class="form-block-title" style="margin-bottom:0.7rem;">Starting Equipment Method</div>
+                <div class="equip-choice">
+                    <div class="equip-opt sel" data-val="pack">
+                        Starting Pack
+                        <small>Class default gear</small>
+                    </div>
+                    <div class="equip-opt" data-val="gold">
+                        Starting Gold
+                        <small>Buy your own items</small>
+                    </div>
+                </div>
+                <p class="form-hint" id="gold-hint"></p>
+            </div>
+
+        </div><!-- /.tab-area -->
+
+        <div class="tab-footer-nav" id="tab-footer-nav">
+            <button class="tab-nav-btn" id="btn-tab-prev">&#8592; Back</button>
+            <span class="tab-step-ind" id="tab-step-ind">1 / 4</span>
+            <button class="tab-nav-btn" id="btn-tab-next">Next &#8594;</button>
+        </div>
+    </div><!-- /.panel-center -->
+
+    <!-- Right: flavor text + inventory -->
+    <div class="panel-right">
+        <div class="pane-title">✦ Character Lore</div>
+        <div class="flavor-text" id="flavor-text">
+            Select a race and class to reveal the lore of your hero...
+        </div>
+
+        <div class="right-divider"></div>
+
+        <div class="pane-title">✦ Background Detail</div>
+        <div class="bg-detail-text" id="bg-detail-text">Select a background to see its perks.</div>
+
+        <div class="right-divider"></div>
+
+        <div class="pane-title">✦ Starting Equipment</div>
+        <div class="inventory-list" id="inventory-list">
+            <span class="inv-empty">Choose a class to see starting gear.</span>
+        </div>
+
+        <div style="margin-top:auto;padding-top:1.5rem;">
+            <div class="pane-title">✦ Saved Parties</div>
+            <div class="saved-list" id="saved-party-list">
+                <p class="empty-msg">No saved parties.</p>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.cc-main -->
+
+<div id="toast"></div>
+<script src="character-creator.js"></script>
+</body>
+</html>

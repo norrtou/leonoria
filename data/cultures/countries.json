@@ -1,0 +1,276 @@
+{
+  "meta": {
+    "scope": "Major D&D settings",
+    "purpose": "Continents and regions with cultural connections",
+    "note": "Not exhaustive to every micro-region, but includes all major world structures"
+  },
+
+  "worlds": [
+    {
+      "name": "Toril (Forgotten Realms)",
+      "continents": [
+        {
+          "name": "Faerûn",
+          "regions": [
+            {
+              "name": "Sword Coast",
+              "culture": {
+                "type": "Frontier + trade hubs",
+                "races": ["Humans", "Elves", "Dwarves", "Halflings"],
+                "themes": ["Adventuring", "Urban politics", "Guild power"]
+              }
+            },
+            {
+              "name": "Heartlands",
+              "culture": {
+                "type": "Feudal kingdoms",
+                "races": ["Humans"],
+                "themes": ["Knighthood", "Agriculture", "Expansion"]
+              }
+            },
+            {
+              "name": "Underdark",
+              "culture": {
+                "type": "Subterranean civilizations",
+                "races": ["Drow", "Duergar", "Svirfneblin"],
+                "themes": ["Survival", "Isolation", "Dark magic"]
+              }
+            },
+            {
+              "name": "Thay",
+              "culture": {
+                "type": "Magocracy",
+                "races": ["Humans"],
+                "themes": ["Necromancy", "Slavery", "Arcane rule"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Kara-Tur",
+          "regions": [
+            {
+              "name": "Shou Lung",
+              "culture": {
+                "type": "Imperial bureaucracy",
+                "races": ["Humans"],
+                "themes": ["Order", "Honor", "Dynasty"]
+              }
+            },
+            {
+              "name": "Kozakura",
+              "culture": {
+                "type": "Feudal island culture",
+                "races": ["Humans"],
+                "themes": ["Samurai", "Isolation", "Honor"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Zakhara",
+          "regions": [
+            {
+              "name": "Land of Fate",
+              "culture": {
+                "type": "Trade + desert civilization",
+                "races": ["Humans"],
+                "themes": ["Fate", "Trade", "Storytelling"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Maztica",
+          "regions": [
+            {
+              "name": "Payit",
+              "culture": {
+                "type": "Mesoamerican-inspired empire",
+                "races": ["Humans"],
+                "themes": ["Sun worship", "Empire", "Ritual"]
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "Oerth (Greyhawk)",
+      "continents": [
+        {
+          "name": "Flanaess",
+          "regions": [
+            {
+              "name": "Central Kingdoms",
+              "culture": {
+                "type": "Fragmented feudal states",
+                "races": ["Humans"],
+                "themes": ["Political intrigue", "Decline of empire"]
+              }
+            },
+            {
+              "name": "Baklunish West",
+              "culture": {
+                "type": "Desert empire legacy",
+                "races": ["Humans"],
+                "themes": ["Ancient traditions", "Magic heritage"]
+              }
+            },
+            {
+              "name": "Barbarian North",
+              "culture": {
+                "type": "Tribal warrior societies",
+                "races": ["Humans"],
+                "themes": ["Raiding", "Honor", "Survival"]
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "Eberron",
+      "continents": [
+        {
+          "name": "Khorvaire",
+          "regions": [
+            {
+              "name": "Five Nations",
+              "culture": {
+                "type": "Post-war kingdoms",
+                "races": ["Humans", "Warforged", "Mixed"],
+                "themes": ["Industrial magic", "Political tension"]
+              }
+            },
+            {
+              "name": "Mournland",
+              "culture": {
+                "type": "Arcane wasteland",
+                "themes": ["Magical disaster", "Ruins"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Xen’drik",
+          "regions": [
+            {
+              "name": "Giant Ruins",
+              "culture": {
+                "type": "Lost civilization",
+                "themes": ["Exploration", "Ancient magic"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sarlona",
+          "regions": [
+            {
+              "name": "Riedra",
+              "culture": {
+                "type": "Psionic empire",
+                "themes": ["Control", "Unity", "Mental domination"]
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "Krynn (Dragonlance)",
+      "continents": [
+        {
+          "name": "Ansalon",
+          "regions": [
+            {
+              "name": "Solamnia",
+              "culture": {
+                "type": "Knightly order",
+                "races": ["Humans"],
+                "themes": ["Honor", "Chivalry"]
+              }
+            },
+            {
+              "name": "Silvanesti",
+              "culture": {
+                "type": "Isolationist elves",
+                "races": ["Elves"],
+                "themes": ["Pride", "Tradition"]
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "Exandria (Critical Role)",
+      "continents": [
+        {
+          "name": "Tal'Dorei",
+          "regions": [
+            {
+              "name": "Republic Regions",
+              "culture": {
+                "type": "Adventurer-driven society",
+                "races": ["Mixed"],
+                "themes": ["Exploration", "Freedom"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Wildemount",
+          "regions": [
+            {
+              "name": "Dwendalian Empire",
+              "culture": {
+                "type": "Authoritarian empire",
+                "themes": ["Control", "Religion"]
+              }
+            },
+            {
+              "name": "Xhorhas",
+              "culture": {
+                "type": "Monster-aligned society",
+                "races": ["Drow", "Goblinoids"],
+                "themes": ["Survival", "Rebirth"]
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "Athas (Dark Sun)",
+      "continents": [
+        {
+          "name": "Tablelands",
+          "regions": [
+            {
+              "name": "City-States",
+              "culture": {
+                "type": "Tyrannical rule",
+                "races": ["Humans", "Mutated races"],
+                "themes": ["Scarcity", "Survival", "Oppression"]
+              }
+            },
+            {
+              "name": "Wastes",
+              "culture": {
+                "type": "Nomadic survival",
+                "themes": ["Harsh environment", "Isolation"]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

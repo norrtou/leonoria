@@ -1,0 +1,203 @@
+{
+  "master_inorganic_registry": {
+    "metadata": {
+      "version": "2.0",
+      "description": "Unified database of all common, precious, and planar minerals.",
+      "mining_requirement": "Mason's Tools or Smith's Tools. Failure by 5+ results in 'Tainted/Brittle' ore."
+    },
+    "metals_and_ores": [
+      {
+        "id": "iron_ore",
+        "name": "Iron Ore",
+        "category": "Common / Industrial",
+        "biome": "Deep Caves / Mountains / Plains",
+        "mining_dc": 10,
+        "properties": ["Magnetic", "Durable", "High Melting Point"],
+        "refined_result": "Standard Steel / Pig Iron",
+        "market_value": "1 sp per lb",
+        "rarity": "Common"
+      },
+      {
+        "id": "copper_ore",
+        "name": "Copper Ore",
+        "category": "Common / Industrial",
+        "biome": "Plains / Foothills",
+        "mining_dc": 8,
+        "properties": ["Malleable", "Conductive", "High Purity"],
+        "refined_result": "Copper Ingots / Bronze (Alloy)",
+        "market_value": "5 cp per lb",
+        "rarity": "Common"
+      },
+      {
+        "id": "tin_ore",
+        "name": "Tin Ore",
+        "category": "Common / Industrial",
+        "biome": "Swamps / Riverbeds",
+        "mining_dc": 9,
+        "properties": ["Soft", "Low Melting Point", "Anti-Corrosive"],
+        "refined_result": "Bronze (Alloy component)",
+        "market_value": "3 cp per lb",
+        "rarity": "Common"
+      },
+      {
+        "id": "lead_ore",
+        "name": "Lead Ore",
+        "category": "Industrial",
+        "biome": "Deep Caves / The Barrens",
+        "mining_dc": 12,
+        "properties": ["Dense", "Toxic", "Divination-Proof"],
+        "refined_result": "Lead Sheeting",
+        "market_value": "2 cp per lb",
+        "rarity": "Common"
+      },
+      {
+        "id": "silver_vein",
+        "name": "Native Silver",
+        "category": "Precious / Anti-Monstrous",
+        "biome": "Mountains / Arctic / High Peaks",
+        "mining_dc": 15,
+        "properties": ["Lustrous", "Holy-Conductive", "Anti-Lycanthrope"],
+        "refined_result": "Silvered Weapon Coating / Currency",
+        "market_value": "5 gp per lb",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "gold_nuggets",
+        "name": "Gold Ore",
+        "category": "Precious",
+        "biome": "Riverbeds / Salt Deserts / Deep Caves",
+        "mining_dc": 18,
+        "properties": ["Soft", "Non-Reactive", "Arcane Focus"],
+        "refined_result": "Gold Bullion / Jewelry",
+        "market_value": "50 gp per lb",
+        "rarity": "Rare"
+      },
+      {
+        "id": "platinum_flakes",
+        "name": "Platinum Ore",
+        "category": "Precious / High-Divine",
+        "biome": "High Mountains / Planar Rifts",
+        "mining_dc": 22,
+        "properties": ["Extremely Rare", "Steel-Grey", "Heat-Immune"],
+        "refined_result": "Platinum Ingots / Divine Focus",
+        "market_value": "500 gp per lb",
+        "rarity": "Very Rare"
+      },
+      {
+        "id": "mithral_nugget",
+        "name": "Unrefined Mithral",
+        "category": "Planar / Exotic",
+        "biome": "Deep Caves / Underdark / Elven Forest",
+        "mining_dc": 18,
+        "properties": ["Ultra-Light", "High Tensile", "Silver-Hued"],
+        "refined_result": "Mithral Plate / Elven Chain",
+        "market_value": "100 gp per lb",
+        "rarity": "Rare"
+      },
+      {
+        "id": "adamantine_crust",
+        "name": "Raw Adamantine",
+        "category": "Planar / Exotic",
+        "biome": "The Barrens / Ashlands / Meteor Impact Sites",
+        "mining_dc": 22,
+        "properties": ["Indestructible", "Ultra-Dense", "Dark Green/Black"],
+        "refined_result": "Adamantine Plate / Sharpness Coating",
+        "market_value": "500 gp per lb",
+        "rarity": "Very Rare"
+      },
+      {
+        "id": "cold_iron_ore",
+        "name": "Raw Cold Iron",
+        "category": "Planar / Anti-Magic",
+        "biome": "Deep Caves / Iron-Rich Veins",
+        "mining_dc": 14,
+        "properties": ["Dull Grey", "Fey-Bane", "Naturally Cold"],
+        "refined_result": "Cold-Hammered Weapons",
+        "market_value": "10 gp per lb",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "infernal_iron",
+        "name": "Infernal Iron Ore",
+        "category": "Planar / Fiendish",
+        "biome": "Ashlands / Hell-Rifts",
+        "mining_dc": 19,
+        "properties": ["Heat-Retaining", "Soul-Binding", "Jagged"],
+        "refined_result": "Helldusk Gear / Fire-Brand Weapons",
+        "market_value": "250 gp per lb",
+        "rarity": "Rare"
+      },
+      {
+        "id": "starmetal_fragment",
+        "name": "Starmetal (Meteoritic)",
+        "category": "Planar / Legendary",
+        "biome": "Salt Deserts / High Peaks (Impact Sites)",
+        "mining_dc": 25,
+        "properties": ["Radiant-Conductive", "Vibrating", "Blue-White"],
+        "refined_result": "Vorpal Blades / Sun Blades",
+        "market_value": "1,000 gp per lb",
+        "rarity": "Legendary"
+      }
+    ],
+    "industrial_minerals_and_gems": [
+      {
+        "id": "coal_seam",
+        "name": "Bituminous Coal",
+        "category": "Fuel",
+        "biome": "Deep Caves / Swamps",
+        "mining_dc": 10,
+        "properties": ["Flammable", "Coke-Producing"],
+        "refined_result": "Smelting Fuel / Carbon",
+        "market_value": "2 cp per lb",
+        "rarity": "Common"
+      },
+      {
+        "id": "brimstone_sulfur",
+        "name": "Sulfur (Brimstone)",
+        "category": "Alchemical / Explosive",
+        "biome": "Ashlands / Volcanic Vents",
+        "mining_dc": 13,
+        "properties": ["Pungent", "Combustible", "Yellow"],
+        "refined_result": "Smokepowder / Gunpowder",
+        "market_value": "2 gp per lb",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "salt_halite",
+        "name": "Rock Salt",
+        "category": "Preservative",
+        "biome": "Salt Deserts / Coastlines",
+        "mining_dc": 7,
+        "properties": ["Crystalline", "Dehydrating"],
+        "refined_result": "Preserved Rations",
+        "market_value": "5 cp per lb",
+        "rarity": "Common"
+      },
+      {
+        "id": "residuum_crystals",
+        "name": "Residuum Dust",
+        "category": "Arcane Focus",
+        "biome": "The Barrens / Arcane Ruins",
+        "mining_dc": 15,
+        "properties": ["Pure Magic", "Glows Azure"],
+        "refined_result": "Universal Spell Component",
+        "market_value": "100 gp per oz",
+        "rarity": "Rare"
+      },
+      {
+        "id": "obsidian_glass",
+        "name": "Obsidian",
+        "category": "Volcanic / Structural",
+        "biome": "Ashlands",
+        "mining_dc": 14,
+        "properties": ["Razor-Sharp", "Brittle", "Planar-Conductive"],
+        "refined_result": "Obsidian Blades / Scrying Mirrors",
+        "market_value": "1 gp per lb",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "diamond_dust_base",
+        "name": "Industrial Diamonds",
+        "category": "Divine / Gemstone",
+        "biome": "Deep Caves (High Pressure)",
+        "mining_dc":

@@ -1,0 +1,178 @@
+[
+  {
+    "title": "Lost Mine of Phandelver",
+    "level_range": "1-5",
+    "setting": "Forgotten Realms (Sword Coast)",
+    "biome": "Temperate Forest / Hills",
+    "cultures": ["Frontier Settlers", "Rock Gnomes", "Cragmaw Goblins", "Redbrand Outlaws"],
+    "summary": "A classic starter quest where heroes escort a supply wagon to Phandalin, uncovering a plot involving a lost dwarven mine and the 'Black Spider'.",
+    "mechanics": ["Basic Faction Renown", "Wilderness Survival", "Dungeon Crawling"],
+    "goals": ["Rescue Gundren Rockseeker", "Cleanse Wave Echo Cave", "Defeat the Black Spider"],
+    "game_tags": ["Introductory", "Sandbox-Lite"]
+  },
+  {
+    "title": "Phandelver and Below: The Shattered Obelisk",
+    "level_range": "1-12",
+    "setting": "Forgotten Realms (Phandalin / Underdark)",
+    "biome": "Mixed (Forest / Subterranean)",
+    "cultures": ["Human Pioneers", "Deep Gnomes (Svirfneblin)", "Far Realm Cultists", "Mind Flayer Fanatics"],
+    "summary": "The town of Phandalin is threatened by an eldritch corruption linked to mysterious obelisks and a cult from the Far Realm.",
+    "mechanics": ["Corruption/Mutation System", "Psionic Combat", "Eldritch Hazards"],
+    "goals": ["Investigate the Obelisks", "Stop the ritual in the Underdark", "Reverse the town's mutation"],
+    "game_tags": ["Cosmic-Horror", "Dungeon-Delve"]
+  },
+  {
+    "title": "Hoard of the Dragon Queen / The Rise of Tiamat",
+    "level_range": "1-15",
+    "setting": "Forgotten Realms (Faerûn)",
+    "biome": "Mixed (Continental)",
+    "cultures": ["Sword Coast Urbanites", "Cult of the Dragon", "Metallic Dragon Kin", "Red Wizards of Thay"],
+    "summary": "A continent-spanning war against a cult attempting to summon the five-headed dragon goddess, Tiamat.",
+    "mechanics": ["Council Diplomacy System", "Army Management", "Dragon Mask Artifacts"],
+    "goals": ["Infiltrate the Dragon Cult", "Unite the Factions of Waterdeep", "Stop the Summoning at the Well of Dragons"],
+    "game_tags": ["Epic-War", "High-Fantasy"]
+  },
+  {
+    "title": "Princes of the Apocalypse",
+    "level_range": "1-15",
+    "setting": "Forgotten Realms (Dessarin Valley)",
+    "biome": "Mixed / Elemental Nodes",
+    "cultures": ["Knights of Samular", "Elemental Prophets", "Aarakocra", "River Pirates"],
+    "summary": "Four elemental cults are tearing the valley apart to unleash the Princes of Elemental Evil.",
+    "mechanics": ["Elemental Environmental Damage", "Mega-Dungeon Pathfinding", "Investigation Nodes"],
+    "goals": ["Destroy the four Elemental Altars", "Defeat the Prophets", "Close the Elemental Portals"],
+    "game_tags": ["Sandbox", "Elemental-Evil"]
+  },
+  {
+    "title": "Out of the Abyss",
+    "level_range": "1-15",
+    "setting": "The Underdark",
+    "biome": "Subterranean",
+    "cultures": ["Drow (Dark Elves)", "Kuo-toa (Fish-folk)", "Myconids (Fungi-folk)", "Derro"],
+    "summary": "Prisoners escape into the Underdark only to find that Demon Lords are manifesting and driving the world to madness.",
+    "mechanics": ["Madness/Sanity System", "Resource Scarcity (Food/Water)", "Large Party Management"],
+    "goals": ["Escape Drow Captivity", "Banish the Demon Lords", "Survive the Labyrinth"],
+    "game_tags": ["Survival-Horror", "Gritty"]
+  },
+  {
+    "title": "Curse of Strahd",
+    "level_range": "1-10",
+    "setting": "Barovia (Demiplane of Dread)",
+    "biome": "Gothic / Alpine Forest",
+    "cultures": ["Barovian Peasantry", "Vistani Nomads", "Werewolf Packs", "Keepers of the Feather"],
+    "summary": "Heroes are trapped in a mist-shrouded land ruled by the vampire Count Strahd von Zarovich.",
+    "mechanics": ["Tarokka Procedural Logic", "The Mists (Map Hard-Border)", "Corruption Mechanics"],
+    "goals": ["Collect the Three Holy Relics", "Kill Strahd", "Escape Barovia"],
+    "game_tags": ["Gothic-Horror", "Open-World"]
+  },
+  {
+    "title": "Storm King’s Thunder",
+    "level_range": "1-11",
+    "setting": "The Savage Frontier",
+    "biome": "Mixed (Tundra / Mountains)",
+    "cultures": ["Uthgardt Barbarians", "Giant-Kin (Cloud/Fire/Frost)", "Small-folk Settlers", "Ancient Dragons"],
+    "summary": "The giant hierarchy has collapsed, leading to massive giants raiding human settlements across the North.",
+    "mechanics": ["Rune Magic", "Giant-Scale Combat", "Airship Navigation"],
+    "goals": ["Restore the Ordning", "Rescue King Hekaton", "Defeat Iymrith"],
+    "game_tags": ["Traveling", "Giant-Themed"]
+  },
+  {
+    "title": "Tomb of Annihilation",
+    "level_range": "1-11",
+    "setting": "Chult",
+    "biome": "Tropical Jungle",
+    "cultures": ["Chultans (Port Nyanzaru)", "Yuan-ti (Snake-folk)", "Grung (Frog-folk)", "Batiri Goblins"],
+    "summary": "A global death curse prevents resurrections, leading heroes to a dinosaur-filled jungle to find a soul-stealing artifact.",
+    "mechanics": ["Hex-crawl Navigation", "Disease/Heat Tracking", "Permadeath Mode"],
+    "goals": ["Locate the Lost City of Omu", "Navigate the Tomb of the Nine Gods", "Destroy the Soulmonger"],
+    "game_tags": ["Hardcore", "Jungle-Exploration"]
+  },
+  {
+    "title": "Waterdeep: Dragon Heist",
+    "level_range": "1-5",
+    "setting": "Waterdeep (Urban)",
+    "biome": "Urban",
+    "cultures": ["City Watch", "Zhentarim", "Bregan D’aerthe", "Xanathar Guild"],
+    "summary": "An urban treasure hunt for 500,000 gold coins hidden somewhere in the City of Splendors.",
+    "mechanics": ["Urban Faction Renown", "Seasonal Environment Shifting", "Investigation Progression"],
+    "goals": ["Win the Game of Thrones", "Acquire the Stone of Golorr", "Find the Vault of Dragons"],
+    "game_tags": ["Mystery", "Political-Intrigue"]
+  },
+  {
+    "title": "Waterdeep: Dungeon of the Mad Mage",
+    "level_range": "5-20",
+    "setting": "Undermountain",
+    "biome": "Mega-Subterranean",
+    "cultures": ["Undertyrants", "Drow Houses", "Shadowdusks", "Halaster’s Apprentices"],
+    "summary": "A 23-level descent into the most dangerous dungeon in the world, ruled by a mad wizard.",
+    "mechanics": ["Floor-based Level Loading", "Gate Network Teleportation", "High-Level Combat"],
+    "goals": ["Explore all 23 levels", "Confront Halaster Blackcloak", "Clear specified floor threats"],
+    "game_tags": ["Mega-Dungeon", "Combat-Heavy"]
+  },
+  {
+    "title": "Baldur’s Gate: Descent into Avernus",
+    "level_range": "1-13",
+    "setting": "Baldur’s Gate / Avernus (Hell)",
+    "biome": "Mixed / Hellscape",
+    "cultures": ["Flaming Fist Mercenaries", "Infernal Legions", "Hellriders", "Imp Merchants"],
+    "summary": "The holy city of Elturel is dragged into Hell, and heroes must descend into Avernus to save it.",
+    "mechanics": ["Vehicular Combat (War Machines)", "Soul Coin Economy", "Infernal Contracts"],
+    "goals": ["Rescue Elturel", "Redeem or Destroy Zariel", "Survive the River Styx"],
+    "game_tags": ["Dark-Fantasy", "Mad-Max-Style"]
+  },
+  {
+    "title": "Icewind Dale: Rime of the Frostmaiden",
+    "level_range": "1-12",
+    "setting": "Icewind Dale",
+    "biome": "Arctic / Tundra",
+    "cultures": ["Ten-Towners", "Reghed Nomads", "Goliath Tribes", "Netherese Remnants"],
+    "summary": "An eternal winter has locked the north in darkness. Paranoia and isolation rule the Ten-Towns.",
+    "mechanics": ["Extreme Cold Survival", "Secret Background System", "Vision/Blizzard Obstruction"],
+    "goals": ["End the Everlasting Rime", "Defeat Auril", "Find the Sunken City of Ythryn"],
+    "game_tags": ["Survival", "Horror"]
+  },
+  {
+    "title": "The Wild Beyond the Witchlight",
+    "level_range": "1-8",
+    "setting": "Prismeer (Feywild)",
+    "biome": "Fey / Enchanted Wetlands",
+    "cultures": ["Bullywugs", "Harengons", "Hags (Hourglass Coven)", "Summer/Winter Court Fey"],
+    "summary": "A magical carnival leads to a domain of the Feywild where time has been frozen by a coven of hags.",
+    "mechanics": ["Non-Combat Milestone Logic", "Hospitality Rules", "Whimsy/Atmosphere Tracking"],
+    "goals": ["Recover Stolen Items", "Free Zybilna", "Defeat the Coven"],
+    "game_tags": ["Roleplay-Heavy", "Whimsical"]
+  },
+  {
+    "title": "Call of the Netherdeep",
+    "level_range": "3-12",
+    "setting": "Exandria",
+    "biome": "Mixed / Aquatic",
+    "cultures": ["Kryn Dynasty (Drow)", "Aurora Watch", "Ruidium-corrupted Entities", "Allegiance of Allsight"],
+    "summary": "Heroes follow the call of a tragic demigod into a corrupted underwater abyss.",
+    "mechanics": ["Rival Party AI/Tracking", "Underwater Movement/Combat", "Ruidium Corruption"],
+    "goals": ["Outpace the Rival Party", "Navigate the Netherdeep", "Decide the Apotheon's Fate"],
+    "game_tags": ["Character-Driven", "Epic"]
+  },
+  {
+    "title": "Dragonlance: Shadow of the Dragon Queen",
+    "level_range": "1-11",
+    "setting": "Krynn (Ansalon)",
+    "biome": "Mixed / Battlefield",
+    "cultures": ["Knights of Solamnia", "Kender", "Dragon Armies", "Mages of High Sorcery"],
+    "summary": "A military campaign set during the War of the Lance involving massive armies and dragon riders.",
+    "mechanics": ["Mass Battlefield Encounters", "Lunar Magic Cycles", "Mounted Dragon Combat"],
+    "goals": ["Defend Kalaman", "Stop the City of Lost Names", "Defeat Lord Soth"],
+    "game_tags": ["Warfare", "Classic-Fantasy"]
+  },
+  {
+    "title": "Vecna: Eve of Ruin",
+    "level_range": "10-20",
+    "setting": "Multiverse (Greyhawk, Eberron, etc.)",
+    "biome": "Irrelevant / Void",
+    "cultures": ["The Wizards Three", "Planar Travelers", "Cult of Vecna", "Lichdom Remnants"],
+    "summary": "A high-level chase through the multiverse to stop the lich-god Vecna from rewriting existence.",
+    "mechanics": ["Interplanar Travel", "High-Level Spellweaving", "Artifact Construction"],
+    "goals": ["Assemble the Rod of Seven Parts", "Enter Pandemonium", "Defeat Vecna"],
+    "game_tags": ["Multiverse", "High-Level"]
+  }
+]

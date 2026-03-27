@@ -1,0 +1,123 @@
+{
+  "artifact_registry": {
+    "metadata": {
+      "db_version": "2.1",
+      "world_state_impact": "High",
+      "legal_warning": "Possession of these items may result in planar-level bounties."
+    },
+    "weapons": [
+      {
+        "id": "sword_of_zariel",
+        "name": "The Sword of Zariel",
+        "type": "Longsword (Artifact)",
+        "attunement": "Requires a creature the sword deems worthy (Bravery/Heroism)",
+        "damage": "1d8 + 3 (1d10 + 3) Radiant",
+        "extra_damage": "2d8 Radiant (3d10 if 2-handed)",
+        "sentience": {
+          "alignment": "Lawful Good",
+          "int": 10, "wis": 20, "cha": 18,
+          "communication": "Empathy/Emotion",
+          "senses": "30ft normal vision/hearing"
+        },
+        "passive_buffs": [
+          "Charisma becomes 20",
+          "Resistance to Fire, Radiant, and Necrotic",
+          "Truesight 60ft",
+          "Fly Speed 90ft (Feathered Wings)"
+        ],
+        "active_powers": "Holy Light: 15ft Bright Light (Fiends have Disadvantage on attacks within).",
+        "transformation": "Permanently transforms wielder into a heavenly, idealized version of themselves. Alignment becomes Lawful Good.",
+        "destruction": "Can only be destroyed by Zariel herself or by shattering the 'Companion' in Elturel."
+      },
+      {
+        "id": "axe_dwarvish_lords",
+        "name": "Axe of the Dwarvish Lords",
+        "type": "Battleaxe/Handaxe (Artifact)",
+        "attunement": "None (but penalizes non-dwarves)",
+        "damage": "1d8 + 3 (Versatile 1d10) + 1d6 Thrown",
+        "properties": ["Sharpness", "Returning", "Thrown (20/60)"],
+        "passive_buffs": [
+          "Dwarven Vision/Detection range doubled",
+          "Immunity to Poison/Disease",
+          "Life span increases by 50%"
+        ],
+        "active_powers": "Summon Earth Elemental: 1/week (16 HD).",
+        "curse_transformation": "Non-dwarves lose 1 Charisma point on touch. 20% chance to negate any other magic item touched. Gradually transforms wielder into a Dwarf.",
+        "destruction": "Must be melted in the Earthheart Forge or freely given to the Orc deities."
+      },
+      {
+        "id": "blackrazor",
+        "name": "Blackrazor",
+        "type": "Greatsword (Legendary)",
+        "attunement": "Requires a Non-Lawful creature",
+        "damage": "2d6 + 3 Slashing",
+        "sentience": {
+          "alignment": "Chaotic Neutral",
+          "int": 17, "wis": 10, "cha": 19,
+          "communication": "Telepathy (speaks all languages of wielder)",
+          "goal": "Consumer of Souls"
+        },
+        "special_skills": "Soul Hunter: On kill, gain Temp HP = Target's Max HP. While Temp HP exists, gain Haste-like effects.",
+        "curse_effect": "Soul Hunger: If it doesn't kill within 3 days, it drains the wielder's levels/HP. If wielder dies, their soul is eaten (no resurrection).",
+        "magic_affinity": "Shadow / Void"
+      },
+      {
+        "id": "rakdos_riteknife",
+        "name": "Rakdos Riteknife",
+        "type": "Dagger (Legendary)",
+        "attunement": "Required",
+        "damage": "1d4 + 1 Piercing",
+        "soul_mechanic": {
+          "capacity": 5,
+          "bonus_per_soul": "1d4 Necrotic damage",
+          "resurrection_lock": "Slain creatures can only be revived via Wish."
+        },
+        "active_powers": [
+          "Siphon Vitality: Release souls to heal 1d10 per soul.",
+          "Annihilation: If 5 souls are held, target with < 75 HP must DC 15 Con save or die."
+        ],
+        "flavor": "The blade is serrated like a demon's maw; it whispers the names of the trapped."
+      },
+      {
+        "id": "snicker_snack",
+        "name": "Snicker-Snack",
+        "type": "Greatsword (Legendary)",
+        "attunement": "Required by a Non-Evil creature",
+        "damage": "2d6 + 3 Slashing (Vorpal)",
+        "sentience": {
+          "alignment": "Chaotic Good",
+          "int": 9, "wis": 14, "cha": 18,
+          "voice": "Silvery and Melodic"
+        },
+        "special_skills": "Beheading: On a Natural 20, decapitates target. Ignores slashing resistance. Can use Charisma for attack/damage rolls.",
+        "fickle_nature": "Attunement ends if you miss 3 times in a row. Must win a Charisma contest to regain its trust.",
+        "nemesis": "Vulnerability: Jabberwocks are specifically vulnerable to this blade."
+      },
+      {
+        "id": "wand_of_orcus",
+        "name": "The Wand of Orcus",
+        "type": "Mace/Wand (Artifact)",
+        "attunement": "Required (Non-evil creatures take 10d6 dmg on touch)",
+        "damage": "1d6 + 3 Bludgeoning + 2d12 Necrotic",
+        "active_powers": [
+          "Call of Undeath: Conjure 500 HP worth of Skeletons/Zombies.",
+          "Spells: Animate Dead, Blight, Circle of Death, Finger of Death, Power Word Kill."
+        ],
+        "destruction": "Must be taken to the Positive Energy Plane or crushed by the foot of a Solar.",
+        "passive_buffs": "+3 to AC while held."
+      },
+      {
+        "id": "staff_of_magi",
+        "name": "Staff of the Magi",
+        "type": "Quarterstaff (Legendary)",
+        "attunement": "Required by a Sorcerer, Warlock, or Wizard",
+        "damage": "1d6 + 2 (1d8 + 2) Bludgeoning",
+        "charges": 50,
+        "active_powers": "Spell Absorption: Use reaction to absorb a spell targeting you to gain charges.",
+        "spells": "Fireball (7th level), Lightning Bolt (7th level), Plane Shift, Telekinesis, Invisibility (at-will).",
+        "retributive_strike": "Break the staff to deal 8 x remaining charges in Force damage. 50% chance to travel to another plane instead of dying.",
+        "passive_buffs": "+2 to Spell Attack rolls."
+      }
+    ]
+  }
+}

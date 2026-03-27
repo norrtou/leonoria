@@ -1,0 +1,179 @@
+{
+  "master_magical_resource_registry": {
+    "metadata": {
+      "version": "1.0",
+      "description": "Complete database of raw magical catalysts, planar essences, and aetheric fuels.",
+      "handling_requirement": "Arcana check (DC varies). Failure by 5+ causes 'Magical Backlash' (Force damage or Wild Magic surge)."
+    },
+    "aetheric_fuels_and_essences": [
+      {
+        "id": "raw_mana_crystal",
+        "name": "Mana Crystal (Uncut)",
+        "biome": "The Barrens / Leyline Nodes",
+        "harvest_dc": 15,
+        "properties": ["High Energy Storage", "Luminous", "Brittle"],
+        "refined_result": "Spell Slots (Recharge) / Power Cells",
+        "market_value": "50 gp per crystal",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "liquid_aether",
+        "name": "Liquid Aether",
+        "biome": "Planar Rifts / High Peaks",
+        "harvest_dc": 20,
+        "properties": ["Anti-Gravitational", "Highly Volatile", "Glowing Blue"],
+        "refined_result": "Flying Potions / Airship Fuel",
+        "market_value": "250 gp per vial",
+        "rarity": "Rare"
+      },
+      {
+        "id": "residuum_dust",
+        "name": "Residuum (Arcane Dust)",
+        "biome": "Ancient Ruins / Disenchanted Item Remains",
+        "harvest_dc": 10,
+        "properties": ["Universal Catalyst", "Magical Solvent"],
+        "refined_result": "Substitute for any costly material component",
+        "market_value": "10 gp per pinch",
+        "rarity": "Common"
+      },
+      {
+        "id": "leyline_vapor",
+        "name": "Leyline Condensate",
+        "biome": "Elven Forest (Leyline Intersections)",
+        "harvest_dc": 18,
+        "properties": ["Environmental Attunement", "Telepathic Resonance"],
+        "refined_result": "Scrying Mirrors / Long-Range Communication Tools",
+        "market_value": "100 gp per vial",
+        "rarity": "Rare"
+      }
+    ],
+    "planar_shards": [
+      {
+        "id": "infernal_ember",
+        "name": "Infernal Ember",
+        "biome": "Ashlands / Hell-Rifts",
+        "harvest_dc": 17,
+        "properties": ["Unquenchable Heat", "Corruptive"],
+        "refined_result": "Flametongue Weapons / Fire-Immune Armor",
+        "market_value": "150 gp per ember",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "abyssal_ichor",
+        "name": "Raw Abyssal Ichor",
+        "biome": "The Barrens (Demonic Sites) / Deep Caves",
+        "harvest_dc": 19,
+        "properties": ["Mutagenic", "Necrotic-Conductive"],
+        "refined_result": "Cursed Blades / Vile Poisons",
+        "market_value": "200 gp per vial",
+        "rarity": "Rare"
+      },
+      {
+        "id": "celestial_radiance",
+        "name": "Condensed Radiance",
+        "biome": "High Peaks / Holy Sites",
+        "harvest_dc": 22,
+        "properties": ["Pure Light", "Healing Properties", "Undead-Bane"],
+        "refined_result": "Holy Avenger / Sun Blade / High-Tier Healing",
+        "market_value": "500 gp per mote",
+        "rarity": "Very Rare"
+      },
+      {
+        "id": "shadow_essence",
+        "name": "Shadowfell Mote",
+        "biome": "Dark Forest / Haunted Biomes",
+        "harvest_dc": 16,
+        "properties": ["Light-Absorbing", "Freezing"],
+        "refined_result": "Cloak of Invisibility / Frostbrand Weapons",
+        "market_value": "120 gp per mote",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "fey_wildflower_pollen",
+        "name": "Fey-Dust Pollen",
+        "biome": "Feylands / Elven Forest",
+        "harvest_dc": 14,
+        "properties": ["Hallucinogenic", "Luck-Altering"],
+        "refined_result": "Potion of Luck / Charm Enchantments",
+        "market_value": "40 gp per pouch",
+        "rarity": "Uncommon"
+      }
+    ],
+    "elemental_primordials": [
+      {
+        "id": "living_spark",
+        "name": "Living Spark",
+        "biome": "High Mountains (Lightning Peaks)",
+        "harvest_dc": 20,
+        "properties": ["Electric Discharge", "High Speed"],
+        "refined_result": "Lightning Bolt Wands / Boots of Speed",
+        "market_value": "300 gp per spark",
+        "rarity": "Rare"
+      },
+      {
+        "id": "ever_ice_core",
+        "name": "Ever-Ice Core",
+        "biome": "Arctic / Glacial Ruins",
+        "harvest_dc": 18,
+        "properties": ["Absolute Zero", "Structural Rigidity"],
+        "refined_result": "Armor of Resistance (Cold) / Freezing Weapons",
+        "market_value": "180 gp per core",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "terrene_lodestone",
+        "name": "Primordial Lodestone",
+        "biome": "Deep Caves / Underdark",
+        "harvest_dc": 16,
+        "properties": ["Magnetic Mastery", "Gravitational Pull"],
+        "refined_result": "Sentinel Shields / Gravity Spells",
+        "market_value": "110 gp per stone",
+        "rarity": "Uncommon"
+      }
+    ],
+    "arcane_inks_and_media": [
+      {
+        "id": "void_ink_base",
+        "name": "Void Ink Base",
+        "biome": "Deep Caves / Outer Plane Rifts",
+        "harvest_dc": 25,
+        "properties": ["Reality-Warping", "Infinite Depth"],
+        "refined_result": "Level 9 Spell Scrolls / Spheres of Annihilation (Minor)",
+        "market_value": "2,000 gp per vial",
+        "rarity": "Legendary"
+      },
+      {
+        "id": "dragon_scale_dust",
+        "name": "Dragon Scale Dust",
+        "biome": "Ashlands / Dragon Lairs",
+        "harvest_dc": 12,
+        "properties": ["Elemental Stability", "High Durability"],
+        "refined_result": "Armor Enchantment (+1 to +3)",
+        "market_value": "75 gp per pouch",
+        "rarity": "Uncommon"
+      }
+    ],
+    "soul_binding_resources": [
+      {
+        "id": "soul_gem_empty",
+        "name": "Soul Gem (Unfilled)",
+        "biome": "The Barrens / Necropoli",
+        "harvest_dc": 18,
+        "properties": ["Soul Entrapment", "Necrotic Resonance"],
+        "refined_result": "Sentient Weapons / Golem Hearts",
+        "market_value": "200 gp per gem",
+        "rarity": "Rare"
+      },
+      {
+        "id": "ectoplasmic_residue",
+        "name": "Ghostly Ectoplasm",
+        "biome": "Haunted Biomes",
+        "harvest_dc": 11,
+        "properties": ["Ethereal Conductivity", "Chilling"],
+        "refined_result": "Oil of Etherealness / Ghost-Touch Coating",
+        "market_value": "30 gp per vial",
+        "rarity": "Common"
+      }
+    ]
+  }
+}

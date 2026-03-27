@@ -1,0 +1,65 @@
+{
+  "character_framework": {
+    "identity": {
+      "name": "string",
+      "race": "string",
+      "class": "string",
+      "level": "integer",
+      "alignment": "string"
+    },
+    "core_attributes": {
+      "strength": { "value": 10, "mod": 0 },
+      "dexterity": { "value": 10, "mod": 0 },
+      "constitution": { "value": 10, "mod": 0 },
+      "intelligence": { "value": 10, "mod": 0 },
+      "wisdom": { "value": 10, "mod": 0 },
+      "charisma": { "value": 10, "mod": 0 },
+      "sanity": { "active": false, "value": 10, "mod": 0, "rule_trigger": "sanity_and_fear" }
+    },
+    "dynamic_vitals": {
+      "hp_max": "integer",
+      "hp_current": "integer",
+      "temp_hp": "integer",
+      "ac": "calculated (base_armor + dex_mod + shield + magic_bonus)",
+      "hit_dice": { "total": "level", "remaining": "integer" },
+      "exhaustion_levels": 0,
+      "stress_points": { "current": 0, "max": 10, "rule_trigger": "sanity_and_fear" }
+    },
+    "rule_set_modifiers": [
+      {
+        "system_id": "standard_5e_2024",
+        "recovery_logic": "Long Rest (8 hrs) = Full HP/HD recovery.",
+        "weapon_mastery_slots": "Calculated by class level.",
+        "death_save_logic": "Standard 3 successes / 3 failures."
+      },
+      {
+        "system_id": "gritty_realism",
+        "recovery_logic": "Short Rest (8 hrs) = Hit Dice only. Long Rest (7 days) = Full recovery.",
+        "starvation_tracking": "Daily ration consumption required or gain 1 Exhaustion level.",
+        "environmental_check": "Constitution save every 4 hours in extreme biomes."
+      },
+      {
+        "system_id": "osr_style",
+        "death_save_logic": "Death at 0 HP. No saving throws.",
+        "inventory_limit": "Strength Score = Maximum weight slots.",
+        "gold_to_xp_ratio": "1 GP = 1 XP."
+      }
+    ],
+    "equipment_slots": {
+      "main_hand": "weapon_id",
+      "off_hand": "shield_id_or_weapon_id",
+      "armor": "armor_id",
+      "apparel": "apparel_id",
+      "attuned_items": ["slot_1", "slot_2", "slot_3"],
+      "backpack": [
+        { "item_id": "string", "quantity": "integer", "weight_total": "float" }
+      ]
+    },
+    "proficiencies": {
+      "weapons": ["Simple", "Martial", "Exotic_ID"],
+      "armor": ["Light", "Medium", "Heavy"],
+      "tools": ["thieves_tools_id", "etc"],
+      "languages": ["Common", "Draconic"]
+    }
+  }
+}

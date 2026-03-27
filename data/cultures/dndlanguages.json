@@ -1,0 +1,358 @@
+{
+  "meta": {
+    "purpose": "Comprehensive linguistic system across D&D settings",
+    "scope": "Languages, scripts, speakers, evolution, cultural context",
+    "note": "Primarily 5e canon with cross-setting integration"
+  },
+
+  "core_concepts": {
+    "language": "A structured system of communication tied to culture, race, or plane",
+    "script": "Written form of a language",
+    "dialect": "Regional or cultural variation",
+    "language_family": "Group of related languages sharing origin",
+    "exotic_language": "Non-material or planar language",
+    "dead_language": "No longer actively spoken"
+  },
+
+  "language_families": [
+    {
+      "id": "common_family",
+      "name": "Common Tongues",
+      "description": "Languages used by most humanoid civilizations",
+      "languages": ["Common", "Chondathan", "Damaran", "Calishite"]
+    },
+    {
+      "id": "elven_family",
+      "name": "Elven Languages",
+      "description": "Derived from ancient Fey and Elven civilizations",
+      "languages": ["Elvish", "Sylvan"]
+    },
+    {
+      "id": "dwarven_family",
+      "name": "Dwarven Languages",
+      "languages": ["Dwarvish"]
+    },
+    {
+      "id": "draconic_family",
+      "name": "Draconic Languages",
+      "languages": ["Draconic", "Kobold dialects"]
+    },
+    {
+      "id": "giant_family",
+      "name": "Giant Languages",
+      "languages": ["Giant", "Ogre", "Goblin"]
+    },
+    {
+      "id": "infernal_family",
+      "name": "Lower Planar Languages",
+      "languages": ["Infernal", "Abyssal"]
+    }
+  ],
+
+  "languages": [
+    {
+      "id": "common",
+      "name": "Common",
+      "type": "standard",
+      "script": "Common",
+      "family": "common_family",
+
+      "speakers": {
+        "races": ["Humans", "Half-Elves", "Most humanoids"],
+        "cultures": ["Urban societies", "Trade hubs"],
+        "monsters": ["Bandits", "Mercenaries"]
+      },
+
+      "eras": ["All eras (post Early Historic)"],
+
+      "dialects": [
+        "Chondathan",
+        "Damaran",
+        "Calishite"
+      ],
+
+      "notes": "Lingua franca of most settings"
+    },
+
+    {
+      "id": "elvish",
+      "name": "Elvish",
+      "type": "racial",
+      "script": "Elvish",
+      "family": "elven_family",
+
+      "speakers": {
+        "races": ["Elves", "Half-Elves"],
+        "cultures": ["High Elves", "Wood Elves", "Drow (archaic variant)"]
+      },
+
+      "subcultures": [
+        {
+          "name": "High Elven",
+          "traits": "Formal, ancient vocabulary"
+        },
+        {
+          "name": "Wood Elven",
+          "traits": "Simplified, nature-influenced"
+        },
+        {
+          "name": "Drow",
+          "traits": "Harsh phonetics, undercommon influence"
+        }
+      ],
+
+      "eras": ["Ancient", "Modern"],
+
+      "notes": "Derived from Fey languages; highly musical"
+    },
+
+    {
+      "id": "dwarvish",
+      "name": "Dwarvish",
+      "type": "racial",
+      "script": "Dwarvish",
+      "family": "dwarven_family",
+
+      "speakers": {
+        "races": ["Dwarves"],
+        "cultures": ["Mountain Dwarves", "Hill Dwarves"]
+      },
+
+      "subcultures": [
+        {
+          "name": "Clan Dialects",
+          "traits": "Strong regional variation"
+        }
+      ],
+
+      "eras": ["Ancient", "Modern"],
+
+      "notes": "Harsh consonants, built for stone inscription"
+    },
+
+    {
+      "id": "draconic",
+      "name": "Draconic",
+      "type": "ancient",
+      "script": "Draconic",
+      "family": "draconic_family",
+
+      "speakers": {
+        "races": ["Dragons", "Dragonborn", "Kobolds"],
+        "monsters": ["Drakes", "Dragon cultists"]
+      },
+
+      "eras": ["Ancient", "All eras"],
+
+      "notes": "Language of magic; used in spellcasting formulas"
+    },
+
+    {
+      "id": "giant",
+      "name": "Giant",
+      "type": "racial",
+      "script": "Dwarvish",
+      "family": "giant_family",
+
+      "speakers": {
+        "races": ["Giants"],
+        "monsters": ["Ogres", "Trolls", "Goblinoids"]
+      },
+
+      "subcultures": [
+        {
+          "name": "Rune-based giant dialects",
+          "traits": "Linked to giant rune magic"
+        }
+      ],
+
+      "eras": ["Ancient", "Modern"]
+    },
+
+    {
+      "id": "goblin",
+      "name": "Goblin",
+      "type": "racial",
+      "script": "Dwarvish",
+      "family": "giant_family",
+
+      "speakers": {
+        "races": ["Goblinoids"],
+        "monsters": ["Goblins", "Hobgoblins", "Bugbears"]
+      },
+
+      "notes": "Derived from Giant language roots"
+    },
+
+    {
+      "id": "orc",
+      "name": "Orc",
+      "type": "racial",
+      "script": "Dwarvish",
+      "family": "giant_family",
+
+      "speakers": {
+        "races": ["Orcs", "Half-Orcs"],
+        "monsters": ["Orc warbands"]
+      },
+
+      "notes": "Aggressive phonetics; often simplified grammar"
+    },
+
+    {
+      "id": "undercommon",
+      "name": "Undercommon",
+      "type": "trade_language",
+      "script": "Elvish",
+      "family": "mixed",
+
+      "speakers": {
+        "races": ["Drow", "Duergar", "Svirfneblin"],
+        "monsters": ["Underdark creatures"]
+      },
+
+      "subcultures": [
+        {
+          "name": "Drow Trade Cant",
+          "traits": "Influenced by Elvish and Abyssal"
+        }
+      ],
+
+      "notes": "Underdark lingua franca"
+    },
+
+    {
+      "id": "abyssal",
+      "name": "Abyssal",
+      "type": "exotic",
+      "script": "Infernal",
+      "family": "infernal_family",
+
+      "speakers": {
+        "monsters": ["Demons"],
+        "cultures": ["Demon cults"]
+      },
+
+      "eras": ["All eras"],
+
+      "notes": "Chaotic, constantly evolving"
+    },
+
+    {
+      "id": "infernal",
+      "name": "Infernal",
+      "type": "exotic",
+      "script": "Infernal",
+      "family": "infernal_family",
+
+      "speakers": {
+        "monsters": ["Devils"],
+        "cultures": ["Warlocks", "Contracts"]
+      },
+
+      "notes": "Highly structured, legalistic"
+    },
+
+    {
+      "id": "celestial",
+      "name": "Celestial",
+      "type": "exotic",
+      "script": "Celestial",
+
+      "speakers": {
+        "monsters": ["Angels"],
+        "cultures": ["Clerics", "Paladins"]
+      },
+
+      "notes": "Language of divine beings"
+    },
+
+    {
+      "id": "primordial",
+      "name": "Primordial",
+      "type": "exotic",
+      "script": "Dwarvish",
+
+      "subdialects": [
+        "Ignan",
+        "Aquan",
+        "Auran",
+        "Terran"
+      ],
+
+      "speakers": {
+        "monsters": ["Elementals"]
+      },
+
+      "eras": ["Primordial Age"]
+    }
+  ],
+
+  "scripts": [
+    {
+      "name": "Common",
+      "used_by": ["Common"]
+    },
+    {
+      "name": "Elvish",
+      "used_by": ["Elvish", "Undercommon"]
+    },
+    {
+      "name": "Dwarvish",
+      "used_by": ["Dwarvish", "Giant", "Orc", "Goblin"]
+    },
+    {
+      "name": "Infernal",
+      "used_by": ["Infernal", "Abyssal"]
+    }
+  ],
+
+  "era_language_dynamics": [
+    {
+      "era": "Ancient & Mythic",
+      "dominant_languages": [
+        "Draconic",
+        "Primordial",
+        "Elvish (proto)"
+      ],
+      "notes": "Languages tied to powerful non-human empires"
+    },
+    {
+      "era": "Classical",
+      "dominant_languages": [
+        "Draconic",
+        "Elvish",
+        "Dwarvish"
+      ],
+      "notes": "Rise of structured racial languages"
+    },
+    {
+      "era": "Modern",
+      "dominant_languages": [
+        "Common",
+        "Regional dialects",
+        "Trade languages"
+      ],
+      "notes": "Common becomes dominant lingua franca"
+    }
+  ],
+
+  "monster_language_mapping": {
+    "dragons": ["Draconic", "Common"],
+    "undead": ["Common", "Abyssal", "None"],
+    "fiends": ["Infernal", "Abyssal"],
+    "celestials": ["Celestial"],
+    "elementals": ["Primordial"],
+    "goblinoids": ["Goblin", "Common"],
+    "giants": ["Giant"],
+    "aberrations": ["Deep Speech"]
+  },
+
+  "linguistic_rules_of_thumb": [
+    "Most intelligent creatures know at least one language",
+    "Common is not universal but widely understood",
+    "Ancient languages often hold magical significance",
+    "Planar languages reflect alignment (law vs chaos)",
+    "Trade languages emerge in mixed cultures (e.g. Undercommon)"
+  ]
+}

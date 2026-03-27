@@ -1,0 +1,20 @@
+[
+  { "raceName": "Human",      "source": "core",     "subraces": ["Standard Human", "Variant Human"] },
+  { "raceName": "Elf",        "source": "core",     "subraces": ["High Elf", "Wood Elf", "Dark Elf (Drow)"] },
+  { "raceName": "Dwarf",      "source": "core",     "subraces": ["Hill Dwarf", "Mountain Dwarf"] },
+  { "raceName": "Halfling",   "source": "core",     "subraces": ["Lightfoot", "Stout"] },
+  { "raceName": "Gnome",      "source": "core",     "subraces": ["Forest Gnome", "Rock Gnome"] },
+  { "raceName": "Half-Orc",   "source": "core",     "subraces": [] },
+  { "raceName": "Half-Elf",   "source": "core",     "subraces": [] },
+  { "raceName": "Tiefling",   "source": "core",     "subraces": [] },
+  { "raceName": "Dragonborn", "source": "expanded", "subraces": ["Red", "Blue", "Green", "Black", "White", "Gold", "Silver"] },
+  { "raceName": "Aasimar",    "source": "expanded", "subraces": ["Protector", "Fallen", "Scourge"] },
+  { "raceName": "Genasi",     "source": "expanded", "subraces": ["Air", "Earth", "Fire", "Water"] },
+  { "raceName": "Goliath",    "source": "expanded", "subraces": [] },
+  { "raceName": "Tabaxi",     "source": "expanded", "subraces": [] },
+  { "raceName": "Firbolg",    "source": "expanded", "subraces": [] },
+  { "raceName": "Kenku",      "source": "expanded", "subraces": [] },
+  { "raceName": "Triton",     "source": "expanded", "subraces": [] },
+  { "raceName": "Warforged",  "source": "expanded", "subraces": [] },
+  { "raceName": "Shifter",    "source": "expanded", "subraces": ["Beasthide", "Longtooth", "Swiftstride", "Wildhunt"] }
+]

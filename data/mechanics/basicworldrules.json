@@ -1,0 +1,292 @@
+{
+  "meta": {
+    "system": "Dungeons & Dragons (5e baseline)",
+    "purpose": "Self-contained reference for new players",
+    "principle": "All units, terms, and timelines are explicitly defined"
+  },
+
+  "core_concepts": {
+    "abbreviations": {
+      "DR": {
+        "name": "Dalereckoning",
+        "definition": "Primary calendar system in the Forgotten Realms setting",
+        "year_zero": "Year 1 DR marks the founding of the Dalelands",
+        "usage": "Most modern Forgotten Realms dates are expressed in DR (e.g. 1492 DR)"
+      },
+      "CY": {
+        "name": "Common Year",
+        "definition": "Calendar system used in the Greyhawk setting"
+      },
+      "YK": {
+        "name": "Year of the Kingdom",
+        "definition": "Calendar used in Eberron, counting from the founding of Galifar"
+      },
+      "PD": {
+        "name": "Post-Divergence",
+        "definition": "Calendar used in Exandria (Critical Role setting)"
+      }
+    },
+
+    "what_is_a_turn": {
+      "round": "6 seconds of in-world time; all creatures act once",
+      "turn": "An individual creature’s action within a round",
+      "combat_cycle": "Multiple rounds repeating until combat ends"
+    }
+  },
+
+  "units": {
+    "time": {
+      "second": "Base real-world equivalent",
+      "round": "6 seconds (core gameplay unit)",
+      "minute": "10 rounds",
+      "hour": "60 minutes",
+      "day": "24 hours",
+      "tenday": {
+        "definition": "10-day week used in Forgotten Realms",
+        "context": "Replaces the concept of a 7-day week"
+      },
+      "month": {
+        "length": "30 days (typically)",
+        "context": "Forgotten Realms uses 12 named months"
+      },
+      "year": {
+        "length": "365 days",
+        "structure": "12 months + festival days"
+      }
+    },
+
+    "distance": {
+      "foot": {
+        "definition": "Primary tactical unit of distance",
+        "grid_use": "1 square = 5 feet"
+      },
+      "mile": {
+        "definition": "Large-scale travel unit",
+        "conversion": "5280 feet"
+      }
+    },
+
+    "weight": {
+      "pound": "Standard unit of weight",
+      "coin_rule": "50 coins = 1 pound",
+      "context": "Used for encumbrance calculations"
+    }
+  },
+
+  "movement_system": {
+    "combat": {
+      "standard_speed": "30 feet per round",
+      "dash": "Move an additional 30 feet",
+      "grid_equivalent": "6 squares per turn"
+    },
+    "travel": {
+      "slow": {
+        "speed": "2 miles/hour",
+        "daily": "18 miles/day"
+      },
+      "normal": {
+        "speed": "3 miles/hour",
+        "daily": "24 miles/day"
+      },
+      "fast": {
+        "speed": "4 miles/hour",
+        "daily": "30 miles/day"
+      }
+    }
+  },
+
+  "currency": {
+    "system_definition": "Universal coin-based economy used across most D&D settings",
+    "coins": {
+      "cp": "Copper piece (lowest value)",
+      "sp": "Silver piece",
+      "ep": "Electrum piece (uncommon)",
+      "gp": "Gold piece (standard unit of value)",
+      "pp": "Platinum piece (highest value)"
+    },
+    "conversion": {
+      "10 cp": "1 sp",
+      "10 sp": "1 gp",
+      "2 ep": "1 gp",
+      "10 gp": "1 pp"
+    },
+    "weight": {
+      "rule": "All coins weigh the same",
+      "conversion": "50 coins = 1 pound"
+    },
+    "context": {
+      "gp_standard": "Most prices are listed in gold pieces",
+      "regional_variation": "Coin names and designs vary, but value stays consistent"
+    }
+  },
+
+  "economy": {
+    "lifestyle": {
+      "wretched": "0 gp/day",
+      "poor": "2 sp/day",
+      "modest": "1 gp/day",
+      "comfortable": "2 gp/day",
+      "wealthy": "4 gp/day",
+      "aristocratic": "10+ gp/day"
+    },
+    "wealth_scale": {
+      "1 gp": "A full day of modest living",
+      "100 gp": "Significant savings for a commoner",
+      "1000 gp": "Wealthy individual",
+      "10000 gp": "Noble-level wealth"
+    }
+  },
+
+  "calendar_systems": {
+    "forgotten_realms": {
+      "calendar": "Calendar of Harptos",
+      "year_length": "365 days",
+      "structure": "12 months of 30 days + 5 festival days",
+      "week": "Tenday (10 days)"
+    },
+    "greyhawk": {
+      "calendar": "Common Year",
+      "year_length": "364 days",
+      "week": "7-day week"
+    },
+    "eberron": {
+      "calendar": "YK system",
+      "year_length": "12 months of 28 days (336 days total)",
+      "week": "7-day week"
+    }
+  },
+
+  "cosmology": {
+    "planes": {
+      "material_plane": "Primary world where campaigns occur",
+      "feywild": "Magical reflection of the world (life, growth)",
+      "shadowfell": "Dark reflection (death, decay)",
+      "elemental_planes": "Fire, Water, Air, Earth",
+      "outer_planes": "Realms of gods and afterlife"
+    },
+    "magic_system": {
+      "arcane": "Magic drawn from universal forces",
+      "divine": "Granted by gods",
+      "primal": "Nature-based magic",
+      "psionic": "Mind-based power (setting dependent)"
+    }
+  },
+
+  "timeline": {
+    "structure_note": "Uses Dalereckoning (DR) as baseline reference",
+
+    "eras": [
+      {
+        "name": "Ancient & Mythic",
+        "date_range": "Prehistory – c. -5000 DR",
+        "context": "Before standardized calendars like DR exist",
+        "suberas": [
+          {
+            "name": "Primordial Age",
+            "description": "Gods and primordials create the world"
+          },
+          {
+            "name": "First Empires",
+            "description": "Serpentfolk, giants, and early elves dominate"
+          }
+        ]
+      },
+      {
+        "name": "Classical Age",
+        "date_range": "c. -2000 DR to 0 DR",
+        "context": "Leads directly into the creation of DR",
+        "suberas": [
+          {
+            "name": "Arcane Empires",
+            "description": "Netheril and similar empires dominate"
+          },
+          {
+            "name": "Collapse Era",
+            "description": "Magical disasters destroy ancient powers"
+          }
+        ]
+      },
+      {
+        "name": "Early Historic Era",
+        "date_range": "0 DR to 900 DR",
+        "context": "DR calendar begins here",
+        "suberas": [
+          {
+            "name": "Founding Age",
+            "description": "Dalelands founded; DR year system starts"
+          },
+          {
+            "name": "Kingdom Formation",
+            "description": "Stable nations emerge"
+          }
+        ]
+      },
+      {
+        "name": "Middle Era",
+        "date_range": "900 DR to 1350 DR",
+        "suberas": [
+          {
+            "name": "Expansion Age",
+            "description": "Trade and kingdoms expand"
+          },
+          {
+            "name": "Intrigue Age",
+            "description": "Political conflict and espionage rise"
+          }
+        ]
+      },
+      {
+        "name": "Late Historic Era",
+        "date_range": "1350 DR to 1480 DR",
+        "suberas": [
+          {
+            "name": "Age of Turmoil",
+            "date_range": "1350–1385 DR",
+            "description": "Wars and instability"
+          },
+          {
+            "name": "Spellplague Era",
+            "date_range": "1385–1479 DR",
+            "description": "Magical catastrophe alters reality"
+          }
+        ]
+      },
+      {
+        "name": "Modern Era",
+        "date_range": "1480 DR onward",
+        "suberas": [
+          {
+            "name": "Second Sundering",
+            "date_range": "1480–1490 DR",
+            "description": "World stabilizes after magical chaos"
+          },
+          {
+            "name": "Current Age",
+            "date_range": "1490+ DR",
+            "description": "Default D&D campaign era"
+          }
+        ]
+      }
+    ]
+  },
+
+  "rules_of_thumb": {
+    "combat": [
+      "1 round = 6 seconds",
+      "Typical movement = 30 feet",
+      "1 grid square = 5 feet"
+    ],
+    "travel": [
+      "24 miles per day is normal pace",
+      "Mounts increase travel speed significantly"
+    ],
+    "encumbrance": [
+      "Strength × 15 = max carrying capacity (lbs)",
+      "Coins are heavy in large quantities"
+    ],
+    "economy": [
+      "Gold is rare for commoners",
+      "Adventurers operate at much higher wealth levels"
+    ]
+  }
+}

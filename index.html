@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <!-- Primary SEO -->
+    <title>Leonoria — A Living World of Dungeons &amp; Dragons</title>
+    <meta name="description" content="Leonoria — a sanctuary for bold adventurers. Explore procedurally generated D&D worlds, create maps, build characters, and weave your own legends.">
+    <meta name="keywords" content="Dungeons and Dragons, D&D, world generator, map generator, RPG, procedural generation, fantasy, Leonoria">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Leonoria">
+    <link rel="canonical" href="https://norrtou.github.io/leonoria/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Leonoria — A Living World of Dungeons &amp; Dragons">
+    <meta property="og:description" content="A sanctuary for bold adventurers. Explore procedurally generated D&D worlds, create maps, build characters, and weave your own legends.">
+    <meta property="og:url" content="https://norrtou.github.io/leonoria/">
+    <meta property="og:image" content="https://norrtou.github.io/leonoria/webpageassets/leonoria1.jpg">
+    <meta property="og:site_name" content="Leonoria">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Leonoria — A Living World of Dungeons &amp; Dragons">
+    <meta name="twitter:description" content="A sanctuary for bold adventurers. Explore procedurally generated D&D worlds, create maps, build characters, and weave your own legends.">
+    <meta name="twitter:image" content="https://norrtou.github.io/leonoria/webpageassets/leonoria1.jpg">
+
+    <!-- Mobile / PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Leonoria">
+    <meta name="theme-color" content="#141d0e">
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Leonoria",
+      "url": "https://norrtou.github.io/leonoria/",
+      "description": "A procedurally generated Dungeons and Dragons world builder and adventure platform.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://norrtou.github.io/leonoria/map.html"
+      }
+    }
+    </script>
+
+    <!-- Google Fonts: IM Fell English -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-deep:        #111a0a;
+            --bg-mid:         #1a2612;
+            --border-gold:    #c9a84c;
+            --border-green:   #4e6e32;
+            --text-parchment: #ede0c4;
+            --text-muted:     #a89878;
+            --accent-gold:    #c9a84c;
+            --btn-bg-from:    #2e4a1c;
+            --btn-bg-to:      #1e3210;
+            --btn-hover-from: #3e6428;
+            --btn-hover-to:   #2a4818;
+            --btn-border:     #5a7a3a;
+            --btn-border-hover: #8aaa5a;
+            --drop-cap:       #c9a84c;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(ellipse 80% 40% at 50% 0%, rgba(74, 110, 42, 0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 30% at 50% 100%, rgba(30, 50, 16, 0.4) 0%, transparent 60%);
+            color: var(--text-parchment);
+            font-family: 'IM Fell English', Georgia, 'Times New Roman', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ── Skip link for keyboard users ── */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 1rem;
+            background: var(--accent-gold);
+            color: #111;
+            padding: 0.5em 1em;
+            font-size: 0.9rem;
+            z-index: 9999;
+            transition: top 0.2s;
+        }
+        .skip-link:focus {
+            top: 0.5rem;
+        }
+
+        /* ── Page wrapper ── */
+        .page-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ── Site title ── */
+        .site-title {
+            font-size: clamp(2.6rem, 7vw, 4.2rem);
+            letter-spacing: 0.18em;
+            color: var(--accent-gold);
+            text-shadow:
+                0 1px 0 rgba(0,0,0,0.8),
+                0 2px 16px rgba(201, 168, 76, 0.35);
+            margin-bottom: 0.3rem;
+            text-align: center;
+            font-weight: normal;
+        }
+
+        .site-subtitle {
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            font-style: italic;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            margin-bottom: 2.2rem;
+            text-align: center;
+        }
+
+        /* ── Hero image ── */
+        .hero-figure {
+            width: 100%;
+            max-width: 740px;
+            margin-bottom: 2.8rem;
+            position: relative;
+            padding: 10px;
+        }
+
+        /* Gold rule lines above and below */
+        .hero-figure::before,
+        .hero-figure::after {
+            content: '';
+            display: block;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--border-gold) 30%, var(--border-gold) 70%, transparent 100%);
+            opacity: 0.55;
+        }
+        .hero-figure::before { margin-bottom: 8px; }
+        .hero-figure::after  { margin-top: 8px; }
+
+        .hero-img-wrap {
+            position: relative;
+            line-height: 0;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            box-shadow:
+                0 0 0 1px rgba(78, 110, 50, 0.25),
+                0 10px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Decorative corner ornaments */
+        .corner {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-color: var(--border-gold);
+            border-style: solid;
+            opacity: 0.65;
+        }
+        .corner.tl { top: -1px;  left: -1px;  border-width: 2px 0 0 2px; }
+        .corner.tr { top: -1px;  right: -1px; border-width: 2px 2px 0 0; }
+        .corner.bl { bottom: -1px; left: -1px;  border-width: 0 0 2px 2px; }
+        .corner.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+        /* ── Navigation buttons ── */
+        .nav-buttons {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 0.8rem;
+            margin-bottom: 3.5rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: clamp(0.78rem, 1.5vw, 0.95rem);
+            letter-spacing: 0.08em;
+            color: var(--text-parchment);
+            background: linear-gradient(170deg, var(--btn-bg-from) 0%, var(--btn-bg-to) 100%);
+            border: 1px solid var(--btn-border);
+            padding: 0.72em 1.2em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4em;
+            transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.15s ease;
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(201, 168, 76, 0.12),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            clip-path: polygon(10px 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0% 50%);
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover,
+        .nav-btn:focus-visible {
+            background: linear-gradient(170deg, var(--btn-hover-from) 0%, var(--btn-hover-to) 100%);
+            border-color: var(--btn-border-hover);
+            box-shadow:
+                0 5px 18px rgba(0, 0, 0, 0.55),
+                0 0 14px rgba(90, 140, 58, 0.25),
+                inset 0 1px 0 rgba(201, 168, 76, 0.2);
+            transform: translateY(-2px);
+            color: #f5edda;
+            outline: none;
+        }
+
+        .nav-btn:focus-visible {
+            outline: 2px solid var(--accent-gold);
+            outline-offset: 4px;
+        }
+
+        .nav-btn:active {
+            transform: translateY(0px);
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        .nav-btn[aria-disabled="true"] {
+            opacity: 0.45;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .btn-icon {
+            font-style: normal;
+            opacity: 0.75;
+            font-size: 0.95em;
+            line-height: 1;
+        }
+
+        /* ── Ornamental divider ── */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 2.2rem;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-green), transparent);
+        }
+        .divider-glyph {
+            color: var(--accent-gold);
+            font-size: 1rem;
+            opacity: 0.6;
+            letter-spacing: 0.3em;
+            white-space: nowrap;
+        }
+
+        /* ── Welcome text ── */
+        .welcome-section {
+            max-width: 680px;
+            width: 100%;
+        }
+
+        .welcome-section p {
+            font-size: clamp(1rem, 2.1vw, 1.08rem);
+            line-height: 1.88;
+            color: var(--text-parchment);
+            margin-bottom: 1.5em;
+            text-align: justify;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+        }
+
+        /* Drop cap / Anfang on the opening paragraph */
+        .welcome-section p:first-of-type::first-letter {
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: 5.4em;
+            float: left;
+            line-height: 0.82;
+            margin: 0.13em 0.1em 0 0;
+            color: var(--drop-cap);
+            text-shadow:
+                1px 2px 0 rgba(0,0,0,0.6),
+                0 0 20px rgba(201, 168, 76, 0.2);
+        }
+
+        /* ── Footer ── */
+        .site-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(78, 110, 50, 0.25);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-style: italic;
+            width: 100%;
+            max-width: 680px;
+            letter-spacing: 0.06em;
+        }
+
+        /* ── Path section ── */
+        .path-section {
+            width: 100%;
+            max-width: 680px;
+            text-align: center;
+            margin-bottom: 1.6rem;
+        }
+        .path-heading {
+            font-size: clamp(1.35rem, 3.5vw, 1.9rem);
+            letter-spacing: 0.16em;
+            color: var(--accent-gold);
+            font-weight: normal;
+            margin-bottom: 0.55rem;
+        }
+        .path-sub {
+            font-size: clamp(0.82rem, 1.7vw, 0.94rem);
+            font-style: italic;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            line-height: 1.65;
+        }
+        .path-buttons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+        }
+        .path-btn {
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: clamp(0.9rem, 1.9vw, 1.06rem);
+            letter-spacing: 0.1em;
+            color: var(--text-parchment);
+            background: linear-gradient(170deg, #402810 0%, #221508 100%);
+            border: 1px solid #7a5a2a;
+            padding: 0.88em 2.2em;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45em;
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.55),
+                inset 0 1px 0 rgba(201,168,76,0.1);
+            clip-path: polygon(12px 0%, calc(100% - 12px) 0%, 100% 50%, calc(100% - 12px) 100%, 12px 100%, 0% 50%);
+            white-space: nowrap;
+            opacity: 0.52;
+            cursor: not-allowed;
+        }
+        .path-note {
+            font-size: 0.72rem;
+            font-style: italic;
+            color: var(--text-muted);
+            opacity: 0.6;
+            letter-spacing: 0.06em;
+        }
+        .path-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 1.6rem;
+            margin-top: 0.4rem;
+        }
+        .path-divider::before,
+        .path-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(78,110,50,0.35), transparent);
+        }
+        .path-divider-glyph {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            opacity: 0.45;
+            letter-spacing: 0.25em;
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 600px) {
+            .page-wrapper {
+                padding: 1.8rem 1rem 3rem;
+            }
+
+            .nav-buttons {
+                flex-wrap: wrap;
+                gap: 0.8rem;
+            }
+
+            .nav-btn {
+                clip-path: none;
+                flex: 1 1 calc(50% - 0.4rem);
+                min-width: 130px;
+            }
+
+            .welcome-section p:first-of-type::first-letter {
+                font-size: 4.2em;
+            }
+
+            .welcome-section p {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .site-title {
+                letter-spacing: 0.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <main id="main-content" class="page-wrapper">
+
+        <h1 class="site-title">Leonoria</h1>
+        <p class="site-subtitle">A Dungeons &amp; Dragons game generator</p>
+
+        <!-- Hero image -->
+        <figure class="hero-figure" aria-label="Leonoria — a sweeping fantasy landscape">
+            <div class="hero-img-wrap">
+                <span class="corner tl" aria-hidden="true"></span>
+                <span class="corner tr" aria-hidden="true"></span>
+                <img
+                    src="webpageassets/leonoria1.jpg"
+                    alt="A sweeping vista of Leonoria — ancient forests, mist-covered mountains, and untamed lands stretching toward an endless horizon"
+                    class="hero-img"
+                    loading="eager"
+                    decoding="async"
+                    width="1200"
+                    height="675"
+                >
+                <span class="corner bl" aria-hidden="true"></span>
+                <span class="corner br" aria-hidden="true"></span>
+            </div>
+        </figure>
+
+        <!-- Path section -->
+        <section class="path-section" aria-label="Choose your starting point">
+            <h2 class="path-heading">Choose Your Path</h2>
+            <p class="path-sub">Begin by shaping the world and let your story unfold within it — or write your legend first, and watch the map grow to match it.</p>
+            <div class="path-buttons">
+                <a href="#" class="path-btn" aria-disabled="true" tabindex="-1"
+                   title="Craft your narrative first. Design characters, define your world&#8217;s lore, and let the map be generated around the story you create.">
+                    <span aria-hidden="true">📖</span>
+                    Start with Campaign
+                </a>
+                <a href="#" class="path-btn" aria-disabled="true" tabindex="-1"
+                   title="Generate a living world first. Explore its regions, uncover its history, and build your campaign from what you discover within it.">
+                    <span aria-hidden="true">🗺</span>
+                    Start with Map
+                </a>
+            </div>
+            <p class="path-note">Coming soon</p>
+        </section>
+
+        <!-- Subtle divider between path and tools -->
+        <div class="path-divider" role="separator" aria-hidden="true">
+            <span class="path-divider-glyph">✦ ✦ ✦</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="nav-buttons" aria-label="Leonoria tools and sections">
+            <a href="map.html" class="nav-btn">
+                <span class="btn-icon" aria-hidden="true">⚔</span>
+                Create a Map
+            </a>
+            <a href="characters.html" class="nav-btn">
+                <span class="btn-icon" aria-hidden="true">✦</span>
+                Create Characters
+            </a>
+            <a href="#" class="nav-btn" aria-disabled="true" tabindex="-1">
+                <span class="btn-icon" aria-hidden="true">📖</span>
+                Create a Campaign
+            </a>
+            <a href="about.html" class="nav-btn">
+                <span class="btn-icon" aria-hidden="true">📜</span>
+                About Leonoria
+            </a>
+        </nav>
+
+        <!-- Ornamental divider -->
+        <div class="divider" role="separator" aria-hidden="true">
+            <span class="divider-glyph">❧ ✦ ❧</span>
+        </div>
+
+        <!-- Welcome text -->
+        <section class="welcome-section" aria-labelledby="welcome-heading">
+            <h2 id="welcome-heading" class="visually-hidden">Welcome to Leonoria</h2>
+
+            <p>Welcome, weary traveler, to a realm where the ink never dries and the dice of destiny are always in flight. You have stumbled upon Leonoria, a sanctuary for the bold and a canvas for the dreamer. In this corner of the multiverse, the ancient echoes of Dungeons &amp; Dragons breathe anew. Leonoria is not merely a destination, but a living tapestry woven from your own imagination. Here, the mountains do not just stand; they rise at your command, birthed from a chaotic symphony of elemental forces. The forests are not silent; they whisper secrets of a dynamic history that shifts and sways with every choice you make, ensuring that no two legends ever follow the same path. Whether you seek to chart the untamed wilds of a procedurally sung landscape or desire to lose yourself in a story that bleeds and triumphs alongside your party, you hold the quill. In Leonoria, the gods are watching, the taverns are warm, and the horizon stretches as far as your spirit dares to wander. Step forth, adventurer. Your seat at the table is waiting, and the first chapter is yours to write.</p>
+        </section>
+
+        <footer class="site-footer">
+            <p>&copy; 2026 < href="https://norrtou.se" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">Norrtou Creations</a>. All rights reserved.</p>
+        </footer>
+
+    </main>
+
+    <!-- Visually hidden helper class -->
+    <style>
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+
+</body>
+</html>

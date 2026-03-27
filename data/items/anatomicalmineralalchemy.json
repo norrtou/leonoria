@@ -1,0 +1,121 @@
+{
+  "alchemical_extract_registry": {
+    "metadata": {
+      "version": "1.0",
+      "categories": ["Monstrous Extracts", "Planar Residue", "Mineral Ores", "Ethereal Fluids"],
+      "rule_link": "Harvesting requires a 'Poisoner’s Kit' or 'Arcana' check (DC varies)."
+    },
+    "ingredients": [
+      {
+        "id": "dragon_blood_pure",
+        "name": "Dragon's Blood (Ancient)",
+        "source": "Monstrous (Dragons)",
+        "biome": "Dragon Lairs / Ashlands / Mountains",
+        "harvest_dc": 20,
+        "properties": ["Elemental Overload", "Longevity"],
+        "refined_result": "Potion of Dragon's Majesty / Permanent Weapon Enchantment (+1 Fire/Cold/etc)",
+        "rarity": "Legendary",
+        "note": "Boils at room temperature; requires a lead-lined flask."
+      },
+      {
+        "id": "displacer_beast_hide_shavings",
+        "name": "Displacer Hide Shavings",
+        "source": "Monstrous (Fey)",
+        "biome": "Dark Forest / Feylands",
+        "harvest_dc": 16,
+        "properties": ["Illusion", "Refraction"],
+        "refined_result": "Cloak of Displacement (Material) / Potion of Invisibility",
+        "rarity": "Rare",
+        "raw_effect": "Gives the holder 'Blur' for 1 round, then disintegrates."
+      },
+      {
+        "id": "basilisk_gallbladder",
+        "name": "Basilisk Gallbladder",
+        "source": "Monstrous (Monstrosity)",
+        "biome": "Deep Caves / Barrens",
+        "harvest_dc": 14,
+        "properties": ["Petrifaction Reverse", "Acidic"],
+        "refined_result": "Oil of Ethirialness / Potion of Greater Restoration (Petrification only)",
+        "rarity": "Uncommon",
+        "raw_effect": "Extremely corrosive; deals 2d6 acid damage to non-glass containers."
+      },
+      {
+        "id": "astral_essence",
+        "name": "Astral Essence (Stardust)",
+        "source": "Planar Residue",
+        "biome": "Planar Rifts / High Peaks",
+        "harvest_dc": 22,
+        "properties": ["Anti-Gravity", "Planar Anchor"],
+        "refined_result": "Potion of Flying / Oil of Sharpness",
+        "rarity": "Very Rare",
+        "note": "Weightless. A full jar weighs 0 lbs but pulls upward with 5 lbs of force."
+      },
+      {
+        "id": "mimic_adhesive",
+        "name": "Mimic Adhesive (Gland)",
+        "source": "Monstrous (Shapechanger)",
+        "biome": "Urban / Ancient Ruins",
+        "harvest_dc": 15,
+        "properties": ["Binding", "Transmutation"],
+        "refined_result": "Sovereign Glue / Universal Solvent (Inverted)",
+        "rarity": "Uncommon",
+        "raw_effect": "Sticks to any surface instantly. Requires a Strength check (DC 17) to pull free."
+      },
+      {
+        "id": "mizzen_dust",
+        "name": "Mizzium Dust",
+        "source": "Mineral / Arcane",
+        "biome": "The Barrens / Artificer Labs",
+        "harvest_dc": 18,
+        "properties": ["Magic Conductivity", "Stability"],
+        "refined_result": "Mizzium Armor (Coating) / Spell-Storing Ring Component",
+        "rarity": "Rare",
+        "note": "Highly reactive to lightning damage."
+      },
+      {
+        "id": "ectoplasm",
+        "name": "Ghostly Ectoplasm",
+        "source": "Ethereal / Undead",
+        "biome": "Haunted Biomes / Dark Forest",
+        "harvest_dc": 12,
+        "properties": ["Spiritual Connection", "Chill"],
+        "refined_result": "Potion of Possession Resistance / Ghost Oil",
+        "rarity": "Common",
+        "raw_effect": "Freezes any liquid it touches instantly."
+      },
+      {
+        "id": "beholder_central_eye_lens",
+        "name": "Beholder Eye Lens",
+        "source": "Monstrous (Aberration)",
+        "biome": "Deep Caves / Underdark",
+        "harvest_dc": 25,
+        "properties": ["Antimagic", "True-Sight"],
+        "refined_result": "Anti-Magic Field Generator / Robe of Eyes (Component)",
+        "rarity": "Artifact-Grade",
+        "note": "If damaged during harvest, the ingredient becomes worthless 'Clouded Glass'."
+      },
+      {
+        "id": "shocker_lizard_tail",
+        "name": "Shocker Lizard Tail",
+        "source": "Monstrous",
+        "biome": "Swamps / Fungal Grottos",
+        "harvest_dc": 13,
+        "properties": ["Electrical Charge"],
+        "refined_result": "Potion of Speed / Lightning Resistance Potion",
+        "rarity": "Common",
+        "raw_effect": "Can be used as a 1-use 'Shocking Grasp' cantrip (d6 damage)."
+      },
+      {
+        "id": "cold_iron_ore",
+        "name": "Unrefined Cold Iron",
+        "source": "Mineral",
+        "biome": "Deep Caves / High Mountains",
+        "harvest_dc": 17,
+        "properties": ["Fey-Bane", "Anti-Magic"],
+        "refined_result": "Fey-Slaying Weapons / Iron-Lined Robes",
+        "rarity": "Uncommon",
+        "note": "Cannot be forged with magical fire; must be cold-hammered."
+      }
+    ]
+  }
+}

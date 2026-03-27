@@ -1,0 +1,215 @@
+{
+  "meta": {
+    "purpose": "Key locations across D&D settings",
+    "categories": ["city", "ruin", "dungeon", "landmark"],
+    "scope": "Major canonical locations across settings"
+  },
+
+  "locations": [
+    {
+      "name": "Waterdeep",
+      "type": "city",
+      "world": "Toril",
+      "region": "Sword Coast",
+      "culture": ["Trade hub", "Political intrigue"],
+      "notable_for": ["Lords' Alliance", "Urban adventuring"],
+      "threat_level": "medium"
+    },
+    {
+      "name": "Baldur's Gate",
+      "type": "city",
+      "world": "Toril",
+      "region": "Sword Coast",
+      "culture": ["Mercantile", "Corruption"],
+      "notable_for": ["Crime networks", "Trade"],
+      "threat_level": "medium"
+    },
+    {
+      "name": "Neverwinter",
+      "type": "city",
+      "world": "Toril",
+      "region": "Sword Coast",
+      "culture": ["Rebuilding civilization"],
+      "notable_for": ["Volcanic influence", "Renewal"],
+      "threat_level": "low"
+    },
+    {
+      "name": "Menzoberranzan",
+      "type": "city",
+      "world": "Toril",
+      "region": "Underdark",
+      "culture": ["Drow", "Matriarchal"],
+      "notable_for": ["Lolth worship", "Intrigue"],
+      "threat_level": "high"
+    },
+    {
+      "name": "Thay (Necropolis Cities)",
+      "type": "city",
+      "world": "Toril",
+      "region": "Thay",
+      "culture": ["Magocracy", "Necromancy"],
+      "notable_for": ["Red Wizards"],
+      "threat_level": "high"
+    },
+
+    {
+      "name": "Greyhawk City",
+      "type": "city",
+      "world": "Oerth",
+      "region": "Flanaess",
+      "culture": ["Adventurer hub"],
+      "notable_for": ["Central trade"],
+      "threat_level": "medium"
+    },
+
+    {
+      "name": "Sharn",
+      "type": "city",
+      "world": "Eberron",
+      "region": "Khorvaire",
+      "culture": ["Vertical metropolis", "Magitech"],
+      "notable_for": ["Sky towers", "Dragonmarked houses"],
+      "threat_level": "medium"
+    },
+
+    {
+      "name": "Tyr",
+      "type": "city",
+      "world": "Athas",
+      "region": "Tablelands",
+      "culture": ["Post-tyrant freedom"],
+      "notable_for": ["Gladiator culture"],
+      "threat_level": "high"
+    },
+
+    {
+      "name": "Istar (Ruins)",
+      "type": "ruin",
+      "world": "Krynn",
+      "region": "Ansalon",
+      "culture": ["Fallen theocracy"],
+      "notable_for": ["Cataclysm origin"],
+      "threat_level": "high"
+    },
+
+    {
+      "name": "Myth Drannor",
+      "type": "ruin",
+      "world": "Toril",
+      "region": "Cormanthor",
+      "culture": ["Ancient elven"],
+      "notable_for": ["High magic ruins"],
+      "threat_level": "high"
+    },
+
+    {
+      "name": "Netheril (Floating Cities)",
+      "type": "ruin",
+      "world": "Toril",
+      "region": "Anauroch",
+      "culture": ["Arcane empire"],
+      "notable_for": ["Fallen magic civilization"],
+      "threat_level": "high"
+    },
+
+    {
+      "name": "Xen’drik Ruins",
+      "type": "ruin",
+      "world": "Eberron",
+      "region": "Xen’drik",
+      "culture": ["Giant empire"],
+      "notable_for": ["Lost magic"],
+      "threat_level": "high"
+    },
+
+    {
+      "name": "Tomb of Horrors",
+      "type": "dungeon",
+      "world": "Oerth",
+      "region": "Flanaess",
+      "culture": ["Lich domain"],
+      "notable_for": ["Deadly traps"],
+      "threat_level": "extreme"
+    },
+
+    {
+      "name": "Undermountain",
+      "type": "dungeon",
+      "world": "Toril",
+      "region": "Waterdeep",
+      "culture": ["Mega-dungeon"],
+      "notable_for": ["Mad Mage"],
+      "threat_level": "extreme"
+    },
+
+    {
+      "name": "Temple of Elemental Evil",
+      "type": "dungeon",
+      "world": "Oerth",
+      "region": "Flanaess",
+      "culture": ["Cult stronghold"],
+      "notable_for": ["Elemental cults"],
+      "threat_level": "high"
+    },
+
+    {
+      "name": "Barovia Castle (Castle Ravenloft)",
+      "type": "dungeon",
+      "world": "Ravenloft",
+      "region": "Barovia",
+      "culture": ["Gothic horror"],
+      "notable_for": ["Vampire lord"],
+      "threat_level": "extreme"
+    },
+
+    {
+      "name": "Mount Celestia",
+      "type": "landmark",
+      "world": "Outer Planes",
+      "region": "Seven Heavens",
+      "culture": ["Divine"],
+      "notable_for": ["Heavenly ascent"],
+      "threat_level": "variable"
+    },
+
+    {
+      "name": "Nine Hells (Baator)",
+      "type": "landmark",
+      "world": "Outer Planes",
+      "region": "Baator",
+      "culture": ["Infernal"],
+      "notable_for": ["Devil hierarchy"],
+      "threat_level": "extreme"
+    },
+
+    {
+      "name": "Abyss",
+      "type": "landmark",
+      "world": "Outer Planes",
+      "region": "Infinite Layers",
+      "culture": ["Chaotic evil"],
+      "notable_for": ["Demon realms"],
+      "threat_level": "extreme"
+    },
+
+    {
+      "name": "Sigil",
+      "type": "city",
+      "world": "Planescape",
+      "region": "Outlands",
+      "culture": ["Planar hub"],
+      "notable_for": ["Portals", "Lady of Pain"],
+      "threat_level": "variable"
+    },
+
+    {
+      "name": "The World Serpent Inn",
+      "type": "landmark",
+      "world": "Multiverse",
+      "region": "Planar",
+      "culture": ["Interplanar travelers"],
+      "notable_for": ["Planar connections"],
+      "threat_level": "low"
+    }
+  ]
+}

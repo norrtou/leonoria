@@ -1,0 +1,156 @@
+{
+  "master_bestiary_harvest_registry": {
+    "metadata": {
+      "version": "1.0",
+      "description": "Unified mapping of creatures, habitats, and resource drops.",
+      "harvest_rule": "Creature must be dead or incapacitated. Requires specialized tools (Poisoner's Kit, Leatherworker's Tools, etc.)."
+    },
+    "registry": [
+      {
+        "id": "creature_ankheg",
+        "name": "Ankheg",
+        "cr": 2,
+        "type": "Monstrosity",
+        "primary_biome": "The Barrens / Plains",
+        "harvestable_resources": [
+          { "resource_id": "monstrous_chitin", "yield": "1d4 plates", "dc": 12 },
+          { "resource_id": "ooze_mucus", "yield": "1 vial", "dc": 15 }
+        ],
+        "inorganic_connection": "Found near 'Iron Ore' veins; they nest in mineral-rich soil."
+      },
+      {
+        "id": "creature_basilisk",
+        "name": "Basilisk",
+        "cr": 3,
+        "type": "Monstrosity",
+        "primary_biome": "Deep Caves / Swamps",
+        "harvestable_resources": [
+          { "resource_id": "basilisk_gallbladder", "yield": "1 unit", "dc": 14 },
+          { "resource_id": "reptile_scales_standard", "yield": "2 skins", "dc": 11 }
+        ],
+        "magical_connection": "Eyes can be refined into 'Petrifaction Reverse' catalyst."
+      },
+      {
+        "id": "creature_shocker_lizard",
+        "name": "Shocker Lizard",
+        "cr": 0.5,
+        "type": "Magical Beast",
+        "primary_biome": "Swamps / Fungal Grottos",
+        "harvestable_resources": [
+          { "resource_id": "shocker_lizard_tail", "yield": "1 tail", "dc": 10 },
+          { "resource_id": "living_spark", "yield": "1 spark", "dc": 18 }
+        ],
+        "inorganic_connection": "Drawn to 'Copper Ore' deposits for conductivity."
+      },
+      {
+        "id": "creature_displacer_beast",
+        "name": "Displacer Beast",
+        "cr": 3,
+        "type": "Monstrosity (Fey)",
+        "primary_biome": "Dark Forest / Feylands",
+        "harvestable_resources": [
+          { "resource_id": "displacer_tentacle", "yield": "2 tentacles", "dc": 15 },
+          { "resource_id": "shadow_essence", "yield": "1 mote", "dc": 17 }
+        ],
+        "organic_connection": "Hide provides 'Displacer Hide Shavings' for illusion alchemy."
+      },
+      {
+        "id": "creature_mimic",
+        "name": "Mimic",
+        "cr": 2,
+        "type": "Monstrosity (Shapechanger)",
+        "primary_biome": "Urban Ruins / Deep Caves",
+        "harvestable_resources": [
+          { "resource_id": "mimic_core", "yield": "1 heart", "dc": 18 },
+          { "resource_id": "mimic_adhesive", "yield": "1d4 vials", "dc": 13 }
+        ],
+        "organic_connection": "Flesh acts as 'Standard Hide' if the core is destroyed."
+      },
+      {
+        "id": "creature_wyvern",
+        "name": "Wyvern",
+        "cr": 6,
+        "type": "Dragon",
+        "primary_biome": "High Mountains / The Barrens",
+        "harvestable_resources": [
+          { "resource_id": "wyvern_venom_gland", "yield": "1 gland", "dc": 16 },
+          { "resource_id": "reptile_scales_standard", "yield": "3 skins", "dc": 12 },
+          { "resource_id": "monster_horn_hardened", "yield": "1 stinger", "dc": 14 }
+        ]
+      },
+      {
+        "id": "creature_griffin",
+        "name": "Griffin",
+        "cr": 2,
+        "type": "Monstrosity",
+        "primary_biome": "High Mountains / Plains",
+        "harvestable_resources": [
+          { "resource_id": "griffin_feathers", "yield": "2 bundles", "dc": 10 },
+          { "resource_id": "raw_hide_beast", "yield": "1 pelt", "dc": 8 }
+        ],
+        "organic_connection": "Beaks can be used as 'Animal Bone' for crafting."
+      },
+      {
+        "id": "creature_beholder",
+        "name": "Beholder",
+        "cr": 13,
+        "type": "Aberration",
+        "primary_biome": "Deep Caves / Planar Rifts",
+        "harvestable_resources": [
+          { "resource_id": "beholder_central_eye_lens", "yield": "1 lens", "dc": 25 },
+          { "resource_id": "liquid_aether", "yield": "2 vials", "dc": 20 },
+          { "resource_id": "void_ink_base", "yield": "1 vial", "dc": 22 }
+        ],
+        "magical_connection": "Stalks contain 'Residuum Dust' upon dissection."
+      },
+      {
+        "id": "creature_ancient_red_dragon",
+        "name": "Ancient Red Dragon",
+        "cr": 24,
+        "type": "Dragon",
+        "primary_biome": "Ashlands / Mountains",
+        "harvestable_resources": [
+          { "resource_id": "dragon_scale_cluster", "yield": "10 clusters", "dc": 22 },
+          { "resource_id": "dragon_blood_pure", "yield": "5 vials", "dc": 20 },
+          { "resource_id": "dragon_scale_dust", "yield": "5 pouches", "dc": 15 }
+        ],
+        "inorganic_connection": "Hoards 'Gold Nuggets' and 'Adamantine Crust'."
+      },
+      {
+        "id": "creature_ironbark_treant",
+        "name": "Ironbark Treant",
+        "cr": 9,
+        "type": "Plant",
+        "primary_biome": "Elven Forest (Ancient Nodes)",
+        "harvestable_resources": [
+          { "resource_id": "ironbark_timber", "yield": "3 logs", "dc": 18 },
+          { "resource_id": "amber_resin", "yield": "2 vials", "dc": 12 },
+          { "resource_id": "leyline_vapor", "yield": "1 vial", "dc": 20 }
+        ]
+      },
+      {
+        "id": "creature_ghost_wraith",
+        "name": "Wraith / Ghost",
+        "cr": 5,
+        "type": "Undead",
+        "primary_biome": "Haunted Biomes / Dark Forest",
+        "harvestable_resources": [
+          { "resource_id": "ectoplasm", "yield": "1 vial", "dc": 12 },
+          { "resource_id": "shadow_essence", "yield": "1 mote", "dc": 18 },
+          { "resource_id": "soul_gem_empty", "yield": "1 gem (rare drop)", "dc": 20 }
+        ]
+      },
+      {
+        "id": "creature_giant_spider",
+        "name": "Giant Spider",
+        "cr": 1,
+        "type": "Beast",
+        "primary_biome": "Deep Caves / Dark Forest",
+        "harvestable_resources": [
+          { "resource_id": "giant_spider_silk", "yield": "2 spools", "dc": 14 },
+          { "resource_id": "serpents_tongue", "yield": "1 venom gland", "dc": 12 }
+        ]
+      }
+    ]
+  }
+}

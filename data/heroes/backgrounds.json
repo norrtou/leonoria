@@ -1,0 +1,20 @@
+[
+  { "name": "Acolyte",           "source": "core",     "skills": ["Insight", "Religion"],              "languages": 2, "feature": "Shelter of the Faithful" },
+  { "name": "Charlatan",         "source": "core",     "skills": ["Deception", "Sleight of Hand"],     "tools": ["Disguise kit", "Forgery kit"],                     "feature": "False Identity" },
+  { "name": "Criminal",          "source": "core",     "skills": ["Deception", "Stealth"],             "tools": ["Thieves' tools", "Gaming set"],                    "feature": "Criminal Contact" },
+  { "name": "Entertainer",       "source": "core",     "skills": ["Acrobatics", "Performance"],        "tools": ["Disguise kit", "Musical instrument"],              "feature": "By Popular Demand" },
+  { "name": "Folk Hero",         "source": "core",     "skills": ["Animal Handling", "Survival"],      "tools": ["Artisan's tools", "Vehicles (land)"],              "feature": "Rustic Hospitality" },
+  { "name": "Guild Artisan",     "source": "core",     "skills": ["Insight", "Persuasion"],            "tools": ["Artisan's tools"], "languages": 1,                 "feature": "Guild Membership" },
+  { "name": "Hermit",            "source": "core",     "skills": ["Medicine", "Religion"],             "tools": ["Herbalism kit"], "languages": 1,                   "feature": "Discovery" },
+  { "name": "Noble",             "source": "core",     "skills": ["History", "Persuasion"],            "tools": ["Gaming set"], "languages": 1,                     "feature": "Position of Privilege" },
+  { "name": "Outlander",         "source": "core",     "skills": ["Athletics", "Survival"],            "tools": ["Musical instrument"], "languages": 1,               "feature": "Wanderer" },
+  { "name": "Sage",              "source": "core",     "skills": ["Arcana", "History"],                "languages": 2,                                               "feature": "Researcher" },
+  { "name": "Sailor",            "source": "core",     "skills": ["Athletics", "Perception"],          "tools": ["Navigator's tools", "Vehicles (water)"],           "feature": "Ship's Passage" },
+  { "name": "Soldier",           "source": "core",     "skills": ["Athletics", "Intimidation"],        "tools": ["Gaming set", "Vehicles (land)"],                   "feature": "Military Rank" },
+  { "name": "Urchin",            "source": "core",     "skills": ["Sleight of Hand", "Stealth"],       "tools": ["Thieves' tools", "Disguise kit"],                  "feature": "City Secrets" },
+  { "name": "Far Traveler",      "source": "expanded", "skills": ["Insight", "Perception"],            "tools": ["Musical instrument or gaming set"], "languages": 1, "feature": "All Eyes on You" },
+  { "name": "Haunted One",       "source": "expanded", "skills": ["Arcana", "Survival"],               "languages": 2,                                               "feature": "Heart of Darkness" },
+  { "name": "Mercenary Veteran", "source": "expanded", "skills": ["Athletics", "Persuasion"],          "tools": ["Gaming set", "Vehicles (land)"],                   "feature": "Mercenary Life" },
+  { "name": "Archaeologist",     "source": "expanded", "skills": ["History", "Survival"],              "tools": ["Cartographer's tools"], "languages": 1,            "feature": "Historical Knowledge" },
+  { "name": "Witchlight Hand",   "source": "expanded", "skills": ["Performance", "Sleight of Hand"],   "tools": ["Disguise kit", "Musical instrument"],              "feature": "Carnival Fixture" }
+]

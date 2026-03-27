@@ -1,0 +1,382 @@
+[
+  {
+    "creature_type": "Aberrations",
+    "description": "Alien beings from the Far Realm or warped by its madness; they possess anatomy that defies natural laws and often manipulate reality or the mind.",
+    "aliases": ["Eldritch Horrors", "Far Realm Entities", "The Unknowable", "Strange-kin"],
+    "power_scaling": {
+      "cr_range": "1/4 to 30",
+      "combat_tier": "High-Variance (Scouts to Cosmic Gods)",
+      "initiative_mod": "+2 to +4"
+    },
+    "damage_profile": {
+      "primary": "Psychic",
+      "secondary": ["Force", "Acid", "Necrotic"],
+      "attack_methods": ["Mind Blast", "Eye Rays", "Tentacles", "Gaze"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "12d8 + 48 (High)",
+      "alignment": "Typically Lawful Evil or Neutral Evil",
+      "armor_class_logic": "Natural Armor + Telepathic Insight"
+    },
+    "traits": ["Magic Resistance", "Telepathy (120ft)", "Psychic Damage Mastery", "Alien Mind (Resistance to Psychic)"],
+    "resistances": ["Psychic"],
+    "vulnerabilities": ["Low Strength Saves", "Constitution Saves (Commonly)"],
+    "subtypes_and_variants": [
+      { "name": "Beholders", "variants": ["Death Tyrant", "Gazer", "Spectator", "Eye Tyrant"], "logic": "Anti-magic cone; random eye-ray projectiles." },
+      { "name": "Illithids", "variants": ["Mind Flayer", "Ulitharid", "Alhoon", "Neothelid"], "logic": "Stun-lock psychic blasts; brain extraction triggers." },
+      { "name": "Slaadi", "variants": ["Red", "Blue", "Green", "Gray", "Death"], "logic": "Regeneration; chaotic egg implantation/transformation." }
+    ]
+  },
+  {
+    "creature_type": "Beasts",
+    "description": "Non-magical animals that are a natural part of the world's ecology, ranging from common wildlife to apex predators.",
+    "aliases": ["Animals", "Critters", "Natural Predators", "Fauna"],
+    "power_scaling": {
+      "cr_range": "0 to 8",
+      "combat_tier": "Low to Mid-tier (Early-game threats)",
+      "initiative_mod": "+1 to +3"
+    },
+    "damage_profile": {
+      "primary": "Piercing",
+      "secondary": ["Slashing", "Bludgeoning", "Poison"],
+      "attack_methods": ["Bite", "Claws", "Gore", "Sting", "Trample"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "3d8 + 3 (Low to Moderate)",
+      "alignment": "Unaligned",
+      "armor_class_logic": "Dexterity + Thick Hide"
+    },
+    "traits": ["Pack Tactics", "Keen Senses (Smell/Hearing)", "Low Intelligence (Score < 4)"],
+    "resistances": ["None (Standard)"],
+    "vulnerabilities": ["Animal Friendship", "Charm", "Frightened"],
+    "subtypes_and_variants": [
+      { "name": "Predators", "variants": ["Dire Wolf", "Sabre-Toothed Tiger", "Giant Crocodile", "Bear"], "logic": "Grapple; knockdown (Prone)." },
+      { "name": "Saurians", "variants": ["T-Rex", "Deinonychus", "Plesiosaur", "Ankylosaurus"], "logic": "Massive physical impact; high hitbox collision." },
+      { "name": "Arthropods", "variants": ["Giant Spider", "Giant Wasp", "Giant Centipede"], "logic": "Poison status effects; web-restraint." }
+    ]
+  },
+  {
+    "creature_type": "Celestials",
+    "description": "Beings native to the Upper Planes, serving as holy agents, guardians, or messengers of deities.",
+    "aliases": ["Angels", "Holy Beings", "Upper Planars", "Divine Spirits"],
+    "power_scaling": {
+      "cr_range": "1/2 to 30",
+      "combat_tier": "Elite (Rare, powerful encounters)",
+      "initiative_mod": "+3 to +5"
+    },
+    "damage_profile": {
+      "primary": "Radiant",
+      "secondary": ["Slashing", "Bludgeoning", "Force"],
+      "attack_methods": ["Angelic Weapons", "Holy Fire", "Radiant Gaze"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "16d10 + 80 (Very High)",
+      "alignment": "Lawful Good / Neutral Good / Chaotic Good",
+      "armor_class_logic": "Divine Protection + Plate Armor"
+    },
+    "traits": ["Healing Hands", "Magic Resistance", "Angelic Weapons (Extra Radiant)", "Truesight"],
+    "resistances": ["Radiant", "Necrotic", "Non-magical Physical"],
+    "vulnerabilities": ["Vile Damage", "Unholy Blight"],
+    "subtypes_and_variants": [
+      { "name": "Angels", "variants": ["Solar", "Planetar", "Deva"], "logic": "Slaying arrow; high-level healing magic." },
+      { "name": "Guardians", "variants": ["Unicorn", "Couatl", "Pegasus", "Hollyphant"], "logic": "Shielding auras; teleportation." }
+    ]
+  },
+  {
+    "creature_type": "Constructs",
+    "description": "Beings made or built through artifice, alchemy, or engineering; they are programmed automatons with no biological life.",
+    "aliases": ["Automatons", "Animated Objects", "Clockwork Beings", "Golems"],
+    "power_scaling": {
+      "cr_range": "0 to 25",
+      "combat_tier": "Consistent (High defense, predictable offense)",
+      "initiative_mod": "-1 to +1"
+    },
+    "damage_profile": {
+      "primary": "Bludgeoning",
+      "secondary": ["Slashing", "Piercing", "Poison", "Fire"],
+      "attack_methods": ["Slam", "Integrated Blades", "Elemental Exhaust"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "18d10 + 60 (High/Fixed)",
+      "alignment": "Unaligned / Lawful Neutral",
+      "armor_class_logic": "Material Density (Iron/Stone)"
+    },
+    "traits": ["Immutable Form", "Magic Resistance", "Condition Immunity (Poison/Psychic)", "Unsleeping"],
+    "resistances": ["Poison", "Psychic", "Non-magical Physical"],
+    "vulnerabilities": ["Adamantine Weapons", "Lightning (Stuns/Slows Golems)"],
+    "subtypes_and_variants": [
+      { "name": "Golems", "variants": ["Iron Golem", "Stone Golem", "Flesh Golem", "Clay Golem"], "logic": "Berserk chance; physical resistance." },
+      { "name": "Animated Defense", "variants": ["Shield Guardian", "Helmed Horror", "Flying Sword"], "logic": "Master-bound; high AC; reaction defense." }
+    ]
+  },
+  {
+    "creature_type": "Dragons",
+    "description": "Ancient, powerful reptilian creatures of high intelligence and elemental breath weapons, obsessed with dominance and wealth.",
+    "aliases": ["Wyrms", "Drakes", "Scalelords", "Great Serpents"],
+    "power_scaling": {
+      "cr_range": "1 to 30",
+      "combat_tier": "Extreme (Boss-level encounters)",
+      "initiative_mod": "+0 to +4"
+    },
+    "damage_profile": {
+      "primary": "Elemental (Color-coded)",
+      "secondary": ["Slashing", "Piercing", "Bludgeoning"],
+      "attack_methods": ["Breath Weapon", "Claws", "Bite", "Tail Sweep", "Wing Attack"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "22d12 + 150 (Extreme)",
+      "alignment": "Chromatic (Evil) / Metallic (Good)",
+      "armor_class_logic": "Ancient Hardened Scales"
+    },
+    "traits": ["Legendary Resistance (3/Day)", "Breath Weapon (Recharge)", "Frightful Presence", "Lair Actions"],
+    "resistances": ["Elemental (Matching Breath Type)"],
+    "vulnerabilities": ["Dragon-Slaying Magic", "Specific Environmental Siege"],
+    "subtypes_and_variants": [
+      { "name": "True Dragons", "variants": ["Red", "Blue", "Black", "Gold", "Silver", "Emerald"], "logic": "Lair actions; regional environmental effects." },
+      { "name": "Draconics", "variants": ["Wyvern", "Dragon Turtle", "Pseudodragon", "Faerie Dragon"], "logic": "Poison stings; aquatic focus; limited flight." }
+    ]
+  },
+  {
+    "creature_type": "Elementals",
+    "description": "Beings composed of the raw primal forces of the four elemental planes (Air, Earth, Fire, Water).",
+    "aliases": ["Inner Planars", "Nature Spirits", "Primal Forces", "Archons"],
+    "power_scaling": {
+      "cr_range": "1/4 to 23",
+      "combat_tier": "Moderate (Hazard-based combat)",
+      "initiative_mod": "+2 to +5"
+    },
+    "damage_profile": {
+      "primary": "Elemental (Matching)",
+      "secondary": ["Bludgeoning", "Poison", "Force"],
+      "attack_methods": ["Whelm", "Burn", "Earthquake", "Gust", "Slam"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "12d10 + 40 (Moderate)",
+      "alignment": "Neutral",
+      "armor_class_logic": "Form Fluidity or Density"
+    },
+    "traits": ["Elemental Form", "Amorphous", "Innate Spellcasting", "No Sleep/Food"],
+    "resistances": ["Poison", "Piercing/Slashing (Non-magical)", "Elemental (Matching)"],
+    "vulnerabilities": ["Opposing Elements (Fire vs Cold)", "Banishment"],
+    "subtypes_and_variants": [
+      { "name": "Primals", "variants": ["Fire Elemental", "Water Elemental", "Earth Elemental", "Air Elemental"], "logic": "Hazardous terrain touch." },
+      { "name": "Genies", "variants": ["Efreeti", "Djinn", "Marid", "Dao"], "logic": "Plane shift; wish magic; high-level intelligence." }
+    ]
+  },
+  {
+    "creature_type": "Fey",
+    "description": "Creatures tied to the Feywild, characterized by sylvan beauty, trickery, and nature-based magic.",
+    "aliases": ["The Fair Folk", "Sylvan Beings", "Nature Spirits", "Sidhe"],
+    "power_scaling": {
+      "cr_range": "0 to 20",
+      "combat_tier": "Evasive (Hit-and-run, manipulation)",
+      "initiative_mod": "+3 to +6"
+    },
+    "damage_profile": {
+      "primary": "Psychic",
+      "secondary": ["Poison", "Piercing", "Radiant"],
+      "attack_methods": ["Enchantment", "Shortbows", "Fey Magic", "Glamour"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "6d8 + 6 (Low to Moderate)",
+      "alignment": "Chaotic (Good/Neutral/Evil)",
+      "armor_class_logic": "Dexterity + Natural Glamour"
+    },
+    "traits": ["Magic Resistance", "Charming Aura", "Invisibility", "Fey Step"],
+    "resistances": ["Charm", "Sleep"],
+    "vulnerabilities": ["Cold Iron Weapons"],
+    "subtypes_and_variants": [
+      { "name": "Sylvan", "variants": ["Dryad", "Satyr", "Sprite", "Quickling", "Nymph"], "logic": "Tree stride; speed focus; plant manipulation." },
+      { "name": "Hags", "variants": ["Green Hag", "Night Hag", "Sea Hag", "Annis Hag"], "logic": "Coven spellcasting; shapechange; fear-logic." }
+    ]
+  },
+  {
+    "creature_type": "Fiends",
+    "description": "Malevolent beings from the Lower Planes, categorized into the orderly cruelty of Devils and the chaotic destruction of Demons.",
+    "aliases": ["Demons", "Devils", "Hell-spawn", "Yugoloths", "Fiend-kin"],
+    "power_scaling": {
+      "cr_range": "1/8 to 30",
+      "combat_tier": "High (Elite warriors and generals)",
+      "initiative_mod": "+2 to +4"
+    },
+    "damage_profile": {
+      "primary": "Fire",
+      "secondary": ["Necrotic", "Slashing", "Poison", "Cold"],
+      "attack_methods": ["Hellfire", "Barbed Chains", "Summoning", "Claw/Bite"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "15d10 + 75 (High)",
+      "alignment": "Lawful Evil (Devils) / Chaotic Evil (Demons)",
+      "armor_class_logic": "Infernal Plate or Abyssal Hide"
+    },
+    "traits": ["Magic Resistance", "Telepathy", "Summon Fiend", "Resist Non-magical Physical"],
+    "resistances": ["Fire", "Cold", "Poison"],
+    "vulnerabilities": ["Radiant", "Holy Water", "Silvered Weapons"],
+    "subtypes_and_variants": [
+      { "name": "Devils", "variants": ["Pit Fiend", "Erinyes", "Imp", "Chain Devil"], "logic": "Tactical discipline; contract-based; fire immunity." },
+      { "name": "Demons", "variants": ["Balor", "Marilith", "Vrock", "Dretch"], "logic": "Explosive death; chaotic summons; swarm aggression." }
+    ]
+  },
+  {
+    "creature_type": "Giants",
+    "description": "Humanoid-shaped creatures of massive scale, often possessing prehistoric ties or elemental affinities.",
+    "aliases": ["Jotun", "Titans", "Goliath-kin", "Big-folk"],
+    "power_scaling": {
+      "cr_range": "1 to 24",
+      "combat_tier": "Brawler (High physical damage)",
+      "initiative_mod": "-1 to +2"
+    },
+    "damage_profile": {
+      "primary": "Bludgeoning",
+      "secondary": ["Elemental", "Piercing"],
+      "attack_methods": ["Greatclub", "Rock Throw", "Stomp", "Sweep"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "12d12 + 60 (High)",
+      "alignment": "Varies by Caste (Hill: CE to Storm: CG)",
+      "armor_class_logic": "Massive Hide/Plate"
+    },
+    "traits": ["Rock Throwing", "Massive Reach", "Siege Monster (Double damage to objects)"],
+    "resistances": ["Elemental (Matching)"],
+    "vulnerabilities": ["Low Dexterity Saves", "Small Target Evasion"],
+    "subtypes_and_variants": [
+      { "name": "Ordinal", "variants": ["Hill Giant", "Frost Giant", "Fire Giant", "Cloud Giant"], "logic": "Weather/Elemental control." },
+      { "name": "Giant-kin", "variants": ["Ogre", "Ettin", "Cyclops", "Troll"], "logic": "Regeneration (Troll); multi-head logic." }
+    ]
+  },
+  {
+    "creature_type": "Humanoids",
+    "description": "The civilized and tribal peoples of the world; weapon-users with developed social structures and cultures.",
+    "aliases": ["The People", "Mortals", "Two-legs", "Civilized Races"],
+    "power_scaling": {
+      "cr_range": "0 to 20",
+      "combat_tier": "Base (Common enemies and NPCs)",
+      "initiative_mod": "+0 to +3"
+    },
+    "damage_profile": {
+      "primary": "Piercing (Weapons)",
+      "secondary": ["Slashing", "Bludgeoning", "Varies"],
+      "attack_methods": ["Swords", "Bows", "Spells", "Tools", "Unarmed"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "2d8 + 2 (Low)",
+      "alignment": "Any Alignment",
+      "armor_class_logic": "Equipped Gear (Leather/Chain/Plate)"
+    },
+    "traits": ["Tool Proficiency", "Social Synergy", "Language Capable"],
+    "resistances": ["None (Standard)"],
+    "vulnerabilities": ["Hold Person", "Charm Person"],
+    "subtypes_and_variants": [
+      { "name": "Goblinoids", "variants": ["Goblin", "Hobgoblin", "Bugbear"], "logic": "Nimble escape; surprise attack." },
+      { "name": "Tribal Marauders", "variants": ["Orc", "Gnoll", "Kobold", "Lizardfolk"], "logic": "Aggressive charge; pack tactics." },
+      { "name": "NPCs", "variants": ["Guard", "Mage", "Knight", "Cultist"], "logic": "Class-based skillsets." }
+    ]
+  },
+  {
+    "creature_type": "Monstrosities",
+    "description": "Unnatural creatures resulting from magical experimentation, curses, or accidental cross-breeding.",
+    "aliases": ["Magical Beasts", "Cursed Beings", "Unnatural Terrors", "Warped Life"],
+    "power_scaling": {
+      "cr_range": "1/8 to 23",
+      "combat_tier": "Variable (Specialized predators)",
+      "initiative_mod": "+1 to +4"
+    },
+    "damage_profile": {
+      "primary": "Slashing",
+      "secondary": ["Piercing", "Poison", "Acid"],
+      "attack_methods": ["Multiattack", "Tail Spikes", "Gaze", "Bite"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "8d10 + 24 (Moderate)",
+      "alignment": "Usually Neutral / Neutral Evil",
+      "armor_class_logic": "Mixed Natural Defenses"
+    },
+    "traits": ["Unusual Biology", "Terrifying Aura", "Apex Predator AI"],
+    "resistances": ["Variable"],
+    "vulnerabilities": ["Biological Counters (e.g., Mirrors for Medusa)"],
+    "subtypes_and_variants": [
+      { "name": "Hybrids", "variants": ["Chimera", "Griffon", "Owlbear", "Manticore"], "logic": "Dive bombs; multi-mode attacks." },
+      { "name": "Shifters/Gazers", "variants": ["Mimic", "Medusa", "Doppelganger", "Roper"], "logic": "Object camouflage; petrifaction." }
+    ]
+  },
+  {
+    "creature_type": "Oozes",
+    "description": "Gelatinous creatures without fixed form, consuming all matter in dark, damp environments.",
+    "aliases": ["Slimes", "Jellies", "Puddings", "Amorphous Blobs"],
+    "power_scaling": {
+      "cr_range": "1/4 to 10",
+      "combat_tier": "Hazard (Slow but deadly proximity)",
+      "initiative_mod": "-3 to -1"
+    },
+    "damage_profile": {
+      "primary": "Acid",
+      "secondary": ["Bludgeoning", "Corrosion"],
+      "attack_methods": ["Pseudopod", "Engulf", "Dissolve"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "10d10 + 40 (Moderate)",
+      "alignment": "Unaligned",
+      "armor_class_logic": "Low AC / Form Fluidity"
+    },
+    "traits": ["Amorphous", "Corrosive Form", "Spider Climb", "Blindsight"],
+    "resistances": ["Acid", "Slashing/Lightning (Causes Splitting)"],
+    "vulnerabilities": ["Slow Movement", "Cold Damage (Slowing)"],
+    "subtypes_and_variants": [
+      { "name": "Dissolvers", "variants": ["Gelatinous Cube", "Black Pudding", "Gray Ooze", "Ochre Jelly"], "logic": "Gear degradation; splitting." }
+    ]
+  },
+  {
+    "creature_type": "Plants",
+    "description": "Biological beings made of vegetable or fungal matter; sentient guardians or parasitic hunters.",
+    "aliases": ["Animated Flora", "Fungal Horrors", "Green-kin"],
+    "power_scaling": {
+      "cr_range": "0 to 9",
+      "combat_tier": "Ambush (Camouflaged hunters)",
+      "initiative_mod": "-2 to +1"
+    },
+    "damage_profile": {
+      "primary": "Bludgeoning",
+      "secondary": ["Piercing", "Poison", "Acid"],
+      "attack_methods": ["Vines", "Spores", "Needles", "Slam"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "11d10 + 33 (Moderate)",
+      "alignment": "Unaligned / Neutral",
+      "armor_class_logic": "Bark/Wood Density"
+    },
+    "traits": ["False Appearance", "Condition Immunities", "Low Speed"],
+    "resistances": ["Piercing", "Psychic"],
+    "vulnerabilities": ["Fire Damage", "Bludgeoning"],
+    "subtypes_and_variants": [
+      { "name": "Sentient Flora", "variants": ["Treant", "Shambling Mound", "Blight"], "logic": "Lightning absorption; animate trees." },
+      { "name": "Fungal", "variants": ["Myconid Sovereign", "Gas Spore", "Violet Fungus"], "logic": "Telepathic spores; rotting touch." }
+    ]
+  },
+  {
+    "creature_type": "Undead",
+    "description": "Remnants of the living animated by necrotic energy, dark magic, or unresolved spirits.",
+    "aliases": ["The Unliving", "Restless Souls", "Necrotic Beings", "Walking Dead"],
+    "power_scaling": {
+      "cr_range": "1/4 to 25",
+      "combat_tier": "Relentless (Hard to kill, life-draining)",
+      "initiative_mod": "-1 to +4"
+    },
+    "damage_profile": {
+      "primary": "Necrotic",
+      "secondary": ["Cold", "Slashing", "Piercing", "Psychic"],
+      "attack_methods": ["Life Drain", "Paralysis", "Fear Wail", "Bite"]
+    },
+    "base_stats_logic": {
+      "typical_hp_calc": "18d8 + 54 (High/Variable)",
+      "alignment": "Neutral Evil / Chaotic Evil",
+      "armor_class_logic": "Decayed Flesh or Etherealness"
+    },
+    "traits": ["Poison/Exhaustion Immunity", "Darkvision", "Undead Fortitude", "Life Drain"],
+    "resistances": ["Poison", "Necrotic", "Non-magical Physical"],
+    "vulnerabilities": ["Radiant Damage", "Turn Undead Mechanics"],
+    "subtypes_and_variants": [
+      { "name": "Corporeal", "variants": ["Lich", "Vampire", "Zombie", "Skeleton", "Ghoul"], "logic": "Regeneration; soul consumption." },
+      { "name": "Incorporeal", "variants": ["Ghost", "Wraith", "Banshee", "Specter"], "logic": "Phasing through walls; Strength drain." }
+    ]
+  }
+]

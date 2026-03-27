@@ -1,0 +1,97 @@
+{
+  "other_fantasy_biomes": {
+    "version": "1.0",
+    "biomes": [
+      {
+        "id": "ashlands",
+        "name": "Ashlands",
+        "type": "Volcanic/Waste",
+        "description": "A scorched expanse where the sun is a dull orange coin behind constant soot-fall.",
+        "flora": ["Fire-fern", "Ashen Brack-fungus"],
+        "fauna": ["Magma-slugs", "Ash-striders"],
+        "hazards": ["Sulfur Vents", "Ash-storms"]
+      },
+      {
+        "id": "feylands",
+        "name": "Feylands",
+        "type": "Magical/High-Vibrancy",
+        "description": "A dreamlike realm of oversaturated colors where the environment reacts to emotion.",
+        "flora": ["Giggling Lilies", "Bioluminescent Willows"],
+        "fauna": ["Sprite Swarms", "Moon-calves"],
+        "hazards": ["Time-warps", "Memory-fog"]
+      },
+      {
+        "id": "elven_forests",
+        "name": "Elven Forests",
+        "type": "Ancient/High-Altitude",
+        "description": "Gargantuan silver-barked trees in mountain vales, untouched by the passage of ages.",
+        "flora": ["Silver-leaf Oaks", "Starlight Orchids"],
+        "fauna": ["Great White Harts", "Sentient Tree-wardens"],
+        "hazards": ["Ancient Wards", "Verticality"]
+      },
+      {
+        "id": "dark_forests",
+        "name": "Dark Forests",
+        "type": "Cursed/Nordic-Lore",
+        "description": "Twisted, claustrophobic woods where the trees are watchers and the shadows have teeth.",
+        "flora": ["Iron-wood Thorns", "Black-cap Mushrooms"],
+        "fauna": ["Trolls", "Mist-shapers"],
+        "hazards": ["Shifting Paths", "Living Shadows"]
+      },
+      {
+        "id": "the_barrens",
+        "name": "The Barrens",
+        "type": "Post-Magical/Waste",
+        "description": "A scarred landscape of rusted ruins and soured magic, filled with mutated life.",
+        "flora": ["Crystal-encrusted Cacti", "Twisted Scrap-root"],
+        "fauna": ["Chimeric Scavengers", "Warp-rats"],
+        "hazards": ["Mana-radiation", "Toxic Dust"]
+      },
+      {
+        "id": "crystal_canyons",
+        "name": "Crystal Canyons",
+        "type": "Geological/Resonant",
+        "description": "Jagged ravines of translucent quartz that hum with a haunting harmonic frequency.",
+        "flora": ["Prism-moss", "Glass-bell Flowers"],
+        "fauna": ["Crystal-back Turtles", "Echo-bats"],
+        "hazards": ["Sonic Resonance", "Blinding Glare"]
+      },
+      {
+        "id": "fungal_grottos",
+        "name": "Fungal Grottos",
+        "type": "Subterranean/Alien",
+        "description": "Valleys of skyscraper-sized mushrooms and a thick, neon spore-mist.",
+        "flora": ["Towering Puffballs", "Glowing Shelf-fungi"],
+        "fauna": ["Mycelial Creepers", "Giant Slug-moths"],
+        "hazards": ["Hallucinogenic Spores", "Sinking Mycelium"]
+      },
+      {
+        "id": "salt_deserts",
+        "name": "The White Scar",
+        "type": "Chemical/Arid",
+        "description": "A blindingly white crust of salt littered with the petrified remains of ancient seas.",
+        "flora": ["Salt-crusted Cacti", "Glass-root Shrubs"],
+        "fauna": ["Desiccated Husks", "Brine-skimmers"],
+        "hazards": ["Dehydration", "Corrosive Dust"]
+      },
+      {
+        "id": "bladed_forests",
+        "name": "Bladed Forests",
+        "type": "Metallic/War-Torn",
+        "description": "A forest born of a battlefield where the trees are iron-wood and the leaves are razor-edges.",
+        "flora": ["Razor-grass", "Needle-pines"],
+        "fauna": ["Armored Scavengers", "Steel-beaked Shriekers"],
+        "hazards": ["Bleeding Wounds", "Serrated Winds"]
+      },
+      {
+        "id": "ethereal_plains",
+        "name": "Ethereal Plains",
+        "type": "Spirit-World/Liminal",
+        "description": "Rolling hills of ghostly silver grass where the veil between life and death is thin.",
+        "flora": ["Ghost-grass", "Spirit-lilies"],
+        "fauna": ["Wisp-stalkers", "Spectral Hinds"],
+        "hazards": ["Phasing", "Spirit-drain"]
+      }
+    ]
+  }
+}

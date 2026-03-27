@@ -1,0 +1,362 @@
+[
+  {
+    "jsonFile": "names.json",
+    "purpose": "All names in the game",
+    "examples": ["NPC names", "towns", "monsters", "items"],
+    "notes": "Modular random selection; avoids duplication",
+    "dependencies": [],
+    "proceduralUsage": "Picked dynamically for NPCs, locations, monsters, items"
+  },
+  {
+    "jsonFile": "dialogue.json",
+    "purpose": "Reusable dialogue lines/templates",
+    "examples": ["Greetings", "quest prompts", "farewells"],
+    "notes": "Allows dynamic conversations",
+    "dependencies": ["names.json","npcs.json"],
+    "proceduralUsage": "Combined with NPCs and quest templates to generate conversations"
+  },
+  {
+    "jsonFile": "quests.json",
+    "purpose": "Quest templates",
+    "examples": ["Main quests", "side quests", "puzzles", "exploration"],
+    "notes": "Combined with NPCs, regions, monsters",
+    "dependencies": ["npcs.json","regions.json","monsters.json","items.json"],
+    "proceduralUsage": "Generates objectives and rewards for players based on region and party"
+  },
+  {
+    "jsonFile": "regions.json",
+    "purpose": "Game world geography",
+    "examples": ["Towns", "forests", "dungeons", "mountains"],
+    "notes": "Context for quests, NPCs, encounters",
+    "dependencies": [],
+    "proceduralUsage": "Assigns NPCs, quests, and events to locations"
+  },
+  {
+    "jsonFile": "npcs.json",
+    "purpose": "NPC attributes",
+    "examples": ["Race", "class", "personality", "role"],
+    "notes": "Enables dynamic interactions",
+    "dependencies": ["names.json","dialogue.json","factions.json"],
+    "proceduralUsage": "Drives quest giving, dialogue, encounters, and party interactions"
+  },
+  {
+    "jsonFile": "monsters.json",
+    "purpose": "Enemy stats & behavior",
+    "examples": ["HP", "attack", "abilities", "loot"],
+    "notes": "Procedural combat encounters",
+    "dependencies": ["names.json","lootTables.json"],
+    "proceduralUsage": "Procedurally placed in encounters and quests"
+  },
+  {
+    "jsonFile": "items.json",
+    "purpose": "Weapons, armor, consumables",
+    "examples": ["Damage", "effect", "rarity"],
+    "notes": "Supports loot and crafting systems",
+    "dependencies": ["names.json","crafting.json"],
+    "proceduralUsage": "Loot rewards, crafting results, quest objectives"
+  },
+  {
+    "jsonFile": "events.json",
+    "purpose": "Random world events",
+    "examples": ["Festivals", "raids", "political upheavals"],
+    "notes": "Emergent story content",
+    "dependencies": ["regions.json","factions.json"],
+    "proceduralUsage": "Triggers dynamic changes or story flavor in the world"
+  },
+  {
+    "jsonFile": "factions.json",
+    "purpose": "Guilds & political groups",
+    "examples": ["Goals", "allies", "enemies"],
+    "notes": "Drives conflict and story arcs",
+    "dependencies": ["npcs.json","regions.json"],
+    "proceduralUsage": "Influences quests, NPC behavior, and world events"
+  },
+  {
+    "jsonFile": "skills.json",
+    "purpose": "Player & NPC abilities",
+    "examples": ["Magic spells", "combat skills"],
+    "notes": "Affects quest outcomes & encounters",
+    "dependencies": ["classes.json","races.json"],
+    "proceduralUsage": "Used to calculate success/failure in combat, crafting, or skill checks"
+  },
+  {
+    "jsonFile": "crafting.json",
+    "purpose": "Craftable items & recipes",
+    "examples": ["Ingredients", "effects"],
+    "notes": "Dynamic rewards & exploration",
+    "dependencies": ["items.json","skills.json"],
+    "proceduralUsage": "Generates new items based on player skill and inventory"
+  },
+  {
+    "jsonFile": "encounters.json",
+    "purpose": "Non-quest events",
+    "examples": ["Ambushes", "puzzles", "NPC interactions"],
+    "notes": "Adds variety between major quests",
+    "dependencies": ["monsters.json","traps.json","events.json"],
+    "proceduralUsage": "Procedurally inserted between quest milestones"
+  },
+  {
+    "jsonFile": "storyTemplates.json",
+    "purpose": "Narrative structures",
+    "examples": ["Quest arcs", "branching templates"],
+    "notes": "Combines other data to produce coherent stories",
+    "dependencies": ["quests.json","dialogue.json","npcRelationships.json"],
+    "proceduralUsage": "Defines sequence and branching of quests, dialogue, and encounters"
+  },
+  {
+    "jsonFile": "lootTables.json",
+    "purpose": "Loot distribution",
+    "examples": ["Items", "rarity", "drop chance"],
+    "notes": "Procedural rewards",
+    "dependencies": ["items.json","monsters.json"],
+    "proceduralUsage": "Determines rewards for encounters and quest completion"
+  },
+  {
+    "jsonFile": "achievements.json",
+    "purpose": "Milestones",
+    "examples": ["Region unlocks", "quest completion"],
+    "notes": "Triggers new content or rewards",
+    "dependencies": ["quests.json","regions.json"],
+    "proceduralUsage": "Tracks player progress and triggers events or rewards"
+  },
+  {
+    "jsonFile": "locations.json",
+    "purpose": "Points of interest",
+    "examples": ["Cities", "dungeons", "landmarks"],
+    "notes": "Used in quests, exploration, encounters",
+    "dependencies": ["regions.json","events.json"],
+    "proceduralUsage": "Places NPCs, quests, monsters, and secrets"
+  },
+  {
+    "jsonFile": "history.json",
+    "purpose": "Lore & background",
+    "examples": ["Myths", "legends", "world history"],
+    "notes": "Adds flavor and depth",
+    "dependencies": [],
+    "proceduralUsage": "Provides context for quests, dialogue, and region flavor"
+  },
+  {
+    "jsonFile": "triggers.json",
+    "purpose": "Story/event triggers",
+    "examples": ["Player level", "quest completion"],
+    "notes": "Adaptive storytelling",
+    "dependencies": ["quests.json","achievements.json"],
+    "proceduralUsage": "Determines when new quests, events, or dialogue appear"
+  },
+  {
+    "jsonFile": "templates_dialogue.json",
+    "purpose": "Conditional dialogue templates",
+    "examples": ["Based on player choices"],
+    "notes": "Enables branching conversations",
+    "dependencies": ["dialogue.json","npcs.json"],
+    "proceduralUsage": "Adjusts dialogue according to player actions, reputation, and alignment"
+  },
+  {
+    "jsonFile": "npcRelationships.json",
+    "purpose": "NPC social connections",
+    "examples": ["Allies", "rivals", "family ties"],
+    "notes": "Adds depth and continuity",
+    "dependencies": ["npcs.json","factions.json"],
+    "proceduralUsage": "Influences interactions, quests, and story consequences"
+  },
+  {
+    "jsonFile": "randomTables.json",
+    "purpose": "Generic random generators",
+    "examples": ["Encounters", "loot", "events", "weather"],
+    "notes": "Replayability & variation",
+    "dependencies": ["events.json","monsters.json","items.json"],
+    "proceduralUsage": "Randomly selects elements for quests, encounters, or events"
+  },
+  {
+    "jsonFile": "environment.json",
+    "purpose": "Dynamic environmental effects",
+    "examples": ["Day/night cycle", "weather", "terrain hazards"],
+    "notes": "Affects combat & exploration",
+    "dependencies": ["regions.json","weatherEffects.json"],
+    "proceduralUsage": "Changes encounter difficulty, dialogue flavor, or travel"
+  },
+  {
+    "jsonFile": "playerStats.json",
+    "purpose": "Player attributes",
+    "examples": ["Strength", "agility", "intelligence", "HP"],
+    "notes": "Used in quests and combat logic",
+    "dependencies": ["classes.json","races.json"],
+    "proceduralUsage": "Influences combat, skill checks, dialogue options"
+  },
+  {
+    "jsonFile": "classes.json",
+    "purpose": "Character classes",
+    "examples": ["Warrior", "Mage", "Rogue"],
+    "notes": "Defines abilities, starting gear",
+    "dependencies": ["skills.json","playerStats.json"],
+    "proceduralUsage": "Assigns abilities, starting stats, and combat bonuses"
+  },
+  {
+    "jsonFile": "races.json",
+    "purpose": "Character races",
+    "examples": ["Human", "Elf", "Dwarf", "Orc"],
+    "notes": "Defines base stats and traits",
+    "dependencies": ["playerStats.json","skills.json"],
+    "proceduralUsage": "Modifies stats, abilities, and possible dialogue options"
+  },
+  {
+    "jsonFile": "alignments.json",
+    "purpose": "Moral/ethical alignments",
+    "examples": ["Lawful Good", "Chaotic Neutral"],
+    "notes": "Affects story outcomes & dialogue",
+    "dependencies": ["dialogue.json","npcRelationships.json"],
+    "proceduralUsage": "Adjusts dialogue, quest choices, and NPC reactions"
+  },
+  {
+    "jsonFile": "languages.json",
+    "purpose": "Spoken languages",
+    "examples": ["Common", "Elvish", "Dwarvish"],
+    "notes": "Dialogue and quest flavor",
+    "dependencies": ["dialogue.json"],
+    "proceduralUsage": "Determines comprehension for NPCs, quests, and items"
+  },
+  {
+    "jsonFile": "reputation.json",
+    "purpose": "Faction & NPC reputation",
+    "examples": ["Allies", "enemies", "neutrality"],
+    "notes": "Affects interactions & quests",
+    "dependencies": ["npcs.json","factions.json"],
+    "proceduralUsage": "Influences NPC behavior, quest availability, and rewards"
+  },
+  {
+    "jsonFile": "randomEvents.json",
+    "purpose": "Small unpredictable events",
+    "examples": ["Merchant arrives", "monster sighting"],
+    "notes": "Keeps world alive and dynamic",
+    "dependencies": ["events.json","regions.json"],
+    "proceduralUsage": "Procedurally triggered between quests or on travel"
+  },
+  {
+    "jsonFile": "timedEvents.json",
+    "purpose": "Scheduled events",
+    "examples": ["Festivals", "tournaments"],
+    "notes": "Story beats at specific times",
+    "dependencies": ["events.json","regions.json"],
+    "proceduralUsage": "Triggers specific events or story beats at predetermined times"
+  },
+  {
+    "jsonFile": "puzzles.json",
+    "purpose": "Puzzle templates",
+    "examples": ["Riddles", "lock mechanisms", "logic puzzles"],
+    "notes": "Adds variety to quests",
+    "dependencies": ["skills.json","items.json"],
+    "proceduralUsage": "Inserted into quests or encounters to challenge players"
+  },
+  {
+    "jsonFile": "traps.json",
+    "purpose": "Trap mechanics",
+    "examples": ["Spike pit", "poisoned dart", "magical ward"],
+    "notes": "Procedural challenge generation",
+    "dependencies": ["skills.json","environment.json"],
+    "proceduralUsage": "Placed in dungeons, regions, or quests"
+  },
+  {
+    "jsonFile": "dialogueModifiers.json",
+    "purpose": "Contextual dialogue changes",
+    "examples": ["Based on region", "player stats", "alignment"],
+    "notes": "Enhances immersion",
+    "dependencies": ["dialogue.json","npcRelationships.json"],
+    "proceduralUsage": "Adjusts dialogue dynamically based on world state and player choices"
+  },
+  {
+    "jsonFile": "cursesAndBlessings.json",
+    "purpose": "Temporary or permanent effects",
+    "examples": ["Curse of weakness", "Blessing of strength"],
+    "notes": "Adds randomness and strategy",
+    "dependencies": ["playerStats.json","items.json"],
+    "proceduralUsage": "Applied to players, NPCs, or items to influence gameplay"
+  },
+  {
+    "jsonFile": "companions.json",
+    "purpose": "Party allies",
+    "examples": ["Name", "class", "abilities", "loyalty"],
+    "notes": "Dynamic party management",
+    "dependencies": ["npcs.json","skills.json"],
+    "proceduralUsage": "Can join player party; affects quests, dialogue, and combat"
+  },
+  {
+    "jsonFile": "questsRewards.json",
+    "purpose": "Reward structures",
+    "examples": ["Gold", "items", "experience"],
+    "notes": "Modular reward logic",
+    "dependencies": ["lootTables.json","items.json"],
+    "proceduralUsage": "Determines rewards for quest completion or encounters"
+  },
+  {
+    "jsonFile": "shops.json",
+    "purpose": "Merchant inventories",
+    "examples": ["Items for sale", "rarity", "prices"],
+    "notes": "Dynamic economy & loot flow",
+    "dependencies": ["items.json","regions.json"],
+    "proceduralUsage": "Randomly generated merchant stock and dynamic pricing"
+  },
+  {
+    "jsonFile": "factionConflicts.json",
+    "purpose": "Inter-faction events",
+    "examples": ["Wars", "alliances", "betrayals"],
+    "notes": "Drives world story evolution",
+    "dependencies": ["factions.json","regions.json"],
+    "proceduralUsage": "Generates dynamic quests, events, and NPC behavior"
+  },
+  {
+    "jsonFile": "regionSecrets.json",
+    "purpose": "Hidden locations or events",
+    "examples": ["Secret dungeon", "rare treasure"],
+    "notes": "Encourages exploration",
+    "dependencies": ["regions.json","items.json"],
+    "proceduralUsage": "Procedurally hidden areas or treasure spawns"
+  },
+  {
+    "jsonFile": "magicItems.json",
+    "purpose": "Special or unique items",
+    "examples": ["Artifacts", "cursed items"],
+    "notes": "Adds wonder & replayability",
+    "dependencies": ["items.json","crafting.json"],
+    "proceduralUsage": "Used as rare quest rewards or loot"
+  },
+  {
+    "jsonFile": "enemyGroups.json",
+    "purpose": "Monster packs or patrols",
+    "examples": ["Wolves", "bandits", "undead"],
+    "notes": "Procedural encounter scaling",
+    "dependencies": ["monsters.json","regions.json"],
+    "proceduralUsage": "Determines group composition and placement in encounters"
+  },
+  {
+    "jsonFile": "weatherEffects.json",
+    "purpose": "Environmental modifiers",
+    "examples": ["Rain", "fog", "snow"],
+    "notes": "Influences combat, exploration, dialogue",
+    "dependencies": ["environment.json","regions.json"],
+    "proceduralUsage": "Alters travel conditions, combat difficulty, or dialogue flavor"
+  },
+  {
+    "jsonFile": "storyBranches.json",
+    "purpose": "Branching story points",
+    "examples": ["Decision outcomes", "alternate endings"],
+    "notes": "Enables non-linear campaigns",
+    "dependencies": ["quests.json","npcRelationships.json"],
+    "proceduralUsage": "Determines which quests, events, and dialogue follow player choices"
+  },
+  {
+    "jsonFile": "tutorials.json",
+    "purpose": "Tutorial content",
+    "examples": ["Intro quests", "help dialogues"],
+    "notes": "Guides new players",
+    "dependencies": ["quests.json","dialogue.json"],
+    "proceduralUsage": "Used to teach mechanics and introduce story"
+  },
+  {
+    "jsonFile": "worldEvents.json",
+    "purpose": "Large-scale story arcs",
+    "examples": ["Plagues", "invasions", "prophecy fulfillment"],
+    "notes": "Connects regions, factions, quests",
+    "dependencies": ["factions.json","regions.json"],
+    "proceduralUsage": "Drives overarching story progression and global changes"
+  }
+]

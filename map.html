@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <!-- Primary SEO -->
+    <title>Map Generator — Leonoria</title>
+    <meta name="description" content="Leonoria Map Generator — procedurally generate Dungeons and Dragons world maps with custom biomes, cultures, settlements, and more.">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Leonoria">
+    <link rel="canonical" href="https://norrtou.github.io/leonoria/map.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Map Generator — Leonoria">
+    <meta property="og:description" content="Procedurally generate Dungeons and Dragons world maps with custom biomes, cultures, settlements, and more.">
+    <meta property="og:url" content="https://norrtou.github.io/leonoria/map.html">
+    <meta property="og:image" content="https://norrtou.github.io/leonoria/assets/images/og-cover.png">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Map Generator — Leonoria">
+    <meta name="twitter:description" content="Procedurally generate Dungeons and Dragons world maps with custom biomes, cultures, settlements, and more.">
+    <meta name="twitter:image" content="https://norrtou.github.io/leonoria/assets/images/og-cover.png">
+
+    <!-- Mobile / PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Leonoria">
+    <meta name="theme-color" content="#1a1a2e">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Map screen — viewport clips the zoomable container -->
+    <div id="map-viewport">
+        <div id="map-container" aria-label="Leonoria world map" role="img"></div>
+    </div>
+
+    <!-- Game canvas — used for gameplay screens -->
+    <canvas id="gameCanvas" role="img" aria-label="Leonoria game canvas"></canvas>
+
+    <!-- Settings panel -->
+    <div id="settings-panel">
+        <div id="settings-header">
+            <span>Map Settings</span>
+            <button id="settings-close">✕</button>
+        </div>
+        <div id="settings-body">
+
+            <!-- ── World ─────────────────────────────────── -->
+            <div class="settings-section-label">World</div>
+
+            <div class="setting-group">
+                <span class="setting-label">Map type</span>
+                <select id="param-map-type" class="setting-select">
+                    <option value="standard">Standard</option>
+                    <option value="large_island">Large Island</option>
+                    <option value="archipelago">Archipelago</option>
+                    <option value="inland">Inland</option>
+                </select>
+                <span class="setting-hint-line" id="lbl-map-type-desc"></span>
+            </div>
+
+            <div class="setting-group">
+                <span class="setting-label">Map size</span>
+                <div class="size-btns">
+                    <button class="size-btn active" data-size="1">Small</button>
+                    <button class="size-btn" data-size="2">Large</button>
+                </div>
+            </div>
+
+            <!-- ── Environment ──────────────────────────── -->
+            <div class="settings-section-label">Environment</div>
+
+            <div class="setting-group">
+                <span class="setting-label">Biome</span>
+                <select id="param-biome" class="setting-select">
+                    <option value="temperate_forest">Temperate Forest</option>
+                    <option value="boreal_forest">Boreal Forest</option>
+                    <option value="plains">Plains &amp; Farmlands</option>
+                    <option value="highlands">Highlands</option>
+                    <option value="desert">Desert</option>
+                    <option value="arctic">Arctic Tundra</option>
+                    <option value="swamp">Swampland</option>
+                    <option value="moorland">Moorland</option>
+                    <option value="rainforest">Rainforest</option>
+                    <option value="savanna">Savanna</option>
+                    <option value="coastal">Coastal &amp; Islands</option>
+                    <option value="underdark">Underdark</option>
+                </select>
+                <span class="setting-hint-line" id="lbl-biome-desc"></span>
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-label-row"><span class="setting-label">Land coverage</span><span class="setting-val" id="lbl-land"></span></div>
+                <input type="range" class="setting-range" id="param-land" min="0" max="100" value="50">
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-label-row"><span class="setting-label">Mountains</span><span class="setting-val" id="lbl-mountains"></span></div>
+                <input type="range" class="setting-range" id="param-mountains" min="0" max="100" value="50">
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-label-row"><span class="setting-label">Forests</span><span class="setting-val" id="lbl-forests"></span></div>
+                <input type="range" class="setting-range" id="param-forests" min="0" max="100" value="50">
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-label-row"><span class="setting-label">Rivers</span><span class="setting-val" id="lbl-rivers"></span></div>
+                <input type="range" class="setting-range" id="param-rivers" min="0" max="100" value="50">
+            </div>
+
+            <!-- ── People ────────────────────────────────── -->
+            <div class="settings-section-label">People</div>
+
+            <div class="setting-group">
+                <span class="setting-label">Dominant culture</span>
+                <select id="param-culture" class="setting-select">
+                    <option value="random">— Random —</option>
+                    <optgroup label="Main Cultures">
+                        <option value="human">Human</option>
+                        <option value="elf">Elven (High Elf)</option>
+                        <option value="dwarf">Dwarven</option>
+                        <option value="halfling">Halfling</option>
+                        <option value="half_elf">Half-Elven</option>
+                        <option value="half_orc">Half-Orc</option>
+                        <option value="orc">Orcish</option>
+                    </optgroup>
+                    <optgroup label="Subcultures">
+                        <option value="drow">Drow (Dark Elf)</option>
+                        <option value="wood_elf">Wood Elf</option>
+                        <option value="duergar">Duergar (Gray Dwarf)</option>
+                        <option value="svirfneblin">Svirfneblin (Deep Gnome)</option>
+                        <option value="dragonborn">Dragonborn</option>
+                        <option value="aasimar">Aasimar</option>
+                        <option value="genasi">Genasi</option>
+                        <option value="goliath">Goliath</option>
+                        <option value="tabaxi">Tabaxi</option>
+                        <option value="firbolg">Firbolg</option>
+                        <option value="kenku">Kenku</option>
+                        <option value="triton">Triton</option>
+                        <option value="warforged">Warforged</option>
+                        <option value="shifter">Shifter</option>
+                        <option value="tiefling">Tiefling</option>
+                        <option value="gnome">Gnome</option>
+                        <option value="lizardfolk">Lizardfolk</option>
+                        <option value="githyanki">Githyanki</option>
+                        <option value="goblinoid">Goblinoid</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-label-row"><span class="setting-label">Settlements</span><span class="setting-val" id="lbl-settlements"></span></div>
+                <input type="range" class="setting-range" id="param-settlements" min="0" max="100" value="50">
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-label-row"><span class="setting-label">Ruins</span><span class="setting-val" id="lbl-ruins"></span></div>
+                <input type="range" class="setting-range" id="param-ruins" min="0" max="100" value="33">
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-label-row"><span class="setting-label">Landmarks</span><span class="setting-val" id="lbl-landmarks"></span></div>
+                <input type="range" class="setting-range" id="param-landmarks" min="0" max="12" value="4">
+            </div>
+
+            <div class="setting-group generate-seed-group">
+                <input type="number" id="param-seed" placeholder="Seed (leave blank for random)…">
+            </div>
+            <div class="save-seed-row">
+                <input type="text" id="param-seed-name" placeholder="Name this seed…" maxlength="40">
+                <button id="save-seed-btn" title="Save seed">Save</button>
+            </div>
+            <div class="generate-btns">
+                <button id="generate-random-btn">Random Map</button>
+                <button id="generate-seed-btn">Generate Seed</button>
+            </div>
+
+            <!-- ── Saved Seeds ─────────────────────────────────── -->
+            <div id="saved-seeds-section" style="display:none">
+                <div class="settings-section-label">Saved Seeds</div>
+                <div class="saved-seeds-controls">
+                    <select id="saved-seeds-select" class="setting-select"></select>
+                    <button id="saved-seed-del-btn" title="Delete selected seed">✕</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settlement popup (towns & cities in temperate forest & plains biomes) -->
+    <div id="town-popup">
+        <img id="town-popup-img" src="" alt="Settlement">
+        <div id="town-popup-header">
+            <span id="town-popup-name">Town</span>
+            <button id="town-popup-close">✕</button>
+        </div>
+        <div id="town-popup-body"></div>
+    </div>
+
+    <!-- Legend panel -->
+    <div id="legend-panel">
+        <div id="legend-header">
+            <span>Map Legend</span>
+            <button id="legend-close">✕</button>
+        </div>
+        <div id="legend-body">
+            <!-- Populated by game.js after map generation -->
+            <p class="legend-empty">Generate a map to see the legend.</p>
+        </div>
+    </div>
+
+    <!-- Hero movement info bar -->
+    <div id="hero-info"></div>
+
+    <!-- Back to main menu (bottom left) -->
+    <a href="index.html" id="back-to-menu">← Main Menu</a>
+
+    <!-- Dev notice (bottom center) -->
+    <div id="dev-notice">Most biomes are still not finished and this is in very early pre&#8209;alpha development for testing purposes only</div>
+
+    <!-- Bottom-right button row -->
+    <div id="bottom-buttons">
+        <button id="legend-open">☰ Legend</button>
+        <button id="settings-open">⚙ Settings</button>
+        <button id="export-map-btn" title="Export SVG + JSON">⬇ Export</button>
+    </div>
+
+    <script src="mountain-styles.js"></script>
+    <script src="map.js"></script>
+    <script src="HexGridManager.js"></script>
+    <script src="seeds.js"></script>
+    <script src="legend-config.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

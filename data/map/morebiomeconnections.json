@@ -1,0 +1,56 @@
+{
+  "official_dnd_ecology": {
+    "metadata": {
+      "version": "3.0",
+      "standard": "D&D 5e / 2024 Canon",
+      "note": "Replaces generic 'Ashlands' with official Elemental and Material biomes."
+    },
+    "biomes": [
+      {
+        "id": "biome_elemental_plane_fire",
+        "official_name": "Elemental Plane of Fire",
+        "sub_regions": ["City of Brass", "The Sea of Fire", "Fountains of Creation"],
+        "common_inorganic": ["Infernal Iron", "Brimstone (Sulfur)", "Gold Nuggets"],
+        "common_magical": ["Infernal Ember", "Liquid Aether"],
+        "primary_bestiary": ["Efreeti", "Fire Giant", "Salamander", "Red Dragon"]
+      },
+      {
+        "id": "biome_underdark",
+        "official_name": "The Underdark",
+        "sub_regions": ["Upper Dark", "Middledark", "Lower Dark / Abyss Rifts"],
+        "common_inorganic": ["Mithral", "Adamantine", "Cold Iron", "Darksteel"],
+        "common_magical": ["Void Ink Base", "Abyssal Ichor", "Soul Gems"],
+        "primary_bestiary": ["Beholder", "Drow", "Duergar", "Umber Hulk", "Mimic"]
+      },
+      {
+        "id": "biome_feywild",
+        "official_name": "The Feywild",
+        "sub_regions": ["The Seelie Court", "Unseelie Lands", "Murkendraw"],
+        "common_organic": ["Ironbark", "Darkwood", "Giant Spider Silk"],
+        "common_magical": ["Fey-Dust Pollen", "Leyline Vapor"],
+        "primary_bestiary": ["Displacer Beast", "Hag", "Treant", "Unicorn"]
+      },
+      {
+        "id": "biome_shadowfell",
+        "official_name": "The Shadowfell",
+        "sub_regions": ["Shadowlands", "The Shadow Sea"],
+        "common_inorganic": ["Abyssal Blood-Glass", "Lead Ore"],
+        "common_magical": ["Shadow Essence", "Ectoplasm", "Soul Gems"],
+        "primary_bestiary": ["Wraith", "Ghost", "Shadow Demon", "Vampire"]
+      },
+      {
+        "id": "biome_material_volcanic",
+        "official_name": "Volcanic Peaks / Calderas",
+        "sub_regions": ["Active Volcanoes", "Magma Chambers"],
+        "common_inorganic": ["Obsidian", "Brimstone", "Iron Ore"],
+        "common_organic": ["Dragon Scales", "Wyvern Venom"],
+        "primary_bestiary": ["Red Dragon", "Wyvern", "Fire Elemental"]
+      }
+    ],
+    "resource_correction_table": [
+      { "old_term": "Ashlands", "official_dnd_term": "Elemental Plane of Fire / Volcanic Peaks" },
+      { "old_term": "The Barrens", "official_dnd_term": "The Outlands / Deserts of Anauroch" },
+      { "old_term": "Haunted Biomes", "official_dnd_term": "The Shadowfell / Cursed Lands" }
+    ]
+  }
+}

@@ -1,0 +1,121 @@
+[
+  {
+    "race": "Human",
+    "subraces": ["Standard", "Variant"],
+    "affinity_matrix": {
+      "Abjuration": "Neutral", "Conjuration": "Neutral", "Divination": "Neutral", 
+      "Enchantment": "Neutral", "Evocation": "Neutral", "Illusion": "Neutral", 
+      "Necromancy": "Neutral", "Transmutation": "Neutral"
+    },
+    "engine_logic": "Adaptability: +1 to all stats (Standard) or +1 Feat (Variant). No natural weaknesses, but no specialized school scaling.",
+    "unique_hook": "Universal Vessel: Can attune to any school-specific artifact without racial restriction."
+  },
+  {
+    "race": "Halfling",
+    "subraces": ["Lightfoot", "Stout", "Ghostwise"],
+    "affinity_matrix": {
+      "Abjuration": "High (Luck)", "Conjuration": "Neutral", "Divination": "Low", 
+      "Enchantment": "Neutral", "Evocation": "Low", "Illusion": "Neutral", 
+      "Necromancy": "High (Stout-Resilience)", "Transmutation": "High (Nimble)"
+    },
+    "engine_logic": "Probability Manipulation: 'Brave' provides Advantage vs Frightened (Enchantment). 'Lucky' allows rerolling 1s.",
+    "weakness": "Evocation (Heavy): Small size limits the casting of 'Heavy' material component spells.",
+    "unique_hook": "Halfling Nimbleness: Can move through spaces occupied by creatures larger than them (Transmutation logic)."
+  },
+  {
+    "race": "Dragonborn",
+    "subraces": ["Chromatic", "Metallic", "Gem"],
+    "affinity_matrix": {
+      "Abjuration": "Low", "Conjuration": "Low", "Divination": "Low", 
+      "Enchantment": "Low", "Evocation": "Max (Elemental)", "Illusion": "Weak", 
+      "Necromancy": "Neutral", "Transmutation": "High (Gem-Psionic)"
+    },
+    "engine_logic": "Elemental Conduit: Breath weapon scales as an Evocation spell. Damage type resistance is permanent.",
+    "weakness": "Illusion: Low natural investigative stats make them susceptible to sensory deception.",
+    "unique_hook": "Draconic Presence: Gem variants gain 30ft Telepathy (Divination/Enchantment hybrid)."
+  },
+  {
+    "race": "Gnome",
+    "subraces": ["Forest", "Rock", "Deep (Svirfneblin)"],
+    "affinity_matrix": {
+      "Abjuration": "High (Deep)", "Conjuration": "High (Rock)", "Divination": "High", 
+      "Enchantment": "High (Cunning)", "Evocation": "Neutral", "Illusion": "Max", 
+      "Necromancy": "Low", "Transmutation": "High"
+    },
+    "engine_logic": "Gnome Cunning: Advantage on all INT/WIS/CHA saves vs Magic. This is a passive Abjuration shell.",
+    "weakness": "Necromancy (Physical): Susceptible to Strength-drain effects.",
+    "unique_hook": "Svirfneblin Camouflage: Advantage on Stealth in rocky terrain (Illusion logic)."
+  },
+  {
+    "race": "Tiefling",
+    "subraces": ["Asmodeus", "Mephistopheles", "Zariel", "Feral"],
+    "affinity_matrix": {
+      "Abjuration": "Neutral", "Conjuration": "High", "Divination": "Low", 
+      "Enchantment": "High", "Evocation": "Max (Fire/Smite)", "Illusion": "Neutral", 
+      "Necromancy": "High", "Transmutation": "Neutral"
+    },
+    "engine_logic": "Infernal Legacy: Innate scaling of 'Hellish Rebuke' (Evocation) and 'Darkness' (Evocation/Illusion).",
+    "weakness": "Abjuration (Holy): Susceptible to 'Banishment' or 'Dispel Evil and Good'.",
+    "unique_hook": "Fire Resistance: Reduces all incoming Evocation (Fire) damage by 50%."
+  },
+  {
+    "race": "Orc / Half-Orc",
+    "subraces": ["Standard", "Mark of Finding"],
+    "affinity_matrix": {
+      "Abjuration": "Low", "Conjuration": "Low", "Divination": "Neutral", 
+      "Enchantment": "Weak", "Evocation": "Neutral", "Illusion": "Weak", 
+      "Necromancy": "Max (Relentless)", "Transmutation": "Neutral"
+    },
+    "engine_logic": "Relentless Endurance: If reduced to 0 HP, drop to 1 HP instead (Necromancy/Abjuration hybrid).",
+    "weakness": "Enchantment/Illusion: Very low mental saves; easily charmed or confused.",
+    "unique_hook": "Savage Attacks: Extra damage die on critical hits (Physical Evocation)."
+  },
+  {
+    "race": "Goliath",
+    "subraces": ["Mountain", "Cloud", "Fire", "Frost", "Stone", "Storm"],
+    "affinity_matrix": {
+      "Abjuration": "High (Stone's Endurance)", "Conjuration": "Low", "Divination": "Low", 
+      "Enchantment": "Weak", "Evocation": "High (Elemental Ancestry)", "Illusion": "Weak", 
+      "Necromancy": "Neutral", "Transmutation": "Neutral"
+    },
+    "engine_logic": "Stone's Endurance: Use Reaction to reduce damage by 1d12 + CON (Abjuration logic).",
+    "weakness": "Enchantment: Vulnerable to psychic control due to high physical/low mental focus.",
+    "unique_hook": "Powerful Build: Count as one size larger for carrying/pushing (Transmutation logic)."
+  },
+  {
+    "race": "Tabaxi",
+    "subraces": ["Standard"],
+    "affinity_matrix": {
+      "Abjuration": "Low", "Conjuration": "Low", "Divination": "High (Perception)", 
+      "Enchantment": "Neutral", "Evocation": "Neutral", "Illusion": "High", 
+      "Necromancy": "Low", "Transmutation": "Max (Mobility)"
+    },
+    "engine_logic": "Feline Agility: Double movement speed for 1 turn (Transmutation).",
+    "weakness": "Abjuration (Binding): Curses or spells that restrict movement (Hold Person) are critical counters.",
+    "unique_hook": "Cat's Talent: Permanent proficiency in Perception and Stealth."
+  },
+  {
+    "race": "Aasimar",
+    "subraces": ["Protector", "Scourge", "Fallen"],
+    "affinity_matrix": {
+      "Abjuration": "High", "Conjuration": "Neutral", "Divination": "High", 
+      "Enchantment": "Neutral", "Evocation": "Max (Radiant)", "Illusion": "Low", 
+      "Necromancy": "Max (Fallen/Necrotic)", "Transmutation": "High (Flight)"
+    },
+    "engine_logic": "Celestial Revelation: Transformation provides flight or AoE damage/healing (Transmutation/Evocation).",
+    "weakness": "Necromancy (Cursed): Targeted vulnerability to 'Vile' or 'Unholy' damage variants.",
+    "unique_hook": "Healing Hands: Touch-based healing pool (Evocation) independent of spell slots."
+  },
+  {
+    "race": "Warforged",
+    "subraces": ["Standard"],
+    "affinity_matrix": {
+      "Abjuration": "Max (Armor)", "Conjuration": "Low", "Divination": "Neutral", 
+      "Enchantment": "Immune (Sleep)", "Evocation": "High (Resistant)", "Illusion": "Low", 
+      "Necromancy": "Immune (Disease/Poison)", "Transmutation": "Neutral"
+    },
+    "engine_logic": "Integrated Protection: Permanent +1 AC. Does not eat, sleep, or breathe.",
+    "weakness": "Transmutation (Rust): Vulnerable to 'Heat Metal' or rust-based monster effects.",
+    "unique_hook": "Construct Nature: Immune to the 'Exhaustion' status effect from environmental sources."
+  }
+]

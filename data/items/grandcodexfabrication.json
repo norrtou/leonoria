@@ -1,0 +1,149 @@
+{
+  "master_crafting_formulas": {
+    "metadata": {
+      "version": "1.0",
+      "description": "Complete cross-resource requirements for standard, exotic, and legendary gear.",
+      "logic": "Item = [Base Inorganic] + [Structural Organic] + [Aetheric Catalyst]"
+    },
+    "armor_formulas": [
+      {
+        "id": "recipe_plate_standard",
+        "output_item": "Plate Armor (Standard)",
+        "crafting_dc": 15,
+        "time_required": "30 Days",
+        "ingredients": [
+          { "item_id": "iron_ore", "quantity": 10, "type": "Inorganic" },
+          { "item_id": "coal_seam", "quantity": 5, "type": "Inorganic" },
+          { "item_id": "raw_hide_beast", "quantity": 2, "type": "Organic" }
+        ]
+      },
+      {
+        "id": "recipe_mithral_plate",
+        "output_item": "Mithral Full Plate",
+        "crafting_dc": 22,
+        "time_required": "60 Days",
+        "ingredients": [
+          { "item_id": "mithral_nugget", "quantity": 12, "type": "Inorganic" },
+          { "item_id": "residuum_crystals", "quantity": 2, "type": "Magical" },
+          { "item_id": "raw_silk", "quantity": 1, "type": "Organic" }
+        ]
+      },
+      {
+        "id": "recipe_dragon_scale_mail",
+        "output_item": "Dragon Scale Mail",
+        "crafting_dc": 25,
+        "time_required": "45 Days",
+        "ingredients": [
+          { "item_id": "dragon_scale_cluster", "quantity": 4, "type": "Organic" },
+          { "item_id": "dragon_scale_dust", "quantity": 3, "type": "Magical" },
+          { "item_id": "adamantine_crust", "quantity": 1, "type": "Inorganic" }
+        ]
+      },
+      {
+        "id": "recipe_ironbark_armor",
+        "output_item": "Ironbark Plate (Druidic)",
+        "crafting_dc": 20,
+        "time_required": "40 Days",
+        "ingredients": [
+          { "item_id": "ironbark_timber", "quantity": 5, "type": "Organic" },
+          { "item_id": "amber_resin", "quantity": 3, "type": "Organic" },
+          { "item_id": "leyline_vapor", "quantity": 1, "type": "Magical" }
+        ]
+      }
+    ],
+    "weapon_formulas": [
+      {
+        "id": "recipe_longsword_plus_1",
+        "output_item": "Longsword +1",
+        "crafting_dc": 18,
+        "time_required": "10 Days",
+        "ingredients": [
+          { "item_id": "iron_ore", "quantity": 2, "type": "Inorganic" },
+          { "item_id": "residuum_dust", "quantity": 5, "type": "Magical" },
+          { "item_id": "animal_tallow", "quantity": 1, "type": "Organic" }
+        ]
+      },
+      {
+        "id": "recipe_sun_blade",
+        "output_item": "Sun Blade (Legendary)",
+        "crafting_dc": 30,
+        "time_required": "120 Days",
+        "ingredients": [
+          { "item_id": "starmetal_fragment", "quantity": 1, "type": "Inorganic" },
+          { "item_id": "celestial_radiance", "quantity": 2, "type": "Magical" },
+          { "item_id": "platinum_flakes", "quantity": 1, "type": "Inorganic" },
+          { "item_id": "gold_nuggets", "quantity": 2, "type": "Inorganic" }
+        ]
+      },
+      {
+        "id": "recipe_frostbrand_blade",
+        "output_item": "Frostbrand Weapon",
+        "crafting_dc": 24,
+        "time_required": "50 Days",
+        "ingredients": [
+          { "item_id": "cold_iron_ore", "quantity": 4, "type": "Inorganic" },
+          { "item_id": "ever_ice_core", "quantity": 1, "type": "Magical" },
+          { "item_id": "shadow_essence", "quantity": 1, "type": "Magical" }
+        ]
+      }
+    ],
+    "utility_and_arcane_formulas": [
+      {
+        "id": "recipe_bag_of_holding",
+        "output_item": "Bag of Holding",
+        "crafting_dc": 18,
+        "time_required": "15 Days",
+        "ingredients": [
+          { "item_id": "mimic_core", "quantity": 1, "type": "Organic" },
+          { "item_id": "giant_spider_silk", "quantity": 2, "type": "Organic" },
+          { "item_id": "liquid_aether", "quantity": 1, "type": "Magical" }
+        ]
+      },
+      {
+        "id": "recipe_smokepowder",
+        "output_item": "Smokepowder (5 Charges)",
+        "crafting_dc": 14,
+        "time_required": "2 Days",
+        "ingredients": [
+          { "item_id": "brimstone_sulfur", "quantity": 2, "type": "Inorganic" },
+          { "item_id": "coal_seam", "quantity": 1, "type": "Inorganic" },
+          { "item_id": "salt_halite", "quantity": 1, "type": "Inorganic" }
+        ]
+      },
+      {
+        "id": "recipe_spell_scroll_lv5",
+        "output_item": "Spell Scroll (Level 5)",
+        "crafting_dc": 22,
+        "time_required": "20 Days",
+        "ingredients": [
+          { "item_id": "raw_silk", "quantity": 1, "type": "Organic" },
+          { "item_id": "residuum_dust", "quantity": 10, "type": "Magical" },
+          { "item_id": "leyline_vapor", "quantity": 1, "type": "Magical" }
+        ]
+      }
+    ],
+    "biological_unique_formulas": [
+      {
+        "id": "recipe_cloak_displacement",
+        "output_item": "Cloak of Displacement",
+        "crafting_dc": 21,
+        "time_required": "25 Days",
+        "ingredients": [
+          { "item_id": "displacer_tentacle", "quantity": 2, "type": "Organic" },
+          { "item_id": "shadow_essence", "quantity": 1, "type": "Magical" },
+          { "item_id": "raw_silk", "quantity": 3, "type": "Organic" }
+        ]
+      },
+      {
+        "id": "recipe_vial_wyvern_poison",
+        "output_item": "Wyvern Poison (Refined)",
+        "crafting_dc": 19,
+        "time_required": "3 Days",
+        "ingredients": [
+          { "item_id": "wyvern_venom_gland", "quantity": 1, "type": "Organic" },
+          { "item_id": "quick_silver", "quantity": 1, "type": "Inorganic" }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,178 @@
+[
+  {
+    "name": "Strahd von Zarovich",
+    "title": "The First Vampire",
+    "creature_type": "Undead (Vampire)",
+    "description": "The tragic and cruel lord of Barovia, a master tactician and wizard who is physically bound to his land.",
+    "power_scaling": { "cr": 15, "tier": "Legendary Boss", "initiative_mod": "+4" },
+    "damage_profile": {
+      "primary": "Necrotic",
+      "secondary": ["Unarmed Strike (Bludgeoning)", "Spells (Varies)"],
+      "signature_move": "Bite (Max HP reduction)"
+    },
+    "base_stats": {
+      "typical_hp": 144,
+      "alignment": "Lawful Evil",
+      "ac": 16,
+      "resistances": ["Necrotic", "Non-magical Physical"],
+      "vulnerabilities": ["Radiant", "Running Water", "Sunlight"]
+    },
+    "traits": ["Legendary Resistance (3/Day)", "Regeneration (20 HP/Turn)", "Shapechanger", "Spider Climb"],
+    "win_condition": "Must be killed in his coffin with a stake to the heart or sunlight exposure; otherwise, mist-reforms.",
+    "subtypes_and_minions": ["Vampire Spawn", "Dire Wolves", "Bat Swarms"]
+  },
+  {
+    "name": "Tiamat",
+    "title": "The Dragon Queen",
+    "creature_type": "Fiend (Deity)",
+    "description": "The five-headed queen of evil dragons, dwelling in Avernus. Each head represents a different chromatic element.",
+    "power_scaling": { "cr": 30, "tier": "Deific Boss", "initiative_mod": "+0" },
+    "damage_profile": {
+      "primary": "Elemental (Fire, Cold, Acid, Lightning, Poison)",
+      "secondary": ["Magical Piercing (Bite)", "Slashing (Claws)"],
+      "signature_move": "Multiple Breath Weapons"
+    },
+    "base_stats": {
+      "typical_hp": 615,
+      "alignment": "Lawful Evil",
+      "ac": 25,
+      "resistances": ["All Elemental Types", "Non-magical Physical"],
+      "vulnerabilities": ["None (Limited Magic Immunity)"]
+    },
+    "traits": ["Legendary Resistance (5/Day)", "Multiple Heads", "Regeneration (30 HP/Turn)", "Frightful Presence"],
+    "win_condition": "Massive damage output; typically requires the use of 'Dragonmasks' or deific intervention to banish.",
+    "subtypes_and_minions": ["Adult Dragons", "Abishai", "Cult of the Dragon"]
+  },
+  {
+    "name": "Acererak",
+    "title": "The Eternal Lich",
+    "creature_type": "Undead (Lich)",
+    "description": "A multiverse-traveling archlich who builds deadly dungeons to harvest souls for his atropal.",
+    "power_scaling": { "cr": 23, "tier": "Epic Spellcaster", "initiative_mod": "+3" },
+    "damage_profile": {
+      "primary": "Necrotic",
+      "secondary": ["Cold", "Force (Disintegrate)"],
+      "signature_move": "Power Word Kill"
+    },
+    "base_stats": {
+      "typical_hp": 285,
+      "alignment": "Neutral Evil",
+      "ac": 21,
+      "resistances": ["Cold", "Lightning", "Necrotic"],
+      "vulnerabilities": ["None (Immune to non-magical physical)"]
+    },
+    "traits": ["Legendary Resistance (3/Day)", "Turn Resistance", "Rejuvenation (Phylactery)", "Innate Spellcasting"],
+    "win_condition": "Destruction of his hidden Phylactery; otherwise, reforms 1d10 days after death.",
+    "subtypes_and_minions": ["Tomb Guardians", "Wights", "Demiliches"]
+  },
+  {
+    "name": "Zariel",
+    "title": "Archduke of Avernus",
+    "creature_type": "Fiend (Devil)",
+    "description": "The fallen angel who now rules the first layer of the Nine Hells, fueled by eternal rage and martial prowess.",
+    "power_scaling": { "cr": 26, "tier": "Planar General", "initiative_mod": "+7" },
+    "damage_profile": {
+      "primary": "Fire",
+      "secondary": ["Radiant (Fallen Spark)", "Magical Slashing"],
+      "signature_move": "Horrid Touch"
+    },
+    "base_stats": {
+      "typical_hp": 580,
+      "alignment": "Lawful Evil",
+      "ac": 21,
+      "resistances": ["Cold", "Fire", "Radiant", "Non-magical Physical"],
+      "vulnerabilities": ["None"]
+    },
+    "traits": ["Legendary Resistance (3/Day)", "Magic Resistance", "Teleport (At-will)", "Regeneration (20 HP/Turn)"],
+    "win_condition": "Combat defeat or 'Redemption Quest' to return her to Celestial form.",
+    "subtypes_and_minions": ["Pit Fiends", "Ertinyes", "Hell Wasps"]
+  },
+  {
+    "name": "Demogorgon",
+    "title": "Prince of Demons",
+    "creature_type": "Fiend (Demon)",
+    "description": "The Sibilant Beast, a two-headed monstrosity whose very gaze causes madness and internal war.",
+    "power_scaling": { "cr": 26, "tier": "Abyssal Lord", "initiative_mod": "+2" },
+    "damage_profile": {
+      "primary": "Necrotic",
+      "secondary": ["Bludgeoning (Tentacles)", "Psychic (Madness)"],
+      "signature_move": "Gaze of Abyssal Might"
+    },
+    "base_stats": {
+      "typical_hp": 464,
+      "alignment": "Chaotic Evil",
+      "ac": 22,
+      "resistances": ["Cold", "Fire", "Lightning"],
+      "vulnerabilities": ["None"]
+    },
+    "traits": ["Legendary Resistance (3/Day)", "Two Heads", "Magic Resistance", "Madness Aura"],
+    "win_condition": "Defeat within the Abyss; banishment usually only delays his return.",
+    "subtypes_and_minions": ["Mariliths", "Hezrou", "Kuo-toa (Cultists)"]
+  },
+  {
+    "name": "The Xanathar",
+    "title": "Beholder Crime Lord",
+    "creature_type": "Aberration",
+    "description": "The paranoid leader of the Xanathar Guild in Waterdeep, obsessed with his goldfish and total control.",
+    "power_scaling": { "cr": 13, "tier": "Urban Boss", "initiative_mod": "+2" },
+    "damage_profile": {
+      "primary": "Psychic / Force / Elemental",
+      "secondary": ["Piercing (Bite)"],
+      "signature_move": "Disintegration Ray"
+    },
+    "base_stats": {
+      "typical_hp": 180,
+      "alignment": "Lawful Evil",
+      "ac": 18,
+      "resistances": ["None"],
+      "vulnerabilities": ["None"]
+    },
+    "traits": ["Eye Rays (Randomized)", "Antimagic Cone", "Legendary Actions", "Paranoia Logic"],
+    "win_condition": "Standard combat; death triggers guild-collapse events.",
+    "subtypes_and_minions": ["Xanathar Guild Thugs", "Intellect Devourers", "Gazers"]
+  },
+  {
+    "name": "Lord Soth",
+    "title": "Knight of the Black Rose",
+    "creature_type": "Undead (Death Knight)",
+    "description": "A fallen paladin of Solamnia, cursed to eternal unlife for his betrayal and pride.",
+    "power_scaling": { "cr": 19, "tier": "Elite Undead Martial", "initiative_mod": "+0" },
+    "damage_profile": {
+      "primary": "Necrotic",
+      "secondary": ["Fire (Hellfire Orb)", "Magical Slashing"],
+      "signature_move": "Power Word Kill (1/Day)"
+    },
+    "base_stats": {
+      "typical_hp": 180,
+      "alignment": "Lawful Evil",
+      "ac": 20,
+      "resistances": ["Necrotic", "Poison", "Non-magical Physical"],
+      "vulnerabilities": ["None"]
+    },
+    "traits": ["Magic Resistance", "Marshal Undead", "Spellcasting (Paladin/Wizard)", "Parry"],
+    "win_condition": "Combat destruction; however, he often returns unless the curse of his armor is broken.",
+    "subtypes_and_minions": ["Skeletal Knights", "Wraiths", "Banshees"]
+  },
+  {
+    "name": "Auril the Frostmaiden",
+    "title": "The Coldsoul",
+    "creature_type": "Elemental (Deity)",
+    "description": "The embodiment of winter’s cruelty, maintaining an eternal night in Icewind Dale.",
+    "power_scaling": { "cr": 9, "tier": "Multi-Phase Boss", "initiative_mod": "+2" },
+    "damage_profile": {
+      "primary": "Cold",
+      "secondary": ["Radiant", "Piercing (Ice)"],
+      "signature_move": "Ice Tomb"
+    },
+    "base_stats": {
+      "typical_hp": 300,
+      "alignment": "Neutral Evil",
+      "ac": 13,
+      "resistances": ["Poison"],
+      "vulnerabilities": ["Fire (Sometimes, varies by form)"]
+    },
+    "traits": ["Three Forms (Crone, Owl, Crystal)", "Legendary Resistance (2/Day)", "Ice Walk"],
+    "win_condition": "Must defeat all three consecutive forms in a single encounter to banish her from the Material Plane.",
+    "subtypes_and_minions": ["Frost Giants", "Coldlight Walkers", "Ice Mephits"]
+  }
+]

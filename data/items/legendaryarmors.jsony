@@ -1,0 +1,164 @@
+{
+  "legendary_armory": {
+    "metadata": {
+      "db_version": "3.0",
+      "record_type": "Artifacts & Named Uniques",
+      "usage": "Tier 4 Campaign / World Boss Rewards"
+    },
+    "artifacts": [
+      {
+        "id": "armor_of_invulnerability",
+        "name": "Armor of Invulnerability",
+        "base_type": "Plate Armor",
+        "ac_base": 18,
+        "rarity": "Legendary",
+        "attunement": "Required",
+        "passive_buffs": [
+          "Resistance to all non-magical damage",
+          "Immunity to critical hits"
+        ],
+        "active_powers": "Invincible Stand: As an action, become immune to all non-magical damage for 10 minutes (1/day).",
+        "cultural_connection": "Forged by the gods of the forge for the mortal heroes who stood against the Dawn War.",
+        "weight": "65 lb",
+        "strength_req": 15
+      },
+      {
+        "id": "robe_of_the_archmagi",
+        "name": "Robe of the Archmagi",
+        "base_type": "Robes (Apparel)",
+        "ac_base": 15,
+        "ac_modifier": "Full Dexterity",
+        "rarity": "Legendary",
+        "attunement": "Required (Sorcerer, Warlock, or Wizard)",
+        "alignment_lock": "Specific versions exist for Good (White), Neutral (Gray), and Evil (Black).",
+        "passive_buffs": [
+          "Spell save DC and Spell attack rolls increase by 2",
+          "Advantage on saving throws against spells and magical effects"
+        ],
+        "cultural_connection": "Woven from the raw essence of the Weave by the first Mystra's chosen.",
+        "weight": "4 lb"
+      },
+      {
+        "id": "efreeti_chain",
+        "name": "Efreeti Chain",
+        "base_type": "Chain Mail",
+        "ac_base": 16,
+        "ac_modifier": "+3 Bonus (Total 19)",
+        "rarity": "Legendary",
+        "attunement": "Required",
+        "passive_buffs": [
+          "Immunity to Fire damage",
+          "Can speak and understand Primordial (Ignan)",
+          "Walk across molten lava as if it were solid ground"
+        ],
+        "active_powers": "Hottest Flame: Can cast 'Hallow' once per day (Fire effects only).",
+        "cultural_connection": "Forged in the City of Brass on the Elemental Plane of Fire.",
+        "weight": "55 lb",
+        "strength_req": 13
+      },
+      {
+        "id": "robe_of_stars",
+        "name": "Robe of Stars",
+        "base_type": "Apparel",
+        "ac_base": 10,
+        "ac_modifier": "Full Dexterity + 1",
+        "rarity": "Very Rare / Unique",
+        "attunement": "Required",
+        "passive_buffs": [
+          "+1 bonus to all Saving Throws"
+        ],
+        "active_powers": [
+          "Astral Travel: Use an action to enter the Astral Plane (along with everything you are carrying).",
+          "Star Bolt: Use an action to fire a 'Magic Missile' (Level 5 version) from the embroidery (6 charges)."
+        ],
+        "cultural_connection": "Favored by Chronomancers and Planar travelers who fear being trapped in the Prime Material.",
+        "weight": "3 lb"
+      },
+      {
+        "id": "targath_armor_of_the_broken",
+        "name": "Targath's Aegis",
+        "base_type": "Half Plate",
+        "ac_base": 15,
+        "ac_modifier": "Dexterity (Max 2) + 2",
+        "rarity": "Legendary",
+        "attunement": "Required by a creature with missing limbs or permanent scarring",
+        "passive_buffs": [
+          "Regeneration: Heal 1d10 HP at the start of every turn if you have at least 1 HP.",
+          "Indomitable Will: Immunity to the Frightened and Charmed conditions."
+        ],
+        "sentience": {
+          "alignment": "Neutral Good",
+          "personality": "Stoic and encouraging; it pulses with warmth when the wielder protects the weak.",
+          "int": 12, "wis": 16, "cha": 14
+        },
+        "destruction": "Must be worn by a tyrant who genuinely repents their sins before being dissolved in the Acid of the Abyss."
+      },
+      {
+        "id": "demon_armor",
+        "name": "Demon Armor",
+        "base_type": "Plate Armor",
+        "ac_base": 18,
+        "ac_modifier": "+1 Bonus (Total 19)",
+        "rarity": "Very Rare (Unique Cursed)",
+        "attunement": "Required",
+        "passive_buffs": [
+          "Understand and speak Abyssal",
+          "Unarmed strikes deal 1d8 slashing damage and are considered magical"
+        ],
+        "active_powers": "Abyssal Claw: Advantage on attacks against Good-aligned creatures.",
+        "curse_logic": "Claw of the Pit: You cannot remove the armor. You have disadvantage on attacks against Demons and saving throws against their spells.",
+        "cultural_connection": "A soul-trapped prison forged in the 66th layer of the Abyss.",
+        "weight": "65 lb"
+      },
+      {
+        "id": "plate_of_the_dawnmartyr",
+        "name": "Plate of the Dawnmartyr",
+        "base_type": "Full Plate",
+        "ac_base": 18,
+        "ac_modifier": "+2 Bonus (Total 20)",
+        "rarity": "Artifact (Exaltable)",
+        "attunement": "Required by a Paladin or Cleric",
+        "transformation_stages": ["Dormant", "Awakened", "Exalted"],
+        "passive_buffs": [
+          "Resistance to Fire",
+          "Immunity to the Frightened condition"
+        ],
+        "active_powers": "Phoenix Flare: When you drop to 0 HP, you explode in a burst of radiant light, healing yourself for 10d6 and dealing 10d6 to enemies (1/long rest).",
+        "destruction": "Must be cast into the heart of the Sun or quenched in the blood of a Solar.",
+        "weight": "65 lb"
+      },
+      {
+        "id": "cassalanter_finery",
+        "name": "The Cassalanter Masquerade",
+        "base_type": "Fine Clothes (Apparel)",
+        "ac_base": 12,
+        "ac_modifier": "Full Dexterity",
+        "rarity": "Unique",
+        "attunement": "Required",
+        "passive_buffs": [
+          "+5 bonus to Deception and Performance checks",
+          "Constant 'Nondetection' spell effect"
+        ],
+        "active_powers": "False Persona: Once per day, cast 'Seeming' without expending a spell slot.",
+        "cultural_connection": "Worn by the infamous devil-worshipping nobles of Waterdeep to hide their true nature.",
+        "weight": "6 lb"
+      },
+      {
+        "id": "dragon_mask_tiamat",
+        "name": "Mask of the Dragon Queen",
+        "base_type": "Wondrous Item (Headwear)",
+        "ac_base": 10,
+        "ac_modifier": "Adds Charisma Modifier to AC",
+        "rarity": "Artifact",
+        "attunement": "Required",
+        "passive_buffs": [
+          "Resistance to Acid, Cold, Fire, Lightning, and Poison",
+          "Legendary Resistance (1/day): If you fail a save, you can choose to succeed.",
+          "Draconic Majesty: While you are wearing no armor, you can add your Cha mod to your AC."
+        ],
+        "active_powers": "Breath Weapon: 12d10 damage of a type chosen from the five dragon colors.",
+        "destruction": "Must be struck by five simultaneous breath weapons from ancient dragons of different colors."
+      }
+    ]
+  }
+}

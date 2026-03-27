@@ -1,0 +1,94 @@
+{
+  "project_name": "DnD_Digital_Multiverse_Core",
+  "schema_version": "1.0.0",
+  "last_updated": "2026-03-27",
+  
+  "campaign_definitions": [
+    {
+      "id": "CMP-001",
+      "title": "Lost Mine of Phandelver",
+      "level_range": "1-5",
+      "environment": {
+        "setting": "Forgotten Realms (Sword Coast)",
+        "biome": "Temperate Forest / Hills",
+        "primary_assets": ["Forest_Static_Meshes", "Rural_Village_Pack"]
+      },
+      "logic_flags": ["Introductory", "Sandbox-Lite", "High-Fantasy"],
+      "active_mechanics": ["MEC-001", "MEC-002"],
+      "primary_cultures": ["CUL-001", "CUL-002"],
+      "win_conditions": ["GL-001", "GL-002"]
+    },
+    {
+      "id": "CMP-006",
+      "title": "Curse of Strahd",
+      "level_range": "1-10",
+      "environment": {
+        "setting": "Barovia (Demiplane of Dread)",
+        "biome": "Gothic / Alpine Forest",
+        "primary_assets": ["Mist_Particle_Systems", "Gothic_Castle_Pack"]
+      },
+      "logic_flags": ["Gothic-Horror", "Open-World", "Psychological"],
+      "active_mechanics": ["MEC-008", "MEC-009", "MEC-003"],
+      "primary_cultures": ["CUL-004", "CUL-006"],
+      "win_conditions": ["GL-009", "GL-010"]
+    }
+  ],
+
+  "system_mechanics": [
+    {
+      "id": "MEC-001",
+      "name": "Faction Renown",
+      "description": "Reputation tracker affecting NPC hostility and shop prices."
+    },
+    {
+      "id": "MEC-008",
+      "name": "Tarokka Procedural Logic",
+      "description": "Randomization script for item and NPC placement at start-of-game."
+    },
+    {
+      "id": "MEC-013",
+      "name": "Infernal War Machines",
+      "description": "Vehicle physics and combat engine using Soul Coin fuel logic."
+    }
+  ],
+
+  "actor_templates": [
+    {
+      "id": "CUL-001",
+      "culture": "Frontier Settlers",
+      "aliases": ["Frontier Human", "Phandalin Colonist"],
+      "base_stats": { "race": "Human", "hp": 12, "ac": 10 },
+      "behavior": "Diurnal_Civilian",
+      "dialogue": {
+        "traits": ["Tired", "Pragmatic"],
+        "flavor_pool": ["The trail is dangerous.", "Gundren promised us better."]
+      }
+    },
+    {
+      "id": "CUL-004",
+      "culture": "Vistani",
+      "aliases": ["The Nomads", "Mist-Walkers"],
+      "base_stats": { "race": "Human", "hp": 22, "ac": 12 },
+      "behavior": "Neutral_Observer",
+      "dialogue": {
+        "traits": ["Enigmatic", "Fatalistic"],
+        "flavor_pool": ["The mists go where they wish.", "He is the Land."]
+      }
+    }
+  ],
+
+  "quest_registry": [
+    {
+      "id": "GL-001",
+      "goal": "Rescue Gundren Rockseeker",
+      "trigger": "NPC_Escort_Logic",
+      "completion_flag": "Gundren_Safe == true"
+    },
+    {
+      "id": "GL-010",
+      "goal": "Defeat Strahd von Zarovich",
+      "trigger": "Legendary_Vampire_AI",
+      "completion_flag": "Strahd_HP <= 0"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "dnd_primary_biome": "Arctic",
+    "your_equivalent_biomes": ["Arctic Tundra"],
+    "landscape_traits": "Ice sheets, glaciers, and treeless frozen plains."
+  },
+  {
+    "dnd_primary_biome": "Coast",
+    "your_equivalent_biomes": ["Coastal", "Islands"],
+    "landscape_traits": "Shorelines, saltwater marshes, and cliffside regions."
+  },
+  {
+    "dnd_primary_biome": "Desert",
+    "your_equivalent_biomes": ["Desert", "Badlands"],
+    "landscape_traits": "Arid regions, whether sandy dunes or eroded rocky wastes."
+  },
+  {
+    "dnd_primary_biome": "Forest",
+    "your_equivalent_biomes": ["Temperate Forest", "Boreal Forest", "Rainforest"],
+    "landscape_traits": "Any high-density tree cover, from pine taigas to tropical jungles."
+  },
+  {
+    "dnd_primary_biome": "Grassland",
+    "your_equivalent_biomes": ["Plains & Farmlands", "Savanna", "Moorland"],
+    "landscape_traits": "Open, flat, or rolling terrain with low vegetation."
+  },
+  {
+    "dnd_primary_biome": "Mountain",
+    "your_equivalent_biomes": ["Highlands"],
+    "landscape_traits": "High elevation, steep slopes, and rocky peaks."
+  },
+  {
+    "dnd_primary_biome": "Swamp",
+    "your_equivalent_biomes": ["Swampland"],
+    "landscape_traits": "Wetlands, stagnant water, and boggy earth."
+  },
+  {
+    "dnd_primary_biome": "Underdark",
+    "your_equivalent_biomes": ["Subterranean"],
+    "landscape_traits": "Massive cavern systems and deep-earth environments."
+  }
+]

@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "purpose": "Political and inter-regional relationship system",
+    "design": "Graph-based, simulation-ready",
+    "scope": "Cross-setting compatible"
+  },
+
+  "core_model": {
+    "region_node": {
+      "id": "string",
+      "name": "string",
+      "world": "string",
+      "government": "string",
+      "power_level": "low | medium | high | dominant",
+      "stability": "unstable | fragile | stable",
+      "primary_culture": "string"
+    },
+
+    "connection_edge": {
+      "source": "region_id",
+      "target": "region_id",
+      "type": "trade | alliance | war | cold_war | cultural | travel",
+      "strength": 0,
+      "status": "active | strained | broken",
+      "notes": "string"
+    }
+  },
+
+  "regions": [
+    {
+      "id": "waterdeep",
+      "name": "Waterdeep",
+      "world": "Toril",
+      "government": "Oligarchic council",
+      "power_level": "high",
+      "stability": "stable",
+      "primary_culture": "Trade metropolis"
+    },
+    {
+      "id": "baldurs_gate",
+      "name": "Baldur's Gate",
+      "world": "Toril",
+      "government": "Merchant oligarchy",
+      "power_level": "high",
+      "stability": "fragile",
+      "primary_culture": "Mercantile / criminal overlap"
+    },
+    {
+      "id": "neverwinter",
+      "name": "Neverwinter",
+      "world": "Toril",
+      "government": "Monarchy",
+      "power_level": "medium",
+      "stability": "stable",
+      "primary_culture": "Rebuilding kingdom"
+    },
+    {
+      "id": "thay",
+      "name": "Thay",
+      "world": "Toril",
+      "government": "Magocracy",
+      "power_level": "dominant",
+      "stability": "stable",
+      "primary_culture": "Arcane tyranny"
+    },
+    {
+      "id": "sharn",
+      "name": "Sharn",
+      "world": "Eberron",
+      "government": "City-state (corporate influence)",
+      "power_level": "high",
+      "stability": "stable",
+      "primary_culture": "Magitech metropolis"
+    },
+    {
+      "id": "dwendalian_empire",
+      "name": "Dwendalian Empire",
+      "world": "Exandria",
+      "government": "Authoritarian empire",
+      "power_level": "dominant",
+      "stability": "stable",
+      "primary_culture": "Expansionist human empire"
+    },
+    {
+      "id": "kryn_dynasty",
+      "name": "Kryn Dynasty",
+      "world": "Exandria",
+      "government": "Theocratic monarchy",
+      "power_level": "high",
+      "stability": "stable",
+      "primary_culture": "Drow / rebirth philosophy"
+    }
+  ],
+
+  "connections": [
+    {
+      "source": "waterdeep",
+      "target": "baldurs_gate",
+      "type": "trade",
+      "strength": 9,
+      "status": "active",
+      "notes": "Major coastal trade flow"
+    },
+    {
+      "source": "waterdeep",
+      "target": "neverwinter",
+      "type": "alliance",
+      "strength": 7,
+      "status": "active",
+      "notes": "Shared interest in regional stability"
+    },
+    {
+      "source": "baldurs_gate",
+      "target": "thay",
+      "type": "trade",
+      "strength": 5,
+      "status": "strained",
+      "notes": "Secret magical goods trade"
+    },
+    {
+      "source": "dwendalian_empire",
+      "target": "kryn_dynasty",
+      "type": "war",
+      "strength": 10,
+      "status": "active",
+      "notes": "Major ideological and territorial conflict"
+    }
+  ],
+
+  "trade_and_travel": {
+    "routes": [
+      {
+        "name": "Sword Coast Corridor",
+        "type": "land + sea",
+        "connects": ["waterdeep", "baldurs_gate", "neverwinter"],
+        "traffic": "heavy",
+        "risk": "medium",
+        "control": ["Merchant guilds", "Regional powers"]
+      },
+      {
+        "name": "Arcane Trade Channels",
+        "type": "teleportation network",
+        "connects": ["waterdeep", "thay"],
+        "traffic": "low",
+        "risk": "high",
+        "control": ["Mages"]
+      }
+    ],
+
+    "travel_methods": [
+      {
+        "type": "caravan",
+        "speed": "slow",
+        "risk": "bandits"
+      },
+      {
+        "type": "sea_routes",
+        "speed": "medium",
+        "risk": "pirates"
+      },
+      {
+        "type": "teleportation",
+        "speed": "instant",
+        "risk": "rare / expensive"
+      }
+    ]
+  },
+
+  "political_tensions": [
+    {
+      "parties": ["dwendalian_empire", "kryn_dynasty"],
+      "type": "war",
+      "cause": "Ideological + territorial conflict",
+      "intensity": "extreme",
+      "status": "ongoing"
+    },
+    {
+      "parties": ["waterdeep", "baldurs_gate"],
+      "type": "economic rivalry",
+      "cause": "Trade dominance",
+      "intensity": "medium",
+      "status": "ongoing"
+    },
+    {
+      "parties": ["thay", "all_neighbors"],
+      "type": "fear-based tension",
+      "cause": "Necromancy + expansion",
+      "intensity": "high",
+      "status": "latent"
+    }
+  ],
+
+  "cultural_exchange": [
+    {
+      "regions": ["waterdeep", "baldurs_gate"],
+      "type": "trade-driven",
+      "effects": [
+        "Shared language (Common)",
+        "Blended architecture",
+        "Mixed populations"
+      ]
+    },
+    {
+      "regions": ["kryn_dynasty", "dwendalian_empire"],
+      "type": "conflict-driven",
+      "effects": [
+        "Propaganda",
+        "Cultural rejection",
+        "Religious divide"
+      ]
+    },
+    {
+      "regions": ["sharn", "all"],
+      "type": "cosmopolitan",
+      "effects": [
+        "High diversity",
+        "Rapid innovation",
+        "Cultural blending"
+      ]
+    }
+  ],
+
+  "system_dynamics": {
+    "rules": [
+      "Trade increases cultural exchange",
+      "War decreases trade but increases technological/magical advancement",
+      "Strong regions influence weaker neighbors culturally and politically",
+      "Travel routes determine influence spread",
+      "Isolation preserves unique cultures but weakens economy"
+    ]
+  }
+}

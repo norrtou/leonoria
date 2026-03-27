@@ -1,0 +1,239 @@
+{
+  "master_organic_registry": {
+    "metadata": {
+      "version": "2.0",
+      "description": "Complete industrial and structural biological resources. Excludes refined alchemy and inorganic minerals.",
+      "harvest_requirement": "Survival (Skinning), Nature (Botany), or Woodcarver/Leatherworker Tools."
+    },
+    "timber_and_forestry": [
+      {
+        "id": "softwood_timber",
+        "name": "Softwood (Pine/Fir)",
+        "biome": "Mountains / Plains / Elven Forest",
+        "harvest_dc": 5,
+        "properties": ["Lightweight", "Resinous", "Fast-Burning"],
+        "refined_result": "Scaffolding / Torches / Paper Pulp",
+        "market_value": "1 sp per log",
+        "rarity": "Common"
+      },
+      {
+        "id": "hardwood_timber",
+        "name": "Hardwood (Oak/Ash/Birch)",
+        "biome": "Elven Forest / Plains",
+        "harvest_dc": 10,
+        "properties": ["Structural", "Heavy", "Durable"],
+        "refined_result": "Ship Planking / Bows / Tool Handles / Furniture",
+        "market_value": "5 sp per log",
+        "rarity": "Common"
+      },
+      {
+        "id": "darkwood_timber",
+        "name": "Darkwood (Zalantar)",
+        "biome": "Dark Forest / Swamps",
+        "harvest_dc": 15,
+        "properties": ["Half-Weight of Wood", "Hard as Steel", "Magic-Conductive"],
+        "refined_result": "Masterwork Shields / Light-Weight Ships",
+        "market_value": "10 gp per log",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "ironbark_timber",
+        "name": "Ironbark",
+        "biome": "Elven Forest (Ancient Nodes)",
+        "harvest_dc": 22,
+        "properties": ["Metal-Density", "Fire-Immune", "Non-Magnetic"],
+        "refined_result": "Druidic Plate Armor / Siege Doors",
+        "market_value": "50 gp per log",
+        "rarity": "Very Rare"
+      },
+      {
+        "id": "weeping_willow_bark",
+        "name": "Willow Bark/Switch",
+        "biome": "Swamps / Riverlands",
+        "harvest_dc": 8,
+        "properties": ["Flexible", "Water-Resistant"],
+        "refined_result": "Baskets / Wicker-Shields / Medicine Base",
+        "market_value": "2 sp per bundle",
+        "rarity": "Common"
+      }
+    ],
+    "textiles_and_natural_fibers": [
+      {
+        "id": "raw_cotton",
+        "name": "Upland Cotton",
+        "biome": "Plains / Riverlands",
+        "harvest_dc": 5,
+        "properties": ["Breathable", "Absorbent"],
+        "refined_result": "Common Clothes / Gauze / Thread",
+        "market_value": "1 sp per bundle",
+        "rarity": "Common"
+      },
+      {
+        "id": "flax_fibers",
+        "name": "Common Flax",
+        "biome": "Plains / Foothills",
+        "harvest_dc": 8,
+        "properties": ["High Tensile", "Fast-Drying"],
+        "refined_result": "Linen Fabric / Bowstrings / Canvas",
+        "market_value": "5 sp per bundle",
+        "rarity": "Common"
+      },
+      {
+        "id": "hemp_stalks",
+        "name": "Industrial Hemp",
+        "biome": "Plains / Swamps",
+        "harvest_dc": 6,
+        "properties": ["Coarse", "Extremely Strong", "Rot-Resistant"],
+        "refined_result": "Hemp Rope / Burlap Sacks / Sailcloth",
+        "market_value": "2 sp per bundle",
+        "rarity": "Common"
+      },
+      {
+        "id": "raw_silk",
+        "name": "Silkworm Cocoons",
+        "biome": "Elven Forest / Plains",
+        "harvest_dc": 12,
+        "properties": ["Shimmering", "Lightweight", "Dye-Absorbent"],
+        "refined_result": "Silk Apparel / Padded Armor Lining",
+        "market_value": "2 gp per spool",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "giant_spider_silk",
+        "name": "Giant Spider Webbing",
+        "biome": "Deep Caves / Dark Forest",
+        "harvest_dc": 18,
+        "properties": ["Stronger than Steel", "Flexible", "Vibration-Sensitive"],
+        "refined_result": "Silk Rope / Arcane Robes / Parachutes",
+        "market_value": "20 gp per spool",
+        "rarity": "Rare"
+      }
+    ],
+    "hides_furs_and_biological_armor": [
+      {
+        "id": "raw_hide_beast",
+        "name": "Common Beast Hide (Cattle/Deer)",
+        "biome": "Plains / Mountains",
+        "harvest_dc": 5,
+        "properties": ["Flexible", "Tough", "Insulating"],
+        "refined_result": "Leather Armor / Boots / Saddles",
+        "market_value": "2 gp per skin",
+        "rarity": "Common"
+      },
+      {
+        "id": "thick_fur_pelt",
+        "name": "Winter Pelts (Wolf/Bear)",
+        "biome": "Arctic / High Mountains",
+        "harvest_dc": 10,
+        "properties": ["Extreme Insulation", "Water-Shedding"],
+        "refined_result": "Cold Weather Gear / Rugs",
+        "market_value": "5 gp per pelt",
+        "rarity": "Common"
+      },
+      {
+        "id": "reptile_scales_standard",
+        "name": "Lizard/Crocodile Scales",
+        "biome": "Swamps / Riverlands",
+        "harvest_dc": 12,
+        "properties": ["Waterproof", "Overlapping", "Tough"],
+        "refined_result": "Scale Mail / Shield Covers",
+        "market_value": "10 gp per skin",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "monstrous_chitin",
+        "name": "Insectoid Chitin (Ankheg/Crab)",
+        "biome": "The Barrens / Salt Deserts",
+        "harvest_dc": 16,
+        "properties": ["Rigid", "Acid-Resistant", "Non-Metallic"],
+        "refined_result": "Chitin Plate Armor / Tower Shields",
+        "market_value": "50 gp per plate",
+        "rarity": "Rare"
+      },
+      {
+        "id": "dragon_scale_cluster",
+        "name": "True Dragon Scales",
+        "biome": "Mountains / Ashlands / Lairs",
+        "harvest_dc": 25,
+        "properties": ["Near-Indestructible", "Elemental-Attuned"],
+        "refined_result": "Dragon Scale Mail / Legendary Shields",
+        "market_value": "500 gp per cluster",
+        "rarity": "Legendary"
+      }
+    ],
+    "industrial_biological_fluids": [
+      {
+        "id": "animal_tallow",
+        "name": "Rendered Fat (Tallow)",
+        "biome": "Plains / Arctic",
+        "harvest_dc": 5,
+        "properties": ["Lubricating", "Fuel-Source"],
+        "refined_result": "Candles / Soap / Grease / Gear Oil",
+        "market_value": "1 sp per jar",
+        "rarity": "Common"
+      },
+      {
+        "id": "natural_rubber",
+        "name": "Caoutchouc Sap",
+        "biome": "Swamps / Elven Forest",
+        "harvest_dc": 14,
+        "properties": ["Elastic", "Electric-Insulating", "Water-Tight"],
+        "refined_result": "Gaskets / Waterproofing / Erasing Tools",
+        "market_value": "5 gp per vial",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "tar_pitch",
+        "name": "Natural Pitch/Tar",
+        "biome": "Swamps / Ashlands",
+        "harvest_dc": 10,
+        "properties": ["Adhesive", "Combustible", "Sealant"],
+        "refined_result": "Ship Caulking / Torches / Road Paving",
+        "market_value": "5 sp per bucket",
+        "rarity": "Common"
+      }
+    ],
+    "structural_biological_parts": [
+      {
+        "id": "animal_bone",
+        "name": "Standard Bone (Large Beast)",
+        "biome": "Plains / Mountains / The Barrens",
+        "harvest_dc": 5,
+        "properties": ["Rigid", "Porous", "Carvable"],
+        "refined_result": "Needles / Dice / Bone Armor / Handles",
+        "market_value": "5 cp per bundle",
+        "rarity": "Common"
+      },
+      {
+        "id": "ivory_tusk",
+        "name": "Elephant/Mammoth Ivory",
+        "biome": "Plains / Arctic",
+        "harvest_dc": 15,
+        "properties": ["Dense", "Lustrous", "High Social Value"],
+        "refined_result": "Art Objects / Arcane Foci / Jewelry",
+        "market_value": "50 gp per tusk",
+        "rarity": "Rare"
+      },
+      {
+        "id": "monster_horn_hardened",
+        "name": "Minotaur/Rhino Horn",
+        "biome": "The Barrens / Mountains",
+        "harvest_dc": 14,
+        "properties": ["Extremely Hard", "Impact-Resistant"],
+        "refined_result": "War-Horns / Composite Bow Cores",
+        "market_value": "15 gp per unit",
+        "rarity": "Uncommon"
+      },
+      {
+        "id": "whale_baleen",
+        "name": "Baleen (Great Whale)",
+        "biome": "Ocean Coastlines / Arctic",
+        "harvest_dc": 13,
+        "properties": ["Springy", "Flexible", "Strong"],
+        "refined_result": "Corset Stays / Spring Mechanisms / Whips",
+        "market_value": "10 gp per bundle",
+        "rarity": "Uncommon"
+      }
+    ]
+  }
+}

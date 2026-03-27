@@ -1,0 +1,1002 @@
+{
+  "_meta": {
+    "file": "geography.json",
+    "purpose": "Single source of truth for all named geographical features in Leonoria",
+    "labelTypes": [
+      "region", "city", "town", "village", "port", "ruin",
+      "mountain_range", "peak", "forest", "river", "body_of_water",
+      "dungeon", "landmark", "pass", "road"
+    ],
+    "usedBy": ["map.js", "regions.json", "quests.json", "encounters.json", "events.json"],
+    "notes": "All names drawn by map.js should ultimately resolve from this file. danger: 1=safe 5=deadly."
+  },
+
+  "regions": [
+    {
+      "id": "eldenmoor",
+      "name": "Eldenmoor",
+      "subtype": "highland_moor",
+      "description": "Windswept highland moors blanketed in heather and low fog. Ancient standing stones dot the hilltops and unexplained lights wander the bogs at night.",
+      "climate": "cold, damp, frequent fog",
+      "danger": 2,
+      "controlledBy": ["druids_of_the_pale_circle"],
+      "resources": ["peat", "iron ore", "medicinal herbs", "standing-stone ruins"],
+      "borders": ["greywood", "silvermarsh", "stonespine"],
+      "secrets": ["A druidic circle beneath the oldest stones reportedly predates recorded history"]
+    },
+    {
+      "id": "greywood",
+      "name": "The Greywood",
+      "subtype": "ancient_forest",
+      "description": "A vast primordial forest of silver-barked ash and twisted oak. The canopy is so thick that it is twilight even at noon. Fae activity is common near the deeper groves.",
+      "climate": "temperate, still air, perpetual shade",
+      "danger": 3,
+      "controlledBy": ["wood_elf_clans", "greywood_wardens"],
+      "resources": ["rare timber", "fae herbs", "honey", "hidden springs"],
+      "borders": ["eldenmoor", "thornwall", "ashfen"],
+      "secrets": ["A portal to the Feywild is said to open at the heart of the wood during the solstice"]
+    },
+    {
+      "id": "ashfen",
+      "name": "Ashfen",
+      "subtype": "marshland",
+      "description": "Vast grey marshes smelling of sulphur and ash. The water runs black in places from ancient volcanic runoff. Home to lizardfolk tribes and will-o'-wisps.",
+      "climate": "humid, warm, foul-smelling mist",
+      "danger": 3,
+      "controlledBy": ["lizardfolk_tribes", "none"],
+      "resources": ["ash clay", "bog iron", "rare mushrooms", "alchemical reagents"],
+      "borders": ["greywood", "silvermarsh", "thornwall"],
+      "secrets": ["Submerged ruins of a pre-human civilisation lie under the deepest bogs"]
+    },
+    {
+      "id": "stonespine",
+      "name": "Stonespine",
+      "subtype": "mountain_highland",
+      "description": "The ragged spine of Leonoria's central mountain range. Dwarven holdfasts cling to the cliffsides and mine tunnels honeycomb the peaks. The air is thin and cold year-round.",
+      "climate": "arctic above treeline, cold below",
+      "danger": 4,
+      "controlledBy": ["stonespine_dwarven_clans"],
+      "resources": ["mithral", "stone", "iron", "coal", "dwarvish runes"],
+      "borders": ["eldenmoor", "iceward"],
+      "secrets": ["The deepest mine broke through into a vast underground sea three centuries ago; it was sealed immediately"]
+    },
+    {
+      "id": "silvermarsh",
+      "name": "Silvermarsh",
+      "subtype": "floodplain",
+      "description": "Silver-grassed flatlands threaded with slow rivers and ox-bow lakes. Fertile farming country; the breadbasket of Leonoria. Prone to seasonal flooding.",
+      "climate": "temperate, mild, occasional floods",
+      "danger": 1,
+      "controlledBy": ["city_of_valdris"],
+      "resources": ["grain", "cattle", "river fish", "clay", "freshwater"],
+      "borders": ["eldenmoor", "ashfen"],
+      "secrets": ["Beneath the silver grasses, a network of underground aqueducts built by a forgotten empire still flows"]
+    },
+    {
+      "id": "thornwall",
+      "name": "Thornwall",
+      "subtype": "shrubland_border",
+      "description": "A tangle of dense briar and thorn-hedge that forms a near-impassable natural wall along Leonoria's eastern frontier. Bandits and exiles make camps in the clearings.",
+      "climate": "dry, warm, dusty wind",
+      "danger": 3,
+      "controlledBy": ["bandit_lords", "none"],
+      "resources": ["thorn-wood", "wild game", "hidden caches"],
+      "borders": ["greywood", "ashfen"],
+      "secrets": ["The thorns were deliberately cultivated by a wizard-king as a border defence; the control word still exists"]
+    },
+    {
+      "id": "iceward",
+      "name": "Iceward",
+      "subtype": "tundra",
+      "description": "The frozen north. Permafrost, howling blizzards, and creatures that have adapted to lethal cold. No settlements of note; even experienced rangers avoid lingering.",
+      "climate": "arctic, blizzards, perpetual snow",
+      "danger": 5,
+      "controlledBy": ["none"],
+      "resources": ["glacial ice", "frost crystals", "megafauna pelts"],
+      "borders": ["stonespine"],
+      "secrets": ["A perfectly preserved pre-glacial city is locked inside a glacier, visible but unreachable"]
+    }
+  ],
+
+  "cities": [
+    {
+      "id": "valdris",
+      "name": "Valdris",
+      "region": "silvermarsh",
+      "subtype": "capital_city",
+      "description": "The largest city in Leonoria, built at the confluence of the River Mourne and the Greybeck. Ringed by high stone walls and three concentric rings of districts. Trade capital and seat of the High Council.",
+      "population": 28000,
+      "danger": 1,
+      "notableFeatures": ["The Mourne Gate (famous river-gate)", "Grand Market Square", "The Amber Hall (seat of government)", "Valdris Academy of Arcane Arts"],
+      "controlledBy": ["high_council_of_leonoria"],
+      "factions": ["merchants_guild", "arcane_circle", "city_guard"],
+      "resources": ["trade goods", "crafted weapons", "grain stores", "magical services"],
+      "connections": ["river_mourne", "greybeck", "road_kings_way"]
+    },
+    {
+      "id": "sorvane",
+      "name": "Sorvane",
+      "region": "eldenmoor",
+      "subtype": "fortress_city",
+      "description": "A grim fortress-city carved into the moorland cliffs. Heavy walls, narrow streets, and a permanent garrison. Rules the highland passes with an iron fist.",
+      "population": 14000,
+      "danger": 2,
+      "notableFeatures": ["The Black Bastions (three defensive towers)", "The Greystone Keep (military HQ)", "The Amber Lamp Inn (famous tavern)"],
+      "controlledBy": ["sorvane_garrison_council"],
+      "factions": ["iron_legion", "moorland_rangers", "stonespine_trade_guild"],
+      "resources": ["iron", "soldiers", "mercenaries", "moorland herbs"],
+      "connections": ["road_moorpath", "river_silvern_run"]
+    },
+    {
+      "id": "thelindra",
+      "name": "Thelindra",
+      "region": "greywood",
+      "subtype": "elven_city",
+      "description": "Built into the giant trees of the Greywood's eastern fringe. Platforms and bridges span the canopy. Elven spires rise above the treetops, catching starlight. Humans are tolerated but watched.",
+      "population": 9000,
+      "danger": 2,
+      "notableFeatures": ["The Moonspire (tallest tower in Leonoria)", "The Rootmarket (underground bazaar)", "The Song-Hall (bardic college)"],
+      "controlledBy": ["greywood_elder_council"],
+      "factions": ["wood_elf_clans", "greywood_wardens", "shadow_conclave"],
+      "resources": ["elven crafts", "fae-touched herbs", "rare scrolls", "starwood"],
+      "connections": ["river_ashwater", "road_canopy_walk"]
+    },
+    {
+      "id": "kethara",
+      "name": "Kethara",
+      "region": "stonespine",
+      "subtype": "dwarven_city",
+      "description": "Half carved into the mountain, half built upon a wide ledge overlooking the lower valleys. Famous for its forges, which burn day and night. The air always smells of hot metal and coal smoke.",
+      "population": 11000,
+      "danger": 2,
+      "notableFeatures": ["The Deephalls (lower dwarven quarter)", "The Forge-Ring (16 master smithies)", "The Vaultgate (entrance to deeper tunnels)"],
+      "controlledBy": ["kethara_clan_thane"],
+      "factions": ["stonespine_dwarven_clans", "smiths_brotherhood", "vaultguard"],
+      "resources": ["mithral weapons", "dwarven armour", "siege engines", "rune-carved goods"],
+      "connections": ["river_stonebeck", "road_deephall_road", "pass_kethara_gap"]
+    }
+  ],
+
+  "towns": [
+    {
+      "id": "millhaven",
+      "name": "Millhaven",
+      "region": "silvermarsh",
+      "subtype": "mill_town",
+      "description": "A prosperous riverside town built around a cluster of watermills. Flour, timber, and cloth are the main trades. The weekly market draws farmers from all across the Silvermarsh.",
+      "population": 1800,
+      "danger": 1,
+      "notableFeatures": ["The Six Mills (famous watermill cluster)", "Millhaven Market", "The Crooked Plough Inn"],
+      "connections": ["river_mourne", "road_kings_way"]
+    },
+    {
+      "id": "duskford",
+      "name": "Duskford",
+      "region": "eldenmoor",
+      "subtype": "ford_town",
+      "description": "Grown around the only reliable ford across the River Mourne in the highlands. Heavily trafficked by caravans. A rough-and-tumble town with more inns than houses.",
+      "population": 1100,
+      "danger": 2,
+      "notableFeatures": ["The Stone Ford (ancient crossing)", "Duskford Tollhouse", "The Three Crows Tavern"],
+      "connections": ["river_mourne", "road_moorpath"]
+    },
+    {
+      "id": "thornwick",
+      "name": "Thornwick",
+      "region": "thornwall",
+      "subtype": "border_town",
+      "description": "Perched on the western edge of the Thornwall. Half of its residents are outlaws, the other half are people pretending they aren't. A good place to find work no-one else will take.",
+      "population": 750,
+      "danger": 3,
+      "notableFeatures": ["The Briar Wall Gate", "The Thorn & Flask Tavern (smugglers' meeting point)"],
+      "connections": ["road_thornwall_track"]
+    },
+    {
+      "id": "greycross",
+      "name": "Greycross",
+      "region": "silvermarsh",
+      "subtype": "crossroads_town",
+      "description": "A crossroads settlement at the junction of three major roads. A relay station for couriers and a neutral ground for faction negotiations. Controlled by no one, paid tribute by everyone.",
+      "population": 950,
+      "danger": 1,
+      "notableFeatures": ["The Four-Stone Marker (ancient crossroads monument)", "Greycross Courier Post", "The Wayfarers' Lodge"],
+      "connections": ["road_kings_way", "road_moorpath", "road_southern_reach"]
+    },
+    {
+      "id": "ashbridge",
+      "name": "Ashbridge",
+      "region": "ashfen",
+      "subtype": "fenland_town",
+      "description": "Built on stilts above the shallower margins of the Ashfen. The only permanent settlement in the fen. Fishermen and alchemist-foragers make up most of the population.",
+      "population": 620,
+      "danger": 3,
+      "notableFeatures": ["The Stilt Quarter (all buildings on wooden poles)", "The Fenwatch (watchtower)", "Saltmud Apothecary"],
+      "connections": ["river_coldwater", "road_fenpath"]
+    },
+    {
+      "id": "westmere",
+      "name": "Westmere",
+      "region": "silvermarsh",
+      "subtype": "lakeside_town",
+      "description": "A peaceful town on the western shore of Merewater Lake. Fishing, boat-building, and minor trade define its quiet rhythm. Visitors come for the smoked fish and the sunsets.",
+      "population": 1300,
+      "danger": 1,
+      "notableFeatures": ["Merewater Docks", "The Boatwrights' Quarter", "The Heronwatch Inn"],
+      "connections": ["body_of_water_merewater_lake", "river_veld"]
+    }
+  ],
+
+  "villages": [
+    {
+      "id": "coldhollow",
+      "name": "Coldhollow",
+      "region": "stonespine",
+      "subtype": "mountain_village",
+      "description": "A dozen stone houses huddled against a mountain cliff for windbreak. Goat herders and quarrymen. Outsiders are viewed with quiet suspicion.",
+      "population": 80,
+      "danger": 2,
+      "notableFeatures": ["The Long House (communal hall)", "Coldhollow Quarry"],
+      "connections": ["pass_kethara_gap"]
+    },
+    {
+      "id": "briarholm",
+      "name": "Briarholm",
+      "region": "thornwall",
+      "subtype": "hidden_hamlet",
+      "description": "A hidden hamlet behind a curtain of thorn-hedge. The locals know every gap and path through the briar. Not on any official map. Welcomes those who stumble in; rarely lets them leave easily.",
+      "population": 120,
+      "danger": 2,
+      "notableFeatures": ["The Hidden Gate", "The Hedgewitch's Cottage"],
+      "connections": []
+    },
+    {
+      "id": "fenreach",
+      "name": "Fenreach",
+      "region": "ashfen",
+      "subtype": "fishing_village",
+      "description": "The outermost human settlement on the fen's edge. Three families who have lived here for generations, trading with the lizardfolk and gathering bog-iron.",
+      "population": 45,
+      "danger": 3,
+      "notableFeatures": ["The Bog-Iron Pile (trading post)", "Fenreach Pier"],
+      "connections": ["river_coldwater"]
+    },
+    {
+      "id": "highcroft",
+      "name": "Highcroft",
+      "region": "eldenmoor",
+      "subtype": "moorland_village",
+      "description": "Perched on a croft above the fog line. Sheep farming and wool trade. The village elder is rumoured to be a retired adventurer with a basement full of dangerous souvenirs.",
+      "population": 200,
+      "danger": 1,
+      "notableFeatures": ["Highcroft Standing Stone", "The Wool Hall"],
+      "connections": ["road_moorpath"]
+    },
+    {
+      "id": "root_deep",
+      "name": "Root Deep",
+      "region": "greywood",
+      "subtype": "treehouse_village",
+      "description": "A gnomish and halfling village built into the base of the Greywood's oldest trees. Everything is small, round-doored, and half-buried. Excellent cheese.",
+      "population": 160,
+      "danger": 1,
+      "notableFeatures": ["The Great Root Tavern", "Rootdeep Mushroom Farm"],
+      "connections": ["river_ashwater"]
+    }
+  ],
+
+  "ports": [
+    {
+      "id": "saltmere",
+      "name": "Saltmere",
+      "region": "silvermarsh",
+      "subtype": "trade_port",
+      "description": "The largest seaport in Leonoria. Built on a natural harbour at the mouth of the River Mourne. A city in itself — half the population has never gone inland.",
+      "population": 12000,
+      "danger": 2,
+      "notableFeatures": ["The Salt Docks (40+ berths)", "The Harbormaster's Tower", "The Keel & Cutlass Inn", "Saltmere Fish Market"],
+      "controlledBy": ["saltmere_harbour_council"],
+      "factions": ["sea_traders_guild", "privateers_alliance", "city_guard"],
+      "connections": ["river_mourne", "body_of_water_grey_sea", "road_kings_way"]
+    },
+    {
+      "id": "greyharbour",
+      "name": "Greyharbour",
+      "region": "eldenmoor",
+      "subtype": "military_port",
+      "description": "A fortified naval port cut into the moorland cliffs. Grey stone walls rise straight from the sea. Home to Leonoria's naval garrison; commercial vessels are permitted but taxed heavily.",
+      "population": 5500,
+      "danger": 2,
+      "notableFeatures": ["The Chain-Gate (harbour defence)", "Naval Drydocks", "The Cliffwatch Garrison"],
+      "controlledBy": ["leonoria_navy"],
+      "factions": ["iron_legion", "navy_admiralty"],
+      "connections": ["body_of_water_grey_sea", "road_moorpath"]
+    },
+    {
+      "id": "the_anchorage",
+      "name": "The Anchorage",
+      "region": "thornwall",
+      "subtype": "smugglers_port",
+      "description": "No official government, no harbour tax, no questions. Ships anchor in a natural sea-cave system beneath the Thornwall cliffs. Every kind of cargo passes through here.",
+      "population": 1800,
+      "danger": 4,
+      "notableFeatures": ["The Sea Caves (berthing)", "The Blind Eye Tavern", "The Contraband Bazaar"],
+      "controlledBy": ["smugglers_consortium"],
+      "factions": ["smugglers_consortium", "privateers_alliance"],
+      "connections": ["body_of_water_grey_sea"]
+    },
+    {
+      "id": "wavebreak",
+      "name": "Wavebreak",
+      "region": "silvermarsh",
+      "subtype": "fishing_port",
+      "description": "A smaller working port dedicated almost entirely to deep-sea fishing. The docks smell perpetually of fish and salt. Proud, self-sufficient community with no love of outsiders or taxes.",
+      "population": 2200,
+      "danger": 1,
+      "notableFeatures": ["The Wavebreak Light (lighthouse)", "Fisher's Quarter", "The Salted Hook Tavern"],
+      "connections": ["body_of_water_grey_sea", "river_veld"]
+    },
+    {
+      "id": "tidehaven",
+      "name": "Tidehaven",
+      "region": "ashfen",
+      "subtype": "tidal_port",
+      "description": "A strange port built on an estuary where the Ashfen meets the sea. Accessible only at high tide; at low tide the channel is a mudflat. The locals time everything by the tides.",
+      "population": 900,
+      "danger": 3,
+      "notableFeatures": ["The Tidegate", "Fen-Traders' Market", "The Mudskipper Inn"],
+      "connections": ["body_of_water_grey_sea", "river_coldwater"]
+    }
+  ],
+
+  "ruins": [
+    {
+      "id": "the_forgotten_keep",
+      "name": "The Forgotten Keep",
+      "region": "stonespine",
+      "subtype": "fortress_ruin",
+      "description": "A shattered keep on a mountain spur, its towers broken mid-height. Built by a warlord-king a thousand years ago; what destroyed it is unrecorded. The lower halls are occupied by something that does not welcome visitors.",
+      "danger": 4,
+      "era": "First Age",
+      "notableFeatures": ["Collapsed Great Hall", "Intact Vault (rumoured)", "Warlord's Throne Room"],
+      "loot": ["ancient weapons", "warlord-era coins", "runic armour fragments"],
+      "secrets": ["The vault contains a sealed lich's phylactery that has never been opened"]
+    },
+    {
+      "id": "old_thorngate",
+      "name": "Old Thorngate",
+      "region": "thornwall",
+      "subtype": "gatehouse_ruin",
+      "description": "The ruins of the original eastern gate of an empire that no longer exists. Massive carved archways still stand, though the walls are long gone. A waypoint for those crossing the Thornwall.",
+      "danger": 3,
+      "era": "Second Age",
+      "notableFeatures": ["The Two Pillars (intact archway)", "Relief Carvings (partially legible)", "Collapsed Guardrooms"],
+      "loot": ["carved stonework", "Second Age relics", "buried cache of swords"],
+      "secrets": ["The carvings, if fully translated, describe a method to control the Thornwall's briar growth"]
+    },
+    {
+      "id": "shadowmere",
+      "name": "Shadowmere",
+      "region": "ashfen",
+      "subtype": "sunken_village",
+      "description": "A village that sank into the Ashfen during an earthquake three centuries ago. The rooftops are just visible above the black water. At night, lights move below the surface.",
+      "danger": 4,
+      "era": "Third Age",
+      "notableFeatures": ["Submerged Church Spire", "The Bell (still rings at midnight)", "Drowned Library"],
+      "loot": ["pre-sinking documents", "drowned treasure", "alchemical stores"],
+      "secrets": ["The earthquake was not natural; the village was a centre of forbidden magic and was deliberately sunk"]
+    },
+    {
+      "id": "drakenfeld",
+      "name": "Drakenfeld",
+      "region": "stonespine",
+      "subtype": "dragon_lair_ruin",
+      "description": "The scorched remains of a mountain fortress destroyed by a dragon two centuries ago. Melted stone and fused metal everywhere. The dragon moved on, but something worse may have moved in.",
+      "danger": 5,
+      "era": "Third Age",
+      "notableFeatures": ["Molten Throne Room", "Dragon-Scorched Courtyard", "Collapsed Treasury"],
+      "loot": ["dragon-fused gold (highly valuable)", "pre-destruction arms", "noble family heirlooms"],
+      "secrets": ["The dragon was summoned deliberately by the fortress's lord, who miscalculated and was the first to burn"]
+    },
+    {
+      "id": "ironwatch",
+      "name": "Ironwatch",
+      "region": "eldenmoor",
+      "subtype": "watchtower_ruin",
+      "description": "A chain of five watchtowers, now all ruined, that once monitored the moorland border. Each tower is a day's walk from the next. The middle tower is rumoured to still be inhabited.",
+      "danger": 2,
+      "era": "Second Age",
+      "notableFeatures": ["Five Tower Remnants", "Signal-Fire Pits", "Subterranean Tunnel (connecting towers)"],
+      "loot": ["signal equipment", "old patrol logs", "watch-commander's seal"],
+      "secrets": ["The tunnels beneath the towers form a complete underground route across the moor"]
+    },
+    {
+      "id": "the_sunken_temple",
+      "name": "The Sunken Temple",
+      "region": "silvermarsh",
+      "subtype": "religious_ruin",
+      "description": "A temple to a forgotten god, half-consumed by the marsh. Mossy columns still rise from the floodwater and priests of unknown faiths occasionally make pilgrimage here.",
+      "danger": 3,
+      "era": "Before Recorded History",
+      "notableFeatures": ["Standing Colonnade", "Submerged Altar", "The Offering Pool"],
+      "loot": ["ancient offerings", "divine relics", "lost scripture tablets"],
+      "secrets": ["The god is not forgotten — only sleeping — and accepts offerings still"]
+    }
+  ],
+
+  "mountain_ranges": [
+    {
+      "id": "stonespine_range",
+      "name": "The Stonespine",
+      "subtype": "primary_range",
+      "description": "The great central spine of Leonoria, running north to south for three hundred miles. The range forms the backbone of the continent and is riddled with dwarven tunnels.",
+      "highestPeak": "peak_greymane_summit",
+      "danger": 4,
+      "resources": ["mithral", "iron", "coal", "rare gems"],
+      "passes": ["pass_kethara_gap", "pass_lowback", "pass_irongate_col"]
+    },
+    {
+      "id": "frosted_crowns",
+      "name": "The Frosted Crowns",
+      "subtype": "northern_range",
+      "description": "A jagged northern range permanently lost in blizzard and cloud. No settlements; not even dwarves venture here willingly. The peaks are said to be the petrified bodies of ancient giants.",
+      "highestPeak": "peak_coldfang",
+      "danger": 5,
+      "resources": ["frost crystals", "glacial ore", "mythic beasts"],
+      "passes": []
+    },
+    {
+      "id": "ember_teeth",
+      "name": "The Ember Teeth",
+      "subtype": "volcanic_range",
+      "description": "A crescent of low volcanic mountains in the southwest. Two peaks still vent steam; one is believed to be mildly active. The soil around them is exceptionally fertile.",
+      "highestPeak": "peak_ashcrown",
+      "danger": 3,
+      "resources": ["volcanic glass", "sulphur", "fertile ash-soil", "rare fire minerals"],
+      "passes": ["pass_ember_col"]
+    }
+  ],
+
+  "peaks": [
+    {
+      "id": "peak_greymane_summit",
+      "name": "Greymane Summit",
+      "range": "stonespine_range",
+      "region": "stonespine",
+      "elevation": "very high",
+      "description": "The tallest peak in Leonoria. Permanently snow-capped. A single dwarven outpost near its base monitors traffic through the high passes.",
+      "danger": 5,
+      "notableFeatures": ["Greymane Outpost (dwarven)", "The Summit Cairn (ancient marker)", "The Frozen Shrine"],
+      "secrets": ["The summit cairn contains a sealed prophecy cylinder placed there in the First Age"]
+    },
+    {
+      "id": "peak_coldfang",
+      "name": "Coldfang",
+      "range": "frosted_crowns",
+      "region": "iceward",
+      "elevation": "extreme",
+      "description": "A fang-shaped spire of black rock jutting from the glacier. Nothing lives on or near it. Shapes are sometimes seen moving near the top in blizzards.",
+      "danger": 5,
+      "notableFeatures": ["The Black Spire", "Permanent Blizzard Zone"],
+      "secrets": ["A dragon that has not been seen in two centuries is rumoured to sleep at its base"]
+    },
+    {
+      "id": "peak_ashcrown",
+      "name": "Ashcrown",
+      "range": "ember_teeth",
+      "region": "ashfen",
+      "elevation": "medium",
+      "description": "A squat volcanic peak that exhales a constant plume of white steam. Cultists of a fire deity consider it sacred and make annual pilgrimages to its crater.",
+      "danger": 3,
+      "notableFeatures": ["The Steam Vent", "Cultist Shrines", "The Lava Field (dormant)"],
+      "secrets": ["The crater contains a naturally occurring portal to the Elemental Plane of Fire, too small to pass through — for now"]
+    },
+    {
+      "id": "peak_witherhorn",
+      "name": "Witherhorn",
+      "range": "stonespine_range",
+      "region": "stonespine",
+      "elevation": "high",
+      "description": "A double-peaked mountain with an uncanny split silhouette. Considered ill-omened by the dwarves. The valley between the two peaks is permanently in shadow.",
+      "danger": 4,
+      "notableFeatures": ["The Twin Peaks", "Shadow Valley", "Collapsed Mine Entrance"],
+      "secrets": ["An undead lord used this mountain as a throne during the Second Age; its bones are still in the valley"]
+    }
+  ],
+
+  "forests": [
+    {
+      "id": "forest_greywood",
+      "name": "The Greywood",
+      "region": "greywood",
+      "subtype": "ancient_fae_forest",
+      "description": "See region entry. The forest and its region share a name — the trees define the land entirely.",
+      "treeDominant": "silver-barked ash, ancient oak, starwood",
+      "danger": 3,
+      "size": "vast",
+      "notableAreas": ["The Deep Heart (fae-active centre)", "The Singing Glade", "The Rootmarket clearing"],
+      "resources": ["starwood (magical timber)", "fae herbs", "wildflower honey"]
+    },
+    {
+      "id": "forest_ashwood",
+      "name": "Ashwood",
+      "region": "silvermarsh",
+      "subtype": "managed_forest",
+      "description": "A tended coppice-forest managed by the city of Valdris for timber. Woodcutters' paths criss-cross it and the edges are carefully maintained. Deeper in, it becomes wilder.",
+      "treeDominant": "ash, oak, hornbeam",
+      "danger": 1,
+      "size": "medium",
+      "notableAreas": ["The Charcoal Quarter", "The Forester's Lodge"],
+      "resources": ["timber", "charcoal", "firewood", "game"]
+    },
+    {
+      "id": "forest_blackpine",
+      "name": "The Blackpine Wood",
+      "region": "eldenmoor",
+      "subtype": "dark_conifer_forest",
+      "description": "A dense forest of black-barked pine that grows right up to the moorland edge. Almost no light reaches the floor. Wolves and worse den here in winter.",
+      "treeDominant": "black pine, dark spruce",
+      "danger": 3,
+      "size": "large",
+      "notableAreas": ["The Wolf Runs", "Collapsed Hunter's Lodge", "The Red Stream (stained by minerals)"],
+      "resources": ["pine resin", "dark timber", "wolf pelts", "mushrooms"]
+    },
+    {
+      "id": "forest_willowmere",
+      "name": "Willowmere",
+      "region": "silvermarsh",
+      "subtype": "riparian_forest",
+      "description": "A long ribbon of willow and alder following the banks of the River Mourne south of Valdris. Damp and pleasant in summer; flooded and impassable in spring.",
+      "treeDominant": "willow, alder, riverside elm",
+      "danger": 1,
+      "size": "small",
+      "notableAreas": ["The Willow Arch", "Fishermen's Camps"],
+      "resources": ["willow (basket-weaving)", "river herbs", "freshwater fish"]
+    }
+  ],
+
+  "rivers": [
+    {
+      "id": "river_mourne",
+      "name": "River Mourne",
+      "subtype": "major_river",
+      "description": "The longest river in Leonoria. Rises in the Stonespine glaciers, crosses the Silvermarsh, and empties into the Grey Sea at Saltmere. The primary highway of trade.",
+      "source": "stonespine_range",
+      "mouth": "body_of_water_grey_sea",
+      "length": "very long",
+      "passesThrough": ["stonespine", "eldenmoor", "silvermarsh"],
+      "settlements": ["sorvane (near)", "duskford (ford)", "millhaven", "valdris", "saltmere"],
+      "bridges": ["bridge_duskford", "bridge_valdris_great"]
+    },
+    {
+      "id": "river_silver_thread",
+      "name": "The Silver Thread",
+      "subtype": "highland_stream",
+      "description": "A fast, cold, crystal-clear stream that tumbles off the Stonespine through the Eldenmoor. Famous for its silver-trout fishing. Too swift and rocky for boats.",
+      "source": "stonespine_range",
+      "mouth": "river_mourne",
+      "length": "medium",
+      "passesThrough": ["stonespine", "eldenmoor"],
+      "settlements": ["highcroft (near)"],
+      "bridges": ["bridge_silver_ford"]
+    },
+    {
+      "id": "river_ashwater",
+      "name": "Ashwater",
+      "subtype": "forest_river",
+      "description": "A slow, dark river that winds through the heart of the Greywood. The water has a faint grey colour from ash minerals. Sacred to the wood elves of Thelindra.",
+      "source": "greywood",
+      "mouth": "body_of_water_grey_sea",
+      "length": "medium",
+      "passesThrough": ["greywood", "thornwall"],
+      "settlements": ["thelindra (near)", "root_deep (near)"],
+      "bridges": ["bridge_thelindra_crossing"]
+    },
+    {
+      "id": "river_coldwater",
+      "name": "Coldwater",
+      "subtype": "fen_river",
+      "description": "A sluggish, near-black river that drains the Ashfen. Smells of sulphur. Wide, shallow, and dotted with mudflats. Not navigable except by flat-bottomed fen-boats.",
+      "source": "stonespine_range",
+      "mouth": "body_of_water_grey_sea",
+      "length": "long",
+      "passesThrough": ["ashfen"],
+      "settlements": ["ashbridge", "fenreach", "tidehaven"],
+      "bridges": ["bridge_ashbridge"]
+    },
+    {
+      "id": "river_greybeck",
+      "name": "The Greybeck",
+      "subtype": "moorland_river",
+      "description": "A wide moorland river with a persistent grey-brown colour from the peat it carries. Joins the River Mourne at Valdris. Important for the Silvermarsh's irrigation.",
+      "source": "eldenmoor",
+      "mouth": "river_mourne",
+      "length": "medium",
+      "passesThrough": ["eldenmoor", "silvermarsh"],
+      "settlements": ["valdris"],
+      "bridges": ["bridge_valdris_greybeck"]
+    },
+    {
+      "id": "river_veld",
+      "name": "River Veld",
+      "subtype": "marshland_river",
+      "description": "A braided river that splits into multiple channels across the southern Silvermarsh before reaching the sea near Wavebreak. Rich in eels and waterfowl.",
+      "source": "silvermarsh",
+      "mouth": "body_of_water_grey_sea",
+      "length": "medium",
+      "passesThrough": ["silvermarsh"],
+      "settlements": ["westmere", "wavebreak"],
+      "bridges": []
+    },
+    {
+      "id": "river_stonebeck",
+      "name": "Stonebeck",
+      "subtype": "mountain_torrent",
+      "description": "A ferocious mountain torrent carved deep into the Stonespine rock. Completely unnavigable. Roars year-round. Powers the mills and forges of Kethara.",
+      "source": "stonespine_range",
+      "mouth": "river_mourne",
+      "length": "short",
+      "passesThrough": ["stonespine"],
+      "settlements": ["kethara"],
+      "bridges": ["bridge_kethara_stoneback"]
+    },
+    {
+      "id": "river_silvern_run",
+      "name": "Silvern Run",
+      "subtype": "moorland_stream",
+      "description": "A bright, fast stream that runs beneath Sorvane's walls and is channelled through the city as a water supply. Outside the city it runs free through the moor.",
+      "source": "eldenmoor",
+      "mouth": "river_mourne",
+      "length": "short",
+      "passesThrough": ["eldenmoor"],
+      "settlements": ["sorvane"],
+      "bridges": ["bridge_sorvane_gate"]
+    },
+    {
+      "id": "river_winding_grey",
+      "name": "The Winding Grey",
+      "subtype": "meandering_river",
+      "description": "An unusually serpentine river with exaggerated ox-bow meanders that have become lakes over time. The Grey ox-bow lakes are famous for their mirror-still surface in still weather.",
+      "source": "eldenmoor",
+      "mouth": "river_mourne",
+      "length": "medium",
+      "passesThrough": ["eldenmoor", "silvermarsh"],
+      "settlements": [],
+      "bridges": []
+    }
+  ],
+
+  "bodies_of_water": [
+    {
+      "id": "body_of_water_grey_sea",
+      "name": "The Grey Sea",
+      "subtype": "sea",
+      "description": "The cold, slate-grey sea that borders Leonoria to the west and north. Treacherous storms from the north are common. Rich in fish and dangerous sea creatures.",
+      "danger": 3,
+      "notableFeatures": ["The Widow's Shoals (dangerous reef)", "The Drowned Arches (sea-ruins)", "The Deep Channel (shipping lane)"],
+      "settlements": ["saltmere", "greyharbour", "the_anchorage", "wavebreak", "tidehaven"]
+    },
+    {
+      "id": "body_of_water_merewater_lake",
+      "name": "Merewater Lake",
+      "subtype": "freshwater_lake",
+      "description": "A large, deep freshwater lake in the southern Silvermarsh. Fed by the River Veld. Still enough in calm weather to perfectly reflect the sky — locals say you can see the future in it.",
+      "danger": 1,
+      "notableFeatures": ["The Island Shrine (small islet)", "The Deep (unexplored bottom)", "Mirror Point (best reflection view)"],
+      "settlements": ["westmere"]
+    },
+    {
+      "id": "body_of_water_ashfen_pools",
+      "name": "The Black Pools",
+      "subtype": "marsh_pools",
+      "description": "A series of connected black-water pools in the heart of the Ashfen. The water is opaque and smells of sulphur. Nothing edible lives in them, but strange things live near them.",
+      "danger": 4,
+      "notableFeatures": ["The Deeppool (bottomless, according to locals)", "Ruins of Shadowmere (beneath)"],
+      "settlements": []
+    },
+    {
+      "id": "body_of_water_frosted_mere",
+      "name": "The Frosted Mere",
+      "subtype": "glacial_lake",
+      "description": "A glacial lake high in the Stonespine. Ice blue and so cold it can kill in minutes. Fed by glacial melt; drains via the Stonebeck.",
+      "danger": 4,
+      "notableFeatures": ["Ice Shelf", "Submerged Dwarven Ruins", "The Outlet Falls (origin of Stonebeck)"],
+      "settlements": []
+    }
+  ],
+
+  "dungeons": [
+    {
+      "id": "dungeon_the_deep_halls",
+      "name": "The Deep Halls",
+      "region": "stonespine",
+      "subtype": "dwarven_delve",
+      "description": "An abandoned dwarven mine complex beneath Kethara that broke into something ancient and sealed. The upper levels are storage; the lower levels have not been entered in a century.",
+      "danger": 5,
+      "floors": 7,
+      "notableFeatures": ["The Sealing Gate (floor 4)", "The Void Chamber (floor 7, rumoured)"],
+      "loot": ["lost dwarven relics", "rare deep-stone ore", "First Age artefacts"],
+      "secrets": ["Floor 7 contains the entrance to a pocket dimension that the dwarves accidentally carved into"]
+    },
+    {
+      "id": "dungeon_the_drowned_library",
+      "name": "The Drowned Library",
+      "region": "ashfen",
+      "subtype": "sunken_structure",
+      "description": "Part of the ruins of Shadowmere, partially accessible via diving or magically-dry chambers. An enormous library whose shelves are still intact below the waterline. The books are preserved by unknown magic.",
+      "danger": 4,
+      "floors": 3,
+      "notableFeatures": ["The Reading Hall (air pocket)", "The Forbidden Stacks (locked)", "The Warden (undead librarian)"],
+      "loot": ["pre-Shadowmere texts", "arcane knowledge", "historical records"],
+      "secrets": ["The warden will assist those who come to read, not steal"]
+    },
+    {
+      "id": "dungeon_thornwall_labyrinth",
+      "name": "The Thornwall Labyrinth",
+      "region": "thornwall",
+      "subtype": "natural_cave_system",
+      "description": "A cave system beneath the Thornwall discovered by bandits a decade ago. Now used as a smugglers' route through the briar. The deeper caves have been untouched since the Second Age.",
+      "danger": 3,
+      "floors": 4,
+      "notableFeatures": ["The Briar Root Chamber", "The Smugglers' Waystation", "The Deep Path (unexplored)"],
+      "loot": ["stolen goods caches", "Second Age trinkets", "cave minerals"],
+      "secrets": ["The deep path exits on the other side of the Thornwall — a secret the smugglers do not know yet"]
+    },
+    {
+      "id": "dungeon_the_salt_crypts",
+      "name": "The Salt Crypts",
+      "region": "silvermarsh",
+      "subtype": "burial_complex",
+      "description": "Ancient burial crypts beneath the salt flats east of Saltmere. The salt has preserved everything inside perfectly. The dead walk here, though no one knows why.",
+      "danger": 4,
+      "floors": 2,
+      "notableFeatures": ["The Hall of Preservation", "The Salt Throne (perfectly preserved king)", "The Wailing Corridor"],
+      "loot": ["preserved grave goods", "royal jewellery", "ancient military equipment"],
+      "secrets": ["The preserved king was entombed alive as a ritual sacrifice and is not pleased about it"]
+    }
+  ],
+
+  "landmarks": [
+    {
+      "id": "landmark_moonspire",
+      "name": "The Moonspire",
+      "region": "greywood",
+      "subtype": "elven_tower",
+      "description": "The tallest structure in Leonoria, rising above the Greywood canopy. Built from a single piece of starwood and wound with silver. Glows faintly on clear nights. Cannot be entered by non-elves without permission.",
+      "danger": 2,
+      "notableFeatures": ["Observation Platform (top)", "Star Maps (interior walls)", "The Archive (sealed floors)"]
+    },
+    {
+      "id": "landmark_the_four_stone_marker",
+      "name": "The Four-Stone Marker",
+      "region": "silvermarsh",
+      "subtype": "ancient_monument",
+      "description": "Four massive standing stones at the crossroads of Greycross. They are older than Greycross, older than any road — they were there first and the roads grew toward them. The carvings are in a dead language.",
+      "danger": 1,
+      "notableFeatures": ["Pre-History Carvings", "Faint Magic (alignment stones)", "Meeting Point for neutral parley"]
+    },
+    {
+      "id": "landmark_the_amber_hall",
+      "name": "The Amber Hall",
+      "region": "silvermarsh",
+      "subtype": "government_building",
+      "description": "The seat of Leonoria's High Council in Valdris. Built of golden sandstone and so named for its colour at sunset. The doors have not been forced in recorded history.",
+      "danger": 1,
+      "notableFeatures": ["The Council Chamber", "The Treaty Vault", "The Hall of Portraits (past leaders)"]
+    },
+    {
+      "id": "landmark_the_singing_glade",
+      "name": "The Singing Glade",
+      "region": "greywood",
+      "subtype": "magical_clearing",
+      "description": "A circular clearing in the Greywood where the wind produces a constant harmonic tone. Bards travel for months to sit here and listen. Wildlife congregates in unusual peace.",
+      "danger": 1,
+      "notableFeatures": ["The Resonance Stone (centre)", "Animal Sanctuary", "Bardic Inscription Ring"],
+      "secrets": ["The sound is a communication that no one has decoded — something is speaking very slowly"]
+    },
+    {
+      "id": "landmark_greymane_outpost",
+      "name": "Greymane Outpost",
+      "region": "stonespine",
+      "subtype": "dwarven_watch_post",
+      "description": "The highest permanently occupied structure in Leonoria, near the base of Greymane Summit. Four dwarves rotate here in month-long shifts. The job is considered a punishment posting.",
+      "danger": 3,
+      "notableFeatures": ["Signal Brazier", "Weather Station", "The Complaints Ledger (250 years of grumbling)"]
+    },
+    {
+      "id": "landmark_drowned_arches",
+      "name": "The Drowned Arches",
+      "region": "grey_sea",
+      "subtype": "sea_ruins",
+      "description": "The tops of a series of ancient arched gateways visible above the Grey Sea at low tide, about a mile offshore from Greyharbour. What they guarded is beneath forty feet of water.",
+      "danger": 3,
+      "notableFeatures": ["Seven Visible Arches", "Submerged Structure (unexplored)", "Sailor Offerings (tradition)"],
+      "secrets": ["The arches are the upper gate of an ancient city. The full city is intact below."]
+    }
+  ],
+
+  "passes": [
+    {
+      "id": "pass_kethara_gap",
+      "name": "The Kethara Gap",
+      "range": "stonespine_range",
+      "region": "stonespine",
+      "description": "The main pass through the Stonespine, guarded by Kethara. Wide enough for wagons. Heavily tolled. The only reliable year-round crossing of the central range.",
+      "danger": 2,
+      "seasonallyClosed": false,
+      "connections": ["kethara", "coldhollow", "road_deephall_road"]
+    },
+    {
+      "id": "pass_lowback",
+      "name": "The Lowback",
+      "range": "stonespine_range",
+      "region": "stonespine",
+      "description": "A low saddle pass that can be crossed on foot. No road, no toll, no guards — but prone to ambush and closed by snow for four months of the year.",
+      "danger": 3,
+      "seasonallyClosed": true,
+      "closedMonths": ["Frost Month", "Deep Winter", "Snowmelt", "Early Thaw"],
+      "connections": ["road_lowback_path"]
+    },
+    {
+      "id": "pass_ember_col",
+      "name": "The Ember Col",
+      "range": "ember_teeth",
+      "region": "ashfen",
+      "description": "A volcanic pass through the Ember Teeth. Warm even in winter due to geothermal venting. The sulphurous air makes prolonged passage uncomfortable.",
+      "danger": 3,
+      "seasonallyClosed": false,
+      "connections": []
+    },
+    {
+      "id": "pass_irongate_col",
+      "name": "The Irongate Col",
+      "range": "stonespine_range",
+      "region": "stonespine",
+      "description": "A narrow, high pass that was once guarded by a fortified gate (long collapsed). Still marked on old maps. Extremely dangerous but the shortest route through the Stonespine.",
+      "danger": 5,
+      "seasonallyClosed": true,
+      "closedMonths": ["Frost Month", "Deep Winter", "Snowmelt"],
+      "connections": []
+    }
+  ],
+
+  "roads": [
+    {
+      "id": "road_kings_way",
+      "name": "The King's Way",
+      "subtype": "royal_road",
+      "description": "The main paved road of Leonoria, running from Saltmere north through Valdris to Sorvane. Maintained by the crown. Wide enough for two wagons abreast. Regularly patrolled.",
+      "danger": 1,
+      "condition": "excellent",
+      "connections": ["saltmere", "millhaven", "greycross", "valdris", "duskford", "sorvane"]
+    },
+    {
+      "id": "road_moorpath",
+      "name": "The Moorpath",
+      "subtype": "highland_road",
+      "description": "A flagstone road across the Eldenmoor, older than the Kingdom. Subject to flooding and fog. Cairns mark the route where the road becomes invisible in mist.",
+      "danger": 2,
+      "condition": "worn",
+      "connections": ["sorvane", "greyharbour", "duskford", "highcroft"]
+    },
+    {
+      "id": "road_southern_reach",
+      "name": "The Southern Reach",
+      "subtype": "trade_road",
+      "description": "A well-maintained trade road through the southern Silvermarsh, connecting Greycross to Wavebreak via Westmere. Flat and easy; the most pleasant road in Leonoria.",
+      "danger": 1,
+      "condition": "good",
+      "connections": ["greycross", "westmere", "wavebreak"]
+    },
+    {
+      "id": "road_deephall_road",
+      "name": "The Deephall Road",
+      "subtype": "dwarven_road",
+      "description": "A dwarven-built mountain road from Kethara down through the Stonespine to the lowlands. Perfectly engineered, carved into cliff faces where needed. Impresses every visitor.",
+      "danger": 2,
+      "condition": "excellent",
+      "connections": ["kethara", "coldhollow", "pass_kethara_gap"]
+    },
+    {
+      "id": "road_canopy_walk",
+      "name": "The Canopy Walk",
+      "subtype": "elven_road",
+      "description": "An elven-maintained route through the Greywood using a combination of ground paths and elevated bridges between trees. Invisible to those who don't know it. Extremely fast for those who do.",
+      "danger": 2,
+      "condition": "good",
+      "connections": ["thelindra", "root_deep"]
+    },
+    {
+      "id": "road_fenpath",
+      "name": "The Fenpath",
+      "subtype": "fen_causeway",
+      "description": "A series of raised wooden causeways and stepping-stone paths through the Ashfen. Maintained poorly. Some sections are underwater at high water. Local guides recommended.",
+      "danger": 3,
+      "condition": "poor",
+      "connections": ["ashbridge", "fenreach", "tidehaven"]
+    },
+    {
+      "id": "road_thornwall_track",
+      "name": "The Thornwall Track",
+      "subtype": "bandit_road",
+      "description": "Not a real road — more a series of gaps, tunnels through briar, and unmarked trails through the Thornwall. No two travellers will find exactly the same route. Maintained by no one and everyone.",
+      "danger": 4,
+      "condition": "unreliable",
+      "connections": ["thornwick", "briarholm", "the_anchorage"]
+    }
+  ],
+
+  "bridges": [
+    {
+      "id": "bridge_duskford",
+      "name": "The Stone Ford",
+      "region": "eldenmoor",
+      "river": "river_mourne",
+      "description": "Ancient stone stepping-bridge across the River Mourne at Duskford. Not a true bridge — wide flat stones placed in the river. Passable on foot and by horse; impassable to wagons in flood season.",
+      "danger": 1,
+      "condition": "ancient but solid"
+    },
+    {
+      "id": "bridge_valdris_great",
+      "name": "The Mourne Bridge",
+      "region": "silvermarsh",
+      "river": "river_mourne",
+      "description": "A grand five-arch stone bridge spanning the River Mourne at Valdris. Wide enough for four wagons side by side. Built 200 years ago and considered an engineering wonder.",
+      "danger": 1,
+      "condition": "excellent"
+    },
+    {
+      "id": "bridge_valdris_greybeck",
+      "name": "Greybeck Crossing",
+      "region": "silvermarsh",
+      "river": "river_greybeck",
+      "description": "A functional iron-and-stone bridge over the Greybeck where it meets Valdris. Maintained by the Merchants' Guild. Has a toll gate at each end.",
+      "danger": 1,
+      "condition": "good"
+    },
+    {
+      "id": "bridge_silver_ford",
+      "name": "The Silver Ford",
+      "region": "eldenmoor",
+      "river": "river_silver_thread",
+      "description": "A narrow plank-bridge over the Silver Thread in the uplands. Wide enough for one person at a time. Replaced every few years as the fast water rots the timbers.",
+      "danger": 2,
+      "condition": "serviceable"
+    },
+    {
+      "id": "bridge_thelindra_crossing",
+      "name": "The Ashwater Crossing",
+      "region": "greywood",
+      "river": "river_ashwater",
+      "description": "An elven bridge of woven living wood that spans the Ashwater. The bridge is still growing. Elven magic keeps it stable and impassable to those of ill intent.",
+      "danger": 1,
+      "condition": "magical"
+    },
+    {
+      "id": "bridge_ashbridge",
+      "name": "Ashbridge",
+      "region": "ashfen",
+      "river": "river_coldwater",
+      "description": "The great stilt-bridge from which the town of Ashbridge takes its name. Eighty metres of heavy timber spanning the Coldwater. Rattles and groans in strong current.",
+      "danger": 2,
+      "condition": "worn"
+    },
+    {
+      "id": "bridge_kethara_stoneback",
+      "name": "Stoneback Bridge",
+      "region": "stonespine",
+      "river": "river_stonebeck",
+      "description": "A dwarven-engineered stone arch spanning the Stonebeck gorge. The sound of the river below it is deafening. The arch is a single piece of fitted granite — no mortar.",
+      "danger": 2,
+      "condition": "excellent"
+    },
+    {
+      "id": "bridge_sorvane_gate",
+      "name": "The Portcullis Bridge",
+      "region": "eldenmoor",
+      "river": "river_silvern_run",
+      "description": "A bridge built directly into Sorvane's city wall, with a portcullis at each end. More gate than bridge. The only crossing of the Silvern Run through the city.",
+      "danger": 1,
+      "condition": "fortified"
+    }
+  ]
+}

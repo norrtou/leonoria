@@ -1,0 +1,359 @@
+{
+  "biomes": [
+    {
+      "id": "temperate_forest",
+      "name": "Temperate Forest",
+      "description": "Rolling woodlands of oak, ash and elm cloaking the hills. Settlements cluster near rivers, and old paths wind beneath dense canopies.",
+      "climate": {
+        "precipitation": "moderate",
+        "precipitationMm": "500–1 500 mm/year",
+        "temperature": "temperate",
+        "temperatureRange": "10–16 °C average; cold winters, warm summers",
+        "notes": "River floodplains and valley bottoms accumulate moisture and support forested wetlands."
+      },
+      "terrainTypes": [
+        "Lowlands", "Rolling Hills", "Mountains", "Deciduous Forest",
+        "Wetlands", "Rivers & Streams", "Inland Lakes", "Coastline"
+      ],
+      "wetlandDensity": 0.02,
+      "visual": {
+        "landLow":       [100, 135,  60],
+        "landMid":       [148, 182, 106],
+        "landHigh":      [188, 200, 128],
+        "landMountain":  [218, 210, 192],
+        "seaColor": "#c8d8e8",
+        "snowPeaks": true
+      },
+      "treeStyle": "broadleaf",
+      "featureMult": {
+        "forest": 2.8, "river": 1.0, "settlement": 1.0, "ruin": 1.0, "mountain": 1.4
+      },
+      "preferredCultures": ["human", "elf", "halfling", "wood_elf", "firbolg", "shifter", "aasimar"]
+    },
+    {
+      "id": "boreal_forest",
+      "name": "Boreal Forest",
+      "description": "Dense evergreen wilderness of pine and spruce stretching to the horizon. Winters are harsh, settlements sparse, and the silence between the trees is absolute.",
+      "climate": {
+        "precipitation": "low to moderate",
+        "precipitationMm": "200–750 mm/year",
+        "temperature": "cold",
+        "temperatureRange": "1–10 °C average; winters to −34 °C, cool summers",
+        "notes": "Despite low precipitation, poor drainage over frozen ground creates the world's largest wetland complex — vast peat bogs and muskegs covering up to 30% of the landscape."
+      },
+      "terrainTypes": [
+        "Lowlands", "Rolling Hills", "Mountains", "Snow Peaks", "Coniferous Forest",
+        "Peat Bog", "Rivers & Streams", "Inland Lakes", "Coastline"
+      ],
+      "wetlandDensity": 0.04,
+      "visual": {
+        "landLow":  [170, 168, 140],
+        "landMid":  [185, 182, 155],
+        "landHigh": [200, 198, 172],
+        "seaColor": "#b8ccd8",
+        "snowPeaks": true
+      },
+      "treeStyle": "conifer",
+      "featureMult": {
+        "forest": 1.6, "river": 0.8, "settlement": 0.6, "ruin": 0.8, "mountain": 2.2
+      },
+      "preferredCultures": ["dwarf", "elf", "half_orc", "wood_elf", "firbolg", "shifter"]
+    },
+    {
+      "id": "plains",
+      "name": "Plains & Farmlands",
+      "description": "Vast open grasslands and cultivated fields broken by hedgerows and market towns. The richest land draws the densest populations — and the most conflict.",
+      "climate": {
+        "precipitation": "moderate",
+        "precipitationMm": "500–900 mm/year",
+        "temperature": "temperate",
+        "temperatureRange": "Extreme seasonality: −20 °C to +30 °C; severe winters, hot summers",
+        "notes": "Prairie potholes and seasonal river marshes form where the land dips. Wetlands are scattered but not dominant."
+      },
+      "terrainTypes": [
+        "Lowlands", "Rolling Hills", "Farmland", "Wetlands",
+        "Rivers & Streams", "Inland Lakes", "Coastline"
+      ],
+      "wetlandDensity": 0.02,
+      "visual": {
+        "landLow":      [138, 171, 100],
+        "landMid":      [155, 188, 116],
+        "landHigh":     [172, 204, 134],
+        "landMountain": [208, 192, 162],
+        "seaColor": "#c8d8e8",
+        "snowPeaks": false
+      },
+      "treeStyle": "broadleaf",
+      "featureMult": {
+        "forest": 1.0, "river": 1.0, "settlement": 1.6, "ruin": 1.2, "mountain": 1.0
+      },
+      "preferredCultures": ["human", "halfling", "half_elf"]
+    },
+    {
+      "id": "highlands",
+      "name": "Highlands",
+      "description": "Rugged elevated terrain of exposed rock, heather-clad plateaus and deep glacial valleys. Hardy folk scratch out lives in fortified holds and cliff-edge villages.",
+      "climate": {
+        "precipitation": "moderate to high",
+        "precipitationMm": "600–2 000 mm/year",
+        "temperature": "cool",
+        "temperatureRange": "4–12 °C average; long harsh winters, short summers",
+        "notes": "High drainage density keeps most slopes dry, but corries and plateau basins trap water forming upland bogs and tarns."
+      },
+      "terrainTypes": [
+        "Rolling Hills", "Mountains", "Snow Peaks", "Shrubland",
+        "Peat Bog", "Rivers & Streams", "Inland Lakes", "Coastline"
+      ],
+      "wetlandDensity": 0.03,
+      "visual": {
+        "landLow":  [172, 165, 148],
+        "landMid":  [188, 182, 162],
+        "landHigh": [205, 200, 178],
+        "seaColor": "#b8ccd8",
+        "snowPeaks": true
+      },
+      "treeStyle": "conifer",
+      "featureMult": {
+        "forest": 0.6, "river": 1.2, "settlement": 0.7, "ruin": 1.3, "mountain": 3.6
+      },
+      "preferredCultures": ["dwarf", "human", "half_orc", "goliath", "aasimar"]
+    },
+    {
+      "id": "desert",
+      "name": "Desert",
+      "description": "An immense expanse of baking sun and shifting dunes where water is the only true currency. Razor-edged ridges and dried gulches baked the colour of rust break the horizon. Ancient ruins and buried cities outnumber the living settlements — only the desperate, the hunted and the dangerously stubborn put down roots here.",
+      "climate": {
+        "precipitation": "very low",
+        "precipitationMm": "<100–700 mm/year",
+        "temperature": "hot",
+        "temperatureRange": "Daytime 38–49 °C; nights near freezing; extreme diurnal range",
+        "notes": "Essentially no permanent wetlands. Rare oases form where aquifers reach the surface. High drainage density strips water quickly — terrain too steep and eroded for water to pool."
+      },
+      "terrainTypes": [
+        "Lowlands", "Rolling Hills", "Dunes", "Badland Ridges", "Mountains", "Coastline"
+      ],
+      "wetlandDensity": 0.0,
+      "visual": {
+        "landLow":  [205, 182, 130],
+        "landMid":  [222, 200, 148],
+        "landHigh": [238, 218, 168],
+        "seaColor": "#a8c8d8",
+        "snowPeaks": false
+      },
+      "treeStyle": "palm",
+      "featureMult": {
+        "forest": 0.1, "river": 0.0, "settlement": 0.5, "ruin": 2.0, "mountain": 1.6
+      },
+      "preferredCultures": ["human", "orc", "half_orc", "tabaxi", "dragonborn", "genasi"]
+    },
+    {
+      "id": "arctic",
+      "name": "Arctic Tundra",
+      "description": "A treeless frozen expanse where permafrost lies inches below the soil and blizzards strike without warning. Only the toughest cultures survive here, buried in fur and stone.",
+      "climate": {
+        "precipitation": "low",
+        "precipitationMm": "150–380 mm/year (liquid equivalent)",
+        "temperature": "cold to freezing",
+        "temperatureRange": "Winter −34 °C average; summer 3–12 °C",
+        "notes": "Low precipitation but impermeable permafrost prevents drainage — low areas fill with standing water creating widespread bogs and polygon ponds."
+      },
+      "terrainTypes": [
+        "Lowlands", "Rolling Hills", "Mountains", "Snow Peaks", "Tundra",
+        "Peat Bog", "Rivers & Streams", "Inland Lakes", "Coastline"
+      ],
+      "wetlandDensity": 0.04,
+      "visual": {
+        "landLow":  [195, 205, 210],
+        "landMid":  [210, 218, 220],
+        "landHigh": [228, 232, 232],
+        "seaColor": "#a0b8cc",
+        "snowPeaks": true
+      },
+      "treeStyle": "conifer",
+      "featureMult": {
+        "forest": 0.05, "river": 0.4, "settlement": 0.3, "ruin": 0.8, "mountain": 2.6
+      },
+      "preferredCultures": ["dwarf", "half_orc", "goliath", "genasi"]
+    },
+    {
+      "id": "swamp",
+      "name": "Swampland",
+      "description": "Waterlogged lowlands choked with rotting vegetation and slow black rivers. What lives here has adapted to the damp and the dark, and does not welcome visitors.",
+      "climate": {
+        "precipitation": "high",
+        "precipitationMm": "1 000–2 000 mm/year (or fed by adjacent river flooding)",
+        "temperature": "warm to temperate",
+        "temperatureRange": "Tropical: 20–30 °C; Temperate: 10–20 °C",
+        "notes": "Standing water, anaerobic soils and seasonal flooding define this biome. Wetlands are not a feature here — they are the landscape."
+      },
+      "terrainTypes": [
+        "Lowlands", "Wetlands", "Forested Wetland", "Peat Bog",
+        "Rivers & Streams", "Inland Lakes", "Coastline"
+      ],
+      "wetlandDensity": 0.38,
+      "visual": {
+        "landLow":  [135, 150, 112],
+        "landMid":  [150, 165, 128],
+        "landHigh": [165, 182, 145],
+        "seaColor": "#88a8a0",
+        "snowPeaks": false
+      },
+      "treeStyle": "swamp",
+      "featureMult": {
+        "forest": 1.2, "river": 5.0, "settlement": 0.5, "ruin": 1.5, "mountain": 0.4
+      },
+      "preferredCultures": ["orc", "half_orc", "lizardfolk"]
+    },
+    {
+      "id": "moorland",
+      "name": "Moorland",
+      "description": "Open upland covered in heather, gorse and bracken, cut by shallow streams and scarred by ancient peat workings. Mist and fog are permanent residents.",
+      "climate": {
+        "precipitation": "high",
+        "precipitationMm": "800–1 500 mm/year",
+        "temperature": "cool",
+        "temperatureRange": "5–15 °C average; mild oceanic winters, cool misty summers",
+        "notes": "Persistent moisture and acidic soils build deep peat. Blanket bog is widespread, covering large plateau areas."
+      },
+      "terrainTypes": [
+        "Lowlands", "Rolling Hills", "Shrubland",
+        "Peat Bog", "Rivers & Streams", "Inland Lakes", "Coastline"
+      ],
+      "wetlandDensity": 0.04,
+      "visual": {
+        "landLow":  [162, 155, 135],
+        "landMid":  [178, 170, 150],
+        "landHigh": [195, 188, 165],
+        "seaColor": "#b0c0c8",
+        "snowPeaks": false
+      },
+      "treeStyle": "broadleaf",
+      "featureMult": {
+        "forest": 0.4, "river": 1.1, "settlement": 0.7, "ruin": 1.4, "mountain": 1.6
+      },
+      "preferredCultures": ["human", "half_elf", "elf"]
+    },
+    {
+      "id": "rainforest",
+      "name": "Rainforest",
+      "description": "A cathedral of ancient trees so dense the canopy blocks the sky. Rivers run warm and brown. Life is extravagant and lethal in equal measure.",
+      "climate": {
+        "precipitation": "very high",
+        "precipitationMm": "2 000–10 000 mm/year",
+        "temperature": "hot",
+        "temperatureRange": "20–27 °C average; no strong seasonality; high humidity year-round",
+        "notes": "Lowland areas flood seasonally (várzea). Forested wetlands and flooded forests are common in valley bottoms and river margins."
+      },
+      "terrainTypes": [
+        "Lowlands", "Rolling Hills", "Mountains", "Tropical Forest",
+        "Forested Wetland", "Rivers & Streams", "Inland Lakes", "Coastline"
+      ],
+      "wetlandDensity": 0.04,
+      "visual": {
+        "landLow":  [118, 162,  96],
+        "landMid":  [132, 178, 110],
+        "landHigh": [148, 195, 125],
+        "seaColor": "#88b8a8",
+        "snowPeaks": false
+      },
+      "treeStyle": "broadleaf",
+      "featureMult": {
+        "forest": 2.2, "river": 1.8, "settlement": 0.6, "ruin": 1.6, "mountain": 1.2
+      },
+      "preferredCultures": ["elf", "half_elf", "wood_elf", "tabaxi", "firbolg"]
+    },
+    {
+      "id": "savanna",
+      "name": "Savanna",
+      "description": "Sweeping grasslands studded with flat-topped acacia and broken by seasonal rivers. Great beasts roam in herds. Settlements are fortified against both raid and stampede.",
+      "climate": {
+        "precipitation": "moderate",
+        "precipitationMm": "800–1 500 mm/year",
+        "temperature": "hot",
+        "temperatureRange": "Dry season 10–20 °C; wet season 20–30 °C; strongly seasonal",
+        "notes": "Wet season brings seasonal marshes and ephemeral pans. Permanent wetlands rare except along major river floodplains."
+      },
+      "terrainTypes": [
+        "Lowlands", "Rolling Hills", "Savanna Grassland",
+        "Wetlands", "Rivers & Streams", "Inland Lakes", "Coastline"
+      ],
+      "wetlandDensity": 0.02,
+      "visual": {
+        "landLow":  [185, 170, 112],
+        "landMid":  [202, 188, 130],
+        "landHigh": [218, 205, 148],
+        "seaColor": "#a8c0b8",
+        "snowPeaks": false
+      },
+      "treeStyle": "palm",
+      "featureMult": {
+        "forest": 0.3, "river": 0.7, "settlement": 0.8, "ruin": 1.0, "mountain": 0.8
+      },
+      "preferredCultures": ["orc", "human", "half_orc", "tabaxi", "dragonborn", "shifter"]
+    },
+    {
+      "id": "coastal",
+      "name": "Coastal & Islands",
+      "description": "A fractured shoreline of coves, cliffs and island chains where every community looks seaward. Trade routes, fishing fleets and piracy are all equally common.",
+      "climate": {
+        "precipitation": "moderate to high",
+        "precipitationMm": "600–1 500 mm/year",
+        "temperature": "warm to temperate",
+        "temperatureRange": "Mild oceanic; 8–20 °C average; ocean moderates extremes",
+        "notes": "Estuaries, tidal marshes and mangroves form where rivers meet the sea. Salt marshes are a defining coastal feature."
+      },
+      "terrainTypes": [
+        "Lowlands", "Rolling Hills", "Shrubland",
+        "Salt Marsh", "Rivers & Streams", "Inland Lakes", "Coastline"
+      ],
+      "wetlandDensity": 0.03,
+      "visual": {
+        "landLow":  [178, 182, 145],
+        "landMid":  [195, 198, 162],
+        "landHigh": [210, 212, 178],
+        "seaColor": "#b0cce0",
+        "snowPeaks": false
+      },
+      "treeStyle": "broadleaf",
+      "featureMult": {
+        "forest": 0.8, "river": 0.9, "settlement": 1.1, "ruin": 1.2, "mountain": 1.0
+      },
+      "preferredCultures": ["human", "half_elf", "elf", "triton", "kenku"]
+    },
+    {
+      "id": "underdark",
+      "name": "Underdark",
+      "description": "A vast subterranean world of caverns, underground seas and fungal forests stretching miles beneath the surface. Where surface folk see only darkness, the Underdark's denizens see a world lit by faerzress glow and bioluminescent life. Ancient cities of incomprehensible cruelty are separated by wildernesses of tunnel, ruin and monster lair that few survive crossing.",
+      "subterranean": true,
+      "depthLayers": ["upperdark", "middledark", "lowerdark"],
+      "lightLevel": "none",
+      "ambientLight": "faerzress_glow",
+      "faerzress": true,
+      "psionicSaturation": "high",
+      "planarBleed": ["shadowfell", "far_realm"],
+      "airHazards": true,
+      "geology": {
+        "waterPresence": "underground lakes and rivers",
+        "volcanicActivity": "moderate in deep layers",
+        "notes": "No weather. Air quality is a constant hazard — volcanic gas and oxygen depletion pool in low passages. Faerzress radiation suffuses most inhabited regions, blocking divination and disrupting teleportation."
+      },
+      "terrainTypes": [
+        "Cavern Tunnels", "Underground Lake", "Chasm", "Fungal Forest",
+        "Lava Flow", "Stalactite Hall", "Underground River", "Ancient Ruins"
+      ],
+      "wetlandDensity": 0.01,
+      "visual": {
+        "landLow":  [36, 34, 42],
+        "landMid":  [48, 45, 56],
+        "landHigh": [62, 58, 72],
+        "seaColor": "#0e1016",
+        "snowPeaks": false
+      },
+      "treeStyle": "fungal",
+      "featureMult": {
+        "forest": 0.4, "river": 0.3, "settlement": 0.2, "ruin": 2.5, "mountain": 0.0
+      },
+      "preferredCultures": ["drow", "duergar", "svirfneblin", "goblinoid", "genasi"]
+    }
+  ]
+}

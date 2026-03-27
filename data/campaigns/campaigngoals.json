@@ -1,0 +1,135 @@
+[
+  {
+    "goal": "Rescue Gundren Rockseeker",
+    "campaign": "Lost Mine of Phandelver",
+    "description": "Locate and extract the Dwarven quest-giver from goblin captivity.",
+    "technical_trigger": "NPC_Escort_Logic",
+    "success_state": "Gundren_NPC_Status == 'Safe_In_Phandalin'"
+  },
+  {
+    "goal": "Reclaim the Forge of Spells",
+    "campaign": "Lost Mine of Phandelver",
+    "description": "Clear the Wave Echo Cave of undead and the Black Spider to restart the magical forge.",
+    "technical_trigger": "Dungeon_Clear_Check",
+    "success_state": "Boss_BlackSpider_Deceased == true && Forge_Active == true"
+  },
+  {
+    "goal": "Stop the Mind Flayer Ritual",
+    "campaign": "Phandelver and Below",
+    "description": "Halt the psychic invocation being performed by the fanatics in the Far Realm-corrupted Underdark.",
+    "technical_trigger": "Timer_Based_Encounter",
+    "success_state": "Ritual_Chant_Interrupted == true"
+  },
+  {
+    "goal": "Unite the Council of Waterdeep",
+    "campaign": "Rise of Tiamat",
+    "description": "Negotiate with diverse factions to gain military assets for the final battle.",
+    "technical_trigger": "Approval_Rating_System",
+    "success_state": "Faction_Support_Score >= 75"
+  },
+  {
+    "goal": "Prevent the Summoning of Tiamat",
+    "campaign": "Rise of Tiamat",
+    "description": "Disrupt the ritual at the Well of Dragons before the goddess enters the material plane.",
+    "technical_trigger": "Epic_Boss_Phase_Logic",
+    "success_state": "Portal_Closed == true || Tiamat_Defeated == true"
+  },
+  {
+    "goal": "Close Elemental Portals",
+    "campaign": "Princes of the Apocalypse",
+    "description": "Seal the four gateways to the elemental planes located deep within the temple.",
+    "technical_trigger": "Interactable_Object_Destruction",
+    "success_state": "Portal_Count_Active == 0"
+  },
+  {
+    "goal": "Escape the Underdark",
+    "campaign": "Out of the Abyss",
+    "description": "Navigate a series of high-difficulty zones to reach the surface while being hunted.",
+    "technical_trigger": "Zone_Transition_Check",
+    "success_state": "Player_Location == 'Surface_World'"
+  },
+  {
+    "goal": "Banish the Demon Lords",
+    "campaign": "Out of the Abyss",
+    "description": "Use a dark ritual or direct combat to send Demogorgon and others back to the Abyss.",
+    "technical_trigger": "Multi_Stage_Boss_Battle",
+    "success_state": "Demon_Lords_Present_In_Material == 0"
+  },
+  {
+    "goal": "Acquire the Three Holy Relics",
+    "campaign": "Curse of Strahd",
+    "description": "Locate the Sunsword, the Holy Symbol, and the Tome of Strahd via randomized Tarokka locations.",
+    "technical_trigger": "Inventory_Set_Validation",
+    "success_state": "Player_Inventory_Contains_Set(['Sunsword', 'HolySymbol', 'Tome'])"
+  },
+  {
+    "goal": "Defeat Count Strahd von Zarovich",
+    "campaign": "Curse of Strahd",
+    "description": "Destroy the vampire lord within Castle Ravenloft to lift the mists.",
+    "technical_trigger": "Legendary_Vampire_AI",
+    "success_state": "Strahd_HP <= 0 && Strahd_Heart_Destroyed == true"
+  },
+  {
+    "goal": "Restore the Ordning",
+    "campaign": "Storm King’s Thunder",
+    "description": "Resolve the civil war among giant-kin and reinstate King Hekaton.",
+    "technical_trigger": "NPC_Dialogue_Tree_Resolution",
+    "success_state": "Hekaton_Status == 'Enthroned'"
+  },
+  {
+    "goal": "Destroy the Soulmonger",
+    "campaign": "Tomb of Annihilation",
+    "description": "Locate the artifact at the bottom of the Tomb and smash it to end the Death Curse.",
+    "technical_trigger": "Object_HP_Threshold",
+    "success_state": "Soulmonger_Destroyed == true && DeathCurse_Active == false"
+  },
+  {
+    "goal": "Acquire the Stone of Golorr",
+    "campaign": "Waterdeep: Dragon Heist",
+    "description": "Win the investigation/heist to obtain the sentient artifact that knows the gold's location.",
+    "technical_trigger": "Stealth_Puzzle_Resolution",
+    "success_state": "Player_Inventory_Has(Stone_of_Golorr)"
+  },
+  {
+    "goal": "Reach Level 23 (Mad Mage)",
+    "campaign": "Dungeon of the Mad Mage",
+    "description": "Survive the descent to the final floor of Undermountain.",
+    "technical_trigger": "Floor_Level_Tracker",
+    "success_state": "Current_Floor == 23"
+  },
+  {
+    "goal": "Redeem or Destroy Zariel",
+    "campaign": "Descent into Avernus",
+    "description": "Confront the Archdevil and either restore her soul or end her rule.",
+    "technical_trigger": "Alignment_Moral_Choice",
+    "success_state": "Zariel_Fate_Determined == true && Elturel_Status == 'Saved'"
+  },
+  {
+    "goal": "End the Everlasting Rime",
+    "campaign": "Rime of the Frostmaiden",
+    "description": "Break the winter spell cast by the goddess Auril to return sun to the Dale.",
+    "technical_trigger": "World_State_Variable_Shift",
+    "success_state": "Auril_Avatar_Defeated == true && Weather_Logic == 'Normal'"
+  },
+  {
+    "goal": "Free Zybilna",
+    "campaign": "Wild Beyond the Witchlight",
+    "description": "Use the correct items/words to unfreeze the Archfey and restore Prismeer.",
+    "technical_trigger": "Global_Puzzle_Solution",
+    "success_state": "Zybilna_Frozen_Flag == false"
+  },
+  {
+    "goal": "Decide the Fate of the Apotheon",
+    "campaign": "Call of the Netherdeep",
+    "description": "Choose to kill, redeem, or release the tragic hero Alyxian.",
+    "technical_trigger": "End_Game_Choice_UI",
+    "success_state": "Alyxian_Status_Resolved == true"
+  },
+  {
+    "goal": "Stop the Ritual of Remaking",
+    "campaign": "Vecna: Eve of Ruin",
+    "description": "Interrupt Vecna’s final casting before he deletes the existing multiverse.",
+    "technical_trigger": "Encounter_Failure_Timer",
+    "success_state": "Vecna_Boss_Defeated == true && Reality_Integrity > 0"
+  }
+]

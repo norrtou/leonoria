@@ -1,0 +1,117 @@
+[
+  {
+    "category": "Physical (Martial)",
+    "types": [
+      {
+        "id": "bludgeoning",
+        "description": "Blunt force (hammers, falling, slams).",
+        "interaction_logic": "Most effective against brittle structures and Skeletons. Often resisted by incorporeal beings unless magical.",
+        "bypass_tags": ["magical", "adamantine"]
+      },
+      {
+        "id": "piercing",
+        "description": "Puncturing strikes (arrows, spears, bites).",
+        "interaction_logic": "Standard weapon damage. Almost no vulnerabilities exist in the bestiary, making it consistent but rarely 'bonus' damage.",
+        "bypass_tags": ["magical", "silvered"]
+      },
+      {
+        "id": "slashing",
+        "description": "Cutting force (swords, claws, axes).",
+        "interaction_logic": "Triggers 'Splitting' in Oozes (Black Pudding/Ochre Jelly). Effective against plant-based creatures.",
+        "bypass_tags": ["magical", "adamantine"]
+      }
+    ]
+  },
+  {
+    "category": "Elemental (The Inner Planes)",
+    "types": [
+      {
+        "id": "acid",
+        "description": "Corrosive chemical/magical energy.",
+        "interaction_logic": "Stops regeneration in Trolls. Heavily resisted by Fiends and Oozes.",
+        "status_trigger": "Corroded (Optional: AC reduction to non-magical armor)"
+      },
+      {
+        "id": "cold",
+        "description": "Frigid, heat-sapping energy.",
+        "interaction_logic": "Slows Fire Elementals. Resisted by Undead and Arctic-dwellers.",
+        "status_trigger": "Chilled (Speed reduced by 10ft)"
+      },
+      {
+        "id": "fire",
+        "description": "Combustive heat.",
+        "interaction_logic": "Highest count of vulnerabilities (Plants, Insects) but also highest count of resistances (Fiends, Dragons).",
+        "status_trigger": "Ignited (1d4 DoT until extinguished)"
+      },
+      {
+        "id": "lightning",
+        "description": "Electrical discharge.",
+        "interaction_logic": "Often prevents targets from taking Reactions. Can jump (arc) to adjacent targets in water.",
+        "status_trigger": "Shocked (No Reactions)"
+      },
+      {
+        "id": "thunder",
+        "description": "Concussive sound waves (formerly 'Sonic').",
+        "interaction_logic": "Highly effective against Earth Elementals and crystalline constructs. Very few resistances exist.",
+        "status_trigger": "Deafened / Pushed (10ft knockback)"
+      },
+      {
+        "id": "poison",
+        "description": "Toxins and venoms.",
+        "interaction_logic": "Statistically the 'weakest' type; nearly 100+ monsters are totally Immune (Undead, Constructs, Fiends).",
+        "status_trigger": "Poisoned (Disadvantage on attacks/checks)"
+      }
+    ]
+  },
+  {
+    "category": "Esoteric (The Outer Planes)",
+    "types": [
+      {
+        "id": "force",
+        "description": "Pure focused magical energy.",
+        "interaction_logic": "The 'Gold Standard' of damage. Virtually nothing in the multiverse resists it except the Helmed Horror.",
+        "status_trigger": "Arcane Instability"
+      },
+      {
+        "id": "necrotic",
+        "description": "The energy of decay and death.",
+        "interaction_logic": "Heals certain Undead (like the Atropal). Reduces Max HP in players.",
+        "status_trigger": "Withered (Max HP reduction)"
+      },
+      {
+        "id": "psychic",
+        "description": "Direct mental trauma.",
+        "interaction_logic": "Ignores all physical armor. Immune: Constructs and mindless Oozes.",
+        "status_trigger": "Stunned / Frightened"
+      },
+      {
+        "id": "radiant",
+        "description": "Holy light and divine searing.",
+        "interaction_logic": "Devastating to Undead/Fiends. Stops Vampire regeneration and Zombie 'Undead Fortitude'.",
+        "status_trigger": "Blinded / Turned"
+      }
+    ]
+  },
+  {
+    "category": "Material & Quality Overlays",
+    "notes": "These are not standalone types but 'Tags' that modify Physical damage to bypass resistances.",
+    "modifiers": [
+      {
+        "id": "magical",
+        "effect": "Bypasses standard 'Resistance to Bludgeoning, Piercing, and Slashing from Non-magical Attacks'."
+      },
+      {
+        "id": "silvered",
+        "effect": "Bypasses resistances of Lycanthropes (Werewolves), Devils, and Wraiths."
+      },
+      {
+        "id": "adamantine",
+        "effect": "Automatically crits against objects and bypasses Golem/Construct damage reduction."
+      },
+      {
+        "id": "cold_iron",
+        "effect": "Bypasses the inherent damage reduction of Fey and certain high-level Demons."
+      }
+    ]
+  }
+]

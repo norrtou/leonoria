@@ -1,0 +1,111 @@
+{
+  "botanical_registry": {
+    "metadata": {
+      "version": "1.0",
+      "purpose": "Resource nodes for crafting and survival",
+      "global_modifier": "Druids/Rangers gain +5 to Harvest DC checks."
+    },
+    "flora": [
+      {
+        "id": "kings_leaf",
+        "name": "Kingsleaf",
+        "biome": "Elven Forest / Plains",
+        "harvest_dc": 10,
+        "appearance": "Broad, golden-veined leaves that shimmer in sunlight.",
+        "alchemical_property": "Potency",
+        "refined_result": "Potion of Healing",
+        "raw_effect": "Chewing the leaf stabilizes a dying creature (1 charge of Healer's Kit)."
+      },
+      {
+        "id": "ash_blossom",
+        "name": "Ash Blossom",
+        "biome": "Ashlands",
+        "harvest_dc": 15,
+        "appearance": "A grey, soot-covered flower that glows dull red when touched.",
+        "alchemical_property": "Combustion",
+        "refined_result": "Alchemist's Fire / Fire Resistance Potion",
+        "raw_effect": "Deals 1 fire damage if handled without gloves."
+      },
+      {
+        "id": "void_shroom",
+        "name": "Void Shroom",
+        "biome": "Deep Caves / Fungal Grottos",
+        "harvest_dc": 18,
+        "appearance": "Translucent purple fungi that seems to absorb torchlight.",
+        "alchemical_property": "Shadow / Stealth",
+        "refined_result": "Invisibility Potion / Oil of Slipperiness",
+        "raw_effect": "Eating raw grants Darkvision 30ft but causes 1d4 psychic damage."
+      },
+      {
+        "id": "salt_husk",
+        "name": "Salt Husk",
+        "biome": "Salt Deserts",
+        "harvest_dc": 12,
+        "appearance": "Brittle, white succulent that tastes of brine.",
+        "alchemical_property": "Preservation",
+        "refined_result": "Antitoxin / Survival Rations (Preservative)",
+        "raw_effect": "Can be ground into salt to preserve 1lb of meat for 30 days."
+      },
+      {
+        "id": "ghost_orchid",
+        "name": "Ghost Orchid",
+        "biome": "Dark Forest / Haunted Biomes",
+        "harvest_dc": 20,
+        "appearance": "A floating, semi-ethereal white flower that emits a faint chime.",
+        "alchemical_property": "Etherealness",
+        "refined_result": "Potion of Etherealness / Oil of Sharpness",
+        "raw_effect": "Allows the user to see into the Ethereal Plane for 1 minute."
+      },
+      {
+        "id": "mana_weed",
+        "name": "Mana-Tinged Weed",
+        "biome": "The Barrens",
+        "harvest_dc": 14,
+        "appearance": "Jagged blue grass that sparks with static electricity.",
+        "alchemical_property": "Arcane Recharge",
+        "refined_result": "Spell Scroll Ink / Potion of Mana (Variant)",
+        "raw_effect": "Restores one Level 1 spell slot, but causes 1 level of Exhaustion."
+      },
+      {
+        "id": "iron_bark_sap",
+        "name": "Ironbark Sap",
+        "biome": "Elven Forest (Ancient Nodes)",
+        "harvest_dc": 16,
+        "appearance": "Thick, metallic-smelling resin from Ironbark trees.",
+        "alchemical_property": "Hardening",
+        "refined_result": "Barkskin Potion / Adamantine Weapon Coating (Temporary)",
+        "raw_effect": "Increases AC by 1 for 1 hour; makes clothes stiff and uncomfortable."
+      },
+      {
+        "id": "serpents_tongue",
+        "name": "Serpent's Tongue",
+        "biome": "Swamps / Fungal Grottos",
+        "harvest_dc": 13,
+        "appearance": "A forked red fern that smells of rotting meat.",
+        "alchemical_property": "Toxin",
+        "refined_result": "Basic Poison / Serpent Venom",
+        "raw_effect": "Coating a blade in raw juice adds 1d4 poison damage (lasts 1 hit)."
+      },
+      {
+        "id": "frost_lichen",
+        "name": "Frost Lichen",
+        "biome": "Arctic / High Mountains",
+        "harvest_dc": 11,
+        "appearance": "Crystalline blue moss that feels freezing to the touch.",
+        "alchemical_property": "Cryo-Storage",
+        "refined_result": "Potion of Frost Giant Strength / Cold Resistance",
+        "raw_effect": "Prevents food/potions from spoiling in high-heat biomes."
+      },
+      {
+        "id": "blood_briar",
+        "name": "Blood Briar",
+        "biome": "The Barrens / Battlefields",
+        "harvest_dc": 17,
+        "appearance": "Thorny vines that drink blood from the soil; thorns are deep crimson.",
+        "alchemical_property": "Vitality / Sanguine",
+        "refined_result": "Potion of Vitality / Berserker Brew",
+        "raw_effect": "Grants 5 Temp HP but the user cannot be healed by magic for 1 hour."
+      }
+    ]
+  }
+}

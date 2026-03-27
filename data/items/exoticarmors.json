@@ -1,0 +1,140 @@
+{
+  "exotic_armors_apparel": {
+    "metadata": {
+      "version": "1.0",
+      "categories": ["Biological/Monster-Plate", "Elven/Dwarven High-Craft", "Black Market/Illicit", "Arcane Infused"],
+      "note": "Exotic armors often require 'Specialized Training' to use without penalty."
+    },
+    "registry": [
+      {
+        "id": "dragon_scale_mail",
+        "name": "Dragon Scale Mail",
+        "category": "Medium Armor (Exotic)",
+        "ac_base": 15,
+        "ac_modifier": "Dexterity (Max 2)",
+        "weight": "40 lb",
+        "rarity": "Very Rare",
+        "cultural_connection": "Harvested from the remains of a dragon. Wearing this in a dragon's presence is considered a grave insult.",
+        "special_skills": "Elemental Resistance: Grants resistance to the damage type of the dragon it was made from (Fire, Cold, etc.).",
+        "biome_synergy": "Ashlands (if Red), Salt Deserts (if Blue/White).",
+        "acquisition": "Requires a Master Tanner and a Dragon Slaying."
+      },
+      {
+        "id": "mithral_plate",
+        "name": "Mithral Full Plate",
+        "category": "Heavy Armor (Exotic)",
+        "ac_base": 18,
+        "ac_modifier": "None",
+        "weight": "32 lb",
+        "rarity": "Rare",
+        "properties": ["Ultra-Light", "No Stealth Disadvantage"],
+        "cultural_connection": "The 'Silver-Steel' of the Dwarven Deep-Lords. It is as light as silk but harder than iron.",
+        "special_skills": "Silent Knight: Removes the Stealth Disadvantage usually associated with Heavy Armor.",
+        "strength_req": 0,
+        "limitations": "Does not provide the 'Damage Reduction' of standard Adamantine."
+      },
+      {
+        "id": "adamantine_splint",
+        "name": "Adamantine Splint",
+        "category": "Heavy Armor (Exotic)",
+        "ac_base": 17,
+        "ac_modifier": "None",
+        "weight": "60 lb",
+        "rarity": "Uncommon",
+        "cultural_connection": "Forged using ultra-hard meteoritic ore. It is functionally indestructible.",
+        "special_skills": "Reinforced Frame: Any critical hit against the wearer becomes a normal hit.",
+        "strength_req": 15,
+        "limitations": "Magnetic: Vulnerable to 'Shock' or 'Magnetism' traps."
+      },
+      {
+        "id": "spiked_armor_battlerager",
+        "name": "Spiked Armor",
+        "category": "Medium Armor (Exotic)",
+        "ac_base": 14,
+        "ac_modifier": "Dexterity (Max 2)",
+        "weight": "45 lb",
+        "rarity": "Uncommon",
+        "cultural_connection": "The signature gear of the Dwarven 'Kuldjargh' (Axe Battleragers). Every inch is covered in serrated blades.",
+        "special_skills": "Grapple-Thorns: Dealing 1d4 piercing damage to any creature that grapples you or that you grapple.",
+        "limitations": "Dangerous to allies; cannot be worn in polite social settings (Fine Clothes)."
+      },
+      {
+        "id": "elven_chain_shirt",
+        "name": "Elven Chain",
+        "category": "Medium Armor (Exotic)",
+        "ac_base": 13,
+        "ac_modifier": "Dexterity (Max 2) + 1",
+        "weight": "20 lb",
+        "rarity": "Rare",
+        "properties": ["Automatic Proficiency"],
+        "cultural_connection": "Glistening links made from star-metal. Elves consider it a gift for 'Friends of the Forest'.",
+        "special_skills": "Universal Fit: You are considered proficient in this armor even if you have no medium armor training.",
+        "limitations": "Extremely noticeable under moonlight (Glows softly)."
+      },
+      {
+        "id": "mizzium_armor",
+        "name": "Mizzium Plate",
+        "category": "Heavy Armor (Exotic)",
+        "ac_base": 18,
+        "ac_modifier": "None",
+        "weight": "65 lb",
+        "rarity": "Rare (Eberron/Ravnica)",
+        "cultural_connection": "Magically treated alloy created by Izzet engineers or Gnomish Artificers.",
+        "special_skills": "Magical Dampener: When you are subjected to an effect that allows a Strength or Constitution save for half damage, you take no damage on a success.",
+        "limitations": "Requires monthly 're-tuning' by a professional engineer."
+      },
+      {
+        "id": "living_armor_symbiote",
+        "name": "Living Armor",
+        "category": "Medium Armor (Cursed/Exotic)",
+        "ac_base": 15,
+        "ac_modifier": "Dexterity (Max 2)",
+        "weight": "20 lb (feels like 0)",
+        "rarity": "Very Rare",
+        "cultural_connection": "A chitinous, organic suit found in the Fungal Grottos or the Far Realm.",
+        "special_skills": "Symbiosis: Grants Advantage on Initiative. Can grow 'claws' (1d6 damage) as a bonus action.",
+        "curse_logic": "Feed the Host: The wielder must expend 1 Hit Die every long rest or the armor reduces their Max HP.",
+        "acquisition": "Found in 'The Barrens' or 'Fungal Grottos'."
+      },
+      {
+        "id": "smokepowder_cloak",
+        "name": "Smokepowder Cloak",
+        "category": "Apparel (Black Market)",
+        "ac_base": 10,
+        "ac_modifier": "Full Dexterity",
+        "weight": "5 lb",
+        "rarity": "Illegal",
+        "cultural_connection": "Favored by the 'Gutter-Runners' of the city slums. Contains pockets of volatile powder.",
+        "special_skills": "Vanish: When hit, use a reaction to drop a smoke bomb (10ft radius obscurement) and move 5ft without opportunity attacks.",
+        "legal_status": "Banned in cities with high fire risk (Elven Forests).",
+        "limitations": "If the user takes Fire damage, there is a 10% chance the cloak explodes (3d6 dmg)."
+      },
+      {
+        "id": "lead_lined_robes",
+        "name": "Anti-Mana Robes",
+        "category": "Apparel (Black Market)",
+        "ac_base": 11,
+        "ac_modifier": "Full Dexterity",
+        "weight": "15 lb",
+        "rarity": "Uncommon",
+        "cultural_connection": "Crude but effective robes stitched with lead and cold-iron threads. Used by 'Mage-Hunters'.",
+        "special_skills": "Dead-Zone: Resistance to Force damage and Advantage on saves against 'Detect Magic'.",
+        "biome_synergy": "The Barrens (Protects against Mana-Radiation).",
+        "limitations": "Heavy weight for casters; reduces movement speed by 5ft."
+      },
+      {
+        "id": "glamerweave_outfit",
+        "name": "Glamerweave Finery",
+        "category": "Apparel (High-Society)",
+        "ac_base": 10,
+        "ac_modifier": "Full Dexterity",
+        "weight": "4 lb",
+        "rarity": "Uncommon",
+        "cultural_connection": "Clothing infused with illusion magic. The patterns shift and move like a living painting.",
+        "special_skills": "Dazzling Presence: +1 bonus to Charisma (Performance and Persuasion) checks.",
+        "active_powers": "Change Appearance: Can change its color/style as a bonus action (but not its shape).",
+        "acquisition": "High-end tailors in planar hubs or Elven Forests."
+      }
+    ]
+  }
+}

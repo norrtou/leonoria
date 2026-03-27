@@ -1,0 +1,128 @@
+[
+  {
+    "curse_id": "CRS-001",
+    "name": "Mummy Rot",
+    "source_type": "Biological (Undead)",
+    "origin": ["Mummy", "Mummy Lord"],
+    "mechanics": {
+      "trigger": "Successful Slam/Rotting Fist attack",
+      "saving_throw": "CON DC 12 (Mummy) / DC 16 (Lord)",
+      "base_effect": "Target cannot regain hit points via any source (Natural or Magical).",
+      "degradation": "Every 24 hours, Max HP decreases by 10 (3d6). Target dies if Max HP reaches 0.",
+      "removal_path": "Remove Curse (3rd Level) followed by Greater Restoration or Healing."
+    },
+    "severity": "Lethal"
+  },
+  {
+    "curse_id": "CRS-002",
+    "name": "Lycanthropy (Infection)",
+    "source_type": "Biological (Shapeshifter)",
+    "origin": ["Werewolf", "Werebear", "Weretiger", "Wereboar", "Wererat"],
+    "mechanics": {
+      "trigger": "Successful Bite attack",
+      "saving_throw": "CON DC 12 (Standard)",
+      "base_effect": "Alignment shift to Malicious (except Werebear). Gain Damage Immunities (Non-magical Physical).",
+      "degradation": "Forced transformation during Full Moon. PC loses control to DM/AI-Routine.",
+      "removal_path": "Remove Curse (Only if administered before the first Full Moon transformation)."
+    },
+    "severity": "Character-Breaking"
+  },
+  {
+    "curse_id": "CRS-003",
+    "name": "Berserker's Bloodlust",
+    "source_type": "Item-Bound (Cursed Artifact)",
+    "origin": ["Berserker Axe"],
+    "mechanics": {
+      "trigger": "Taking damage while weapon is equipped",
+      "saving_throw": "WIS DC 15",
+      "base_effect": "Berserk State: Must use Action to attack nearest creature (Ally or Enemy).",
+      "degradation": "Weapon cannot be unequipped or discarded while cursed.",
+      "removal_path": "Banishment or Remove Curse cast on the wielder to allow item decoupling."
+    },
+    "severity": "High (Tactical Chaos)"
+  },
+  {
+    "curse_id": "CRS-004",
+    "name": "Nightmare Haunting",
+    "source_type": "Ethereal (Fey/Fiend)",
+    "origin": ["Night Hag"],
+    "mechanics": {
+      "trigger": "Hag occupies Ethereal Plane within 30ft of sleeping target",
+      "saving_throw": "None (Automatic upon sleep)",
+      "base_effect": "Long Rest provides no benefit. No HP or Spell Slot recovery.",
+      "degradation": "Max HP reduced by 1d10 every night. Death at 0 Max HP.",
+      "removal_path": "Protection from Evil and Good or Dispel Evil and Good."
+    },
+    "severity": "Lethal (Attrition)"
+  },
+  {
+    "curse_id": "CRS-005",
+    "name": "The Death Curse",
+    "source_type": "Global/Environmental",
+    "origin": ["Soulmonger / Acererak"],
+    "mechanics": {
+      "trigger": "Global Field Effect",
+      "saving_throw": "None",
+      "base_effect": "Resurrection spells (Revivify, Raise Dead, etc.) automatically fail.",
+      "degradation": "Previously resurrected beings lose 1 Max HP per day.",
+      "removal_path": "Destruction of the source artifact (Campaign Milestone)."
+    },
+    "severity": "Campaign-Defining"
+  },
+  {
+    "curse_id": "CRS-006",
+    "name": "Abolethic Slime",
+    "source_type": "Biological (Aberration)",
+    "origin": ["Aboleth"],
+    "mechanics": {
+      "trigger": "Successful Tentacle attack",
+      "saving_throw": "CON DC 14",
+      "base_effect": "Skin becomes translucent and slimy. Can only breathe underwater.",
+      "degradation": "Takes 1d12 Acid damage every 10 mins if skin is not doused in fresh water.",
+      "removal_path": "Heal or any disease-curing magic cast within 1 minute; otherwise, Remove Curse."
+    },
+    "severity": "Moderate (Environmental Shift)"
+  },
+  {
+    "curse_id": "CRS-007",
+    "name": "Shadowfell Despair",
+    "source_type": "Planar (Psychic)",
+    "origin": ["The Shadowfell"],
+    "mechanics": {
+      "trigger": "Finishing a Long Rest in the Shadowfell",
+      "saving_throw": "WIS DC 10 (Increases by 1 per day)",
+      "base_effect": "Roll on Despair Table (Apathy, Dread, or Madness).",
+      "degradation": "Disadvantage on all Saving Throws and Initiative.",
+      "removal_path": "Finishing a Long Rest in a 'bright' plane or Greater Restoration."
+    },
+    "severity": "High (Systemic Debuff)"
+  },
+  {
+    "curse_id": "CRS-008",
+    "name": "Medusa’s Gaze (Petrifaction)",
+    "source_type": "Gaze (Monstrosity)",
+    "origin": ["Medusa", "Basilisk", "Beholder (Petrification Ray)"],
+    "mechanics": {
+      "trigger": "Starting turn within 30ft of creature and making eye contact",
+      "saving_throw": "CON DC 14",
+      "base_effect": "Restrained condition (First Failure).",
+      "degradation": "Petrified condition (Second Failure). Target becomes Stone.",
+      "removal_path": "Greater Restoration or Flesh to Stone (Reversed)."
+    },
+    "severity": "Permanent (Unless cured)"
+  },
+  {
+    "curse_id": "CRS-009",
+    "name": "Bestow Curse (Arcane)",
+    "source_type": "Spell-based",
+    "origin": ["Cleric", "Wizard", "Bard"],
+    "mechanics": {
+      "trigger": "3rd Level Spell (Touch)",
+      "saving_throw": "WIS vs Caster Spell Save DC",
+      "base_effect": "Choose: Disadvantage on 1 Ability Score, Extra Necrotic Damage, or Turn Loss.",
+      "degradation": "Concentration-based (1 minute) or Permanent if cast at 9th level.",
+      "removal_path": "Remove Curse or Dispel Magic."
+    },
+    "severity": "Variable (Tactical)"
+  }
+]

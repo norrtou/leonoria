@@ -1,0 +1,74 @@
+[
+  {
+    "mechanic": "Faction Renown System",
+    "technical_explanation": "A numerical reputation tracker for NPC groups. Affects shop prices, quest availability, and whether guards are hostile or helpful."
+  },
+  {
+    "mechanic": "Wilderness Hexcrawl",
+    "technical_explanation": "A navigation mode where the map is hidden by Fog of War and divided into tiles. Requires logic for 'getting lost' and procedural resource discovery."
+  },
+  {
+    "mechanic": "Corruption / Mutation System",
+    "technical_explanation": "A status-effect tracker that applies permanent physical or mental debuffs/buffs to the player character based on exposure to eldritch energy."
+  },
+  {
+    "mechanic": "Psionic Combat",
+    "technical_explanation": "A secondary combat resource (Psi Points) that bypasses standard 'Magic Resistance' and often requires Intelligence or Wisdom saving throws."
+  },
+  {
+    "mechanic": "Council Diplomacy System",
+    "technical_explanation": "A multi-variable 'Approval' meter. Player choices in dialogue add or subtract points from different factions; high scores unlock 'Army' assets for the endgame."
+  },
+  {
+    "mechanic": "Madness / Sanity System",
+    "technical_explanation": "A hidden or visible meter that depletes upon seeing horrors. Low levels cause 'Short-term Madness' (stuns/confusion) or 'Long-term Madness' (permanent traits)."
+  },
+  {
+    "mechanic": "Resource Scarcity",
+    "technical_explanation": "Survival logic that forces 'Hunger' and 'Thirst' debuffs. Players must spend actions or gold on 'Rations' and 'Water' to prevent Exhaustion levels."
+  },
+  {
+    "mechanic": "Tarokka Procedural Logic",
+    "technical_explanation": "A randomization script run at the start of a new game. It determines the coordinates of key quest items and the identity of a 'Fated Ally' NPC."
+  },
+  {
+    "mechanic": "The Mists (Hard-Border)",
+    "technical_explanation": "An environmental 'kill-zone' or 'teleport-back' loop that prevents the player from leaving the designated map area until a specific flag is set."
+  },
+  {
+    "mechanic": "Rune Magic",
+    "technical_explanation": "A crafting and gear-socketing system where players find 'Runes' to enchant weapons or armor with unique passive abilities."
+  },
+  {
+    "mechanic": "The Death Curse (Permadeath)",
+    "technical_explanation": "A global modifier that disables all 'Revivify' or 'Resurrection' spells. Players who reach 0 HP and fail saves are permanently deleted/unplayable."
+  },
+  {
+    "mechanic": "Urban Seasonal Shifting",
+    "technical_explanation": "A world-state toggle (Spring, Summer, Autumn, Winter) that changes NPC schedules, lighting presets, and which 'Main Boss' script is active."
+  },
+  {
+    "mechanic": "Infernal War Machines",
+    "technical_explanation": "A vehicular combat physics engine. Includes logic for fuel (Soul Coins), mounting weapons, and high-speed collision damage."
+  },
+  {
+    "mechanic": "Soul Coin Economy",
+    "technical_explanation": "A secondary currency used exclusively for high-tier merchants and fueling vehicles. Often involves 'Moral Alignment' hits when spent."
+  },
+  {
+    "mechanic": "Rival Party AI",
+    "technical_explanation": "A script that tracks a secondary group of NPCs moving across the map at the same speed as the player. They can 'claim' quest items before the player does."
+  },
+  {
+    "mechanic": "Underwater Combat Physics",
+    "technical_explanation": "A global gravity and movement modifier. Disadvantages melee attacks (unless using specific weapons) and introduces 3D vertical movement (Swimming)."
+  },
+  {
+    "mechanic": "Lunar Magic Cycles",
+    "technical_explanation": "A time-based buff/debuff system linked to the world's moons. Certain subclasses gain power based on the current 'Moon Phase' in the game clock."
+  },
+  {
+    "mechanic": "Planar Travel",
+    "technical_explanation": "A level-loading system that swaps out the entire 'Skybox', 'Gravity', and 'Physics' constants as players move between dimensions."
+  }
+]

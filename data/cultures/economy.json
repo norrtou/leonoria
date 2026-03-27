@@ -1,0 +1,247 @@
+{
+  "meta": {
+    "purpose": "Complete economic system for D&D worldbuilding",
+    "scope": "Currencies, trade, resources, wealth, illegal systems",
+    "design": "Simulation-friendly and culture-linked"
+  },
+
+  "currency_system": {
+    "standard": {
+      "base_unit": "gold_piece",
+      "coins": {
+        "copper_piece": {
+          "value_in_gp": 0.01,
+          "usage": "Common daily goods",
+          "used_by": ["Peasants", "Laborers"]
+        },
+        "silver_piece": {
+          "value_in_gp": 0.1,
+          "usage": "Standard trade",
+          "used_by": ["Merchants", "Adventurers"]
+        },
+        "gold_piece": {
+          "value_in_gp": 1,
+          "usage": "Primary currency",
+          "used_by": ["All societies"]
+        },
+        "platinum_piece": {
+          "value_in_gp": 10,
+          "usage": "High-value transactions",
+          "used_by": ["Nobility", "Guilds"]
+        }
+      }
+    },
+
+    "regional_variants": [
+      {
+        "region": "Calimshan",
+        "currency_type": "gold-heavy economy",
+        "notes": "Wealth concentrated in trade elites"
+      },
+      {
+        "region": "Eberron (Khorvaire)",
+        "currency_type": "bank-backed notes",
+        "notes": "Dragonmarked Houses standardize trade"
+      },
+      {
+        "region": "Athas",
+        "currency_type": "ceramic coins",
+        "notes": "Metal is rare; economy resource-driven"
+      }
+    ]
+  },
+
+  "trade_routes": [
+    {
+      "name": "Sword Coast Trade Way",
+      "regions_connected": ["Waterdeep", "Baldur's Gate", "Neverwinter"],
+      "goods": ["Food", "Weapons", "Luxury goods"],
+      "risk_level": "medium",
+      "controlled_by": ["Merchant guilds", "Lords' Alliance"]
+    },
+    {
+      "name": "Silk Routes of Kara-Tur",
+      "regions_connected": ["Shou Lung", "Faerûn"],
+      "goods": ["Silk", "Spices", "Exotic items"],
+      "risk_level": "low",
+      "controlled_by": ["Empires"]
+    },
+    {
+      "name": "Lhazaar Sea Routes",
+      "regions_connected": ["Khorvaire coastal cities"],
+      "goods": ["Fish", "Smuggled goods"],
+      "risk_level": "high",
+      "controlled_by": ["Pirates", "Merchant fleets"]
+    }
+  ],
+
+  "key_resources": {
+    "metals": {
+      "iron": {
+        "locations": ["Dwarven holds", "Mountain regions"],
+        "importance": "Weapons and tools",
+        "culture_dependency": ["Dwarves", "Military states"]
+      },
+      "mithral": {
+        "locations": ["Deep mines", "Ancient ruins"],
+        "importance": "Light magical armor",
+        "rarity": "rare"
+      },
+      "adamantine": {
+        "locations": ["Underdark", "Ancient deposits"],
+        "importance": "Legendary weapons",
+        "rarity": "very rare"
+      }
+    },
+
+    "magical": {
+      "dragonshards": {
+        "setting": "Eberron",
+        "importance": "Fuel magic industry",
+        "controlled_by": ["Dragonmarked Houses"]
+      },
+      "weave_nodes": {
+        "setting": "Forgotten Realms",
+        "importance": "Enhance spellcasting",
+        "rarity": "extremely rare"
+      }
+    },
+
+    "food": {
+      "grain": {
+        "regions": ["Heartlands", "Temperate zones"],
+        "importance": "Basic sustenance"
+      },
+      "livestock": {
+        "regions": ["Plains", "Nomadic cultures"],
+        "importance": "Food + economy"
+      }
+    }
+  },
+
+  "wealth_distribution": {
+    "tiers": [
+      {
+        "class": "Peasantry",
+        "wealth_range_gp": "0–50",
+        "lifestyle": "subsistence",
+        "common_in": ["Feudal societies", "Rural regions"]
+      },
+      {
+        "class": "Middle",
+        "wealth_range_gp": "50–500",
+        "lifestyle": "modest",
+        "common_in": ["Cities", "Trade hubs"]
+      },
+      {
+        "class": "Elite",
+        "wealth_range_gp": "500–10000",
+        "lifestyle": "luxury",
+        "common_in": ["Capitals", "Merchant cities"]
+      },
+      {
+        "class": "Ultra-rich",
+        "wealth_range_gp": "10000+",
+        "lifestyle": "opulent",
+        "common_in": ["Magocracies", "Empire centers"]
+      }
+    ],
+
+    "cultural_variation": [
+      {
+        "culture": "Feudal kingdoms",
+        "distribution": "Highly unequal",
+        "power": "Land ownership"
+      },
+      {
+        "culture": "Trade republics",
+        "distribution": "Merchant-dominated",
+        "power": "Gold and trade"
+      },
+      {
+        "culture": "Magocracies",
+        "distribution": "Power-based",
+        "power": "Magic users dominate"
+      }
+    ]
+  },
+
+  "black_markets": {
+    "structure": {
+      "types": [
+        "Smuggling rings",
+        "Assassin guilds",
+        "Illegal magic trade",
+        "Slave markets"
+      ]
+    },
+
+    "common_goods": [
+      "Forbidden magic items",
+      "Stolen artifacts",
+      "Drugs / alchemical substances",
+      "Information"
+    ],
+
+    "regional_examples": [
+      {
+        "region": "Baldur's Gate",
+        "features": ["Crime syndicates", "Corrupt officials"]
+      },
+      {
+        "region": "Sharn",
+        "features": ["Organized crime", "Underground markets"]
+      },
+      {
+        "region": "Athas",
+        "features": ["Slave trade", "Water smuggling"]
+      }
+    ]
+  },
+
+  "cultural_economic_models": [
+    {
+      "culture": "Dwarven Holds",
+      "economy_type": "resource extraction",
+      "primary_goods": ["Metal", "Crafted goods"],
+      "trade_style": "export heavy",
+      "values": ["Craftsmanship", "Durability"]
+    },
+    {
+      "culture": "Elven Societies",
+      "economy_type": "sustainable",
+      "primary_goods": ["Art", "Magic items"],
+      "trade_style": "limited",
+      "values": ["Balance", "Longevity"]
+    },
+    {
+      "culture": "Human Kingdoms",
+      "economy_type": "mixed",
+      "primary_goods": ["Food", "Labor", "Trade goods"],
+      "trade_style": "expansive",
+      "values": ["Growth", "Power"]
+    },
+    {
+      "culture": "Eberron Houses",
+      "economy_type": "corporate",
+      "primary_goods": ["Magical services"],
+      "trade_style": "monopolistic",
+      "values": ["Control", "Profit"]
+    },
+    {
+      "culture": "Athasian City-States",
+      "economy_type": "scarcity-based",
+      "primary_goods": ["Water", "Slaves"],
+      "trade_style": "controlled",
+      "values": ["Survival", "Power"]
+    }
+  ],
+
+  "system_rules": [
+    "Resources determine power more than currency in harsh environments",
+    "Trade routes create political influence zones",
+    "Magic can disrupt traditional economies",
+    "Rare materials drive high-level adventures",
+    "Black markets exist wherever regulation exists"
+  ]
+}

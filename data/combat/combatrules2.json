@@ -1,0 +1,256 @@
+{
+  "meta": {
+    "purpose": "Modular system for abilities, spells, and effects",
+    "design": "Data-driven, event-based, reusable definitions",
+    "compatible_with": [
+      "dnd_combat_engine_v1",
+      "dnd_entity_schema_v1"
+    ]
+  },
+
+  "core_concepts": {
+    "ability_definition": "Reusable template describing an action, spell, or feature",
+    "effect": "Atomic unit that modifies game state",
+    "trigger": "Condition under which an effect or ability activates",
+    "targeting": "Rules for selecting valid targets"
+  },
+
+  "ability_template": {
+    "id": "string",
+    "name": "string",
+    "type": "action | bonus_action | reaction | passive",
+    "action_cost": {
+      "action": 0,
+      "bonus_action": 0,
+      "reaction": 0
+    },
+
+    "range": {
+      "type": "melee | ranged | self | area",
+      "distance": 0,
+      "area_shape": "cone | sphere | line | cube",
+      "area_size": 0
+    },
+
+    "targeting": {
+      "valid_targets": [
+        "enemy",
+        "ally",
+        "self"
+      ],
+      "selection": "single | multiple | area"
+    },
+
+    "requirements": {
+      "line_of_sight": true,
+      "resource_cost": {
+        "spell_slot": null,
+        "charges": 0
+      }
+    },
+
+    "effects": [
+      {
+        "type": "damage | heal | condition_apply | buff | debuff | move | summon",
+        "formula": {},
+        "conditions": []
+      }
+    ],
+
+    "saving_throw": {
+      "required": false,
+      "type": "DEX | CON | WIS | STR | INT | CHA",
+      "dc_formula": "8 + proficiency + ability_modifier",
+      "on_success": "half | negate | none"
+    },
+
+    "attack_roll": {
+      "required": false,
+      "formula": "1d20 + attack_bonus"
+    },
+
+    "duration": {
+      "type": "instant | rounds | concentration | permanent",
+      "value": 0
+    },
+
+    "concentration": false,
+
+    "cooldown": {
+      "rounds": 0
+    }
+  },
+
+  "effect_library": {
+    "damage": {
+      "fields": {
+        "dice": "string (e.g. 1d8)",
+        "modifier": "number",
+        "damage_type": "string"
+      }
+    },
+    "heal": {
+      "fields": {
+        "dice": "string",
+        "modifier": "number"
+      }
+    },
+    "condition_apply": {
+      "fields": {
+        "condition": "string",
+        "duration": "rounds"
+      }
+    },
+    "buff": {
+      "fields": {
+        "stat": "string",
+        "modifier": "number",
+        "duration": "rounds"
+      }
+    },
+    "move": {
+      "fields": {
+        "distance": "number",
+        "forced": true
+      }
+    }
+  },
+
+  "trigger_system": {
+    "trigger_types": [
+      "on_attack",
+      "on_hit",
+      "on_damage_taken",
+      "on_turn_start",
+      "on_turn_end",
+      "on_move",
+      "on_death"
+    ],
+
+    "structure": {
+      "trigger": "string",
+      "condition": {},
+      "effect": {}
+    }
+  },
+
+  "spellcasting_rules": {
+    "spell_slots": {
+      "level_1": 0,
+      "level_2": 0,
+      "level_3": 0
+    },
+    "casting_rules": [
+      "One leveled spell per turn if bonus action used",
+      "Concentration limited to one spell",
+      "Spell ends if concentration broken"
+    ]
+  },
+
+  "example_abilities": [
+    {
+      "id": "basic_attack",
+      "name": "Basic Attack",
+      "type": "action",
+      "range": {
+        "type": "melee",
+        "distance": 5
+      },
+      "targeting": {
+        "valid_targets": ["enemy"],
+        "selection": "single"
+      },
+      "attack_roll": {
+        "required": true,
+        "formula": "1d20 + attack_bonus"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "formula": {
+            "dice": "1d8",
+            "modifier": "strength_modifier",
+            "damage_type": "slashing"
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "fireball",
+      "name": "Fireball",
+      "type": "action",
+      "range": {
+        "type": "area",
+        "distance": 150,
+        "area_shape": "sphere",
+        "area_size": 20
+      },
+      "targeting": {
+        "valid_targets": ["enemy"],
+        "selection": "area"
+      },
+      "requirements": {
+        "resource_cost": {
+          "spell_slot": 3
+        }
+      },
+      "saving_throw": {
+        "required": true,
+        "type": "DEX",
+        "dc_formula": "spell_save_dc",
+        "on_success": "half"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "formula": {
+            "dice": "8d6",
+            "modifier": 0,
+            "damage_type": "fire"
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "healing_word",
+      "name": "Healing Word",
+      "type": "bonus_action",
+      "range": {
+        "type": "ranged",
+        "distance": 60
+      },
+      "targeting": {
+        "valid_targets": ["ally"],
+        "selection": "single"
+      },
+      "requirements": {
+        "resource_cost": {
+          "spell_slot": 1
+        }
+      },
+      "effects": [
+        {
+          "type": "heal",
+          "formula": {
+            "dice": "1d4",
+            "modifier": "spellcasting_modifier"
+          }
+        }
+      ]
+    }
+  ],
+
+  "integration": {
+    "combat_engine_hooks": [
+      "on_action_selected → validate ability",
+      "enqueue events based on effects",
+      "resolve via event system"
+    ],
+    "entity_usage": [
+      "entities store ability IDs",
+      "engine loads definitions dynamically"
+    ]
+  }
+}

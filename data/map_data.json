@@ -1,0 +1,69 @@
+{
+  "map_metadata": {
+    "system_note": "Denna sektion definierar skalans regler och hur motorn ska tolka avstånd.",
+    "map_id": "campaign_start_01",
+    "map_type": "WORLD", 
+    "_type_options": "WORLD (miles) eller DUNGEON (feet)",
+    "grid_layout": "pointy-topped-hex",
+    "grid_dimensions": {
+      "width_cells": 50,
+      "height_cells": 50,
+      "_comment": "Antal hexar i bredd/höjd. Motorn räknar ut radien baserat på SVG:ns viewBox."
+    },
+    "dnd_scale": {
+      "hex_size": 6,
+      "unit": "miles",
+      "_comment_world": "Standard DnD Kingdom Scale är 6 miles per hex. En grupp går ca 24 miles (4 hexar) per dag vid normalt tempo.",
+      "sq_ft_per_hex": 5, 
+      "_comment_dungeon": "Om map_type är DUNGEON, ändras hex_size till 5 feet för taktisk strid."
+    },
+    "svg_config": {
+      "viewBox": "0 0 1200 800",
+      "layer_id": "interaction_layer"
+    }
+  },
+  "cells": [
+    {
+      "q": 0,
+      "r": 0,
+      "terrain": {
+        "type": "Forest",
+        "move_cost": 2,
+        "_comment_move": "1 = Normal, 2 = Difficult Terrain (DnD standard). Kostnaden halverar hastigheten.",
+        "is_passable": true,
+        "vision_block": true
+      },
+      "campaign_logic": {
+        "is_explored": false,
+        "encounter_difficulty": 3,
+        "_comment_diff": "Används för att rulla på rätt tabell (CR - Challenge Rating).",
+        "poi_ref": "shrine_of_luck",
+        "description_id": "desc_forest_001"
+      },
+      "visuals": {
+        "svg_element_ref": "hex_0_0",
+        "biom_color": "#2d5a27"
+      }
+    },
+    {
+      "q": 1,
+      "r": 0,
+      "terrain": {
+        "type": "Mountain",
+        "move_cost": 3,
+        "is_passable": false,
+        "_comment_pass": "Vissa berg kan vara opasserbara utan flygförmåga eller klättringsutrustning."
+      },
+      "campaign_logic": {
+        "is_explored": false,
+        "encounter_difficulty": 8,
+        "poi_ref": null,
+        "encounter_table": "high_altitude_monsters"
+      },
+      "visuals": {
+        "svg_element_ref": "hex_1_0",
+        "biom_color": "#808080"
+      }
+    }
+  ]
+}

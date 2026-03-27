@@ -1,0 +1,96 @@
+{
+  "coastal_features": {
+    "bays": [
+      "Silverwind Bay","Moonveil Bay","Sunspire Bay","Goldenmist Bay","Whispering Bay",
+      "Frostveil Bay","Shadowcrest Bay","Brightwater Bay","Ironrock Bay","Skullshore Bay",
+      "Emberfall Bay","Thornspire Bay","Stormveil Bay","Ashen Bay","Bloodtusk Bay",
+      "Mistveil Bay","Deepwater Bay","Coldwind Bay","Blightshore Bay","Crystalwave Bay",
+      "Sunshadow Bay","Windwhisper Bay","Moonrise Bay","Stoneveil Bay","Goldcrest Bay",
+      "Stormwind Bay","Redcliff Bay","Highcrest Bay","Darkspire Bay","Brightcrest Bay",
+      "Silvercrest Bay","Fadinglight Bay","Starfall Bay","Dawnveil Bay","Nightfall Bay",
+      "Glimmerbay","Evershore Bay","Northwind Bay","Southveil Bay","Eastcliff Bay",
+      "Westcrest Bay","Tideveil Bay","Saltbreeze Bay","Seastone Bay","Coralwind Bay",
+      "Moonbreeze Bay","Stormsong Bay","Sunfall Bay","Windcrest Bay","Frostbloom Bay",
+      "Ironveil Bay","Shadowveil Bay","Goldencrest Bay","Bloodveil Bay","Ashveil Bay",
+      "Brightwind Bay","Stonecrest Bay","Crystalveil Bay","Wavecrest Bay","Silvershore Bay",
+      "Embershore Bay","Skullveil Bay","Deepcrest Bay","Mistshore Bay","Suncrest Bay",
+      "Mooncrest Bay","Blightveil Bay","Stormcrest Bay","Goldveil Bay","Nightspire Bay",
+      "Thorncrest Bay","Windveil Bay","Frostcrest Bay","Shadowcrest Bay","Brightveil Bay",
+      "Ironcrest Bay","Ashcrest Bay","Bloodcrest Bay","Stoneveil Bay","Sunveil Bay",
+      "Moonveil Bay","Crystalcrest Bay","Skullcrest Bay","Deepveil Bay","Tidecrest Bay",
+      "Seaspire Bay","Waveveil Bay","Northcrest Bay","Southveil Bay","Eastveil Bay",
+      "Westveil Bay","Stormspire Bay","Frostveil Bay","Goldspire Bay","Shadowspire Bay",
+      "Brightspire Bay","Ironspire Bay","Ashspire Bay","Bloodspire Bay","Stonecrest Bay"
+    ],
+
+    "cliffs": [
+      "Stormcliff","Highbluff","Redcliff","Blackcliff","Suncliff",
+      "Ironcliff","Stonebluff","Windcliff","Deepcliff","Frostcliff",
+      "Goldcliff","Shadowcliff","Ashcliff","Brightcliff","Cragbluff",
+      "Stormbluff","Grimcliff","Coldcliff","Embercliff","Blightcliff",
+      "Silvercliff","Mooncliff","Sunveil Cliff","Thorncliff","Skullcliff",
+      "Bloodcliff","Mistcliff","Deepveil Cliff","Windspire Cliff","Stonecrest Cliff",
+      "Ironspire Cliff","Brightcrest Cliff","Shadowspire Cliff","Goldspire Cliff","Ashspire Cliff",
+      "Frostspire Cliff","Crystalcliff","Stormspire Cliff","Emberspire Cliff","Nightcliff",
+      "Suncrest Cliff","Moonspire Cliff","Blightspire Cliff","Skullspire Cliff","Tidecliff",
+      "Wavecliff","Seacliff","Northcliff","Southcliff","Eastcliff",
+      "Westcliff","Starcliff","Silverspire Cliff","Goldveil Cliff","Ironveil Cliff",
+      "Ashveil Cliff","Bloodveil Cliff","Brightveil Cliff","Shadowveil Cliff","Stoneveil Cliff",
+      "Stormveil Cliff","Moonveil Cliff","Sunveil Cliff","Crystalveil Cliff","Deepcliff",
+      "Mistveil Cliff","Frostveil Cliff","Windveil Cliff","Skullveil Cliff","Thornveil Cliff",
+      "Blightveil Cliff","Emberveil Cliff","Nightveil Cliff","Waveveil Cliff","Tideveil Cliff",
+      "Seaspire Cliff","Northveil Cliff","Southveil Cliff","Eastveil Cliff","Westveil Cliff",
+      "Stormspire Cliff","Frostspire Cliff","Goldspire Cliff","Shadowspire Cliff","Brightspire Cliff",
+      "Ironspire Cliff","Ashspire Cliff","Bloodspire Cliff","Stonecrest Cliff","Crystalcrest Cliff",
+      "Skullcrest Cliff","Deepcrest Cliff","Mistcrest Cliff","Suncrest Cliff","Mooncrest Cliff"
+    ],
+
+    "coves_and_inlets": [
+      "Whispering Cove","Moonveil Cove","Sunspire Cove","Goldenmist Cove","Silverwind Cove",
+      "Shadowcrest Cove","Brightwater Cove","Ironrock Cove","Skullshore Cove","Emberfall Cove",
+      "Thornspire Cove","Stormveil Cove","Ashen Cove","Bloodtusk Cove","Mistveil Cove",
+      "Deepwater Cove","Coldwind Cove","Blightshore Cove","Crystalwave Cove","Sunshadow Cove",
+      "Windwhisper Cove","Moonrise Cove","Stoneveil Cove","Goldcrest Cove","Stormwind Cove",
+      "Redcliff Cove","Highcrest Cove","Darkspire Cove","Brightcrest Cove","Silvercrest Cove",
+      "Fadinglight Cove","Starfall Cove","Dawnveil Cove","Nightfall Cove","Glimmercove",
+      "Evershore Cove","Northwind Cove","Southveil Cove","Eastcliff Cove","Westcrest Cove",
+      "Tideveil Cove","Saltbreeze Cove","Seastone Cove","Coralwind Cove","Moonbreeze Cove",
+      "Stormsong Cove","Sunfall Cove","Windcrest Cove","Frostbloom Cove","Ironveil Cove",
+      "Shadowveil Cove","Goldencrest Cove","Bloodveil Cove","Ashveil Cove","Brightwind Cove",
+      "Stonecrest Cove","Crystalveil Cove","Wavecrest Cove","Silvershore Cove","Embershore Cove",
+      "Skullveil Cove","Deepcrest Cove","Mistshore Cove","Suncrest Cove","Mooncrest Cove",
+      "Blightveil Cove","Stormcrest Cove","Goldveil Cove","Nightspire Cove","Thorncrest Cove",
+      "Windveil Cove","Frostcrest Cove","Shadowcrest Cove","Brightveil Cove","Ironcrest Cove",
+      "Ashcrest Cove","Bloodcrest Cove","Stoneveil Cove","Sunveil Cove","Moonveil Cove",
+      "Crystalcrest Cove","Skullcrest Cove","Deepveil Cove","Tidecrest Cove","Seaspire Cove"
+    ],
+
+    "headlands_and_capes": [
+      "Sunspire Headland","Moonveil Cape","Silverwind Headland","Goldenmist Cape","Whispering Head",
+      "Frostveil Cape","Shadowcrest Headland","Brightwater Cape","Ironrock Head","Skullshore Cape",
+      "Emberfall Headland","Thornspire Cape","Stormveil Head","Ashen Cape","Bloodtusk Headland",
+      "Mistveil Cape","Deepwater Head","Coldwind Cape","Blightshore Headland","Crystalwave Cape",
+      "Sunshadow Head","Windwhisper Cape","Moonrise Headland","Stoneveil Cape","Goldcrest Head",
+      "Stormwind Cape","Redcliff Head","Highcrest Cape","Darkspire Headland","Brightcrest Cape",
+      "Silvercrest Head","Fadinglight Cape","Starfall Headland","Dawnveil Cape","Nightfall Head",
+      "Glimmerhead","Evershore Cape","Northwind Headland","Southveil Cape","Eastcliff Head",
+      "Westcrest Cape","Tideveil Headland","Saltbreeze Cape","Seastone Head","Coralwind Cape",
+      "Moonbreeze Headland","Stormsong Cape","Sunfall Head","Windcrest Cape","Frostbloom Headland",
+      "Ironveil Cape","Shadowveil Head","Goldencrest Cape","Bloodveil Headland","Ashveil Cape"
+    ],
+
+    "shoals_and_reefs": [
+      "Silverreef","Moonveil Shoal","Sunspire Reef","Goldenmist Shoal","Whispering Reef",
+      "Frostveil Shoal","Shadowcrest Reef","Brightwater Shoal","Ironrock Reef","Skullshore Shoal",
+      "Emberfall Reef","Thornspire Shoal","Stormveil Reef","Ashen Shoal","Bloodtusk Reef",
+      "Mistveil Shoal","Deepwater Reef","Coldwind Shoal","Blightshore Reef","Crystalwave Shoal",
+      "Sunshadow Reef","Windwhisper Shoal","Moonrise Reef","Stoneveil Shoal","Goldcrest Reef",
+      "Stormwind Shoal","Redcliff Reef","Highcrest Shoal","Darkspire Reef","Brightcrest Shoal",
+      "Silvercrest Reef","Fadinglight Shoal","Starfall Reef","Dawnveil Shoal","Nightfall Reef",
+      "Glimmerreef","Evershore Shoal","Northwind Reef","Southveil Shoal","Eastcliff Reef",
+      "Westcrest Shoal","Tideveil Reef","Saltbreeze Shoal","Seastone Reef","Coralwind Shoal",
+      "Moonbreeze Reef","Stormsong Shoal","Sunfall Reef","Windcrest Shoal","Frostbloom Reef",
+      "Ironveil Shoal","Shadowveil Reef","Goldencrest Shoal","Bloodveil Reef","Ashveil Shoal"
+    ]
+  }
+}

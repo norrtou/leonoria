@@ -1,0 +1,170 @@
+[
+  {
+    "culture": "Frontier Settlers",
+    "aliases": ["Frontier Humans", "Phandalin Colonists", "Sword Coast Pioneers", "Homesteaders"],
+    "base_race": "Human / Hill Dwarf",
+    "typical_hp": 12,
+    "behavior_ai": "Diurnal_Civilian",
+    "faction_connection": "Phandalin Town Council",
+    "dialogue_traits": ["Tired", "Hopeful", "Pragmatic"],
+    "typical_gear": ["Commoner's Clothes", "Iron Spade", "Pouch of Copper Pins"],
+    "flavor_dialogue": [
+      "The trail from Neverwinter is getting dangerous. Did you see any goblins?",
+      "Gundren promised us prosperity, but all we've found is mud and Redbrand trouble."
+    ]
+  },
+  {
+    "culture": "Cragmaw Goblins",
+    "aliases": ["Cragmaw Tribe", "Cave Goblins", "Forest Snarlers", "Goblinoid Raiders"],
+    "base_race": "Goblin",
+    "typical_hp": 7,
+    "behavior_ai": "Ambush_Predator",
+    "faction_connection": "Cragmaw Tribe",
+    "dialogue_traits": ["Snarky", "Cowardly", "Cruel"],
+    "typical_gear": ["Scimitar", "Shortbow", "Hide Scraps"],
+    "flavor_dialogue": [
+      "Shiny bits! Give us the shiny bits or we poke you!",
+      "Klarg is big! Klarg will eat your toes!"
+    ]
+  },
+  {
+    "culture": "Drow (Dark Elves)",
+    "aliases": ["Night Elves", "Underdark Elves", "The Deep Folk", "Spider-Worshippers", "Kryn Dynasty"],
+    "base_race": "Elf (Drow)",
+    "typical_hp": 18,
+    "behavior_ai": "Tactical_Arrogance",
+    "faction_connection": "Underdark Noble Houses / Bregan D’aerthe",
+    "dialogue_traits": ["Cold", "Superior", "Deceptive"],
+    "typical_gear": ["Chain Shirt", "Shortsword (Poisoned)", "Hand Crossbow"],
+    "flavor_dialogue": [
+      "The surface world is a blinding waste. Why have you come to the real world?",
+      "Lolth weaves the web; you are merely the fly."
+    ]
+  },
+  {
+    "culture": "Vistani",
+    "aliases": ["The Nomads", "Mist-Walkers", "Strahd’s Gypsies", "The Travelers", "Barovian Wanderers"],
+    "base_race": "Human",
+    "typical_hp": 22,
+    "behavior_ai": "Neutral_Observer",
+    "faction_connection": "Vistani Clans",
+    "dialogue_traits": ["Enigmatic", "Jovial", "Fatalistic"],
+    "typical_gear": ["Colorful Silks", "Dagger", "Tarokka Deck"],
+    "flavor_dialogue": [
+      "The mists go where they wish, and we go with them.",
+      "He is the Ancient, He is the Land. Don't let him catch you frowning."
+    ]
+  },
+  {
+    "culture": "Chultans",
+    "aliases": ["Port Nyanzaru Locals", "Jungle Humans", "The Ubtao-Faithful", "Chultan Merchants"],
+    "base_race": "Human",
+    "typical_hp": 15,
+    "behavior_ai": "Merchant_Citizen",
+    "faction_connection": "Merchant Princes",
+    "dialogue_traits": ["Vibrant", "Cautions", "Proud"],
+    "typical_gear": ["Cotton Wraps", "Machete", "Insect Repellent"],
+    "flavor_dialogue": [
+      "Watch the jungle, friend. If the heat doesn't kill you, the undead will.",
+      "Dinosaur racing is the only honest way to make gold in this city."
+    ]
+  },
+  {
+    "culture": "Ten-Towners",
+    "aliases": ["Icewind Dale Settlers", "Dale-Folk", "Frost-Folk", "Snow-Humans"],
+    "base_race": "Human / Shield Dwarf",
+    "typical_hp": 10,
+    "behavior_ai": "Hardened_Survivor",
+    "faction_connection": "Council of Speakers",
+    "dialogue_traits": ["Grim", "Suspicious", "Shivering"],
+    "typical_gear": ["Heavy Furs", "Fishing Spear", "Lantern"],
+    "flavor_dialogue": [
+      "Another day without the sun. Auril is truly angry this year.",
+      "Don't go out after the bells. The Cold Walker will find you."
+    ]
+  },
+  {
+    "culture": "Knights of Solamnia",
+    "aliases": ["Solamnic Knights", "Knights of the Oath", "Krynnish Knights", "The Plate-Wearers"],
+    "base_race": "Human",
+    "typical_hp": 45,
+    "behavior_ai": "Chivalrous_Defender",
+    "faction_connection": "The Knighthood",
+    "dialogue_traits": ["Honorable", "Stoic", "Traditional"],
+    "typical_gear": ["Plate Armor", "Longsword", "Shield with Crest"],
+    "flavor_dialogue": [
+      "My Honor is my Life. I shall not yield.",
+      "The Measure guides us, and the Oath sustains us."
+    ]
+  },
+  {
+    "culture": "Kender",
+    "aliases": ["Handling-Folk", "Fearless Small-folk", "The Burrow-Lovers", "Tasslehoff’s Kin"],
+    "base_race": "Kender",
+    "typical_hp": 14,
+    "behavior_ai": "Curious_Infiltrator",
+    "faction_connection": "Kender Communals",
+    "dialogue_traits": ["Inquisitive", "Fearless", "Hyper-active"],
+    "typical_gear": ["Hoopak (Staff-Sling)", "Numerous Pouches", "Stolen Trinkets"],
+    "flavor_dialogue": [
+      "Oh, did you drop this? I found it in your pocket. How lucky!",
+      "I’ve never seen a monster that big! Can I poke it?"
+    ]
+  },
+  {
+    "culture": "Yuan-ti",
+    "aliases": ["Snake-Folk", "Serpent People", "Scaleless-Haters", "Omuan Cultists"],
+    "base_race": "Yuan-ti Pureblood / Malison",
+    "typical_hp": 40,
+    "behavior_ai": "Infiltrator_Caster",
+    "faction_connection": "The Fane of the Night Serpent",
+    "dialogue_traits": ["Sibilant", "Calculating", "Emotionless"],
+    "typical_gear": ["Scimitar", "Poison Vials", "Snake-themed Jewelry"],
+    "flavor_dialogue": [
+      "Your warm blood isss a wassste. It ssshould nourish our altar.",
+      "Dread Dendar will devour the world soon enough."
+    ]
+  },
+  {
+    "culture": "Goliaths",
+    "aliases": ["Half-Giants", "Mountain-Folk", "Stone-Skinned Humans", "Reghed Giants"],
+    "base_race": "Goliath",
+    "typical_hp": 35,
+    "behavior_ai": "Competitive_Warrior",
+    "faction_connection": "Thuunlakalane / Akannathi Clans",
+    "dialogue_traits": ["Terse", "Competitive", "Literal"],
+    "typical_gear": ["Greataxe", "Cold-weather Furs", "Climbing Gear"],
+    "flavor_dialogue": [
+      "I have killed three crag cats today. How many have you slain?",
+      "The mountain does not care for your titles."
+    ]
+  },
+  {
+    "culture": "Kuo-toa",
+    "aliases": ["Fish-folk", "The Deep Ones", "The Mad Gapers", "God-Makers"],
+    "base_race": "Kuo-toa",
+    "typical_hp": 18,
+    "behavior_ai": "Manic_Hostile",
+    "faction_connection": "The Great Gloop",
+    "dialogue_traits": ["Insane", "Gurgling", "Fanatical"],
+    "typical_gear": ["Spear", "Shield", "Sticky Net"],
+    "flavor_dialogue": [
+      "I dream it, so it is true! Our God has many eyes!",
+      "Bubbles... bubbles for the Deep One. You will be a snack."
+    ]
+  },
+  {
+    "culture": "Infernal Legions",
+    "aliases": ["The Damned", "Devil-kin", "Zariel’s Soldiers", "Hell-Folk", "Lawful Fiends"],
+    "base_race": "Bearded Devil / Imp / Tiefling",
+    "typical_hp": 52,
+    "behavior_ai": "Lawful_Hostile",
+    "faction_connection": "Nine Hells",
+    "dialogue_traits": ["Legalistic", "Cruel", "Orderly"],
+    "typical_gear": ["Glaive", "Hellfire Plate", "Contract Scroll"],
+    "flavor_dialogue": [
+      "Your soul is technically forfeit under Clause 4 of the Avernus Accord.",
+      "Is that a Soul Coin in your pocket, or are you just happy to be damned?"
+    ]
+  }
+]

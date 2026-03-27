@@ -1,0 +1,283 @@
+{
+  "meta": {
+    "system": "D&D 5e Combat",
+    "design_goal": "Deterministic, machine-readable combat rules",
+    "time_unit": {
+      "round": "6 seconds",
+      "turn": "one creature's actions within a round"
+    }
+  },
+
+  "core_flow": {
+    "combat_start": [
+      "Determine surprise",
+      "Roll initiative for all participants",
+      "Sort turn order descending",
+      "Begin round loop"
+    ],
+    "round_loop": {
+      "repeat_until": "combat_end_condition",
+      "steps": [
+        "Each creature takes a turn in initiative order",
+        "After last creature, increment round counter"
+      ]
+    },
+    "combat_end_condition": [
+      "All enemies defeated",
+      "All enemies flee",
+      "Narrative resolution"
+    ]
+  },
+
+  "initiative": {
+    "roll": "1d20 + Dexterity modifier",
+    "tie_breaker": [
+      "Higher Dexterity score",
+      "If still tied: random or DM choice"
+    ],
+    "properties": {
+      "fixed_order": "Order remains constant unless modified",
+      "can_delay": false
+    }
+  },
+
+  "surprise": {
+    "condition": "One side is unaware of the other",
+    "effect": {
+      "surprised_creature": [
+        "Cannot move on first turn",
+        "Cannot take actions on first turn",
+        "Cannot take reactions until turn ends"
+      ]
+    }
+  },
+
+  "turn_structure": {
+    "components": [
+      "start_of_turn_effects",
+      "movement",
+      "action",
+      "bonus_action",
+      "free_interaction",
+      "end_of_turn_effects"
+    ]
+  },
+
+  "action_economy": {
+    "action": {
+      "limit": 1,
+      "types": [
+        "Attack",
+        "Cast Spell",
+        "Dash",
+        "Disengage",
+        "Dodge",
+        "Help",
+        "Hide",
+        "Ready",
+        "Search",
+        "Use Object"
+      ]
+    },
+    "bonus_action": {
+      "limit": 1,
+      "condition": "Only if granted by ability/spell"
+    },
+    "reaction": {
+      "limit": 1,
+      "reset": "Start of your turn",
+      "trigger_based": true
+    },
+    "movement": {
+      "split_allowed": true,
+      "total_limit": "Speed stat (e.g. 30 ft)"
+    },
+    "free_interaction": {
+      "limit": 1,
+      "examples": [
+        "Draw weapon",
+        "Open door",
+        "Pick up object"
+      ]
+    }
+  },
+
+  "attack_system": {
+    "attack_roll": {
+      "formula": "1d20 + attack_modifier",
+      "target": "Armor Class (AC)",
+      "hit_condition": ">= AC"
+    },
+    "critical": {
+      "condition": "Natural 20",
+      "effect": "Roll all damage dice twice"
+    },
+    "fumble": {
+      "condition": "Natural 1",
+      "effect": "Automatic miss"
+    },
+    "attack_types": [
+      "Melee Weapon Attack",
+      "Ranged Weapon Attack",
+      "Melee Spell Attack",
+      "Ranged Spell Attack"
+    ]
+  },
+
+  "damage_system": {
+    "damage_roll": "Defined by weapon/spell",
+    "modifiers": "Ability modifier added where applicable",
+    "damage_types": [
+      "Slashing",
+      "Piercing",
+      "Bludgeoning",
+      "Fire",
+      "Cold",
+      "Lightning",
+      "Thunder",
+      "Acid",
+      "Poison",
+      "Necrotic",
+      "Radiant",
+      "Psychic",
+      "Force"
+    ],
+    "damage_resolution": {
+      "steps": [
+        "Roll damage",
+        "Apply modifiers",
+        "Apply resistance (half damage)",
+        "Apply vulnerability (double damage)",
+        "Apply immunity (0 damage)",
+        "Subtract from hit points"
+      ]
+    }
+  },
+
+  "hit_points": {
+    "max_hp": "Defined by class/level",
+    "current_hp": "Dynamic",
+    "states": {
+      "alive": "HP > 0",
+      "unconscious": "HP = 0",
+      "dead": "Failed death saves or massive damage"
+    }
+  },
+
+  "death_system": {
+    "death_saves": {
+      "trigger": "At 0 HP",
+      "roll": "1d20",
+      "success": "10+",
+      "failure": "< 10",
+      "tracking": {
+        "successes_needed": 3,
+        "failures_needed": 3
+      }
+    },
+    "critical_effects": {
+      "natural_20": "Regain 1 HP",
+      "natural_1": "Counts as 2 failures"
+    },
+    "damage_at_zero": {
+      "rule": "Counts as failed death save",
+      "critical_hit": "Counts as 2 failures"
+    },
+    "instant_death": {
+      "condition": "Damage exceeds max HP below 0",
+      "effect": "Immediate death"
+    }
+  },
+
+  "conditions": {
+    "blinded": "Cannot see, attacks have disadvantage, incoming attacks have advantage",
+    "charmed": "Cannot attack charmer",
+    "deafened": "Cannot hear",
+    "frightened": "Disadvantage while source is visible",
+    "grappled": "Speed becomes 0",
+    "incapacitated": "Cannot take actions or reactions",
+    "invisible": "Cannot be seen, attacks have advantage",
+    "paralyzed": "Incapacitated, auto-crit if hit in melee",
+    "petrified": "Turned to stone",
+    "poisoned": "Disadvantage on attacks and checks",
+    "prone": "Melee advantage vs target, ranged disadvantage",
+    "restrained": "Speed 0, disadvantage attacks, attackers advantage",
+    "stunned": "Incapacitated, fails STR/DEX saves",
+    "unconscious": "Incapacitated, prone, auto-crit in melee"
+  },
+
+  "advantage_system": {
+    "advantage": "Roll 2d20, take highest",
+    "disadvantage": "Roll 2d20, take lowest",
+    "stacking_rule": "Does not stack; cancels out if both present"
+  },
+
+  "saving_throws": {
+    "formula": "1d20 + ability_modifier + proficiency (if applicable)",
+    "purpose": "Avoid or reduce effects",
+    "common_types": [
+      "Strength",
+      "Dexterity",
+      "Constitution",
+      "Intelligence",
+      "Wisdom",
+      "Charisma"
+    ]
+  },
+
+  "spellcasting_in_combat": {
+    "casting_time": {
+      "action": "Uses action",
+      "bonus_action": "Uses bonus action",
+      "reaction": "Triggered"
+    },
+    "concentration": {
+      "limit": 1,
+      "break_conditions": [
+        "Cast another concentration spell",
+        "Take damage (CON save)",
+        "Become incapacitated"
+      ]
+    },
+    "components": [
+      "Verbal",
+      "Somatic",
+      "Material"
+    ]
+  },
+
+  "reactions": {
+    "opportunity_attack": {
+      "trigger": "Enemy leaves melee range",
+      "effect": "Make melee attack"
+    },
+    "ready_action": {
+      "trigger": "Defined condition",
+      "effect": "Use reaction to execute held action"
+    }
+  },
+
+  "cover": {
+    "half_cover": "+2 AC and Dex saves",
+    "three_quarters_cover": "+5 AC and Dex saves",
+    "full_cover": "Cannot be targeted directly"
+  },
+
+  "visibility_and_light": {
+    "bright_light": "Normal vision",
+    "dim_light": "Lightly obscured (disadvantage perception)",
+    "darkness": "Heavily obscured (effectively blinded)"
+  },
+
+  "combat_resolution": {
+    "victory_conditions": [
+      "All enemies defeated",
+      "Enemies surrender or flee"
+    ],
+    "post_combat": [
+      "Stabilize allies",
+      "Loot",
+      "Short or long rest"
+    ]
+  }
+}
