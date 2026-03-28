@@ -3027,7 +3027,11 @@ class FantasyMap {
 
         ctx.lineCap = 'round';
 
-        hills.forEach(({ x, y, elevFrac, numHumps, seed, symW, symH }) => {
+        // Sort north-first so southern hills are drawn last and their
+        // destination-out erase correctly removes northern hill peaks behind them.
+        const sortedHills = hills.slice().sort((a, b) => a.y - b.y);
+
+        sortedHills.forEach(({ x, y, elevFrac, numHumps, seed, symW, symH }) => {
             const t    = Math.min(1, elevFrac * 1.4);
             const base = t < 0.5
                 ? lerpRgb(cLow, cMid, t * 2)
@@ -3054,6 +3058,18 @@ class FantasyMap {
                 const x2  = x + humpOffX + humpW * (0.50 - asym);
                 const cpx = x + humpOffX + (((sn >> 20) & 0xFF) / 255 - 0.5) * humpW * 0.20;
                 const cpy = y - humpH;
+
+                // ── 0. Boolean NOT — erase any northern hill peeking through ─
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.globalAlpha = 1;
+                ctx.beginPath();
+                ctx.moveTo(x0, y);
+                ctx.quadraticCurveTo(cpx, cpy, x2, y);
+                ctx.lineTo(x0, y);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
 
                 // ── 1. Outline arc ────────────────────────────────────────────
                 ctx.globalAlpha = 0.30;
