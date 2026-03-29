@@ -48,7 +48,7 @@
     <!-- Settings panel -->
     <div id="settings-panel">
         <div id="settings-header">
-            <span>Map Settings</span>
+            <span>Map Generation</span>
             <button id="settings-close">✕</button>
         </div>
         <div id="settings-body">
@@ -92,7 +92,6 @@
                     <option value="rainforest">Rainforest</option>
                     <option value="savanna">Savanna</option>
                     <option value="coastal">Coastal &amp; Islands</option>
-                    <option value="underdark">Underdark</option>
                 </select>
                 <span class="setting-hint-line" id="lbl-biome-desc"></span>
             </div>
@@ -124,36 +123,12 @@
                 <span class="setting-label">Dominant culture</span>
                 <select id="param-culture" class="setting-select">
                     <option value="random">— Random —</option>
-                    <optgroup label="Main Cultures">
+                    <optgroup label="Cultures">
                         <option value="human">Human</option>
                         <option value="elf">Elven (High Elf)</option>
-                        <option value="dwarf">Dwarven</option>
-                        <option value="halfling">Halfling</option>
-                        <option value="half_elf">Half-Elven</option>
-                        <option value="half_orc">Half-Orc</option>
                         <option value="orc">Orcish</option>
                     </optgroup>
-                    <optgroup label="Subcultures">
-                        <option value="drow">Drow (Dark Elf)</option>
-                        <option value="wood_elf">Wood Elf</option>
-                        <option value="duergar">Duergar (Gray Dwarf)</option>
-                        <option value="svirfneblin">Svirfneblin (Deep Gnome)</option>
-                        <option value="dragonborn">Dragonborn</option>
-                        <option value="aasimar">Aasimar</option>
-                        <option value="genasi">Genasi</option>
-                        <option value="goliath">Goliath</option>
-                        <option value="tabaxi">Tabaxi</option>
-                        <option value="firbolg">Firbolg</option>
-                        <option value="kenku">Kenku</option>
-                        <option value="triton">Triton</option>
-                        <option value="warforged">Warforged</option>
-                        <option value="shifter">Shifter</option>
-                        <option value="tiefling">Tiefling</option>
-                        <option value="gnome">Gnome</option>
-                        <option value="lizardfolk">Lizardfolk</option>
-                        <option value="githyanki">Githyanki</option>
-                        <option value="goblinoid">Goblinoid</option>
-                    </optgroup>
+
                 </select>
             </div>
 
@@ -172,18 +147,6 @@
                 <input type="range" class="setting-range" id="param-landmarks" min="0" max="12" value="4">
             </div>
 
-            <div class="setting-group generate-seed-group">
-                <input type="number" id="param-seed" placeholder="Seed (leave blank for random)…">
-            </div>
-            <div class="save-seed-row">
-                <input type="text" id="param-seed-name" placeholder="Name this seed…" maxlength="40">
-                <button id="save-seed-btn" title="Save seed">Save</button>
-            </div>
-            <div class="generate-btns">
-                <button id="generate-random-btn">Random Map</button>
-                <button id="generate-seed-btn">Generate Seed</button>
-            </div>
-
             <!-- ── Saved Seeds ─────────────────────────────────── -->
             <div id="saved-seeds-section" style="display:none">
                 <div class="settings-section-label">Saved Seeds</div>
@@ -191,6 +154,20 @@
                     <select id="saved-seeds-select" class="setting-select"></select>
                     <button id="saved-seed-del-btn" title="Delete selected seed">✕</button>
                 </div>
+            </div>
+
+            <div class="setting-group generate-seed-group">
+                <div class="seed-input-row">
+                    <input type="number" id="param-seed" placeholder="Seed (leave blank for random)…">
+                    <button id="generate-seed-btn" title="Generate seed">Generate</button>
+                </div>
+            </div>
+            <div class="save-seed-row">
+                <input type="text" id="param-seed-name" placeholder="Name this seed…" maxlength="40">
+                <button id="save-seed-btn" title="Save seed">Save</button>
+            </div>
+            <div class="generate-btns">
+                <button id="generate-random-btn">Generate Random Map</button>
             </div>
         </div>
     </div>

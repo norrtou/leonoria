@@ -602,7 +602,23 @@ html, body {
 .size-btn:hover:not(.active) { background: #f0ead8; }
 
 .generate-seed-group { margin-bottom: 6px; }
-.generate-seed-group input { width: 100%; box-sizing: border-box; }
+.seed-input-row { display: flex; gap: 6px; }
+.seed-input-row input { flex: 1; min-width: 0; box-sizing: border-box; }
+.seed-input-row #generate-seed-btn {
+    flex-shrink: 0;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    font-family: Georgia, serif;
+    letter-spacing: 0.04em;
+    background: #5a4010;
+    border: 1px solid #3a2808;
+    color: #e0d8b8;
+    cursor: pointer;
+    border-radius: 0;
+    white-space: nowrap;
+}
+.seed-input-row #generate-seed-btn:hover  { background: #6e5018; }
+.seed-input-row #generate-seed-btn:active { background: #3a2808; }
 
 /* ── Save-seed row ────────────────────────────────────────────────────────── */
 .save-seed-row {
@@ -680,20 +696,17 @@ html, body {
     font-size: 12px;
     font-weight: bold;
     color: #fff;
-    background: #5a4010;
-    border: 1px solid #3a2808;
+    background: #3a4a10;
+    border: 1px solid #283008;
     cursor: pointer;
     letter-spacing: 0.5px;
     -webkit-appearance: none;
     appearance: none;
     border-radius: 0;
 }
-.generate-btns button:hover  { background: #6e5018; }
-.generate-btns button:active { background: #3a2808; }
+.generate-btns button:hover  { background: #4a5e18; }
+.generate-btns button:active { background: #283008; }
 
-#generate-seed-btn { background: #3a4a10; border-color: #283008; }
-#generate-seed-btn:hover  { background: #4a5e18; }
-#generate-seed-btn:active { background: #283008; }
 
 /* ── Disable SVG filters while navigating (huge perf win) ──────────────────── */
 #map-viewport.interacting * { filter: none !important; }
