@@ -1,0 +1,305 @@
+{  "continent": "Leonoria",
+  "era": "Current Era",
+  "cultures": [
+    {
+      "category": "Common Folk",
+      "race": "Midlander",
+      "culture": "Kesh-Amun",
+      "state": "The Kesh Hegemony",
+      "geo_location": "Midlands (Alluvial Lands)",
+      "temperament": "The Arbiter",
+      "primary_materium": "Revelation",
+      "logic_notes": "A civilization of 'Measure and Law'. They view the world as a geometric puzzle to be solved."
+    },
+    {
+      "category": "Common Folk",
+      "race": "Midlander",
+      "culture": "Oru-Vat",
+      "state": "The Vat Alluvia",
+      "geo_location": "Midlands (Flood Plains)",
+      "temperament": "The Merciful",
+      "primary_materium": "Vitalism",
+      "logic_notes": "River-folk who use Vitalism to filter the 'Death-Silt' from the water. Deeply communal."
+    },
+    {
+      "category": "Common Folk",
+      "race": "Midlander",
+      "culture": "Thul-Gaur",
+      "state": "The Gaurian March",
+      "geo_location": "Midlands (Crown Lands/Borders)",
+      "temperament": "The Guardian",
+      "primary_materium": "Aegiscraft",
+      "logic_notes": "A culture defined by the 'Shield-Wall' mentality. Defensive architecture is their art form."
+    },
+    {
+      "category": "Common Folk",
+      "race": "Commoner",
+      "culture": "Zher-Ith",
+      "state": "The Zher Canyons",
+      "geo_location": "The Badlands (Canyon Arteries)",
+      "temperament": "The Predator",
+      "primary_materium": "Pyricraft",
+      "logic_notes": "Survivalist heat-shapers. They see the desert not as a home, but as a testing ground."
+    },
+    {
+      "category": "Common Folk",
+      "race": "Northerner",
+      "culture": "Skaal-Vek",
+      "state": "The Skaal Silence",
+      "geo_location": "The Dark Forests (Northern Fringe)",
+      "temperament": "The Stoic",
+      "primary_materium": "Harmony Weaving",
+      "logic_notes": "They practice sensory deprivation and emotional stillness to avoid attracting forest horrors."
+    },
+    {
+      "category": "Common Folk",
+      "race": "Commoner",
+      "culture": "Ix-Inar",
+      "state": "The Inar League",
+      "geo_location": "Sanctuary Lands (Pasture Lands)",
+      "temperament": "The Hedonist",
+      "primary_materium": "Mindwielding",
+      "logic_notes": "A culture of kinetic art and silk-trade. They weaponize luxury and social influence."
+    },
+    {
+      "category": "Common Folk",
+      "race": "Commoner",
+      "culture": "Uru-Kesh",
+      "state": "The Kesh Freeholds",
+      "geo_location": "Sanctuary Lands (Lush Vales)",
+      "temperament": "The Rebel",
+      "primary_materium": "Revelation",
+      "logic_notes": "Iconoclasts who specialize in unmaking 'Unjust Oaths' and breaking spiritual bindings."
+    },
+    {
+      "category": "Common Folk",
+      "race": "Midlander",
+      "culture": "Hath-Vek",
+      "state": "The Hath Autocracy",
+      "geo_location": "Midlands (High Plains)",
+      "temperament": "The Tyrant",
+      "primary_materium": "Dominion",
+      "logic_notes": "A hierarchical caste system where 'Will' is the only currency. Power is a physical weight here."
+    },
+    {
+      "category": "Common Folk",
+      "race": "Commoner",
+      "culture": "Makh-Zai",
+      "state": "The Makh Residue",
+      "geo_location": "The Badlands (Arid Wastes)",
+      "temperament": "The Destroyer",
+      "primary_materium": "Dreadforgering",
+      "logic_notes": "Scavengers who believe that only in the breaking of things is the Materium truly freed."
+    },
+    {
+      "category": "Common Folk",
+      "race": "Northerner",
+      "culture": "Nor-Kindu",
+      "state": "The Kindu Vigil",
+      "geo_location": "The Eternal Winds (South Tundra)",
+      "temperament": "The Guardian",
+      "primary_materium": "Soulkindling",
+      "logic_notes": "Hardened miners whose blood has partially crystalized from Norium exposure."
+    },
+    {
+      "category": "Step Folk",
+      "race": "Step Folk",
+      "culture": "Qar-Mal",
+      "state": "The Qar Orda",
+      "geo_location": "The Blinding Lands (Dry Steppe)",
+      "temperament": "The Predator",
+      "primary_materium": "Luminance",
+      "logic_notes": "Nomads who use polished Materium glass to blind foes across the flat plains."
+    },
+    {
+      "category": "Step Folk",
+      "race": "Step Folk",
+      "culture": "Vahn-Ree",
+      "state": "The Vahn Thalassocracy",
+      "geo_location": "The Gleam Havens (Coastal Savanna)",
+      "temperament": "The Hedonist",
+      "primary_materium": "Umbramancy",
+      "logic_notes": "Sea-reivers who call the 'Black Mist' to hide their fleet during the Gleam-tide."
+    },
+    {
+      "category": "Step Folk",
+      "race": "Step Folk",
+      "culture": "Xul-Dath",
+      "state": "The Xul Desolation",
+      "geo_location": "The Blinding Lands (Ruined Steppe)",
+      "temperament": "The Destroyer",
+      "primary_materium": "Maleficium",
+      "logic_notes": "Cursed wanderers who claim the 'Great Death' was a holy event that must be finished."
+    },
+    {
+      "category": "Step Folk",
+      "race": "Step Folk",
+      "culture": "Bas-Tuut",
+      "state": "The Tuut Caravans",
+      "geo_location": "The Gleam Havens (Interior Savanna)",
+      "temperament": "The Arbiter",
+      "primary_materium": "Bloodpassion",
+      "logic_notes": "Bio-diplomats who negotiate through pheromones and pulse-manipulation."
+    },
+    {
+      "category": "The Afflicted",
+      "race": "Oakpeople",
+      "culture": "Dra-Vosh",
+      "state": "The Vosh Concord",
+      "geo_location": "Sanctuary Lands (Ancient Forests)",
+      "temperament": "The Stoic",
+      "primary_materium": "Lifewhispering",
+      "logic_notes": "They do not speak; they pulse rhythmically with the forest's root system."
+    },
+    {
+      "category": "The Afflicted",
+      "race": "Stone Folk",
+      "culture": "Ghor-Aum",
+      "state": "The Ghor Ridges",
+      "geo_location": "Sanctuary Lands (High Peaks)",
+      "temperament": "The Guardian",
+      "primary_materium": "Geometrics",
+      "logic_notes": "They build inverted cities that hang from the underside of high mountain cliffs."
+    },
+    {
+      "category": "The Afflicted",
+      "race": "Stone Folk",
+      "culture": "Vun-Dar",
+      "state": "The Dar-Well",
+      "geo_location": "Forgotten Kingdom (The Well)",
+      "temperament": "The Stoic",
+      "primary_materium": "Terramancy",
+      "logic_notes": "Blind, vibration-sensitive miners who map the world through sound."
+    },
+    {
+      "category": "The Afflicted",
+      "race": "Stone Folk",
+      "culture": "Licht-Ka",
+      "state": "The Ka-Domain",
+      "geo_location": "Forgotten Kingdom (The Light)",
+      "temperament": "The Merciful",
+      "primary_materium": "Luminance",
+      "logic_notes": "Translucent-skinned folk who survive on the light emitted from the world-veins."
+    },
+    {
+      "category": "The Afflicted",
+      "race": "Swampbrood",
+      "culture": "Vann-Ok",
+      "state": "The Ok-Fen",
+      "geo_location": "The Boglands",
+      "temperament": "The Predator",
+      "primary_materium": "Rotweaving",
+      "logic_notes": "Their culture views fermentation and decay as the pinnacle of chemistry."
+    },
+    {
+      "category": "The Afflicted",
+      "race": "Ashen Halfbreed",
+      "culture": "Ash-Korr",
+      "state": "The Korr Entropic",
+      "geo_location": "Forgotten Kingdom (The Fallen)",
+      "temperament": "The Tyrant",
+      "primary_materium": "Voidreaving",
+      "logic_notes": "A society of 'The End'. They use erasure-magic to prune history they find unworthy."
+    },
+    {
+      "category": "Wildmen",
+      "race": "Foresters",
+      "culture": "Syl-Uun",
+      "state": "The Uun Wilds",
+      "geo_location": "The Dark Forests (Interior)",
+      "temperament": "The Predator",
+      "primary_materium": "Bestial Communion",
+      "logic_notes": "Hairy, mossy hunters who don animal hides that eventually fuse to their skin."
+    },
+    {
+      "category": "Wildmen",
+      "race": "Foresters",
+      "culture": "Gor-Vann",
+      "state": "The Gor-Thicket",
+      "geo_location": "The Boglands (Marsh-Edge)",
+      "temperament": "The Stoic",
+      "primary_materium": "Lifewhispering",
+      "logic_notes": "Stubborn, root-like recluses who can remain motionless for days in the mud."
+    },
+    {
+      "category": "Wildmen",
+      "race": "Foresters",
+      "culture": "Erem-Ka",
+      "state": "The Ka-Enclave",
+      "geo_location": "Sanctuary Lands (Vales)",
+      "temperament": "The Merciful",
+      "primary_materium": "Vitalism",
+      "logic_notes": "A reclusive 'Garden-Culture'. They cultivate healing spores that act as local medicine."
+    },
+    {
+      "category": "Wildmen",
+      "race": "Ravagers",
+      "culture": "Grak-Var",
+      "state": "The Grak Legions",
+      "geo_location": "The Dark Forests (Western Rim)",
+      "temperament": "The Tyrant",
+      "primary_materium": "Dominion",
+      "logic_notes": "Huge, 8ft-tall warriors who demand tribute in the form of 'Will-Aura' and service."
+    },
+    {
+      "category": "Wildmen",
+      "race": "Ravagers",
+      "culture": "Maw-Shulk",
+      "state": "The Shulk Tribes",
+      "geo_location": "The Dark Forests (Southern Valleys)",
+      "temperament": "The Destroyer",
+      "primary_materium": "Blood Magic",
+      "logic_notes": "Ritualistic predators who believe that eating an enemy's heart transfers their Conviction."
+    },
+    {
+      "category": "Wildmen",
+      "race": "Ravagers",
+      "culture": "Skard-Hul",
+      "state": "The Hul Horde",
+      "geo_location": "The Outer Steppes (Arid Fringe)",
+      "temperament": "The Rebel",
+      "primary_materium": "Mindwielding",
+      "logic_notes": "Unstoppable brutes who use kinetic force to shatter gates and chains alike."
+    },
+    {
+      "category": "The Ancients",
+      "race": "The Secluded",
+      "culture": "Uun-Dhal",
+      "state": "The Dhal Cloister",
+      "geo_location": "Sanctuary Lands (Ancient Deep)",
+      "temperament": "The Arbiter",
+      "primary_materium": "Harmony Weaving",
+      "logic_notes": "Aloof entities who speak in chord-tones. They maintain the 'Psychic Equilibrium' of the forest."
+    },
+    {
+      "category": "The Ancients",
+      "race": "The Greys",
+      "culture": "Grath-Ka",
+      "state": "The Grath Spires",
+      "geo_location": "Midlands (Highlands)",
+      "temperament": "The Stoic",
+      "primary_materium": "Arcane Arts",
+      "logic_notes": "They shape Materium into air-tight, windowless towers. Logic is their primary god."
+    },
+    {
+      "category": "The Ancients",
+      "race": "Ice Ancients",
+      "culture": "Cry-Ath",
+      "state": "The Ath Redoubt",
+      "geo_location": "The Eternal Winds (Deep North)",
+      "temperament": "The Guardian",
+      "primary_materium": "Soulkindling",
+      "logic_notes": "Beings of living frost. They do not eat; they absorb the conviction of the wind."
+    },
+    {
+      "category": "The Ancients",
+      "race": "The Dark Ones",
+      "culture": "Shul-Um",
+      "state": "The Um-Syndicate",
+      "geo_location": "Forgotten Kingdom (Deep Ruins)",
+      "temperament": "The Tyrant",
+      "primary_materium": "Umbramancy",
+      "logic_notes": "A cabal that rules through 'The Weight of Souls'. They see time as a resource to be spent."
+    }
+  ]
+}
