@@ -1,0 +1,122 @@
+[
+  {
+    "category": "Living",
+    "archetypes": [
+      { "id": "LIV_01", "name": "Vermin-Kin", "size": "Small", "primary_dmg": ["Piercing"], "modifiers": { "initiative": 0.10 }, "description": "Weak, prolific scavengers." },
+      { "id": "LIV_02", "name": "Avian-Strigid", "size": "Small", "primary_dmg": ["Slashing"], "modifiers": { "evasion": 0.10 }, "description": "High-agility flying predators." },
+      { "id": "LIV_03", "name": "Cunning-Canid", "size": "Average", "primary_dmg": ["Piercing"], "modifiers": { "accuracy": 0.10 }, "description": "Pack hunters with tracking instincts." },
+      { "id": "LIV_04", "name": "Great-Feline", "size": "Average", "primary_dmg": ["Slashing"], "modifiers": { "crit_chance": 0.10 }, "description": "Stealth-based ambush predators." },
+      { "id": "LIV_05", "name": "Heavy-Ursine", "size": "Large", "primary_dmg": ["Blunt"], "modifiers": { "hardening": 0.10 }, "description": "Massive beasts with high physical staying power." },
+      { "id": "LIV_06", "name": "Plated-Reptilian", "size": "Large", "primary_dmg": ["Piercing"], "modifiers": { "phys_resist": 0.10 }, "description": "Natural armor plating against physical strikes." },
+      { "id": "LIV_07", "name": "Tusked-Pachyderm", "size": "Giant", "primary_dmg": ["Blunt", "Impact"], "modifiers": { "stagger_chance": 0.10 }, "description": "Unstoppable force; ignores light obstacles." },
+      { "id": "LIV_08", "name": "Aquatic-Apex", "size": "Giant", "primary_dmg": ["Aquas"], "modifiers": { "aquas_dmg": 0.10 }, "description": "Crushing hydraulic pressure from the deep." },
+      { "id": "LIV_09", "name": "Dune-Colossus", "size": "Giant", "primary_dmg": ["Earthen", "Impact"], "modifiers": { "earthen_resist": 0.10 }, "description": "Living mountains found in the shifting sands." },
+      { "id": "LIV_10", "name": "Apex-Chimera", "size": "Giant", "primary_dmg": ["Slashing", "Blight"], "modifiers": { "all_phys_resist": 0.10 }, "description": "A biological masterpiece of multiple lethal traits." }
+    ]
+  },
+  {
+    "category": "Undead",
+    "archetypes": [
+      { "id": "UND_01", "name": "Shambling-Husk", "type": "Flesh", "primary_dmg": ["Blunt"], "modifiers": { "blight_resist": 0.10 } },
+      { "id": "UND_02", "name": "Brittle-Frame", "type": "Skeletal", "primary_dmg": ["Piercing"], "modifiers": { "slashing_resist": 0.10 } },
+      { "id": "UND_03", "name": "Stitched-Brute", "type": "Flesh", "primary_dmg": ["Blunt", "Impact"], "modifiers": { "max_hp": 0.10 } },
+      { "id": "UND_04", "name": "Bone-Sentinel", "type": "Skeletal", "primary_dmg": ["Slashing"], "modifiers": { "hardening": 0.10 } },
+      { "id": "UND_05", "name": "Blight-Carrier", "type": "Flesh", "primary_dmg": ["Blight"], "modifiers": { "blight_dmg": 0.10 } },
+      { "id": "UND_06", "name": "Ossified-Knight", "type": "Skeletal", "primary_dmg": ["Slashing"], "modifiers": { "phys_resist": 0.10 } },
+      { "id": "UND_07", "name": "Grave-Horror", "type": "Flesh", "primary_dmg": ["Darkblood"], "modifiers": { "darkblood_dmg": 0.10 } },
+      { "id": "UND_08", "name": "Lich-Puppet", "type": "Skeletal", "primary_dmg": ["Arcane"], "modifiers": { "arcane_dmg": 0.10 } },
+      { "id": "UND_09", "name": "Blood-Starved Hulk", "type": "Flesh", "primary_dmg": ["Darkblood", "Impact"], "modifiers": { "lifesteal": 0.10 } },
+      { "id": "UND_10", "name": "Death-Lord Vessel", "type": "Flesh", "primary_dmg": ["Darkvoid"], "modifiers": { "conviction_resist": 0.10 } }
+    ]
+  },
+  {
+    "category": "Abyssal",
+    "archetypes": [
+      { "id": "ABY_01", "name": "Void-Skitterer", "tier": "Lesser", "primary_dmg": ["Slashing"], "modifiers": { "darkvoid_dmg": 0.10 } },
+      { "id": "ABY_02", "name": "Shadow-Stalker", "tier": "Lesser", "primary_dmg": ["Darkvoid"], "modifiers": { "stealth": 0.10 } },
+      { "id": "ABY_03", "name": "Entropy-Leech", "tier": "Horror", "primary_dmg": ["Chill"], "modifiers": { "metabolism_drain": 0.10 } },
+      { "id": "ABY_04", "name": "Dark-Judicator", "tier": "Demon", "primary_dmg": ["Slashing", "Darkvoid"], "modifiers": { "darkvoid_resist": 0.10 } },
+      { "id": "ABY_05", "name": "Eldritch-Stargazer", "tier": "Horror", "primary_dmg": ["Arcane"], "modifiers": { "arcane_dmg": 0.10 } },
+      { "id": "ABY_06", "name": "Void-Knight", "tier": "Demon", "primary_dmg": ["Darkblood", "Impact"], "modifiers": { "hardening": 0.10 } },
+      { "id": "ABY_07", "name": "Gazing-Horror", "tier": "Ethereal", "primary_dmg": ["Solacium"], "modifiers": { "tenacity_drain": 0.10 } },
+      { "id": "ABY_08", "name": "Void-Engine", "tier": "Beast", "primary_dmg": ["Tempest", "Chill"], "modifiers": { "tempest_dmg": 0.10 } },
+      { "id": "ABY_09", "name": "Eater of Suns", "tier": "Beast", "primary_dmg": ["Darkvoid", "Fire"], "modifiers": { "purelight_resist": 0.10 } },
+      { "id": "ABY_10", "name": "Void-Architect", "tier": "Eldritch", "primary_dmg": ["Temporal", "Darkvoid"], "modifiers": { "temporal_dmg": 0.10 } }
+    ]
+  },
+  {
+    "category": "Plantlife",
+    "archetypes": [
+      { "id": "PLN_01", "name": "Creeping-Vine", "primary_dmg": ["Slashing"], "modifiers": { "bleed_chance": 0.10 } },
+      { "id": "PLN_02", "name": "Fungal-Spore", "primary_dmg": ["Blight"], "modifiers": { "blight_dmg": 0.10 } },
+      { "id": "PLN_03", "name": "Athropic-Shrub", "primary_dmg": ["Athropium"], "modifiers": { "vitality": 0.10 } },
+      { "id": "PLN_04", "name": "Thorny-Sentinel", "primary_dmg": ["Piercing"], "modifiers": { "phys_resist": 0.10 } },
+      { "id": "PLN_05", "name": "Iron-Bark Treant", "primary_dmg": ["Blunt"], "modifiers": { "hardening": 0.10 } },
+      { "id": "PLN_06", "name": "Living-Marsh", "primary_dmg": ["Aquas", "Earthen"], "modifiers": { "aquas_resist": 0.10 } },
+      { "id": "PLN_07", "name": "Sentinel-Oak", "primary_dmg": ["Blunt", "Impact"], "modifiers": { "impact_dmg": 0.10 } },
+      { "id": "PLN_08", "name": "Venom-Bloom", "primary_dmg": ["Blight", "Athropium"], "modifiers": { "blight_resist": 0.10 } },
+      { "id": "PLN_09", "name": "World-Root", "primary_dmg": ["Earthen", "Temporal"], "modifiers": { "earthen_dmg": 0.10 } },
+      { "id": "PLN_10", "name": "God-Tree Husk", "primary_dmg": ["Athropium", "Temporal"], "modifiers": { "athropium_dmg": 0.10 } }
+    ]
+  },
+  {
+    "category": "Celestial",
+    "archetypes": [
+      { "id": "CEL_01", "name": "Light-Spark", "primary_dmg": ["Purelight"], "modifiers": { "accuracy": 0.10 } },
+      { "id": "CEL_02", "name": "Solar-Wisp", "primary_dmg": ["Fire"], "modifiers": { "fire_dmg": 0.10 } },
+      { "id": "CEL_03", "name": "Aegis-Shell", "primary_dmg": ["Aegis Reflection"], "modifiers": { "reflection_dmg": 0.10 } },
+      { "id": "CEL_04", "name": "Truth-Blade", "primary_dmg": ["Verdicium"], "modifiers": { "verdicium_dmg": 0.10 } },
+      { "id": "CEL_05", "name": "Materium-Shield", "primary_dmg": ["Blessed Materium"], "modifiers": { "hardening": 0.10 } },
+      { "id": "CEL_06", "name": "Solar-Seraph", "primary_dmg": ["Purelight", "Fire"], "modifiers": { "fire_resist": 0.10 } },
+      { "id": "CEL_07", "name": "Celestial-Scribe", "primary_dmg": ["Solacium"], "modifiers": { "tenacity_drain": 0.10 } },
+      { "id": "CEL_08", "name": "Core-Guardian", "primary_dmg": ["Blessed Materium"], "modifiers": { "impact_dmg": 0.10 } },
+      { "id": "CEL_09", "name": "High-Justiciar", "primary_dmg": ["Verdicium", "Purelight"], "modifiers": { "conviction": 0.10 } },
+      { "id": "CEL_10", "name": "Materium-Prime", "primary_dmg": ["Blessed Materium"], "modifiers": { "all_phys_resist": 0.10 } }
+    ]
+  },
+  {
+    "category": "Ethereal",
+    "archetypes": [
+      { "id": "ETH_01", "name": "Mist-Echo", "origin": "Tempest", "primary_dmg": ["Tempest"], "modifiers": { "evasion": 0.10 } },
+      { "id": "ETH_02", "name": "Frost-Specter", "origin": "Chill", "primary_dmg": ["Chill"], "modifiers": { "chill_dmg": 0.10 } },
+      { "id": "ETH_03", "name": "Static-Phantom", "origin": "Tempest", "primary_dmg": ["Tempest"], "modifiers": { "initiative": 0.10 } },
+      { "id": "ETH_04", "name": "Blight-Vapor", "origin": "Blight", "primary_dmg": ["Blight"], "modifiers": { "blight_dmg": 0.10 } },
+      { "id": "ETH_05", "name": "Arcane-Flare", "origin": "Arcane", "primary_dmg": ["Arcane"], "modifiers": { "arcane_dmg": 0.10 } },
+      { "id": "ETH_06", "name": "Void-Ghost", "origin": "Darkvoid", "primary_dmg": ["Darkvoid"], "modifiers": { "darkvoid_dmg": 0.10 } },
+      { "id": "ETH_07", "name": "Temporal-Blur", "origin": "Temporal", "primary_dmg": ["Temporal"], "modifiers": { "speed": 0.10 } },
+      { "id": "ETH_08", "name": "Solar-Phantom", "origin": "Purelight", "primary_dmg": ["Purelight"], "modifiers": { "purelight_dmg": 0.10 } },
+      { "id": "ETH_09", "name": "Soul-Fragment", "origin": "Solacium", "primary_dmg": ["Solacium"], "modifiers": { "tenacity_drain": 0.10 } },
+      { "id": "ETH_10", "name": "Void-Wraith", "origin": "Darkvoid", "primary_dmg": ["Chill", "Darkvoid"], "modifiers": { "darkvoid_resist": 0.10 } }
+    ]
+  },
+  {
+    "category": "Elemental",
+    "archetypes": [
+      { "id": "ELE_01", "name": "Dust-Skitterer", "primary_dmg": ["Earthen"], "modifiers": { "evasion": 0.10 } },
+      { "id": "ELE_02", "name": "Cinder-Mite", "primary_dmg": ["Fire"], "modifiers": { "fire_dmg": 0.10 } },
+      { "id": "ELE_03", "name": "Vapor-Sprite", "primary_dmg": ["Aquas"], "modifiers": { "aquas_resist": 0.10 } },
+      { "id": "ELE_04", "name": "Zephyr-Wisp", "primary_dmg": ["Tempest"], "modifiers": { "initiative": 0.10 } },
+      { "id": "ELE_05", "name": "Mud-Lurker", "primary_dmg": ["Earthen", "Aquas"], "modifiers": { "hardening": 0.10 } },
+      { "id": "ELE_06", "name": "Flame-Revenant", "primary_dmg": ["Fire"], "modifiers": { "fire_dmg": 0.10 } },
+      { "id": "ELE_07", "name": "Storm-Walker", "primary_dmg": ["Tempest"], "modifiers": { "tempest_dmg": 0.10 } },
+      { "id": "ELE_08", "name": "Glacial-Monolith", "primary_dmg": ["Impact"], "modifiers": { "phys_resist": 0.10 } },
+      { "id": "ELE_09", "name": "Magma-Behemoth", "primary_dmg": ["Fire", "Earthen"], "modifiers": { "fire_resist": 0.10 } },
+      { "id": "ELE_10", "name": "Materium-Titan", "primary_dmg": ["Impact"], "modifiers": { "impact_dmg": 0.10 } }
+    ]
+  },
+  {
+    "category": "Dragon",
+    "archetypes": [
+      { "id": "DRG_01", "name": "Drake-Scavenger", "size": "Small", "primary_dmg": ["Piercing", "Slashing"], "modifiers": { "speed": 0.10 } },
+      { "id": "DRG_02", "name": "Wyvern-Hunter", "size": "Average", "primary_dmg": ["Piercing"], "modifiers": { "initiative": 0.10 } },
+      { "id": "DRG_03", "name": "Cliffs-Cutter", "size": "Average", "primary_dmg": ["Slashing"], "modifiers": { "evasion": 0.10 } },
+      { "id": "DRG_04", "name": "Sulfur-Spitter", "size": "Large", "primary_dmg": ["Fire", "Slashing"], "modifiers": { "fire_resist": 0.10 } },
+      { "id": "DRG_05", "name": "Frost-Brood", "size": "Large", "primary_dmg": ["Chill", "Blunt"], "modifiers": { "chill_dmg": 0.10 } },
+      { "id": "DRG_06", "name": "Blight-Wing", "size": "Large", "primary_dmg": ["Blight", "Piercing"], "modifiers": { "blight_dmg": 0.10 } },
+      { "id": "DRG_07", "name": "Storm-Tyrant", "size": "Giant", "primary_dmg": ["Tempest", "Impact"], "modifiers": { "tempest_dmg": 0.10 } },
+      { "id": "DRG_08", "name": "Abyssal-Wyrm", "size": "Giant", "primary_dmg": ["Darkvoid", "Slashing"], "modifiers": { "darkvoid_resist": 0.10 } },
+      { "id": "DRG_09", "name": "Celestial-Drake", "size": "Giant", "primary_dmg": ["Purelight", "Blessed Materium"], "modifiers": { "purelight_dmg": 0.10 } },
+      { "id": "DRG_10", "name": "Timeless-Ancient", "size": "Giant", "primary_dmg": ["Temporal", "Impact"], "modifiers": { "temporal_dmg": 0.10 } }
+    ]
+  }
+]
