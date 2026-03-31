@@ -1,382 +1,180 @@
-[
-  {
-    "creature_type": "Aberrations",
-    "description": "Alien beings from the Far Realm or warped by its madness; they possess anatomy that defies natural laws and often manipulate reality or the mind.",
-    "aliases": ["Eldritch Horrors", "Far Realm Entities", "The Unknowable", "Strange-kin"],
-    "power_scaling": {
-      "cr_range": "1/4 to 30",
-      "combat_tier": "High-Variance (Scouts to Cosmic Gods)",
-      "initiative_mod": "+2 to +4"
-    },
-    "damage_profile": {
-      "primary": "Psychic",
-      "secondary": ["Force", "Acid", "Necrotic"],
-      "attack_methods": ["Mind Blast", "Eye Rays", "Tentacles", "Gaze"]
-    },
-    "base_stats_logic": {
-      "typical_hp_calc": "12d8 + 48 (High)",
-      "alignment": "Typically Lawful Evil or Neutral Evil",
-      "armor_class_logic": "Natural Armor + Telepathic Insight"
-    },
-    "traits": ["Magic Resistance", "Telepathy (120ft)", "Psychic Damage Mastery", "Alien Mind (Resistance to Psychic)"],
-    "resistances": ["Psychic"],
-    "vulnerabilities": ["Low Strength Saves", "Constitution Saves (Commonly)"],
-    "subtypes_and_variants": [
-      { "name": "Beholders", "variants": ["Death Tyrant", "Gazer", "Spectator", "Eye Tyrant"], "logic": "Anti-magic cone; random eye-ray projectiles." },
-      { "name": "Illithids", "variants": ["Mind Flayer", "Ulitharid", "Alhoon", "Neothelid"], "logic": "Stun-lock psychic blasts; brain extraction triggers." },
-      { "name": "Slaadi", "variants": ["Red", "Blue", "Green", "Gray", "Death"], "logic": "Regeneration; chaotic egg implantation/transformation." }
-    ]
+{
+  "system": "Leonoria Master Bestiary",
+  "description": "Archetypal creature categories for Leonoria. Each category contains 10 archetypes covering the full threat spectrum from weak to legendary. Specific named creatures are in biomebestiary.json and legendarybestiary.json. Archetypes use Leonoria damage types and aptitude-based modifiers.",
+  "difficulty_note": "Monsters do not level with characters. Threat is fixed. More dangerous creatures are naturally found further from starting positions on world maps. Perception skill helps teams detect danger level before engagement.",
+  "modifier_note": "Modifiers shown as decimal multipliers (0.10 = +10% bonus to that stat or damage type).",
+  "biome_prevalence": {
+    "the_midlands":         ["Living", "Humanoid", "Construct (rare)"],
+    "the_sanctuary_lands":  ["Living", "Plantlife", "Ethereal", "Celestial (rare)"],
+    "the_dark_forests":     ["Undead", "Living", "Abyssal (fringe)"],
+    "the_eternal_winds":    ["Undead", "Elemental", "Living"],
+    "the_badlands":         ["Undead", "Elemental", "Living", "Mythic (ruins)"],
+    "the_outer_steppes":    ["Living", "Humanoid"],
+    "the_blinding_lands":   ["Undead", "Living", "Elemental"],
+    "the_gleam_havens":     ["Living", "Elemental", "Humanoid"],
+    "the_boglands":         ["Plantlife", "Living", "Undead", "Abyssal (deep)"],
+    "the_forgotten_kingdom":["Undead", "Abyssal", "Ethereal", "Mythic", "Construct"]
   },
-  {
-    "creature_type": "Beasts",
-    "description": "Non-magical animals that are a natural part of the world's ecology, ranging from common wildlife to apex predators.",
-    "aliases": ["Animals", "Critters", "Natural Predators", "Fauna"],
-    "power_scaling": {
-      "cr_range": "0 to 8",
-      "combat_tier": "Low to Mid-tier (Early-game threats)",
-      "initiative_mod": "+1 to +3"
+  "categories": [
+    {
+      "category": "Living",
+      "category_id": "LIV",
+      "description": "Natural biological creatures of Leonoria. No magical origin. Resisted by physical damage types. Vulnerable to Blight and Venomous effects. Purelight has no special interaction.",
+      "resistances": ["physical_hardening (varies by type)"],
+      "vulnerabilities": ["Blight (living tissue)", "Venomous (if injected)"],
+      "purelight_interaction": "neutral",
+      "archetypes": [
+        { "id": "LIV_01", "name": "Vermin-Kin", "size": "Small", "threat": 1, "primary_dmg": ["Piercing"], "secondary_dmg": ["Venomous"], "modifiers": { "initiative": 0.10 }, "description": "Weak, prolific scavengers. Rats, insects, bats. Dangerous only in swarms.", "biomes": ["the_midlands", "the_boglands", "the_forgotten_kingdom"], "loot": ["Organic Resources (basic)"] },
+        { "id": "LIV_02", "name": "Avian-Strigid", "size": "Small", "threat": 2, "primary_dmg": ["Slashing"], "secondary_dmg": ["Piercing"], "modifiers": { "evasion": 0.10 }, "description": "High-agility flying predators. Owls, hawks, corvids of unusual size.", "biomes": ["the_sanctuary_lands", "the_dark_forests"], "loot": ["Feathers", "Organic Resources"] },
+        { "id": "LIV_03", "name": "Cunning-Canid", "size": "Average", "threat": 3, "primary_dmg": ["Piercing"], "secondary_dmg": ["Blunt"], "modifiers": { "accuracy": 0.10 }, "description": "Pack hunters with tracking instincts. Wolves, hyenas, wild dogs.", "biomes": ["the_dark_forests", "the_outer_steppes", "the_gleam_havens"], "loot": ["Furs", "Organic Resources"] },
+        { "id": "LIV_04", "name": "Great-Feline", "size": "Average", "threat": 4, "primary_dmg": ["Slashing"], "secondary_dmg": ["Piercing"], "modifiers": { "crit_chance": 0.10 }, "description": "Stealth ambush predators. Large cats, panthers, direwolves.", "biomes": ["the_sanctuary_lands", "the_gleam_havens", "the_dark_forests"], "loot": ["Furs (fine)", "Claws", "Organic Resources"] },
+        { "id": "LIV_05", "name": "Heavy-Ursine", "size": "Large", "threat": 5, "primary_dmg": ["Blunt"], "secondary_dmg": ["Slashing"], "modifiers": { "hardening": 0.10 }, "description": "Massive beasts with high physical staying power. Bears, boars, rhino-like creatures.", "biomes": ["the_dark_forests", "the_sanctuary_lands"], "loot": ["Furs (heavy)", "Bone", "Organ Resources"] },
+        { "id": "LIV_06", "name": "Plated-Reptilian", "size": "Large", "threat": 6, "primary_dmg": ["Piercing"], "secondary_dmg": ["Blunt"], "modifiers": { "phys_resist": 0.10 }, "description": "Natural armor plating against physical strikes. Crocodilians, giant lizards.", "biomes": ["the_boglands", "the_gleam_havens", "the_badlands"], "loot": ["Scales (crafting)", "Bone", "Organ Resources"] },
+        { "id": "LIV_07", "name": "Tusked-Pachyderm", "size": "Giant", "threat": 7, "primary_dmg": ["Blunt", "Impact"], "secondary_dmg": ["Rupturing"], "modifiers": { "stagger_chance": 0.15 }, "description": "Unstoppable force. Ignores light obstacles and terrain. Charges deal Rupturing secondary.", "biomes": ["the_gleam_havens", "the_outer_steppes"], "loot": ["Bone (large)", "Ivory (rare trade good)", "Hide"] },
+        { "id": "LIV_08", "name": "Aquatic-Apex", "size": "Giant", "threat": 8, "primary_dmg": ["Aquas"], "secondary_dmg": ["Piercing", "Rupturing"], "modifiers": { "aquas_dmg": 0.10 }, "description": "Crushing hydraulic pressure from the deep. Massive aquatic predators.", "biomes": ["the_boglands", "the_gleam_havens"], "loot": ["Scales (fine)", "Organ Resources (rare)", "Aquatic Materials"] },
+        { "id": "LIV_09", "name": "Dune-Colossus", "size": "Giant", "threat": 9, "primary_dmg": ["Earthen", "Impact"], "secondary_dmg": ["Blunt"], "modifiers": { "earthen_resist": 0.15 }, "description": "Living mountains found in shifting sands and Badlands crags. Near-immune to physical.", "biomes": ["the_badlands", "the_blinding_lands"], "loot": ["Rare Stone", "Bestiary Resources (high)"] },
+        { "id": "LIV_10", "name": "Apex-Chimera", "size": "Giant", "threat": 10, "primary_dmg": ["Slashing", "Blight"], "secondary_dmg": ["Venomous", "Piercing"], "modifiers": { "all_phys_resist": 0.15 }, "description": "A biological masterpiece of multiple lethal traits. Unique. Rare. Always dangerous.", "biomes": ["the_sanctuary_lands (deep)", "the_dark_forests"], "loot": ["Bestiary Resources (legendary)", "Rare Organ Materials"] }
+      ]
     },
-    "damage_profile": {
-      "primary": "Piercing",
-      "secondary": ["Slashing", "Bludgeoning", "Poison"],
-      "attack_methods": ["Bite", "Claws", "Gore", "Sting", "Trample"]
+    {
+      "category": "Undead",
+      "category_id": "UND",
+      "description": "Reanimated or spiritually bound dead. Found wherever great death and dark magic intersect — primarily The Dark Forests, The Badlands fringe, and The Forgotten Kingdom. Immune to Venomous and Poisonous. Purelight deals bonus damage to all undead.",
+      "resistances": ["Venomous (immune)", "Poisonous (immune)", "Chill (partial)", "physical_hardening (varies)"],
+      "vulnerabilities": ["Purelight (+25% damage)", "Blessed Materium", "Fire"],
+      "purelight_interaction": "bonus +25% damage to all undead",
+      "archetypes": [
+        { "id": "UND_01", "name": "Shambling-Husk", "type": "Flesh", "threat": 1, "primary_dmg": ["Blunt"], "secondary_dmg": ["Blight"], "modifiers": { "blight_resist": 0.10 }, "description": "Barely animated corpse. Slow. Dangerous only in numbers or enclosed spaces.", "biomes": ["the_dark_forests", "the_badlands", "the_boglands"], "loot": ["Bone (basic)", "Blight Materials"] },
+        { "id": "UND_02", "name": "Brittle-Frame", "type": "Skeletal", "threat": 2, "primary_dmg": ["Piercing"], "secondary_dmg": ["Blunt"], "modifiers": { "slashing_resist": 0.10 }, "description": "Animated skeleton. Resists Slashing (no flesh). Very vulnerable to Blunt.", "biomes": ["the_badlands", "the_blinding_lands", "the_eternal_winds"], "loot": ["Bone (medium)", "Dark Materials"] },
+        { "id": "UND_03", "name": "Stitched-Brute", "type": "Flesh", "threat": 3, "primary_dmg": ["Blunt", "Impact"], "secondary_dmg": ["Rupturing"], "modifiers": { "max_hp": 0.15 }, "description": "Multiple corpses stitched into one huge body. Enormous HP. Slow.", "biomes": ["the_dark_forests", "the_forgotten_kingdom"], "loot": ["Bone (large)", "Dark Crafting Materials"] },
+        { "id": "UND_04", "name": "Bone-Sentinel", "type": "Skeletal", "threat": 4, "primary_dmg": ["Slashing"], "secondary_dmg": ["Piercing"], "modifiers": { "hardening": 0.10 }, "description": "Armed skeleton warrior maintaining some martial memory from life.", "biomes": ["the_badlands", "the_forgotten_kingdom"], "loot": ["Rusted Weapons", "Bone", "Dark Materials"] },
+        { "id": "UND_05", "name": "Blight-Carrier", "type": "Flesh", "threat": 5, "primary_dmg": ["Blight"], "secondary_dmg": ["Blunt"], "modifiers": { "blight_dmg": 0.15 }, "description": "A walking infection. Every hit spreads Blight status. Can contaminate an area.", "biomes": ["the_boglands", "the_dark_forests"], "loot": ["Blight Reagents (valuable to Artisans)", "Infected Tissue"] },
+        { "id": "UND_06", "name": "Ossified-Knight", "type": "Skeletal", "threat": 6, "primary_dmg": ["Slashing"], "secondary_dmg": ["Blunt"], "modifiers": { "phys_resist": 0.15 }, "description": "Armored skeletal warrior. Retains tactical combat awareness. High physical resistance.", "biomes": ["the_badlands", "the_forgotten_kingdom"], "loot": ["Ossified Bone (crafting)", "Ancient Armor Fragments"] },
+        { "id": "UND_07", "name": "Grave-Horror", "type": "Flesh", "threat": 7, "primary_dmg": ["Darkblood"], "secondary_dmg": ["Blunt", "Blight"], "modifiers": { "darkblood_dmg": 0.15 }, "description": "A blood-drinking undead predator. Targets living blood. Spreads Darkblood status.", "biomes": ["the_dark_forests", "the_forgotten_kingdom (The Light)"], "loot": ["Darkblood Reagents", "Bone", "Organ Resources (corrupted)"] },
+        { "id": "UND_08", "name": "Lich-Puppet", "type": "Skeletal", "threat": 8, "primary_dmg": ["Arcane"], "secondary_dmg": ["Darkvoid"], "modifiers": { "arcane_dmg": 0.15 }, "description": "A magically reanimated skeleton with retained spell-casting ability. Controlled by a Lich or Voidweaver.", "biomes": ["the_forgotten_kingdom", "the_badlands (ruins)"], "loot": ["Arcane Bone", "Magical Reagents", "Spell Fragments"] },
+        { "id": "UND_09", "name": "Blood-Starved Hulk", "type": "Flesh", "threat": 9, "primary_dmg": ["Darkblood", "Impact"], "secondary_dmg": ["Rupturing"], "modifiers": { "lifesteal": 0.15 }, "description": "An undead abomination that heals itself from blood of living targets. Extremely dangerous.", "biomes": ["the_forgotten_kingdom (The Fallen)", "the_dark_forests (deep)"], "loot": ["Darkblood Reservoir (valuable)", "Corrupted Organ Resources"] },
+        { "id": "UND_10", "name": "Death-Lord Vessel", "type": "Flesh", "threat": 10, "primary_dmg": ["Darkvoid"], "secondary_dmg": ["Darkblood", "Blight", "Darkmind"], "modifiers": { "conviction_resist": 0.20 }, "description": "A Lich or death-lord inhabiting a constructed vessel body. Near-invulnerable to conviction attacks. Legendary threat.", "biomes": ["the_forgotten_kingdom (The Fallen)"], "loot": ["Void Core (legendary crafting)", "Ancient Dark Tomes"] }
+      ]
     },
-    "base_stats_logic": {
-      "typical_hp_calc": "3d8 + 3 (Low to Moderate)",
-      "alignment": "Unaligned",
-      "armor_class_logic": "Dexterity + Thick Hide"
+    {
+      "category": "Abyssal",
+      "category_id": "ABY",
+      "description": "Entities from beyond the normal fabric of Leonoria — connected to the void, the shadow realm, or eldritch presences that predated The Great Death or were born from it. All Abyssal creatures are at least partially immune to physical damage. Purelight is generally effective.",
+      "resistances": ["physical damage (partial to full)", "Venomous (immune)", "Poisonous (immune)"],
+      "vulnerabilities": ["Purelight", "Blessed Materium", "Aegis Reflection"],
+      "purelight_interaction": "effective (+15% minimum)",
+      "archetypes": [
+        { "id": "ABY_01", "name": "Void-Skitterer", "tier": "Lesser", "threat": 2, "primary_dmg": ["Slashing"], "secondary_dmg": ["Darkvoid"], "modifiers": { "darkvoid_dmg": 0.10 }, "description": "A small void-touched creature that skitters across surfaces including walls and ceilings.", "biomes": ["the_forgotten_kingdom", "the_badlands (deep ruins)"], "loot": ["Void Fragments"] },
+        { "id": "ABY_02", "name": "Shadow-Stalker", "tier": "Lesser", "threat": 3, "primary_dmg": ["Darkvoid"], "secondary_dmg": ["Chill"], "modifiers": { "stealth": 0.20 }, "description": "A shadow that moves. Invisible in darkness. Hunts by Conviction level — targets the most afraid.", "biomes": ["the_forgotten_kingdom", "the_dark_forests (deep)"], "loot": ["Shadow Essence"] },
+        { "id": "ABY_03", "name": "Entropy-Leech", "tier": "Horror", "threat": 4, "primary_dmg": ["Chill"], "secondary_dmg": ["Blight"], "modifiers": { "metabolism_drain": 0.15 }, "description": "Feeds on body heat and life energy. Physical contact drains Metabolism rapidly. Cannot be seen clearly — blurs vision.", "biomes": ["the_eternal_winds", "the_forgotten_kingdom"], "loot": ["Entropy Reagent", "Cold Essence"] },
+        { "id": "ABY_04", "name": "Dark-Judicator", "tier": "Demon", "threat": 6, "primary_dmg": ["Slashing", "Darkvoid"], "secondary_dmg": ["Darkmind"], "modifiers": { "darkvoid_resist": 0.15 }, "description": "A demonic enforcer from the shadow realm. Intelligent, purposeful. Arrives with specific intent and does not leave until it is achieved or it is destroyed.", "biomes": ["the_forgotten_kingdom (The Fallen)"], "loot": ["Demon Core", "Dark Tomes", "Shadow Essence (refined)"] },
+        { "id": "ABY_05", "name": "Eldritch-Stargazer", "tier": "Horror", "threat": 6, "primary_dmg": ["Arcane"], "secondary_dmg": ["Darkmind"], "modifiers": { "arcane_dmg": 0.15 }, "description": "An entity that exists partially outside normal reality. Looking directly at it requires a Conviction check. Attacks reality as much as it attacks bodies.", "biomes": ["the_badlands (deep ruins)", "the_forgotten_kingdom"], "loot": ["Eldritch Membrane", "Arcane Essence"] },
+        { "id": "ABY_06", "name": "Void-Knight", "tier": "Demon", "threat": 7, "primary_dmg": ["Darkblood", "Impact"], "secondary_dmg": ["Darkvoid", "Slashing"], "modifiers": { "hardening": 0.15 }, "description": "An armored demonic warrior made of condensed void energy. Bleeds darkness. Nearly immune to physical damage.", "biomes": ["the_forgotten_kingdom (The Fallen)"], "loot": ["Void Plate Fragments (legendary crafting material)", "Dark Essence"] },
+        { "id": "ABY_07", "name": "Gazing-Horror", "tier": "Ethereal", "threat": 7, "primary_dmg": ["Solacium"], "secondary_dmg": ["Darkmind", "Verdicium"], "modifiers": { "tenacity_drain": 0.20 }, "description": "A floating, eye-covered entity that targets Conviction directly. Looking at it causes Tenacity drain. Killing it requires destroying each eye.", "biomes": ["the_forgotten_kingdom", "the_badlands"], "loot": ["Eye Lenses (rare alchemical)", "Void Essence"] },
+        { "id": "ABY_08", "name": "Void-Engine", "tier": "Beast", "threat": 8, "primary_dmg": ["Tempest", "Chill"], "secondary_dmg": ["Darkvoid"], "modifiers": { "tempest_dmg": 0.15 }, "description": "A massive void creature that generates atmospheric chaos. Storms follow it. Its presence disrupts all ranged magical attacks.", "biomes": ["the_eternal_winds", "the_forgotten_kingdom"], "loot": ["Storm Core", "Void Engine Components"] },
+        { "id": "ABY_09", "name": "Eater of Suns", "tier": "Beast", "threat": 9, "primary_dmg": ["Darkvoid", "Fire"], "secondary_dmg": ["Arcane"], "modifiers": { "purelight_resist": 0.30 }, "description": "An enormous abyssal beast that consumes light. Purelight attacks are significantly reduced. Burns with dark fire. Ancient and terrible.", "biomes": ["the_badlands (deepest ruins)"], "loot": ["Dark Sun Core (legendary)", "Abyssal Hide"] },
+        { "id": "ABY_10", "name": "Void-Architect", "tier": "Eldritch", "threat": 10, "primary_dmg": ["Temporal", "Darkvoid"], "secondary_dmg": ["Arcane", "Darkmind"], "modifiers": { "temporal_dmg": 0.20 }, "description": "An entity that rewrites local reality. Encounters with it age heroes (Temporal damage per turn in its presence). Legendary. May be immortal.", "biomes": ["the_forgotten_kingdom (The Fallen, deepest)"], "loot": ["Temporal Shard (artifact-tier)", "Reality Fragment"] }
+      ]
     },
-    "traits": ["Pack Tactics", "Keen Senses (Smell/Hearing)", "Low Intelligence (Score < 4)"],
-    "resistances": ["None (Standard)"],
-    "vulnerabilities": ["Animal Friendship", "Charm", "Frightened"],
-    "subtypes_and_variants": [
-      { "name": "Predators", "variants": ["Dire Wolf", "Sabre-Toothed Tiger", "Giant Crocodile", "Bear"], "logic": "Grapple; knockdown (Prone)." },
-      { "name": "Saurians", "variants": ["T-Rex", "Deinonychus", "Plesiosaur", "Ankylosaurus"], "logic": "Massive physical impact; high hitbox collision." },
-      { "name": "Arthropods", "variants": ["Giant Spider", "Giant Wasp", "Giant Centipede"], "logic": "Poison status effects; web-restraint." }
-    ]
-  },
-  {
-    "creature_type": "Celestials",
-    "description": "Beings native to the Upper Planes, serving as holy agents, guardians, or messengers of deities.",
-    "aliases": ["Angels", "Holy Beings", "Upper Planars", "Divine Spirits"],
-    "power_scaling": {
-      "cr_range": "1/2 to 30",
-      "combat_tier": "Elite (Rare, powerful encounters)",
-      "initiative_mod": "+3 to +5"
+    {
+      "category": "Plantlife",
+      "category_id": "PLN",
+      "description": "Animate plant and fungal creatures. Immune to Venomous and Poisonous. Weak to Fire and Slashing. Found primarily in Sanctuary Lands, Boglands, and Dark Forests. Purelight has no special interaction.",
+      "resistances": ["Venomous (immune)", "Poisonous (immune)", "Blunt (partial)", "Earthen (partial)"],
+      "vulnerabilities": ["Fire (+20%)", "Slashing (+10%)"],
+      "purelight_interaction": "neutral",
+      "archetypes": [
+        { "id": "PLN_01", "name": "Creeping-Vine", "threat": 1, "primary_dmg": ["Slashing"], "secondary_dmg": ["Venomous"], "modifiers": { "bleed_chance": 0.10 }, "description": "Animated vines that grab and cut. Found at the edge of forests.", "biomes": ["the_sanctuary_lands", "the_boglands"], "loot": ["Vine Fiber (crafting)", "Botanical Alchemy"] },
+        { "id": "PLN_02", "name": "Fungal-Spore", "threat": 2, "primary_dmg": ["Blight"], "secondary_dmg": ["Poisonous"], "modifiers": { "blight_dmg": 0.10 }, "description": "A spore-releasing fungal cluster. Clouds of spores cause Blight in a radius.", "biomes": ["the_boglands", "the_forgotten_kingdom (The Light)"], "loot": ["Spore Sac (alchemy)", "Blight Reagents"] },
+        { "id": "PLN_03", "name": "Athropic-Shrub", "threat": 3, "primary_dmg": ["Athropium"], "secondary_dmg": ["Slashing"], "modifiers": { "vitality_drain": 0.10 }, "description": "A life-draining bush that saps the energy from nearby living things through root contact.", "biomes": ["the_sanctuary_lands", "the_dark_forests"], "loot": ["Athropium Extract (rare alchemy)", "Root Fiber"] },
+        { "id": "PLN_04", "name": "Thorny-Sentinel", "threat": 3, "primary_dmg": ["Piercing"], "secondary_dmg": ["Venomous"], "modifiers": { "phys_resist": 0.10 }, "description": "A thorned mobile plant that defends territory around water sources.", "biomes": ["the_sanctuary_lands", "the_gleam_havens"], "loot": ["Thornwood (crafting)", "Botanical Alchemy"] },
+        { "id": "PLN_05", "name": "Iron-Bark Treant", "threat": 5, "primary_dmg": ["Blunt"], "secondary_dmg": ["Impact", "Earthen"], "modifiers": { "hardening": 0.15 }, "description": "A massive ancient tree that has become aware. Very high physical resistance. Slow but devastating.", "biomes": ["the_sanctuary_lands (ancient deep)", "the_dark_forests"], "loot": ["Iron-Bark Wood (legendary crafting)", "Athropium Crystal"] },
+        { "id": "PLN_06", "name": "Living-Marsh", "threat": 5, "primary_dmg": ["Aquas", "Earthen"], "secondary_dmg": ["Blight"], "modifiers": { "aquas_resist": 0.15 }, "description": "A section of bog that has become a single creature. Engulfs targets that step into it.", "biomes": ["the_boglands"], "loot": ["Bog Essence (alchemy)", "Marsh Reagents"] },
+        { "id": "PLN_07", "name": "Sentinel-Oak", "threat": 6, "primary_dmg": ["Blunt", "Impact"], "secondary_dmg": ["Earthen"], "modifiers": { "impact_dmg": 0.10 }, "description": "A guardian oak with martial awareness. Commands other plants in its radius.", "biomes": ["the_sanctuary_lands"], "loot": ["Heartwood (rare crafting)", "Botanical Alchemy (premium)"] },
+        { "id": "PLN_08", "name": "Venom-Bloom", "threat": 6, "primary_dmg": ["Blight", "Athropium"], "secondary_dmg": ["Venomous"], "modifiers": { "blight_resist": 0.15 }, "description": "A beautiful flower that is extremely dangerous. Area Blight pulses. Touch is lethal. Beloved by Artisans for its extreme alchemical value.", "biomes": ["the_boglands", "the_sanctuary_lands"], "loot": ["Venom-Bloom Petals (high-value alchemy)", "Blight Reagents"] },
+        { "id": "PLN_09", "name": "World-Root", "threat": 8, "primary_dmg": ["Earthen", "Temporal"], "secondary_dmg": ["Athropium"], "modifiers": { "earthen_dmg": 0.15 }, "description": "A root system that has achieved consciousness over millennia. Controls the terrain around it. Temporal attacks age the ground itself.", "biomes": ["the_sanctuary_lands (deepest)", "the_forgotten_kingdom (The Light)"], "loot": ["World-Root Fiber (artifact-tier crafting)"] },
+        { "id": "PLN_10", "name": "God-Tree Husk", "threat": 10, "primary_dmg": ["Athropium", "Temporal"], "secondary_dmg": ["Earthen", "Blunt"], "modifiers": { "athropium_dmg": 0.20 }, "description": "The animated corpse of a world-tree that died in The Great Death. Ancient beyond measure. Its Temporal attacks permanently age heroes caught in its radius.", "biomes": ["the_badlands (deepest ruins)", "the_sanctuary_lands (legendary location)"], "loot": ["God-Tree Bark (legendary)", "Temporal Wood (artifact material)"] }
+      ]
     },
-    "damage_profile": {
-      "primary": "Radiant",
-      "secondary": ["Slashing", "Bludgeoning", "Force"],
-      "attack_methods": ["Angelic Weapons", "Holy Fire", "Radiant Gaze"]
+    {
+      "category": "Celestial",
+      "category_id": "CEL",
+      "description": "Entities of light, faith, and the upper Materium spectrum. Rare — almost never hostile unless provoked or bound by dark magic. Dark-aligned characters may find them hostile by nature. Shadow Arts deal reduced damage.",
+      "resistances": ["Darkvoid (50%)", "Chill (50%)", "Darkblood (immune)", "physical damage (partial)"],
+      "vulnerabilities": ["Temporal (+10% — even light ages)", "Arcane (+10%)"],
+      "purelight_interaction": "immune (cannot be damaged by own school)",
+      "archetypes": [
+        { "id": "CEL_01", "name": "Light-Spark", "threat": 1, "primary_dmg": ["Purelight"], "modifiers": { "accuracy": 0.10 }, "description": "A small mote of living light. Harmless unless threatened.", "biomes": ["the_sanctuary_lands", "the_eternal_winds"], "loot": ["Light Essence"] },
+        { "id": "CEL_02", "name": "Solar-Wisp", "threat": 2, "primary_dmg": ["Fire"], "secondary_dmg": ["Purelight"], "modifiers": { "fire_dmg": 0.10 }, "description": "A fire-and-light elemental. Warm to nearby characters. Hostile when dark magic is used nearby.", "biomes": ["the_sanctuary_lands", "the_gleam_havens"], "loot": ["Solar Essence", "Light Reagents"] },
+        { "id": "CEL_03", "name": "Aegis-Shell", "threat": 3, "primary_dmg": ["Aegis Reflection"], "secondary_dmg": ["Impact"], "modifiers": { "reflection_dmg": 0.10 }, "description": "A reflective light-construct. Reflects a portion of incoming damage back as Aegis Reflection.", "biomes": ["the_sanctuary_lands (sacred sites)"], "loot": ["Reflective Crystal (crafting)"] },
+        { "id": "CEL_04", "name": "Truth-Blade", "threat": 4, "primary_dmg": ["Verdicium"], "secondary_dmg": ["Purelight"], "modifiers": { "verdicium_dmg": 0.10 }, "description": "A manifestation of divine judgment. Deals catastrophic Verdicium damage scaled to a target's guilt (Scarring stat).", "biomes": ["the_sanctuary_lands (temples)", "the_midlands (sacred sites)"], "loot": ["Truth Crystal (rare)", "Light Essence"] },
+        { "id": "CEL_05", "name": "Materium-Shield", "threat": 4, "primary_dmg": ["Blessed Materium"], "secondary_dmg": ["Impact"], "modifiers": { "hardening": 0.15 }, "description": "A guardian construct of blessed materium. Protects sacred locations.", "biomes": ["the_sanctuary_lands (shrines)"], "loot": ["Blessed Shard (rare crafting)"] },
+        { "id": "CEL_06", "name": "Solar-Seraph", "threat": 6, "primary_dmg": ["Purelight", "Fire"], "secondary_dmg": ["Aegis Reflection"], "modifiers": { "fire_resist": 0.15 }, "description": "A winged light-warrior of significant power. Actively hunts undead and dark arts users.", "biomes": ["the_sanctuary_lands", "the_eternal_winds"], "loot": ["Seraph Feather (legendary crafting)", "Solar Essence"] },
+        { "id": "CEL_07", "name": "Celestial-Scribe", "threat": 5, "primary_dmg": ["Solacium"], "secondary_dmg": ["Verdicium"], "modifiers": { "tenacity_drain": 0.15 }, "description": "A knowledge-entity. Non-violent by default. Attacks by forcibly calming and revealing the target's guilt.", "biomes": ["the_sanctuary_lands (libraries)", "the_midlands (archives)"], "loot": ["Memory Fragment (rare — contains knowledge events)", "Solacium Essence"] },
+        { "id": "CEL_08", "name": "Core-Guardian", "threat": 7, "primary_dmg": ["Blessed Materium"], "secondary_dmg": ["Impact", "Purelight"], "modifiers": { "impact_dmg": 0.15 }, "description": "An ancient guardian of a sacred location. Near-immortal within its territory. Cannot be permanently killed there — only driven back.", "biomes": ["the_sanctuary_lands (ancient cores)"], "loot": ["Sacred Stone (artifact material)"] },
+        { "id": "CEL_09", "name": "High-Justiciar", "threat": 8, "primary_dmg": ["Verdicium", "Purelight"], "secondary_dmg": ["Solacium"], "modifiers": { "conviction": 0.20 }, "description": "A towering entity of divine judgment. Its presence causes Verdicium damage passively to all dark-aligned characters in range.", "biomes": ["the_sanctuary_lands (deepest shrines)"], "loot": ["Judgment Shard (legendary)", "High Essence"] },
+        { "id": "CEL_10", "name": "Materium-Prime", "threat": 10, "primary_dmg": ["Blessed Materium"], "secondary_dmg": ["Verdicium", "Purelight", "Aegis Reflection"], "modifiers": { "all_phys_resist": 0.20 }, "description": "A manifestation of pure Light Materium. Legendary. Rarely seen. Some cultures worship it as a deity. Its very presence heals light-aligned characters.", "biomes": ["the_sanctuary_lands (legendary, rumored)"], "loot": ["Prime Light Core (artifact-tier)"] }
+      ]
     },
-    "base_stats_logic": {
-      "typical_hp_calc": "16d10 + 80 (Very High)",
-      "alignment": "Lawful Good / Neutral Good / Chaotic Good",
-      "armor_class_logic": "Divine Protection + Plate Armor"
+    {
+      "category": "Ethereal",
+      "category_id": "ETH",
+      "description": "Partially immaterial beings tied to specific Materium energies or emotional states. Immune to mundane Physical damage (Blunt/Slashing/Piercing). Must be hit with magical damage. Originate from locations where specific energies are concentrated.",
+      "resistances": ["Blunt (immune)", "Slashing (immune)", "Piercing (immune)", "Venomous (immune)", "Poisonous (immune)"],
+      "vulnerabilities": ["Damage type matching their origin school (+20%)", "Blessed Materium"],
+      "purelight_interaction": "varies by origin",
+      "archetypes": [
+        { "id": "ETH_01", "name": "Mist-Echo", "origin": "Tempest", "threat": 2, "primary_dmg": ["Tempest"], "modifiers": { "evasion": 0.15 }, "description": "A wind-spirit that exists as moving fog. Very hard to hit. Deals gentle Tempest damage.", "biomes": ["the_sanctuary_lands", "the_eternal_winds"], "loot": ["Mist Essence"] },
+        { "id": "ETH_02", "name": "Frost-Specter", "origin": "Chill", "threat": 3, "primary_dmg": ["Chill"], "secondary_dmg": ["Cold"], "modifiers": { "chill_dmg": 0.10 }, "description": "An undead-adjacent specter suffused with supernatural cold. Drains Metabolism rapidly.", "biomes": ["the_dark_forests", "the_eternal_winds"], "loot": ["Frost Essence", "Chill Reagent"] },
+        { "id": "ETH_03", "name": "Static-Phantom", "origin": "Tempest", "threat": 3, "primary_dmg": ["Tempest"], "secondary_dmg": ["Rupturing"], "modifiers": { "initiative": 0.15 }, "description": "A storm-energy phantom with high initiative. Shock cascade triggers on every hit.", "biomes": ["the_sanctuary_lands", "the_outer_steppes"], "loot": ["Static Core", "Tempest Essence"] },
+        { "id": "ETH_04", "name": "Blight-Vapor", "origin": "Blight", "threat": 4, "primary_dmg": ["Blight"], "secondary_dmg": ["Poisonous"], "modifiers": { "blight_dmg": 0.15 }, "description": "A cloud of animate Blight energy. Area effect Blight aura. Cannot be physically outrun.", "biomes": ["the_boglands", "the_dark_forests"], "loot": ["Blight Essence (valuable)", "Corruption Reagent"] },
+        { "id": "ETH_05", "name": "Arcane-Flare", "origin": "Arcane", "threat": 4, "primary_dmg": ["Arcane"], "modifiers": { "arcane_dmg": 0.15 }, "description": "A volatile Arcane energy construct. Especially dangerous to unarmored magic users — its own school's rules apply.", "biomes": ["the_midlands (ley lines)", "the_sanctuary_lands"], "loot": ["Arcane Flare Crystal", "Magic Essence"] },
+        { "id": "ETH_06", "name": "Void-Ghost", "origin": "Darkvoid", "threat": 5, "primary_dmg": ["Darkvoid"], "secondary_dmg": ["Chill"], "modifiers": { "darkvoid_dmg": 0.15 }, "description": "A ghost born from a Darkvoid event. Highly unstable — the damage variance of Darkvoid applies to this creature's attacks unpredictably.", "biomes": ["the_forgotten_kingdom", "the_badlands"], "loot": ["Void Essence", "Ghost Fragment"] },
+        { "id": "ETH_07", "name": "Temporal-Blur", "origin": "Temporal", "threat": 7, "primary_dmg": ["Temporal"], "secondary_dmg": ["Athropium"], "modifiers": { "speed": 0.20 }, "description": "An entity moving out of sync with normal time. Attacks age targets. Cannot be reliably hit without Perception above 40.", "biomes": ["the_badlands (ruins)", "the_forgotten_kingdom"], "loot": ["Temporal Fragment (extremely valuable)"] },
+        { "id": "ETH_08", "name": "Solar-Phantom", "origin": "Purelight", "threat": 6, "primary_dmg": ["Purelight"], "secondary_dmg": ["Verdicium"], "modifiers": { "purelight_dmg": 0.15 }, "description": "A fragment of a dying celestial entity. Only attacks dark-aligned characters. Ignores all others.", "biomes": ["the_sanctuary_lands", "the_midlands (temples)"], "loot": ["Solar Fragment", "Light Essence (refined)"] },
+        { "id": "ETH_09", "name": "Soul-Fragment", "origin": "Solacium", "threat": 5, "primary_dmg": ["Solacium"], "secondary_dmg": ["Darkmind"], "modifiers": { "tenacity_drain": 0.20 }, "description": "A fragment of a person's soul that refused to pass on. Attacks by forcibly removing the will to fight. Does not kill directly — just removes initiative.", "biomes": ["the_dark_forests", "the_midlands (ruins)"], "loot": ["Soul Essence", "Memory Fragment"] },
+        { "id": "ETH_10", "name": "Void-Wraith", "origin": "Darkvoid", "threat": 8, "primary_dmg": ["Chill", "Darkvoid"], "secondary_dmg": ["Darkmind"], "modifiers": { "darkvoid_resist": 0.20 }, "description": "A powerful void-wraith that embodies combined Shadow school energies. Saps Conviction and Metabolism simultaneously. Partially resistant to its own school.", "biomes": ["the_forgotten_kingdom (The Fallen)"], "loot": ["Wraith Essence (legendary)", "Void Core"] }
+      ]
     },
-    "traits": ["Healing Hands", "Magic Resistance", "Angelic Weapons (Extra Radiant)", "Truesight"],
-    "resistances": ["Radiant", "Necrotic", "Non-magical Physical"],
-    "vulnerabilities": ["Vile Damage", "Unholy Blight"],
-    "subtypes_and_variants": [
-      { "name": "Angels", "variants": ["Solar", "Planetar", "Deva"], "logic": "Slaying arrow; high-level healing magic." },
-      { "name": "Guardians", "variants": ["Unicorn", "Couatl", "Pegasus", "Hollyphant"], "logic": "Shielding auras; teleportation." }
-    ]
-  },
-  {
-    "creature_type": "Constructs",
-    "description": "Beings made or built through artifice, alchemy, or engineering; they are programmed automatons with no biological life.",
-    "aliases": ["Automatons", "Animated Objects", "Clockwork Beings", "Golems"],
-    "power_scaling": {
-      "cr_range": "0 to 25",
-      "combat_tier": "Consistent (High defense, predictable offense)",
-      "initiative_mod": "-1 to +1"
+    {
+      "category": "Elemental",
+      "category_id": "ELE",
+      "description": "Pure manifestations of Materium elemental schools. Immune to their own element. Weak to opposing elements. Found where Materium energy concentrates naturally — volcanic zones, deep sea, high peaks, storm regions.",
+      "resistances": ["Own element (immune)", "Venomous (immune)", "Poisonous (immune)", "Blight (immune)"],
+      "vulnerabilities": ["Opposing element (+25%): Fire↔Aquas, Earthen↔Tempest, Impact (universal weak point)"],
+      "purelight_interaction": "neutral",
+      "archetypes": [
+        { "id": "ELE_01", "name": "Dust-Skitterer", "threat": 1, "primary_dmg": ["Earthen"], "modifiers": { "evasion": 0.10 }, "description": "A small earth-elemental. Barely dangerous alone; terrain-bonded.", "biomes": ["the_badlands", "the_blinding_lands"], "loot": ["Earth Essence", "Mineral Fragment"] },
+        { "id": "ELE_02", "name": "Cinder-Mite", "threat": 2, "primary_dmg": ["Fire"], "secondary_dmg": ["Hot"], "modifiers": { "fire_dmg": 0.10 }, "description": "A flame-insect elemental. Sets surroundings on fire. Very fast.", "biomes": ["the_badlands", "the_gleam_havens"], "loot": ["Fire Essence", "Cinder Material"] },
+        { "id": "ELE_03", "name": "Vapor-Sprite", "threat": 2, "primary_dmg": ["Aquas"], "secondary_dmg": ["Humidity"], "modifiers": { "aquas_resist": 0.10 }, "description": "A water elemental sprite. Small but able to Soak targets, triggering Tempest synergy.", "biomes": ["the_boglands", "the_gleam_havens"], "loot": ["Water Essence"] },
+        { "id": "ELE_04", "name": "Zephyr-Wisp", "threat": 3, "primary_dmg": ["Tempest"], "secondary_dmg": ["Impact"], "modifiers": { "initiative": 0.15 }, "description": "A wind-elemental with the highest initiative of any small creature. Cascade triggers on every hit.", "biomes": ["the_eternal_winds", "the_dark_forests"], "loot": ["Tempest Essence", "Wind Core"] },
+        { "id": "ELE_05", "name": "Mud-Lurker", "threat": 3, "primary_dmg": ["Earthen", "Aquas"], "secondary_dmg": ["Blunt"], "modifiers": { "hardening": 0.10 }, "description": "A hybrid earth-water elemental. Immobilizes targets in deep mud. Found in bogs.", "biomes": ["the_boglands", "the_outer_steppes"], "loot": ["Mud Essence", "Clay Materials"] },
+        { "id": "ELE_06", "name": "Flame-Revenant", "threat": 5, "primary_dmg": ["Fire"], "secondary_dmg": ["Impact"], "modifiers": { "fire_dmg": 0.15 }, "description": "A fire elemental that has survived long enough to develop aggression. Ignites terrain on contact. Spreads.", "biomes": ["the_badlands", "volcanic zones (if present)"], "loot": ["Fire Core", "Volcanic Material"] },
+        { "id": "ELE_07", "name": "Storm-Walker", "threat": 6, "primary_dmg": ["Tempest"], "secondary_dmg": ["Impact", "Rupturing"], "modifiers": { "tempest_dmg": 0.15 }, "description": "A large tempest elemental that brings a localized storm with it. Cascade triggers at 25% per hit. Moves with the wind.", "biomes": ["the_eternal_winds", "the_outer_steppes"], "loot": ["Storm Core", "Tempest Crystal"] },
+        { "id": "ELE_08", "name": "Glacial-Monolith", "threat": 7, "primary_dmg": ["Impact"], "secondary_dmg": ["Cold", "Earthen"], "modifiers": { "phys_resist": 0.20 }, "description": "A slowly-moving earth-and-ice elemental. Extremely high physical resistance. Crumbles terrain as it moves.", "biomes": ["the_eternal_winds", "the_dark_forests (mountains)"], "loot": ["Glacial Stone (crafting)", "Ice Core"] },
+        { "id": "ELE_09", "name": "Magma-Behemoth", "threat": 9, "primary_dmg": ["Fire", "Earthen"], "secondary_dmg": ["Impact", "Rupturing"], "modifiers": { "fire_resist": 0.20 }, "description": "A colossal fire-earth elemental from deep geological activity. Walks through stone. Fire weapon attacks heal it.", "biomes": ["the_badlands (deepest)"], "loot": ["Magma Core (legendary crafting)", "Volcanic Stone (artifact material)"] },
+        { "id": "ELE_10", "name": "Materium-Titan", "threat": 10, "primary_dmg": ["Impact"], "secondary_dmg": ["Earthen", "Tempest", "Fire", "Aquas"], "modifiers": { "impact_dmg": 0.20 }, "description": "A titan-class elemental that commands all four physical elements simultaneously. Legendary. Possibly a remnant from before The Great Death.", "biomes": ["the_badlands (legendary ruins)"], "loot": ["Titan Core (artifact-tier)", "All Elemental Essences"] }
+      ]
     },
-    "damage_profile": {
-      "primary": "Bludgeoning",
-      "secondary": ["Slashing", "Piercing", "Poison", "Fire"],
-      "attack_methods": ["Slam", "Integrated Blades", "Elemental Exhaust"]
-    },
-    "base_stats_logic": {
-      "typical_hp_calc": "18d10 + 60 (High/Fixed)",
-      "alignment": "Unaligned / Lawful Neutral",
-      "armor_class_logic": "Material Density (Iron/Stone)"
-    },
-    "traits": ["Immutable Form", "Magic Resistance", "Condition Immunity (Poison/Psychic)", "Unsleeping"],
-    "resistances": ["Poison", "Psychic", "Non-magical Physical"],
-    "vulnerabilities": ["Adamantine Weapons", "Lightning (Stuns/Slows Golems)"],
-    "subtypes_and_variants": [
-      { "name": "Golems", "variants": ["Iron Golem", "Stone Golem", "Flesh Golem", "Clay Golem"], "logic": "Berserk chance; physical resistance." },
-      { "name": "Animated Defense", "variants": ["Shield Guardian", "Helmed Horror", "Flying Sword"], "logic": "Master-bound; high AC; reaction defense." }
-    ]
-  },
-  {
-    "creature_type": "Dragons",
-    "description": "Ancient, powerful reptilian creatures of high intelligence and elemental breath weapons, obsessed with dominance and wealth.",
-    "aliases": ["Wyrms", "Drakes", "Scalelords", "Great Serpents"],
-    "power_scaling": {
-      "cr_range": "1 to 30",
-      "combat_tier": "Extreme (Boss-level encounters)",
-      "initiative_mod": "+0 to +4"
-    },
-    "damage_profile": {
-      "primary": "Elemental (Color-coded)",
-      "secondary": ["Slashing", "Piercing", "Bludgeoning"],
-      "attack_methods": ["Breath Weapon", "Claws", "Bite", "Tail Sweep", "Wing Attack"]
-    },
-    "base_stats_logic": {
-      "typical_hp_calc": "22d12 + 150 (Extreme)",
-      "alignment": "Chromatic (Evil) / Metallic (Good)",
-      "armor_class_logic": "Ancient Hardened Scales"
-    },
-    "traits": ["Legendary Resistance (3/Day)", "Breath Weapon (Recharge)", "Frightful Presence", "Lair Actions"],
-    "resistances": ["Elemental (Matching Breath Type)"],
-    "vulnerabilities": ["Dragon-Slaying Magic", "Specific Environmental Siege"],
-    "subtypes_and_variants": [
-      { "name": "True Dragons", "variants": ["Red", "Blue", "Black", "Gold", "Silver", "Emerald"], "logic": "Lair actions; regional environmental effects." },
-      { "name": "Draconics", "variants": ["Wyvern", "Dragon Turtle", "Pseudodragon", "Faerie Dragon"], "logic": "Poison stings; aquatic focus; limited flight." }
-    ]
-  },
-  {
-    "creature_type": "Elementals",
-    "description": "Beings composed of the raw primal forces of the four elemental planes (Air, Earth, Fire, Water).",
-    "aliases": ["Inner Planars", "Nature Spirits", "Primal Forces", "Archons"],
-    "power_scaling": {
-      "cr_range": "1/4 to 23",
-      "combat_tier": "Moderate (Hazard-based combat)",
-      "initiative_mod": "+2 to +5"
-    },
-    "damage_profile": {
-      "primary": "Elemental (Matching)",
-      "secondary": ["Bludgeoning", "Poison", "Force"],
-      "attack_methods": ["Whelm", "Burn", "Earthquake", "Gust", "Slam"]
-    },
-    "base_stats_logic": {
-      "typical_hp_calc": "12d10 + 40 (Moderate)",
-      "alignment": "Neutral",
-      "armor_class_logic": "Form Fluidity or Density"
-    },
-    "traits": ["Elemental Form", "Amorphous", "Innate Spellcasting", "No Sleep/Food"],
-    "resistances": ["Poison", "Piercing/Slashing (Non-magical)", "Elemental (Matching)"],
-    "vulnerabilities": ["Opposing Elements (Fire vs Cold)", "Banishment"],
-    "subtypes_and_variants": [
-      { "name": "Primals", "variants": ["Fire Elemental", "Water Elemental", "Earth Elemental", "Air Elemental"], "logic": "Hazardous terrain touch." },
-      { "name": "Genies", "variants": ["Efreeti", "Djinn", "Marid", "Dao"], "logic": "Plane shift; wish magic; high-level intelligence." }
-    ]
-  },
-  {
-    "creature_type": "Fey",
-    "description": "Creatures tied to the Feywild, characterized by sylvan beauty, trickery, and nature-based magic.",
-    "aliases": ["The Fair Folk", "Sylvan Beings", "Nature Spirits", "Sidhe"],
-    "power_scaling": {
-      "cr_range": "0 to 20",
-      "combat_tier": "Evasive (Hit-and-run, manipulation)",
-      "initiative_mod": "+3 to +6"
-    },
-    "damage_profile": {
-      "primary": "Psychic",
-      "secondary": ["Poison", "Piercing", "Radiant"],
-      "attack_methods": ["Enchantment", "Shortbows", "Fey Magic", "Glamour"]
-    },
-    "base_stats_logic": {
-      "typical_hp_calc": "6d8 + 6 (Low to Moderate)",
-      "alignment": "Chaotic (Good/Neutral/Evil)",
-      "armor_class_logic": "Dexterity + Natural Glamour"
-    },
-    "traits": ["Magic Resistance", "Charming Aura", "Invisibility", "Fey Step"],
-    "resistances": ["Charm", "Sleep"],
-    "vulnerabilities": ["Cold Iron Weapons"],
-    "subtypes_and_variants": [
-      { "name": "Sylvan", "variants": ["Dryad", "Satyr", "Sprite", "Quickling", "Nymph"], "logic": "Tree stride; speed focus; plant manipulation." },
-      { "name": "Hags", "variants": ["Green Hag", "Night Hag", "Sea Hag", "Annis Hag"], "logic": "Coven spellcasting; shapechange; fear-logic." }
-    ]
-  },
-  {
-    "creature_type": "Fiends",
-    "description": "Malevolent beings from the Lower Planes, categorized into the orderly cruelty of Devils and the chaotic destruction of Demons.",
-    "aliases": ["Demons", "Devils", "Hell-spawn", "Yugoloths", "Fiend-kin"],
-    "power_scaling": {
-      "cr_range": "1/8 to 30",
-      "combat_tier": "High (Elite warriors and generals)",
-      "initiative_mod": "+2 to +4"
-    },
-    "damage_profile": {
-      "primary": "Fire",
-      "secondary": ["Necrotic", "Slashing", "Poison", "Cold"],
-      "attack_methods": ["Hellfire", "Barbed Chains", "Summoning", "Claw/Bite"]
-    },
-    "base_stats_logic": {
-      "typical_hp_calc": "15d10 + 75 (High)",
-      "alignment": "Lawful Evil (Devils) / Chaotic Evil (Demons)",
-      "armor_class_logic": "Infernal Plate or Abyssal Hide"
-    },
-    "traits": ["Magic Resistance", "Telepathy", "Summon Fiend", "Resist Non-magical Physical"],
-    "resistances": ["Fire", "Cold", "Poison"],
-    "vulnerabilities": ["Radiant", "Holy Water", "Silvered Weapons"],
-    "subtypes_and_variants": [
-      { "name": "Devils", "variants": ["Pit Fiend", "Erinyes", "Imp", "Chain Devil"], "logic": "Tactical discipline; contract-based; fire immunity." },
-      { "name": "Demons", "variants": ["Balor", "Marilith", "Vrock", "Dretch"], "logic": "Explosive death; chaotic summons; swarm aggression." }
-    ]
-  },
-  {
-    "creature_type": "Giants",
-    "description": "Humanoid-shaped creatures of massive scale, often possessing prehistoric ties or elemental affinities.",
-    "aliases": ["Jotun", "Titans", "Goliath-kin", "Big-folk"],
-    "power_scaling": {
-      "cr_range": "1 to 24",
-      "combat_tier": "Brawler (High physical damage)",
-      "initiative_mod": "-1 to +2"
-    },
-    "damage_profile": {
-      "primary": "Bludgeoning",
-      "secondary": ["Elemental", "Piercing"],
-      "attack_methods": ["Greatclub", "Rock Throw", "Stomp", "Sweep"]
-    },
-    "base_stats_logic": {
-      "typical_hp_calc": "12d12 + 60 (High)",
-      "alignment": "Varies by Caste (Hill: CE to Storm: CG)",
-      "armor_class_logic": "Massive Hide/Plate"
-    },
-    "traits": ["Rock Throwing", "Massive Reach", "Siege Monster (Double damage to objects)"],
-    "resistances": ["Elemental (Matching)"],
-    "vulnerabilities": ["Low Dexterity Saves", "Small Target Evasion"],
-    "subtypes_and_variants": [
-      { "name": "Ordinal", "variants": ["Hill Giant", "Frost Giant", "Fire Giant", "Cloud Giant"], "logic": "Weather/Elemental control." },
-      { "name": "Giant-kin", "variants": ["Ogre", "Ettin", "Cyclops", "Troll"], "logic": "Regeneration (Troll); multi-head logic." }
-    ]
-  },
-  {
-    "creature_type": "Humanoids",
-    "description": "The civilized and tribal peoples of the world; weapon-users with developed social structures and cultures.",
-    "aliases": ["The People", "Mortals", "Two-legs", "Civilized Races"],
-    "power_scaling": {
-      "cr_range": "0 to 20",
-      "combat_tier": "Base (Common enemies and NPCs)",
-      "initiative_mod": "+0 to +3"
-    },
-    "damage_profile": {
-      "primary": "Piercing (Weapons)",
-      "secondary": ["Slashing", "Bludgeoning", "Varies"],
-      "attack_methods": ["Swords", "Bows", "Spells", "Tools", "Unarmed"]
-    },
-    "base_stats_logic": {
-      "typical_hp_calc": "2d8 + 2 (Low)",
-      "alignment": "Any Alignment",
-      "armor_class_logic": "Equipped Gear (Leather/Chain/Plate)"
-    },
-    "traits": ["Tool Proficiency", "Social Synergy", "Language Capable"],
-    "resistances": ["None (Standard)"],
-    "vulnerabilities": ["Hold Person", "Charm Person"],
-    "subtypes_and_variants": [
-      { "name": "Goblinoids", "variants": ["Goblin", "Hobgoblin", "Bugbear"], "logic": "Nimble escape; surprise attack." },
-      { "name": "Tribal Marauders", "variants": ["Orc", "Gnoll", "Kobold", "Lizardfolk"], "logic": "Aggressive charge; pack tactics." },
-      { "name": "NPCs", "variants": ["Guard", "Mage", "Knight", "Cultist"], "logic": "Class-based skillsets." }
-    ]
-  },
-  {
-    "creature_type": "Monstrosities",
-    "description": "Unnatural creatures resulting from magical experimentation, curses, or accidental cross-breeding.",
-    "aliases": ["Magical Beasts", "Cursed Beings", "Unnatural Terrors", "Warped Life"],
-    "power_scaling": {
-      "cr_range": "1/8 to 23",
-      "combat_tier": "Variable (Specialized predators)",
-      "initiative_mod": "+1 to +4"
-    },
-    "damage_profile": {
-      "primary": "Slashing",
-      "secondary": ["Piercing", "Poison", "Acid"],
-      "attack_methods": ["Multiattack", "Tail Spikes", "Gaze", "Bite"]
-    },
-    "base_stats_logic": {
-      "typical_hp_calc": "8d10 + 24 (Moderate)",
-      "alignment": "Usually Neutral / Neutral Evil",
-      "armor_class_logic": "Mixed Natural Defenses"
-    },
-    "traits": ["Unusual Biology", "Terrifying Aura", "Apex Predator AI"],
-    "resistances": ["Variable"],
-    "vulnerabilities": ["Biological Counters (e.g., Mirrors for Medusa)"],
-    "subtypes_and_variants": [
-      { "name": "Hybrids", "variants": ["Chimera", "Griffon", "Owlbear", "Manticore"], "logic": "Dive bombs; multi-mode attacks." },
-      { "name": "Shifters/Gazers", "variants": ["Mimic", "Medusa", "Doppelganger", "Roper"], "logic": "Object camouflage; petrifaction." }
-    ]
-  },
-  {
-    "creature_type": "Oozes",
-    "description": "Gelatinous creatures without fixed form, consuming all matter in dark, damp environments.",
-    "aliases": ["Slimes", "Jellies", "Puddings", "Amorphous Blobs"],
-    "power_scaling": {
-      "cr_range": "1/4 to 10",
-      "combat_tier": "Hazard (Slow but deadly proximity)",
-      "initiative_mod": "-3 to -1"
-    },
-    "damage_profile": {
-      "primary": "Acid",
-      "secondary": ["Bludgeoning", "Corrosion"],
-      "attack_methods": ["Pseudopod", "Engulf", "Dissolve"]
-    },
-    "base_stats_logic": {
-      "typical_hp_calc": "10d10 + 40 (Moderate)",
-      "alignment": "Unaligned",
-      "armor_class_logic": "Low AC / Form Fluidity"
-    },
-    "traits": ["Amorphous", "Corrosive Form", "Spider Climb", "Blindsight"],
-    "resistances": ["Acid", "Slashing/Lightning (Causes Splitting)"],
-    "vulnerabilities": ["Slow Movement", "Cold Damage (Slowing)"],
-    "subtypes_and_variants": [
-      { "name": "Dissolvers", "variants": ["Gelatinous Cube", "Black Pudding", "Gray Ooze", "Ochre Jelly"], "logic": "Gear degradation; splitting." }
-    ]
-  },
-  {
-    "creature_type": "Plants",
-    "description": "Biological beings made of vegetable or fungal matter; sentient guardians or parasitic hunters.",
-    "aliases": ["Animated Flora", "Fungal Horrors", "Green-kin"],
-    "power_scaling": {
-      "cr_range": "0 to 9",
-      "combat_tier": "Ambush (Camouflaged hunters)",
-      "initiative_mod": "-2 to +1"
-    },
-    "damage_profile": {
-      "primary": "Bludgeoning",
-      "secondary": ["Piercing", "Poison", "Acid"],
-      "attack_methods": ["Vines", "Spores", "Needles", "Slam"]
-    },
-    "base_stats_logic": {
-      "typical_hp_calc": "11d10 + 33 (Moderate)",
-      "alignment": "Unaligned / Neutral",
-      "armor_class_logic": "Bark/Wood Density"
-    },
-    "traits": ["False Appearance", "Condition Immunities", "Low Speed"],
-    "resistances": ["Piercing", "Psychic"],
-    "vulnerabilities": ["Fire Damage", "Bludgeoning"],
-    "subtypes_and_variants": [
-      { "name": "Sentient Flora", "variants": ["Treant", "Shambling Mound", "Blight"], "logic": "Lightning absorption; animate trees." },
-      { "name": "Fungal", "variants": ["Myconid Sovereign", "Gas Spore", "Violet Fungus"], "logic": "Telepathic spores; rotting touch." }
-    ]
-  },
-  {
-    "creature_type": "Undead",
-    "description": "Remnants of the living animated by necrotic energy, dark magic, or unresolved spirits.",
-    "aliases": ["The Unliving", "Restless Souls", "Necrotic Beings", "Walking Dead"],
-    "power_scaling": {
-      "cr_range": "1/4 to 25",
-      "combat_tier": "Relentless (Hard to kill, life-draining)",
-      "initiative_mod": "-1 to +4"
-    },
-    "damage_profile": {
-      "primary": "Necrotic",
-      "secondary": ["Cold", "Slashing", "Piercing", "Psychic"],
-      "attack_methods": ["Life Drain", "Paralysis", "Fear Wail", "Bite"]
-    },
-    "base_stats_logic": {
-      "typical_hp_calc": "18d8 + 54 (High/Variable)",
-      "alignment": "Neutral Evil / Chaotic Evil",
-      "armor_class_logic": "Decayed Flesh or Etherealness"
-    },
-    "traits": ["Poison/Exhaustion Immunity", "Darkvision", "Undead Fortitude", "Life Drain"],
-    "resistances": ["Poison", "Necrotic", "Non-magical Physical"],
-    "vulnerabilities": ["Radiant Damage", "Turn Undead Mechanics"],
-    "subtypes_and_variants": [
-      { "name": "Corporeal", "variants": ["Lich", "Vampire", "Zombie", "Skeleton", "Ghoul"], "logic": "Regeneration; soul consumption." },
-      { "name": "Incorporeal", "variants": ["Ghost", "Wraith", "Banshee", "Specter"], "logic": "Phasing through walls; Strength drain." }
-    ]
-  }
-]
+    {
+      "category": "Dragon",
+      "category_id": "DRG",
+      "description": "Leonoria's most feared natural predators. Ancient, elemental in nature, and almost always dangerous. They do not lair in predictable places — they claim territory. Each dragon type has an elemental affinity that determines both its attack type and its primary resistance. Always a significant threat.",
+      "resistances": ["Own element (immune)", "physical_hardening (high)", "magical_insulation (moderate)"],
+      "vulnerabilities": ["Opposing element (+20%)", "Temporal (ages even dragons)"],
+      "purelight_interaction": "neutral to light dragons; dark dragons vulnerable",
+      "archetypes": [
+        { "id": "DRG_01", "name": "Drake-Scavenger", "size": "Small", "threat": 3, "primary_dmg": ["Piercing", "Slashing"], "secondary_dmg": ["Fire (basic)"], "modifiers": { "speed": 0.10 }, "description": "A young or degenerate drake. Still dangerous. Fast and aggressive.", "biomes": ["the_gleam_havens", "the_badlands"], "loot": ["Drake Scale", "Drake Claw"] },
+        { "id": "DRG_02", "name": "Wyvern-Hunter", "size": "Average", "threat": 5, "primary_dmg": ["Piercing"], "secondary_dmg": ["Venomous"], "modifiers": { "initiative": 0.10 }, "description": "A two-legged flying predator with a venomous tail stinger. Not a true dragon but close.", "biomes": ["the_dark_forests", "the_sanctuary_lands (mountains)"], "loot": ["Wyvern Venom Gland (alchemy)", "Wyvern Scale"] },
+        { "id": "DRG_03", "name": "Cliff-Cutter", "size": "Average", "threat": 5, "primary_dmg": ["Slashing"], "secondary_dmg": ["Earthen"], "modifiers": { "evasion": 0.10 }, "description": "A mountain-dwelling dragon with stone-grey scales. Cuts through rock. Fast in mountainous terrain.", "biomes": ["the_sanctuary_lands (high peaks)", "the_dark_forests (mountains)"], "loot": ["Stone Scale", "Mountain Stone Crystal"] },
+        { "id": "DRG_04", "name": "Sulfur-Spitter", "size": "Large", "threat": 7, "primary_dmg": ["Fire", "Slashing"], "secondary_dmg": ["Poisonous"], "modifiers": { "fire_resist": 0.25 }, "description": "A fire-breathing dragon with acidic saliva. Classic predator. Commands volcanic or desert territory.", "biomes": ["the_badlands", "the_gleam_havens"], "loot": ["Fire Gland (rare alchemy)", "Fire Scale (legendary crafting material)"] },
+        { "id": "DRG_05", "name": "Frost-Brood", "size": "Large", "threat": 7, "primary_dmg": ["Chill", "Blunt"], "secondary_dmg": ["Cold"], "modifiers": { "chill_dmg": 0.15 }, "description": "An ice-attuned dragon. Exhales supernatural cold (Chill, not Climate-Cold). Commands frozen territory.", "biomes": ["the_eternal_winds", "the_dark_forests (north)"], "loot": ["Frost Gland", "Ice Scale", "Chill Crystal"] },
+        { "id": "DRG_06", "name": "Blight-Wing", "size": "Large", "threat": 7, "primary_dmg": ["Blight", "Piercing"], "secondary_dmg": ["Venomous", "Poisonous"], "modifiers": { "blight_dmg": 0.15 }, "description": "A diseased dragon suffused with Blight energy. Its territory is barren. Everything near it rots.", "biomes": ["the_boglands", "the_dark_forests (deep)"], "loot": ["Blight Gland (extreme alchemy value)", "Diseased Scale"] },
+        { "id": "DRG_07", "name": "Storm-Tyrant", "size": "Giant", "threat": 8, "primary_dmg": ["Tempest", "Impact"], "secondary_dmg": ["Rupturing"], "modifiers": { "tempest_dmg": 0.20 }, "description": "A massive storm dragon that perpetually flies in a self-generated storm. Cascade triggers on every attack. Lightning follows it.", "biomes": ["the_outer_steppes", "the_eternal_winds"], "loot": ["Storm Heart (legendary)", "Tempest Scale"] },
+        { "id": "DRG_08", "name": "Abyssal-Wyrm", "size": "Giant", "threat": 9, "primary_dmg": ["Darkvoid", "Slashing"], "secondary_dmg": ["Darkblood", "Chill"], "modifiers": { "darkvoid_resist": 0.25 }, "description": "A dragon that has been corrupted by or born from Shadow Arts energy. Actively hostile to light-aligned characters. Attacks erode Conviction.", "biomes": ["the_forgotten_kingdom", "the_dark_forests (deepest)"], "loot": ["Void Wyrm Scale (legendary crafting)", "Abyssal Dragon Core"] },
+        { "id": "DRG_09", "name": "Celestial-Drake", "size": "Giant", "threat": 8, "primary_dmg": ["Purelight", "Blessed Materium"], "secondary_dmg": ["Aegis Reflection"], "modifiers": { "purelight_dmg": 0.20 }, "description": "An ancient dragon aligned with Lightwielding. Only attacks dark-aligned characters or those who attack it first. Considered sacred by several cultures.", "biomes": ["the_sanctuary_lands (deepest, legendary)"], "loot": ["Sacred Scale (artifact material)", "Light Heart"] },
+        { "id": "DRG_10", "name": "Timeless-Ancient", "size": "Giant", "threat": 10, "primary_dmg": ["Temporal", "Impact"], "secondary_dmg": ["All elements"], "modifiers": { "temporal_dmg": 0.20 }, "description": "A dragon so old it has partially transcended time. Its breath weapon ages targets permanently (Temporal damage). Resistant to all schools. May be the same dragon across multiple historical eras.", "biomes": ["the_badlands (deepest ruins, legendary)"], "loot": ["Temporal Heart (artifact-tier)", "Ancient Scale (all-element resistance material)"] }
+      ]
+    }
+  ]
+}

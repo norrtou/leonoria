@@ -1,0 +1,241 @@
+{
+  "system": "Birth Mother Signs",
+  "description": "Every character born on Leonoria is touched (or not) by one of the Ten Mothers — divine forces that shaped the world after The Great Death. 80% of the population carries no sign (The Childless). Those who do carry a sign receive a permanent perk and a conflicting trait. Signs also affect Presence interactions: Light signs distrust Dark signs, neutral signs distrust neither.",
+  "alignment_groups": {
+    "light": ["the_guardian", "the_merciful", "the_rebel"],
+    "materium": ["the_arbiter", "the_stoic", "the_hedonist"],
+    "dark": ["the_tyrant", "the_predator", "the_destroyer"],
+    "none": ["the_childless"]
+  },
+  "presence_interaction_table": {
+    "description": "How signs affect Presence-based social rolls when characters interact.",
+    "rules": [
+      { "sign_a": "Light", "sign_b": "Light", "effect": "Presence bonus +5% to all social rolls between them." },
+      { "sign_a": "Light", "sign_b": "Materium", "effect": "No modifier." },
+      { "sign_a": "Light", "sign_b": "Dark", "effect": "Presence penalty -10% to social rolls; Conviction resistance +5% vs dark characters." },
+      { "sign_a": "Dark", "sign_b": "Dark", "effect": "Presence bonus +5% to intimidation; -5% to diplomacy." },
+      { "sign_a": "Dark", "sign_b": "Light", "effect": "As above, reversed. Dark characters emit -5% Conviction drain aura near Light characters." },
+      { "sign_a": "Materium", "sign_b": "Any", "effect": "No special interaction. Materium signs are balanced." },
+      { "sign_a": "The Childless", "sign_b": "Any", "effect": "No perception penalty from any sign. Universally socially neutral." }
+    ]
+  },
+  "calendar_assignment": {
+    "description": "The Ten Mothers each govern one month of the Leonorian calendar. If born in that month, character has a 20% chance to carry the sign.",
+    "months": [
+      { "month": 1, "name": "Dawnmark", "sign": "the_guardian" },
+      { "month": 2, "name": "Greenrise", "sign": "the_merciful" },
+      { "month": 3, "name": "Highbloom", "sign": "the_rebel" },
+      { "month": 4, "name": "Sunpeak", "sign": "the_arbiter" },
+      { "month": 5, "name": "Fullheat", "sign": "the_stoic" },
+      { "month": 6, "name": "Ember Fall", "sign": "the_hedonist" },
+      { "month": 7, "name": "Goldleaf", "sign": "the_tyrant" },
+      { "month": 8, "name": "Ashwind", "sign": "the_predator" },
+      { "month": 9, "name": "Deepcold", "sign": "the_destroyer" },
+      { "month": 10, "name": "Ironwinter", "sign": "the_childless" }
+    ]
+  },
+  "signs": [
+    {
+      "id": "the_guardian",
+      "name": "The Guardian",
+      "alignment": "Light",
+      "goddess_name": "Torakai",
+      "symbol": "A closed fist raised before a rising sun",
+      "description": "You are born a leader. Your presence steadies those around you and you instinctively place yourself between danger and your allies.",
+      "perk": {
+        "name": "Shield of Torakai",
+        "effect": "All team members permanently gain +5% resistance to all damage types while this hero is alive and in the team. The hero gains +10% to all Conviction aptitude points.",
+        "notes": "The resistance bonus does not stack if multiple Guardians are on the same team — only the highest applies."
+      },
+      "conflict": {
+        "name": "The Weight of Command",
+        "effect": "-5% to Cognition (Erudition) rolls. Leaders rarely have the patience for study. Also, the hero cannot refuse a direct plea for help from a team member without a Conviction roll or taking -5 Resonance."
+      },
+      "synergy_signs": ["the_merciful", "the_stoic"],
+      "conflict_signs": ["the_destroyer"],
+      "religion_bonus": "If hero's religion matches The Guardian's alignment (Light faiths), +5% Conviction resistance."
+    },
+    {
+      "id": "the_merciful",
+      "name": "The Merciful",
+      "alignment": "Light",
+      "goddess_name": "Amayael",
+      "symbol": "An open palm with water flowing from it",
+      "description": "You are a healer of mind and heart. The light of Amayael flows through you, cleansing corruption and inspiring those who have given up.",
+      "perk": {
+        "name": "Divine Cleanse",
+        "effect": "Once per world turn, the hero can cast Divine Cleanse, removing all active debuffs and curses from one target (including self). The hero also receives +10% bonus to all actions performed in fully lit environments (daylight, magical light, Purelight zones).",
+        "notes": "Divine Cleanse cannot remove Temporal damage (Aged status) — only Soulkindler class can do that."
+      },
+      "conflict": {
+        "name": "Compassion's Burden",
+        "effect": "Hero suffers -5% initiative against enemies who are below 25% Vitality — cannot strike decisively when an enemy appears helpless. This can be overridden by a Conviction (Tenacity) roll."
+      },
+      "synergy_signs": ["the_guardian", "the_rebel"],
+      "conflict_signs": ["the_predator"],
+      "religion_bonus": "Bonus amplified to +15% in light environments if hero follows a Vitalism-based faith."
+    },
+    {
+      "id": "the_rebel",
+      "name": "The Rebel",
+      "alignment": "Light",
+      "goddess_name": "Ryvora",
+      "symbol": "A broken chain above a rising fist",
+      "description": "Your mind is free and pure. No force of will or binding magic can cage what Ryvora has made wild.",
+      "perk": {
+        "name": "Unbound Will",
+        "effect": "The hero is immune to all negative Conviction buffs — curses, fear, coercion, and conviction drain have no effect. The hero gains +10% bonus to all Cognition (Worldliness / Common) skill rolls. Also, once per battle, on a 10% random chance, the hero takes a free action completely outside initiative order.",
+        "notes": "The free action trigger is random and cannot be controlled or predicted."
+      },
+      "conflict": {
+        "name": "Unchained",
+        "effect": "The hero cannot be magically bound, but also cannot be easily sworn to formal agreements. All diplomatic and loyalty-based Resonance rolls suffer -10%. The hero's Openness value is always treated as 1 higher than actual for purposes of vulnerability."
+      },
+      "synergy_signs": ["the_merciful"],
+      "conflict_signs": ["the_tyrant", "the_arbiter"],
+      "religion_bonus": "No structured religion bonus — the Rebel's faith is deeply personal."
+    },
+    {
+      "id": "the_arbiter",
+      "name": "The Arbiter",
+      "alignment": "Materium",
+      "goddess_name": "Valtorin",
+      "symbol": "A balanced scale with a sword tip touching the center",
+      "description": "You are just and your wit is sharp. Valtorin has given you a mind that sees patterns, weaknesses, and truths that others miss.",
+      "perk": {
+        "name": "Edge of Reason",
+        "effect": "The hero naturally learns all Cognition (Erudition / Scholarly) skills 10% faster. All magical damage dealt gains +5% bonus. The hero's Intelligence sub-trait (a fixed modifier affecting general success) is treated as 2 points higher for all skill rolls.",
+        "notes": "The 10% Erudition learning bonus stacks with class bonuses (Scholar class gets both)."
+      },
+      "conflict": {
+        "name": "Rigid Judgment",
+        "effect": "The hero suffers -5% to all Cognition (Worldliness / Common) rolls — the Arbiter finds street wisdom beneath them. Cannot ignore a detected injustice without a Conviction roll."
+      },
+      "synergy_signs": ["the_stoic"],
+      "conflict_signs": ["the_rebel", "the_hedonist"],
+      "religion_bonus": "Logic-based or law-based faiths (Revelation, Dominion schools) grant +5% to all Erudition rolls."
+    },
+    {
+      "id": "the_stoic",
+      "name": "The Stoic",
+      "alignment": "Materium",
+      "goddess_name": "Aethun",
+      "symbol": "A stone pillar standing alone in a storm",
+      "description": "You are unmoved. Aethun granted you a stillness that no force of will or presence can penetrate.",
+      "perk": {
+        "name": "Pillar of Aethun",
+        "effect": "The hero is immune to all Conviction-affecting effects cast or emitted by others — including Solacium, Verdicium, Darkmind, and all Presence-based social manipulation. The hero also emits a passive aura on the battlefield: all team members gain +5% resilience against mind-affecting effects while the Stoic is alive.",
+        "notes": "The immunity applies to both negative AND positive Conviction effects from others. A Merciful's Divine Cleanse still works (it removes debuffs, it doesn't affect Conviction directly)."
+      },
+      "conflict": {
+        "name": "The Wall",
+        "effect": "The hero cannot benefit from team morale bonuses (Resonance buffs from allies have no effect). Presence-based Gravitas rolls by this hero are treated as if Openness is always 0 — they can intimidate but never inspire."
+      },
+      "synergy_signs": ["the_arbiter", "the_guardian"],
+      "conflict_signs": ["the_hedonist"],
+      "religion_bonus": "No structured religion bonus — the Stoic's faith is internal silence."
+    },
+    {
+      "id": "the_hedonist",
+      "name": "The Hedonist",
+      "alignment": "Materium",
+      "goddess_name": "Zyren",
+      "symbol": "A cup overflowing with water under a full moon",
+      "description": "You are one with your body. Zyren blessed you with vitality and an unconscious charm that makes others lower their guard.",
+      "perk": {
+        "name": "Zyren's Gift",
+        "effect": "The hero naturally regenerates HP 10% faster between battles (not in combat). The hero can charm any non-hostile NPC into revealing the location of nearby hidden wealth or loot caches (once per settlement). The hero dodges 10% of all attacks directed at them (always active, no roll needed).",
+        "notes": "The 10% dodge is passive and stacks with active dodge skills and Agilities."
+      },
+      "conflict": {
+        "name": "Pleasure Over Discipline",
+        "effect": "The hero's Cognition (Erudition / Scholarly) skills level 15% slower — the body always wins. All Conviction (Resonance / religious) rolls suffer -5%."
+      },
+      "synergy_signs": ["the_rebel"],
+      "conflict_signs": ["the_stoic", "the_arbiter"],
+      "religion_bonus": "Pleasure-adjacent faiths (Vitalism, Lifewhispering) grant +5% to natural regen."
+    },
+    {
+      "id": "the_tyrant",
+      "name": "The Tyrant",
+      "alignment": "Dark",
+      "goddess_name": "Velthar",
+      "symbol": "A crown embedded with iron spikes",
+      "description": "You were born a leader, but not through love — through fear. Velthar's mark makes others bend, whether they want to or not.",
+      "perk": {
+        "name": "Terror of Velthar",
+        "effect": "The hero gains +20% to all Conviction aptitude points. Once per battle, the hero can trigger Terror: one target enemy loses their next initiative turn (raw dread). The hero's presence passively emits an aura of dread that causes -5% Conviction in all enemies on the battlefield.",
+        "notes": "The Conviction aura stacks with other aura effects. Terror cannot be used twice on the same target in one battle."
+      },
+      "conflict": {
+        "name": "Feared, Not Loved",
+        "effect": "All diplomacy and Presence (Gravitas/magnetism) rolls suffer -15% — people obey out of fear, not respect. The hero cannot benefit from the Merciful's Divine Cleanse on Conviction-related debuffs (Velthar's mark resists divine interference)."
+      },
+      "synergy_signs": ["the_predator", "the_destroyer"],
+      "conflict_signs": ["the_rebel", "the_guardian"],
+      "religion_bonus": "Dominion or Umbramancy faith grants +5% to Terror effect radius."
+    },
+    {
+      "id": "the_predator",
+      "name": "The Predator",
+      "alignment": "Dark",
+      "goddess_name": "Xirath",
+      "symbol": "A claw mark across a closed eye",
+      "description": "You are an opportunistic warrior with keen senses. Xirath made you for the kill — efficient, precise, and without mercy for the weak.",
+      "perk": {
+        "name": "Hunt the Weak",
+        "effect": "The hero gains +10% to all Physiology aptitude points. Once per battle, against any enemy with Conviction below 50, the hero can call Hunt the Weak — the target loses all Conviction points for the duration of that battle. In dark environments (dungeons, Dark Forests, Forgotten Kingdom, night) the hero gains +10% to all Agilities rolls.",
+        "notes": "Hunt the Weak can only be triggered once per battle and cannot target allies. The Conviction drain is permanent for that battle only."
+      },
+      "conflict": {
+        "name": "Predator's Blindspot",
+        "effect": "The hero suffers -10% to all Cognition (Erudition / Scholarly) rolls — the hunt, not the book. Also -5% initiative in fully open, brightly lit environments (The Midlands daytime, The Gleam Havens)."
+      },
+      "synergy_signs": ["the_tyrant"],
+      "conflict_signs": ["the_merciful"],
+      "religion_bonus": "Bestial Communion or Blood Magic faiths grant +5% to Hunt the Weak trigger chance."
+    },
+    {
+      "id": "the_destroyer",
+      "name": "The Destroyer",
+      "alignment": "Dark",
+      "goddess_name": "Zarkhul",
+      "symbol": "A shattered circle",
+      "description": "You are fierce and brute. Zarkhul forged you for war and nothing but. Kindness is a foreign language.",
+      "perk": {
+        "name": "Born to War",
+        "effect": "The hero begins with a minimum skill level of Seasoned (11) in all martial weapon affinities from the very start — no training required. The hero is immune to all binding, rooting, and paralysis effects (nothing holds the Destroyer).",
+        "notes": "The Seasoned floor means martial skills cannot start below 11, but still level normally above that."
+      },
+      "conflict": {
+        "name": "Zarkhul's Curse",
+        "effect": "The hero suffers de-buffs in the presence of Light-aligned characters: -5% to all rolls when a Light-sign hero (Guardian, Merciful, Rebel) is in the team. -10% to all Presence (Gravitas) rolls in diplomatic situations — the Destroyer is incapable of pretense."
+      },
+      "synergy_signs": ["the_tyrant", "the_predator"],
+      "conflict_signs": ["the_guardian", "the_merciful", "the_rebel"],
+      "religion_bonus": "Dreadforgering or Blood Magic faiths grant +5% to all physical damage."
+    },
+    {
+      "id": "the_childless",
+      "name": "The Childless",
+      "alignment": "None",
+      "goddess_name": "Aira",
+      "symbol": "An empty circle",
+      "description": "Born without a godly mother's touch. The most common sign on Leonoria — 80% of all race members carry no divine mark. Aira's blessing is simply this: everyone is neutral toward you.",
+      "frequency": "80% of all characters",
+      "perk": {
+        "name": "Aira's Veil",
+        "effect": "No character or NPC of any sign has a negative Presence-based perception penalty toward a Childless hero. Sign-based social penalties do not apply in either direction. The hero is a social blank slate.",
+        "notes": "This does not grant social bonuses — it only removes sign-based penalties. A Destroyer-signed enemy still won't like a Childless hero who is kind, but they won't actively dislike them for their sign."
+      },
+      "conflict": {
+        "name": "The Unmarked",
+        "effect": "No sign-based perks. No divine perk abilities. The hero must rely entirely on class, aptitudes, and training.",
+        "notes": "This is not truly a conflict — it is simply the absence of the divine."
+      },
+      "synergy_signs": [],
+      "conflict_signs": [],
+      "religion_bonus": "Any religion provides a small +3% bonus to one faith-relevant skill (player's choice at creation)."
+    }
+  ]
+}

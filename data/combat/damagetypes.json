@@ -1,116 +1,284 @@
 [
   {
-    "category": "Physical (Martial)",
+    "category": "Physical",
+    "description": "Martial damage from weapons, creatures, and raw force. Resisted by Physiology (Hardening). No magical origin.",
     "types": [
       {
-        "id": "bludgeoning",
-        "description": "Blunt force (hammers, falling, slams).",
-        "interaction_logic": "Most effective against brittle structures and Skeletons. Often resisted by incorporeal beings unless magical.",
-        "bypass_tags": ["magical", "adamantine"]
-      },
-      {
-        "id": "piercing",
-        "description": "Puncturing strikes (arrows, spears, bites).",
-        "interaction_logic": "Standard weapon damage. Almost no vulnerabilities exist in the bestiary, making it consistent but rarely 'bonus' damage.",
-        "bypass_tags": ["magical", "silvered"]
+        "id": "blunt",
+        "name": "Blunt",
+        "description": "Crushing impact from hammers, clubs, falls, and slams.",
+        "interaction_logic": "Most effective against brittle bone structures and crystalline creatures. Ignores thin armor but stopped by plate and stone. Deals extra damage when target is prone or stunned.",
+        "status_trigger": "Stagger (chance to lose next initiative)",
+        "resisted_by": "Physiology (Hardening)",
+        "special_note": "Stone Folk have exceptional innate resistance to Blunt damage."
       },
       {
         "id": "slashing",
-        "description": "Cutting force (swords, claws, axes).",
-        "interaction_logic": "Triggers 'Splitting' in Oozes (Black Pudding/Ochre Jelly). Effective against plant-based creatures.",
-        "bypass_tags": ["magical", "adamantine"]
+        "name": "Slashing",
+        "description": "Cutting force from swords, axes, claws, and bladed weapons.",
+        "interaction_logic": "Effective against lightly armored or unarmored targets and plant-based creatures. Causes bleed on living targets. Reduced by heavy armor.",
+        "status_trigger": "Bleed (lingering damage per turn, living targets only)",
+        "resisted_by": "Physiology (Hardening)",
+        "special_note": "Oakpeople and plant creatures are vulnerable to Slashing."
+      },
+      {
+        "id": "piercing",
+        "name": "Piercing",
+        "description": "Puncturing force from arrows, spears, bites, and thrusting blades.",
+        "interaction_logic": "Bypasses the surface of most armor types but stopped by layered materials. Most consistent physical type with few immunity exceptions.",
+        "status_trigger": "Wound (reduces Metabolism by 5% per stack)",
+        "resisted_by": "Physiology (Hardening)",
+        "special_note": "Plated-Reptilian creatures have exceptional innate resistance to Piercing."
+      },
+      {
+        "id": "rupturing",
+        "name": "Rupturing",
+        "description": "Internal tearing damage from hydraulic pressure, explosions, or rupture-type weapons. Bypasses standard armor.",
+        "interaction_logic": "Ignores standard Hardening to a degree; acts on internal Vitality directly. Very rare as a weapon type. Often triggered as a secondary effect of other damage.",
+        "status_trigger": "Internal Rupture (percentage of max HP lost over next 3 turns)",
+        "resisted_by": "Physiology (Hardening, high-level only)",
+        "special_note": "Rare. Mostly found in Abyssal creatures and high-tier magical effects."
       }
     ]
   },
   {
-    "category": "Elemental (The Inner Planes)",
+    "category": "Biological",
+    "description": "Toxins, infections, and organic hazards. Resisted by Physiology (Immunity / Hardening-Biological). Not magical in nature.",
     "types": [
       {
-        "id": "acid",
-        "description": "Corrosive chemical/magical energy.",
-        "interaction_logic": "Stops regeneration in Trolls. Heavily resisted by Fiends and Oozes.",
-        "status_trigger": "Corroded (Optional: AC reduction to non-magical armor)"
+        "id": "venomous",
+        "name": "Venomous",
+        "description": "Injected biological toxins from bites, stings, or envenomed weapons.",
+        "interaction_logic": "Must pierce the skin to take effect. Has no effect on undead, constructs, or creatures without biological systems. Degrades Metabolism and Vigor.",
+        "status_trigger": "Envenomed (Metabolism and Vigor reduced; stacks up to 3 times)",
+        "resisted_by": "Physiology (Immunity)",
+        "special_note": "Swampbrood and many Boglands creatures are immune. Oakpeople and Wildmen have partial resistance."
+      },
+      {
+        "id": "poisonous",
+        "name": "Poisonous",
+        "description": "Ingested or inhaled toxins from contaminated food, gas, or alchemical compounds.",
+        "interaction_logic": "Can affect targets through ingestion or proximity (gas clouds). Has no effect on undead, constructs, or plant creatures.",
+        "status_trigger": "Poisoned (Cognition rolls suffer penalty; Vitality degrades slowly)",
+        "resisted_by": "Physiology (Immunity)",
+        "special_note": "Swampbrood are largely immune. Ashen Halfbreeds have moderate resistance."
+      }
+    ]
+  },
+  {
+    "category": "Climate",
+    "description": "Environmental hazard damage tied to biome conditions. Primarily affects long-term survival on the world map. Rarely lethal in combat but degrades Conviction in mismatched environments.",
+    "types": [
+      {
+        "id": "hot",
+        "name": "Hot",
+        "description": "Extreme heat from desert environments, volcanic regions, or sustained fire exposure.",
+        "interaction_logic": "Primarily degrades Metabolism (Stamina) and Conviction on the world map. Ice Ancients are severely vulnerable; Wildmen and Common Folk have natural weathering tolerance.",
+        "status_trigger": "Heatstroke (Metabolism -10%; Conviction -5 per biome turn in unprotected heat)",
+        "resisted_by": "Physiology (Weathering)",
+        "affected_biomes": ["the_badlands", "the_gleam_havens", "the_blinding_lands"]
       },
       {
         "id": "cold",
-        "description": "Frigid, heat-sapping energy.",
-        "interaction_logic": "Slows Fire Elementals. Resisted by Undead and Arctic-dwellers.",
-        "status_trigger": "Chilled (Speed reduced by 10ft)"
+        "name": "Cold",
+        "description": "Extreme cold from arctic tundra, frozen mountain passes, or supernatural chill effects.",
+        "interaction_logic": "Degrades Metabolism and Conviction on the world map. Ice Ancients and Wildmen are immune. Most others suffer Conviction penalties in The Eternal Winds unless equipped for cold.",
+        "status_trigger": "Frostbitten (Metabolism -15%; Conviction loss accelerated)",
+        "resisted_by": "Physiology (Weathering); Cold Resistance sub-stat",
+        "affected_biomes": ["the_eternal_winds", "the_dark_forests"],
+        "special_note": "Ice Ancients are completely immune. Wildmen have high natural resistance."
+      },
+      {
+        "id": "humidity",
+        "name": "Humidity",
+        "description": "Oppressive moisture and rot-inducing damp from swamp, jungle, or bog environments.",
+        "interaction_logic": "Degrades equipment durability and causes Blight vulnerability over time. Also slowly reduces Vitality for characters without immunity.",
+        "status_trigger": "Waterlogged (Blight vulnerability +10%; equipment degrades 1 tier per 5 biome turns)",
+        "resisted_by": "Physiology (Immunity + Weathering)",
+        "affected_biomes": ["the_boglands"]
+      }
+    ]
+  },
+  {
+    "category": "Lightwielding (Benevolent Triad)",
+    "description": "Magical damage derived from faith, conviction, and the pure light of the materium. Common with Warden, Soulkindler, and holy archetypes. Especially effective against undead and dark arts users.",
+    "triad": "Light",
+    "types": [
+      {
+        "id": "purelight",
+        "name": "Purelight",
+        "description": "Raw, searing brilliance. The base damage type of Lightwielding. Burns with divine clarity.",
+        "interaction_logic": "Especially effective against undead and creatures with high Shadow Connection. Deals bonus damage to characters with low Conviction. Partially resisted by full plate armor (reflects some light).",
+        "status_trigger": "Seared (Undead: loses turn; Living dark-arts users: Conviction drain)",
+        "resisted_by": "Materium (Insulation); high Conviction",
+        "special_note": "The Destroyer birth sign characters suffer extra vulnerability to Purelight."
+      },
+      {
+        "id": "solacium",
+        "name": "Solacium",
+        "description": "A non-lethal force that forcibly calms the target, draining Tenacity and initiative.",
+        "interaction_logic": "Does not reduce HP directly. Drains Tenacity (sub-trait of Conviction) and resets initiative order. Cannot kill. Extremely effective on high-Conviction enemies who rely on initiative.",
+        "status_trigger": "Pacified (next initiative lost; Tenacity -10 for 2 turns)",
+        "resisted_by": "Conviction (Tenacity); The Stoic birth sign is immune",
+        "special_note": "The Stoic birth sign characters are completely immune to Solacium."
+      },
+      {
+        "id": "aegis_reflection",
+        "name": "Aegis Reflection",
+        "description": "Concussive hard-light force reflected from barriers or shields. Found in auras and rare objects.",
+        "interaction_logic": "Deals area-of-effect light damage emanating from a barrier. Can be emitted passively by rare enchanted items. Also found naturally in certain sacred locations.",
+        "status_trigger": "Knockback (pushed 1 hex) + Blinded (1 turn)",
+        "resisted_by": "Materium (Insulation); Physiology (Hardening) partially",
+        "special_note": "The Guardian birth sign adds bonus Aegis Reflection to team members."
+      },
+      {
+        "id": "verdicium",
+        "name": "Verdicium",
+        "description": "A psychic 'truth' strike that deals damage scaled to the target's hidden Scarring or guilt. Hurts more the weaker the Conviction.",
+        "interaction_logic": "Damage scales inversely with target Conviction. Against a character with Conviction 80, minimal damage. Against Conviction 10, catastrophic. Bypasses physical armor entirely.",
+        "status_trigger": "Exposed (Scarring sub-trait visible to caster's team for 3 turns)",
+        "resisted_by": "Conviction (Tenacity + Resonance)",
+        "special_note": "Completely ineffective against The Stoic birth sign characters."
+      },
+      {
+        "id": "blessed_materium",
+        "name": "Blessed Materium",
+        "description": "Found only in rare sacred items. Bypasses all physical resistances and deals physical damage equivalent to the weapon's type, but with a holy quality.",
+        "interaction_logic": "Treats all physical resistance as zero. Does not deal magical damage — the damage type is still physical, just blessed. Very rare.",
+        "status_trigger": "Holy Wound (cannot be regenerated by dark arts healing for 2 turns)",
+        "resisted_by": "Exceptionally high Materium (Insulation) only",
+        "special_note": "Only found in artifacts. Cannot be crafted by most Artisans."
+      }
+    ]
+  },
+  {
+    "category": "Materium (Focused Triad)",
+    "description": "Elemental and natural force damage derived from the physical laws of the world. The most common magical damage category. Used by elementalists, shamans, and witches. Deep synergies between types.",
+    "triad": "Materium",
+    "types": [
+      {
+        "id": "impact",
+        "name": "Impact",
+        "description": "Pure, invisible physical force. The base damage type of the Materium school. The 'universal language of moving matter.'",
+        "interaction_logic": "Virtually no creatures are immune. Deals consistent damage with no secondary effects. The 'safe' choice when element is unknown. Works on incorporeal beings (unlike mundane blunt).",
+        "status_trigger": "Concussed (Physiology rolls -5% for 1 turn)",
+        "resisted_by": "Physiology (Hardening); Materium (Insulation)",
+        "special_note": "Every practitioner of Materium learns Impact first."
+      },
+      {
+        "id": "earthen",
+        "name": "Earthen",
+        "description": "Vibrational earth energy that shatters bone and stone. Ignores light armor.",
+        "interaction_logic": "Bypasses leather and padded armor (ignores Hardening from light armor). Deals bonus damage to Stone Folk and stone/earth-type creatures despite their high resistances. Extreme forms generate earthquakes or summon earth constructs.",
+        "status_trigger": "Buried (target cannot move next turn on a critical roll)",
+        "resisted_by": "Stone Folk have innate partial resistance; Physiology (Hardening) high-tier",
+        "special_note": "Deep synergy with Temporal (causes accelerated stone crumbling)."
+      },
+      {
+        "id": "tempest",
+        "name": "Tempest",
+        "description": "High-pressure wind and atmospheric cutting force. Invisible and silent. Also generates electric rupture with cascade effects.",
+        "interaction_logic": "Cascade: every Tempest hit has a 15% chance to generate an electric secondary strike on an adjacent target. This secondary strike also carries the cascade chance. Invisible — perception roll needed to detect origin.",
+        "status_trigger": "Shocked (cascade electric charge; cannot use reaction abilities next turn)",
+        "resisted_by": "Materium (Insulation)",
+        "synergy": "Aquas (combo triggers Tempest-surge, +20% Tempest on soaked targets)"
       },
       {
         "id": "fire",
-        "description": "Combustive heat.",
-        "interaction_logic": "Highest count of vulnerabilities (Plants, Insects) but also highest count of resistances (Fiends, Dragons).",
-        "status_trigger": "Ignited (1d4 DoT until extinguished)"
+        "name": "Fire",
+        "description": "Thermal heat that melts, burns, and shapes. Simple but devastatingly effective at scale.",
+        "interaction_logic": "Lingering burn effect on living targets. Exceptional against plant life and ice-type creatures. Wildmen resist fire better than most. Ice Ancients are severely vulnerable.",
+        "status_trigger": "Ignited (1d4+caster_level fire damage per turn until extinguished or 3 turns pass)",
+        "resisted_by": "Physiology (Weathering — Hot); Materium (Insulation)",
+        "synergy": "Earthen (melts stone; creates lava hazard tile)"
       },
       {
-        "id": "lightning",
-        "description": "Electrical discharge.",
-        "interaction_logic": "Often prevents targets from taking Reactions. Can jump (arc) to adjacent targets in water.",
-        "status_trigger": "Shocked (No Reactions)"
+        "id": "aquas",
+        "name": "Aquas",
+        "description": "The heavy, crushing weight of high-velocity water and hydraulic pressure.",
+        "interaction_logic": "The only physical-Materium type. Deals base physical damage plus a drowning/concussive secondary. Most effective in coastal or swamp biomes. Also effective at extinguishing fire status.",
+        "status_trigger": "Soaked (Tempest synergy active; -10% Physiology Hardening for 2 turns — waterlogged armor)",
+        "resisted_by": "Swampbrood are partially resistant; Physiology (Hardening)",
+        "synergy": "Tempest (Tempest-surge on soaked targets), Fire (extinguishes Ignited)"
       },
       {
-        "id": "thunder",
-        "description": "Concussive sound waves (formerly 'Sonic').",
-        "interaction_logic": "Highly effective against Earth Elementals and crystalline constructs. Very few resistances exist.",
-        "status_trigger": "Deafened / Pushed (10ft knockback)"
+        "id": "athropium",
+        "name": "Athropium",
+        "description": "Life force and nature damage. Attacks the very life force of all things. Common in witchcraft.",
+        "interaction_logic": "Effective against all living things. Less effective against undead and constructs (diminished life force). Extreme forms can wither entire ecosystems. Oakpeople are paradoxically more resistant (life-force harmony).",
+        "status_trigger": "Life-Drained (Vitality regeneration halved for 3 turns)",
+        "resisted_by": "Materium (Insulation); Oakpeople partial immunity",
+        "synergy": "Temporal (combo accelerates target aging: Vigor -5 per hit)"
       },
       {
-        "id": "poison",
-        "description": "Toxins and venoms.",
-        "interaction_logic": "Statistically the 'weakest' type; nearly 100+ monsters are totally Immune (Undead, Constructs, Fiends).",
-        "status_trigger": "Poisoned (Disadvantage on attacks/checks)"
+        "id": "temporal",
+        "name": "Temporal",
+        "description": "Time damage. Creates aging of the living and immaterial. Can instantly wither armor or kill via accelerated aging. Drains much of the caster's Materium Connection pool.",
+        "interaction_logic": "Extremely high cost in Materium Connection. Bypasses most physical resistances (ages the target, not hits them). Can reduce item durability by 1 tier per hit. Cannot be regenerated from — Temporal damage to Vitality is permanent until a Soulkindler restores it.",
+        "status_trigger": "Aged (Vigor -3 per hit permanently until healed by Soulkindler; items lose 1 durability tier)",
+        "resisted_by": "Materium (Insulation, high-level only); The Stoic birth sign partially",
+        "special_note": "Very rare. Casting costs 30% of Materium Connection pool per use."
       }
     ]
   },
   {
-    "category": "Esoteric (The Outer Planes)",
+    "category": "Shadow Arts (Malevolent Triad)",
+    "description": "Damage from decay, entropy, void, and domination. Targets Vitality and max HP. Common in necromancy, voidmagic, demonology, witchcraft, and dark warrior classes. Shunned in public and often illegal.",
+    "triad": "Shadow",
     "types": [
       {
-        "id": "force",
-        "description": "Pure focused magical energy.",
-        "interaction_logic": "The 'Gold Standard' of damage. Virtually nothing in the multiverse resists it except the Helmed Horror.",
-        "status_trigger": "Arcane Instability"
+        "id": "darkvoid",
+        "name": "Darkvoid",
+        "description": "The damaged energy of materium. Very unstable and difficult to control and direct.",
+        "interaction_logic": "The base damage type of Shadow Arts, but unreliable. Has a ±20% damage variance on every cast (wild void energy). Deals bonus damage to Materium-attuned targets (their connection reacts to it). Purelight users are especially vulnerable.",
+        "status_trigger": "Void-touched (Materium Connection pool -15% for 2 turns)",
+        "resisted_by": "Shadow Connection (paradoxically reduces damage taken); Materium (Insulation) partially",
+        "special_note": "Cannot be fully controlled even by masters. Always has variance."
       },
       {
-        "id": "necrotic",
-        "description": "The energy of decay and death.",
-        "interaction_logic": "Heals certain Undead (like the Atropal). Reduces Max HP in players.",
-        "status_trigger": "Withered (Max HP reduction)"
+        "id": "chill",
+        "name": "Chill",
+        "description": "Absolute, supernatural cold that saps Metabolism and slows physical movement to a crawl.",
+        "interaction_logic": "Different from Climate-Cold. This is supernatural — not resisted by Weathering. Reduces Metabolism and Agilities. Deep synergy with high Conviction resistance slows the effect. The Eternal Winds natives only have partial resistance.",
+        "status_trigger": "Slowed (Metabolism -20%; initiative lowered by 1 position for 2 turns)",
+        "resisted_by": "Conviction (Tenacity); Cold Resistance sub-stat; Materium (Insulation)",
+        "synergy": "Darkvoid (Frozen Void combo: target loses initiative for full turn)"
       },
       {
-        "id": "psychic",
-        "description": "Direct mental trauma.",
-        "interaction_logic": "Ignores all physical armor. Immune: Constructs and mindless Oozes.",
-        "status_trigger": "Stunned / Frightened"
+        "id": "blight",
+        "name": "Blight",
+        "description": "Biological decay and rot targeting the Physiology stat. Mimics rapid aging. Creates lingering damage that hurts biology over time.",
+        "interaction_logic": "Unique: Resisted by Physiology (Immunity) not magical resistance. Does not interact with Insulation. Lingering effect means even after combat the target continues taking damage. Can spread in area if conditions are right (wet biomes).",
+        "status_trigger": "Blighted (Physiology -5 per turn for 3 turns; spreads to adjacent living targets on crit)",
+        "resisted_by": "Physiology (Immunity) — NOT magical Insulation",
+        "special_note": "Swampbrood and Oakpeople are largely immune. The Boglands amplify Blight damage by 10%."
       },
       {
-        "id": "radiant",
-        "description": "Holy light and divine searing.",
-        "interaction_logic": "Devastating to Undead/Fiends. Stops Vampire regeneration and Zombie 'Undead Fortitude'.",
-        "status_trigger": "Blinded / Turned"
-      }
-    ]
-  },
-  {
-    "category": "Material & Quality Overlays",
-    "notes": "These are not standalone types but 'Tags' that modify Physical damage to bypass resistances.",
-    "modifiers": [
-      {
-        "id": "magical",
-        "effect": "Bypasses standard 'Resistance to Bludgeoning, Piercing, and Slashing from Non-magical Attacks'."
+        "id": "darkblood",
+        "name": "Darkblood",
+        "description": "Attacks the blood of the target for damage or manipulation. Blood is strongly connected to the damaged energies of materium. Always hurts the wielder to a percentage.",
+        "interaction_logic": "Caster takes 10% of damage dealt back as Darkblood damage (cannot be reduced). No resistance exists in most races. Stone Folk are unusually resilient. Can be used to control or puppet creatures with very low Vitality remaining.",
+        "status_trigger": "Blood-Cursed (target cannot regenerate HP naturally for 3 turns; caster takes 10% backlash)",
+        "resisted_by": "Stone Folk innate; Materium (Insulation, partial only)",
+        "special_note": "Caster always takes 10% backlash damage regardless of resistances. Stone Folk are the rare exception to general vulnerability."
       },
       {
-        "id": "silvered",
-        "effect": "Bypasses resistances of Lycanthropes (Werewolves), Devils, and Wraiths."
+        "id": "arcane",
+        "name": "Arcane",
+        "description": "Pure energy of the materium. Especially dangerous to unarmored targets — reacts and dwindles quickly against steel and iron.",
+        "interaction_logic": "Deals significantly more damage to light or unarmored targets. Every tier of heavy metal armor reduces Arcane damage by 15% (max 60% reduction at plate). Ironically, the most dangerous to mages and scholars who wear no armor.",
+        "status_trigger": "Arcane Burn (Materium Connection pool -10%; Cognition rolls -5% for 1 turn)",
+        "resisted_by": "Heavy metal armor reduces significantly; Materium (Insulation)",
+        "special_note": "Counter-intuitive: heavy warriors are best protected against Arcane. Mages are most vulnerable."
       },
       {
-        "id": "adamantine",
-        "effect": "Automatically crits against objects and bypasses Golem/Construct damage reduction."
-      },
-      {
-        "id": "cold_iron",
-        "effect": "Bypasses the inherent damage reduction of Fey and certain high-level Demons."
+        "id": "darkmind",
+        "name": "Darkmind",
+        "description": "A damage type that attacks the weak of conviction, causing internal hemorrhage from within the mind.",
+        "interaction_logic": "Damage scales inversely with Conviction — identical to Verdicium but from the opposite triad. More effective the lower the target's Conviction. Causes internal hemorrhage (Rupturing secondary on low-Conviction targets).",
+        "status_trigger": "Mind-Ruptured (internal hemorrhage: Rupturing secondary damage if target Conviction below 30)",
+        "resisted_by": "Conviction (all sub-traits); The Stoic birth sign immune",
+        "special_note": "The Destroyer and Tyrant birth signs deal bonus Darkmind damage. The Stoic is completely immune."
       }
     ]
   }

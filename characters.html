@@ -100,11 +100,16 @@
         }
         .party-slot.filled { opacity: 1; }
         .party-slot-port {
-            width: 42px; height: 54px;
+            width: 40px; height: 60px;
             border: 1px solid var(--green-dim);
-            overflow: hidden; background: var(--bg-card);
+            overflow: hidden; background: rgba(9, 14, 10, 0.8);
+            display: flex; align-items: center; justify-content: center;
         }
-        .party-slot-port img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .party-slot-port img {
+            width: 100%; height: 100%;
+            object-fit: contain; object-position: center;
+            display: block;
+        }
         .party-slot-name {
             font-size: 0.72rem; color: var(--text-muted);
             letter-spacing: 0.03em; max-width: 52px;
@@ -152,11 +157,16 @@
         .portrait-frame {
             position: relative;
             width: 100%;
-            aspect-ratio: 3 / 4;
-            max-height: 200px;
+            aspect-ratio: 424 / 640;
+            min-height: 260px;
+            max-height: 320px;
+            margin: 0 auto;
             border: 1px solid var(--gold-dim);
             overflow: hidden;
-            background: var(--bg-card);
+            background: linear-gradient(180deg, rgba(28,26,14,0.98), rgba(15,18,8,0.98));
+            display: flex;
+            align-items: center;
+            justify-content: center;
             flex-shrink: 0;
         }
         .portrait-frame::before, .portrait-frame::after {
@@ -167,7 +177,13 @@
         }
         .portrait-frame::before { top: 4px; left: 4px; border-width: 2px 0 0 2px; }
         .portrait-frame::after  { bottom: 4px; right: 4px; border-width: 0 2px 2px 0; }
-        .portrait-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .portrait-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center top;
+            display: block;
+        }
 
         .nameplate-wrap { text-align: center; }
         .nameplate-input {
@@ -332,21 +348,8 @@
         }
         .form-hint { font-size: 0.82rem; color: var(--text-muted); font-style: italic; }
 
-        /* alignment grid */
-        .alignment-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 0.3rem; max-width: 300px;
-        }
-        .align-btn {
-            font-family: inherit; font-size: 0.84rem;
-            letter-spacing: 0.04em; padding: 0.55em 0.2em;
-            border: 1px solid var(--green-dim);
-            background: var(--bg-card); color: var(--text-muted);
-            cursor: pointer; text-align: center; line-height: 1.3;
-            transition: border-color 0.15s, color 0.15s, background 0.15s;
-        }
-        .align-btn:hover { border-color: var(--green); color: var(--text); }
-        .align-btn.sel { border-color: var(--gold); background: var(--gold-faint); color: var(--gold); }
+        /* birth mother sign select */
+        #sel-birth-sign { width: 100%; }
 
         /* ability scores - attributes tab */
         .method-row {
@@ -419,6 +422,13 @@
             display: grid; grid-template-columns: 1fr 1fr;
             gap: 0.28rem;
         }
+        .sk-category-header {
+            grid-column: 1 / -1;
+            font-size: 0.78rem; letter-spacing: 0.12em;
+            color: var(--text-muted); text-transform: uppercase;
+            border-bottom: 1px solid var(--green-dim);
+            padding: 0.5rem 0 0.2rem; margin-top: 0.3rem;
+        }
         .skill-row {
             display: flex; align-items: center; gap: 0.4rem;
             padding: 0.38rem 0.55rem;
@@ -468,9 +478,26 @@
         .vs-divider {
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
-            margin: 0.8rem 0;
+            margin: 0.8rem 0 1rem;
         }
-        .vs-section { margin-bottom: 1rem; }
+        .vs-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(240px, 0.95fr);
+            gap: 1rem;
+            align-items: start;
+        }
+        .vs-main-col, .vs-side-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .vs-panel {
+            background: linear-gradient(180deg, rgba(28,26,14,0.96), rgba(19,22,8,0.96));
+            border: 1px solid var(--green-dim);
+            box-shadow: inset 0 0 0 1px rgba(201,168,76,0.06);
+            padding: 0.85rem 0.95rem;
+        }
+        .vs-section { margin-bottom: 0; }
         .vs-section-title {
             font-size: 0.82rem; letter-spacing: 0.14em;
             color: var(--text-muted); text-transform: uppercase;
@@ -485,13 +512,66 @@
             gap: 0.4rem; margin-top: 0.4rem;
         }
         .vs-ab-cell {
-            background: var(--bg-card); border: 1px solid var(--green-dim);
-            text-align: center; padding: 0.4rem 0.2rem;
+            background: rgba(12, 16, 8, 0.78); border: 1px solid var(--green-dim);
+            text-align: center; padding: 0.45rem 0.2rem;
         }
         .vs-ab-abbr { font-size: 0.78rem; color: var(--text-muted); display: block; }
         .vs-ab-score { font-size: 1.1rem; color: var(--gold); }
         .vs-ab-mod { font-size: 0.7rem; color: var(--text); display: block; margin-top: 0.1rem; }
         .vs-skills { font-size: 0.9rem; color: var(--text); line-height: 1.7; }
+        .vs-portrait-card { padding: 0.7rem; }
+        .vs-portrait-frame {
+            width: 100%;
+            aspect-ratio: 424 / 640;
+            min-height: 320px;
+            border: 1px solid var(--gold-dim);
+            background: radial-gradient(circle at top, rgba(78,110,50,0.14), rgba(12,16,8,0.98));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .vs-portrait-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center top;
+            display: block;
+        }
+        .vs-quick-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.55rem;
+        }
+        .vs-quick-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.22rem;
+            min-height: 74px;
+            padding: 0.55rem 0.6rem;
+            border: 1px solid rgba(201,168,76,0.14);
+            background: rgba(12,16,8,0.68);
+        }
+        .vs-quick-lbl {
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .vs-quick-val {
+            color: var(--gold);
+            font-size: 1rem;
+            line-height: 1.3;
+        }
+        .vs-quick-small {
+            font-size: 0.82rem;
+            color: var(--text-bright);
+        }
+        @media (max-width: 900px) {
+            .vs-layout { grid-template-columns: 1fr; }
+            .vs-side-col { order: -1; }
+            .vs-portrait-frame { min-height: 280px; }
+        }
 
         .view-new-btn {
             font-family: inherit; font-size: 0.8rem;
@@ -618,11 +698,17 @@
         }
         .ps-card:hover { border-color: var(--gold); background: var(--gold-faint); }
         .ps-card-port {
-            width: 100%; aspect-ratio: 3/4; max-height: 130px;
+            width: 100%; aspect-ratio: 2/3; max-height: 180px;
             overflow: hidden; margin-bottom: 0.55rem;
             border: 1px solid var(--green-dim);
+            background: rgba(9, 14, 10, 0.8);
+            display: flex; align-items: center; justify-content: center;
         }
-        .ps-card-port img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .ps-card-port img {
+            width: 100%; height: 100%;
+            object-fit: contain; object-position: center;
+            display: block;
+        }
         .ps-card-name {
             font-size: 0.85rem; color: var(--text-bright);
             letter-spacing: 0.04em; margin-bottom: 0.2rem;
@@ -684,7 +770,7 @@
     <!-- Left: portrait + stats + actions -->
     <div class="panel-left">
         <div class="portrait-frame">
-            <img id="char-portrait-img" src="assets/images/characterportraits/elfrougefemale.jpg" alt="Character Portrait">
+            <img id="char-portrait-img" src="assets/images/characterportraits/ashenfemale.jpg" alt="Character Portrait">
         </div>
 
         <div class="nameplate-wrap">
@@ -693,14 +779,14 @@
         <div class="identity-line" id="identity-line">Choose race &amp; class</div>
 
         <div class="derived-grid">
-            <div class="dbox"><div class="dbox-val" id="d-hp">—</div><div class="dbox-lbl">HP (Lv 1)</div></div>
-            <div class="dbox"><div class="dbox-val" id="d-hd">—</div><div class="dbox-lbl">Hit Die</div></div>
-            <div class="dbox"><div class="dbox-val" id="d-prof">+2</div><div class="dbox-lbl">Prof. Bonus</div></div>
-            <div class="dbox"><div class="dbox-val" id="d-speed">30 ft</div><div class="dbox-lbl">Speed</div></div>
+            <div class="dbox"><div class="dbox-val" id="d-hp">—</div><div class="dbox-lbl">Vitality</div></div>
+            <div class="dbox"><div class="dbox-val" id="d-hd">—</div><div class="dbox-lbl">Materium Pool</div></div>
+            <div class="dbox"><div class="dbox-val" id="d-prof">1</div><div class="dbox-lbl">Level</div></div>
+            <div class="dbox"><div class="dbox-val" id="d-speed">—</div><div class="dbox-lbl">Class Trait</div></div>
         </div>
 
         <div>
-            <div class="saved-label" style="margin-bottom:0.3rem;">Saving Throw Proficiencies</div>
+            <div class="saved-label" style="margin-bottom:0.3rem;">Aptitude Focus</div>
             <div class="saves-row" id="saves-row">
                 <span class="save-pill">—</span>
             </div>
@@ -740,31 +826,56 @@
                 <div class="vs-name" id="vs-name">—</div>
                 <div class="vs-sub" id="vs-sub">—</div>
                 <div class="vs-divider"></div>
-                <div class="vs-section">
-                    <div class="vs-section-title">Identity</div>
-                    <div class="vs-row"><span class="vs-lbl">Race</span><span class="vs-val" id="vs-race">—</span></div>
-                    <div class="vs-row"><span class="vs-lbl">Subrace</span><span class="vs-val" id="vs-subrace">—</span></div>
-                    <div class="vs-row"><span class="vs-lbl">Gender</span><span class="vs-val" id="vs-gender">—</span></div>
-                    <div class="vs-row"><span class="vs-lbl">Class</span><span class="vs-val" id="vs-class">—</span></div>
-                    <div class="vs-row"><span class="vs-lbl">Subclass</span><span class="vs-val" id="vs-subclass">—</span></div>
-                    <div class="vs-row"><span class="vs-lbl">Background</span><span class="vs-val" id="vs-background">—</span></div>
-                    <div class="vs-row"><span class="vs-lbl">Alignment</span><span class="vs-val" id="vs-alignment">—</span></div>
-                    <div class="vs-row"><span class="vs-lbl">Level</span><span class="vs-val" id="vs-level">—</span></div>
+
+                <div class="vs-layout">
+                    <div class="vs-main-col">
+                        <div class="vs-panel vs-section">
+                            <div class="vs-section-title">Identity</div>
+                            <div class="vs-row"><span class="vs-lbl">Race</span><span class="vs-val" id="vs-race">—</span></div>
+                            <div class="vs-row"><span class="vs-lbl">Subrace</span><span class="vs-val" id="vs-subrace">—</span></div>
+                            <div class="vs-row"><span class="vs-lbl">Gender</span><span class="vs-val" id="vs-gender">—</span></div>
+                            <div class="vs-row"><span class="vs-lbl">Class</span><span class="vs-val" id="vs-class">—</span></div>
+                            <div class="vs-row"><span class="vs-lbl">Subclass</span><span class="vs-val" id="vs-subclass">—</span></div>
+                            <div class="vs-row"><span class="vs-lbl">Background</span><span class="vs-val" id="vs-background">—</span></div>
+                            <div class="vs-row"><span class="vs-lbl">Birth Mother Sign</span><span class="vs-val" id="vs-alignment">—</span></div>
+                            <div class="vs-row"><span class="vs-lbl">Level</span><span class="vs-val" id="vs-level">—</span></div>
+                        </div>
+
+                        <div class="vs-panel vs-section">
+                            <div class="vs-section-title">Aptitudes</div>
+                            <div class="vs-ab-grid" id="vs-ab-grid"></div>
+                        </div>
+
+                        <div class="vs-panel vs-section">
+                            <div class="vs-section-title">Skills</div>
+                            <div class="vs-skills" id="vs-skills">—</div>
+                        </div>
+
+                        <div class="vs-panel vs-section">
+                            <div class="vs-section-title">Equipment</div>
+                            <div class="vs-row"><span class="vs-lbl">Method</span><span class="vs-val" id="vs-equip">—</span></div>
+                        </div>
+                    </div>
+
+                    <aside class="vs-side-col">
+                        <div class="vs-panel vs-portrait-card">
+                            <div class="vs-portrait-frame">
+                                <img id="vs-portrait-img" src="assets/images/characterportraits/ashenfemale.jpg" alt="Character portrait">
+                            </div>
+                        </div>
+
+                        <div class="vs-panel">
+                            <div class="vs-section-title">Field Notes</div>
+                            <div class="vs-quick-grid">
+                                <div class="vs-quick-box"><span class="vs-quick-lbl">Vitality</span><span class="vs-quick-val" id="vs-vitality">—</span></div>
+                                <div class="vs-quick-box"><span class="vs-quick-lbl">Materium</span><span class="vs-quick-val" id="vs-mpool">—</span></div>
+                                <div class="vs-quick-box"><span class="vs-quick-lbl">Focus</span><span class="vs-quick-val vs-quick-small" id="vs-focus">—</span></div>
+                                <div class="vs-quick-box"><span class="vs-quick-lbl">Class Trait</span><span class="vs-quick-val vs-quick-small" id="vs-trait">—</span></div>
+                            </div>
+                        </div>
+                    </aside>
                 </div>
-                <div class="vs-divider"></div>
-                <div class="vs-section">
-                    <div class="vs-section-title">Ability Scores</div>
-                    <div class="vs-ab-grid" id="vs-ab-grid"></div>
-                </div>
-                <div class="vs-divider"></div>
-                <div class="vs-section">
-                    <div class="vs-section-title">Skills</div>
-                    <div class="vs-skills" id="vs-skills">—</div>
-                </div>
-                <div class="vs-section">
-                    <div class="vs-section-title">Equipment</div>
-                    <div class="vs-row"><span class="vs-lbl">Method</span><span class="vs-val" id="vs-equip">—</span></div>
-                </div>
+
                 <button class="view-new-btn" id="btn-view-new">✦ Create New Character</button>
             </div>
 
@@ -853,36 +964,36 @@
                 </div>
 
                 <div class="form-block">
-                    <div class="form-block-title">Alignment</div>
-                    <div class="alignment-grid" id="alignment-grid"></div>
+                    <div class="form-block-title">Birth Mother Sign</div>
+                    <div id="alignment-grid"></div>
                 </div>
             </div>
 
             <!-- ATTRIBUTES TAB -->
             <div class="tab-panel" id="tab-attributes">
-                <div class="form-block-title" style="margin-bottom:0.7rem;">Ability Score Method</div>
+                <div class="form-block-title" style="margin-bottom:0.7rem;">Aptitude Method</div>
                 <div class="method-row">
-                    <button class="mth-btn active" data-method="standard">Standard Array</button>
-                    <button class="mth-btn" data-method="pointbuy">Point Buy</button>
-                    <button class="mth-btn" data-method="roll">Roll 4d6</button>
+                    <button class="mth-btn active" data-method="standard">Standard</button>
+                    <button class="mth-btn" data-method="pointbuy">Allocate</button>
+                    <button class="mth-btn" data-method="roll">Roll</button>
                 </div>
 
-                <!-- Standard Array -->
+                <!-- Standard -->
                 <div class="ab-panel active" id="ab-standard">
-                    <p class="form-hint" style="margin-bottom:0.6rem;">Assign 15, 14, 13, 12, 10, 8 to each ability.</p>
+                    <p class="form-hint" style="margin-bottom:0.6rem;">All aptitudes start at 30. Class bonuses are applied on top.</p>
                     <div id="std-rows"></div>
                 </div>
 
-                <!-- Point Buy -->
+                <!-- Allocate -->
                 <div class="ab-panel" id="ab-pointbuy">
-                    <p class="pb-pts">Points remaining: <span id="pb-remain">27</span> / 27</p>
+                    <p class="pb-pts">Points remaining: <span id="pb-remain">20</span> / 20</p>
                     <div id="pb-rows" style="margin-top:0.4rem;"></div>
                 </div>
 
-                <!-- Roll 4d6 -->
+                <!-- Roll -->
                 <div class="ab-panel" id="ab-roll">
-                    <p class="roll-hint">Roll 6 sets of 4d6 (drop lowest), then assign each to an ability.</p>
-                    <button class="roll-btn" id="btn-roll">Roll 4d6 ×6</button>
+                    <p class="roll-hint">Roll 6 aptitude values (range 25–55), then assign each to an aptitude.</p>
+                    <button class="roll-btn" id="btn-roll">Roll Aptitudes ×6</button>
                     <div id="roll-rows"></div>
                 </div>
             </div>

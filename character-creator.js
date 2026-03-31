@@ -1,229 +1,148 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   character-creator.js  —  Leonoria Character Creator
+   character-creator.js  —  Leonoria Character Creator (Leonoria system)
    ═══════════════════════════════════════════════════════════════════════════ */
 
 'use strict';
 
-// ─── Class mechanics ──────────────────────────────────────────────────────────
-const CLASS_DATA = {
-    'Barbarian':    { hitDie: 12, saves: ['Strength','Constitution'],     skillCount: 2, skills: ['Animal Handling','Athletics','Intimidation','Nature','Perception','Survival'],                                                                        startGold: '2d4×10' },
-    'Bard':         { hitDie:  8, saves: ['Dexterity','Charisma'],        skillCount: 3, skills: 'any',                                                                                                                                                   startGold: '5d4×10' },
-    'Cleric':       { hitDie:  8, saves: ['Wisdom','Charisma'],           skillCount: 2, skills: ['History','Insight','Medicine','Persuasion','Religion'],                                                                                                 startGold: '5d4×10' },
-    'Druid':        { hitDie:  8, saves: ['Intelligence','Wisdom'],       skillCount: 2, skills: ['Arcana','Animal Handling','Insight','Medicine','Nature','Perception','Religion','Survival'],                                                             startGold: '2d4×10' },
-    'Fighter':      { hitDie: 10, saves: ['Strength','Constitution'],     skillCount: 2, skills: ['Acrobatics','Animal Handling','Athletics','History','Insight','Intimidation','Perception','Survival'],                                                   startGold: '5d4×10' },
-    'Monk':         { hitDie:  8, saves: ['Strength','Dexterity'],        skillCount: 2, skills: ['Acrobatics','Athletics','History','Insight','Religion','Stealth'],                                                                                      startGold: '5d4'    },
-    'Paladin':      { hitDie: 10, saves: ['Wisdom','Charisma'],           skillCount: 2, skills: ['Athletics','Insight','Intimidation','Medicine','Persuasion','Religion'],                                                                                startGold: '5d4×10' },
-    'Ranger':       { hitDie: 10, saves: ['Strength','Dexterity'],        skillCount: 3, skills: ['Animal Handling','Athletics','Insight','Investigation','Nature','Perception','Stealth','Survival'],                                                      startGold: '5d4×10' },
-    'Rogue':        { hitDie:  8, saves: ['Dexterity','Intelligence'],    skillCount: 4, skills: ['Acrobatics','Athletics','Deception','Insight','Intimidation','Investigation','Perception','Performance','Persuasion','Sleight of Hand','Stealth'],       startGold: '4d4×10' },
-    'Sorcerer':     { hitDie:  6, saves: ['Constitution','Charisma'],     skillCount: 2, skills: ['Arcana','Deception','Insight','Intimidation','Persuasion','Religion'],                                                                                  startGold: '3d4×10' },
-    'Warlock':      { hitDie:  8, saves: ['Wisdom','Charisma'],           skillCount: 2, skills: ['Arcana','Deception','History','Intimidation','Investigation','Nature','Religion'],                                                                       startGold: '4d4×10' },
-    'Wizard':       { hitDie:  6, saves: ['Intelligence','Wisdom'],       skillCount: 2, skills: ['Arcana','History','Insight','Investigation','Medicine','Religion'],                                                                                      startGold: '4d4×10' },
-    'Pyromancer':   { hitDie:  6, saves: ['Intelligence','Constitution'], skillCount: 2, skills: 'any', startGold: '3d4×10' },
-    'Cryomancer':   { hitDie:  6, saves: ['Intelligence','Constitution'], skillCount: 2, skills: 'any', startGold: '3d4×10' },
-    'Battle Mage':  { hitDie:  8, saves: ['Strength','Intelligence'],     skillCount: 2, skills: 'any', startGold: '4d4×10' },
-    'Shadow Knight':{ hitDie: 10, saves: ['Dexterity','Charisma'],        skillCount: 2, skills: 'any', startGold: '4d4×10' },
-    'Necromancer':  { hitDie:  6, saves: ['Intelligence','Wisdom'],       skillCount: 2, skills: 'any', startGold: '3d4×10' },
-    'Alchemist':    { hitDie:  8, saves: ['Intelligence','Constitution'], skillCount: 2, skills: 'any', startGold: '4d4×10' },
-    'Beastmaster':  { hitDie: 10, saves: ['Strength','Wisdom'],           skillCount: 3, skills: 'any', startGold: '3d4×10' },
-    'Elementalist': { hitDie:  6, saves: ['Intelligence','Wisdom'],       skillCount: 2, skills: 'any', startGold: '3d4×10' },
-    'Illusionist':  { hitDie:  6, saves: ['Intelligence','Charisma'],     skillCount: 2, skills: 'any', startGold: '3d4×10' },
-    'Runesmith':    { hitDie:  8, saves: ['Intelligence','Constitution'], skillCount: 2, skills: 'any', startGold: '4d4×10' },
+// ─── Aptitude system ──────────────────────────────────────────────────────────
+const APTITUDES = ['conviction', 'physiology', 'cognition', 'materium_affinity', 'martial_experience', 'presence'];
+
+const APTITUDE_NAMES = {
+    conviction:         'Conviction',
+    physiology:         'Physiology',
+    cognition:          'Cognition',
+    materium_affinity:  'Materium Affinity',
+    martial_experience: 'Martial Experience',
+    presence:           'Presence',
 };
 
-const ALIGNMENTS = [
-    'Lawful Good',    'Neutral Good',    'Chaotic Good',
-    'Lawful Neutral', 'True Neutral',    'Chaotic Neutral',
-    'Lawful Evil',    'Neutral Evil',    'Chaotic Evil',
-];
-
-const ABILITIES      = ['Strength','Dexterity','Constitution','Intelligence','Wisdom','Charisma'];
-const ABILITY_SHORT  = ['STR','DEX','CON','INT','WIS','CHA'];
-const STANDARD_ARRAY = [15, 14, 13, 12, 10, 8];
-const PB_COST        = { 8:0, 9:1, 10:2, 11:3, 12:4, 13:5, 14:7, 15:9 };
-const PB_BUDGET      = 27;
-const PROF_BONUS     = [0,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6];
-const RACE_SPEED     = { 'Dwarf': 25, 'Halfling': 25, 'Gnome': 25 };
-const TAB_ORDER      = ['identity', 'attributes', 'skills', 'equipment'];
-
-// ─── Class ability score priorities (for auto-fill) ──────────────────────────
-const CLASS_STAT_PRIORITY = {
-    'Barbarian':    ['Strength','Constitution','Dexterity','Wisdom','Charisma','Intelligence'],
-    'Bard':         ['Charisma','Dexterity','Constitution','Wisdom','Intelligence','Strength'],
-    'Cleric':       ['Wisdom','Constitution','Strength','Charisma','Intelligence','Dexterity'],
-    'Druid':        ['Wisdom','Constitution','Intelligence','Dexterity','Charisma','Strength'],
-    'Fighter':      ['Strength','Constitution','Dexterity','Wisdom','Charisma','Intelligence'],
-    'Monk':         ['Dexterity','Wisdom','Constitution','Strength','Intelligence','Charisma'],
-    'Paladin':      ['Strength','Charisma','Constitution','Wisdom','Dexterity','Intelligence'],
-    'Ranger':       ['Dexterity','Wisdom','Constitution','Strength','Intelligence','Charisma'],
-    'Rogue':        ['Dexterity','Intelligence','Charisma','Constitution','Wisdom','Strength'],
-    'Sorcerer':     ['Charisma','Constitution','Dexterity','Intelligence','Wisdom','Strength'],
-    'Warlock':      ['Charisma','Constitution','Dexterity','Intelligence','Wisdom','Strength'],
-    'Wizard':       ['Intelligence','Constitution','Dexterity','Wisdom','Charisma','Strength'],
-    'Pyromancer':   ['Intelligence','Constitution','Dexterity','Wisdom','Charisma','Strength'],
-    'Cryomancer':   ['Intelligence','Constitution','Dexterity','Wisdom','Charisma','Strength'],
-    'Battle Mage':  ['Strength','Intelligence','Constitution','Dexterity','Wisdom','Charisma'],
-    'Shadow Knight':['Dexterity','Charisma','Constitution','Strength','Wisdom','Intelligence'],
-    'Necromancer':  ['Intelligence','Wisdom','Constitution','Dexterity','Charisma','Strength'],
-    'Alchemist':    ['Intelligence','Constitution','Dexterity','Wisdom','Charisma','Strength'],
-    'Beastmaster':  ['Strength','Wisdom','Constitution','Dexterity','Intelligence','Charisma'],
-    'Elementalist': ['Intelligence','Wisdom','Constitution','Dexterity','Charisma','Strength'],
-    'Illusionist':  ['Intelligence','Charisma','Dexterity','Constitution','Wisdom','Strength'],
-    'Runesmith':    ['Intelligence','Constitution','Strength','Dexterity','Wisdom','Charisma'],
+const APTITUDE_SHORT = {
+    conviction:         'COV',
+    physiology:         'PHY',
+    cognition:          'COG',
+    materium_affinity:  'MAT',
+    martial_experience: 'MAR',
+    presence:           'PRE',
 };
 
-// ─── Default skill picks per class ───────────────────────────────────────────
-const CLASS_DEFAULT_SKILLS = {
-    'Barbarian':    ['Athletics','Intimidation'],
-    'Bard':         ['Persuasion','Performance','Deception'],
-    'Cleric':       ['Insight','Religion'],
-    'Druid':        ['Nature','Perception'],
-    'Fighter':      ['Athletics','Perception'],
-    'Monk':         ['Acrobatics','Stealth'],
-    'Paladin':      ['Persuasion','Religion'],
-    'Ranger':       ['Perception','Survival','Stealth'],
-    'Rogue':        ['Stealth','Deception','Investigation','Perception'],
-    'Sorcerer':     ['Arcana','Persuasion'],
-    'Warlock':      ['Arcana','Deception'],
-    'Wizard':       ['Arcana','History'],
-    'Pyromancer':   ['Arcana','Investigation'],
-    'Cryomancer':   ['Arcana','Investigation'],
-    'Battle Mage':  ['Arcana','Athletics'],
-    'Shadow Knight':['Stealth','Deception'],
-    'Necromancer':  ['Arcana','History'],
-    'Alchemist':    ['Investigation','Nature'],
-    'Beastmaster':  ['Animal Handling','Survival','Nature'],
-    'Elementalist': ['Arcana','Nature'],
-    'Illusionist':  ['Arcana','Deception'],
-    'Runesmith':    ['Arcana','History'],
-};
+const BASE_APTITUDE  = 30;   // default starting value for each aptitude
+const ALLOC_BUDGET   = 20;   // extra points to distribute in point-allocation mode
+const ALLOC_MIN      = 10;
+const ALLOC_MAX      = 75;
 
-// ─── Ability descriptions (tooltip) ──────────────────────────────────────────
-const ABILITY_DESC = {
-    'Strength':     'Raw physical power. Governs melee attacks, carrying capacity, and feats of brute force like lifting, pushing, and breaking.',
-    'Dexterity':    'Agility and reflexes. Governs ranged attacks, Armor Class (light armour), stealth, sleight of hand, and acrobatic feats.',
-    'Constitution': 'Toughness and endurance. Determines your hit points and your ability to resist fatigue, poison, and physical hardship.',
-    'Intelligence': 'Reasoning and memory. Governs arcane spellcasting, knowledge skills, and your ability to recall lore and solve puzzles.',
-    'Wisdom':       'Awareness and intuition. Governs perception, insight, and divine spellcasting for classes like Clerics and Druids.',
-    'Charisma':     'Force of personality. Governs persuasion, deception, performance, and spellcasting for Bards, Sorcerers, and Warlocks.',
+const TAB_ORDER = ['identity', 'attributes', 'skills', 'equipment'];
+
+// ─── Aptitude descriptions (tooltip) ──────────────────────────────────────────
+const APTITUDE_DESC = {
+    conviction:
+        'Mental and spiritual strength. Governs willpower, faith, resilience against dark forces, and the ability to sustain magical effort. Sub-traits: Tenacity, Resonance, Openness (fixed at creation).',
+    physiology:
+        'Physical body and durability. Governs Vitality (HP), physical Hardening (resistances), Vigor (raw strength), and Metabolism (stamina).',
+    cognition:
+        'Mental acuity and life experience. Governs Erudition, Ingenuity, Worldliness, Perception, and Intelligence (fixed). Grows with age indefinitely.',
+    materium_affinity:
+        'Attunement to the world\'s magical energy. Governs Conduit Grade, Shadow Connection, and magic Insulation. Distinct from the Materium pool resource which is depleted by spellcasting.',
+    martial_experience:
+        'Combat training, reflexes, and weapon mastery. Governs Agilities (dodge/reflex) and Weapon Affinities. Increases faster with use than other aptitudes.',
+    presence:
+        'Force of personality and social command. Governs Gravitas (authority) and Eloquence (persuasion). Filtered by the Openness sub-trait of Conviction.',
 };
 
 // ─── Skill descriptions (tooltip) ────────────────────────────────────────────
 const SKILL_DESC = {
-    'Acrobatics':       'Tumble, flip, and balance in precarious situations. Used to stay upright and perform stunts.',
-    'Animal Handling':  'Calm skittish animals, control mounts in chaos, and intuit the intentions of wild creatures.',
-    'Arcana':           'Recall lore about spells, magical items, eldritch symbols, and the denizens of the planes.',
-    'Athletics':        'Climb sheer surfaces, swim against currents, jump great distances, and grapple foes.',
-    'Deception':        'Lie convincingly, disguise your true intentions, or give false impressions through speech and action.',
-    'History':          'Recall historical events, legendary figures, ancient kingdoms, and the outcomes of past wars.',
-    'Insight':          'Determine the true intentions of another creature — detect lies, sense emotions, and read motives.',
-    'Intimidation':     'Influence others through menace, displays of force, or hostile threats.',
-    'Investigation':    'Search for hidden clues, deduce from evidence, and figure out how magical devices work.',
-    'Medicine':         'Stabilize a dying creature, diagnose illness, and recognize the cause of wounds.',
-    'Nature':           'Know the lore of natural terrain, plants, animals, weather patterns, and the cycles of the wild.',
-    'Perception':       'Notice details, spot hidden enemies, and detect things others might miss using your senses.',
-    'Performance':      'Entertain an audience through music, acting, dance, storytelling, or other artistic expression.',
-    'Persuasion':       'Influence others through tact, charm, and reasoned diplomacy — without force or deception.',
-    'Religion':         'Know the lore of gods, religious rites, holy symbols, prayers, and the nature of the divine.',
-    'Sleight of Hand':  'Pick pockets, plant objects unseen, palm small items, and perform feats of manual dexterity.',
-    'Stealth':          'Move silently, hide in shadows, and avoid detection — essential for scouts and ambush predators.',
-    'Survival':         'Track prey, navigate wild terrain, find food and shelter, and predict natural hazards.',
-    'Alchemy':          'Brew potions, identify alchemical substances, and transmute materials through learned formulae.',
-    'Artisan':          'Craft fine goods with expert skill — metalwork, leatherwork, carpentry, or jewellery.',
-    'Tracking':         'Follow the trail left by creatures — footprints, broken branches, disturbances in earth or snow.',
-    'Beast Taming':     'Establish a bond with wild animals and command them through patience, trust, and authority.',
-    'Elemental Control':'Channel raw elemental forces — directing flame, wind, water, or stone with trained precision.',
-    'Spellcraft':       'Identify spells in the act of casting, analyse magical effects, and improvise arcane solutions.',
-    'Riding':           'Control mounts in dangerous terrain, during combat, and at great speed without losing command.',
-    'Enchanting':       'Imbue items with magical properties using ritual, focus, and deep arcane knowledge.',
-    'Herbalism':        'Identify herbs and plants, brew natural remedies, and recognise toxic or healing flora.',
-    'Shadow Arts':      'Manipulate ambient darkness, step through shadows, and weave obscuring darkness into technique.',
-    'Runecrafting':     'Inscribe and activate runic symbols that carry magical power, permanence, and protective force.',
+    swordsmanship:      'Mastery of bladed swords — slash, thrust, and parry. The quintessential weapon art of the Midlanders.',
+    archery:            'Skilled use of bows, aimed fire, and movement shooting. Common among Wayfarers and Ancients.',
+    axewielding:        'Combat use of axes and hatchets — powerful cleaving strikes and throwing techniques.',
+    blunt_force:        'Mace, hammer, and club fighting. Effective against armoured targets. Core to Ironguard doctrine.',
+    small_arms:         'Knives, daggers, and short blades. Essential for close-quarters and backup combat.',
+    polearms:           'Spear, halberd, and pike — controlling range and fighting in formation.',
+    shield_fighting:    'Active shield use in combat: blocking, shoving, and shield-bashing.',
+    crossbow:           'Mechanical ranged weapon. High power, slow reload. Favoured in fortifications.',
+    blowgun_and_sling:  'Primitive ranged weapons. Favoured by Oakpeople and jungle hunters.',
+    thievery:           'Picking pockets, sleight of hand, and theft. Core skill of Shadowblades.',
+    stealth:            'Moving silently and avoiding detection. Essential for scouts and assassins.',
+    lockpicking:        'Opening locks, bypassing mechanisms, and accessing secured spaces.',
+    arcane_theory:      'Knowledge of magical principles, Materium schools, and channeling theory.',
+    herbalism:          'Identifying plants, brewing poultices, and understanding natural healing.',
+    alchemy:            'Combining materials into potions, acids, and explosive compounds.',
+    monster_lore:       'Knowledge of Leonorian creatures — weaknesses, habitats, and behaviours.',
+    survival:           'Finding food, water, and shelter in the wilderness. Hazard recognition.',
+    navigation:         'Charting routes, reading maps and stars, and pathfinding.',
+    tracking:           'Following the trail of creatures or people across varied terrain.',
+    animal_handling:    'Calming, training, and working with animals — including mounts.',
+    persuasion:         'Convincing others through charm, reason, and diplomacy.',
+    intimidation:       'Influencing others through threat, force, or menacing presence.',
+    deception:          'Lying, bluffing, and misleading others convincingly.',
+    leadership:         'Commanding others in coordinated action — rallying troops, organizing groups.',
+    weaponsmithing:     'Forging and repairing bladed weapons. A Stone Folk and Ironguard tradition.',
+    armorsmithing:      'Crafting and repairing armour — leather to full plate.',
+    potion_brewing:     'Advanced alchemy focused on magical consumables and restorative compounds.',
+    enchanting:         'Imbuing objects with magical properties through ritual and Materium focus.',
+    athletics:          'Climbing, jumping, swimming, and physical endurance feats.',
+    acrobatics:         'Balance, tumbling, and precise movement in precarious situations.',
+    lightwielding_skill:'Channeling and shaping Lightwielding (Benevolent Triad) magic.',
+    materium_channeling:'Directing and focusing Materium (Focused Triad) magical energies.',
+    shadow_weaving:     'Weaving and controlling Shadow Arts (Malevolent Triad) magic.',
 };
 
 // ─── Flavor blurbs ────────────────────────────────────────────────────────────
 const RACE_BLURBS = {
-    'Human':        'Versatile and ambitious, humans spread across every corner of the world, driven by curiosity and an unmatched will to endure.',
-    'Elf':          'Graceful and ancient, elves walk through centuries with ease, their magic woven into their very being.',
-    'Dwarf':        'Stubborn as the mountains they call home, dwarves forge their legacy in stone and steel, their loyalty as enduring as the deep earth.',
-    'Halfling':     'Small in stature but vast in courage, halflings navigate the world with a lightness of foot and an irrepressible optimism.',
-    'Gnome':        'Boundlessly curious, gnomes see the world as a puzzle to be solved — and delight in every discovery.',
-    'Half-Elf':     'Born between two worlds, half-elves carry the grace of elves and the adaptability of humanity, at home in neither and yet welcome in both.',
-    'Half-Orc':     'Marked by strength and fire, half-orcs have learned that the world will not make room for them — so they carve their own path through it.',
-    'Tiefling':     'Bearing the infernal mark of a distant ancestor, tieflings walk under suspicion, yet many rise above it with fierce determination.',
-    'Dragonborn':   'Descendants of great dragons, they carry the pride of ancient wyrms in their breath and the fire of legend in their blood.',
-    'Aasimar':      'Touched by the divine, aasimar carry a celestial spark — a radiant purpose that calls them toward greatness or ruin.',
-    'Genasi':       'Children of elemental power, shaped by the raw forces of nature: wind, stone, flame, or tide.',
-    'Goliath':      'Born in high peaks where the air is thin and the stakes absolute, goliaths measure themselves against the impossible every day.',
-    'Tabaxi':       'Lithe and insatiably curious, tabaxi roam the world collecting stories, relics, and knowledge — always hunting the next marvel.',
-    'Firbolg':      'Gentle giants of the deep forest, firbolgs live in quiet harmony with nature and stir only when something sacred is threatened.',
-    'Kenku':        'Burdened by an ancient curse of silence, kenku speak only in mimicry — yet what they express through action is louder than any voice.',
-    'Triton':       'Guardians of the deep sea, tritons stand as watchful sentinels between the surface world and the terrors lurking in the abyss.',
-    'Warforged':    'Forged in the crucible of war and given sentience, warforged struggle with one profound question: what does it mean to truly live?',
-    'Shifter':      'Touched by the primal beast within, shifters blur the line between civilization and the wild, tapping raw instinct when it matters most.',
+    midlander:          'The most numerous people of Leonoria. Midlanders built the great kingdoms and trade routes. Adaptable, ambitious, and relentlessly practical.',
+    northerner:         'Hardy folk of the cold northern borders. Short on words, long on endurance. The cold does not break a Northerner — it makes them.',
+    step_folk:          'Nomadic wanderers of the outer steppes and gleam havens. Masters of horse, wind, and survival between civilizations.',
+    ancients_secluded:  'The oldest forest people, living in deep woodland enclaves, remembering ages most have forgotten entirely.',
+    ancients_greys:     'The scholar-elves. Grey Ancients built libraries and observatories before the Great Death. Some still maintain them.',
+    ancients_dark_ones: 'Descended into the deep places after the War of the Well. Adapted to shadow, silence, and secrets.',
+    ice_ancients:       'The frozen north\'s original inhabitants. Said to have made a pact with the eternal winds. They do not feel cold as others do.',
+    wildmen_foresters:  'Fierce hunters and trackers of the dark forests. They move in packs, live by the hunt, and respect only strength and loyalty.',
+    wildmen_ravagers:   'Towering warriors shaped by war and hardship. Not savages — a people defined entirely by the harshness of their world.',
+    oakpeople:          'Small, nimble, and eerily attuned to growing things. The Oakpeople were once trees, or so they say. The world is patient, they say back.',
+    stone_folk:         'Born in the deep stone. The Stone Folk carry the patience of rock. What they build, they build to last. What they promise, they keep.',
+    swampbrood:         'Adapted to the boglands over centuries. Thick-skinned, long-limbed, and deeply spiritual. The bogs are home. The bogs are sacred.',
+    ashen_halfbreeds:   'Touched by shadow and fire in equal measure. The Ashen carry a burning restlessness and a shadow that precedes them. Powerful. Volatile.',
 };
 
 const CLASS_BLURBS = {
-    'Barbarian':    'A primal warrior who channels rage into devastating power, the barbarian is at home in the chaos of battle.',
-    'Bard':         'A master of words and music, the bard shapes reality through performance, inspiring allies and unraveling enemies with equal flair.',
-    'Cleric':       'A vessel of divine will, the cleric carries the power of a god into the mortal realm — to heal, to protect, or to judge.',
-    'Druid':        'A speaker for the natural world, the druid wields the untamed forces of earth, sky, and season.',
-    'Fighter':      'A disciplined warrior trained in the art of combat, the fighter excels through skill, endurance, and relentless resolve.',
-    'Monk':         'A student of inner mastery, the monk turns their own body into a weapon through years of spiritual discipline.',
-    'Paladin':      'Bound by sacred oath, the paladin rides the edge between divine warrior and righteous judge, smiting evil and lifting the fallen.',
-    'Ranger':       'A hunter and tracker of the wild places, equally at home in shadow-draped forests as in open combat.',
-    'Rogue':        'A creature of shadow and cunning, striking with precision and vanishing without trace.',
-    'Sorcerer':     'Born with raw arcane power in their veins, the sorcerer shapes magic by pure instinct — unpredictable and awe-inspiring.',
-    'Warlock':      'Bound to a patron beyond mortal comprehension, the warlock wields eldritch power at a price that may one day come due.',
-    'Wizard':       'A scholar of the arcane arts, commanding spells of breathtaking complexity through meticulous study and iron discipline.',
-    'Pyromancer':   'Wielding the essence of fire, the pyromancer scorches all who stand against them — a living flame commanding destruction.',
-    'Cryomancer':   'Master of frost and ice, the cryomancer freezes time itself, reshaping the battlefield with glacial precision.',
-    'Battle Mage':  'Where others must choose between blade and spell, the Battle Mage wields both with seamless, devastating unity.',
-    'Shadow Knight':'Cloaked in darkness, the Shadow Knight walks the razor edge between protector and executioner.',
-    'Necromancer':  'Wielding power over death and undeath alike, the necromancer commands the boundary between the living and the departed.',
-    'Alchemist':    'Through experiment and a healthy disregard for safety, the alchemist transmutes the world — one explosive concoction at a time.',
-    'Beastmaster':  'Bonded to wild creatures, the beastmaster fights alongside loyal companions whose ferocity matches their own.',
-    'Elementalist': 'Harnessing the raw power of all four elements, bending earth, air, fire, and water to their will.',
-    'Illusionist':  'A weaver of impossible things, the illusionist shapes perception itself — making enemies fear what does not exist.',
-    'Runesmith':    'Carving ancient symbols of power into weapon and stone, the runesmith channels magic through craft alone.',
-};
-
-const STARTING_PACKS = {
-    'Barbarian':    ['Greataxe', 'Two handaxes', "Explorer's pack", 'Four javelins'],
-    'Bard':         ['Rapier', "Diplomat's pack", 'Lute', 'Leather armor', 'Dagger'],
-    'Cleric':       ['Mace', 'Scale mail', 'Light crossbow & 20 bolts', "Priest's pack", 'Shield', 'Holy symbol'],
-    'Druid':        ['Wooden shield', 'Scimitar', 'Leather armor', "Explorer's pack", 'Druidic focus'],
-    'Fighter':      ['Chain mail', 'Longsword & shield', 'Light crossbow & 20 bolts', "Dungeoneer's pack"],
-    'Monk':         ['Shortsword', '10 darts', "Dungeoneer's pack"],
-    'Paladin':      ['Longsword & shield', 'Five javelins', "Priest's pack", 'Chain mail', 'Holy symbol'],
-    'Ranger':       ['Scale mail', 'Two shortswords', "Explorer's pack", 'Longbow & quiver of 20 arrows'],
-    'Rogue':        ['Rapier', 'Shortbow & quiver of 20 arrows', "Burglar's pack", 'Leather armor', 'Two daggers', "Thieves' tools"],
-    'Sorcerer':     ['Light crossbow & 20 bolts', 'Component pouch', "Dungeoneer's pack", 'Two daggers'],
-    'Warlock':      ['Light crossbow & 20 bolts', 'Component pouch', "Scholar's pack", 'Leather armor', 'Any simple weapon', 'Two daggers'],
-    'Wizard':       ['Quarterstaff', 'Component pouch', "Scholar's pack", 'Spellbook'],
-    'Pyromancer':   ['Fire staff', 'Flame wand', "Scholar's pack", 'Arcane focus', 'Fire-resistant cloak'],
-    'Cryomancer':   ['Frost staff', 'Ice shard wand', "Scholar's pack", 'Arcane focus', 'Winter cloak'],
-    'Battle Mage':  ['Enchanted longsword', 'Chain shirt', 'Arcane focus', "Adventurer's pack", 'Spellbook'],
-    'Shadow Knight':['Shadow blade', 'Dark leather armor', 'Cloak of shadows', "Adventurer's pack"],
-    'Necromancer':  ['Bone staff', 'Component pouch', "Scholar's pack", 'Dark robes', 'Spellbook'],
-    'Alchemist':    ["Alchemist's kit", 'Leather armor', "Dungeoneer's pack", 'Two daggers', 'Component pouch'],
-    'Beastmaster':  ['Longbow & quiver', 'Shortsword', "Explorer's pack", 'Leather armor', 'Beast bond token'],
-    'Elementalist': ['Elemental staff', 'Component pouch', "Scholar's pack", 'Elemental focus gem'],
-    'Illusionist':  ['Wand of illusions', 'Mirror shard focus', "Scholar's pack", 'Silk robes'],
-    'Runesmith':    ['Rune-etched warhammer', 'Scale mail', "Smith's tools", "Adventurer's pack", 'Runestone set'],
+    ironguard:          'The shield that does not break. Ironguards are the wall between civilization and the dark. Pure physical warriors, utterly dedicated to durability and protection.',
+    battlebrave:        'The tip of the spear. Where Ironguards hold the line, Battlebraves shatter it. Aggressive, mobile, and built for direct offensive combat.',
+    ravager_class:      'Overwhelm. Destroy. Move on. The Ravager does not defend — they overwhelm before defense is needed.',
+    wayfarer:           'Scouting the road ahead, hunting from shadow, surviving where others perish. Wayfarers are the eyes and blades of the wilderness.',
+    shadowblade:        'Precision over power. The Shadowblade vanishes, strikes once with lethal intent, and is gone before the body falls.',
+    warden:             'Bound by faith and duty to protect the innocent. Wardens are divine warriors — champions of a people, not servants of a god.',
+    soulkindler:        'Healers, speakers, and spiritual fire. Soulkindlers work where medicine fails and morale breaks — they carry the light that cannot be put out.',
+    elementalist:       'Bending the Materium of air, earth, fire, and water through scholarly discipline. A living formula applied to the battlefield.',
+    pyrecrafter:        'Master of fire and heat magic. The Pyrecrafter does not merely burn — they craft fire as a sculptor crafts stone. Beautiful. Lethal.',
+    stormcaller:        'Commanding wind, lightning, and tempest. Stormcallers call down the sky — storm-born warriors of terrifying range and power.',
+    lifewhisperer:      'The great healers of Leonoria. Where the Soulkindler brings spiritual fire, the Lifewhisperer brings biological restoration.',
+    voidweaver:         'Practitioners of the dark not through malice but mastery. Voidweavers understand shadow deeply enough to shape it without being consumed.',
+    bloodsinger:        'Body as conduit. Blood as power. Bloodsingers burn their own vitality to fuel devastating magical effects. High risk. Absolute power.',
+    scholar:            'No weapon sharper than a prepared mind. Scholars gather, analyze, and apply knowledge — often more dangerous than the warrior beside them.',
+    envoy:              'The Envoy wins the battle before it starts. Through charisma, reputation, and social mastery, they reshape the field without drawing a sword.',
 };
 
 // ─── State ────────────────────────────────────────────────────────────────────
+function makeAptObj(val) {
+    const o = {};
+    APTITUDES.forEach(a => { o[a] = val; });
+    return o;
+}
+function makeNullAptObj() {
+    const o = {};
+    APTITUDES.forEach(a => { o[a] = null; });
+    return o;
+}
+
 const S = {
     race: null, subrace: null, gender: null,
     cls: null,  subclass: null,
     level: 1,
-    abilityMethod: 'standard',
-    scores:      { Strength:8, Dexterity:8, Constitution:8, Intelligence:8, Wisdom:8, Charisma:8 },
-    pbScores:    { Strength:8, Dexterity:8, Constitution:8, Intelligence:8, Wisdom:8, Charisma:8 },
-    rollScores:  { Strength:null, Dexterity:null, Constitution:null, Intelligence:null, Wisdom:null, Charisma:null },
+    aptitudeMethod: 'standard',
+    aptitudes:      makeAptObj(BASE_APTITUDE),
+    allocAptitudes: makeAptObj(BASE_APTITUDE),
+    rollAptitudes:  makeNullAptObj(),
     rolledPool:  [],
     pendingRoll: null,
-    alignment:   null,
+    birthSign:   null,
     skills:      new Set(),
     background:  null,
     equipment:   'pack',
@@ -231,17 +150,18 @@ const S = {
     savedChars:      [],
     party:           { name: '', size: 3, members: [] },
     savedParties:    [],
-    activeParty:     null,     // party currently displayed in party sheet
-    viewSheetOrigin: 'create', // 'create' | 'party' — where to go on back
+    activeParty:     null,
+    viewSheetOrigin: 'create',
 };
 
 let DB = {};
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-function $(id)       { return document.getElementById(id); }
+function $(id)      { return document.getElementById(id); }
 function el(tag, cls){ const e = document.createElement(tag); if (cls) e.className = cls; return e; }
-function mod(score)  { return Math.floor((score - 10) / 2); }
-function fmod(score) { const m = mod(score); return (m >= 0 ? '+' : '') + m; }
+
+function aptName(id)  { return APTITUDE_NAMES[id]  || id; }
+function aptShort(id) { return APTITUDE_SHORT[id]  || id.slice(0,3).toUpperCase(); }
 
 function toast(msg) {
     const t = $('toast');
@@ -256,13 +176,32 @@ async function loadJSON(url) {
     return res.json();
 }
 
+// ─── DB helpers ───────────────────────────────────────────────────────────────
+function getAllRaces() {
+    const groups = DB.races?.race_groups || [];
+    const out = [];
+    groups.forEach(g => (g.sub_races || []).forEach(r => out.push({ ...r, group: g.name })));
+    return out;
+}
+
+function findRace(id) { return getAllRaces().find(r => r.id === id) || null; }
+function findClass(id) { return (DB.classes?.classes || []).find(c => c.id === id) || null; }
+function findBackground(id) { return (DB.backgrounds?.profession_backgrounds || []).find(b => b.id === id) || null; }
+function getAllSkills() {
+    const out = [];
+    (DB.skills?.categories || []).forEach(cat => {
+        (cat.skills || []).forEach(sk => out.push({ ...sk, category: cat.category, aptitude_link: cat.aptitude_link }));
+    });
+    return out;
+}
+
 // ─── Tooltip ──────────────────────────────────────────────────────────────────
 const TTip = { el: null, visible: false };
 
 function initTooltip() {
     const t = document.createElement('div');
     Object.assign(t.style, {
-        position: 'fixed', maxWidth: '240px',
+        position: 'fixed', maxWidth: '260px',
         background: 'var(--bg-card)', border: '1px solid var(--gold-dim)',
         color: 'var(--text-muted)', fontSize: '0.7rem', lineHeight: '1.55',
         padding: '0.5em 0.75em', pointerEvents: 'none',
@@ -271,10 +210,9 @@ function initTooltip() {
     });
     document.body.appendChild(t);
     TTip.el = t;
-
     document.addEventListener('mousemove', e => {
         if (!TTip.visible) return;
-        const x = Math.min(e.clientX + 16, window.innerWidth  - 260);
+        const x = Math.min(e.clientX + 16, window.innerWidth  - 280);
         const y = Math.min(e.clientY + 16, window.innerHeight - 80);
         TTip.el.style.left = x + 'px';
         TTip.el.style.top  = y + 'px';
@@ -286,7 +224,7 @@ function showTip(e, text) {
     TTip.el.textContent = text;
     TTip.visible = true;
     TTip.el.style.opacity = '1';
-    const x = Math.min(e.clientX + 16, window.innerWidth  - 260);
+    const x = Math.min(e.clientX + 16, window.innerWidth  - 280);
     const y = Math.min(e.clientY + 16, window.innerHeight - 80);
     TTip.el.style.left = x + 'px';
     TTip.el.style.top  = y + 'px';
@@ -297,135 +235,110 @@ function hideTip() {
     if (TTip.el) TTip.el.style.opacity = '0';
 }
 
-// ─── Select population helpers ────────────────────────────────────────────────
-function populateGroupedSelect(selId, items, nameKey, srcKey) {
-    const sel = $(selId);
-    sel.innerHTML = '<option value="">— Choose —</option>';
-    const groups = { core: [], expanded: [] };
-    items.forEach(item => (groups[item[srcKey]] || groups.expanded).push(item));
-    ['core','expanded'].forEach(src => {
-        if (!groups[src].length) return;
-        const og = document.createElement('optgroup');
-        og.label = src === 'core' ? '── Core ──' : '── Expanded ──';
-        groups[src].forEach(item => {
-            const opt = document.createElement('option');
-            opt.value = item[nameKey];
-            opt.textContent = item[nameKey];
-            opt.dataset.source = src;
-            og.appendChild(opt);
-        });
-        sel.appendChild(og);
-    });
-}
-
-function populateSubSelect(selId, values) {
-    const sel = $(selId);
-    sel.innerHTML = '<option value="">— Choose —</option>';
-    (values || []).forEach(v => {
-        const opt = document.createElement('option');
-        opt.value = v; opt.textContent = v;
-        sel.appendChild(opt);
-    });
-}
-
-function setBadge(badgeId, src) {
-    const b = $(badgeId);
-    if (!src) { b.textContent = ''; b.className = 'src-badge'; return; }
-    b.textContent = src === 'core' ? 'Core' : 'Expanded';
-    b.className = `src-badge ${src}`;
-}
-
-function getSelectedSource(selEl) {
-    const opt = selEl.options[selEl.selectedIndex];
-    return opt ? opt.dataset.source || null : null;
-}
-
 // ─── Auto-fill defaults ───────────────────────────────────────────────────────
-function applyDefaultAbilityScores() {
-    if (!S.cls) return;
-    const priority = CLASS_STAT_PRIORITY[S.cls] || ABILITIES;
-    priority.forEach((ab, i) => {
-        const val = STANDARD_ARRAY[i];
-        const sel = $(`std-${ab}`);
-        if (sel) {
-            sel.value = val;
-            const modEl = $(`std-${ab}-mod`);
-            if (modEl) modEl.textContent = fmod(val);
-        }
-        S.scores[ab] = val;
+function applyDefaultAptitudes() {
+    const cls = findClass(S.cls);
+    if (!cls) return;
+    const bonuses = cls.aptitude_bonuses || {};
+    APTITUDES.forEach(a => {
+        const val = Math.min(ALLOC_MAX, Math.max(ALLOC_MIN, BASE_APTITUDE + (bonuses[a] || 0)));
+        S.aptitudes[a]      = val;
+        S.allocAptitudes[a] = val;
     });
-    updateDerivedStats();
+    updateAptitudeDisplays();
+    syncAptitudesToState();
 }
 
 function applyDefaultSkills() {
-    if (!S.cls) return;
-    const defaults  = CLASS_DEFAULT_SKILLS[S.cls] || [];
-    const cd        = CLASS_DATA[S.cls];
-    const maxPicks  = cd ? cd.skillCount : 2;
+    const cls = findClass(S.cls);
+    if (!cls) return;
+    const fixed = new Set(cls.starting_skills?.fixed || []);
+    const choices = cls.starting_skills?.choices || [];
+    const choiceCount = cls.starting_skills?.choice_count || 1;
 
     S.skills.clear();
     let picked = 0;
 
-    // First pass: apply curated defaults
-    document.querySelectorAll('#skills-grid .skill-row:not(.sk-disabled)').forEach(row => {
-        if (picked >= maxPicks) return;
-        if (defaults.includes(row.dataset.name)) {
+    document.querySelectorAll('#skills-grid .skill-row').forEach(row => {
+        const id = row.dataset.name;
+        if (fixed.has(id)) {
             row.classList.add('sk-on');
-            S.skills.add(row.dataset.name);
-            picked++;
+            S.skills.add(id);
         }
     });
-    // Second pass: fill any remaining slots with the first available skills
-    if (picked < maxPicks) {
-        document.querySelectorAll('#skills-grid .skill-row:not(.sk-disabled):not(.sk-on)').forEach(row => {
-            if (picked >= maxPicks) return;
-            row.classList.add('sk-on');
-            S.skills.add(row.dataset.name);
-            picked++;
-        });
-    }
+    document.querySelectorAll('#skills-grid .skill-row:not(.sk-disabled):not(.sk-fixed)').forEach(row => {
+        if (picked >= choiceCount) return;
+        row.classList.add('sk-on');
+        S.skills.add(row.dataset.name);
+        picked++;
+    });
 }
 
-// ─── Race ─────────────────────────────────────────────────────────────────────
+// ─── Race select ──────────────────────────────────────────────────────────────
 function buildRaceSelect() {
-    populateGroupedSelect('sel-race', DB.races, 'raceName', 'source');
-    $('sel-race').addEventListener('change', e => {
-        const name = e.target.value;
-        S.race    = name || null;
+    const sel = $('sel-race');
+    sel.innerHTML = '<option value="">— Choose Race —</option>';
+    const groups = DB.races?.race_groups || [];
+    groups.forEach(group => {
+        const og = document.createElement('optgroup');
+        og.label = group.name;
+        (group.sub_races || []).forEach(race => {
+            const opt = document.createElement('option');
+            opt.value = race.id;
+            opt.textContent = race.name;
+            og.appendChild(opt);
+        });
+        sel.appendChild(og);
+    });
+
+    sel.addEventListener('change', e => {
+        S.race    = e.target.value || null;
         S.subrace = null;
-        setBadge('race-badge', getSelectedSource(e.target));
-        const race = DB.races.find(r => r.raceName === name);
-        if (race && race.subraces && race.subraces.length) {
-            populateSubSelect('sel-subrace', race.subraces);
-            $('row-subrace').style.display = '';
-        } else {
-            $('row-subrace').style.display = 'none';
-            $('sel-subrace').innerHTML = '';
-        }
+        $('row-subrace').style.display = 'none';
+        $('sel-subrace').innerHTML = '';
         updateDerivedStats();
         updateFlavorText();
     });
-    $('sel-subrace').addEventListener('change', e => { S.subrace = e.target.value || null; });
 }
 
-// ─── Class ────────────────────────────────────────────────────────────────────
+// ─── Class select ─────────────────────────────────────────────────────────────
 function buildClassSelect() {
-    populateGroupedSelect('sel-class', DB.classes, 'className', 'source');
-    $('sel-class').addEventListener('change', e => {
-        const name = e.target.value;
-        S.cls      = name || null;
+    const sel = $('sel-class');
+    sel.innerHTML = '<option value="">— Choose Class —</option>';
+
+    const archetypeOrder = ['Physical', 'Scout', 'Faith', 'Elemental', 'Dark', 'Social', 'Craft'];
+    const groups = {};
+    (DB.classes?.classes || []).forEach(cls => {
+        const arch = cls.archetype || 'Other';
+        if (!groups[arch]) groups[arch] = [];
+        groups[arch].push(cls);
+    });
+
+    // Sort by archetype order, then alphabetically for unlisted
+    const sortedArchetypes = [
+        ...archetypeOrder.filter(a => groups[a]),
+        ...Object.keys(groups).filter(a => !archetypeOrder.includes(a)).sort(),
+    ];
+
+    sortedArchetypes.forEach(arch => {
+        const og = document.createElement('optgroup');
+        og.label = arch;
+        groups[arch].forEach(cls => {
+            const opt = document.createElement('option');
+            opt.value = cls.id;
+            opt.textContent = cls.name;
+            og.appendChild(opt);
+        });
+        sel.appendChild(og);
+    });
+
+    sel.addEventListener('change', e => {
+        const id = e.target.value;
+        S.cls      = id || null;
         S.subclass = null;
-        setBadge('class-badge', getSelectedSource(e.target));
-        const cls = DB.classes.find(c => c.className === name);
-        if (cls && cls.subclasses && cls.subclasses.length) {
-            populateSubSelect('sel-subclass', cls.subclasses);
-            $('row-subclass').style.display = '';
-        } else {
-            $('row-subclass').style.display = 'none';
-            $('sel-subclass').innerHTML = '';
-        }
-        // Apply smart defaults: ability scores + skills
-        applyDefaultAbilityScores();
+        $('row-subclass').style.display = 'none';
+        $('sel-subclass').innerHTML = '';
+        applyDefaultAptitudes();
         buildSkillRows();
         applyDefaultSkills();
         updateDerivedStats();
@@ -436,28 +349,32 @@ function buildClassSelect() {
     $('sel-subclass').addEventListener('change', e => { S.subclass = e.target.value || null; });
 }
 
-// ─── Background ───────────────────────────────────────────────────────────────
+// ─── Background select ────────────────────────────────────────────────────────
 function buildBackgroundSelect() {
-    populateGroupedSelect('sel-background', DB.backgrounds, 'name', 'source');
-
     const sel = $('sel-background');
-    sel.addEventListener('change', e => {
-        S.background = e.target.value || null;
-        const bg = DB.backgrounds.find(b => b.name === S.background);
-        setBadge('bg-badge', bg ? bg.source : null);
-        updateBgDetail(bg);
+    sel.innerHTML = '<option value="">— Choose Background —</option>';
+    (DB.backgrounds?.profession_backgrounds || []).forEach(bg => {
+        const opt = document.createElement('option');
+        opt.value = bg.id;
+        opt.textContent = bg.name;
+        sel.appendChild(opt);
     });
 
-    // Tooltip: show skills & feature when hovering the select
+    sel.addEventListener('change', e => {
+        S.background = e.target.value || null;
+        updateBgDetail(findBackground(S.background));
+    });
+
     sel.addEventListener('mouseenter', e => {
         if (!S.background) return;
-        const bg = DB.backgrounds.find(b => b.name === S.background);
+        const bg = findBackground(S.background);
         if (!bg) return;
         const parts = [];
-        if (bg.feature)        parts.push(`Feature: ${bg.feature}`);
-        if (bg.skills?.length) parts.push(`Skills: ${bg.skills.join(', ')}`);
-        if (bg.tools?.length)  parts.push(`Tools: ${bg.tools.join(', ')}`);
-        if (bg.languages)      parts.push(`+${bg.languages} language${bg.languages > 1 ? 's' : ''}`);
+        if (bg.flavor_trait) parts.push(bg.flavor_trait);
+        if (bg.aptitude_modifier) {
+            const mods = Object.entries(bg.aptitude_modifier).map(([k,v]) => `${aptName(k)} ${v>0?'+':''}${v}`).join(', ');
+            if (mods) parts.push(`Aptitudes: ${mods}`);
+        }
         if (parts.length) showTip(e, parts.join('\n'));
     });
     sel.addEventListener('mouseleave', hideTip);
@@ -478,46 +395,85 @@ function wireLevel() {
     });
 }
 
-// ─── Alignment ────────────────────────────────────────────────────────────────
-function buildAlignmentGrid() {
+// ─── Birth Mother Sign ─────────────────────────────────────────────────────────
+function buildBirthSignSelect() {
     const grid = $('alignment-grid');
-    ALIGNMENTS.forEach(a => {
-        const btn = el('button', 'align-btn');
-        btn.textContent = a;
-        btn.addEventListener('click', () => {
-            grid.querySelectorAll('.align-btn').forEach(b => b.classList.remove('sel'));
-            btn.classList.add('sel');
-            S.alignment = a;
-        });
-        grid.appendChild(btn);
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    // Build a dropdown-style selector from the birth mother signs
+    const label = el('div');
+    label.style.cssText = 'font-size:0.78rem;color:var(--text-muted);font-style:italic;margin-bottom:0.5rem;';
+    label.textContent = 'The sign of the month you were born under. 80% of people bear no sign (Childless).';
+    grid.appendChild(label);
+
+    const sel = document.createElement('select');
+    sel.id = 'sel-birth-sign';
+    sel.className = 'rpg-select';
+    sel.style.width = '100%';
+    sel.innerHTML = '<option value="">— Choose Sign —</option>';
+
+    const signs = DB.birthmothersigns?.signs || [];
+    const alignGroups = {};
+    signs.forEach(sign => {
+        if (!alignGroups[sign.alignment]) alignGroups[sign.alignment] = [];
+        alignGroups[sign.alignment].push(sign);
     });
+
+    ['None', 'Light', 'Materium', 'Dark'].forEach(align => {
+        if (!alignGroups[align]) return;
+        const og = document.createElement('optgroup');
+        og.label = align === 'None' ? 'No Sign' : `${align} Signs`;
+        alignGroups[align].forEach(sign => {
+            const opt = document.createElement('option');
+            opt.value = sign.id;
+            opt.textContent = `${sign.name} (${sign.goddess_name || align})`;
+            og.appendChild(opt);
+        });
+        sel.appendChild(og);
+    });
+
+    sel.addEventListener('change', e => {
+        S.birthSign = e.target.value || null;
+    });
+
+    sel.addEventListener('mouseenter', e => {
+        if (!S.birthSign) return;
+        const sign = signs.find(s => s.id === S.birthSign);
+        if (!sign) return;
+        const parts = [sign.description];
+        if (sign.perk) parts.push(`Perk — ${sign.perk.name}: ${sign.perk.effect}`);
+        showTip(e, parts.join('\n'));
+    });
+    sel.addEventListener('mouseleave', hideTip);
+
+    grid.appendChild(sel);
 }
 
-// ─── Ability scores ───────────────────────────────────────────────────────────
-function buildAbilityScores() {
-    buildStdRows();
-    buildPbRows();
-    buildRollRows();
+// ─── Aptitude scores ──────────────────────────────────────────────────────────
+function buildAptitudeScores() {
+    buildStdAptRows();
+    buildAllocRows();
+    buildRollAptRows();
 
     document.querySelectorAll('.mth-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.mth-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.ab-panel').forEach(p => p.classList.remove('active'));
             btn.classList.add('active');
-            S.abilityMethod = btn.dataset.method;
-            $(`ab-${S.abilityMethod}`).classList.add('active');
-            syncScoresToState();
+            S.aptitudeMethod = btn.dataset.method;
+            $(`ab-${S.aptitudeMethod}`).classList.add('active');
+            syncAptitudesToState();
             updateDerivedStats();
         });
     });
 }
 
-function makeAbRow(ab, abbr) {
+function makeAptRow(apt) {
     const row    = el('div', 'ab-row');
-    const abbrEl = el('span', 'ab-abbr'); abbrEl.textContent = abbr;
-    const nameEl = el('span', 'ab-name'); nameEl.textContent = ab;
-    // Tooltip on ability name
-    const desc = ABILITY_DESC[ab];
+    const abbrEl = el('span', 'ab-abbr'); abbrEl.textContent = aptShort(apt);
+    const nameEl = el('span', 'ab-name'); nameEl.textContent = aptName(apt);
+    const desc = APTITUDE_DESC[apt];
     if (desc) {
         nameEl.style.cursor = 'help';
         nameEl.addEventListener('mouseenter', e => showTip(e, desc));
@@ -527,64 +483,80 @@ function makeAbRow(ab, abbr) {
     return row;
 }
 
-function buildStdRows() {
+function buildStdAptRows() {
     const cont = $('std-rows');
     cont.innerHTML = '';
-    ABILITIES.forEach((ab, i) => {
-        const row   = makeAbRow(ab, ABILITY_SHORT[i]);
-        const sel   = document.createElement('select');
-        sel.className = 'ab-roll-sel';
-        sel.id = `std-${ab}`;
-        const blank = document.createElement('option'); blank.value = ''; blank.textContent = '—'; sel.appendChild(blank);
-        STANDARD_ARRAY.forEach(v => {
-            const opt = document.createElement('option'); opt.value = v; opt.textContent = v; sel.appendChild(opt);
-        });
-        const modEl = el('span', 'ab-mod'); modEl.id = `std-${ab}-mod`; modEl.textContent = '—';
-        sel.addEventListener('change', () => {
-            modEl.textContent = sel.value ? fmod(+sel.value) : '—';
-            syncScoresToState();
-            updateDerivedStats();
-        });
-        row.append(sel, modEl);
+    APTITUDES.forEach(apt => {
+        const row   = makeAptRow(apt);
+        const valEl = el('span', 'ab-score'); valEl.id = `std-${apt}-val`; valEl.textContent = S.aptitudes[apt];
+        const noteEl = el('span', 'ab-mod'); noteEl.id = `std-${apt}-note`; noteEl.style.fontSize = '0.7rem'; noteEl.style.color = 'var(--text-muted)';
+        row.append(valEl, noteEl);
         cont.appendChild(row);
     });
+    updateAptitudeDisplays();
 }
 
-function buildPbRows() {
+function updateAptitudeDisplays() {
+    // Standard rows: just show current value with class bonus note
+    const cls = findClass(S.cls);
+    const bonuses = cls?.aptitude_bonuses || {};
+    APTITUDES.forEach(apt => {
+        const v = $(`std-${apt}-val`);
+        if (v) v.textContent = S.aptitudes[apt] ?? BASE_APTITUDE;
+        const n = $(`std-${apt}-note`);
+        if (n) {
+            const b = bonuses[apt] || 0;
+            n.textContent = b !== 0 ? (b > 0 ? `+${b}` : `${b}`) : '';
+        }
+    });
+    // Alloc rows: show current value
+    APTITUDES.forEach(apt => {
+        const v = $(`alloc-${apt}-val`);
+        if (v) v.textContent = S.allocAptitudes[apt] ?? BASE_APTITUDE;
+        const m = $(`alloc-${apt}-mod`);
+        if (m) {
+            const val = S.allocAptitudes[apt] ?? BASE_APTITUDE;
+            const tier = val >= 80 ? 'Legendary' : val >= 60 ? 'Expert' : val >= 40 ? 'Seasoned' : val >= 20 ? 'Novice' : 'Untrained';
+            m.textContent = tier;
+        }
+    });
+    const spent = APTITUDES.reduce((s, a) => s + Math.max(0, (S.allocAptitudes[a] ?? BASE_APTITUDE) - BASE_APTITUDE), 0);
+    const remain = $('pb-remain');
+    if (remain) remain.textContent = ALLOC_BUDGET - spent;
+}
+
+function buildAllocRows() {
     const cont = $('pb-rows');
     cont.innerHTML = '';
-    ABILITIES.forEach((ab, i) => {
-        const row   = makeAbRow(ab, ABILITY_SHORT[i]);
+    APTITUDES.forEach(apt => {
+        const row   = makeAptRow(apt);
         const ctrl  = el('div', 'ab-pb-ctrl');
         const minus = el('button', 'pb-adj'); minus.textContent = '−';
-        const valEl = el('span', 'ab-score'); valEl.id = `pb-${ab}-val`; valEl.textContent = '8';
+        const valEl = el('span', 'ab-score'); valEl.id = `alloc-${apt}-val`; valEl.textContent = S.allocAptitudes[apt];
         const plus  = el('button', 'pb-adj'); plus.textContent  = '+';
-        minus.addEventListener('click', () => adjustPB(ab, -1));
-        plus.addEventListener('click',  () => adjustPB(ab, +1));
+        minus.addEventListener('click', () => adjustAlloc(apt, -1));
+        plus.addEventListener('click',  () => adjustAlloc(apt, +1));
         ctrl.append(minus, valEl, plus);
-        const modEl = el('span', 'ab-mod'); modEl.id = `pb-${ab}-mod`; modEl.textContent = fmod(8);
+        const modEl = el('span', 'ab-mod'); modEl.id = `alloc-${apt}-mod`; modEl.textContent = '';
         row.append(ctrl, modEl);
         cont.appendChild(row);
-        S.pbScores[ab] = 8;
     });
 }
 
-function adjustPB(ab, delta) {
-    const cur  = S.pbScores[ab];
-    const next = Math.min(15, Math.max(8, cur + delta));
+function adjustAlloc(apt, delta) {
+    const cur  = S.allocAptitudes[apt];
+    const next = Math.min(ALLOC_MAX, Math.max(ALLOC_MIN, cur + delta));
     if (next === cur) return;
-    const spent = ABILITIES.reduce((s, a) => s + (PB_COST[S.pbScores[a]] || 0), 0)
-                - (PB_COST[cur] || 0) + (PB_COST[next] || 0);
-    if (spent > PB_BUDGET) { toast('Not enough points.'); return; }
-    S.pbScores[ab] = next;
-    $(`pb-${ab}-val`).textContent = next;
-    $(`pb-${ab}-mod`).textContent = fmod(next);
-    $('pb-remain').textContent    = PB_BUDGET - spent;
-    syncScoresToState();
+    const spent = APTITUDES.reduce((s, a) => s + Math.max(0, S.allocAptitudes[a] - BASE_APTITUDE), 0)
+                - Math.max(0, cur - BASE_APTITUDE) + Math.max(0, next - BASE_APTITUDE);
+    if (spent > ALLOC_BUDGET) { toast('Not enough allocation points.'); return; }
+    S.allocAptitudes[apt] = next;
+    syncAptitudesToState();
+    updateAptitudeDisplays();
     updateDerivedStats();
 }
 
-function buildRollRows() {
+function buildRollAptRows() {
     const cont = $('roll-rows');
     cont.innerHTML = '';
 
@@ -595,67 +567,67 @@ function buildRollRows() {
         cont.parentElement.insertBefore(pool, cont);
     }
 
-    ABILITIES.forEach((ab, i) => {
-        const row     = makeAbRow(ab, ABILITY_SHORT[i]);
+    APTITUDES.forEach(apt => {
+        const row     = makeAptRow(apt);
         row.style.cursor = 'pointer';
         row.title = 'Click a rolled value above, then click here to assign it';
-        const scoreEl = el('span', 'ab-score'); scoreEl.id = `roll-${ab}-val`; scoreEl.textContent = '—';
-        const modEl   = el('span', 'ab-mod');   modEl.id   = `roll-${ab}-mod`; modEl.textContent   = '—';
+        const scoreEl = el('span', 'ab-score'); scoreEl.id = `roll-${apt}-val`; scoreEl.textContent = '—';
+        const modEl   = el('span', 'ab-mod');   modEl.id   = `roll-${apt}-mod`; modEl.textContent   = '';
         row.append(scoreEl, modEl);
         row.addEventListener('click', () => {
-            if (S.pendingRoll !== null && S.rollScores[ab] === null) {
-                assignRoll(ab, S.pendingRoll);
-            } else if (S.rollScores[ab] !== null) {
-                S.rolledPool.push(S.rollScores[ab]);
-                S.rollScores[ab] = null;
+            if (S.pendingRoll !== null && S.rollAptitudes[apt] === null) {
+                assignRoll(apt, S.pendingRoll);
+            } else if (S.rollAptitudes[apt] !== null) {
+                S.rolledPool.push(S.rollAptitudes[apt]);
+                S.rollAptitudes[apt] = null;
                 scoreEl.textContent = '—';
-                modEl.textContent   = '—';
+                modEl.textContent   = '';
                 S.pendingRoll = null;
                 refreshRollPool();
-                syncScoresToState();
+                syncAptitudesToState();
                 updateDerivedStats();
             }
         });
         cont.appendChild(row);
     });
 
-    $('btn-roll').addEventListener('click', () => {
-        S.rolledPool  = [];
-        S.pendingRoll = null;
-        S.rollScores  = { Strength:null, Dexterity:null, Constitution:null, Intelligence:null, Wisdom:null, Charisma:null };
-        ABILITIES.forEach(ab => {
-            const v = $(`roll-${ab}-val`); if (v) v.textContent = '—';
-            const m = $(`roll-${ab}-mod`); if (m) m.textContent = '—';
+    const rollBtn = $('btn-roll');
+    if (rollBtn) {
+        rollBtn.replaceWith(rollBtn.cloneNode(true)); // remove old listener
+        const newBtn = $('btn-roll');
+        newBtn.addEventListener('click', () => {
+            S.rolledPool     = [];
+            S.pendingRoll    = null;
+            S.rollAptitudes  = makeNullAptObj();
+            APTITUDES.forEach(apt => {
+                const v = $(`roll-${apt}-val`); if (v) v.textContent = '—';
+                const m = $(`roll-${apt}-mod`); if (m) m.textContent = '';
+            });
+            // Roll 6 values in range 25–55
+            for (let i = 0; i < 6; i++) {
+                S.rolledPool.push(25 + Math.floor(Math.random() * 31));
+            }
+            refreshRollPool();
+            syncAptitudesToState();
+            updateDerivedStats();
         });
-        for (let i = 0; i < 6; i++) {
-            const rolls = [0,0,0,0].map(() => Math.floor(Math.random()*6)+1);
-            rolls.sort((a,b) => a-b);
-            S.rolledPool.push(rolls[1]+rolls[2]+rolls[3]);
-        }
-        refreshRollPool();
-        syncScoresToState();
-        updateDerivedStats();
-    });
+    }
 }
 
 function refreshRollPool() {
     const pool = $('roll-pool');
     if (!pool) return;
     pool.innerHTML = '';
-    if (!S.rolledPool.length && Object.values(S.rollScores).every(v => v === null)) {
-        pool.innerHTML = '<span style="font-size:0.68rem;color:var(--text-muted);font-style:italic;">Click Roll to generate scores, then assign each to an ability.</span>';
+    if (!S.rolledPool.length && APTITUDES.every(a => S.rollAptitudes[a] === null)) {
+        pool.innerHTML = '<span style="font-size:0.68rem;color:var(--text-muted);font-style:italic;">Click Roll to generate values, then assign each to an aptitude.</span>';
         return;
     }
     S.rolledPool.forEach(v => {
         const chip = el('span');
         chip.textContent = v;
-        chip.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:2rem;height:2rem;border:1px solid var(--green-dim);background:var(--bg-card);color:var(--gold);font-size:0.9rem;cursor:pointer;transition:border-color 0.15s,background 0.15s;';
-        chip.title = 'Click to select, then click an ability row to assign';
+        chip.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:2.2rem;height:2rem;border:1px solid var(--green-dim);background:var(--bg-card);color:var(--gold);font-size:0.88rem;cursor:pointer;transition:border-color 0.15s,background 0.15s;';
         chip.addEventListener('click', () => {
-            pool.querySelectorAll('span').forEach(c => {
-                c.style.borderColor = 'var(--green-dim)';
-                c.style.background  = 'var(--bg-card)';
-            });
+            pool.querySelectorAll('span').forEach(c => { c.style.borderColor='var(--green-dim)'; c.style.background='var(--bg-card)'; });
             S.pendingRoll = v;
             chip.style.borderColor = 'var(--gold)';
             chip.style.background  = 'rgba(201,168,76,0.12)';
@@ -664,28 +636,29 @@ function refreshRollPool() {
     });
 }
 
-function assignRoll(ab, val) {
+function assignRoll(apt, val) {
     const idx = S.rolledPool.indexOf(val);
     if (idx !== -1) S.rolledPool.splice(idx, 1);
-    S.rollScores[ab] = val;
-    S.pendingRoll    = null;
-    const scoreEl = $(`roll-${ab}-val`); if (scoreEl) scoreEl.textContent = val;
-    const modEl   = $(`roll-${ab}-mod`); if (modEl)   modEl.textContent   = fmod(val);
+    S.rollAptitudes[apt] = val;
+    S.pendingRoll = null;
+    const scoreEl = $(`roll-${apt}-val`); if (scoreEl) scoreEl.textContent = val;
+    const modEl   = $(`roll-${apt}-mod`);
+    if (modEl) {
+        const tier = val >= 80 ? 'Legendary' : val >= 60 ? 'Expert' : val >= 40 ? 'Seasoned' : val >= 20 ? 'Novice' : 'Untrained';
+        modEl.textContent = tier;
+    }
     refreshRollPool();
-    syncScoresToState();
+    syncAptitudesToState();
     updateDerivedStats();
 }
 
-function syncScoresToState() {
-    if (S.abilityMethod === 'standard') {
-        ABILITIES.forEach(ab => {
-            const sel = $(`std-${ab}`);
-            S.scores[ab] = (sel && sel.value) ? +sel.value : 8;
-        });
-    } else if (S.abilityMethod === 'pointbuy') {
-        ABILITIES.forEach(ab => { S.scores[ab] = S.pbScores[ab]; });
+function syncAptitudesToState() {
+    if (S.aptitudeMethod === 'standard') {
+        APTITUDES.forEach(a => { S.aptitudes[a] = S.aptitudes[a] ?? BASE_APTITUDE; });
+    } else if (S.aptitudeMethod === 'pointbuy') {
+        APTITUDES.forEach(a => { S.aptitudes[a] = S.allocAptitudes[a]; });
     } else {
-        ABILITIES.forEach(ab => { S.scores[ab] = S.rollScores[ab] ?? 8; });
+        APTITUDES.forEach(a => { S.aptitudes[a] = S.rollAptitudes[a] ?? BASE_APTITUDE; });
     }
 }
 
@@ -695,48 +668,63 @@ function buildSkillRows() {
     grid.innerHTML = '';
     S.skills.clear();
 
-    const cd       = S.cls ? CLASS_DATA[S.cls] : null;
-    const allowed  = cd ? (cd.skills === 'any' ? null : new Set(cd.skills)) : null;
-    const maxPicks = cd ? cd.skillCount : 2;
+    const cls           = findClass(S.cls);
+    const startingSkills = cls?.starting_skills;
+    const fixed         = new Set(startingSkills?.fixed || []);
+    const choiceSet     = startingSkills?.choices ? new Set(startingSkills.choices) : null;
+    const choiceCount   = startingSkills?.choice_count || 2;
 
     const infoEl = $('skill-info');
-    if (cd) {
-        const from = (cd.skills !== 'any') ? ` from the ${S.cls} list` : '';
-        infoEl.textContent = `Choose ${maxPicks} skill${maxPicks > 1 ? 's' : ''}${from}. Defaults have been pre-selected — adjust as you wish.`;
+    if (cls) {
+        const fixedNames = getAllSkills().filter(sk => fixed.has(sk.id)).map(sk => sk.name).join(', ');
+        infoEl.textContent = `Fixed: ${fixedNames || '—'} · Choose ${choiceCount} additional skill${choiceCount > 1 ? 's' : ''} from class list.`;
     } else {
         infoEl.textContent = 'Select a class to see available skills.';
     }
 
-    DB.skills.forEach(sk => {
-        const inList = !allowed || allowed.has(sk.skillName);
-        const row    = el('div', `skill-row${inList ? '' : ' sk-disabled'}`);
-        row.dataset.name = sk.skillName;
+    // Group skills by category
+    (DB.skills?.categories || []).forEach(cat => {
+        const catSkills = cat.skills || [];
+        if (!catSkills.length) return;
 
-        const check = el('span', 'sk-check'); row.appendChild(check);
-        const name  = el('span', 'sk-name');  name.textContent = sk.skillName; row.appendChild(name);
-        const ab    = el('span', 'sk-ab');    ab.textContent = sk.associatedAbility.slice(0,3).toUpperCase(); row.appendChild(ab);
-        const tag   = el('span', `sk-tag ${sk.source}`); tag.textContent = sk.source === 'core' ? 'Core' : 'Exp'; row.appendChild(tag);
+        const header = el('div', 'sk-category-header');
+        header.textContent = `${cat.category} [${aptShort(cat.aptitude_link)}]`;
+        grid.appendChild(header);
 
-        // Skill tooltip
-        const desc = SKILL_DESC[sk.skillName];
-        if (desc) {
-            row.addEventListener('mouseenter', e => showTip(e, desc));
-            row.addEventListener('mouseleave', hideTip);
-        }
+        catSkills.forEach(sk => {
+            const isFixed    = fixed.has(sk.id);
+            const inChoices  = !choiceSet || choiceSet.has(sk.id);
+            const disabled   = cls && !isFixed && !inChoices;
 
-        if (inList) {
-            row.addEventListener('click', () => {
-                if (row.classList.contains('sk-on')) {
-                    row.classList.remove('sk-on');
-                    S.skills.delete(sk.skillName);
-                } else {
-                    if (S.skills.size >= maxPicks) { toast(`Max ${maxPicks} skills for this class.`); return; }
-                    row.classList.add('sk-on');
-                    S.skills.add(sk.skillName);
-                }
-            });
-        }
-        grid.appendChild(row);
+            const row = el('div', `skill-row${disabled ? ' sk-disabled' : ''}${isFixed ? ' sk-fixed' : ''}`);
+            row.dataset.name = sk.id;
+
+            const check = el('span', 'sk-check'); row.appendChild(check);
+            const name  = el('span', 'sk-name');  name.textContent = sk.name; row.appendChild(name);
+            const ab    = el('span', 'sk-ab');    ab.textContent   = aptShort(cat.aptitude_link); row.appendChild(ab);
+
+            const desc = SKILL_DESC[sk.id] || sk.description;
+            if (desc) {
+                row.addEventListener('mouseenter', e => showTip(e, desc));
+                row.addEventListener('mouseleave', hideTip);
+            }
+
+            if (!disabled) {
+                row.addEventListener('click', () => {
+                    if (isFixed) return;
+                    if (row.classList.contains('sk-on')) {
+                        row.classList.remove('sk-on');
+                        S.skills.delete(sk.id);
+                    } else {
+                        const nonFixed = [...S.skills].filter(id => !fixed.has(id)).length;
+                        if (nonFixed >= choiceCount) { toast(`Max ${choiceCount} choice skills for this class.`); return; }
+                        row.classList.add('sk-on');
+                        S.skills.add(sk.id);
+                    }
+                });
+            }
+            grid.appendChild(row);
+        });
     });
 }
 
@@ -753,36 +741,57 @@ function wireEquipment() {
 }
 
 function updateEquipGoldHint() {
-    const cd  = S.cls ? CLASS_DATA[S.cls] : null;
+    const cls = findClass(S.cls);
     const h   = $('gold-hint');
-    h.textContent = (S.equipment === 'gold' && cd) ? `Starting gold: ${cd.startGold} gp` : '';
+    h.textContent = (S.equipment === 'gold' && cls)
+        ? `Starting wealth: ${cls.starting_wealth_range ? cls.starting_wealth_range[0] + '–' + cls.starting_wealth_range[1] + ' gp' : 'varies by class'}`
+        : '';
 }
 
 // ─── Derived stats ────────────────────────────────────────────────────────────
 function updateDerivedStats() {
-    syncScoresToState();
-    const cd     = S.cls ? CLASS_DATA[S.cls] : null;
-    const conMod = mod(S.scores.Constitution);
+    syncAptitudesToState();
+    const cls  = findClass(S.cls);
+    const race = findRace(S.race);
 
-    $('d-hp').textContent    = cd ? Math.max(1, cd.hitDie + conMod) : '—';
-    $('d-hd').textContent    = cd ? `d${cd.hitDie}` : '—';
-    $('d-prof').textContent  = `+${PROF_BONUS[S.level] || 2}`;
-    $('d-speed').textContent = `${RACE_SPEED[S.race] || 30} ft`;
+    // Vitality (HP) = 40 + Physiology * 0.6 (approximation)
+    const physVal = S.aptitudes.physiology || BASE_APTITUDE;
+    const baseVit = Math.round(40 + physVal * 0.6);
+    $('d-hp').textContent = baseVit;
 
+    // Materium pool
+    const matPool = (cls?.materium_pool_start || 0) + (race?.materium_pool_bonus || 0);
+    $('d-hd').textContent = cls?.materium_access ? `${matPool} MP` : '—';
+
+    // Level display
+    $('d-prof').textContent = `Lv ${S.level}`;
+
+    // Class trait name
+    $('d-speed').textContent = cls?.special_class_trait?.name || '—';
+
+    // Aptitude focus (replaces saves-row): show class aptitude priorities
     const savesRow = $('saves-row');
     savesRow.innerHTML = '';
-    const saves = cd ? cd.saves : [];
-    if (!saves.length) {
+    const priorities = cls?.aptitude_priorities || [];
+    if (!priorities.length) {
         const p = el('span', 'save-pill'); p.textContent = '—'; savesRow.appendChild(p);
     } else {
-        saves.forEach(s => {
-            const p = el('span', 'save-pill'); p.textContent = s.slice(0,3).toUpperCase(); savesRow.appendChild(p);
+        priorities.slice(0, 3).forEach(ap => {
+            const id = ap.toLowerCase().replace(/ /g, '_');
+            const p = el('span', 'save-pill');
+            p.textContent = aptShort(id);
+            p.title = aptName(id);
+            savesRow.appendChild(p);
         });
     }
 
+    // Identity line
+    const raceData  = race;
+    const raceName  = raceData ? raceData.name : (S.race ? S.race.replace(/_/g, ' ') : null);
+    const clsName   = cls ? cls.name : null;
     const parts = [];
-    if (S.race) parts.push(S.subrace ? `${S.subrace} ${S.race}` : S.race);
-    if (S.cls)  parts.push(S.subclass || S.cls);
+    if (raceName) parts.push(raceName);
+    if (clsName)  parts.push(S.subclass || clsName);
     if (S.level > 1) parts.push(`Level ${S.level}`);
     $('identity-line').textContent = parts.length ? parts.join(' · ') : 'Choose race & class';
 }
@@ -794,13 +803,18 @@ function updateFlavorText() {
         ft.innerHTML = 'Select a race and class to reveal the lore of your hero...';
         return;
     }
-    const raceName   = S.subrace ? `${S.subrace} ${S.race}` : S.race;
-    const raceBlurb  = S.race ? (RACE_BLURBS[S.race]  || `The ${S.race} are a proud and storied people.`) : '';
-    const classBlurb = S.cls  ? (CLASS_BLURBS[S.cls]   || `The ${S.cls} follows a path of power and purpose.`) : '';
+    const raceData = findRace(S.race);
+    const raceName = raceData ? raceData.name : (S.race ? S.race.replace(/_/g, ' ') : '');
+    const clsData  = findClass(S.cls);
+    const clsName  = clsData ? clsData.name : (S.cls ? S.cls : '');
+
+    const raceBlurb  = S.race ? (RACE_BLURBS[S.race]  || (raceData?.description) || `The ${raceName} are a proud and storied people.`) : '';
+    const classBlurb = S.cls  ? (CLASS_BLURBS[S.cls]  || (clsData?.description)  || `The ${clsName} follows a path of power and purpose.`) : '';
+
     let html = '';
     if (S.race) html += `<strong>${raceName}.</strong> ${raceBlurb}`;
     if (S.race && S.cls) html += '<br><br>';
-    if (S.cls)  html += `<strong>${S.cls}.</strong> ${classBlurb}`;
+    if (S.cls)  html += `<strong>${clsName}.</strong> ${classBlurb}`;
     ft.innerHTML = html;
 }
 
@@ -809,10 +823,23 @@ function updateBgDetail(bg) {
     const d = $('bg-detail-text');
     if (!bg) { d.textContent = 'Select a background to see its perks.'; return; }
     const parts = [];
-    if (bg.feature)        parts.push(`Feature: ${bg.feature}`);
-    if (bg.skills?.length) parts.push(`Skills: ${bg.skills.join(', ')}`);
-    if (bg.tools?.length)  parts.push(`Tools: ${bg.tools.join(', ')}`);
-    if (bg.languages)      parts.push(`Languages: +${bg.languages}`);
+    if (bg.flavor_trait) parts.push(`"${bg.flavor_trait}"`);
+    if (bg.aptitude_modifier) {
+        const mods = Object.entries(bg.aptitude_modifier)
+            .map(([k, v]) => `${aptName(k)} ${v > 0 ? '+' : ''}${v}`).join(', ');
+        if (mods) parts.push(`Aptitudes: ${mods}`);
+    }
+    if (bg.starting_skill_bonuses) {
+        const allSk = getAllSkills();
+        const skBonuses = Object.entries(bg.starting_skill_bonuses)
+            .map(([id, v]) => {
+                const sk = allSk.find(s => s.id === id);
+                return `${sk ? sk.name : id} +${v}`;
+            }).join(', ');
+        if (skBonuses) parts.push(`Skills: ${skBonuses}`);
+    }
+    if (bg.starting_wealth_modifier) parts.push(`Wealth: ${bg.starting_wealth_modifier}`);
+    if (bg.equipment_bonus?.length)  parts.push(`Gear: ${bg.equipment_bonus.join(', ')}`);
     d.textContent = parts.length ? parts.join(' · ') : bg.name;
 }
 
@@ -820,7 +847,8 @@ function updateBgDetail(bg) {
 function updateInventory() {
     const list = $('inventory-list');
     list.innerHTML = '';
-    const items = S.cls ? STARTING_PACKS[S.cls] : null;
+    const cls = findClass(S.cls);
+    const items = cls?.starter_kit || null;
     if (!items) {
         const s = el('span', 'inv-empty'); s.textContent = 'Choose a class to see starting gear.'; list.appendChild(s); return;
     }
@@ -841,7 +869,7 @@ function renderPartySlots() {
         const slot   = el('div', `party-slot${member ? ' filled' : ''}`);
         const port   = el('div', 'party-slot-port');
         const img    = document.createElement('img');
-        img.src = 'assets/images/characterportraits/elfrougefemale.jpg';
+        img.src = member?.portrait || 'assets/images/characterportraits/ashenfemale.jpg';
         img.alt = member ? (member.name || 'Character') : 'Empty';
         port.appendChild(img);
         const nm = el('div', 'party-slot-name');
@@ -897,7 +925,6 @@ function wireTabs() {
     });
 }
 
-// ─── Tab prev/next navigation ─────────────────────────────────────────────────
 function currentTabIdx() {
     return TAB_ORDER.findIndex(t => {
         const panel = $(`tab-${t}`);
@@ -931,68 +958,85 @@ function wireTabNav() {
     const prev = $('btn-tab-prev');
     const next = $('btn-tab-next');
     if (!prev || !next) return;
-    prev.addEventListener('click', () => {
-        const idx = currentTabIdx();
-        if (idx > 0) goToTabIdx(idx - 1);
-    });
-    next.addEventListener('click', () => {
-        const idx = currentTabIdx();
-        if (idx < TAB_ORDER.length - 1) goToTabIdx(idx + 1);
-    });
+    prev.addEventListener('click', () => { const idx = currentTabIdx(); if (idx > 0) goToTabIdx(idx - 1); });
+    next.addEventListener('click', () => { const idx = currentTabIdx(); if (idx < TAB_ORDER.length - 1) goToTabIdx(idx + 1); });
     updateTabNav(0);
 }
 
 // ─── View sheet ───────────────────────────────────────────────────────────────
 function showViewSheet(char, origin = 'create') {
     S.viewSheetOrigin = origin;
-    const raceStr = char.race ? (char.subrace ? `${char.subrace} ${char.race}` : char.race) : null;
+    const raceData = findRace(char.race);
+    const raceName = raceData ? raceData.name : (char.race ? char.race.replace(/_/g, ' ') : null);
+    const clsData  = findClass(char.cls);
+    const clsName  = clsData ? clsData.name : char.cls;
+    const portraitSrc = char.portrait || $('char-portrait-img')?.getAttribute('src') || 'assets/images/characterportraits/ashenfemale.jpg';
 
     $('vs-name').textContent       = char.name || 'Unnamed Hero';
-    $('vs-sub').textContent        = [`Lv${char.level}`, raceStr, char.cls, char.alignment].filter(Boolean).join(' · ');
-    $('vs-race').textContent       = char.race       || '—';
+    $('vs-sub').textContent        = [`Lv${char.level}`, raceName, clsName, char.birthSign].filter(Boolean).join(' · ');
+    $('vs-race').textContent       = raceName  || '—';
     $('vs-subrace').textContent    = char.subrace    || '—';
     $('vs-gender').textContent     = char.gender     || '—';
-    $('vs-class').textContent      = char.cls        || '—';
+    $('vs-class').textContent      = clsName   || '—';
     $('vs-subclass').textContent   = char.subclass   || '—';
     $('vs-background').textContent = char.background || '—';
-    $('vs-alignment').textContent  = char.alignment  || '—';
+    $('vs-alignment').textContent  = char.birthSign  || 'No Sign (Childless)';
     $('vs-level').textContent      = char.level      || 1;
+    const vsPortrait = $('vs-portrait-img');
+    if (vsPortrait) {
+        vsPortrait.src = portraitSrc;
+        vsPortrait.alt = `${char.name || 'Character'} portrait`;
+    }
 
     const abGrid = $('vs-ab-grid');
     abGrid.innerHTML = '';
-    ABILITIES.forEach((ab, i) => {
-        const score = (char.scores && char.scores[ab]) || 8;
+    APTITUDES.forEach(apt => {
+        const score = (char.aptitudes && char.aptitudes[apt]) || BASE_APTITUDE;
         const cell  = el('div', 'vs-ab-cell');
-        const abbr  = el('span', 'vs-ab-abbr'); abbr.textContent = ABILITY_SHORT[i];
-        const sc    = el('span', 'vs-ab-score'); sc.textContent  = score;
-        const m     = el('span', 'vs-ab-mod');   m.textContent   = fmod(score);
-        cell.append(abbr, sc, m);
+        const abbr  = el('span', 'vs-ab-abbr');  abbr.textContent  = aptShort(apt);
+        const sc    = el('span', 'vs-ab-score');  sc.textContent    = score;
+        const tier  = score >= 80 ? 'Leg' : score >= 60 ? 'Exp' : score >= 40 ? 'Sea' : score >= 20 ? 'Nov' : 'Unt';
+        const t     = el('span', 'vs-ab-mod');    t.textContent     = tier;
+        cell.append(abbr, sc, t);
         abGrid.appendChild(cell);
     });
 
-    $('vs-skills').textContent = (char.skills && char.skills.length) ? char.skills.join(', ') : '—';
-    const cd = char.cls ? CLASS_DATA[char.cls] : null;
-    $('vs-equip').textContent  = char.equipment === 'gold'
-        ? `Starting Gold (${(cd || {}).startGold || '?'} gp)`
-        : 'Starting Pack';
+    const allSk = getAllSkills();
+    const skillNames = (char.skills && char.skills.length)
+        ? char.skills.map(id => allSk.find(s => s.id === id)?.name || id).join(', ')
+        : '—';
+    $('vs-skills').textContent = skillNames;
+    $('vs-equip').textContent  = char.equipment === 'gold' ? 'Starting Gold' : 'Starting Pack';
 
-    $('char-name').value = char.name || '';
-    $('identity-line').textContent = [raceStr, char.subclass || char.cls].filter(Boolean).join(' · ') || 'Choose race & class';
-    $('d-hp').textContent    = cd ? Math.max(1, cd.hitDie + mod((char.scores || {}).Constitution || 8)) : '—';
-    $('d-hd').textContent    = cd ? `d${cd.hitDie}` : '—';
-    $('d-prof').textContent  = `+${PROF_BONUS[char.level] || 2}`;
-    $('d-speed').textContent = `${RACE_SPEED[char.race] || 30} ft`;
+    // Update left panel derived stats
+    const physVal = ((char.aptitudes || {}).physiology) || BASE_APTITUDE;
+    const vitality = Math.round(40 + physVal * 0.6);
+    const materiumPool = clsData?.materium_access ? `${clsData.materium_pool_start || 0} MP` : '—';
+    const classTrait = clsData?.special_class_trait?.name || '—';
+    const focusText = (clsData?.aptitude_priorities || [])
+        .slice(0, 3)
+        .map(ap => aptShort(ap.toLowerCase().replace(/ /g, '_')))
+        .join(' · ') || '—';
+
+    $('d-hp').textContent    = vitality;
+    $('d-hd').textContent    = materiumPool;
+    $('d-prof').textContent  = `Lv ${char.level}`;
+    $('d-speed').textContent = classTrait;
+    $('identity-line').textContent = [raceName, char.subclass || clsName].filter(Boolean).join(' · ') || 'Choose race & class';
+    if ($('vs-vitality')) $('vs-vitality').textContent = vitality;
+    if ($('vs-mpool')) $('vs-mpool').textContent = materiumPool;
+    if ($('vs-focus')) $('vs-focus').textContent = focusText;
+    if ($('vs-trait')) $('vs-trait').textContent = classTrait;
 
     const savesRow = $('saves-row');
     savesRow.innerHTML = '';
-    (cd ? cd.saves : []).forEach(s => {
-        const p = el('span', 'save-pill'); p.textContent = s.slice(0,3).toUpperCase(); savesRow.appendChild(p);
+    (clsData?.aptitude_priorities || []).slice(0, 3).forEach(ap => {
+        const id = ap.toLowerCase().replace(/ /g, '_');
+        const p = el('span', 'save-pill'); p.textContent = aptShort(id); savesRow.appendChild(p);
     });
 
-    // Update back button label
     const vsBack = $('btn-vs-back');
     if (vsBack) vsBack.textContent = origin === 'party' ? '← Back to Party' : '← Back';
-    // Hide "Create New" when coming from party (back button suffices)
     const newBtn = $('btn-view-new');
     if (newBtn) newBtn.style.display = origin === 'party' ? 'none' : '';
 
@@ -1025,14 +1069,11 @@ function hideViewSheet() {
 // ─── Party sheet ──────────────────────────────────────────────────────────────
 function showPartySheet(party) {
     S.activeParty = party;
-
     $('ps-party-name').textContent = party.name || 'Unnamed Party';
     $('ps-count').textContent = `${party.members.length} member${party.members.length !== 1 ? 's' : ''}`;
-
     const membersDiv = $('ps-members');
     membersDiv.innerHTML = '';
     party.members.forEach(char => membersDiv.appendChild(buildMemberCard(char)));
-
     $('cc-tabs').style.display = 'none';
     const footerNav = $('tab-footer-nav');
     if (footerNav) footerNav.classList.add('hidden');
@@ -1058,33 +1099,36 @@ function hidePartySheet() {
 }
 
 function buildMemberCard(char) {
-    const cd     = char.cls ? CLASS_DATA[char.cls] : null;
-    const conMod = mod((char.scores || {}).Constitution || 8);
-    const raceStr = char.subrace ? `${char.subrace} ${char.race}` : char.race;
+    const clsData  = findClass(char.cls);
+    const raceData = findRace(char.race);
+    const raceName = raceData ? raceData.name : (char.race ? char.race.replace(/_/g, ' ') : '');
+    const clsName  = clsData ? clsData.name : char.cls;
+
+    const physVal = ((char.aptitudes || {}).physiology) || BASE_APTITUDE;
+    const hp = Math.round(40 + physVal * 0.6);
 
     const card = el('div', 'ps-card');
-
     const port = el('div', 'ps-card-port');
     const img  = document.createElement('img');
-    img.src = 'assets/images/characterportraits/elfrougefemale.jpg';
+    img.src = char.portrait || 'assets/images/characterportraits/ashenfemale.jpg';
     img.alt = char.name || 'Character';
     port.appendChild(img);
 
     const name = el('div', 'ps-card-name'); name.textContent = char.name || 'Unnamed';
-
     const sub  = el('div', 'ps-card-sub');
-    sub.textContent = [`Lv${char.level}`, raceStr, char.cls].filter(Boolean).join(' · ');
+    sub.textContent = [`Lv${char.level}`, raceName, clsName].filter(Boolean).join(' · ');
 
     const stats = el('div', 'ps-card-stats');
     const rows = [
-        ['HP',         cd ? Math.max(1, cd.hitDie + conMod) : '—'],
-        ['Hit Die',    cd ? `d${cd.hitDie}` : '—'],
-        ['Saves',      cd ? cd.saves.map(s => s.slice(0,3).toUpperCase()).join(', ') : '—'],
-        ['Alignment',  char.alignment  || '—'],
+        ['Vitality',   hp],
+        ['Mat. Pool',  clsData?.materium_access ? `${clsData.materium_pool_start || 0} MP` : '—'],
+        ['Sign',       char.birthSign || 'No Sign'],
         ['Background', char.background || '—'],
     ];
     if (char.skills && char.skills.length) {
-        rows.push(['Skills', char.skills.join(', ')]);
+        const allSk = getAllSkills();
+        const skNames = char.skills.slice(0, 3).map(id => allSk.find(s => s.id === id)?.name || id).join(', ');
+        rows.push(['Skills', skNames + (char.skills.length > 3 ? '…' : '')]);
     }
     rows.forEach(([lbl, val]) => {
         const s = el('div', 'ps-stat');
@@ -1099,7 +1143,7 @@ function buildMemberCard(char) {
 
 // ─── Save / Load characters ───────────────────────────────────────────────────
 function buildCharObj() {
-    syncScoresToState();
+    syncAptitudesToState();
     return {
         id:         Date.now(),
         name:       S.name,
@@ -1107,11 +1151,12 @@ function buildCharObj() {
         gender:     S.gender,
         cls:        S.cls,        subclass:   S.subclass,
         level:      S.level,
-        scores:     { ...S.scores },
-        alignment:  S.alignment,
+        aptitudes:  { ...S.aptitudes },
+        birthSign:  S.birthSign,
         skills:     [...S.skills],
         background: S.background,
         equipment:  S.equipment,
+        portrait:   $('char-portrait-img')?.getAttribute('src') || 'assets/images/characterportraits/ashenfemale.jpg',
     };
 }
 
@@ -1136,12 +1181,14 @@ function loadChar(char) {
     S.gender     = char.gender;
     S.cls        = char.cls;        S.subclass = char.subclass;
     S.level      = char.level;
-    S.scores     = { ...char.scores };
-    S.alignment  = char.alignment;
+    S.aptitudes  = { ...makeAptObj(BASE_APTITUDE), ...(char.aptitudes || char.scores || {}) };
+    S.birthSign  = char.birthSign || char.alignment || null;
     S.skills     = new Set(char.skills || []);
     S.background = char.background;
     S.equipment  = char.equipment || 'pack';
-    showViewSheet(char);
+    const portrait = char.portrait || 'assets/images/characterportraits/ashenfemale.jpg';
+    if ($('char-portrait-img')) $('char-portrait-img').src = portrait;
+    showViewSheet({ ...char, portrait });
     toast(`Loaded: ${char.name || 'character'}`);
 }
 
@@ -1161,7 +1208,10 @@ function renderSavedChars() {
         const row  = el('div', 'saved-item');
         const info = el('div', 'saved-item-info');
         const nm   = el('div', 'saved-item-name'); nm.textContent = char.name || 'Unnamed';
-        const sub  = el('div', 'saved-item-sub');  sub.textContent = `Lv${char.level} ${char.race||''} ${char.cls||''}`.trim();
+        const raceData = findRace(char.race);
+        const clsData  = findClass(char.cls);
+        const sub  = el('div', 'saved-item-sub');
+        sub.textContent = `Lv${char.level} ${raceData?.name || char.race || ''} ${clsData?.name || char.cls || ''}`.trim();
         info.append(nm, sub);
         const del = el('button', 'del-btn'); del.textContent = '✕'; del.title = 'Delete';
         del.addEventListener('click', e => { e.stopPropagation(); deleteChar(char.id); });
@@ -1211,7 +1261,7 @@ function renderSavedParties() {
         info.append(nm, sub);
         const view = el('button', 'view-btn'); view.textContent = '⊙'; view.title = 'View party details';
         view.addEventListener('click', e => { e.stopPropagation(); showPartySheet(party); });
-        const del  = el('button', 'del-btn');  del.textContent  = '✕'; del.title = 'Delete';
+        const del  = el('button', 'del-btn'); del.textContent  = '✕'; del.title = 'Delete';
         del.addEventListener('click', e => { e.stopPropagation(); deleteParty(party.id); });
         row.addEventListener('click', () => loadParty(party));
         row.append(info, view, del);
@@ -1223,45 +1273,37 @@ function renderSavedParties() {
 function clearCreator() {
     S.race = null; S.subrace = null; S.gender = null;
     S.cls  = null; S.subclass = null; S.level = 1;
-    S.abilityMethod = 'standard';
-    S.scores     = { Strength:8, Dexterity:8, Constitution:8, Intelligence:8, Wisdom:8, Charisma:8 };
-    S.pbScores   = { Strength:8, Dexterity:8, Constitution:8, Intelligence:8, Wisdom:8, Charisma:8 };
-    S.rollScores = { Strength:null, Dexterity:null, Constitution:null, Intelligence:null, Wisdom:null, Charisma:null };
+    S.aptitudeMethod = 'standard';
+    S.aptitudes      = makeAptObj(BASE_APTITUDE);
+    S.allocAptitudes = makeAptObj(BASE_APTITUDE);
+    S.rollAptitudes  = makeNullAptObj();
     S.rolledPool = []; S.pendingRoll = null;
-    S.alignment  = null; S.skills = new Set();
+    S.birthSign  = null; S.skills = new Set();
     S.background = null; S.equipment = 'pack'; S.name = '';
 
-    ['sel-race','sel-class','sel-background','sel-gender'].forEach(id => $(id).value = '');
+    ['sel-race','sel-class','sel-background','sel-gender'].forEach(id => { const e = $(id); if (e) e.value = ''; });
+    const signSel = $('sel-birth-sign'); if (signSel) signSel.value = '';
     $('sel-subrace').innerHTML  = '';
     $('sel-subclass').innerHTML = '';
     $('row-subrace').style.display  = 'none';
     $('row-subclass').style.display = 'none';
-    ['race-badge','class-badge','bg-badge'].forEach(id => setBadge(id, null));
 
     $('char-name').value        = '';
     $('level-disp').textContent = 1;
     $('level-slider').value     = 1;
 
-    document.querySelectorAll('.align-btn').forEach(b => b.classList.remove('sel'));
-
     document.querySelectorAll('.mth-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.ab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelector('.mth-btn[data-method="standard"]').classList.add('active');
-    $('ab-standard').classList.add('active');
-    $('std-rows').querySelectorAll('select').forEach(s => { s.value = ''; });
-    $('std-rows').querySelectorAll('.ab-mod').forEach(m => { m.textContent = '—'; });
+    const stdBtn = document.querySelector('.mth-btn[data-method="standard"]');
+    if (stdBtn) stdBtn.classList.add('active');
+    const stdPanel = $('ab-standard');
+    if (stdPanel) stdPanel.classList.add('active');
 
-    ABILITIES.forEach(ab => {
-        S.pbScores[ab] = 8;
-        const v = $(`pb-${ab}-val`); if (v) v.textContent = '8';
-        const m = $(`pb-${ab}-mod`); if (m) m.textContent = fmod(8);
-    });
-    const pbR = $('pb-remain'); if (pbR) pbR.textContent = PB_BUDGET;
-
+    updateAptitudeDisplays();
     const pool = $('roll-pool'); if (pool) pool.innerHTML = '';
-    ABILITIES.forEach(ab => {
-        const v = $(`roll-${ab}-val`); if (v) v.textContent = '—';
-        const m = $(`roll-${ab}-mod`); if (m) m.textContent = '—';
+    APTITUDES.forEach(apt => {
+        const v = $(`roll-${apt}-val`); if (v) v.textContent = '—';
+        const m = $(`roll-${apt}-mod`); if (m) m.textContent = '';
     });
 
     document.querySelectorAll('.equip-opt').forEach(o => o.classList.remove('sel'));
@@ -1301,7 +1343,6 @@ function wireButtons() {
     $('btn-save-char').addEventListener('click', saveChar);
     $('btn-new-char').addEventListener('click',  clearCreator);
     $('btn-view-new').addEventListener('click',  clearCreator);
-    // Back buttons on view-sheet and party-sheet
     $('btn-vs-back').addEventListener('click', hideViewSheet);
     $('btn-ps-back').addEventListener('click', hidePartySheet);
 }
@@ -1309,13 +1350,15 @@ function wireButtons() {
 // ─── Init ─────────────────────────────────────────────────────────────────────
 async function init() {
     try {
-        const [races, classes, skills, backgrounds] = await Promise.all([
+        const [races, classes, skills, backgrounds, birthmothersigns, aptitudes] = await Promise.all([
             loadJSON('data/heroes/races.json'),
             loadJSON('data/heroes/classes.json'),
             loadJSON('data/heroes/skills.json'),
             loadJSON('data/heroes/backgrounds.json'),
+            loadJSON('data/mechanics/birthmothersigns.json'),
+            loadJSON('data/heroes/aptitudes.json'),
         ]);
-        DB = { races, classes, skills, backgrounds };
+        DB = { races, classes, skills, backgrounds, birthmothersigns, aptitudes };
 
         initTooltip();
         buildRaceSelect();
@@ -1323,8 +1366,8 @@ async function init() {
         buildBackgroundSelect();
         wireGender();
         wireLevel();
-        buildAlignmentGrid();
-        buildAbilityScores();
+        buildBirthSignSelect();
+        buildAptitudeScores();
         buildSkillRows();
         wireEquipment();
         wirePartyBar();

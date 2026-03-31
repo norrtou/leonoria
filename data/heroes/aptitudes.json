@@ -1,0 +1,301 @@
+{
+  "system": "Leonorian Aptitudes & Fluxes",
+  "description": "The six core Aptitudes that define every hero in Leonoria. Each has Sub-traits that level through use and can be referenced individually in character creation and combat.",
+  "mechanic_overview": {
+    "range": "0–100 for all aptitudes and sub-traits",
+    "leveling_speed": {
+      "aptitudes": "~10% per 100 turns used relevantly",
+      "skills": "~25% per 100 turns used relevantly"
+    },
+    "aging_peak": "Natural aptitude peak at age 35. Physiology decline begins at age 50.",
+    "aging_cognition": "Cognition (Erudition/Scholarly) continues growing regardless of age.",
+    "breaking_points": "Certain aptitude thresholds unlock access to abilities, items, or mechanics. These are called Breaking Points.",
+    "diminishing_returns": "Martial Experience gains taper with battle count — veterans learn less from standard combat than novices.",
+    "dice_connection": "Conviction determines the ceiling of dice rolls. A character cannot exceed their Conviction aptitude as a maximum roll modifier on most checks.",
+    "materium_pool": "Separate from aptitude values. Tracks available magical energy. Presented visually equivalent to HP. Low pool also reduces magical resistance."
+  },
+  "aptitudes": [
+    {
+      "id": "conviction",
+      "name": "Conviction",
+      "function": "Controls initiative order, the ceiling of dice roll outcomes, and resistance to all mental/spiritual stressors including stamina drain, curses, and morale shocks.",
+      "flavor": "The hardest thing to break is a man who has decided he will not be broken.",
+      "starting_range": [20, 60],
+      "max": 100,
+      "sub_traits": [
+        {
+          "id": "tenacity",
+          "name": "Tenacity",
+          "description": "The ability to push dice rolls to their maximum and resist immediate physical/mental shocks, fainting, and breaking under pressure.",
+          "starting_range": [10, 40],
+          "leveling": "Increases by surviving hardship, near-death events, and successful morale saves."
+        },
+        {
+          "id": "resonance",
+          "name": "Resonance",
+          "description": "Measures Loyalty to team and cause, and Religiosity — the depth and efficacy of faith-based actions. High Resonance creates group synergy bonuses on the battlefield. Grows with successful team outcomes and acts of faith.",
+          "starting_range": [5, 35],
+          "leveling": "Grows with team victories, religious actions, and consistent loyalty. Damaged by betrayal and faithlessness.",
+          "sub_sub_traits": [
+            {
+              "id": "openness",
+              "name": "Openness",
+              "description": "A fixed value set at character creation (0–10). Dictates receptivity to foreign cultures, faiths, and ideas. High Openness speeds up learning foreign Materium schools but increases vulnerability to foreign Maleficium. Also acts as the primary filter for Presence interactions — it determines whether Presence reads as Intimidating (Low) or Magnetic (High) to others.",
+              "fixed": true,
+              "range": [0, 10],
+              "social_note": "This value is NOT hidden. It can be perceived by experienced characters through Perception checks."
+            }
+          ]
+        }
+      ],
+      "related_damage_types": ["Verdicium", "Solacium", "Darkmind"],
+      "breaking_points": [
+        { "threshold": 25, "unlock": "Can now attempt morale saves against fear effects." },
+        { "threshold": 50, "unlock": "Initiative bonus activates: +1 position in initiative order." },
+        { "threshold": 75, "unlock": "Dice ceiling raised to 90% (from 75%). All Conviction sub-traits gain +5." },
+        { "threshold": 100, "unlock": "Immovable Will: Once per battle, prevent a Conviction-based effect from landing." }
+      ]
+    },
+    {
+      "id": "physiology",
+      "name": "Physiology",
+      "function": "The biological vessel. Dictates physical limits, survival capability, and durability in all physical confrontations.",
+      "flavor": "The body is an argument you make with the world. A strong body wins more arguments.",
+      "starting_range": [20, 60],
+      "max": 100,
+      "sub_traits": [
+        {
+          "id": "vitality",
+          "name": "Vitality (HP)",
+          "description": "The permanent health pool. Derived primarily from race, with a Physiology modifier. Cannot be easily reduced permanently — only Temporal damage and certain dark curses lower maximum Vitality.",
+          "starting_range": "Race-determined base + Physiology modifier",
+          "leveling": "Grows very slowly. Most HP gains come from race and class, not training.",
+          "note": "Presented visually like a health bar — the primary survival indicator."
+        },
+        {
+          "id": "hardening",
+          "name": "Hardening",
+          "description": "General resistance to damage types. Multiple sub-values exist — one per damage category. Physical Hardening is trained in combat by taking hits. Magical Hardening (Insulation) levels through surviving magical attacks. Biological Hardening (Immunity) resists poisons and disease.",
+          "starting_range": "1–10% per type (race modifiers may increase this)",
+          "max_per_type": "50%",
+          "leveling": "Slow. Each 100 hits from a type increases that resistance by ~5%.",
+          "sub_categories": ["physical_hardening", "magical_insulation", "immunity", "cold_resistance", "weathering"]
+        },
+        {
+          "id": "vigor",
+          "name": "Vigor (Strength)",
+          "description": "Determines the ability to carry and use heavy items. Partially affects physical damage output. Negatively affects Materium affinity at very high levels (physical density chokes the flow). Increases slowly by using heavy equipment. Tapers at age 50 and then actively declines.",
+          "starting_range": [10, 50],
+          "leveling": "Each heavy weapon use adds a tiny increment. Physical labor also contributes.",
+          "conflict": "High Vigor reduces Conduit Grade (Materium) by 1 for every 10 Vigor above 60."
+        },
+        {
+          "id": "metabolism",
+          "name": "Metabolism (Stamina)",
+          "description": "How fast and how long a hero can move on the world map and in combat. Drains from movement, actions, and stress. Linked to Conviction — a hero can 'push' their Metabolism limit with a Conviction (Tenacity) roll at cost.",
+          "starting_range": [20, 50],
+          "leveling": "Increases slowly with regular active use and world map movement."
+        }
+      ],
+      "related_damage_types": ["Blunt", "Slashing", "Piercing", "Rupturing", "Venomous", "Poisonous"],
+      "breaking_points": [
+        { "threshold": 30, "unlock": "Can equip medium armor without class restriction." },
+        { "threshold": 50, "unlock": "Heavy armor available. Physical Hardening gains +3 to all types." },
+        { "threshold": 70, "unlock": "Vigor max increased to 80. Heavy weapons no longer cost extra Metabolism." },
+        { "threshold": 100, "unlock": "Stone Body: Reduce all physical damage by 10% permanently." }
+      ]
+    },
+    {
+      "id": "cognition",
+      "name": "Cognition",
+      "alt_name": "Life Experiences",
+      "function": "The sum of learned knowledge and practical world experience. Covers scholarly learning, crafting, streetwise survival, and the accumulated wisdom of a life lived.",
+      "flavor": "Age is nothing. What age does is teach you what questions to ask.",
+      "starting_range": [15, 55],
+      "max": 100,
+      "sub_traits": [
+        {
+          "id": "erudition",
+          "name": "Erudition (Scholarly)",
+          "description": "The ability to learn new spells, Materium theories, and complex disciplines. Higher values make learning easier — it's not just what you know, but how fast you can absorb new knowledge. Grows naturally in older heroes and through dedicated study.",
+          "starting_range": [5, 40],
+          "leveling": "Increases with successful spell casts, book study events, and scholarly NPCs. Grows with age regardless of use.",
+          "note": "The Scholar class begins with significantly elevated Erudition."
+        },
+        {
+          "id": "ingenuity",
+          "name": "Ingenuity (Crafts)",
+          "description": "Skill in creating, repairing, and improving items from raw materials and ingredients. Applied to alchemy, smithing, magical item creation, and engineering. Trained by doing — every successful craft adds to it.",
+          "starting_range": [5, 35],
+          "leveling": "Trained by every crafting action."
+        },
+        {
+          "id": "worldliness",
+          "name": "Worldliness (Common)",
+          "description": "Practical street-level skills — lockpicking, pickpocketing, reading people, surviving in settlements, finding work. The intelligence of the street rather than the library.",
+          "starting_range": [5, 35],
+          "leveling": "Trained by social interactions, thievery actions, and survival events."
+        },
+        {
+          "id": "scarring",
+          "name": "Scarring (Trauma)",
+          "description": "Negative life experience that accumulates through age, battle failures, witnessing horror, and betrayal. Provides some defensive psychological grit (partial resistance to Darkmind and Verdicium at high levels) but reduces maximum Conviction as it grows. A high Scarring character has seen too much to be fully broken — or fully hopeful.",
+          "starting_range": [0, 25],
+          "leveling": "Increases through traumatic events. Cannot be trained down — only Soulkindler abilities can reduce it.",
+          "effect": "Every 10 Scarring: -2 max Conviction. Above Scarring 50: +5% resistance to Darkmind and Verdicium."
+        },
+        {
+          "id": "perception",
+          "name": "Perception",
+          "description": "The ability to detect dangers, read monster threat levels, sense traps, and notice details others miss. Levels slowly and works best in synergy with the team — a group's combined Perception averages out but suffers diminishing returns above 80% reveal chance to prevent it becoming OP.",
+          "starting_range": [5, 20],
+          "leveling": "Increases slowly with successful detections. Synergy note: team total Perception beyond 80% gives diminishing returns due to 'conflicting opinions' effect.",
+          "factors": ["Erudition", "Worldliness", "Battles fought", "Intelligence sub-stat"]
+        },
+        {
+          "id": "intelligence",
+          "name": "Intelligence",
+          "description": "A fixed sub-trait set at character creation. Affects general success rate on all non-physical skill rolls. Cannot be trained — this is raw cognitive capacity, not learned skill.",
+          "fixed": true,
+          "range": [1, 20],
+          "effect": "Each point adds +0.5% to all non-physical skill rolls."
+        }
+      ],
+      "related_damage_types": [],
+      "breaking_points": [
+        { "threshold": 30, "unlock": "Can now read advanced Materium texts without a Scholar in the team." },
+        { "threshold": 50, "unlock": "Ingenuity and Erudition gain +5 to starting values for new skills in their category." },
+        { "threshold": 70, "unlock": "Pattern Recognition: Perception chance to detect danger raised by +10% permanently." },
+        { "threshold": 100, "unlock": "The Sage: All skill learning rates in the Cognition tree increased by 20%." }
+      ]
+    },
+    {
+      "id": "materium_affinity",
+      "name": "Materium Affinity",
+      "function": "Ethereal, mystical capacity for magical skill. All living things are born with a certain amount. Can be improved slightly through items, potions, or Erudition, but race and class largely determine the ceiling.",
+      "flavor": "Magic is not a tool. It is a language. And some people are born speaking it fluently.",
+      "starting_range": [5, 45],
+      "max": 100,
+      "materium_pool": {
+        "description": "A separate resource distinct from Aptitude values. Tracks available magical energy for casting. Drains with spell use. Restores naturally over uneventful time/turns. Presented visually equivalent to HP — equally important.",
+        "visual_priority": "HIGH — always visible on character screen",
+        "low_pool_effect": "Low Materium Connection also reduces magical resistance (Insulation effectiveness halved when pool below 25%).",
+        "high_affinity_bonus": "Higher Materium Affinity = larger pool baseline."
+      },
+      "sub_traits": [
+        {
+          "id": "conduit_grade",
+          "name": "Conduit Grade",
+          "description": "The innate capacity to channel magic. Largely a birth-right of race and class — it can be grown very slightly through Erudition and rare items, but not meaningfully trained. Affected negatively by high Vigor (physical density chokes the flow).",
+          "fixed": false,
+          "starting_range": "Race and class determined",
+          "conflict": "Above Vigor 60: Conduit Grade -1 per 10 Vigor. Cannot reduce below race minimum."
+        },
+        {
+          "id": "shadow_connection",
+          "name": "Shadow Connection",
+          "description": "A unique and separate link to the Dark Arts and the Shadow Realm. Not part of the standard Materium school system — it operates through different laws. Shadow Connection powers Darkvoid, Darkblood, Chill, Darkmind, and Umbramancy. Does not interact with regular Materium pool (has its own pool sub-component).",
+          "starting_range": "Race and class determined (0 for most non-dark races)",
+          "note": "A character with Shadow Connection 0 cannot access Shadow Arts schools regardless of Materium Affinity level."
+        },
+        {
+          "id": "magical_insulation",
+          "name": "Insulation (Magic Resistance)",
+          "description": "Resistance to magical effects from all three triads. Starts at 1–10% depending on race. Levels slowly through surviving magical attacks (not by casting). Max 50%.",
+          "starting_range": "1–15% (race modified)",
+          "max": "50%",
+          "leveling": "Slow. Requires surviving magical attacks to train.",
+          "pool_note": "When Materium Connection pool drops below 25%, Insulation is treated as half its actual value."
+        }
+      ],
+      "materium_schools": {
+        "lightwielding": ["Purelight", "Solacium", "Aegis Reflection", "Verdicium", "Blessed Materium"],
+        "materium_focused": ["Impact", "Earthen", "Tempest", "Fire", "Aquas", "Athropium", "Temporal"],
+        "shadow_arts": ["Darkvoid", "Chill", "Blight", "Darkblood", "Arcane", "Darkmind"]
+      },
+      "breaking_points": [
+        { "threshold": 20, "unlock": "Can access a second Materium school (if race allows)." },
+        { "threshold": 40, "unlock": "Materium pool size +15%. School mastery now possible (100 level cap in one school)." },
+        { "threshold": 60, "unlock": "Dual-pool: Shadow Connection and Materium pool regenerate simultaneously." },
+        { "threshold": 80, "unlock": "Elemental Synergies activate at 50% bonus effectiveness instead of base." },
+        { "threshold": 100, "unlock": "Living Conduit: Materium pool regenerates in combat at 5% per turn." }
+      ]
+    },
+    {
+      "id": "martial_experience",
+      "name": "Martial Experience",
+      "function": "Muscle memory, combat instinct, and technical fighting skill. General boost to physical damage output. Levels through combat use, but tapers as a hero becomes more experienced — veterans learn less from standard fights.",
+      "flavor": "You don't think when you're good enough. You've already decided.",
+      "starting_range": [5, 45],
+      "max": 100,
+      "diminishing_returns": "After 50 battles fought (tracked): experience gain per battle reduces by 50%. After 150 battles: by 75%. Combat still levels weapon-specific skills normally.",
+      "sub_traits": [
+        {
+          "id": "agilities",
+          "name": "Agilities (Reflex)",
+          "description": "Pure reactionary movement — the ability to dodge incoming attacks and land critical strikes. Increases incrementally by successful dodge or crit rolls. Also contributes to initiative.",
+          "starting_range": [5, 30],
+          "leveling": "Each successful dodge or critical hit adds a small increment."
+        },
+        {
+          "id": "weapon_affinities",
+          "name": "Weapon Affinities",
+          "description": "Mastery of specific weapon types. Each affinity (Swordsmanship, Archery, etc.) is a separate skill that levels independently. See skills.json for the full list.",
+          "starting_range": "Class-determined for primary weapon; 0 for all others",
+          "leveling": "Each use of a weapon type in combat adds a small increment. See skills.json for title thresholds.",
+          "titles": ["Novice (1–10)", "Seasoned (11–50)", "Expert (51–80)", "Master (81–99)", "Legendary Master (100)"]
+        }
+      ],
+      "general_damage_bonus": {
+        "description": "Martial Experience grants a general bonus to all physical damage type rolls, applied globally.",
+        "formula": "floor(Martial Experience / 10) % bonus to all physical damage"
+      },
+      "related_damage_types": ["Blunt", "Slashing", "Piercing", "Rupturing"],
+      "breaking_points": [
+        { "threshold": 20, "unlock": "Can equip any weapon type without penalty (still benefits from weapon affinities)." },
+        { "threshold": 40, "unlock": "+5% physical damage global. Agilities gains a passive dodge bonus." },
+        { "threshold": 60, "unlock": "Combat Memory: Once per battle, reroll a failed attack roll." },
+        { "threshold": 80, "unlock": "+10% physical damage global. Crit chance increases by 5%." },
+        { "threshold": 100, "unlock": "Veteran's Edge: All weapon affinity skills start future heroes at Seasoned (11) as a legacy bonus." }
+      ]
+    },
+    {
+      "id": "presence",
+      "name": "Presence",
+      "function": "How the world perceives this hero. Not just physical attractiveness — it is the weight of one's history, power, and personality projected outward. Filtered through Openness in both directions.",
+      "flavor": "When they look at you, what do they see? Everything you've done. Everything you are. Whether you want them to or not.",
+      "starting_range": [10, 55],
+      "max": 100,
+      "openness_interaction": {
+        "description": "Presence is always filtered by the Openness value of both the hero and the observer. See the interaction table in birthmothersigns.json.",
+        "low_openness_high_presence": "Domination archetype — people obey out of fear or respect, not affection.",
+        "high_openness_high_presence": "Magnetism archetype — people are drawn to and inspired by this character.",
+        "low_openness_low_presence": "Ghost archetype — effectively invisible socially. Excellent for stealth.",
+        "high_openness_low_presence": "Everyman archetype — universally trusted and underestimated."
+      },
+      "sub_traits": [
+        {
+          "id": "gravitas",
+          "name": "Gravitas",
+          "description": "The outward projection of Presence. How you affect others who perceive you. Its expression (intimidation vs inspiration) is determined by the Openness value.",
+          "starting_range": [5, 35],
+          "leveling": "Grows through social encounters, leadership decisions, and reputation-building events."
+        },
+        {
+          "id": "eloquence",
+          "name": "Eloquence",
+          "description": "The practical application of speech, diplomacy, and persuasion. Where Gravitas is passive, Eloquence is active — it's what you say, not just what you project.",
+          "starting_range": [5, 30],
+          "leveling": "Grows through successful diplomatic rolls, trade negotiations, and conversation events."
+        }
+      ],
+      "contributing_factors": ["Physiology (appearance)", "Race", "Class", "Background", "Religion", "Life Experiences", "Birth Mother Sign", "Titles and reputation"],
+      "breaking_points": [
+        { "threshold": 25, "unlock": "Can attempt social rolls against neutral NPCs without a Worldliness check first." },
+        { "threshold": 50, "unlock": "Reputation spreads between settlements — Presence becomes known in regions visited." },
+        { "threshold": 75, "unlock": "Commanding Presence: hostile NPCs with Conviction below 30 must pass a check before attacking." },
+        { "threshold": 100, "unlock": "Legend: Hero is known by name across the continent. Settlements provide one free item per visit." }
+      ]
+    }
+  ]
+}

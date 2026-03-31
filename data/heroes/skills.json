@@ -1,31 +1,474 @@
-[
-  { "skillName": "Acrobatics",     "source": "core",     "associatedAbility": "Dexterity" },
-  { "skillName": "Animal Handling","source": "core",     "associatedAbility": "Wisdom" },
-  { "skillName": "Arcana",         "source": "core",     "associatedAbility": "Intelligence" },
-  { "skillName": "Athletics",      "source": "core",     "associatedAbility": "Strength" },
-  { "skillName": "Deception",      "source": "core",     "associatedAbility": "Charisma" },
-  { "skillName": "History",        "source": "core",     "associatedAbility": "Intelligence" },
-  { "skillName": "Insight",        "source": "core",     "associatedAbility": "Wisdom" },
-  { "skillName": "Intimidation",   "source": "core",     "associatedAbility": "Charisma" },
-  { "skillName": "Investigation",  "source": "core",     "associatedAbility": "Intelligence" },
-  { "skillName": "Medicine",       "source": "core",     "associatedAbility": "Wisdom" },
-  { "skillName": "Nature",         "source": "core",     "associatedAbility": "Intelligence" },
-  { "skillName": "Perception",     "source": "core",     "associatedAbility": "Wisdom" },
-  { "skillName": "Performance",    "source": "core",     "associatedAbility": "Charisma" },
-  { "skillName": "Persuasion",     "source": "core",     "associatedAbility": "Charisma" },
-  { "skillName": "Religion",       "source": "core",     "associatedAbility": "Intelligence" },
-  { "skillName": "Sleight of Hand","source": "core",     "associatedAbility": "Dexterity" },
-  { "skillName": "Stealth",        "source": "core",     "associatedAbility": "Dexterity" },
-  { "skillName": "Survival",       "source": "core",     "associatedAbility": "Wisdom" },
-  { "skillName": "Alchemy",        "source": "expanded", "associatedAbility": "Intelligence" },
-  { "skillName": "Artisan",        "source": "expanded", "associatedAbility": "Dexterity" },
-  { "skillName": "Tracking",       "source": "expanded", "associatedAbility": "Wisdom" },
-  { "skillName": "Beast Taming",   "source": "expanded", "associatedAbility": "Wisdom" },
-  { "skillName": "Elemental Control","source":"expanded", "associatedAbility": "Intelligence" },
-  { "skillName": "Spellcraft",     "source": "expanded", "associatedAbility": "Intelligence" },
-  { "skillName": "Riding",         "source": "expanded", "associatedAbility": "Dexterity" },
-  { "skillName": "Enchanting",     "source": "expanded", "associatedAbility": "Intelligence" },
-  { "skillName": "Herbalism",      "source": "expanded", "associatedAbility": "Wisdom" },
-  { "skillName": "Shadow Arts",    "source": "expanded", "associatedAbility": "Dexterity" },
-  { "skillName": "Runecrafting",   "source": "expanded", "associatedAbility": "Intelligence" }
-]
+{
+  "system": "Leonoria Skills",
+  "description": "All trainable skills in Leonoria. Skills level by use, with a maximum of 100. Each skill has a title at each tier for flavor and mechanical reference. One use in relevant context = +1 skill level (at lower levels; diminishing as mastery grows).",
+  "title_tiers": [
+    { "range": [0, 0], "title": "Untrained" },
+    { "range": [1, 10], "title": "Novice" },
+    { "range": [11, 50], "title": "Seasoned" },
+    { "range": [51, 80], "title": "Expert" },
+    { "range": [81, 99], "title": "Master" },
+    { "range": [100, 100], "title": "Legendary Master" }
+  ],
+  "leveling_note": "Skills level faster than aptitudes (~25% per 100 relevant uses). One sword fight = +1 Swordsmanship for that hero. One successful potion brew = +1 Potion Brewing.",
+  "categories": [
+    {
+      "category": "Weapon Affinities",
+      "description": "Sub-traits of Martial Experience. Each weapon type levels independently.",
+      "aptitude_link": "martial_experience",
+      "skills": [
+        {
+          "id": "swordsmanship",
+          "name": "Swordsmanship",
+          "description": "Mastery with all bladed one-handed and two-handed sword types.",
+          "primary_damage_types": ["Slashing", "Piercing"],
+          "level_effects": {
+            "Novice": "Basic attacks land. No special techniques.",
+            "Seasoned": "+5% to hit chance. Parry available.",
+            "Expert": "+10% to hit. Riposte available (counter after successful parry).",
+            "Master": "+15% to hit. Signature Strike: once per battle, ignore Hardening.",
+            "Legendary Master": "+20% to hit. All sword attacks gain +5% crit chance."
+          }
+        },
+        {
+          "id": "archery",
+          "name": "Archery",
+          "description": "Mastery with all bow types: longbow, shortbow, recurve bow, greatbow.",
+          "primary_damage_types": ["Piercing"],
+          "level_effects": {
+            "Novice": "Can use bows. Range penalties apply.",
+            "Seasoned": "Range penalty reduced. +5% accuracy.",
+            "Expert": "+10% accuracy. Target weak points (ignore 10% armor).",
+            "Master": "Snap Shot: fire without losing initiative. +15% accuracy.",
+            "Legendary Master": "Misses are rerolled once automatically."
+          }
+        },
+        {
+          "id": "axewielding",
+          "name": "Axewielding",
+          "description": "Mastery with hand axes, great axes, throwing axes.",
+          "primary_damage_types": ["Slashing"],
+          "level_effects": {
+            "Novice": "Basic swings. High damage variance.",
+            "Seasoned": "+5% cleave chance (50% damage to adjacent target).",
+            "Expert": "+10% to hit. Cleave improves.",
+            "Master": "Sundering Strike: reduce target Hardening by 5% for 2 turns.",
+            "Legendary Master": "10% chance to stagger on every hit."
+          }
+        },
+        {
+          "id": "blunt_force",
+          "name": "Blunt Force",
+          "description": "Mastery with maces, war hammers, clubs, mauls, and morning stars.",
+          "primary_damage_types": ["Blunt"],
+          "level_effects": {
+            "Novice": "Basic bludgeoning.",
+            "Seasoned": "+5% stagger chance on hits.",
+            "Expert": "+10% damage against skeletal and construct enemies.",
+            "Master": "Shatter: on crit, reduce target Physiology by 3 temporarily.",
+            "Legendary Master": "Stagger chance 20%. Staggered enemies lose a turn."
+          }
+        },
+        {
+          "id": "small_arms",
+          "name": "Small Arms",
+          "description": "Mastery with knives, daggers, stilettos, throwing blades, and shurikens.",
+          "primary_damage_types": ["Piercing", "Slashing"],
+          "level_effects": {
+            "Novice": "Basic strikes. Can throw daggers at short range.",
+            "Seasoned": "+5% to hit. Backstab available.",
+            "Expert": "Vital Strike: bypass 20% Hardening from stealth.",
+            "Master": "Quick Draw: use Small Arms without spending initiative.",
+            "Legendary Master": "Attacks from Stealth 50+ always hit critical zones."
+          }
+        },
+        {
+          "id": "polearms",
+          "name": "Polearms",
+          "description": "Mastery with spears, pikes, halberds, glaives, scythes, and tridents.",
+          "primary_damage_types": ["Piercing", "Slashing"],
+          "level_effects": {
+            "Novice": "Basic reach attacks.",
+            "Seasoned": "Attack from 2 hex range without penalty.",
+            "Expert": "Wall of Steel: block and counter simultaneously.",
+            "Master": "Sweep: hit all adjacent enemies in one arc.",
+            "Legendary Master": "All polearm attacks threaten a 2-hex area."
+          }
+        },
+        {
+          "id": "shield_fighting",
+          "name": "Shield Fighting",
+          "description": "Using any shield as both defensive and offensive tool.",
+          "primary_damage_types": ["Blunt"],
+          "level_effects": {
+            "Novice": "+5% physical Hardening with shield.",
+            "Seasoned": "Shield Bash available (stagger attempt).",
+            "Expert": "+10% Hardening. Redirect 15% incoming damage.",
+            "Master": "Fortress: -15% physical damage when not moving.",
+            "Legendary Master": "Shield bashes deal full weapon damage."
+          }
+        },
+        {
+          "id": "crossbow",
+          "name": "Crossbow",
+          "description": "Mastery with heavy crossbows and hand crossbows.",
+          "primary_damage_types": ["Piercing"],
+          "level_effects": {
+            "Novice": "High single-shot damage. Long reload.",
+            "Seasoned": "Reload time reduced by 1 turn.",
+            "Expert": "+10% penetration vs armor.",
+            "Master": "Power Shot: guaranteed hit at +25% damage once per battle.",
+            "Legendary Master": "Reload no longer costs a turn."
+          }
+        },
+        {
+          "id": "blowgun_and_sling",
+          "name": "Blowgun & Sling",
+          "description": "Mastery with blowguns, slings, and bolas. Silent ranged options.",
+          "primary_damage_types": ["Piercing", "Blunt"],
+          "level_effects": {
+            "Novice": "Effective at close-medium range. Very quiet.",
+            "Seasoned": "+5% accuracy. Blowgun darts can carry poison.",
+            "Expert": "Bola Strike: target immobilized 1 turn on hit.",
+            "Master": "Attacks from this skill never reveal the shooter.",
+            "Legendary Master": "Any projectile can carry an alchemical compound without penalty."
+          }
+        }
+      ]
+    },
+    {
+      "category": "Thievery & Shadow",
+      "aptitude_link": "cognition",
+      "skills": [
+        {
+          "id": "thievery",
+          "name": "Thievery",
+          "description": "Pickpocketing, shoplifting, sleight of hand, and misdirection.",
+          "level_effects": {
+            "Novice": "Simple pickpocketing with high detection risk.",
+            "Seasoned": "Detection risk halved.",
+            "Expert": "Complex thefts (documents, keys, worn items).",
+            "Master": "Coordinate team-based theft operations.",
+            "Legendary Master": "Never detected by standard security; only magical detection applies."
+          }
+        },
+        {
+          "id": "stealth",
+          "name": "Stealth",
+          "description": "Moving without being seen or heard in all environments.",
+          "level_effects": {
+            "Novice": "Avoid standard patrols if careful.",
+            "Seasoned": "Move at full speed without stealth penalty.",
+            "Expert": "Remain hidden while performing simple actions.",
+            "Master": "Shadow Step: teleport to any nearby shadow once per encounter.",
+            "Legendary Master": "Effectively invisible at rest; magical detection requires contested check."
+          }
+        },
+        {
+          "id": "lockpicking",
+          "name": "Lockpicking",
+          "description": "Opening locks and disarming simple traps.",
+          "level_effects": {
+            "Novice": "Basic locks only.",
+            "Seasoned": "Standard locks. Simple trap detection.",
+            "Expert": "Complex locks. Improvise picks from materials.",
+            "Master": "Any non-magical lock openable.",
+            "Legendary Master": "Pick any lock in complete darkness by sound alone."
+          }
+        }
+      ]
+    },
+    {
+      "category": "Scholarly",
+      "aptitude_link": "cognition",
+      "skills": [
+        {
+          "id": "arcane_theory",
+          "name": "Arcane Theory",
+          "description": "Understanding of Materium mechanics, magical history, and spell construction.",
+          "level_effects": {
+            "Novice": "Identify common magical effects.",
+            "Seasoned": "Identify rare effects. Predict elemental synergies.",
+            "Expert": "Deduce a creature's Materium school from observation.",
+            "Master": "Teach Materium theory to other heroes.",
+            "Legendary Master": "Counter-Theory — predict and partially counter spells before they resolve."
+          }
+        },
+        {
+          "id": "herbalism",
+          "name": "Herbalism",
+          "description": "Knowledge of plants, fungi, and organic compounds — medicinal and toxic.",
+          "level_effects": {
+            "Novice": "Identify common plants. Brew basic teas.",
+            "Seasoned": "Create effective poultices. Identify dangerous fungi.",
+            "Expert": "Identify rare alchemical components in the wild.",
+            "Master": "Synthesize unique compounds.",
+            "Legendary Master": "Identify and use any plant encountered, including Forgotten Kingdom flora."
+          }
+        },
+        {
+          "id": "alchemy",
+          "name": "Alchemy",
+          "description": "Transforming materials into potions, poisons, reagents, and enhancement compounds.",
+          "level_effects": {
+            "Novice": "Basic health potions and simple poisons.",
+            "Seasoned": "Resistance potions, sleep compounds, antidotes.",
+            "Expert": "Complex Materium boosters and Physiology enhancers.",
+            "Master": "Create permanent single-use enhancement items.",
+            "Legendary Master": "Transmutation — alter the base properties of materials."
+          }
+        },
+        {
+          "id": "monster_lore",
+          "name": "Monster Lore",
+          "description": "Knowledge of creature types, behaviours, and vulnerabilities.",
+          "level_effects": {
+            "Novice": "Identify common creatures and basic weaknesses.",
+            "Seasoned": "+5% Perception for known creature categories.",
+            "Expert": "+10% Perception. Know secondary weaknesses and attack patterns.",
+            "Master": "Predict creature behaviour before combat.",
+            "Legendary Master": "Any new creature fully identified after one round of observation."
+          }
+        }
+      ]
+    },
+    {
+      "category": "Common & Survival",
+      "aptitude_link": "cognition",
+      "skills": [
+        {
+          "id": "survival",
+          "name": "Survival",
+          "description": "Finding shelter, food, and water in hostile environments.",
+          "level_effects": {
+            "Novice": "Survive short exposure in hostile biomes.",
+            "Seasoned": "Climate damage from Hot, Cold, Humidity reduced 15%.",
+            "Expert": "Identify safe routes and shelter automatically.",
+            "Master": "Keep full team alive indefinitely in any biome.",
+            "Legendary Master": "Hostile biomes provide no penalties. World map movement costs reduced."
+          }
+        },
+        {
+          "id": "navigation",
+          "name": "Navigation",
+          "description": "Reading the land, stars, and maps to find destinations efficiently.",
+          "level_effects": {
+            "Novice": "Follow basic paths.",
+            "Seasoned": "Navigation errors reduced 50%.",
+            "Expert": "Always find the most efficient route.",
+            "Master": "Navigate Dark Forests and Forgotten Kingdom without penalty.",
+            "Legendary Master": "Reveal hidden paths on world map."
+          }
+        },
+        {
+          "id": "tracking",
+          "name": "Tracking",
+          "description": "Following creatures, people, or events through terrain.",
+          "level_effects": {
+            "Novice": "Follow fresh tracks in soft ground.",
+            "Seasoned": "Track in all weather. Identify creature type from signs.",
+            "Expert": "Track multiple targets simultaneously.",
+            "Master": "Read an area — understand everything that happened in the last 24 hours.",
+            "Legendary Master": "Follow a target across any surface, including stone and water."
+          }
+        },
+        {
+          "id": "animal_handling",
+          "name": "Animal Handling",
+          "description": "Working with, calming, and communicating with animals.",
+          "level_effects": {
+            "Novice": "Handle domesticated animals.",
+            "Seasoned": "Work with wild animals without triggering aggression.",
+            "Expert": "Semi-tame wild creatures. Keep a beast companion.",
+            "Master": "Fully tame any non-magical creature.",
+            "Legendary Master": "Communicate intent with any living creature including magical ones."
+          }
+        }
+      ]
+    },
+    {
+      "category": "Social",
+      "aptitude_link": "presence",
+      "skills": [
+        {
+          "id": "persuasion",
+          "name": "Persuasion",
+          "description": "Convincing others through reason, appeal, and social leverage.",
+          "level_effects": {
+            "Novice": "Shift neutral NPCs one step toward helpful.",
+            "Seasoned": "Negotiate favorable terms in trade and quests.",
+            "Expert": "Convince hostile NPCs to pause without a fight.",
+            "Master": "Turn enemies into reluctant allies for a scene.",
+            "Legendary Master": "No NPC is truly beyond persuasion."
+          }
+        },
+        {
+          "id": "intimidation",
+          "name": "Intimidation",
+          "description": "Projecting menace to force compliance. Low Openness amplifies this.",
+          "level_effects": {
+            "Novice": "Frighten weak-willed individuals.",
+            "Seasoned": "Reduce NPC Conviction by 5 per success.",
+            "Expert": "Intimidate a group of up to 3 NPCs simultaneously.",
+            "Master": "Break Conviction of enemies below 40 in one roll.",
+            "Legendary Master": "NPCs flee before combat on a successful check."
+          }
+        },
+        {
+          "id": "deception",
+          "name": "Deception",
+          "description": "Lying, misdirection, disguise, and creating false impressions.",
+          "level_effects": {
+            "Novice": "Tell simple lies convincingly.",
+            "Seasoned": "Maintain a cover identity across a short scene.",
+            "Expert": "Long-term false identity across a region.",
+            "Master": "Deceive even perceptive characters.",
+            "Legendary Master": "Establish a completely false reputation in a settlement once per visit."
+          }
+        },
+        {
+          "id": "leadership",
+          "name": "Leadership",
+          "description": "Directing and inspiring a team under pressure.",
+          "level_effects": {
+            "Novice": "Team acts without penalty under stress.",
+            "Seasoned": "One reroll per battle for any team member.",
+            "Expert": "+5% Conviction to all team members when leader above 50% Vitality.",
+            "Master": "Rally: restore all team Metabolism after a round once per battle.",
+            "Legendary Master": "Inspire Greatness: team weapon affinities treated as Expert for one battle per day."
+          }
+        }
+      ]
+    },
+    {
+      "category": "Crafts",
+      "aptitude_link": "cognition",
+      "skills": [
+        {
+          "id": "weaponsmithing",
+          "name": "Weaponsmithing",
+          "description": "Forging, repairing, and enhancing weapons.",
+          "level_effects": {
+            "Novice": "Repair damaged weapons. Craft basic tools.",
+            "Seasoned": "Craft functional weapons of any basic type.",
+            "Expert": "Craft quality weapons with minor bonuses.",
+            "Master": "Craft masterwork weapons with significant bonuses.",
+            "Legendary Master": "Weapons created can accept magical enchanting."
+          }
+        },
+        {
+          "id": "armorsmithing",
+          "name": "Armorsmithing",
+          "description": "Crafting, repairing, and improving armor and shields.",
+          "level_effects": {
+            "Novice": "Repair light armor. Patch shields.",
+            "Seasoned": "Craft functional armor of any type.",
+            "Expert": "Custom fit: +5% Hardening bonus to crafted armor.",
+            "Master": "Masterwork armor with significant bonuses.",
+            "Legendary Master": "Armor created can accept magical enchanting."
+          }
+        },
+        {
+          "id": "potion_brewing",
+          "name": "Potion Brewing",
+          "description": "Creating potions, tinctures, and alchemical compounds.",
+          "level_effects": {
+            "Novice": "Basic healing potions (restore 10% Vitality).",
+            "Seasoned": "Resistance potions (10% resistance to one damage type, 3 turns).",
+            "Expert": "Materium potions (restore 20% pool). Poison compounds.",
+            "Master": "Enhancement brews (temporary aptitude boosts).",
+            "Legendary Master": "Permanent enhancement potions (raise one stat by 2 permanently, single use)."
+          }
+        },
+        {
+          "id": "enchanting",
+          "name": "Enchanting",
+          "description": "Imbuing items with permanent magical properties. Rare. Requires Erudition 50+ and Ingenuity 40+.",
+          "rarity": "rare",
+          "prerequisites": ["Erudition 50+", "Ingenuity 40+"],
+          "level_effects": {
+            "Novice": "Add a temporary one-battle glow to a weapon.",
+            "Seasoned": "Add minor permanent property to a rune-ready item.",
+            "Expert": "Add moderate permanent property.",
+            "Master": "Create properly magical items with meaningful bonuses.",
+            "Legendary Master": "Artifact Creation — items approach legendary status."
+          }
+        }
+      ]
+    },
+    {
+      "category": "Physical",
+      "aptitude_link": "physiology",
+      "skills": [
+        {
+          "id": "athletics",
+          "name": "Athletics",
+          "description": "Running, climbing, jumping, and physical endurance.",
+          "level_effects": {
+            "Novice": "Standard physical actions without penalty.",
+            "Seasoned": "-10% Metabolism drain from running and climbing.",
+            "Expert": "Carry a downed ally without Metabolism penalty.",
+            "Master": "Forced march without Metabolism loss for one world-map day.",
+            "Legendary Master": "All Physiology sub-trait rolls gain +10%."
+          }
+        },
+        {
+          "id": "acrobatics",
+          "name": "Acrobatics",
+          "description": "Balance, tumbling, and precision movement.",
+          "level_effects": {
+            "Novice": "Basic balance and falls.",
+            "Seasoned": "No movement penalty in difficult terrain.",
+            "Expert": "Tumble: avoid one attack per round with a roll.",
+            "Master": "Parkour — move through obstacles others cannot.",
+            "Legendary Master": "Agilities rolls gain +10% permanently."
+          }
+        }
+      ]
+    },
+    {
+      "category": "Materium Skills",
+      "aptitude_link": "materium_affinity",
+      "skills": [
+        {
+          "id": "lightwielding_skill",
+          "name": "Lightwielding",
+          "description": "Practical application of Lightwielding school spells (Purelight, Solacium, etc.).",
+          "prerequisite": "Materium Affinity 20+ and Lightwielding school access",
+          "level_effects": {
+            "Novice": "Basic Purelight bolt. 10% pool cost.",
+            "Seasoned": "Solacium available. Purelight cost -5%.",
+            "Expert": "Aegis Reflection available. All Lightwielding costs -10%.",
+            "Master": "Verdicium available. Sustained Purelight aura (3 turns).",
+            "Legendary Master": "Blessed Materium access. All Lightwielding +15% damage."
+          }
+        },
+        {
+          "id": "materium_channeling",
+          "name": "Materium Channeling",
+          "description": "Practical application of the Focused Triad (Impact, Earthen, Tempest, Fire, Aquas, Athropium, Temporal).",
+          "prerequisite": "Materium Affinity 15+",
+          "level_effects": {
+            "Novice": "Impact only. Basic cast.",
+            "Seasoned": "First elemental school available. Synergies available.",
+            "Expert": "Second elemental school. Synergy bonus increases.",
+            "Master": "Dual-element casting. Pool cost -15%.",
+            "Legendary Master": "All Materium damage +20%. All synergies trigger at double bonus."
+          }
+        },
+        {
+          "id": "shadow_weaving",
+          "name": "Shadow Weaving",
+          "description": "Practical application of the Malevolent Triad (Darkvoid, Chill, Darkblood, Arcane, Darkmind).",
+          "prerequisite": "Shadow Connection 15+",
+          "level_effects": {
+            "Novice": "Basic Darkvoid bolt (high variance). 15% pool cost.",
+            "Seasoned": "Chill available. Variance reduced 50%.",
+            "Expert": "Darkblood available (backlash applies). Pool cost -10%.",
+            "Master": "Darkmind available. Suppress Darkvoid variance entirely.",
+            "Legendary Master": "All Shadow Arts +20%. Darkblood backlash reduced to 5%."
+          }
+        }
+      ]
+    }
+  ]
+}

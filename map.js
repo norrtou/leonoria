@@ -14,20 +14,18 @@ const RUGGEDNESS = 0.55;   // 0 = gentle rolling hills  → 1 = jagged peaks
 // and to supply the sea colour which is not in the JSON.
 // landLow/Mid/High are [R,G,B] arrays for the three elevation bands.
 const BIOME_PRESETS = {
-    //                                                                              wetland
-    //                        landLow           landMid           landHigh          landMountain (bright grey rocky base)        seaColor      snowPeaks  Density
-    temperate_forest: { landLow:[182,190,148], landMid:[198,205,165], landHigh:[215,218,185], landMountain:[230,228,222], seaColor:'#c8d8e8', snowPeaks:true,  wetlandDensity:0.02 },
-    boreal_forest:    { landLow:[170,168,140], landMid:[185,182,155], landHigh:[200,198,172], landMountain:[225,223,218], seaColor:'#b8ccd8', snowPeaks:true,  wetlandDensity:0.04 },
-    plains:           { landLow:[138,175,96],  landMid:[155,192,112], landHigh:[172,208,130], landMountain:[230,228,222], seaColor:'#c8d8e8', snowPeaks:false, wetlandDensity:0.02 },
-    highlands:        { landLow:[172,165,148], landMid:[188,182,162], landHigh:[205,200,178], landMountain:[232,230,225], seaColor:'#b8ccd8', snowPeaks:true,  wetlandDensity:0.03 },
-    desert:           { landLow:[205,182,130], landMid:[222,200,148], landHigh:[238,218,168], landMountain:[238,234,224], seaColor:'#a8c8d8', snowPeaks:false, wetlandDensity:0.00 },
-    arctic:           { landLow:[195,205,210], landMid:[210,218,220], landHigh:[228,232,232], landMountain:[240,242,245], seaColor:'#a0b8cc', snowPeaks:true,  wetlandDensity:0.04 },
-    swamp:            { landLow:[135,150,112], landMid:[150,165,128], landHigh:[165,182,145], landMountain:[220,218,212], seaColor:'#88a8a0', snowPeaks:false, wetlandDensity:0.38 },
-    moorland:         { landLow:[162,155,135], landMid:[178,170,150], landHigh:[195,188,165], landMountain:[228,225,220], seaColor:'#b0c0c8', snowPeaks:false, wetlandDensity:0.04 },
-    rainforest:       { landLow:[118,162,96],  landMid:[132,178,110], landHigh:[148,195,125], landMountain:[222,220,215], seaColor:'#88b8a8', snowPeaks:false, wetlandDensity:0.04 },
-    savanna:          { landLow:[185,170,112], landMid:[202,188,130], landHigh:[218,205,148], landMountain:[234,231,222], seaColor:'#a8c0b8', snowPeaks:false, wetlandDensity:0.02 },
-    badlands:         { landLow:[190,158,118], landMid:[208,175,135], landHigh:[225,195,155], landMountain:[234,229,220], seaColor:'#a0b8c0', snowPeaks:false, wetlandDensity:0.00 },
-    coastal:          { landLow:[178,182,145], landMid:[195,198,162], landHigh:[210,212,178], landMountain:[230,228,222], seaColor:'#b0cce0', snowPeaks:false, wetlandDensity:0.03 },
+    //                                                                                    wetland
+    //                           landLow              landMid              landHigh             landMountain                seaColor       snowPeaks  Density
+    the_midlands:        { landLow:[96, 154, 42],  landMid:[138,186, 78], landHigh:[168,206,112], landMountain:[180,190,155], seaColor:'#aaccdd', snowPeaks:false, wetlandDensity:0.04 },
+    the_sanctuary_lands: { landLow:[50, 108, 45],  landMid:[ 85,148, 80], landHigh:[128,185,110], landMountain:[205,218,198], seaColor:'#88bbcc', snowPeaks:true,  wetlandDensity:0.03 },
+    the_dark_forests:    { landLow:[38,  72, 38],  landMid:[ 62,102, 58], landHigh:[ 98,138, 92], landMountain:[152,160,148], seaColor:'#7799bb', snowPeaks:true,  wetlandDensity:0.12 },
+    the_eternal_winds:   { landLow:[175,208,228],  landMid:[210,228,242], landHigh:[232,240,248], landMountain:[245,248,252], seaColor:'#4477aa', snowPeaks:true,  wetlandDensity:0.25 },
+    the_badlands:        { landLow:[162, 98, 45],  landMid:[190,130, 68], landHigh:[214,165,100], landMountain:[178,148,118], seaColor:'#997755', snowPeaks:false, wetlandDensity:0.00 },
+    the_outer_steppes:   { landLow:[145,155, 85],  landMid:[172,178,112], landHigh:[198,200,142], landMountain:[185,182,162], seaColor:'#aabbcc', snowPeaks:false, wetlandDensity:0.01 },
+    the_blinding_lands:  { landLow:[175,168, 95],  landMid:[200,192,118], landHigh:[218,208,145], landMountain:[192,182,162], seaColor:'#aabbcc', snowPeaks:false, wetlandDensity:0.00 },
+    the_gleam_havens:    { landLow:[140,162, 65],  landMid:[172,188,100], landHigh:[202,202,130], landMountain:[195,188,168], seaColor:'#55aacc', snowPeaks:false, wetlandDensity:0.04 },
+    the_boglands:        { landLow:[ 48, 88, 48],  landMid:[ 75,118, 72], landHigh:[108,150, 98], landMountain:[148,155,132], seaColor:'#558866', snowPeaks:false, wetlandDensity:0.38 },
+    the_forgotten_kingdom:{ landLow:[38, 22, 58],  landMid:[ 62, 48, 88], landHigh:[ 92, 78,118], landMountain:[ 28, 18, 44], seaColor:'#1a0a2a', snowPeaks:false, wetlandDensity:0.08 },
 };
 
 // ── JSON data store (populated via FantasyMap.setData before generation) ─────
@@ -528,8 +526,8 @@ class FantasyMap {
         this.SL = seaLevel; // shorthand used by draw methods
 
         // Biome preset — JSON data takes precedence, JS fallback otherwise
-        const biomeId = P.biome ?? 'temperate_forest';
-        let biomePalette = BIOME_PRESETS[biomeId] ?? BIOME_PRESETS.temperate_forest;
+        const biomeId = P.biome ?? 'the_midlands';
+        let biomePalette = BIOME_PRESETS[biomeId] ?? BIOME_PRESETS.the_midlands;
         if (_mapData?.biomes) {
             const jb = _mapData.biomes.find(b => b.id === biomeId);
             if (jb?.visual) {
@@ -540,7 +538,7 @@ class FantasyMap {
         }
         this.biomePalette = biomePalette;
         this.biomeId      = biomeId;
-        this.culture      = P.culture ?? 'human';
+        this.culture      = P.culture ?? 'midlander';
 
         // Store full biome data object for the legend and other consumers
         this.biomeData = _mapData?.biomes?.find(b => b.id === biomeId) ?? null;
@@ -556,11 +554,11 @@ class FantasyMap {
         // HeightMap uses a scrambled seed so it's independent of the feature rng
         const hm = new HeightMap(COLS, ROWS, this.seed ^ 0xABCDEF12, seaLevel, mountainOffset, continent, ruggedness, edgeSink, edgeSinkStart, islandSeeds, bigIsland);
 
-        // Temperate forest: reduce mountainous terrain by exactly 40%.
+        // Midlands: reduce mountainous terrain by exactly 40%.
         // Sort all cells above the mountain threshold by elevation (lowest first),
         // then push the bottom 40% just below the threshold → they become high
-        // forest land instead.  Only the steepest peaks remain mountainous.
-        if (biomeId === 'temperate_forest') {
+        // farmland instead.  Only the steepest peaks remain mountainous.
+        if (biomeId === 'the_midlands') {
             const data = hm.data;
             const mtnThresh = seaLevel + mountainOffset;
             const mtnIdx = [];
@@ -572,10 +570,10 @@ class FantasyMap {
                 data[mtnIdx[i]] = mtnThresh - 0.01;
         }
 
-        // Plains/farmland: cap mountainous terrain at 10% of total land area.
+        // Outer Steppes: cap mountainous terrain at 10% of total land area.
         // Count land and mountain cells; push the lowest-elevation mountain cells
         // below the threshold until mountains are at most 10% of land.
-        if (biomeId === 'plains') {
+        if (biomeId === 'the_outer_steppes') {
             const data = hm.data;
             const mtnThresh = seaLevel + mountainOffset;
             let landCount = 0;
@@ -591,10 +589,10 @@ class FantasyMap {
                 data[mtnIdx[i]] = mtnThresh - 0.01;
         }
 
-        // Swamp biome: compress inland terrain to keep most land flat and low,
+        // Boglands biome: compress inland terrain to keep most land flat and low,
         // but preserve the near-coast gradient band so marching squares can
         // produce smooth organic coastlines (not boxy grid-snapped edges).
-        if (biomeId === 'swamp') {
+        if (biomeId === 'the_boglands') {
             const data = hm.data;
             const COAST_BAND = 0.10; // lf below this is kept as-is for smooth coasts
             for (let i = 0; i < data.length; i++) {
@@ -653,12 +651,16 @@ class FantasyMap {
 
         // Tree style — driven by biome JSON; fallback hardcoded map
         const _BIOME_TREE_STYLES = {
-            temperate_forest: 'broadleaf', boreal_forest: 'conifer',
-            plains: 'broadleaf',           highlands: 'conifer',
-            desert: 'palm',                arctic: 'conifer',
-            swamp: 'swamp',                moorland: 'broadleaf',
-            rainforest: 'broadleaf',       savanna: 'palm',
-            coastal: 'broadleaf',          underdark: 'fungal',
+            the_midlands:         'broadleaf',
+            the_sanctuary_lands:  'broadleaf',
+            the_dark_forests:     'conifer',
+            the_eternal_winds:    'conifer',
+            the_badlands:         'palm',
+            the_outer_steppes:    'broadleaf',
+            the_blinding_lands:   'palm',
+            the_gleam_havens:     'palm',
+            the_boglands:         'swamp',
+            the_forgotten_kingdom:'fungal',
         };
         this.treeStyle = _jBiome?.treeStyle ?? _BIOME_TREE_STYLES[biomeId] ?? 'broadleaf';
 
@@ -697,8 +699,8 @@ class FantasyMap {
             }
             this.lakeCells = lakeCells;
         }
-        // Swamp patches for temperate/boreal biomes — low land near water features
-        this.swampCells = (['temperate_forest', 'boreal_forest', 'plains'].includes(biomeId))
+        // Swamp patches for lush/forested biomes — low land near water features
+        this.swampCells = (['the_midlands', 'the_dark_forests', 'the_sanctuary_lands'].includes(biomeId))
             ? this._genSwampCells(rivers, lakes) : new Set();
         const forests   = this._genForests(rivers);
         const peaks          = this._genPeaks();
@@ -734,8 +736,8 @@ class FantasyMap {
         this._drawLakes(lakes);
         this._drawForestShade(forests);
         this._drawForests(forests);
-        if (this.treeStyle === 'conifer' || this.biomeId === 'temperate_forest') this._drawBorealMarks(forests);
-        if (this.treeStyle === 'broadleaf' || this.biomeId === 'temperate_forest') this._drawBroadleafMarks(forests);
+        if (this.treeStyle === 'conifer' || this.biomeId === 'the_midlands') this._drawBorealMarks(forests);
+        if (this.treeStyle === 'broadleaf' || this.biomeId === 'the_midlands') this._drawBroadleafMarks(forests);
         try { this._drawFarmland(settles, rivers); } catch(e) { console.error('[Leonoria] farmland error:', e); }
         this._drawRivers(rivers);
         this._drawMountainStipple();
@@ -934,15 +936,15 @@ class FantasyMap {
         const SL = this.SL;
         const biomeId = this.biomeId;
 
-        // Grass straws on moorland/highlands only — savanna uses dune ripple.
-        // Plains gets its own dense multi-colour straw texture (doPlainGrass).
-        const doGrass           = biomeId === 'moorland' || biomeId === 'highlands';
-        const doPlainGrass      = biomeId === 'plains' || biomeId === 'temperate_forest' || biomeId === 'boreal_forest';
+        // Grass straws on outer steppes/sanctuary lands — gleam havens uses dune ripple.
+        // Midlands gets its own dense multi-colour straw texture (doPlainGrass).
+        const doGrass           = biomeId === 'the_outer_steppes' || biomeId === 'the_sanctuary_lands';
+        const doPlainGrass      = biomeId === 'the_midlands' || biomeId === 'the_dark_forests';
         const doReeds           = this.wetlandDensity > 0.08;
-        const doScrub           = biomeId === 'badlands' || biomeId === 'desert';
-        const doSwamp           = biomeId === 'swamp' || (this.swampCells?.size > 0);
+        const doScrub           = biomeId === 'the_badlands' || biomeId === 'the_blinding_lands';
+        const doSwamp           = biomeId === 'the_boglands' || (this.swampCells?.size > 0);
         const doWetlandGrass    = !doSwamp && this.wetlandDensity > 0.05;
-        const doForestGrass     = (this.treeStyle === 'conifer' || this.treeStyle === 'broadleaf' || biomeId === 'temperate_forest') && (this.forests ?? []).length > 0;
+        const doForestGrass     = (this.treeStyle === 'conifer' || this.treeStyle === 'broadleaf' || biomeId === 'the_midlands') && (this.forests ?? []).length > 0;
         if (!doGrass && !doReeds && !doScrub && !doSwamp && !doWetlandGrass && !doForestGrass && !doPlainGrass) return;
 
         const canvas = document.createElement('canvas');
@@ -1031,7 +1033,7 @@ class FantasyMap {
                 const { c, r } = pxHex(px, py);
                 return this.swampCells?.has(r * hm.cols + c) ?? false;
             };
-            const isSwampBiome = biomeId === 'swamp';
+            const isSwampBiome = biomeId === 'the_boglands';
 
             // Two colour passes — dark teal-green and warmer olive — each a single batch stroke
             const REED_PASSES = [
@@ -1403,7 +1405,7 @@ class FantasyMap {
 
         // ── Small conifers scattered on mountain cells ─────────────────────────
         // Only on biomes where conifers naturally grow near treeline
-        const CONIFER_BIOMES = new Set(['boreal_forest','temperate_forest','highlands','coastal']);
+        const CONIFER_BIOMES = new Set(['the_dark_forests','the_sanctuary_lands','the_eternal_winds','the_outer_steppes']);
         if (!CONIFER_BIOMES.has(this.biomeId)) { ctx.globalAlpha = 1; el('image', { href: canvas.toDataURL('image/png'), x: 0, y: 0, width: W, height: H }, gMountBase); return; }
         ctx.globalAlpha = 0.72;
         for (let gr = 0; gr < hm.rows; gr++) {
@@ -1444,16 +1446,16 @@ class FantasyMap {
         // Mirrors the exact conditions in _drawTerrainMarks so the legend only
         // lists texture types that are actually rendered on this map.
         const list = [];
-        if (biomeId === 'plains' || biomeId === 'temperate_forest' || biomeId === 'coastal') list.push('farmland');
-        if (biomeId === 'plains' || biomeId === 'temperate_forest' || biomeId === 'boreal_forest') list.push('plains_grass');
-        if (biomeId === 'moorland')                         list.push('heather');
-        if (biomeId === 'highlands')                        list.push('grassland');
+        if (biomeId === 'the_midlands' || biomeId === 'the_gleam_havens') list.push('farmland');
+        if (biomeId === 'the_midlands' || biomeId === 'the_dark_forests') list.push('plains_grass');
+        if (biomeId === 'the_outer_steppes')                list.push('heather');
+        if (biomeId === 'the_sanctuary_lands')              list.push('grassland');
         if (wetlandDensity > 0.08)                          list.push('reeds');
-        if (biomeId === 'swamp')                            list.push('swamp');
-        if (biomeId !== 'swamp' && wetlandDensity > 0.05)  list.push('wetland');
-        if (this.treeStyle === 'conifer' || biomeId === 'temperate_forest') list.push('boreal_conifers');
-        if (this.treeStyle === 'broadleaf' || biomeId === 'temperate_forest') list.push('broadleaf_trees');
-        if (biomeId === 'desert' || biomeId === 'badlands') list.push('scrub');
+        if (biomeId === 'the_boglands')                     list.push('swamp');
+        if (biomeId !== 'the_boglands' && wetlandDensity > 0.05) list.push('wetland');
+        if (this.treeStyle === 'conifer' || biomeId === 'the_midlands') list.push('boreal_conifers');
+        if (this.treeStyle === 'broadleaf' || biomeId === 'the_midlands') list.push('broadleaf_trees');
+        if (biomeId === 'the_badlands' || biomeId === 'the_blinding_lands') list.push('scrub');
         list.push('mountain_stipple'); // present on every map that has mountains
         return list;
     }
@@ -1580,13 +1582,13 @@ class FantasyMap {
             for (const { c, r } of path) markWet(c, r, WET_R);
             if (seaCell) markWet(seaCell.c, seaCell.r, WET_R + 2); // river mouths spread more
         }
-        const LAKE_BIOMES = new Set(['temperate_forest', 'boreal_forest', 'rainforest']);
+        const LAKE_BIOMES = new Set(['the_midlands', 'the_dark_forests', 'the_sanctuary_lands']);
         const lakeWetR = LAKE_BIOMES.has(this.biomeId) ? Math.round((WET_R + 2) * 1.25) : WET_R + 2;
         for (const { c, r } of lakes) markWet(c, r, lakeWetR);
 
         // Collect low-elevation land cells
-        // temperate_forest: take ALL open low land (not just wet-adjacent) for 15% coverage
-        const isTempForest = this.biomeId === 'temperate_forest';
+        // the_midlands: take ALL open low land (not just wet-adjacent) for 15% coverage
+        const isTempForest = this.biomeId === 'the_midlands';
         const elevCeil = isTempForest ? SL + 0.22 : SL + 0.14;
         const candidates = [];
         let totalLand = 0;
@@ -1597,7 +1599,7 @@ class FantasyMap {
                 if (hm.isMountain(c, r) || hm.isCoast(c, r)) continue;
                 const h = hm.get(c, r);
                 if (h > elevCeil || h <= SL) continue;
-                // temperate_forest: no wet-adjacency requirement — fill low land freely
+                // the_midlands: no wet-adjacency requirement — fill low land freely
                 if (!isTempForest && !wetSet.has(r * hm.cols + c)) continue;
                 candidates.push({ c, r, h });
             }
@@ -1618,9 +1620,9 @@ class FantasyMap {
         const { cols, rows } = hm;
 
         // Candidate sources: mountain-edge cells (mountain adjacent to non-mountain land).
-        // For swamp the cubic height compression leaves almost no mountains, so fall back
+        // For boglands the cubic height compression leaves almost no mountains, so fall back
         // to any land cell above a low elevation threshold as a river source.
-        const isSwamp = this.biomeId === 'swamp';
+        const isSwamp = this.biomeId === 'the_boglands';
         const candidates = [];
         for (let r = 2; r < rows - 2; r++) {
             for (let c = 2; c < cols - 2; c++) {
@@ -1643,16 +1645,22 @@ class FantasyMap {
         const minSpacing = isSwamp ? 4 : 8;
 
         const waterPoolsByCulture = {
-            human:    ['waterways.human'],
-            elf:      ['waterways.elven'],
-            dwarf:    ['waterways.dwarven'],
-            halfling: ['waterways.human'],
-            half_elf: ['waterways.human', 'waterways.elven'],
-            half_orc: ['waterways.dark_haunted', 'waterways.human'],
-            orc:      ['waterways.dark_haunted'],
+            midlander:          ['waterways.human'],
+            northerner:         ['waterways.human'],
+            step_folk:          ['waterways.human', 'waterways.elven'],
+            ancients_secluded:  ['waterways.elven'],
+            ancients_greys:     ['waterways.elven'],
+            ancients_dark_ones: ['waterways.dark_haunted'],
+            ice_ancients:       ['waterways.human'],
+            wildmen_foresters:  ['waterways.dark_haunted', 'waterways.human'],
+            wildmen_ravagers:   ['waterways.dark_haunted'],
+            oakpeople:          ['waterways.human'],
+            stone_folk:         ['waterways.dwarven'],
+            swampbrood:         ['waterways.dark_haunted'],
+            ashen_halfbreeds:   ['waterways.dark_haunted', 'waterways.human'],
         };
-        const wCulture = this.culture ?? 'human';
-        const wPools = waterPoolsByCulture[wCulture] ?? waterPoolsByCulture.human;
+        const wCulture = this.culture ?? 'midlander';
+        const wPools = waterPoolsByCulture[wCulture] ?? waterPoolsByCulture.midlander;
         const NAMES = this._pool(
             [...wPools, 'waterways.human'],
             ['River Mourne', 'The Silver Thread', 'Ashwater', 'Coldwater',
@@ -2194,8 +2202,8 @@ class FantasyMap {
         canvas.height = Math.round(H);
         const ctx = canvas.getContext('2d');
 
-        // Underdark ground weed — scatter small fungi before big ones so trees overlay
-        if (biomeId === 'underdark') {
+        // Forgotten Kingdom ground weed — scatter small fungi before big ones so trees overlay
+        if (biomeId === 'the_forgotten_kingdom') {
             const weedTotal = Math.round(hm.cols * hm.rows * 2.5);
             for (let i = 0; i < weedTotal; i++) {
                 const gc = Math.floor(this._rng() * hm.cols);
@@ -2226,13 +2234,13 @@ class FantasyMap {
                 if (!inClearZone && hm.isLand(gc2, gr2) && !hm.isMountain(gc2, gr2) && !hm.isCoast(gc2, gr2)
                     && !(this.riverCells?.has(gr2 * hm.cols + gc2))
                     && !(this.majorRoadCells?.has(gr2 * hm.cols + gc2))
-                    && !(biomeId !== 'swamp' && this.lakeCells?.has(gr2 * hm.cols + gc2))) {
+                    && !(biomeId !== 'the_boglands' && this.lakeCells?.has(gr2 * hm.cols + gc2))) {
                     let style = treeStyle;
-                    if (treeStyle === 'broadleaf' && biomeId === 'temperate_forest') {
+                    if (treeStyle === 'broadleaf' && biomeId === 'the_midlands') {
                         if (hm.get(gc2, gr2) - SL > 0.273) style = 'conifer';
                     }
                     const s = (style === 'palm' || style === 'fungal') ? this.r(16, 30) : this.r(9, 18);
-                    if      (style === 'conifer') this._drawConiferTree(ctx, tx, ty, s, biomeId === 'arctic');
+                    if      (style === 'conifer') this._drawConiferTree(ctx, tx, ty, s, biomeId === 'the_eternal_winds');
                     else if (style === 'palm')    this._drawPalmTree(ctx, tx, ty, s);
                     else if (style === 'swamp')   this._drawSwampTree(ctx, tx, ty, s);
                     else if (style === 'fungal')  this._drawFungiTree(ctx, tx, ty, s);
@@ -2267,8 +2275,8 @@ class FantasyMap {
             for (let gc = 0; gc < hm.cols; gc++) {
                 if (!forestSet.has(gr * hm.cols + gc)) continue;
                 if (!hm.isLand(gc, gr) || hm.isMountain(gc, gr) || hm.isCoast(gc, gr)) continue;
-                // temperate_forest: conifers only grow at higher elevation (matches _drawForests logic)
-                if (this.biomeId === 'temperate_forest' && hm.get(gc, gr) - this.SL <= 0.273) continue;
+                // the_midlands: conifers only grow at higher elevation (matches _drawForests logic)
+                if (this.biomeId === 'the_midlands' && hm.get(gc, gr) - this.SL <= 0.273) continue;
 
                 let pn = ((gc * 1013) ^ (gr * 2017)) >>> 0;
                 pn = Math.imul(pn ^ (pn >>> 16), 0x45d9f3b) >>> 0;
@@ -2329,7 +2337,7 @@ class FantasyMap {
             for (let gc = 0; gc < hm.cols; gc++) {
                 if (!forestSet.has(gr * hm.cols + gc)) continue;
                 if (!hm.isLand(gc, gr) || hm.isMountain(gc, gr) || hm.isCoast(gc, gr)) continue;
-                if (this.biomeId === 'temperate_forest' && hm.get(gc, gr) - this.SL > 0.273) continue;
+                if (this.biomeId === 'the_midlands' && hm.get(gc, gr) - this.SL > 0.273) continue;
 
                 let pn = ((gc * 1013) ^ (gr * 2017)) >>> 0;
                 pn = Math.imul(pn ^ (pn >>> 16), 0x45d9f3b) >>> 0;
@@ -2728,7 +2736,7 @@ class FantasyMap {
         const { gFarmland, hm, W, H } = this;
         const biomeId = this.biomeId;
 
-        if (biomeId !== 'plains' && biomeId !== 'temperate_forest' && biomeId !== 'coastal') return;
+        if (biomeId !== 'the_midlands' && biomeId !== 'the_gleam_havens') return;
         if (settles.length === 0) return;
 
         const canvas = document.createElement('canvas');
@@ -2747,7 +2755,7 @@ class FantasyMap {
 
         const { hexW, hexR, rowH } = this;
         const SL      = this.SL;
-        const isPlains = biomeId === 'plains';
+        const isPlains = biomeId === 'the_midlands';
 
         // Blob radii — range gives visual size variety within a single cluster
         const BLOB_R_MIN = hexW * 0.11;
@@ -2936,10 +2944,16 @@ class FantasyMap {
         const SL = this.SL, MO = hm.mountainOffset;
 
         const biomeHillMult = {
-            temperate_forest: 0.70, boreal_forest: 0.65, plains: 0.50,
-            highlands: 1.00,        desert: 0.25,         arctic: 0.45,
-            swamp: 0.20,            moorland: 0.90,       rainforest: 0.40,
-            savanna: 0.40,          badlands: 0.80,       coastal: 0.45,
+            the_midlands:         0.50,
+            the_sanctuary_lands:  0.85,
+            the_dark_forests:     0.65,
+            the_eternal_winds:    0.45,
+            the_badlands:         0.25,
+            the_outer_steppes:    0.80,
+            the_blinding_lands:   0.75,
+            the_gleam_havens:     0.40,
+            the_boglands:         0.20,
+            the_forgotten_kingdom:0.60,
         }[this.biomeId] ?? 0.60;
 
         const mountainScale = Math.max(0.4, 1.5 - MO / 0.35);
@@ -3142,7 +3156,7 @@ class FantasyMap {
         const peaks = [];
 
         // Biomes where snow is never shown
-        const NO_SNOW = new Set(['desert', 'rainforest', 'underdark', 'savanna', 'badlands']);
+        const NO_SNOW = new Set(['the_badlands', 'the_blinding_lands', 'the_forgotten_kingdom', 'the_gleam_havens']);
         const snowOk  = !NO_SNOW.has(this.biomeId) && (this.biomePalette?.snowPeaks ?? true);
 
         const isMtn = (c, r) =>
@@ -3649,50 +3663,74 @@ class FantasyMap {
 
         // ── Culture-aware name pools ──────────────────────────────────────────
         // Dominant culture drives primary pool; neutral pools fill secondary slots.
-        const culture = this.culture ?? 'human';
+        const culture = this.culture ?? 'midlander';
 
         // Primary name pools by culture
         const cityPools = {
-            human:    ['human_settlements.plain_names', 'human_settlements.cities'],
-            elf:      ['elvish_settlements.plain_names', 'elvish_settlements.halls_and_cities'],
-            dwarf:    ['dwarven_settlements.plain_names', 'dwarven_settlements.halls'],
-            halfling: ['human_settlements.plain_names'],
-            half_elf: ['human_settlements.plain_names', 'elvish_settlements.plain_names'],
-            half_orc: ['orc_settlements.plain_names', 'human_settlements.plain_names'],
-            orc:      ['orc_settlements.plain_names', 'orc_settlements.strongholds'],
+            midlander:          ['human_settlements.plain_names', 'human_settlements.cities'],
+            northerner:         ['human_settlements.plain_names', 'human_settlements.cities'],
+            step_folk:          ['human_settlements.plain_names', 'human_settlements.towns'],
+            ancients_secluded:  ['elvish_settlements.plain_names', 'elvish_settlements.halls_and_cities'],
+            ancients_greys:     ['elvish_settlements.plain_names', 'elvish_settlements.halls_and_cities'],
+            ancients_dark_ones: ['orc_settlements.plain_names', 'elvish_settlements.plain_names'],
+            ice_ancients:       ['human_settlements.plain_names'],
+            wildmen_foresters:  ['orc_settlements.plain_names', 'human_settlements.plain_names'],
+            wildmen_ravagers:   ['orc_settlements.plain_names', 'orc_settlements.strongholds'],
+            oakpeople:          ['human_settlements.plain_names'],
+            stone_folk:         ['dwarven_settlements.plain_names', 'dwarven_settlements.halls'],
+            swampbrood:         ['orc_settlements.plain_names', 'human_settlements.plain_names'],
+            ashen_halfbreeds:   ['orc_settlements.plain_names', 'human_settlements.plain_names'],
         };
         const townPools = {
-            human:    ['human_settlements.plain_names', 'human_settlements.towns'],
-            elf:      ['elvish_settlements.plain_names', 'elvish_settlements.halls_and_cities'],
-            dwarf:    ['dwarven_settlements.plain_names', 'dwarven_settlements.halls'],
-            halfling: ['human_settlements.plain_names', 'human_settlements.towns'],
-            half_elf: ['human_settlements.plain_names', 'elvish_settlements.plain_names'],
-            half_orc: ['orc_settlements.plain_names', 'human_settlements.plain_names'],
-            orc:      ['orc_settlements.plain_names', 'orc_settlements.strongholds'],
+            midlander:          ['human_settlements.plain_names', 'human_settlements.towns'],
+            northerner:         ['human_settlements.plain_names', 'human_settlements.towns'],
+            step_folk:          ['human_settlements.plain_names', 'human_settlements.towns'],
+            ancients_secluded:  ['elvish_settlements.plain_names', 'elvish_settlements.halls_and_cities'],
+            ancients_greys:     ['elvish_settlements.plain_names', 'elvish_settlements.halls_and_cities'],
+            ancients_dark_ones: ['orc_settlements.plain_names', 'elvish_settlements.plain_names'],
+            ice_ancients:       ['human_settlements.plain_names'],
+            wildmen_foresters:  ['orc_settlements.plain_names', 'human_settlements.plain_names'],
+            wildmen_ravagers:   ['orc_settlements.plain_names', 'orc_settlements.strongholds'],
+            oakpeople:          ['human_settlements.plain_names', 'human_settlements.towns'],
+            stone_folk:         ['dwarven_settlements.plain_names', 'dwarven_settlements.halls'],
+            swampbrood:         ['orc_settlements.plain_names', 'human_settlements.plain_names'],
+            ashen_halfbreeds:   ['orc_settlements.plain_names', 'human_settlements.plain_names'],
         };
         const villagePools = {
-            human:    ['human_settlements.villages'],
-            elf:      ['elvish_settlements.villages'],
-            dwarf:    ['dwarven_settlements.villages', 'dwarven_settlements.mines'],
-            halfling: ['human_settlements.villages'],
-            half_elf: ['human_settlements.villages', 'elvish_settlements.villages'],
-            half_orc: ['orc_settlements.camps_and_warbands', 'human_settlements.villages'],
-            orc:      ['orc_settlements.camps_and_warbands', 'orc_settlements.raids_and_outposts'],
+            midlander:          ['human_settlements.villages'],
+            northerner:         ['human_settlements.villages'],
+            step_folk:          ['human_settlements.villages'],
+            ancients_secluded:  ['elvish_settlements.villages'],
+            ancients_greys:     ['elvish_settlements.villages'],
+            ancients_dark_ones: ['orc_settlements.camps_and_warbands'],
+            ice_ancients:       ['human_settlements.villages'],
+            wildmen_foresters:  ['orc_settlements.camps_and_warbands', 'human_settlements.villages'],
+            wildmen_ravagers:   ['orc_settlements.camps_and_warbands', 'orc_settlements.raids_and_outposts'],
+            oakpeople:          ['human_settlements.villages'],
+            stone_folk:         ['dwarven_settlements.villages', 'dwarven_settlements.mines'],
+            swampbrood:         ['orc_settlements.camps_and_warbands', 'human_settlements.villages'],
+            ashen_halfbreeds:   ['orc_settlements.camps_and_warbands', 'human_settlements.villages'],
         };
         const portPools = {
-            human:    ['human_settlements.plain_names'],
-            elf:      ['elvish_settlements.plain_names'],
-            dwarf:    ['dwarven_settlements.plain_names'],
-            halfling: ['human_settlements.plain_names'],
-            half_elf: ['human_settlements.plain_names', 'elvish_settlements.plain_names'],
-            half_orc: ['human_settlements.plain_names', 'orc_settlements.plain_names'],
-            orc:      ['orc_settlements.raids_and_outposts', 'orc_settlements.plain_names'],
+            midlander:          ['human_settlements.plain_names'],
+            northerner:         ['human_settlements.plain_names'],
+            step_folk:          ['human_settlements.plain_names'],
+            ancients_secluded:  ['elvish_settlements.plain_names'],
+            ancients_greys:     ['elvish_settlements.plain_names'],
+            ancients_dark_ones: ['orc_settlements.plain_names'],
+            ice_ancients:       ['human_settlements.plain_names'],
+            wildmen_foresters:  ['human_settlements.plain_names', 'orc_settlements.plain_names'],
+            wildmen_ravagers:   ['orc_settlements.raids_and_outposts', 'orc_settlements.plain_names'],
+            oakpeople:          ['human_settlements.plain_names'],
+            stone_folk:         ['dwarven_settlements.plain_names'],
+            swampbrood:         ['orc_settlements.plain_names'],
+            ashen_halfbreeds:   ['human_settlements.plain_names', 'orc_settlements.plain_names'],
         };
 
-        const cp = cityPools[culture]    ?? cityPools.human;
-        const tp = townPools[culture]    ?? townPools.human;
-        const vp = villagePools[culture] ?? villagePools.human;
-        const pp = portPools[culture]    ?? portPools.human;
+        const cp = cityPools[culture]    ?? cityPools.midlander;
+        const tp = townPools[culture]    ?? townPools.midlander;
+        const vp = villagePools[culture] ?? villagePools.midlander;
+        const pp = portPools[culture]    ?? portPools.midlander;
 
         // Neutral secondary names always mix in for variety
         const cityNames    = this._pool([...cp, 'human_settlements.plain_names'],
@@ -3711,13 +3749,13 @@ class FantasyMap {
         const sc  = this.scale;
         const ss  = (this.params.settlementScale ?? 1.0) * (this.biomeMult?.settlement ?? 1);
         const rs  = (this.params.ruinScale       ?? 0.5) * (this.biomeMult?.ruin       ?? 1);
-        const plainsMult = this.biomeId === 'plains' ? 2 : 1;
+        const plainsMult = this.biomeId === 'the_midlands' ? 2 : 1;
         const sn  = v => Math.max(0, Math.round(v * ss * plainsMult));
         const rn  = v => Math.max(0, Math.round(v * rs));
 
-        // Orc culture: strongholds replace cities; camps replace towns
-        const cityType    = (culture === 'orc' || culture === 'half_orc') ? 'stronghold' : 'city';
-        const villageType = (culture === 'orc' || culture === 'half_orc') ? 'camp'       : 'village';
+        // Ravager culture: strongholds replace cities; camps replace villages
+        const cityType    = (culture === 'wildmen_ravagers' || culture === 'ancients_dark_ones') ? 'stronghold' : 'city';
+        const villageType = (culture === 'wildmen_ravagers' || culture === 'wildmen_foresters')  ? 'camp'       : 'village';
 
         tryPlace(cityType,
             (c, r) => flat(c, r) && nearRiver(c, r),
@@ -3746,7 +3784,7 @@ class FantasyMap {
             g.addEventListener('mouseenter', () => { g.style.opacity = '0.65'; });
             g.addEventListener('mouseleave', () => { g.style.opacity = '1'; });
             g.addEventListener('click', () => {
-                const popupBiomes = ['temperate_forest', 'plains'];
+                const popupBiomes = ['the_midlands'];
                 const popupTypes  = ['town', 'city', 'village', 'ruin'];
                 if (popupTypes.includes(loc.type) && popupBiomes.includes(this.biomeId) && typeof window.showTownPopup === 'function') {
                     window.showTownPopup(loc.name, this.biomeId, loc.type);
@@ -4261,7 +4299,7 @@ class FantasyMap {
         if (count === 0) return [];
 
         // Get candidate list filtered by current biome
-        const biomeId = this.biomeId ?? 'temperate_forest';
+        const biomeId = this.biomeId ?? 'the_midlands';
         let pool = [];
         if (_mapData?.landmarks) {
             pool = _mapData.landmarks.filter(lm =>
@@ -4425,16 +4463,22 @@ class FantasyMap {
     _drawRegionNames() {
         const { hm, gLabels } = this;
         const regionPoolsByCulture = {
-            human:    ['regions.human',         'regions.wilderness'],
-            elf:      ['regions.elven',          'regions.wilderness'],
-            dwarf:    ['regions.dwarven',        'regions.mountains_and_hills'],
-            halfling: ['regions.human',          'regions.wilderness'],
-            half_elf: ['regions.human',          'regions.elven'],
-            half_orc: ['regions.orc_inhabited',  'regions.wilderness'],
-            orc:      ['regions.orc_inhabited',  'regions.wilderness'],
+            midlander:          ['regions.human',         'regions.wilderness'],
+            northerner:         ['regions.human',         'regions.wilderness'],
+            step_folk:          ['regions.human',         'regions.elven'],
+            ancients_secluded:  ['regions.elven',         'regions.wilderness'],
+            ancients_greys:     ['regions.elven',         'regions.wilderness'],
+            ancients_dark_ones: ['regions.orc_inhabited', 'regions.wilderness'],
+            ice_ancients:       ['regions.human',         'regions.mountains_and_hills'],
+            wildmen_foresters:  ['regions.orc_inhabited', 'regions.wilderness'],
+            wildmen_ravagers:   ['regions.orc_inhabited', 'regions.wilderness'],
+            oakpeople:          ['regions.human',         'regions.wilderness'],
+            stone_folk:         ['regions.dwarven',       'regions.mountains_and_hills'],
+            swampbrood:         ['regions.orc_inhabited', 'regions.wilderness'],
+            ashen_halfbreeds:   ['regions.orc_inhabited', 'regions.wilderness'],
         };
-        const culture = this.culture ?? 'human';
-        const rPools = regionPoolsByCulture[culture] ?? regionPoolsByCulture.human;
+        const culture = this.culture ?? 'midlander';
+        const rPools = regionPoolsByCulture[culture] ?? regionPoolsByCulture.midlander;
         const NAMES = this._pool(
             [...rPools, 'regions.mountains_and_hills'],
             ['Eldenmoor', 'The Greywood', 'Ashfen', 'Stonespine', 'Silvermarsh', 'Thornwall', 'Iceward']
@@ -4556,10 +4600,16 @@ class FantasyMap {
         const roadCells = this.roadCells ?? new Map();
 
         const BIOME_PLAIN = {
-            plains: 'Plains', temperate_forest: 'Grassland', boreal_forest: 'Grassland',
-            highlands: 'Uplands', desert: 'Desert', arctic: 'Tundra',
-            swamp: 'Marsh', moorland: 'Moorland', rainforest: 'Jungle',
-            savanna: 'Savanna', badlands: 'Badlands', coastal: 'Grassland',
+            the_midlands:         'Plains',
+            the_sanctuary_lands:  'Grassland',
+            the_dark_forests:     'Grassland',
+            the_eternal_winds:    'Tundra',
+            the_badlands:         'Desert',
+            the_outer_steppes:    'Moorland',
+            the_blinding_lands:   'Badlands',
+            the_gleam_havens:     'Savanna',
+            the_boglands:         'Marsh',
+            the_forgotten_kingdom:'Cavern',
         };
 
         const classifyCell = (c, r) => {

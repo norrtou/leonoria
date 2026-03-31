@@ -1,0 +1,36 @@
+{
+  "description": "Maps legacy DnD biome IDs to Leonoria biome IDs. Used during map.js transition to ensure old saved maps and references resolve to the correct new biome.",
+  "biome_mapping": {
+    "temperate_forest": "the_sanctuary_lands",
+    "boreal_forest":    "the_dark_forests",
+    "plains":           "the_midlands",
+    "highlands":        "the_sanctuary_lands",
+    "desert":           "the_badlands",
+    "badlands":         "the_badlands",
+    "arctic":           "the_eternal_winds",
+    "swamp":            "the_boglands",
+    "swampland":        "the_boglands",
+    "moorland":         "the_outer_steppes",
+    "savanna":          "the_gleam_havens",
+    "coastal":          "the_gleam_havens",
+    "rainforest":       "the_sanctuary_lands",
+    "underdark":        "the_forgotten_kingdom"
+  },
+  "new_biome_ids": [
+    "the_midlands",
+    "the_sanctuary_lands",
+    "the_dark_forests",
+    "the_eternal_winds",
+    "the_badlands",
+    "the_outer_steppes",
+    "the_blinding_lands",
+    "the_gleam_havens",
+    "the_boglands",
+    "the_forgotten_kingdom"
+  ],
+  "map_js_preset_mapping": {
+    "_note": "BIOME_PRESETS in map.js uses these IDs. All old preset keys must be replaced with the Leonoria IDs below.",
+    "old_preset_keys": ["temperate_forest","boreal_forest","plains","highlands","desert","arctic","swamp","moorland","rainforest","savanna","coastal","underdark","badlands"],
+    "new_preset_keys": ["the_midlands","the_sanctuary_lands","the_dark_forests","the_eternal_winds","the_badlands","the_outer_steppes","the_blinding_lands","the_gleam_havens","the_boglands","the_forgotten_kingdom"]
+  }
+}

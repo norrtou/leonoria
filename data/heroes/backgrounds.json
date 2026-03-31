@@ -1,20 +1,206 @@
-[
-  { "name": "Acolyte",           "source": "core",     "skills": ["Insight", "Religion"],              "languages": 2, "feature": "Shelter of the Faithful" },
-  { "name": "Charlatan",         "source": "core",     "skills": ["Deception", "Sleight of Hand"],     "tools": ["Disguise kit", "Forgery kit"],                     "feature": "False Identity" },
-  { "name": "Criminal",          "source": "core",     "skills": ["Deception", "Stealth"],             "tools": ["Thieves' tools", "Gaming set"],                    "feature": "Criminal Contact" },
-  { "name": "Entertainer",       "source": "core",     "skills": ["Acrobatics", "Performance"],        "tools": ["Disguise kit", "Musical instrument"],              "feature": "By Popular Demand" },
-  { "name": "Folk Hero",         "source": "core",     "skills": ["Animal Handling", "Survival"],      "tools": ["Artisan's tools", "Vehicles (land)"],              "feature": "Rustic Hospitality" },
-  { "name": "Guild Artisan",     "source": "core",     "skills": ["Insight", "Persuasion"],            "tools": ["Artisan's tools"], "languages": 1,                 "feature": "Guild Membership" },
-  { "name": "Hermit",            "source": "core",     "skills": ["Medicine", "Religion"],             "tools": ["Herbalism kit"], "languages": 1,                   "feature": "Discovery" },
-  { "name": "Noble",             "source": "core",     "skills": ["History", "Persuasion"],            "tools": ["Gaming set"], "languages": 1,                     "feature": "Position of Privilege" },
-  { "name": "Outlander",         "source": "core",     "skills": ["Athletics", "Survival"],            "tools": ["Musical instrument"], "languages": 1,               "feature": "Wanderer" },
-  { "name": "Sage",              "source": "core",     "skills": ["Arcana", "History"],                "languages": 2,                                               "feature": "Researcher" },
-  { "name": "Sailor",            "source": "core",     "skills": ["Athletics", "Perception"],          "tools": ["Navigator's tools", "Vehicles (water)"],           "feature": "Ship's Passage" },
-  { "name": "Soldier",           "source": "core",     "skills": ["Athletics", "Intimidation"],        "tools": ["Gaming set", "Vehicles (land)"],                   "feature": "Military Rank" },
-  { "name": "Urchin",            "source": "core",     "skills": ["Sleight of Hand", "Stealth"],       "tools": ["Thieves' tools", "Disguise kit"],                  "feature": "City Secrets" },
-  { "name": "Far Traveler",      "source": "expanded", "skills": ["Insight", "Perception"],            "tools": ["Musical instrument or gaming set"], "languages": 1, "feature": "All Eyes on You" },
-  { "name": "Haunted One",       "source": "expanded", "skills": ["Arcana", "Survival"],               "languages": 2,                                               "feature": "Heart of Darkness" },
-  { "name": "Mercenary Veteran", "source": "expanded", "skills": ["Athletics", "Persuasion"],          "tools": ["Gaming set", "Vehicles (land)"],                   "feature": "Mercenary Life" },
-  { "name": "Archaeologist",     "source": "expanded", "skills": ["History", "Survival"],              "tools": ["Cartographer's tools"], "languages": 1,            "feature": "Historical Knowledge" },
-  { "name": "Witchlight Hand",   "source": "expanded", "skills": ["Performance", "Sleight of Hand"],   "tools": ["Disguise kit", "Musical instrument"],              "feature": "Carnival Fixture" }
-]
+{
+  "system": "Leonoria Profession Backgrounds",
+  "description": "10 profession backgrounds that define a hero's life before adventuring. Each background grants starting skill bonuses, starting wealth modifiers, and flavour traits. Backgrounds are culturally filtered — some are more common in certain cultures, but none are exclusive. Also connect to culture and religion fields on the character sheet.",
+  "background_note": "Background is distinct from race and class. It answers the question: what did you DO before this? It provides real mechanical starting boosts and a flavour hook for roleplay.",
+  "profession_backgrounds": [
+    {
+      "id": "noble",
+      "name": "Noble",
+      "description": "You were born into or formally elevated to the nobility of your culture. You have grown up with privilege, political education, and the constant weight of expectation. You know how power works — and how fragile it is.",
+      "starting_skill_bonuses": {
+        "leadership": 10,
+        "persuasion": 8,
+        "deception": 5
+      },
+      "starting_wealth_modifier": "+40 to class starting wealth",
+      "equipment_bonus": ["Fine Clothes", "Signet Ring (culture-appropriate)", "Letter of Safe Passage"],
+      "aptitude_modifier": { "presence": 5 },
+      "typical_cultures": ["Kesh-Amun", "Thul-Gaur", "Hath-Vek", "Grath-Ka"],
+      "typical_classes": ["Warden", "Envoy", "Scholar", "Ironguard"],
+      "openness_modifier": 0,
+      "flavor_trait": "People still step aside for you in doorways. They do it without thinking.",
+      "profession_note": "Nobles who become adventurers usually have something to prove — or something to lose."
+    },
+    {
+      "id": "soldier",
+      "name": "Soldier",
+      "description": "You served in an organized military force — a standing army, a mercenary company, or a cultural guard unit. You know formation fighting, orders, and the calculus of survival.",
+      "starting_skill_bonuses": {
+        "athletics": 10,
+        "survival": 5,
+        "shield_fighting": 5
+      },
+      "starting_wealth_modifier": "+10 to class starting wealth",
+      "equipment_bonus": ["Military Rank Insignia (defunct or active)", "Mess Kit", "Rations x5"],
+      "aptitude_modifier": { "martial_experience": 8, "conviction": 3 },
+      "typical_cultures": ["Thul-Gaur", "Grak-Var", "Nor-Kindu", "Skaard-Hul"],
+      "typical_classes": ["Ironguard", "Battlebrave", "Warden", "Wayfarer"],
+      "openness_modifier": 0,
+      "flavor_trait": "You count exits before you count people in a room.",
+      "profession_note": "Soldiers who leave the military usually left for a reason."
+    },
+    {
+      "id": "dishonored_soldier",
+      "name": "Dishonored Soldier",
+      "description": "You served — and then something went wrong. Desertion, a failed order, a crime of survival, or a betrayal you didn't commit but couldn't disprove. You carry the consequences.",
+      "starting_skill_bonuses": {
+        "survival": 12,
+        "stealth": 8,
+        "athletics": 5
+      },
+      "starting_wealth_modifier": "-10 from class starting wealth",
+      "equipment_bonus": ["Stripped Military Gear (worn, no insignia)", "Hidden Blade"],
+      "aptitude_modifier": { "martial_experience": 10, "scarring": 8, "presence": -3 },
+      "typical_cultures": ["Any military culture"],
+      "typical_classes": ["Ravager", "Shadowblade", "Wayfarer", "Battlebrave"],
+      "openness_modifier": -1,
+      "flavor_trait": "You watch every new person's hands before their face.",
+      "profession_note": "The dishonor sometimes was not yours to earn. It does not matter. The world treated it the same."
+    },
+    {
+      "id": "beggar",
+      "name": "Beggar",
+      "description": "You survived at the bottom. No resources, no status, no safety net. You learned to read people, find food in nothing, and become invisible when necessary. These are not small skills.",
+      "starting_skill_bonuses": {
+        "worldliness": 15,
+        "stealth": 10,
+        "survival": 8
+      },
+      "starting_wealth_modifier": "-20 from class starting wealth (minimum 5 gold)",
+      "equipment_bonus": ["Worn Clothes", "Begging Bowl (surprisingly useful)"],
+      "aptitude_modifier": { "cognition": 5, "scarring": 10, "presence": -5 },
+      "typical_cultures": ["Any dense settlement culture"],
+      "typical_classes": ["Shadowblade", "Scholar (rare self-taught)", "Artisan"],
+      "openness_modifier": 2,
+      "flavor_trait": "You can tell the difference between someone who has been poor and someone who hasn't in about three seconds.",
+      "profession_note": "Beggars who become heroes usually found something worth fighting for — or nothing left to lose."
+    },
+    {
+      "id": "merchant",
+      "name": "Merchant",
+      "description": "You traded, bought, sold, and negotiated your way through life. You know the value of things — including people — and you are very good at finding the gap between what something is worth and what someone will pay.",
+      "starting_skill_bonuses": {
+        "persuasion": 10,
+        "deception": 8,
+        "navigation": 5
+      },
+      "starting_wealth_modifier": "+25 to class starting wealth",
+      "equipment_bonus": ["Trade Ledger", "Merchant's Seal", "Disguised Coin Purse"],
+      "aptitude_modifier": { "presence": 5, "cognition": 5 },
+      "typical_cultures": ["Oru-Vat", "Ix-Inar", "Bas-Tuut", "Vahn-Ree"],
+      "typical_classes": ["Envoy", "Artisan", "Wayfarer"],
+      "openness_modifier": 2,
+      "flavor_trait": "Every conversation is a negotiation. You just don't always tell the other person.",
+      "profession_note": "Merchants become adventurers when a trade deal goes badly enough that the only exit is forward."
+    },
+    {
+      "id": "scholar_background",
+      "name": "Scholar",
+      "description": "You spent years in formal academic study — a library, a tower, a Greys institution, or a self-funded obsession. You know more than most, and less than you think.",
+      "starting_skill_bonuses": {
+        "arcane_theory": 12,
+        "monster_lore": 10,
+        "herbalism": 5
+      },
+      "starting_wealth_modifier": "+5 to class starting wealth",
+      "equipment_bonus": ["Reference Tome (topic of specialty)", "Writing Kit", "Scholar's Seal"],
+      "aptitude_modifier": { "cognition": 8, "erudition": 5 },
+      "typical_cultures": ["Kesh-Amun", "Grath-Ka", "Uun-Dhal", "Vun-Dar"],
+      "typical_classes": ["Scholar", "Elementalist", "Soulkindler", "Voidweaver"],
+      "openness_modifier": 1,
+      "flavor_trait": "You have read about almost everything. Very little of that prepared you for any of it.",
+      "profession_note": "Scholarly adventurers often say they are 'in the field' as if it were a research expedition. Sometimes they are right."
+    },
+    {
+      "id": "artisan_background",
+      "name": "Artisan",
+      "description": "You worked with your hands — blacksmith, carpenter, weaver, jeweler, or another trade. You know how things are made, how they break, and what they're actually worth.",
+      "starting_skill_bonuses": {
+        "weaponsmithing": 10,
+        "armorsmithing": 8,
+        "potion_brewing": 5
+      },
+      "starting_wealth_modifier": "+15 to class starting wealth",
+      "equipment_bonus": ["Crafting Toolkit", "Trade Apron", "Guild Membership Token (if culture has guilds)"],
+      "aptitude_modifier": { "cognition": 5, "physiology": 3 },
+      "typical_cultures": ["Ghor-Aum", "Oru-Vat", "Stone Folk cultures"],
+      "typical_classes": ["Artisan", "Ironguard", "Scholar"],
+      "openness_modifier": 0,
+      "flavor_trait": "When something breaks, you instinctively look for how to fix it.",
+      "profession_note": "Artisans become adventurers when the guild no longer offers enough, or when something worth crafting is out of reach of a workshop."
+    },
+    {
+      "id": "criminal",
+      "name": "Criminal",
+      "description": "You worked outside the law — thief, smuggler, hired muscle, fence, or something worse. You are very good at certain things that polite society pretends no one is good at.",
+      "starting_skill_bonuses": {
+        "thievery": 12,
+        "lockpicking": 8,
+        "deception": 8
+      },
+      "starting_wealth_modifier": "+10 to class starting wealth (origin unclear)",
+      "equipment_bonus": ["Lockpick Set", "Dark Clothes", "Concealed Knife"],
+      "aptitude_modifier": { "cognition": 5, "scarring": 5, "presence": -3 },
+      "typical_cultures": ["Shul-Um", "Makh-Zai", "Zher-Ith"],
+      "typical_classes": ["Shadowblade", "Envoy (con artist type)", "Voidweaver"],
+      "openness_modifier": 1,
+      "flavor_trait": "You know which people in a room are carrying more than they're showing.",
+      "profession_note": "Criminals don't stop being criminals when they become adventurers. They just work in a different market."
+    },
+    {
+      "id": "wayfarer_background",
+      "name": "Wayfarer",
+      "description": "You have always been moving — a traveler, pilgrim, nomad, or exile. You have no home culture, or you left it long ago. The road is more familiar to you than any room.",
+      "starting_skill_bonuses": {
+        "navigation": 12,
+        "survival": 10,
+        "tracking": 8
+      },
+      "starting_wealth_modifier": "+0 to class starting wealth",
+      "equipment_bonus": ["Detailed Road Map (local region)", "Travel Cloak", "Rations x6"],
+      "aptitude_modifier": { "cognition": 5, "physiology": 3 },
+      "typical_cultures": ["Step Folk cultures", "Northerner cultures", "Outcast from any culture"],
+      "typical_classes": ["Wayfarer", "Battlebrave", "Soulkindler"],
+      "openness_modifier": 3,
+      "flavor_trait": "You read a landscape before you read a person. Both can kill you if you misread them.",
+      "profession_note": "Wayfarers often end up as adventurers simply because there was no distinction to begin with."
+    },
+    {
+      "id": "cleric_acolyte",
+      "name": "Cleric / Acolyte",
+      "description": "You served a faith — formally trained as a cleric, acolyte, or temple servant. Your connection to divine or spiritual systems is deep. Your Resonance reflects this.",
+      "starting_skill_bonuses": {
+        "persuasion": 8,
+        "arcane_theory": 8,
+        "leadership": 5
+      },
+      "starting_wealth_modifier": "+5 to class starting wealth",
+      "equipment_bonus": ["Religious Symbol (culture-appropriate)", "Prayer Book", "Ceremonial Robes (light armor equivalent)"],
+      "aptitude_modifier": { "conviction": 8, "resonance": 5 },
+      "typical_cultures": ["Oru-Vat", "Nor-Kindu", "Erem-Ka", "Dra-Vosh"],
+      "typical_classes": ["Soulkindler", "Warden", "Scholar"],
+      "openness_modifier": 1,
+      "flavor_trait": "Faith is not certainty. You know that better than most.",
+      "religion_bonus": "If religion matches culture alignment, +3% to all Conviction rolls.",
+      "profession_note": "Clerics who leave the temple rarely do so for nothing. Something shook their faith — or confirmed it in a direction the temple did not expect."
+    },
+    {
+      "id": "hunter",
+      "name": "Hunter",
+      "description": "You hunted for survival or trade — deep forest, open plains, or dangerous terrain. You know how prey moves, how it thinks, and how to end things cleanly.",
+      "starting_skill_bonuses": {
+        "tracking": 12,
+        "archery": 10,
+        "animal_handling": 8
+      },
+      "starting_wealth_modifier": "+5 to class starting wealth",
+      "equipment_bonus": ["Shortbow and Quiver (20 arrows)", "Hunting Knife", "Tanning Kit", "Rations x4"],
+      "aptitude_modifier": { "martial_experience": 5, "physiology": 3 },
+      "typical_cultures": ["Syl-Uun", "Gor-Vann", "Wildmen cultures", "Northerner cultures"],
+      "typical_classes": ["Wayfarer", "Ravager", "Lifewhisperer"],
+      "openness_modifier": -1,
+      "flavor_trait": "You are almost always the most dangerous thing in any room you walk into. You just don't say that.",
+      "profession_note": "Hunters become adventurers when the prey gets more dangerous than animals."
+    }
+  ]
+}

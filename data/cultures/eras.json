@@ -1,184 +1,162 @@
-[
-  {
-    "era": "Ancient & Mythic",
-    "date_range": "Prehistory – c. -5000 DR (varies by setting)",
-    "suberas": [
-      {
-        "name": "Primordial & Creator Age",
-        "date_range": "Prehistory – c. -30000 DR",
-        "description": "Creation myths, primordials, gods shape the world; earliest sentient races emerge."
-      },
-      {
-        "name": "Age of First Empires",
-        "date_range": "c. -30000 DR to -10000 DR",
-        "description": "Sarrukh, Batrachi, and Aearee dominate; proto-civilizations rise and fall."
-      },
-      {
-        "name": "Age of Elven Dominance",
-        "date_range": "c. -10000 DR to -5000 DR",
-        "description": "Elven high magic realms flourish (Aryvandaar, Miyeritar, Ilythiir conflicts)."
-      },
-      {
-        "name": "Age of Early Human Kingdoms",
-        "date_range": "c. -5000 DR to -2000 DR",
-        "description": "Netheril, Imaskar, and Jhaamdath rise; human arcane empires dominate."
-      }
-    ]
-  },
-  {
-    "era": "Classical Age",
-    "date_range": "c. -2000 DR to 0 DR",
-    "suberas": [
-      {
-        "name": "Age of Arcane Empires",
-        "date_range": "c. -2000 DR to -339 DR",
-        "description": "Netheril at its peak; Imaskar declines; powerful magic reshapes the world."
-      },
-      {
-        "name": "Age of Cataclysm",
-        "date_range": "c. -339 DR to 0 DR",
-        "description": "Fall of Netheril; magical disasters; collapse of major ancient civilizations."
-      }
-    ]
-  },
-  {
-    "era": "Early Historic Era",
-    "date_range": "0 DR to 900 DR",
-    "suberas": [
-      {
-        "name": "Dawn of Recorded History",
-        "date_range": "0 DR to 500 DR",
-        "description": "Dalereckoning begins; regional kingdoms stabilize; post-cataclysm recovery."
-      },
-      {
-        "name": "Rise of Regional Kingdoms",
-        "date_range": "500 DR to 900 DR",
-        "description": "Cormyr, early Greyhawk states, and Mystaran empires consolidate power."
-      }
-    ]
-  },
-  {
-    "era": "Middle Era (Age of Kingdoms)",
-    "date_range": "900 DR to 1350 DR",
-    "suberas": [
-      {
-        "name": "Age of Expansion",
-        "date_range": "900 DR to 1200 DR",
-        "description": "Kingdoms expand; trade routes flourish; feudal systems dominate."
-      },
-      {
-        "name": "Age of Intrigue",
-        "date_range": "1200 DR to 1350 DR",
-        "description": "Political fragmentation, espionage, and regional conflicts intensify."
-      }
-    ]
-  },
-  {
-    "era": "Late Historic Era (Pre-Modern)",
-    "date_range": "1350 DR to 1480 DR",
-    "suberas": [
-      {
-        "name": "Age of Turmoil",
-        "date_range": "1350 DR to 1385 DR",
-        "description": "Major conflicts across settings; instability rises."
-      },
-      {
-        "name": "Spellplague Era",
-        "date_range": "1385 DR to 1479 DR",
-        "description": "Magical catastrophe reshapes reality (Forgotten Realms-specific but widely mapped)."
-      }
-    ]
-  },
-  {
-    "era": "Modern Era (Standard Campaign Era)",
-    "date_range": "1480 DR to 1500+ DR",
-    "suberas": [
-      {
-        "name": "Second Sundering",
-        "date_range": "1480 DR to 1490 DR",
-        "description": "Worlds stabilize; divine order restored; geography partially resets."
-      },
-      {
-        "name": "Contemporary Age",
-        "date_range": "1490 DR onward",
-        "description": "Default 5e timeline; active adventuring era across most settings."
-      }
-    ]
-  },
-  {
-    "era": "Setting-Specific Parallel Eras",
-    "date_range": "Varies",
-    "suberas": [
-      {
-        "name": "Age of Arcanum (Exandria)",
-        "date_range": "Pre-Calamity",
-        "description": "Floating cities, extreme magical advancement."
-      },
-      {
-        "name": "The Calamity (Exandria)",
-        "date_range": "Ends c. -800 PD",
-        "description": "Gods war; civilizations collapse."
-      },
-      {
-        "name": "Post-Calamity Era (Exandria)",
-        "date_range": "0 PD onward",
-        "description": "Rebuilding of mortal civilizations."
-      },
-      {
-        "name": "Age of Demons (Eberron)",
-        "date_range": "Prehistory",
-        "description": "Fiends dominate before dragon intervention."
-      },
-      {
-        "name": "Age of Giants (Eberron)",
-        "date_range": "Ancient",
-        "description": "Giant empires dominate Xen’drik."
-      },
-      {
-        "name": "Age of Monsters (Eberron)",
-        "date_range": "Ancient to mid-history",
-        "description": "Dhakaani Empire and other non-human powers rise."
-      },
-      {
-        "name": "Age of Galifar (Eberron)",
-        "date_range": "c. 1 YK to 894 YK",
-        "description": "Unified kingdom dominates Khorvaire."
-      },
-      {
-        "name": "Last War (Eberron)",
-        "date_range": "894 YK to 996 YK",
-        "description": "Massive continental war."
-      },
-      {
-        "name": "Current Age (Eberron)",
-        "date_range": "998 YK onward",
-        "description": "Post-war tension; unstable peace."
-      },
-      {
-        "name": "Age of Despair (Dragonlance)",
-        "date_range": "Cataclysm to War of the Lance",
-        "description": "Gods withdraw; world declines."
-      },
-      {
-        "name": "Age of Mortals (Dragonlance)",
-        "date_range": "Post-Chaos War",
-        "description": "Mortal-driven world order."
-      },
-      {
-        "name": "Green Age (Dark Sun)",
-        "date_range": "Ancient",
-        "description": "Lush world before arcane devastation."
-      },
-      {
-        "name": "Brown Age (Dark Sun)",
-        "date_range": "Post-defiling magic",
-        "description": "Ecological collapse begins."
-      },
-      {
-        "name": "Age of Sorcerer-Kings (Dark Sun)",
-        "date_range": "Current",
-        "description": "City-states ruled by tyrants."
-      }
-    ]
+{
+  "continent": "Leonoria",
+  "chronology_system": "Years Before Present (YBP)",
+  "calendar_note": "The Leonorian year has 365 days divided into 10 months. The current year is Year 0 of the Resurgent Era.",
+  "timeline": [
+    {
+      "id": "great_death",
+      "era": "The Great Death",
+      "time_range": "ca. 8000 YBP",
+      "duration": "Unknown — possibly decades",
+      "alignment": "Unknown",
+      "description": "A cataclysmic event of unknown origin that struck the central Pangea. The exact cause is disputed by every culture that has studied it. The central continent was scorched, twisted, and warped. The laws of nature were rewritten. The Badlands were born. Many believe it killed or fundamentally changed every race that existed at the time.",
+      "consequences": [
+        "Creation of The Badlands (central scorched zone)",
+        "Birth or transformation of the Ancients",
+        "Mutation of the Elementally Afflicted races",
+        "Partial corruption and maddening of the Wildmen",
+        "The Forgotten Kingdom sealed off from the surface world",
+        "Norium deposits formed throughout The Eternal Winds"
+      ],
+      "known_unknowns": "No reliable records exist from before The Great Death. All pre-Death history is mythological."
+    },
+    {
+      "id": "warworld",
+      "era": "The Warworld",
+      "time_range": "8000 – 7000 YBP",
+      "duration": "~1000 years",
+      "alignment": "Chaos",
+      "description": "A millennium of post-apocalyptic chaos following The Great Death. Survival was the only law. No organized states existed. Races fought for scarce resources in the altered landscape. The Ancients began consolidating their power. The Elementally Afflicted scattered to the margins.",
+      "consequences": [
+        "Population collapse across all races",
+        "Formation of survival-based tribal structures",
+        "First emergence of the Ancients as a dominant force",
+        "Wildmen settle in the fringes of the Dark Forests and Steppes"
+      ]
+    },
+    {
+      "id": "age_of_warlords",
+      "era": "The Age of Warlords",
+      "time_range": "7000 – 4000 YBP",
+      "duration": "~3000 years",
+      "alignment": "Chaos / Neutral",
+      "description": "The rise of disparate martial powers. A brutal period of constant border shifts and tribal dominance. The Common Folk first emerged as a coherent racial identity during this era, rising from the survivors of the Warworld. The first proto-states formed and collapsed in rapid succession.",
+      "consequences": [
+        "First Common Folk kingdoms appear and fall",
+        "Ancients build early city-states in The Sanctuary Lands",
+        "Stone Folk retreat fully into mountains and the upper Forgotten Kingdom",
+        "Oakpeople culture takes root in the deep Sanctuary Lands",
+        "First Wildmen chiefdoms emerge in the Dark Forests"
+      ]
+    },
+    {
+      "id": "age_of_canda",
+      "era": "The Age of Canda",
+      "time_range": "4000 – 3500 YBP",
+      "duration": "~500 years",
+      "alignment": "Neutral / Good",
+      "description": "A brief but historically significant era of partial unification. A figure or lineage known only as 'Canda' unified or dominated large portions of the continent. The nature of Canda is disputed — some cultures venerate Canda as a Common Folk emperor, others as an Ancient scholar-king. The era ended violently.",
+      "consequences": [
+        "First continent-spanning trade routes established",
+        "Shared calendar system adopted (later reformed)",
+        "Cultural exchange between Ancients and Common Folk",
+        "Collapse into the Golden Age of the Ancients after Canda's fall"
+      ]
+    },
+    {
+      "id": "golden_age_ancients",
+      "era": "The Golden Age of the Ancients",
+      "time_range": "3500 – 1500 YBP",
+      "duration": "~2000 years",
+      "alignment": "Lawful / Neutral",
+      "description": "The peak of the elder races. The Secluded, The Greys, The Ice Ancients, and The Dark Ones all flourished during this period. High magic and architectural wonders defined the era. The Greys built their great Spire-Cities. The Secluded expanded their forest territories. The Dark Ones consolidated control of the Forgotten Kingdom. Common Folk civilizations existed under Ancient overlordship or in peripheral regions.",
+      "consequences": [
+        "Great architectural wonders constructed (many now in ruins in the Badlands and Midlands)",
+        "The eight major schools of Materium fully codified",
+        "The Forgotten Kingdom mapped and zoned (The Light, The Well, The Fallen)",
+        "Common Folk cultures grew in the Midlands, slowly gaining independence",
+        "Ice Ancients retreated fully to The Eternal Winds — first complete isolation"
+      ]
+    },
+    {
+      "id": "age_of_eight_kingdoms",
+      "era": "The Age of the Eight Kingdoms",
+      "time_range": "1500 – 800 YBP",
+      "duration": "~700 years",
+      "alignment": "Neutral",
+      "description": "The splintering of Ancient power into eight major mortal-led sovereign entities. Common Folk kingdoms rose to prominence as the Ancients' grip on political power weakened. The Wildmen Hordes pressed from the Dark Forests. Step Folk confederacies formed in the Blinding Lands and Gleam Havens. The 28 cultures of the current era trace their lineages to this period.",
+      "consequences": [
+        "Eight dominant kingdoms divide the continent",
+        "Common Folk become politically dominant in The Midlands",
+        "Step Folk confederacies recognized as sovereign entities",
+        "Wildmen Horde raids reshape northern and western borders",
+        "Dark Ones increasingly isolated as The Forgotten Kingdom becomes politically autonomous"
+      ]
+    },
+    {
+      "id": "tyranny_of_irin",
+      "era": "The Tyranny of Irin the Sage",
+      "time_range": "800 – 680 YBP",
+      "duration": "~120 years",
+      "alignment": "Dark",
+      "description": "A dark century where Irin the Sage, a Dread Knight of the Forgotten Kingdom, enslaved much of Leonoria. Irin was either a fallen Ancient or an exceptionally powerful Ashen Halfbreed — records are destroyed or suppressed. Irin enforced a global reign of terror through an army of bound undead and corrupted champions. Was eventually brought down by a coalition, but the exact nature of the coalition's victory is also disputed.",
+      "consequences": [
+        "Mass destruction of historical records (many pre-Irin histories lost)",
+        "Widespread undead presence established in the Dark Forests and Badlands",
+        "The Forgotten Kingdom's political structure permanently altered",
+        "Several Midland and Sanctuary Lands cultures erased or merged",
+        "The Gatekeepers order founded to monitor and control access to the Forgotten Kingdom"
+      ],
+      "notable_figures": ["Irin the Sage (Dread Knight, tyrant)"]
+    },
+    {
+      "id": "war_of_the_well",
+      "era": "The War of the Well",
+      "time_range": "680 – 320 YBP",
+      "duration": "~360 years",
+      "alignment": "Mixed",
+      "description": "The collapse of Irin's empire triggered a long, multi-generational conflict. Different factions fought to fill the power vacuum. The conflict is named for a key battle fought at The Well zone of the Forgotten Kingdom, where the fate of the underground world was decided. The war eventually exhausted all major powers and forced the negotiated peace that created the current political map.",
+      "consequences": [
+        "Current borders and the 28-culture system established",
+        "Gatekeeper order gains formal political recognition",
+        "Undead presence reduced but not eliminated from Dark Forests and Badlands",
+        "The Outer Steppes emerge as a no-man's land buffer zone",
+        "Step Folk cultures gain full sovereign recognition in Blinding Lands and Gleam Havens",
+        "Stone Folk of The Well gain autonomy within the Forgotten Kingdom"
+      ]
+    },
+    {
+      "id": "resurgent_era",
+      "era": "The Resurgent Era",
+      "time_range": "320 YBP – Present",
+      "duration": "320 years (ongoing)",
+      "alignment": "Mixed / Stabilizing",
+      "description": "The current era, characterized by the stabilization of the 28 core cultures and their respective states. Trade routes are reopening. Old ruins are being explored. The Badlands remain impassable to most, but trade arteries through its edges are profitable. Tensions simmer between The Midlands hegemons and the Wildmen hordes. The Forgotten Kingdom is largely self-governing and mysterious to outsiders.",
+      "current_tensions": [
+        "Midlands expansion pressure on Dark Forest tribes",
+        "Wildmen raids along the Sanctuary Lands borders",
+        "Dark Ones' Um-Syndicate expanding influence through trade networks",
+        "Increased undead activity in the Badlands fringe (unexplained)",
+        "Ice Ancients sighted further south than recorded history — reason unknown"
+      ],
+      "player_era": true
+    }
+  ],
+  "leonorian_calendar": {
+    "days_per_year": 365,
+    "months": 10,
+    "month_names": [
+      { "number": 1, "name": "Dawnmark", "season": "Early Spring" },
+      { "number": 2, "name": "Greenrise", "season": "Spring" },
+      { "number": 3, "name": "Highbloom", "season": "Late Spring" },
+      { "number": 4, "name": "Sunpeak", "season": "Early Summer" },
+      { "number": 5, "name": "Fullheat", "season": "Summer" },
+      { "number": 6, "name": "Ember Fall", "season": "Late Summer" },
+      { "number": 7, "name": "Goldleaf", "season": "Early Autumn" },
+      { "number": 8, "name": "Ashwind", "season": "Autumn" },
+      { "number": 9, "name": "Deepcold", "season": "Early Winter" },
+      { "number": 10, "name": "Ironwinter", "season": "Winter" }
+    ],
+    "birth_month_signs": "Each month is governed by a Birth Mother Sign. See birthmothersigns.json."
   }
-]
+}

@@ -1,20 +1,694 @@
-[
-  { "raceName": "Human",      "source": "core",     "subraces": ["Standard Human", "Variant Human"] },
-  { "raceName": "Elf",        "source": "core",     "subraces": ["High Elf", "Wood Elf", "Dark Elf (Drow)"] },
-  { "raceName": "Dwarf",      "source": "core",     "subraces": ["Hill Dwarf", "Mountain Dwarf"] },
-  { "raceName": "Halfling",   "source": "core",     "subraces": ["Lightfoot", "Stout"] },
-  { "raceName": "Gnome",      "source": "core",     "subraces": ["Forest Gnome", "Rock Gnome"] },
-  { "raceName": "Half-Orc",   "source": "core",     "subraces": [] },
-  { "raceName": "Half-Elf",   "source": "core",     "subraces": [] },
-  { "raceName": "Tiefling",   "source": "core",     "subraces": [] },
-  { "raceName": "Dragonborn", "source": "expanded", "subraces": ["Red", "Blue", "Green", "Black", "White", "Gold", "Silver"] },
-  { "raceName": "Aasimar",    "source": "expanded", "subraces": ["Protector", "Fallen", "Scourge"] },
-  { "raceName": "Genasi",     "source": "expanded", "subraces": ["Air", "Earth", "Fire", "Water"] },
-  { "raceName": "Goliath",    "source": "expanded", "subraces": [] },
-  { "raceName": "Tabaxi",     "source": "expanded", "subraces": [] },
-  { "raceName": "Firbolg",    "source": "expanded", "subraces": [] },
-  { "raceName": "Kenku",      "source": "expanded", "subraces": [] },
-  { "raceName": "Triton",     "source": "expanded", "subraces": [] },
-  { "raceName": "Warforged",  "source": "expanded", "subraces": [] },
-  { "raceName": "Shifter",    "source": "expanded", "subraces": ["Beasthide", "Longtooth", "Swiftstride", "Wildhunt"] }
-]
+{
+  "system": "Leonoria Races",
+  "description": "All playable races of Leonoria. Each race group has sub-races with distinct physical profiles, aptitude modifiers, resistances, and traits. Physical data uses randomized ranges for hero generation.",
+  "size_order_note": "Largest to smallest: Wildmen Ravagers > Wildmen Foresters > Ancients > Ashen Halfbreeds > Common Folk / Step Folk > Swampbrood > Stone Folk > Oakpeople",
+  "age_generation_range": [15, 95],
+  "race_groups": [
+    {
+      "id": "ancients",
+      "name": "Ancients",
+      "category": "Ancients",
+      "general_description": "Tall, slender, and nimble with a natural affinity for norium that runs through their blood, granting exceptional magical capacity. Often regarded as attractive and naturally charismatic. All sub-groups are elitist and arrogant about their own importance, viewing themselves as custodians of wisdom. Their destinies were shaped by The Great Death.",
+      "lore": "The oldest living memory of Leonoria. No Ancient alive remembers before The Great Death — but all believe their current form was caused by it. Each sub-race interprets this differently: the Secluded as a spiritual gift, the Greys as a philosophical evolution, the Dark Ones as a curse to weaponize, and the Ice Ancients as something too private to discuss.",
+      "sub_races": [
+        {
+          "id": "ancients_secluded",
+          "name": "The Secluded",
+          "description": "Forest dwellers and extreme isolationists with an aloof, detached character. Naturally connected to most magical entities. Neutral affinity. Can become passionate about nature-related things. Often mistaken for unfeeling, but they feel deeply — they simply do not share.",
+          "habitat": ["the_sanctuary_lands"],
+          "physical": {
+            "height_cm": { "male": [175, 205], "female": [168, 198] },
+            "weight_kg": { "male": [55, 80], "female": [50, 72] },
+            "lifespan_years": [300, 700],
+            "hero_age_note": "Can be generated age 20–95. Physically mature at 30, considered young until 100.",
+            "appearance_notes": "High, angular cheekbones. Large, luminous eyes (silver, green, gold). Very fine hair. Skin often carries a faint greenish or silvery tint in deep forest light."
+          },
+          "aptitude_modifiers": {
+            "conviction": 5,
+            "physiology": -10,
+            "cognition": 8,
+            "materium_affinity": 20,
+            "martial_experience": -5,
+            "presence": 10
+          },
+          "starting_resistances": {
+            "purelight": 10,
+            "physical_hardening": 0,
+            "magical_insulation": 15,
+            "cold": 5,
+            "blight": 5,
+            "venomous": 8
+          },
+          "materium_schools": ["Athropium", "Lifewhispering", "Harmony Weaving", "Tempest", "Earthen"],
+          "materium_pool_bonus": 25,
+          "shadow_connection": 0,
+          "special_traits": [
+            {
+              "name": "Forest Bond",
+              "description": "In The Sanctuary Lands or any forested biome, Materium pool regenerates 20% faster. Perception rolls in forested environments gain +10%."
+            },
+            {
+              "name": "Aloof Nature",
+              "description": "Presence (Gravitas) rolls in formal social settings suffer -5% — the Secluded find social performance tedious. However, Presence rolls with nature-aligned beings (Oakpeople, wildlife) gain +10%."
+            },
+            {
+              "name": "Norium Blood",
+              "description": "The norium in Secluded veins acts as a natural magical conductor. All Materium-school spells cost 10% less Materium Connection."
+            }
+          ],
+          "alignment_tendency": "Neutral",
+          "typical_classes": ["Lifewhisperer", "Elementalist", "Wayfarer", "Scholar"],
+          "typical_backgrounds": ["Hermit", "Wayfarer", "Hunter"],
+          "openness_range": [1, 4]
+        },
+        {
+          "id": "ancients_greys",
+          "name": "The Greys",
+          "description": "City builders, scholars, clerics with a Neutral-Good affinity. Tendencies toward religious fanaticism regarding logic and stoicism. Strong convictions. They see themselves as the rational apex of civilization and find disorder physically uncomfortable.",
+          "habitat": ["the_sanctuary_lands", "the_midlands"],
+          "physical": {
+            "height_cm": { "male": [178, 208], "female": [170, 200] },
+            "weight_kg": { "male": [58, 82], "female": [52, 74] },
+            "lifespan_years": [300, 650],
+            "appearance_notes": "Pale grey or white skin. Silver or white hair, always styled precisely. Eyes range from pale blue to near-colorless. Angular, clean-cut features."
+          },
+          "aptitude_modifiers": {
+            "conviction": 10,
+            "physiology": -8,
+            "cognition": 15,
+            "materium_affinity": 15,
+            "martial_experience": -5,
+            "presence": 8
+          },
+          "starting_resistances": {
+            "purelight": 8,
+            "physical_hardening": 0,
+            "magical_insulation": 12,
+            "arcane": 10,
+            "darkvoid": 8,
+            "chill": 5
+          },
+          "materium_schools": ["Arcane Arts", "Revelation", "Geometrics", "Tempest", "Earthen", "Impact"],
+          "materium_pool_bonus": 20,
+          "shadow_connection": 5,
+          "special_traits": [
+            {
+              "name": "Scholar's Discipline",
+              "description": "All Cognition (Erudition) skills level 15% faster. The Greys absorb knowledge at an exceptional rate."
+            },
+            {
+              "name": "Logic Fortress",
+              "description": "Conviction (Resonance / faith-based) rolls gain +10% when acting in alignment with a stated logical principle or oath."
+            },
+            {
+              "name": "Broad Conduit",
+              "description": "The Greys have access to the widest range of Materium schools of any race, though not the deepest. They can access both Light and Shadow schools at reduced potency (50% of normal power for those schools)."
+            }
+          ],
+          "alignment_tendency": "Neutral-Good / Lawful",
+          "typical_classes": ["Scholar", "Elementalist", "Warden", "Soulkindler"],
+          "typical_backgrounds": ["Scholar", "Noble", "Cleric"],
+          "openness_range": [3, 6]
+        },
+        {
+          "id": "ancients_dark_ones",
+          "name": "The Dark Ones",
+          "description": "Secretive, unsocial, and gifted exclusively in dark arts and deceptive fighting. Naturally selfish but with an occasional, surprising compassionate side. Some make great leaders of darker forces — not through love but through terrifying competence.",
+          "habitat": ["the_forgotten_kingdom"],
+          "physical": {
+            "height_cm": { "male": [172, 202], "female": [165, 196] },
+            "weight_kg": { "male": [52, 76], "female": [48, 68] },
+            "lifespan_years": [250, 500],
+            "appearance_notes": "Near-black skin, deep grey or obsidian. Eyes glow a faint red, violet, or pale gold in darkness. Hair is white or platinum. Eerily quiet movers — often noticed only when they choose to be."
+          },
+          "aptitude_modifiers": {
+            "conviction": -5,
+            "physiology": -5,
+            "cognition": 10,
+            "materium_affinity": 10,
+            "martial_experience": 5,
+            "presence": -10
+          },
+          "starting_resistances": {
+            "purelight": -10,
+            "physical_hardening": 5,
+            "magical_insulation": 10,
+            "darkvoid": 15,
+            "darkblood": 10,
+            "chill": 10,
+            "arcane": 12
+          },
+          "materium_schools": ["Umbramancy", "Blood Magic", "Darkvoid", "Darkmind", "Voidreaving"],
+          "materium_pool_bonus": 15,
+          "shadow_connection": 30,
+          "special_traits": [
+            {
+              "name": "Born to the Shadows",
+              "description": "In dark environments (Forgotten Kingdom, night, dungeons) all rolls gain +15%. Shadow connection pool does not drain in darkness."
+            },
+            {
+              "name": "Dark Arts Only",
+              "description": "The Dark Ones cannot access Light or standard Materium schools at all. They are exclusively attuned to Shadow Arts. All Shadow Arts spells cost 15% less Materium Connection."
+            },
+            {
+              "name": "Cold Read",
+              "description": "Once per encounter, can make a Cognition roll to perceive the Conviction level and primary weakness of one enemy."
+            }
+          ],
+          "alignment_tendency": "Dark / Neutral",
+          "typical_classes": ["Shadowblade", "Voidweaver", "Bloodsinger"],
+          "typical_backgrounds": ["Criminal", "Dishonored Soldier", "Wayfarer"],
+          "openness_range": [0, 2]
+        },
+        {
+          "id": "ancients_ice",
+          "name": "The Ice Ancients",
+          "description": "Solitary, mystical, and extremely xenophobic. Their culture and background remain largely unknown to the outside world. They live in The Eternal Winds and leave very rarely. When they do, it is always for an unknown, private reason — and they do not explain themselves.",
+          "habitat": ["the_eternal_winds"],
+          "physical": {
+            "height_cm": { "male": [180, 210], "female": [172, 204] },
+            "weight_kg": { "male": [62, 90], "female": [55, 80] },
+            "lifespan_years": [400, 1000],
+            "appearance_notes": "Blue-white or translucent skin. Hair is always white, often with a blue sheen. Eyes are pale ice-blue or near-white. Body temperature is measurably lower than all other races."
+          },
+          "aptitude_modifiers": {
+            "conviction": 8,
+            "physiology": 8,
+            "cognition": 5,
+            "materium_affinity": 15,
+            "martial_experience": 0,
+            "presence": -8
+          },
+          "starting_resistances": {
+            "cold": 50,
+            "chill": 40,
+            "fire": -20,
+            "hot": -15,
+            "physical_hardening": 8,
+            "magical_insulation": 12,
+            "purelight": 10
+          },
+          "materium_schools": ["Soulkindling", "Chill", "Tempest", "Earthen"],
+          "materium_pool_bonus": 18,
+          "shadow_connection": 5,
+          "special_traits": [
+            {
+              "name": "Frozen Blood",
+              "description": "Complete immunity to Climate-Cold damage. In The Eternal Winds, Materium pool regenerates 25% faster. All Chill damage dealt gains +15%."
+            },
+            {
+              "name": "Fire Vulnerability",
+              "description": "Fire damage received is increased by 20%. Hot climate damage is also increased by 15%."
+            },
+            {
+              "name": "The Vigil",
+              "description": "Ice Ancients rarely sleep. They enter a waking meditative state. This grants +5% to Perception rolls (they are always partially aware)."
+            }
+          ],
+          "alignment_tendency": "Neutral / Unknown",
+          "typical_classes": ["Stormcaller", "Scholar", "Warden", "Elementalist"],
+          "typical_backgrounds": ["Hermit", "Wayfarer"],
+          "openness_range": [0, 1]
+        }
+      ]
+    },
+    {
+      "id": "common_folk",
+      "name": "Common Folk",
+      "category": "Common Folk",
+      "general_description": "Human-like and the most plentiful race on Leonoria. They lack extreme resistances or magical gifts but are an extraordinarily mixed bag of traits — adaptable, ambitious, and prone to corruption. They exist everywhere but dominate The Midlands. No unified history or mythology, and probably older as a race than all others, though they cannot prove it.",
+      "lore": "Every scholar who has tried to trace Common Folk history before The Great Death has failed. The records simply don't exist — which some argue means they were there, and that The Great Death destroyed everything. Others say they appeared after. The Common Folk themselves don't particularly care. They are busy living.",
+      "sub_races": [
+        {
+          "id": "midlander",
+          "name": "Midlander",
+          "description": "The classic 'commoner' of Leonoria. Skilled traders, leaders, bards, and diplomats. Prone to religious fanaticism. They built the Midlands into the breadbasket of the continent through sheer stubbornness and organizational skill.",
+          "habitat": ["the_midlands"],
+          "physical": {
+            "height_cm": { "male": [162, 192], "female": [155, 182] },
+            "weight_kg": { "male": [62, 102], "female": [52, 88] },
+            "lifespan_years": [65, 100],
+            "appearance_notes": "The most variable appearance of any subrace. Every skin tone, hair color, and build exists. No unifying physical trait."
+          },
+          "aptitude_modifiers": {
+            "conviction": 5,
+            "physiology": 0,
+            "cognition": 5,
+            "materium_affinity": 0,
+            "martial_experience": 0,
+            "presence": 5
+          },
+          "starting_resistances": {
+            "physical_hardening": 2,
+            "magical_insulation": 2,
+            "weathering": 5
+          },
+          "materium_schools": ["Any (low affinity across all schools)"],
+          "materium_pool_bonus": 0,
+          "shadow_connection": 0,
+          "special_traits": [
+            {
+              "name": "Generalist",
+              "description": "No class is restricted or penalized for a Midlander. All classes are available at no modifier cost."
+            },
+            {
+              "name": "Corruption Prone",
+              "description": "Midlanders are easily corrupted by long exposure to Shadow Arts or extreme moral failures. Conviction (Resonance) suffers -5% when performing morally grey actions repeatedly."
+            },
+            {
+              "name": "Diplomatic Touch",
+              "description": "+5% to all Presence (Eloquence) rolls in trade and negotiation contexts."
+            }
+          ],
+          "alignment_tendency": "Neutral / Any",
+          "typical_classes": ["Ironguard", "Scholar", "Wayfarer", "Artisan", "Envoy"],
+          "typical_backgrounds": ["Merchant", "Noble", "Soldier", "Artisan"],
+          "openness_range": [3, 7]
+        },
+        {
+          "id": "northerner",
+          "name": "Northerner",
+          "description": "Isolationist hunters, traders, and fierce warriors from the fringes of the Dark Forests. Strong convictions around their faith. Stoic, practical, and deeply suspicious of outsiders. Known for exceptional endurance in hostile conditions.",
+          "habitat": ["the_dark_forests"],
+          "physical": {
+            "height_cm": { "male": [168, 196], "female": [158, 186] },
+            "weight_kg": { "male": [70, 110], "female": [58, 92] },
+            "lifespan_years": [65, 95],
+            "appearance_notes": "Heavier build than Midlanders. Skin often weathered and ruddy. Hair predominantly dark or auburn. Eyes typically grey or blue."
+          },
+          "aptitude_modifiers": {
+            "conviction": 10,
+            "physiology": 5,
+            "cognition": 0,
+            "materium_affinity": -3,
+            "martial_experience": 5,
+            "presence": -3
+          },
+          "starting_resistances": {
+            "cold": 10,
+            "physical_hardening": 5,
+            "magical_insulation": 2,
+            "weathering": 10
+          },
+          "materium_schools": ["Harmony Weaving", "Soulkindling"],
+          "materium_pool_bonus": 0,
+          "shadow_connection": 0,
+          "special_traits": [
+            {
+              "name": "Cold Endurance",
+              "description": "Northerners do not suffer Conviction penalties from Climate-Cold environments. They are adapted."
+            },
+            {
+              "name": "Forest Instinct",
+              "description": "+8% to Survival, Tracking, and Navigation skill rolls in forested or boreal environments."
+            },
+            {
+              "name": "Faith Hold",
+              "description": "When following a faith-based religion, Conviction (Resonance) gains an additional +5%. Their faith is unusually strong and focused."
+            }
+          ],
+          "alignment_tendency": "Neutral / Lawful",
+          "typical_classes": ["Ironguard", "Battlebrave", "Wayfarer", "Warden"],
+          "typical_backgrounds": ["Hunter", "Soldier", "Cleric"],
+          "openness_range": [1, 4]
+        },
+        {
+          "id": "step_folk",
+          "name": "Step Folk",
+          "description": "Skilled all-around warriors and traders from the Gleam Havens and Blinding Lands. Nomadic heritage gives them an edge in mobility and adaptability. They are neither exceptional warriors nor exceptional mages, but they are rarely outmatched in pure versatility.",
+          "habitat": ["the_gleam_havens", "the_blinding_lands", "the_outer_steppes"],
+          "physical": {
+            "height_cm": { "male": [163, 190], "female": [157, 182] },
+            "weight_kg": { "male": [63, 98], "female": [54, 84] },
+            "lifespan_years": [65, 100],
+            "appearance_notes": "Lean, wiry builds optimized for travel. Sun-darkened skin tones across a wide range. Hair is often kept practical — braided, short, or covered."
+          },
+          "aptitude_modifiers": {
+            "conviction": 3,
+            "physiology": 5,
+            "cognition": 3,
+            "materium_affinity": 0,
+            "martial_experience": 5,
+            "presence": 3
+          },
+          "starting_resistances": {
+            "hot": 8,
+            "physical_hardening": 3,
+            "magical_insulation": 3,
+            "weathering": 12
+          },
+          "materium_schools": ["Luminance", "Mindwielding", "Bloodpassion"],
+          "materium_pool_bonus": 5,
+          "shadow_connection": 0,
+          "special_traits": [
+            {
+              "name": "Nomadic Adaptability",
+              "description": "+8% to Metabolism (Stamina) rolls on the world map. Step Folk tire more slowly than others on long marches."
+            },
+            {
+              "name": "Trade Tongue",
+              "description": "+10% to all Presence (Eloquence) rolls in marketplace or trade contexts. The Step Folk have an instinctive read for value."
+            },
+            {
+              "name": "Heat Adaptation",
+              "description": "Do not suffer Conviction penalties from Climate-Hot environments. Adapted to the Gleam Havens and Blinding Lands."
+            }
+          ],
+          "alignment_tendency": "Neutral / Any",
+          "typical_classes": ["Wayfarer", "Battlebrave", "Envoy", "Shadowblade"],
+          "typical_backgrounds": ["Merchant", "Soldier", "Wayfarer"],
+          "openness_range": [4, 8]
+        }
+      ]
+    },
+    {
+      "id": "wildmen",
+      "name": "Wildmen",
+      "category": "Wildmen",
+      "general_description": "Not plentiful but deeply feared. Partially physically afflicted and maddened by The Great Death. Brutish, tall, and extraordinarily strong. All Wildmen are naturally gifted melee warriors due to their physical size. Some are up to 8 feet tall. All are resistant to cold weather and have strong natural resistance to moral afflictions and conviction-based attacks.",
+      "lore": "The Wildmen were changed by The Great Death in a different way than the Ancients. Where the Ancients were refined and elevated, the Wildmen were enlarged and partially maddened. Their connection to the pre-Death world is visceral and physical — something in their blood remembers violence, and they are never quite free of it.",
+      "sub_races": [
+        {
+          "id": "wildmen_foresters",
+          "name": "Foresters",
+          "description": "Hairy, mossy in appearance, almost camouflaged in the deep forest. Extreme isolationists with shamanistic faiths. Naturally neutral in alignment — they are not cruel by nature, just absolutely self-reliant.",
+          "habitat": ["the_dark_forests", "the_boglands", "the_eternal_winds"],
+          "physical": {
+            "height_cm": { "male": [190, 232], "female": [185, 225] },
+            "weight_kg": { "male": [92, 162], "female": [82, 148] },
+            "lifespan_years": [45, 75],
+            "appearance_notes": "Heavy, moss-like hair covering much of the body. Green-brown skin tones. Bark-like texture to forearms and shoulders. Eyes are usually amber or dark brown. Move surprisingly quietly for their size."
+          },
+          "aptitude_modifiers": {
+            "conviction": 5,
+            "physiology": 15,
+            "cognition": -5,
+            "materium_affinity": -5,
+            "martial_experience": 10,
+            "presence": -12
+          },
+          "starting_resistances": {
+            "cold": 20,
+            "physical_hardening": 15,
+            "magical_insulation": 3,
+            "venomous": 12,
+            "blight": 10,
+            "moral_affliction": 15
+          },
+          "materium_schools": ["Bestial Communion", "Athropium"],
+          "materium_pool_bonus": 5,
+          "shadow_connection": 5,
+          "special_traits": [
+            {
+              "name": "Natural Camouflage",
+              "description": "In forested or boggy environments, Stealth skill is treated as 15 levels higher. Animals do not become hostile to a Forester unprovoked."
+            },
+            {
+              "name": "Shamanistic Healing",
+              "description": "Can use Bestial Communion to accelerate natural HP regeneration by 10% between battles. Requires no Materium pool."
+            },
+            {
+              "name": "Great Stature",
+              "description": "All heavy weapons (2-handed) have their minimum Vigor requirement reduced by 10 for Wildmen. They carry as if one size category larger."
+            }
+          ],
+          "alignment_tendency": "Neutral",
+          "typical_classes": ["Ravager", "Wayfarer", "Lifewhisperer"],
+          "typical_backgrounds": ["Hunter", "Hermit"],
+          "openness_range": [0, 3]
+        },
+        {
+          "id": "wildmen_ravagers",
+          "name": "Ravagers",
+          "description": "Large, aggressive warrior types often serving as frontline mercenaries. Known for cannibalism. Naturally evil in alignment — though on rare occasions, benign neutral outliers appear. These outliers are often expelled from their tribes or deeply conflicted.",
+          "habitat": ["the_dark_forests", "the_outer_steppes"],
+          "physical": {
+            "height_cm": { "male": [200, 248], "female": [192, 238] },
+            "weight_kg": { "male": [102, 182], "female": [90, 162] },
+            "lifespan_years": [40, 70],
+            "appearance_notes": "Enormous, heavily muscled, with scarred and war-marked skin. Skin tones from dark grey to deep red-brown. Eyes are small and predatory. Teeth are unusually pronounced. Smell of smoke and iron."
+          },
+          "aptitude_modifiers": {
+            "conviction": 0,
+            "physiology": 20,
+            "cognition": -10,
+            "materium_affinity": -15,
+            "martial_experience": 15,
+            "presence": -18
+          },
+          "starting_resistances": {
+            "cold": 15,
+            "physical_hardening": 20,
+            "magical_insulation": 0,
+            "venomous": 15,
+            "moral_affliction": 20,
+            "blunt": 10,
+            "slashing": 5
+          },
+          "materium_schools": ["Blood Magic", "Dominion"],
+          "materium_pool_bonus": 0,
+          "shadow_connection": 8,
+          "special_traits": [
+            {
+              "name": "Unstoppable",
+              "description": "Ravagers cannot be knocked back, rooted, or staggered by any physical force (Blunt stagger immune). They continue moving through terrain that would stop others."
+            },
+            {
+              "name": "Cannibalistic Sustenance",
+              "description": "After defeating a living enemy, a Ravager can choose to consume them. This restores 15% of max HP. Has a Conviction cost (-3 Resonance) if team members with Conviction above 60 observe this.",
+              "alignment_note": "Non-evil Ravager outliers can suppress this ability but cannot access the HP restoration."
+            },
+            {
+              "name": "Fear Presence",
+              "description": "Enemies with Conviction below 40 must pass a Conviction (Tenacity) check on first encountering a Ravager or lose 1 initiative turn."
+            }
+          ],
+          "alignment_tendency": "Dark / Evil",
+          "typical_classes": ["Ravager", "Ironguard", "Bloodsinger"],
+          "typical_backgrounds": ["Soldier", "Dishonored Soldier", "Criminal"],
+          "openness_range": [0, 2]
+        }
+      ]
+    },
+    {
+      "id": "elementally_afflicted",
+      "name": "The Elementally Afflicted",
+      "category": "The Elementally Afflicted",
+      "general_description": "Mutants whose destinies were probably shaped at The Great Death when the laws of nature were rewritten — as it was with the Ancients, but differently. Where the Ancients were elevated spiritually, the Afflicted were fused with the physical world itself.",
+      "lore": "Some scholars argue the Elementally Afflicted are not one group but several unrelated accidents of The Great Death. What they share is an elemental bond to some part of the natural or subnatural world — wood, stone, swamp, or void.",
+      "sub_races": [
+        {
+          "id": "oakpeople",
+          "name": "Oakpeople",
+          "description": "Small, nimble, covered in leaf-like growths and living plant matter that serves as natural clothing and armor. Stronger in nature magic than even The Secluded. Can commune with animals. They struggle deeply with all forms of communication with other races and with loyalty to causes outside the forest.",
+          "habitat": ["the_sanctuary_lands"],
+          "physical": {
+            "height_cm": { "male": [92, 128], "female": [88, 122] },
+            "weight_kg": { "male": [26, 52], "female": [22, 46] },
+            "lifespan_years": [150, 450],
+            "appearance_notes": "Covered in real living leaf and bark growths. Skin ranges from bark-brown to deep green. Hair grows as a tangle of small branches and leaves. Eyes are luminous green or gold. Small and deceptively light on their feet."
+          },
+          "aptitude_modifiers": {
+            "conviction": 0,
+            "physiology": -15,
+            "cognition": 5,
+            "materium_affinity": 20,
+            "martial_experience": -8,
+            "presence": -10
+          },
+          "starting_resistances": {
+            "physical_hardening": 0,
+            "magical_insulation": 15,
+            "athropium": 20,
+            "blight": 8,
+            "cold": -5,
+            "fire": -10
+          },
+          "materium_schools": ["Athropium", "Bestial Communion", "Lifewhispering", "Harmony Weaving"],
+          "materium_pool_bonus": 25,
+          "shadow_connection": 0,
+          "special_traits": [
+            {
+              "name": "Nature's Apex",
+              "description": "Oakpeople deal 20% more Athropium damage than any other race. Animals are always neutral toward them regardless of circumstance."
+            },
+            {
+              "name": "Communication Struggle",
+              "description": "All Presence (Eloquence) and social skill rolls suffer -15%. This represents genuine difficulty processing non-natural language and social norms."
+            },
+            {
+              "name": "Living Armor",
+              "description": "Leaf and bark growths provide innate equivalent of light armor. Cannot be disarmed of this protection. Restores overnight in natural environments."
+            },
+            {
+              "name": "Fire Sensitive",
+              "description": "Fire damage received is increased by 10%. They instinctively retreat from open flames."
+            }
+          ],
+          "alignment_tendency": "Neutral",
+          "typical_classes": ["Lifewhisperer", "Elementalist", "Scholar"],
+          "typical_backgrounds": ["Hermit", "Hunter", "Wayfarer"],
+          "openness_range": [0, 3]
+        },
+        {
+          "id": "stone_folk",
+          "name": "Stone Folk",
+          "description": "A collective term for what some argue are three distinct races living at various levels of civilization in the mountains of Leonoria and the caves of the Forgotten Kingdom. Short, stout, extraordinarily strong for their size. Exceptional physical resilience.",
+          "habitat": ["the_sanctuary_lands", "the_forgotten_kingdom"],
+          "physical": {
+            "height_cm": { "male": [130, 158], "female": [126, 152] },
+            "weight_kg": { "male": [72, 122], "female": [65, 110] },
+            "lifespan_years": [150, 380],
+            "appearance_notes": "Rock-grey, slate, or iron-colored skin. Very dense musculature. Hair grows thick and often contains trace mineral deposits (flecks of quartz or iron visible). Eyes range from dark amber to deep red. Some sub-groups have partial skin calcification."
+          },
+          "aptitude_modifiers": {
+            "conviction": 5,
+            "physiology": 18,
+            "cognition": 0,
+            "materium_affinity": -5,
+            "martial_experience": 5,
+            "presence": 0
+          },
+          "starting_resistances": {
+            "physical_hardening": 20,
+            "blunt": 15,
+            "piercing": 8,
+            "darkblood": 15,
+            "earthen": 10,
+            "magical_insulation": 5,
+            "cold": 8
+          },
+          "materium_schools": ["Geometrics", "Terramancy", "Earthen", "Luminance"],
+          "materium_pool_bonus": 5,
+          "shadow_connection": 5,
+          "special_traits": [
+            {
+              "name": "Stone Skin",
+              "description": "Physical Hardening starts 10 levels higher than other races. Heavy armor proficiency comes naturally — no class restriction needed."
+            },
+            {
+              "name": "Darkblood Resilience",
+              "description": "Stone Folk have an unusual mineral composition in their blood that strongly resists Darkblood manipulation. Darkblood status effects have 50% reduced duration."
+            },
+            {
+              "name": "Underground Navigation",
+              "description": "In The Forgotten Kingdom or any underground environment, all rolls gain +10%. They have a near-perfect sense of direction underground."
+            },
+            {
+              "name": "Slow but Certain",
+              "description": "-5 to Agilities starting value. Stone Folk are not nimble, but they are almost impossible to knock from their feet."
+            }
+          ],
+          "alignment_tendency": "Neutral / Lawful",
+          "typical_classes": ["Ironguard", "Artisan", "Scholar", "Elementalist"],
+          "typical_backgrounds": ["Artisan", "Soldier", "Merchant"],
+          "openness_range": [2, 6]
+        },
+        {
+          "id": "swampbrood",
+          "name": "Swampbrood",
+          "description": "Crooked, medium-statured, and deeply adapted to the Boglands. High immunity to biological threats. Their culture revolves around fermentation, decay, and the cycles of rot. Strange to outsiders but internally very coherent.",
+          "habitat": ["the_boglands"],
+          "physical": {
+            "height_cm": { "male": [158, 186], "female": [152, 180] },
+            "weight_kg": { "male": [65, 102], "female": [58, 92] },
+            "lifespan_years": [80, 130],
+            "appearance_notes": "Hunched posture from a crooked spine. Skin has a mottled, wet look — greenish, grey, or mud-brown. Fingers are elongated with slight webbing. Eyes are very large and adapted to low light. Carry a persistent earthy, fermented smell."
+          },
+          "aptitude_modifiers": {
+            "conviction": 0,
+            "physiology": 5,
+            "cognition": 3,
+            "materium_affinity": 5,
+            "martial_experience": 0,
+            "presence": -10
+          },
+          "starting_resistances": {
+            "venomous": 25,
+            "poisonous": 25,
+            "blight": 20,
+            "humidity": 30,
+            "physical_hardening": 5,
+            "magical_insulation": 5
+          },
+          "materium_schools": ["Rotweaving", "Lifewhispering", "Athropium"],
+          "materium_pool_bonus": 10,
+          "shadow_connection": 8,
+          "special_traits": [
+            {
+              "name": "Bog Immunity",
+              "description": "Completely immune to all Venomous and Poisonous effects. Blight damage taken is reduced by 50%."
+            },
+            {
+              "name": "Swamp Walker",
+              "description": "No movement penalty in swamp, bog, or wetland terrain. All other races suffer standard movement penalties in these tiles."
+            },
+            {
+              "name": "Fermentation Arts",
+              "description": "+15% to Alchemy (Potion Brewing) skill rolls. Swampbrood alchemists are renowned for their biological and rot-based compounds."
+            }
+          ],
+          "alignment_tendency": "Neutral / Dark",
+          "typical_classes": ["Artisan", "Lifewhisperer", "Scholar", "Voidweaver"],
+          "typical_backgrounds": ["Artisan", "Hermit", "Criminal"],
+          "openness_range": [2, 5]
+        },
+        {
+          "id": "ashen_halfbreeds",
+          "name": "The Ashen Halfbreeds",
+          "description": "Corrupted former Ancients from the deepest zones of the Forgotten Kingdom. Tall, slender, and crooked — there is an elegance to them that has been warped by exposure to something no one fully understands. High immunities to almost everything. Unusually powerful void connection.",
+          "habitat": ["the_forgotten_kingdom"],
+          "physical": {
+            "height_cm": { "male": [172, 200], "female": [165, 194] },
+            "weight_kg": { "male": [50, 76], "female": [44, 68] },
+            "lifespan_years": [80, 200],
+            "appearance_notes": "Ash-grey or white skin with dark crack-like markings that trace their veins. Hair is always white or ash-grey. Eyes are white or pale silver with no visible iris. Movement is fluid but slightly wrong — like watching something move that should not be alive."
+          },
+          "aptitude_modifiers": {
+            "conviction": -10,
+            "physiology": -5,
+            "cognition": 8,
+            "materium_affinity": 10,
+            "martial_experience": 0,
+            "presence": -15
+          },
+          "starting_resistances": {
+            "venomous": 20,
+            "poisonous": 20,
+            "blight": 15,
+            "darkvoid": 15,
+            "arcane": 15,
+            "physical_hardening": 5,
+            "magical_insulation": 12,
+            "purelight": -15
+          },
+          "materium_schools": ["Voidreaving", "Umbramancy", "Darkvoid", "Chill"],
+          "materium_pool_bonus": 15,
+          "shadow_connection": 20,
+          "special_traits": [
+            {
+              "name": "Entropic Form",
+              "description": "All damage types except Purelight deal 10% less damage to Ashen Halfbreeds — their corrupted form partially absorbs and disperses energy. This resistance does not stack with other resistances."
+            },
+            {
+              "name": "Purelight Vulnerability",
+              "description": "Purelight damage is increased by 15% against Ashen Halfbreeds. Their corrupted nature reacts violently to divine light."
+            },
+            {
+              "name": "Void Erasure",
+              "description": "Once per battle, can use Voidreaving to partially erase one enemy debuff from the battlefield — making it as if that debuff never applied (removes it from up to 2 enemies in range)."
+            },
+            {
+              "name": "Corrupted Longevity",
+              "description": "The corruption has extended their lifespan beyond normal Common Folk range, but at the cost of connection: they age slowly but feel the passage of time acutely and suffer growing Conviction costs with each decade."
+            }
+          ],
+          "alignment_tendency": "Dark / Neutral",
+          "typical_classes": ["Voidweaver", "Shadowblade", "Scholar"],
+          "typical_backgrounds": ["Criminal", "Dishonored Soldier", "Wayfarer"],
+          "openness_range": [0, 3]
+        }
+      ]
+    }
+  ]
+}

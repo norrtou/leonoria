@@ -81,17 +81,16 @@
             <div class="setting-group">
                 <span class="setting-label">Biome</span>
                 <select id="param-biome" class="setting-select">
-                    <option value="temperate_forest">Temperate Forest</option>
-                    <option value="boreal_forest">Boreal Forest</option>
-                    <option value="plains">Plains &amp; Farmlands</option>
-                    <option value="highlands">Highlands</option>
-                    <option value="desert">Desert</option>
-                    <option value="arctic">Arctic Tundra</option>
-                    <option value="swamp">Swampland</option>
-                    <option value="moorland">Moorland</option>
-                    <option value="rainforest">Rainforest</option>
-                    <option value="savanna">Savanna</option>
-                    <option value="coastal">Coastal &amp; Islands</option>
+                    <option value="the_midlands">The Midlands</option>
+                    <option value="the_sanctuary_lands">The Sanctuary Lands</option>
+                    <option value="the_dark_forests">The Dark Forests</option>
+                    <option value="the_eternal_winds">The Eternal Winds</option>
+                    <option value="the_badlands">The Badlands</option>
+                    <option value="the_outer_steppes">The Outer Steppes</option>
+                    <option value="the_blinding_lands">The Blinding Lands</option>
+                    <option value="the_gleam_havens">The Gleam Havens</option>
+                    <option value="the_boglands">The Boglands</option>
+                    <option value="the_forgotten_kingdom">The Forgotten Kingdom</option>
                 </select>
                 <span class="setting-hint-line" id="lbl-biome-desc"></span>
             </div>
@@ -123,12 +122,27 @@
                 <span class="setting-label">Dominant culture</span>
                 <select id="param-culture" class="setting-select">
                     <option value="random">— Random —</option>
-                    <optgroup label="Cultures">
-                        <option value="human">Human</option>
-                        <option value="elf">Elven (High Elf)</option>
-                        <option value="orc">Orcish</option>
+                    <optgroup label="Common Folk">
+                        <option value="midlander">Midlander</option>
+                        <option value="northerner">Northerner</option>
+                        <option value="step_folk">Step Folk</option>
                     </optgroup>
-
+                    <optgroup label="Ancients">
+                        <option value="ancients_secluded">Secluded Ancients</option>
+                        <option value="ancients_greys">Grey Ancients</option>
+                        <option value="ancients_dark_ones">Dark Ancients</option>
+                        <option value="ice_ancients">Ice Ancients</option>
+                    </optgroup>
+                    <optgroup label="Wildmen">
+                        <option value="wildmen_foresters">Wildmen Foresters</option>
+                        <option value="wildmen_ravagers">Wildmen Ravagers</option>
+                    </optgroup>
+                    <optgroup label="Elementally Afflicted">
+                        <option value="oakpeople">Oakpeople</option>
+                        <option value="stone_folk">Stone Folk</option>
+                        <option value="swampbrood">Swampbrood</option>
+                        <option value="ashen_halfbreeds">Ashen Halfbreeds</option>
+                    </optgroup>
                 </select>
             </div>
 
@@ -172,7 +186,7 @@
         </div>
     </div>
 
-    <!-- Settlement popup (towns & cities in temperate forest & plains biomes) -->
+    <!-- Settlement popup (towns & cities in Midlands biome) -->
     <div id="town-popup">
         <img id="town-popup-img" src="" alt="Settlement">
         <div id="town-popup-header">

@@ -717,18 +717,16 @@ class Game {
 
         // Biome description hint
         const biomeDescriptions = {
-            temperate_forest: 'Rolling woodlands — balanced terrain, good for most cultures.',
-            boreal_forest:    'Dense evergreen wilderness — sparse settlements, dark winters.',
-            plains:           'Open farmlands — densest settlements, few forests.',
-            highlands:        'Rugged mountains — dwarven strongholds, many ruins.',
-            desert:           'Baking dunes — ancient ruins outnumber living settlements.',
-            arctic:           'Frozen tundra — only the toughest cultures survive.',
-            swamp:            'Waterlogged lowlands — rivers everywhere, few roads.',
-            moorland:         'Misty open upland — windswept ruins and ancient cairns.',
-            rainforest:       'Cathedral canopy — lush forests, elven territory.',
-            savanna:          'Sweeping grasslands — raiding cultures and great beasts.',
-            badlands:         'Eroded wastes — harsh terrain favoured by orcs and outlaws.',
-            coastal:          'Island chains and coves — trade ports and maritime culture.'
+            the_midlands:         'Fertile heartland — rolling plains, high settlement density, all races.',
+            the_sanctuary_lands:  'Lush magical forests — ancient trees, Ancients territory, snow-capped peaks.',
+            the_dark_forests:     'Dense dark wilderness — few settlements, undead present, brutal winters.',
+            the_eternal_winds:    'Arctic tundra — only Ice Ancients and Wildmen thrive here.',
+            the_badlands:         'Scorched cataclysm zone — ancient ruins, trade routes, undead everywhere.',
+            the_outer_steppes:    'Dry buffer plains — wandering groups, fortified waypoints, dust storms.',
+            the_blinding_lands:   'Windswept steppe — haunted ruins, pre-Death era remnants.',
+            the_gleam_havens:     'Warm southern coast — Mediterranean climate, Ancients and Step Folk.',
+            the_boglands:         'Murky swamplands — rivers everywhere, Swampbrood and Wildmen territory.',
+            the_forgotten_kingdom:'Underground cave world — darkness, shadow magic, Stone Folk and Ashen.',
         };
         const biomeEl = document.getElementById('param-biome');
         const updateBiomeDesc = () => {
@@ -1174,7 +1172,7 @@ window.showTownPopup = function(settlementName, biomeId, settlementType) {
     if (!popup) return;
 
     const isCity   = settlementType === 'city';
-    const terrain  = biomeId === 'plains' ? 'open farmlands' : 'temperate woodlands';
+    const terrain  = biomeId === 'the_midlands' ? 'open farmlands' : 'Leonorian lands';
 
     const isVillage = settlementType === 'village';
     const isRuin    = settlementType === 'ruin';

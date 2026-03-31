@@ -1,638 +1,729 @@
 {
   "world_database": {
-    "cultures": {
-      "main_cultures": [
-        {
-          "id": "human",
-          "name": "Human Imperial Regency",
-          "other_names": ["Human", "The Regency", "Imperialists", "Iron Kingdoms", "Mankind", "Kingdom-folk"],
-          "primary_race": "Human",
-          "abundance": "Common",
-          "alignment_dominance": "Lawful Neutral / Lawful Good",
-          "typical_classes": ["Fighter", "Paladin", "Cleric", "Wizard"],
-          "stance": "Expansionist, Diplomatic, Trade-focused",
-          "religions": ["Deities of Law, Sun, and Civilization"],
-          "preferred_biomes": ["plains", "temperate_forest", "highlands", "coastal", "savanna"],
-          "traits": ["Ambitious", "Organized", "Adaptable"],
-          "architecture": "Stone curtain walls, timber-framed houses, bustling marketplaces.",
-          "character_names": {
-            "male": ["Aldric", "Berin", "Caston", "Daven", "Eoric", "Falkor", "Gareth", "Hadwin", "Ingvar", "Jorath", "Kendric", "Lorin", "Marten", "Norvin", "Osbert", "Perin", "Radovan", "Solen", "Torben", "Uther", "Vance", "Wulfgar", "Yorick", "Zane"],
-            "female": ["Aelith", "Brynn", "Calynne", "Dara", "Elara", "Fenna", "Gweneth", "Hilde", "Ilyse", "Jessa", "Kira", "Lyra", "Maris", "Nyla", "Orla", "Petra", "Renna", "Sela", "Thea", "Una", "Vexia", "Wren", "Yara", "Zola"],
-            "clan_or_surname": {
-              "convention": "Family name passed through the paternal line, often derived from a trade, place, or ancestor deed.",
-              "examples": ["Ashford", "Brightwall", "Caldwell", "Dunmore", "Emberstone", "Greymoor", "Harwick", "Irondale", "Kestwick", "Langford"]
-            }
-          },
-          "settlements": ["Ironhaven", "Caston's Ford", "Thornwall", "Kingspire", "Dawnport", "Saltmere", "Greyvale", "Ashgate"],
-          "regions": ["The Regency Heartlands", "The Golden Plains", "The King's Road corridor", "The Sunward Coast", "The Frontier Marches"]
+    "continent": "Leonoria",
+    "era": "Resurgent Era (Current)",
+    "culture_note": "28 cultures derived from the 9 eras of Leonorian history. Each culture belongs to a biome, has a dominant race, a temperament (connected to Birth Mother Signs), and a primary Materium school that shapes their magic tradition.",
+    "cultures": [
+      {
+        "id": "kesh_amun",
+        "name": "Kesh-Amun",
+        "state": "The Kesh Hegemony",
+        "category": "Common Folk",
+        "race": "Midlander",
+        "geo_location": "The Midlands (Alluvial Lands)",
+        "temperament": "The Arbiter",
+        "primary_materium": "Revelation",
+        "alignment": "Lawful Neutral",
+        "description": "A civilization of 'Measure and Law'. They view the world as a geometric puzzle to be solved. Bureaucracy is their art form and their religion is pragmatism.",
+        "typical_classes": ["Ironguard", "Scholar", "Envoy"],
+        "typical_backgrounds": ["Noble", "Scholar", "Soldier"],
+        "stance": "Expansionist, legalistic, trade-dominant",
+        "architecture": "Stone-block grid cities with precise right-angled streets. Tall record-houses at every intersection.",
+        "character_names": {
+          "male": ["Kesh", "Amun", "Davar", "Soret", "Halath", "Vekton", "Marat", "Orun"],
+          "female": ["Keshae", "Amuna", "Davin", "Soris", "Halath", "Vekta", "Marita", "Oruna"],
+          "surname_convention": "Family name from trade registry. Format: [family] of [district]. E.g. 'Marat of the Scales'.",
+          "examples": ["of the Scales", "of the Ledger", "of the Gate", "of the Measure"]
         },
-        {
-          "id": "elf",
-          "name": "High Elven Reach",
-          "other_names": ["High Elf", "Sun Elves", "Moon Elves", "The Silver Host", "Altmer", "Arancai"],
-          "primary_race": "Elf (High)",
-          "abundance": "Uncommon",
-          "alignment_dominance": "Lawful Neutral / Neutral Good",
-          "typical_classes": ["Wizard", "Eldritch Knight", "Bard"],
-          "stance": "Isolationist, Superior, Traditional",
-          "religions": ["Corellon Larethian, Deities of Magic and Arts"],
-          "preferred_biomes": ["temperate_forest", "coastal", "highlands"],
-          "traits": ["Arcane Mastery", "Patient", "Elegant"],
-          "architecture": "Vertical white marble spires integrated with ancient silver-leaf trees.",
-          "character_names": {
-            "male": ["Adran", "Arannis", "Berrian", "Carric", "Enialis", "Erdan", "Erevan", "Galinndan", "Hadarai", "Ivellios", "Laucian", "Mindartis", "Paelias", "Peren", "Rolen", "Soveliss", "Thamior", "Tharivol", "Varis", "Xanaphia"],
-            "female": ["Adrie", "Althaea", "Anastrianna", "Andraste", "Antinua", "Bethrynna", "Birel", "Caelynn", "Drusilia", "Enna", "Felosial", "Ielenia", "Jelenneth", "Leshanna", "Lia", "Mialee", "Naivara", "Quelenna", "Sariel", "Silaqui", "Theirastra", "Vadania", "Valanthe"],
-            "clan_or_surname": {
-              "convention": "House name, often a poetic compound in Elvish (Silverbough, Moonwhisper, Dawnweave). Some lineages use ancient Elvish house epithets.",
-              "examples": ["Amastacia", "Brightwood", "Dawnmantle", "Galanodel", "Holimion", "Ilphelkiir", "Liadon", "Meliamne", "Naïlo", "Siannodel", "Xiloscient"]
-            }
-          },
-          "settlements": ["Aelindra", "Moonpetal Court", "The Silver Citadel", "Highreach Spire", "Selumel", "Caras Galadhon"],
-          "regions": ["The Elven Reaches", "The Silver Wood", "The Moonmere Shore", "The High Arbor", "Star-Peak Isle"]
+        "settlements": ["Kesh-Prime", "Amun's Ford", "The Ledger City", "Scale Point"],
+        "regions": ["The Alluvial Reaches", "The Measure Fields", "The Registry Coast"]
+      },
+      {
+        "id": "oru_vat",
+        "name": "Oru-Vat",
+        "state": "The Vat Alluvia",
+        "category": "Common Folk",
+        "race": "Midlander",
+        "geo_location": "The Midlands (Flood Plains)",
+        "temperament": "The Merciful",
+        "primary_materium": "Vitalism",
+        "alignment": "Neutral Good",
+        "description": "River-folk who use Vitalism to filter the 'Death-Silt' — contamination from the Badlands that washes downstream — from their water. Deeply communal. A culture where no one eats until everyone eats.",
+        "typical_classes": ["Soulkindler", "Lifewhisperer", "Artisan"],
+        "typical_backgrounds": ["Artisan", "Cleric", "Hunter"],
+        "stance": "Cooperative, pacifist by preference, defensive when pushed",
+        "architecture": "Floating platforms and raised stilted villages along river edges. Living roofs of cultivated reeds.",
+        "character_names": {
+          "male": ["Oru", "Vatan", "Reshel", "Timak", "Sorak", "Pelun"],
+          "female": ["Orua", "Vata", "Reshela", "Tima", "Sorah", "Peluna"],
+          "surname_convention": "Named after the river they were born nearest to.",
+          "examples": ["Clearwater", "Siltsong", "Rushflow", "Deepcurrent"]
         },
-        {
-          "id": "dwarf",
-          "name": "Dwarven Clan-Hold",
-          "other_names": ["Dwarf", "Mountain Dwarf", "Hill Dwarf", "The Deep-Kin", "Delvers", "Stout-folk"],
-          "primary_race": "Dwarf (Hill/Mountain)",
-          "abundance": "Common",
-          "alignment_dominance": "Lawful Good / Lawful Neutral",
-          "typical_classes": ["Cleric", "Fighter", "Paladin"],
-          "stance": "Stoic, Defensive, Trade-oriented (Metal/Stone)",
-          "religions": ["Moradin, The Soul Forger"],
-          "preferred_biomes": ["highlands", "underdark"],
-          "traits": ["Honorable", "Industrious", "Resilient"],
-          "architecture": "Massive geometric stone halls and deep-mining magma forges.",
-          "character_names": {
-            "male": ["Adrik", "Alberich", "Baern", "Barendd", "Brottor", "Bruenor", "Dain", "Darrak", "Delg", "Eberk", "Einkil", "Fargrim", "Flint", "Gardain", "Harbek", "Kildrak", "Morgran", "Orsik", "Oskar", "Rangrim", "Rurik", "Taklinn", "Thoradin", "Thorin", "Tordek", "Traubon", "Travok", "Ulfgar", "Veit", "Vondal"],
-            "female": ["Amber", "Artin", "Audhild", "Bardryn", "Dagnal", "Diesa", "Eldeth", "Falkrunn", "Finellen", "Gunnloda", "Gurdis", "Helja", "Hlin", "Kathra", "Kristryd", "Ilde", "Liftrasa", "Mardred", "Riswynn", "Sannl", "Torbera", "Torgga", "Vistra"],
-            "clan_or_surname": {
-              "convention": "Clan name passed through the paternal line, often stone or metal themed. Dwarves take deep pride in their clan above all else.",
-              "examples": ["Battlehammer", "Boulderfoot", "Fireforge", "Frostbeard", "Gorunn", "Holderhek", "Ironforge", "Loderr", "Lutgehr", "Rumnaheim", "Strakeln", "Torunn", "Ungart"]
-            }
-          },
-          "settlements": ["Kharak-Dûm", "Ironpeak Hold", "Moradin's Anvil", "The Deep Forge", "Stonehearth", "Mithral Hall", "Citadel Adbar"],
-          "regions": ["The Iron Mountains", "The Deep Halls", "The Forge Depths", "The Kharak Corridor", "The Hammerstone Range"]
+        "settlements": ["Vat-on-Flood", "Oru's Landing", "The Siltbreak"],
+        "regions": ["The Flood Plains", "The River Communes", "The Silt Delta"]
+      },
+      {
+        "id": "thul_gaur",
+        "name": "Thul-Gaur",
+        "state": "The Gaurian March",
+        "category": "Common Folk",
+        "race": "Midlander",
+        "geo_location": "The Midlands (Crown Lands / Border Territories)",
+        "temperament": "The Guardian",
+        "primary_materium": "Aegiscraft",
+        "alignment": "Lawful Good",
+        "description": "A culture defined by the 'Shield-Wall' mentality. Defensive architecture is their art form. Every farmhouse can become a fortress in an afternoon. They guard others as a matter of identity.",
+        "typical_classes": ["Ironguard", "Warden", "Battlebrave"],
+        "typical_backgrounds": ["Soldier", "Noble", "Artisan"],
+        "stance": "Defensive, duty-bound, culturally proud",
+        "architecture": "Low stone fortifications everywhere. Even markets have defensive walls. Gate-culture — all entrances are treated as security points.",
+        "character_names": {
+          "male": ["Thul", "Gaur", "Hadrak", "Brennan", "Vort", "Steinar"],
+          "female": ["Thula", "Gaura", "Hadra", "Brenna", "Vorta", "Steina"],
+          "surname_convention": "Clan name tied to a defensive structure or battle won.",
+          "examples": ["of the Wall", "of the Gate", "Ironshield", "Stonewatch"]
         },
-        {
-          "id": "halfling",
-          "name": "Halfling Shire-Folk",
-          "other_names": ["Halfling", "The Small-folk", "Hin", "The Shire", "Stouts", "Lightfoots"],
-          "primary_race": "Halfling (Lightfoot/Stout)",
-          "abundance": "Common",
-          "alignment_dominance": "Neutral Good",
-          "typical_classes": ["Rogue", "Bard", "Druid"],
-          "stance": "Peaceful, Hospitable, Non-confrontational",
-          "religions": ["Yondalla, The Blessed One"],
-          "preferred_biomes": ["plains", "temperate_forest"],
-          "traits": ["Communal", "Lucky", "Unassuming"],
-          "architecture": "Earthen burrow-homes with round doors and thatched-roof cottages.",
-          "character_names": {
-            "male": ["Alton", "Ander", "Cade", "Corrin", "Eldon", "Errich", "Finnan", "Garret", "Lindal", "Lyle", "Merric", "Milo", "Osborn", "Perrin", "Reed", "Roscoe", "Wellby"],
-            "female": ["Andry", "Bree", "Callie", "Cora", "Euphemia", "Jillian", "Kithri", "Lavinia", "Lidda", "Merla", "Nedda", "Paela", "Portia", "Seraphina", "Shaena", "Trym", "Vani", "Verna", "Wella"],
-            "clan_or_surname": {
-              "convention": "Family name tied to home place or family trait, often whimsical and nature-themed. Passed through both lines.",
-              "examples": ["Brushgather", "Goodbarrel", "Greenbottle", "High-hill", "Hilltopple", "Leagallow", "Tealeaf", "Thorngage", "Tosscobble", "Underbough"]
-            }
-          },
-          "settlements": ["The Green Hollow", "Millhaven", "Cloverfield", "Burrow's End", "Willowshire", "Bramblehatch", "Tumbleton"],
-          "regions": ["The Green Shires", "The Rolling Farmlands", "The Heartshire", "The Meadow Reaches", "Dalesfolk Country"]
+        "settlements": ["Gaurian Keep", "Thul's Wall", "The March Gate", "Ironmere"],
+        "regions": ["The Crown Lands", "The March Borders", "The Ironfield"]
+      },
+      {
+        "id": "hath_vek",
+        "name": "Hath-Vek",
+        "state": "The Hath Autocracy",
+        "category": "Common Folk",
+        "race": "Midlander",
+        "geo_location": "The Midlands (High Plains)",
+        "temperament": "The Tyrant",
+        "primary_materium": "Dominion",
+        "alignment": "Lawful Evil / Neutral",
+        "description": "A hierarchical caste system where 'Will' is the only currency. Power is treated as a physical weight — the strong carry it, the weak are crushed by it. An efficient, brutal society.",
+        "typical_classes": ["Ironguard", "Voidweaver", "Envoy"],
+        "typical_backgrounds": ["Noble", "Soldier", "Dishonored Soldier"],
+        "stance": "Authoritarian, expansionist, culturally contemptuous of weakness",
+        "architecture": "Tall, stark towers. Public displays of strength (arenas, public judgments). No ornamentation — efficiency over beauty.",
+        "character_names": {
+          "male": ["Hath", "Vekkar", "Domar", "Srul", "Rakesh", "Tolvar"],
+          "female": ["Hatha", "Vekka", "Doma", "Srula", "Rakesha", "Tolvara"],
+          "surname_convention": "Name of the rank or title held. Changes when status changes.",
+          "examples": ["the First", "of the Tier", "Ironwill", "Dominant"]
         },
-        {
-          "id": "half_elf",
-          "name": "Half-Elven Cosmopolitans",
-          "other_names": ["Half-Elf", "The Bridge-folk", "Khoravar", "Shore-born", "Dual-blooded"],
-          "primary_race": "Half-Elf",
-          "abundance": "Common (in Cities)",
-          "alignment_dominance": "Neutral Good / Chaotic Neutral",
-          "typical_classes": ["Bard", "Warlock", "Paladin", "Sorcerer"],
-          "stance": "Diplomatic, Adaptable, Socially Fluid",
-          "religions": ["Urban Deities", "The Sovereign Host", "Oghma"],
-          "preferred_biomes": ["temperate_forest", "coastal", "plains", "highlands"],
-          "traits": ["Diplomatic", "Versatile", "Inquisitive"],
-          "architecture": "Refined urban townhouses, blended styles of human stone and elven wood-work.",
-          "character_names": {
-            "male": ["Aelric", "Beren", "Calian", "Davin", "Eryn", "Faeron", "Garvin", "Haldir", "Iorel", "Jasper", "Kael", "Laris", "Maeran", "Naevin", "Oryn", "Phaeris", "Ryn", "Saerel", "Taevin", "Vaeron"],
-            "female": ["Aelindra", "Briel", "Caelynne", "Dara", "Erindel", "Faelan", "Gaelith", "Haerel", "Ilara", "Janael", "Kaela", "Liriel", "Maerin", "Naelara", "Orindel", "Phaeris", "Raelan", "Saelith", "Taerel", "Vaelindra"],
-            "clan_or_surname": {
-              "convention": "Often takes either the human family name or a simplified elven house name; blended names are also common in cosmopolitan cities.",
-              "examples": ["Ashveil", "Dawnmantle", "Goldweave", "Halfmoon", "Ironbough", "Moonglade", "Silverleaf", "Sunstride", "Thornbranch", "Willowmere"]
-            }
-          },
-          "settlements": ["The Crossroads", "Bridgehaven", "Thornport", "Dusk Landing", "Silvergate", "The Mixed Quarter", "Twilight's Reach"],
-          "regions": ["The Borderlands", "The Great Trade Roads", "The Coastal Cities", "The River Confluence", "The Twilight Marches"]
+        "settlements": ["Hath-Prime", "The Tier Cities", "The Vek Plateau"],
+        "regions": ["The High Plains", "The Dominion Reaches"]
+      },
+      {
+        "id": "zher_ith",
+        "name": "Zher-Ith",
+        "state": "The Zher Canyons",
+        "category": "Common Folk",
+        "race": "Midlander",
+        "geo_location": "The Badlands (Canyon Arteries)",
+        "temperament": "The Predator",
+        "primary_materium": "Pyricraft",
+        "alignment": "Neutral",
+        "description": "Survivalist heat-shapers. They see the desert not as a home, but as a testing ground. Trade is their lifeblood — the canyon routes are the only viable paths through the Badlands, and Zher-Ith controls them.",
+        "typical_classes": ["Wayfarer", "Pyrecrafter", "Envoy"],
+        "typical_backgrounds": ["Merchant", "Hunter", "Wayfarer"],
+        "stance": "Neutral, transactional, survivalist",
+        "architecture": "Cut into canyon walls. Heat-dispersing architecture. Nothing is built at ground level.",
+        "character_names": {
+          "male": ["Zher", "Ithrak", "Sorek", "Hamul", "Arak", "Deth"],
+          "female": ["Zhera", "Ithri", "Soreka", "Hamula", "Araka", "Detha"],
+          "surname_convention": "Canyon name they were born in, or trade route they operate.",
+          "examples": ["Dustfire", "Ashcanyon", "Heattrade", "Scorchway"]
         },
-        {
-          "id": "half_orc",
-          "name": "Half-Orc Frontier-Kin",
-          "other_names": ["Half-Orc", "The Gray-born", "Border-folk", "The Strong-arm", "Outpost-kin"],
-          "primary_race": "Half-Orc",
-          "abundance": "Uncommon",
-          "alignment_dominance": "Neutral / Chaotic Neutral",
-          "typical_classes": ["Barbarian", "Fighter", "Cleric (Tempus)"],
-          "stance": "Pragmatic, Defensive, Meritocratic",
-          "religions": ["Tempus", "Luthic", "Ancestral Spirits"],
-          "preferred_biomes": ["highlands", "boreal_forest", "desert", "plains"],
-          "traits": ["Resilient", "Intimidating", "Pragmatic"],
-          "architecture": "Reinforced log longhouses, stone watchtowers, and rugged frontier forts.",
-          "character_names": {
-            "male": ["Dench", "Feng", "Gell", "Henk", "Holg", "Imsh", "Keth", "Krusk", "Mhurren", "Ront", "Shump", "Thokk", "Varka", "Zorkan"],
-            "female": ["Baggi", "Emen", "Engong", "Kansif", "Myev", "Neega", "Ovak", "Ownka", "Shautha", "Sutha", "Vola", "Volen", "Yevelda"],
-            "clan_or_surname": {
-              "convention": "Often bears either the orc clan name or a human family name; in frontier communities, a deed-name (earned title) is most respected.",
-              "examples": ["Bloodtusk", "Gorunn", "Ironjaw", "Rageclaw", "Scarshoulder", "Stonefist", "Twoblade", "Warchant"]
-            }
-          },
-          "settlements": ["Borderwatch", "Ironpike Outpost", "The Grey Fort", "Tuskhollow", "Strongwall Keep", "Splitrock", "Warcrest"],
-          "regions": ["The Frontier Steppes", "The Grey Reaches", "Border Foothills", "The Orc Road", "The Watchposts"]
+        "settlements": ["The Zher Cut", "Ith-Gate", "Canyon Market"],
+        "regions": ["The Badlands Canyon Network", "The Ash Trade Routes"]
+      },
+      {
+        "id": "skaal_vek",
+        "name": "Skaal-Vek",
+        "state": "The Skaal Silence",
+        "category": "Common Folk",
+        "race": "Northerner",
+        "geo_location": "The Dark Forests (Northern Fringe)",
+        "temperament": "The Stoic",
+        "primary_materium": "Harmony Weaving",
+        "alignment": "Neutral",
+        "description": "They practice sensory deprivation and emotional stillness to avoid attracting the forest horrors. The Skaal believe that emotion is a signal — and the forest listens for signals.",
+        "typical_classes": ["Scholar", "Wayfarer", "Ironguard"],
+        "typical_backgrounds": ["Hunter", "Hermit", "Soldier"],
+        "stance": "Isolationist, survivalist, deeply quiet",
+        "architecture": "Invisible settlements — buildings designed to blend with trees. No fires visible from outside. Sound-dampening materials everywhere.",
+        "character_names": {
+          "male": ["Skaal", "Veket", "Orm", "Halr", "Stenkar", "Ulrek"],
+          "female": ["Skaala", "Veketa", "Orma", "Halra", "Stenkara", "Ulreka"],
+          "surname_convention": "None publicly. Single-name culture. Secret family names used only within the household.",
+          "examples": ["(single name only)"]
         },
-        {
-          "id": "orc",
-          "name": "Orcish War-Horde",
-          "other_names": ["Orc", "Orcish", "The Horde", "Greenskins", "Eye-followers"],
-          "primary_race": "Orc",
-          "abundance": "Common",
-          "alignment_dominance": "Chaotic Evil / Chaotic Neutral",
-          "typical_classes": ["Barbarian", "Fighter", "Warlock"],
-          "stance": "Aggressive, Predatory, Tribal",
-          "religions": ["Gruumsh One-Eye"],
-          "preferred_biomes": ["highlands", "plains", "savanna", "moorland", "desert"],
-          "traits": ["Strong", "Primal", "Fearless"],
-          "architecture": "Spiked timber palisades, bone-adorned totems, and hide tents.",
-          "character_names": {
-            "male": ["Argath", "Brughor", "Drak", "Elog", "Frag", "Gothak", "Hrunk", "Irusk", "Jagrul", "Karg", "Lugdush", "Muzgash", "Narbul", "Orguk", "Prask", "Rathgor", "Shagrat", "Thraka", "Ufgrak", "Voroth"],
-            "female": ["Baggi", "Drega", "Ekra", "Gashna", "Hraka", "Iraka", "Kriga", "Lurga", "Mugdra", "Narga", "Oga", "Rakha", "Shagra", "Throka", "Ulgra", "Vorga"],
-            "clan_or_surname": {
-              "convention": "Clan names tied to Gruumsh's edicts or battle deeds; typically one word of Orcish, often referring to slaughter, conquest, or the eye.",
-              "examples": ["Bloodfist", "Eyebreaker", "Gnarlbone", "Ironshield", "Manyscar", "One-Eye", "Skullsmasher", "Throatripper"]
-            }
-          },
-          "settlements": ["The Great Warchasm", "Skull Throne", "Blood-Tooth Hold", "Grimtusk Camp", "Slaughterfield", "Bone Altar", "The Red Pit"],
-          "regions": ["The Blighted Steppes", "The Warchief's Domain", "The Gruumsh Reaches", "The Blood Hills", "The Savage Frontier"]
-        }
-      ],
-      "subcultures": [
-        {
-          "id": "drow",
-          "name": "Drow Matriarchy",
-          "other_names": ["Drow", "Dark Elf", "The Night-Kin", "Spider-worshippers", "Deep Elves"],
-          "primary_race": "Elf (Drow)",
-          "abundance": "Rare",
-          "alignment_dominance": "Neutral Evil / Chaotic Evil",
-          "typical_classes": ["Rogue", "Cleric (Spider Queen)", "Wizard", "Fighter"],
-          "stance": "Hostile, Supremacist, Deceptive",
-          "religions": ["Lolth, The Spider Queen", "Vhaeraun (rare dissidents)", "Eilistraee (rare outcasts)"],
-          "preferred_biomes": ["underdark"],
-          "traits": ["Ruthless", "Cunning", "Arcane-inclined", "Matriarchal"],
-          "architecture": "Stalactite palaces suspended by magical chains over chasms; webs of obsidian and spider-silk span entire cavern ceilings.",
-          "character_names": {
-            "male": ["Drizzt", "Pharaun", "Zaknafein", "Jarlaxle", "Ryld", "Nimor", "Gromph", "Malagdorl", "Drisinil", "Vhaeraun", "Zak", "Guildenstern", "Tathlyn", "Kelnozz", "Masoj"],
-            "female": ["Liriel", "Qilué", "Vierna", "Triel", "Yvonnel", "Mez'Barris", "Shindia", "Nathvira", "Faeryl", "Sabal", "Lissariz", "Talice", "Zeerith", "Nedylene", "Matron Baenre"],
-            "clan_or_surname": {
-              "convention": "Matriarchal House name; males take their mother's house name. Social standing is entirely determined by the power of one's House. Format: [Given name] [House name].",
-              "examples": ["Do'Urden", "Baenre", "Mizzrym", "Fey-Branche", "Oblodra", "Vandree", "Hunzrin", "Kenafin", "Tuin'Tarl", "Despana"]
-            }
-          },
-          "settlements": ["Menzoberranzan", "Ched Nasad", "Eryndlyn", "Llurth Dreier", "Maerimydra", "Zanhoriloch", "Sshamath", "Phanlinksal"],
-          "regions": ["The Northdark", "The Underdark (Upperdark passages)", "The Braeryn", "Tier Breche", "The Clawrift", "The Great Rift shadow-side"]
+        "settlements": ["The Silence", "Skaal's Rest", "The Grey Hollow"],
+        "regions": ["Dark Forest Northern Fringe", "The Stillwood"]
+      },
+      {
+        "id": "ix_inar",
+        "name": "Ix-Inar",
+        "state": "The Inar League",
+        "category": "Common Folk",
+        "race": "Midlander",
+        "geo_location": "The Sanctuary Lands (Pasture Lands)",
+        "temperament": "The Hedonist",
+        "primary_materium": "Mindwielding",
+        "alignment": "Neutral Good / Chaotic",
+        "description": "A culture of kinetic art and silk-trade. They weaponize luxury and social influence. Their markets are the most beautiful in Leonoria, and their diplomats are the most dangerous.",
+        "typical_classes": ["Envoy", "Scholar", "Artisan"],
+        "typical_backgrounds": ["Merchant", "Noble", "Artisan"],
+        "stance": "Trade-focused, pleasure-positive, socially sophisticated",
+        "architecture": "Open-air pavilion markets. Silk awnings everywhere. Buildings look soft even when they are stone.",
+        "character_names": {
+          "male": ["Ix", "Inar", "Lorel", "Savan", "Mirath", "Helion"],
+          "female": ["Ixa", "Inara", "Lorela", "Savana", "Miratha", "Heliona"],
+          "surname_convention": "League house affiliation. Format: [house name]-kin. E.g. 'Silk-kin'.",
+          "examples": ["Silk-kin", "Bloom-kin", "Gold-kin", "Wind-kin"]
         },
-        {
-          "id": "wood_elf",
-          "name": "Wood Elf Enclave",
-          "other_names": ["Wood Elf", "Wild Elf", "Sylvan Elf", "The Green-Wardens", "Leaf-stalkers"],
-          "primary_race": "Elf (Wood)",
-          "abundance": "Uncommon",
-          "alignment_dominance": "Neutral Good / Chaotic Neutral",
-          "typical_classes": ["Ranger", "Druid", "Monk", "Rogue"],
-          "stance": "Highly Reclusive, Protective of Nature",
-          "religions": ["Silvanus", "Rillifane Rallathil", "Solonor Thelandira"],
-          "preferred_biomes": ["boreal_forest", "temperate_forest", "rainforest"],
-          "traits": ["Stealthy", "Vigilant", "Naturalist", "Swiftfooted"],
-          "architecture": "Tree-top platforms and vine-woven dwellings invisible from the forest floor; camouflaged by living bark and moss.",
-          "character_names": {
-            "male": ["Adran", "Arannis", "Berrian", "Carric", "Enialis", "Erdan", "Erevan", "Galinndan", "Hadarai", "Laucian", "Mindartis", "Paelias", "Peren", "Rolen", "Soveliss", "Thamior", "Tharivol", "Edwyr", "Ivellios", "Sildar"],
-            "female": ["Adrie", "Althaea", "Andraste", "Antinua", "Bethrynna", "Birel", "Caelynn", "Drusilia", "Enna", "Felosial", "Ielenia", "Jelenneth", "Leshanna", "Lia", "Mialee", "Naivara", "Quelenna", "Sariel", "Silaqui", "Vadania", "Valanthe", "Keyleth", "Shava"],
-            "clan_or_surname": {
-              "convention": "Nature-based epithets rather than formal surnames; identified by their home grove or great tree. Format: [Given name] of the [place/tree/event].",
-              "examples": ["of the Oakenshield", "of Cormanthor", "Silver-bark", "Leaf-whisper", "Moonpetal", "Stormtwig", "Deeproot", "Greenwarden"]
-            }
-          },
-          "settlements": ["Shar Calennar", "The Oaken Hall", "Tangled Trees", "Guardians' Watch", "Mosshaven", "The Green Warden's Lodge", "Brightleaf Bower"],
-          "regions": ["Cormanthor", "Neverwinter Wood", "Rawlinswood", "Chondalwood", "The Forest of Amtar", "The Yuirwood", "The Misty Forest"]
+        "settlements": ["Inar Market", "The Silken City", "Ix-on-Vale"],
+        "regions": ["The Pasture Lands", "The League Corridor", "The Silk Routes"]
+      },
+      {
+        "id": "uru_kesh",
+        "name": "Uru-Kesh",
+        "state": "The Kesh Freeholds",
+        "category": "Common Folk",
+        "race": "Midlander",
+        "geo_location": "The Sanctuary Lands (Lush Vales)",
+        "temperament": "The Rebel",
+        "primary_materium": "Revelation",
+        "alignment": "Chaotic Good",
+        "description": "Iconoclasts who specialize in unmaking 'Unjust Oaths' and breaking spiritual bindings. They are enemies of the Hath-Vek and everything the Kesh Hegemony represents in its worst form.",
+        "typical_classes": ["Warden", "Shadowblade", "Scholar"],
+        "typical_backgrounds": ["Dishonored Soldier", "Wayfarer", "Criminal"],
+        "stance": "Anti-authoritarian, fiercely independent, legally complex",
+        "architecture": "Improvised but sturdy. Freehold clusters that can be abandoned and rebuilt quickly.",
+        "character_names": {
+          "male": ["Uru", "Keshel", "Fren", "Davar", "Solt", "Harad"],
+          "female": ["Urua", "Keshela", "Frena", "Davara", "Solta", "Harada"],
+          "surname_convention": "No surnames — names the Freeholds reject hierarchy implicitly.",
+          "examples": ["(first name only, or add 'Free' prefix: Freeborn Harad)"]
         },
-        {
-          "id": "duergar",
-          "name": "Duergar Clan-Hold",
-          "other_names": ["Duergar", "Gray Dwarf", "The Grim-Kin", "Deep Dwarves", "Iron-Bound"],
-          "primary_race": "Dwarf (Gray)",
-          "abundance": "Rare",
-          "alignment_dominance": "Lawful Evil / Lawful Neutral",
-          "typical_classes": ["Fighter", "Cleric (Laduguer)", "Artificer", "Ranger (underground)"],
-          "stance": "Xenophobic, Militaristic, Industrious",
-          "religions": ["Laduguer (patron of toil and suffering)", "Deep Duerra (conquest and psionics)"],
-          "preferred_biomes": ["underdark"],
-          "traits": ["Grim", "Resilient", "Psionic-touched", "Paranoid", "Industrious"],
-          "architecture": "Brutalist stone fortresses carved directly into cavern walls, lit by forge-fire and bioluminescent moss-lamps; no ornamentation.",
-          "character_names": {
-            "male": ["Branngor", "Durgin", "Havok", "Grimnir", "Thordak", "Umbraen", "Valrug", "Muzgash", "Dolgin", "Kazrak", "Brak", "Duerg", "Gothrak", "Hurgin", "Koldun", "Mordak", "Norgrim", "Ulgrak", "Vordur"],
-            "female": ["Brynn", "Helga", "Agda", "Frendis", "Marta", "Sigrid", "Ulfhild", "Grimhild", "Thyra", "Dagmar", "Hilda", "Ingrid", "Kadra", "Morgna", "Ragna", "Ulda", "Vigdis"],
-            "clan_or_surname": {
-              "convention": "Stone-name clan, often describing a material or a grim deed. Passed through the paternal line, regarded with grim pride.",
-              "examples": ["Stonehammer", "Granitebrow", "Ironveil", "Ashforge", "Blackpick", "Deepstrike", "Grimstone", "Ironbane", "Shadowforge", "Steelgrave"]
-            }
-          },
-          "settlements": ["Gracklstugh", "Dunspeirrin", "Barakuir (ruins)", "The Underspires", "Deephold Karag", "Ironhearth", "The Grim Forge"],
-          "regions": ["The Northdark", "Underdark Forge-Deeps", "The Deep Reaches", "The Ridged Wall (Underdark)", "The Gray Tunnels"]
+        "settlements": ["The Free Vales", "Uru's Rest", "Kesh Freepoint"],
+        "regions": ["The Lush Vales", "The Freehold Network"]
+      },
+      {
+        "id": "makh_zai",
+        "name": "Makh-Zai",
+        "state": "The Makh Residue",
+        "category": "Common Folk",
+        "race": "Midlander",
+        "geo_location": "The Badlands (Arid Wastes)",
+        "temperament": "The Destroyer",
+        "primary_materium": "Dreadforgering",
+        "alignment": "Chaotic Neutral / Evil",
+        "description": "Scavengers who believe that only in the breaking of things is the Materium truly freed. They pick through the ruins of the Great Death and believe the cataclysm was a holy act of liberation.",
+        "typical_classes": ["Voidweaver", "Bloodsinger", "Ravager"],
+        "typical_backgrounds": ["Beggar", "Criminal", "Wayfarer"],
+        "stance": "Nihilistic, scavenger-economy, theologically dangerous",
+        "architecture": "Built from ruins. Nothing is purpose-built — everything is reassembled wreckage.",
+        "character_names": {
+          "male": ["Makh", "Zai", "Drek", "Ashur", "Vorn", "Shat"],
+          "female": ["Makha", "Zaia", "Dreka", "Ashura", "Vorna", "Shata"],
+          "surname_convention": "Name of a ruin they were born in or claim.",
+          "examples": ["of the Break", "Ashborn", "Ruin-child", "the Scavenger"]
         },
-        {
-          "id": "svirfneblin",
-          "name": "Svirfneblin Deep-Warrens",
-          "other_names": ["Svirfneblin", "Deep Gnome", "The Gray Folk", "Gem-Cutters", "Stone-Kin"],
-          "primary_race": "Gnome (Deep)",
-          "abundance": "Very Rare",
-          "alignment_dominance": "Neutral Good",
-          "typical_classes": ["Rogue", "Ranger", "Wizard (Illusionist)", "Cleric (Callarduran)"],
-          "stance": "Reclusive, Cautious, Survival-focused",
-          "religions": ["Callarduran Smoothhands (patron of miners and deep gnomes)", "The Deep Father"],
-          "preferred_biomes": ["underdark"],
-          "traits": ["Stealthy", "Hardy", "Cautious", "Gem-savvy", "Illusion-gifted"],
-          "architecture": "Tightly fortified warrens hidden behind illusion-veiled entrances, built around gem-cutting workshops; passages are narrow and confusing by design.",
-          "character_names": {
-            "male": ["Belwar", "Brickers", "Ficaris", "Fonkin", "Glim", "Jebeddo", "Kellen", "Nyx", "Orryn", "Warryn", "Dimble", "Eldon", "Gerbo", "Namfoodle", "Seebo", "Sindri", "Zook"],
-            "female": ["Bimpnotten", "Caramip", "Duvamil", "Ella", "Ellyjobell", "Ellywick", "Loopmottin", "Maribel", "Nissa", "Rimmi", "Senni", "Shamil", "Tana", "Waywocket", "Zanna", "Breena", "Carlin"],
-            "clan_or_surname": {
-              "convention": "Gem-trade names tied to their craft; a personal nickname used among friends is common, while the full clan name is rarely spoken to outsiders.",
-              "examples": ["Brilliantcut", "Stonepicker", "Quartzfinder", "Deepvein", "Gemheart", "Glintrock", "Rubyshard", "Sparkledust", "Tunnelseek", "Veinrunner"]
-            }
-          },
-          "settlements": ["Blingdenstone", "Fenblight Warrens", "Deepholm", "The Gem Sanctuary", "Hidden Warren of Callar", "Stonecutter's Rest"],
-          "regions": ["Underdark upper/middle depths", "Near gem-bearing veins", "The Deep Mines of Callarduran", "The Tunneled Ways", "Blingdenstone Reaches"]
+        "settlements": ["Makh's Remnant", "The Residue", "Ashcamp"],
+        "regions": ["The Arid Wastes", "The Ruin Fields"]
+      },
+      {
+        "id": "nor_kindu",
+        "name": "Nor-Kindu",
+        "state": "The Kindu Vigil",
+        "category": "Common Folk",
+        "race": "Northerner",
+        "geo_location": "The Eternal Winds (South Tundra)",
+        "temperament": "The Guardian",
+        "primary_materium": "Soulkindling",
+        "alignment": "Neutral Good",
+        "description": "Hardened miners and hunters whose blood has partially crystalized from Norium exposure. They keep a 'Vigil' — a permanent watch against the deep cold and its undead. The last warm lights on the edge of the world.",
+        "typical_classes": ["Ironguard", "Soulkindler", "Artisan"],
+        "typical_backgrounds": ["Artisan", "Soldier", "Hunter"],
+        "stance": "Duty-bound, survival-focused, deeply community-oriented",
+        "architecture": "Deep-cut stone halls underground with minimal surface exposure. Heat retention is the primary architectural goal.",
+        "character_names": {
+          "male": ["Nor", "Kindar", "Holt", "Vreel", "Storan", "Elrak"],
+          "female": ["Nora", "Kindara", "Holta", "Vreela", "Storana", "Elraka"],
+          "surname_convention": "Mine or vein they were born in or work. Format: [metal]-born.",
+          "examples": ["Noriumborn", "Ironkin", "Coldwatch", "Stoneblood"]
         },
-        {
-          "id": "dragonborn",
-          "name": "Dragonborn Dracocracy",
-          "other_names": ["Dragonborn", "The Scales", "Wyrm-kin", "Dragon-blooded", "Vayemniri"],
-          "primary_race": "Dragonborn",
-          "subraces": ["Red", "Blue", "Green", "Black", "White", "Gold", "Silver", "Bronze", "Copper", "Brass"],
-          "abundance": "Rare",
-          "alignment_dominance": "Any (Strict Code of Honor)",
-          "typical_classes": ["Paladin", "Sorcerer", "Fighter", "Cleric"],
-          "stance": "Disciplined, Self-Reliant, Proud, Honor-bound",
-          "religions": ["Bahamut (metallic)", "Tiamat (chromatic)", "The Draconic Pantheon"],
-          "preferred_biomes": ["desert", "highlands", "savanna"],
-          "traits": ["Honorable", "Disciplined", "Intense", "Proud", "Clan-loyal"],
-          "architecture": "Obsidian monuments and grand dueling arenas; clan halls carved with draconic lineage glyphs.",
-          "character_names": {
-            "male": ["Arjhan", "Balasar", "Bharash", "Donaar", "Ghesh", "Heskan", "Kriv", "Medrash", "Mehen", "Nadarr", "Pandjed", "Patrin", "Rhogar", "Shamash", "Shedinn", "Tarhun", "Torinn", "Branik", "Dokras", "Firkraag"],
-            "female": ["Akra", "Biri", "Daar", "Farideh", "Harann", "Flavilar", "Jheri", "Kava", "Korinn", "Mishann", "Nala", "Perra", "Raiann", "Sora", "Surina", "Thava", "Uadjit", "Vrinn", "Zovira"],
-            "clan_or_surname": {
-              "convention": "Draconic clan name; one long Draconic word, often the name of an ancestor wyrm or a great deed. Honor requires bearing the clan name proudly in all introductions.",
-              "examples": ["Clethtinthiallor", "Verthisathurgiesh", "Myastan", "Kepeshkmolik", "Turnuroth", "Yarjerit", "Nthomasun", "Blaakberush"]
-            }
-          },
-          "settlements": ["Io'vaunt", "Djerad Thymar", "Tymanchebar", "Arkhosia (ruins)", "Laerakond", "The Dracocratic Council-Hall"],
-          "regions": ["Tymanther", "Laerakond (Returned Abeir)", "Unther", "The Dragon Coast", "The Scales of the World"]
+        "settlements": ["Kindu Keep", "The Vigil Tower", "Nor-Deeps"],
+        "regions": ["South Tundra", "The Norium Veins"]
+      },
+      {
+        "id": "qar_mal",
+        "name": "Qar-Mal",
+        "state": "The Qar Orda",
+        "category": "Step Folk",
+        "race": "Step Folk",
+        "geo_location": "The Blinding Lands (Dry Steppe)",
+        "temperament": "The Predator",
+        "primary_materium": "Luminance",
+        "alignment": "Neutral",
+        "description": "Nomads who use polished Materium glass to blind enemies across the flat plains. Their name means 'Those who use the light as a blade'. Exceptional mounted warriors.",
+        "typical_classes": ["Wayfarer", "Battlebrave", "Envoy"],
+        "typical_backgrounds": ["Hunter", "Soldier", "Merchant"],
+        "stance": "Nomadic, opportunistic, honor-code combat",
+        "architecture": "No permanent structures. Portable hide-and-bone camps. Pack and move in half a day.",
+        "character_names": {
+          "male": ["Qar", "Mal", "Doshak", "Yuren", "Timor", "Skrel"],
+          "female": ["Qara", "Mala", "Doshaka", "Yurena", "Timora", "Skrela"],
+          "surname_convention": "Herd name. The herd they were born into is their family name.",
+          "examples": ["of the Glasshorses", "of the Blinding Herd", "Sunstrike", "Dawnrider"]
         },
-        {
-          "id": "aasimar",
-          "name": "Aasimar Celestial-Order",
-          "other_names": ["Aasimar", "The Touched", "Celestial-kin", "Scourge-born", "Protectors"],
-          "primary_race": "Aasimar",
-          "subraces": ["Protector", "Fallen", "Scourge"],
-          "abundance": "Very Rare",
-          "alignment_dominance": "Lawful Good",
-          "typical_classes": ["Paladin", "Cleric", "Sorcerer (Divine Soul)", "Monk"],
-          "stance": "Vigilant, Just, Watchful, Burdened by destiny",
-          "religions": ["Deities of Light, Justice, and the Upper Planes", "Celestia", "Lathander", "Torm"],
-          "preferred_biomes": ["highlands", "temperate_forest", "coastal"],
-          "traits": ["Radiant", "Duty-bound", "Vigilant", "Otherworldly", "Compassionate"],
-          "architecture": "Sun-drenched cathedrals and golden-domed towers; light is sacred in their architecture.",
-          "character_names": {
-            "male": ["Radovan", "Darian", "Emmeric", "Torben", "Valerion", "Aldric", "Ezekiel", "Aurelius", "Caelum", "Dawniel", "Ezra", "Florian", "Hadriel", "Ilmater", "Justian", "Lumiel", "Meredin", "Nathaniel", "Orion", "Pelor"],
-            "female": ["Celestine", "Aurelia", "Seraphina", "Milaena", "Liandra", "Reona", "Zariel", "Amara", "Lyria", "Tessara", "Ariel", "Bright", "Celeste", "Dawn", "Elysian", "Florel", "Gloriel", "Haeliel", "Iriel", "Jubilee"],
-            "clan_or_surname": {
-              "convention": "Virtue-based surnames or Light epithets; many aasimar bear names given by their celestial patron rather than family.",
-              "examples": ["Brightmantle", "Dawnborn", "Goldenlight", "Radiantshield", "Starborn", "Sunwhisper", "Truthseeker", "Virtue's Edge", "Whitewing", "Zealot's Rest"]
-            }
-          },
-          "settlements": ["Celestia's Gate", "Dawncrossing", "Brighthollow", "The Sanctum of Light", "Aurelius Keep", "The Vigil Tower", "Solaris Hold"],
-          "regions": ["Holy mountain ranges", "Cities of Good-aligned kingdoms", "Near celestial rifts", "The Radiant Highlands", "Sanctified Coasts"]
+        "settlements": ["Qar's Camp (mobile)", "The Orda Circuit"],
+        "regions": ["The Blinding Plains", "The Glass Flats"]
+      },
+      {
+        "id": "vahn_ree",
+        "name": "Vahn-Ree",
+        "state": "The Vahn Thalassocracy",
+        "category": "Step Folk",
+        "race": "Step Folk",
+        "geo_location": "The Gleam Havens (Coastal Savanna)",
+        "temperament": "The Hedonist",
+        "primary_materium": "Umbramancy",
+        "alignment": "Neutral",
+        "description": "Sea-reivers who call the 'Black Mist' to hide their fleet during the Gleam-tide. Traders and pirates depending on who is asking. Masters of the coastal waters.",
+        "typical_classes": ["Shadowblade", "Envoy", "Wayfarer"],
+        "typical_backgrounds": ["Merchant", "Criminal", "Wayfarer"],
+        "stance": "Maritime-dominant, commercially ruthless, pleasurable when profitable",
+        "architecture": "Low coastal forts and deep natural harbors with hidden anchorage.",
+        "character_names": {
+          "male": ["Vahn", "Ree", "Mist", "Darros", "Selak", "Korvath"],
+          "female": ["Vahna", "Reea", "Mista", "Darrosa", "Selaka", "Korvatha"],
+          "surname_convention": "Ship name. Format: [Ship] captain or crew. 'Mist of the Black Dawn'.",
+          "examples": ["of the Black Mist", "Tidebreaker", "Saltborn", "Reefsong"]
         },
-        {
-          "id": "genasi",
-          "name": "Genasi Elemental-Sect",
-          "other_names": ["Genasi", "Planar-kin", "Elemental-blooded", "Whisperers", "Spark-born"],
-          "primary_race": "Genasi",
-          "subraces": ["Air", "Earth", "Fire", "Water"],
-          "abundance": "Rare",
-          "alignment_dominance": "Neutral",
-          "typical_classes": ["Sorcerer", "Monk", "Druid", "Wizard", "Warlock (Elemental)"],
-          "stance": "Adaptable, Intense, Individualistic",
-          "religions": ["Primordial Powers", "Elemental Lords", "The Kossuth (fire)", "Grumbar (earth)", "Akadi (air)", "Istishia (water)"],
-          "preferred_biomes": ["desert", "arctic", "coastal", "underdark", "highlands"],
-          "traits": ["Adaptable", "Elemental-attuned", "Volatile", "Individualistic", "Otherworldly"],
-          "architecture": "Lava-proof halls (fire), underwater glass domes (water), cliff-side aeries (air), or deep stone vaults (earth); each subrace builds entirely differently.",
-          "character_names": {
-            "male": ["Blaze", "Cinder", "Coral", "Embros", "Flint", "Gale", "Granok", "Ignius", "Navarro", "Pyrrus", "Rivan", "Stonus", "Storm", "Terrin", "Tidus", "Tundra", "Volan", "Waven", "Zephyr"],
-            "female": ["Aqua", "Aria", "Blaze", "Breezy", "Emberly", "Flavia", "Frost", "Lava", "Pyria", "Serena", "Shimmer", "Spark", "Terra", "Torrenta", "Waverly", "Zephyra"],
-            "clan_or_surname": {
-              "convention": "Elemental epithet rather than a family name; often a descriptor of their dominant element. Rarely use surnames — more commonly a title (Ignius of the Undying Flame).",
-              "examples": ["of the Undying Flame", "of the Still Deep", "of the Howling Gale", "of the Living Stone", "Ashwalker", "Deepcurrent", "Emberheart", "Frostborn", "Stonepulse", "Tidecaller"]
-            }
-          },
-          "settlements": ["The Citadel of Fire", "Trident Bay", "The Earthmote", "Stormhaven", "Cinderkeep", "Saltholm (water genasi)", "The Windspire"],
-          "regions": ["Calimshan (fire genasi)", "The Trackless Sea coasts (water)", "The Sword Coast cliffs (air)", "The Underpeak (earth)", "Plane-adjacent rifts"]
+        "settlements": ["Vahn Port", "The Thalassocracy Harbor", "Mist-Cove"],
+        "regions": ["Coastal Savanna", "The Gleam Sea Routes"]
+      },
+      {
+        "id": "xul_dath",
+        "name": "Xul-Dath",
+        "state": "The Xul Desolation",
+        "category": "Step Folk",
+        "race": "Step Folk",
+        "geo_location": "The Blinding Lands (Ruined Steppe)",
+        "temperament": "The Destroyer",
+        "primary_materium": "Maleficium",
+        "alignment": "Chaotic Evil",
+        "description": "Cursed wanderers who claim the Great Death was a holy event that must be finished. They move through the ruins of the Blinding Lands, completing what the cataclysm started.",
+        "typical_classes": ["Voidweaver", "Ravager", "Bloodsinger"],
+        "typical_backgrounds": ["Beggar", "Criminal", "Dishonored Soldier"],
+        "stance": "Apocalyptic, nihilistic, deeply feared by neighbouring cultures",
+        "architecture": "Ruins repurposed as temples to destruction.",
+        "character_names": {
+          "male": ["Xul", "Dath", "Vrak", "Ash", "Torn", "Wreck"],
+          "female": ["Xula", "Datha", "Vraka", "Asha", "Torna", "Wrecka"],
+          "surname_convention": "None. The Xul-Dath believe names are possessions and possessions are chains.",
+          "examples": ["(name only, spoken once)"]
         },
-        {
-          "id": "goliath",
-          "name": "Goliath Mountain-Tribes",
-          "other_names": ["Goliath", "Stone-kin", "Mountain-born", "Peak-tribes", "The Stone-Giants' Cousins"],
-          "primary_race": "Goliath",
-          "abundance": "Uncommon",
-          "alignment_dominance": "Lawful Neutral",
-          "typical_classes": ["Barbarian", "Fighter", "Ranger", "Cleric (Kavaki)"],
-          "stance": "Competitive, Survivalist, Egalitarian-meritocratic",
-          "religions": ["Kavaki (The Ram-Lord)", "Kuliak (The Dead One)", "Manethak (The Elk-Lord)", "Naki-Uthai"],
-          "preferred_biomes": ["highlands", "arctic"],
-          "traits": ["Powerful", "Competitive", "Fair", "Self-reliant", "Stoic-in-hardship"],
-          "architecture": "Cyclopean stone huts and cliff-dwellings; camps move seasonally following game herds.",
-          "character_names": {
-            "male": ["Aukan", "Eglath", "Gauthak", "Ilikan", "Keothi", "Kuori", "Lo-Kag", "Manneo", "Maveith", "Orilo", "Paavu", "Pethani", "Thotham", "Uthal", "Vimak", "Nalla", "Thalai", "Vaunea"],
-            "female": ["Gae-Al", "Kuori", "Manneo", "Nalla", "Orilo", "Pethani", "Thalai", "Uthal", "Vaunea", "Dawklan", "Imakani", "Khanu", "Lukanu", "Makanu", "Rikanu"],
-            "clan_or_surname": {
-              "convention": "Three-part goliath name: a birth-name (1–3 syllables), a name-gift from the tribe (an epithet describing a deed), and a clan name. Daily name used by friends is the nickname.",
-              "examples": ["Aukan 'the swift'", "Thotham 'breaks-the-ice'", "Gauthak 'slayer-of-wolves'", "Keothi 'stone-heart'", "clan Thuliaga", "clan Kethendula", "clan Ogolakanu", "clan Thuliaga-Stone"]
-            }
-          },
-          "settlements": ["High Peak Hold", "Skywatcher's Roost", "Stone Throne", "The Aerie", "Peak-Wardens' Camp", "Kavaki's Reach"],
-          "regions": ["The Spine of the World", "Icerim Mountains", "Giant's Run Mountains", "Nether Mountains", "The Graypeak Highlands", "The Frozen Peaks"]
+        "settlements": ["The Desolation", "Xul's Ruin", "The End Camp"],
+        "regions": ["The Ruined Steppe", "The Desolation Fields"]
+      },
+      {
+        "id": "bas_tuut",
+        "name": "Bas-Tuut",
+        "state": "The Tuut Caravans",
+        "category": "Step Folk",
+        "race": "Step Folk",
+        "geo_location": "The Gleam Havens (Interior Savanna)",
+        "temperament": "The Arbiter",
+        "primary_materium": "Bloodpassion",
+        "alignment": "True Neutral",
+        "description": "Bio-diplomats who negotiate through pheromones and pulse-manipulation. Their 'diplomacy' includes subtle physical influence on emotional states. They are excellent trade partners and deeply unsettling negotiating opponents.",
+        "typical_classes": ["Envoy", Scholar", "Lifewhisperer"],
+        "typical_backgrounds": ["Merchant", "Wayfarer", "Noble"],
+        "stance": "Trade-obsessed, biologically sophisticated, ethically flexible",
+        "architecture": "Living caravans — everything is mobile, but the caravans are built like small cities.",
+        "character_names": {
+          "male": ["Bas", "Tuut", "Pherel", "Somar", "Dalek", "Velun"],
+          "female": ["Basa", "Tuuta", "Pherela", "Somara", "Daleka", "Veluna"],
+          "surname_convention": "Caravan lineage name. Format: Caravan [name].",
+          "examples": ["Caravan Goldblood", "Caravan Pulse", "Caravan Dawnpath", "Caravan Heartfall"]
         },
-        {
-          "id": "tabaxi",
-          "name": "Tabaxi Nomad-Caravans",
-          "other_names": ["Tabaxi", "Cat-folk", "The Bright-Eyes", "Prowlers", "Lore-seekers"],
-          "primary_race": "Tabaxi",
-          "abundance": "Uncommon",
-          "alignment_dominance": "Chaotic Neutral",
-          "typical_classes": ["Rogue", "Bard", "Ranger", "Monk"],
-          "stance": "Inquisitive, Mercantile, Nomadic",
-          "religions": ["The Cat Lord (divine trickster and patron)", "Local spirits of the land"],
-          "preferred_biomes": ["desert", "savanna", "rainforest"],
-          "traits": ["Curious", "Agile", "Fickle", "Collector of knowledge", "Easily bored"],
-          "architecture": "Mobile wagons and yurt-tents; semi-permanent jungle lodges built in tree canopies when resting.",
-          "character_names": {
-            "male": ["Cloud on the Mountaintop", "Five Timber", "Jade Shoe", "Left-Handed Hummingbird", "Lizard Basket", "Copper Basket", "Hunting Hawk", "Jungle Runner", "Open Carapace", "Stolen Face"],
-            "female": ["Mist Before Dawn", "Pearl of the Waves", "Red Sky at Sunset", "Snowy Owl", "Stargazer", "Blue-Flame Crown", "Drifting Leaf", "Moonlit Shore", "Sunbeam Dance", "Weaving Spider"],
-            "clan_or_surname": {
-              "convention": "Named after celestial phenomena or natural events; clan name is a place or major event (two or three words). Personal name is always poetic and descriptive.",
-              "examples": ["Emerald Eyes", "Black Moon Rising", "Three Storms", "Copper Claws", "Shining River", "The Wandering Sun", "Storm's Passage", "Jade Waters"]
-            }
-          },
-          "settlements": ["The Great Caravan", "The Watering Hole", "Maztica River Crossing", "Desert Haven", "The Collectors' Lodge", "Jungle Rest", "The Lore-Bazaar"],
-          "regions": ["Maztica", "Chult", "The Shaar", "Katashaka", "The Golden Savanna", "The Jade Rainforest", "The Wandering Roads"]
+        "settlements": ["The Tuut Grand Caravan (mobile)", "The Savanna Waypoint"],
+        "regions": ["Interior Savanna", "The Caravan Routes"]
+      },
+      {
+        "id": "dra_vosh",
+        "name": "Dra-Vosh",
+        "state": "The Vosh Concord",
+        "category": "The Afflicted",
+        "race": "Oakpeople",
+        "geo_location": "The Sanctuary Lands (Ancient Forests)",
+        "temperament": "The Stoic",
+        "primary_materium": "Lifewhispering",
+        "alignment": "Neutral",
+        "description": "They do not speak; they pulse rhythmically with the forest's root system. Communication is physical — touch and vibration. They maintain the psychic equilibrium of the ancient forest.",
+        "typical_classes": ["Lifewhisperer", "Scholar", "Elementalist"],
+        "typical_backgrounds": ["Hermit", "Hunter"],
+        "stance": "Profoundly isolationist, ecologically focused",
+        "architecture": "Living trees shaped over generations. Nothing cut, only grown.",
+        "character_names": {
+          "male": ["Dra", "Vosh", "Mossheart", "Greenroot", "Oldgrove"],
+          "female": ["Draa", "Vosha", "Mossleaf", "Greenbloom", "Oldcanopy"],
+          "surname_convention": "Tree or grove they were born under.",
+          "examples": ["of the Ancient Oak", "Rootborn", "Leafsong", "Barkwhisper"]
         },
-        {
-          "id": "firbolg",
-          "name": "Firbolg Forest-Guardians",
-          "other_names": ["Firbolg", "Nature-Guardians", "The Silent Giants", "Wood-kin", "The Verdant Wardens"],
-          "primary_race": "Firbolg",
-          "abundance": "Rare",
-          "alignment_dominance": "Neutral Good",
-          "typical_classes": ["Druid", "Ranger", "Cleric (Nature)", "Monk"],
-          "stance": "Reclusive, Defensive, Nature-protective, Non-aggressive",
-          "religions": ["Silvanus (Oak Father)", "The Wild Mother", "Eldath (goddess of peace)", "Mielikki"],
-          "preferred_biomes": ["boreal_forest", "temperate_forest", "rainforest"],
-          "traits": ["Humble", "Private", "Strong", "Druidic", "Gentle unless provoked"],
-          "architecture": "Natural caves masked by illusions and living wood; settlements are invisible to those who don't know the signs.",
-          "character_names": {
-            "male": ["Conall", "Brannigan", "Ferghus", "Senan", "Tuathal", "Lachlann", "Rónán", "Adaeze", "Caoilfhinn", "Fionn", "Lugh", "Maccus", "Orin", "Saoirse", "Tadhg", "Uisneach"],
-            "female": ["Aoife", "Bríd", "Caoimhe", "Étaín", "Fíona", "Gráinne", "Íde", "Muirenn", "Niamh", "Ríonach", "Sadb", "Sorcha", "Treasa", "Úna", "Vianney"],
-            "clan_or_surname": {
-              "convention": "No surnames; identified by their grove, sacred tree, or protectorate. Format: [Name] of the [place]. True names are never spoken to outsiders.",
-              "examples": ["of the Elder Grove", "of the Moonlit Mere", "of Deeproot Hollow", "of the Standing Stones", "of Silvanus's Ward", "of the Ancient Oak", "of Greenveil"]
-            }
-          },
-          "settlements": ["Elder Grove Sanctuary", "The Verdant Hold", "Rootmere", "The Standing Stones", "Mosswall Lodge", "The Hidden Bower", "Canopy Enclave"],
-          "regions": ["The High Forest (Faerûn)", "Neverwinter Wood outer reaches", "The Forgotten Deep Forests", "The Great Greenbelt", "The Wild Mother's Domain"]
+        "settlements": ["The Vosh Grove", "The Concord Heart", "Ancient Deep"],
+        "regions": ["Ancient Forests of the Sanctuary Lands"]
+      },
+      {
+        "id": "ghor_aum",
+        "name": "Ghor-Aum",
+        "state": "The Ghor Ridges",
+        "category": "The Afflicted",
+        "race": "Stone Folk",
+        "geo_location": "The Sanctuary Lands (High Peaks)",
+        "temperament": "The Guardian",
+        "primary_materium": "Geometrics",
+        "alignment": "Lawful Neutral",
+        "description": "They build inverted cities that hang from the underside of high mountain cliffs. Their architecture defies reason until you understand their geology. The most technically advanced builders in Leonoria.",
+        "typical_classes": ["Ironguard", "Artisan", "Scholar"],
+        "typical_backgrounds": ["Artisan", "Noble", "Soldier"],
+        "stance": "Isolationist but tradeable, master engineers",
+        "architecture": "Inverted — hanging from cliff undersides. Access by rope and pulley. Mind-bending to outsiders.",
+        "character_names": {
+          "male": ["Ghor", "Aum", "Stavrak", "Dorn", "Keldar", "Morthak"],
+          "female": ["Ghora", "Auma", "Stavraka", "Dorna", "Keldara", "Morthaka"],
+          "surname_convention": "Mountain or ridge name. Format: [mountain]-blood.",
+          "examples": ["Ridgeblood", "Cliffdweller", "Peakborn", "Stonefall"]
         },
-        {
-          "id": "kenku",
-          "name": "Kenku Rookery-Ghetto",
-          "other_names": ["Kenku", "Raven-folk", "The Cursed", "Mimics", "Shadow-flecked"],
-          "primary_race": "Kenku",
-          "abundance": "Uncommon",
-          "alignment_dominance": "Chaotic Neutral / Neutral",
-          "typical_classes": ["Rogue", "Bard", "Monk", "Ranger"],
-          "stance": "Survivalist, Secretive, Urban, Guild-bound",
-          "religions": ["Obscure Shadow Deities", "Forgotten Gods of the Underworld", "Mask (god of thieves)"],
-          "preferred_biomes": ["coastal", "moorland", "swamp"],
-          "traits": ["Creative", "Imitative", "Tight-knit", "Cursed (no flight, no original speech)", "Resourceful"],
-          "architecture": "Interconnected rooftop lofts and high-density wooden shanties; warrens built into eaves and abandoned towers.",
-          "character_names": {
-            "male": ["Clicking-Beak", "Rustling-Wings", "Low-Whistle", "Broken-Chain", "Rattle-Cage", "Crow's-Call", "Hammer-Strike", "Iron-Scrape", "Kettle-Ring", "Rain-on-Roof"],
-            "female": ["Snatching-Fingers", "Shining-Coin", "Soft-Step", "Shadow-Mirror", "Wind-Through-Reeds", "Clinking-Silver", "Door-Creek", "Glass-Shatter", "Needle-Click", "Silk-Tear"],
-            "clan_or_surname": {
-              "convention": "No clan names; each kenku's name is a combination of mimicked sounds or an event they witnessed. Names function as unique identifiers within a rookery.",
-              "examples": ["Whisper-in-Dark", "Clinking-Steel", "Three-Bell-Chime", "Damp-Feathers", "Snapping-Branch", "Market-Cry", "Rusty-Gate", "Last-Laugh"]
-            }
-          },
-          "settlements": ["Rookery Quarter", "The Perch", "Nests of the Forgotten", "Thieves' Roost", "The Crow's Nest", "The Eave District", "Blackfeather Alley"],
-          "regions": ["City slums and lower districts", "Coastal harbor backstreets", "Ruined towers and belfries", "Old battlefields", "The Shadow Quarter", "The Harbor Warrens"]
+        "settlements": ["The Ghor Ridges", "Undercliff City", "The Hanging Settlement"],
+        "regions": ["High Peaks of the Sanctuary Lands"]
+      },
+      {
+        "id": "vun_dar",
+        "name": "Vun-Dar",
+        "state": "The Dar-Well",
+        "category": "The Afflicted",
+        "race": "Stone Folk",
+        "geo_location": "The Forgotten Kingdom (The Well)",
+        "temperament": "The Stoic",
+        "primary_materium": "Terramancy",
+        "alignment": "Neutral",
+        "description": "Blind, vibration-sensitive miners who map the world through sound. They have never seen sunlight and have no concept of visual art. Their culture is entirely sonic.",
+        "typical_classes": ["Artisan", "Scholar", "Ironguard"],
+        "typical_backgrounds": ["Artisan", "Wayfarer"],
+        "stance": "Deeply insular, neutral to outsiders if they are quiet",
+        "architecture": "Carved sound-chambers. Every space is designed for specific acoustic properties.",
+        "character_names": {
+          "male": ["Vun", "Dar", "Ekko", "Thrum", "Resonar", "Deepstone"],
+          "female": ["Vuna", "Dara", "Ekkoa", "Thruma", "Resonara", "Deepstona"],
+          "surname_convention": "Sound they were named for at birth.",
+          "examples": ["Thrum-born", "of the Echo", "Silence-keeper", "Deepring"]
         },
-        {
-          "id": "triton",
-          "name": "Triton Undersea-Protectorate",
-          "other_names": ["Triton", "Sea-guardians", "The Deep-watch", "Wave-lords", "Tide-hunters"],
-          "primary_race": "Triton",
-          "abundance": "Rare",
-          "alignment_dominance": "Lawful Good",
-          "typical_classes": ["Paladin", "Fighter", "Sorcerer (Sea)", "Cleric (Tempest)"],
-          "stance": "Noble, Vigilant, Guarded against abyssal threats",
-          "religions": ["Persana (The Dolphin Prince, primary deity)", "Deities of the Deep", "Umberlee (feared but acknowledged)"],
-          "preferred_biomes": ["coastal"],
-          "traits": ["Noble", "Dutiful", "Vigilant", "Haughty-to-surface-dwellers", "Deep-loyal"],
-          "architecture": "Coral fortresses and bioluminescent domes anchored to underwater peaks; spires of living coral and harvested deep-stone.",
-          "character_names": {
-            "male": ["Caspian", "Nereus", "Aegir", "Meredin", "Delmar", "Pelagius", "Tharyn", "Oceanus", "Adriel", "Corel", "Dewyn", "Finnar", "Hadal", "Merin", "Naeron", "Perel", "Riven", "Selion", "Tidal", "Undral"],
-            "female": ["Coralia", "Marina", "Nereid", "Tethys", "Aquaria", "Pearlina", "Wavemere", "Selene", "Talassa", "Adriel", "Coral", "Delanth", "Finra", "Hadala", "Meriel", "Naera", "Perela", "Riven", "Selinne", "Tidale"],
-            "clan_or_surname": {
-              "convention": "Sea-name clan, often oceanic features or guardian duties. The protectorate title supersedes family name in formal address.",
-              "examples": ["Deepcurrent", "Waveguard", "Silversea", "Coralwatch", "The Abyssal Ward", "Stormtide", "Tidecrest", "Underdrift", "Vortexkin", "Wavebreaker"]
-            }
-          },
-          "settlements": ["Elaar'zan", "The Trident Keep", "Deephold", "Coralspire", "The Abyssal Watch", "Pearl Throne", "Persana's Reach", "The Deep Citadel"],
-          "regions": ["The deep ocean benthic zones", "Undersea kingdoms near continental shelves", "The Trackless Sea floor", "The Azure Depths", "Coast of Faerûn (patrol routes)"]
+        "settlements": ["The Dar-Well", "The Echo Chamber", "The Sound Deep"],
+        "regions": ["The Forgotten Kingdom — The Well Zone"]
+      },
+      {
+        "id": "licht_ka",
+        "name": "Licht-Ka",
+        "state": "The Ka-Domain",
+        "category": "The Afflicted",
+        "race": "Stone Folk",
+        "geo_location": "The Forgotten Kingdom (The Light)",
+        "temperament": "The Merciful",
+        "primary_materium": "Luminance",
+        "alignment": "Neutral Good",
+        "description": "Translucent-skinned folk who survive on the light emitted from the world-veins — underground channels of residual Materium from the Great Death. The closest thing to a welcoming culture in the Forgotten Kingdom.",
+        "typical_classes": ["Soulkindler", "Scholar", "Artisan"],
+        "typical_backgrounds": ["Cleric", "Artisan", "Merchant"],
+        "stance": "Open to surface contact (the only Forgotten Kingdom culture that is)",
+        "architecture": "Crystal-and-light aesthetics. Bioluminescent pathways. Open spaces designed to maximize light spread.",
+        "character_names": {
+          "male": ["Licht", "Ka", "Glimmer", "Shineshard", "Palestone"],
+          "female": ["Lichta", "Kaa", "Glimmera", "Shineshard", "Palelight"],
+          "surname_convention": "World-vein they live nearest to.",
+          "examples": ["Veinborn", "of the Bright Vein", "Lightshard", "Crystal-kin"]
         },
-        {
-          "id": "warforged",
-          "name": "Warforged Steel-Foundry",
-          "other_names": ["Warforged", "Constructs", "The Forged", "Iron-souls", "Living Steel"],
-          "primary_race": "Warforged",
-          "abundance": "Rare",
-          "alignment_dominance": "Neutral",
-          "typical_classes": ["Fighter", "Artificer", "Paladin", "Cleric"],
-          "stance": "Seeking Identity, Utility-focused, Post-war displaced",
-          "religions": ["The Becoming God (Church of the Becoming)", "Philosophy of the Constructed Self", "Onatar (dwarven smith-god, popular among warforged)"],
-          "preferred_biomes": ["highlands", "plains", "underdark"],
-          "traits": ["Resilient", "Purpose-driven", "Sturdy", "Identity-seeking", "Insomniac"],
-          "architecture": "Industrial barracks and geometric iron workshops; warforged settlements are functional above all else, no decorative features.",
-          "character_names": {
-            "male": ["Anchor", "Bastion", "Bulwark", "Cairn", "Cutter", "Falchion", "Fuse", "Glaive", "Hammer", "Ingot", "Latch", "Mace", "Needle", "Quarrel", "Ranger", "Saber", "Spike", "Stride", "Torch", "Vanquish"],
-            "female": ["Bastion", "Beacon", "Brace", "Clamp", "Ember", "Flint", "Forge", "Haven", "Hinge", "Kindle", "Latch", "Piston", "Rivet", "Rune", "Shield", "Solder", "Spring", "Tally", "Weld", "Wren"],
-            "clan_or_surname": {
-              "convention": "Single word or designation; some adopt unit numbers or military ranks from the Last War. No clan names, but some warforged adopt maker-marks or house sigils.",
-              "examples": ["Unit 7", "Sergeant Iron", "Shield-5", "Cannith Mark III", "Battalion Crest", "House Cannith Seal", "The Last Legion Brand"]
-            }
-          },
-          "settlements": ["The Cannith Foundry", "Rekkenmark Garrison", "The Last War Memorial Ground", "Free City Iron Quarter", "The Becoming Temple", "Steel Haven"],
-          "regions": ["Khorvaire (Eberron)", "Old battlefields of the Last War", "Industrial Free Cities", "Mercenary Compounds", "The Mournland edge (Eberron)"]
+        "settlements": ["The Ka-Domain", "The Bright Deep", "Vein-Light Settlement"],
+        "regions": ["The Forgotten Kingdom — The Light Zone"]
+      },
+      {
+        "id": "vann_ok",
+        "name": "Vann-Ok",
+        "state": "The Ok-Fen",
+        "category": "The Afflicted",
+        "race": "Swampbrood",
+        "geo_location": "The Boglands",
+        "temperament": "The Predator",
+        "primary_materium": "Rotweaving",
+        "alignment": "Neutral",
+        "description": "Their culture views fermentation and decay as the pinnacle of chemistry. Their 'art' is poison and rot. Their medicines cure things that kill other races. Outsiders are terrified of them; they find outsiders baffling.",
+        "typical_classes": ["Artisan", "Lifewhisperer", "Voidweaver"],
+        "typical_backgrounds": ["Artisan", "Criminal", "Hermit"],
+        "stance": "Deeply alien to outsiders, internally coherent and skilled",
+        "architecture": "Bog platforms with fermentation vats visible everywhere. The smell is part of the culture.",
+        "character_names": {
+          "male": ["Vann", "Ok", "Fester", "Murk", "Bogreach", "Rotalk"],
+          "female": ["Vanna", "Oka", "Festera", "Murka", "Bogreach", "Rotelk"],
+          "surname_convention": "Compound they specialize in.",
+          "examples": ["Rotbrewer", "Fermentkin", "Bogborn", "Sporehand"]
         },
-        {
-          "id": "shifter",
-          "name": "Shifter Primal-Sect",
-          "other_names": ["Shifter", "Weretouched", "Beast-kin", "Wild-blooded", "Lycanthrope-kin"],
-          "primary_race": "Shifter",
-          "subraces": ["Beasthide", "Longtooth", "Swiftstride", "Wildhunt"],
-          "abundance": "Uncommon",
-          "alignment_dominance": "Neutral / Chaotic Neutral",
-          "typical_classes": ["Barbarian", "Druid", "Ranger", "Rogue (Swiftstride)"],
-          "stance": "Primal, Protective, Instinctive, Pack-loyal",
-          "religions": ["Balinor (The Horn and Hunt)", "The Devourer (feared)", "Olarune (The Sentinel)", "Pack spirits"],
-          "preferred_biomes": ["boreal_forest", "temperate_forest", "highlands", "savanna"],
-          "traits": ["Feral", "Instinctive", "Loyal", "Territorial", "Primal-shifted"],
-          "architecture": "Fortified wooden lodges and sod-covered longhouses; pack-holds built in forest clearings with animal-totems at each entrance.",
-          "character_names": {
-            "male": ["Ash", "Cinder", "Claw", "Fang", "Forge", "Grim", "Hunter", "Keen", "Rend", "Rush", "Scratch", "Shadow", "Slash", "Stride", "Swift", "Track", "Wild", "Brak", "Dusk", "Flint"],
-            "female": ["Brook", "Dawn", "Fern", "Flint", "Gust", "Jade", "Moss", "Rain", "Reed", "Rush", "Shadow", "Snarl", "Spring", "Thorn", "Wisp", "Claw", "Fang", "Mist", "Pounce", "Sable"],
-            "clan_or_surname": {
-              "convention": "Pack name tied to a totem animal or territory. Pack name is spoken after given name, e.g. Fang of the Wolf-Pack.",
-              "examples": ["Wolf-Pack", "Bear-Clan", "Crow-Tribe", "Nighthunter Kin", "Iron-Fang", "Shadowstride Pack", "The Wild Lodge", "Storm-Pelt Clan"]
-            }
-          },
-          "settlements": ["The Shifting Grounds", "Pack-Hold of the Iron Fang", "Wild Lodge", "Totem Circle", "The Primal Den", "Forest Edge Hold", "The Longhouse"],
-          "regions": ["The Eldeen Reaches (Eberron)", "Breland Borderlands", "Deep Wilderness", "The Talenta Plains edge", "The Feral Frontier", "The Ancient Hunting Grounds"]
+        "settlements": ["The Ok-Fen", "Bog Platform", "The Rotmarket"],
+        "regions": ["The Boglands", "The Fen Depths"]
+      },
+      {
+        "id": "ash_korr",
+        "name": "Ash-Korr",
+        "state": "The Korr Entropic",
+        "category": "The Afflicted",
+        "race": "Ashen Halfbreed",
+        "geo_location": "The Forgotten Kingdom (The Fallen)",
+        "temperament": "The Tyrant",
+        "primary_materium": "Voidreaving",
+        "alignment": "Lawful Evil",
+        "description": "A society of 'The End'. They use erasure-magic to prune history they find unworthy. They believe they are doing the world a service — removing what should never have been.",
+        "typical_classes": ["Voidweaver", "Shadowblade", "Scholar"],
+        "typical_backgrounds": ["Criminal", "Dishonored Soldier", "Scholar"],
+        "stance": "Methodical, cold, absolutely convinced of their own rectitude",
+        "architecture": "Purposeful emptiness. Rooms where things have been erased. Architecture of absence.",
+        "character_names": {
+          "male": ["Ash", "Korr", "Erasmus", "Nullak", "Voidek", "Pale"],
+          "female": ["Asha", "Korra", "Erasma", "Nullaka", "Voideka", "Paleash"],
+          "surname_convention": "What they have erased or plan to erase.",
+          "examples": ["the Eraser", "of the Void", "Nullborn", "Ashfall"]
         },
-        {
-          "id": "tiefling",
-          "name": "Tiefling Outcast-Union",
-          "other_names": ["Tiefling", "Hell-spawn", "Devil-kin", "The Horned", "Brimstoners"],
-          "primary_race": "Tiefling",
-          "abundance": "Uncommon",
-          "alignment_dominance": "Any (reputation for darkness undeserved)",
-          "typical_classes": ["Warlock", "Bard", "Rogue", "Sorcerer (Infernal)"],
-          "stance": "Fraternal, Guarded, Resilient, Prove-ourselves attitude",
-          "religions": ["Asmodeus (ancestral but often shunned)", "The Traveler (Eberron)", "Levistus (Stygia)", "Personal or city deities"],
-          "preferred_biomes": ["plains", "coastal", "highlands"],
-          "traits": ["Cunning", "Persuasive", "Tough", "Stigma-hardened", "Solidarity with other outcasts"],
-          "architecture": "Repurposed ruins and hidden urban districts; tiefling communities favor defensible buildings with multiple exits.",
-          "character_names": {
-            "male": ["Akmenos", "Amnon", "Barakas", "Damakos", "Ekemon", "Iados", "Kairon", "Leucis", "Melech", "Mordai", "Morthos", "Pelaios", "Skamos", "Therai", "Art", "Chant", "Creed", "Despair", "Fear", "Glory", "Hope", "Music", "Torment"],
-            "female": ["Amala", "Bryseis", "Criella", "Damaia", "Ea", "Kallista", "Lerissa", "Makaria", "Nemeia", "Orianna", "Phelaia", "Rieta", "Seraphina", "Tatyana", "Zaganna", "Zalissa", "Sorrow", "Temerity", "Weary"],
-            "clan_or_surname": {
-              "convention": "Infernal surnames or virtue-names used as surnames; many tieflings adopt or invent surnames as a form of self-definition against their heritage.",
-              "examples": ["Blackheart", "Hellborn", "Shadowflame", "Greymantle", "Ashwalker", "Emberthorn", "Infernalis", "Moonshadow", "Nightfall", "Scorch"]
-            }
-          },
-          "settlements": ["The Horned Quarter", "Avernus Gate (trade post)", "Devil's Crossing", "Shadowmark", "The Scorch District", "Hell's Mouth Inn", "The Exile Ward"],
-          "regions": ["Neverwinter's lower districts", "Baldur's Gate (The Outer City)", "The Nine Hells border communities", "The Infernal Marches", "City subcultural quarters across the world"]
+        "settlements": ["The Korr Entropic", "The Fallen Zone (deepest)"],
+        "regions": ["The Forgotten Kingdom — The Fallen Zone"]
+      },
+      {
+        "id": "syl_uun",
+        "name": "Syl-Uun",
+        "state": "The Uun Wilds",
+        "category": "Wildmen",
+        "race": "Foresters",
+        "geo_location": "The Dark Forests (Interior)",
+        "temperament": "The Predator",
+        "primary_materium": "Bestial Communion",
+        "alignment": "Neutral",
+        "description": "Hairy, mossy hunters who don animal hides that eventually fuse to their skin. The deep forest is their entire world — and they defend it absolutely.",
+        "typical_classes": ["Wayfarer", "Lifewhisperer", "Ravager"],
+        "typical_backgrounds": ["Hunter", "Hermit"],
+        "stance": "Absolute isolationist, territorial to outsiders",
+        "architecture": "None — live in the forest itself.",
+        "character_names": {
+          "male": ["Syl", "Uun", "Grrak", "Mosskeel", "Barkfang", "Deepgrowl"],
+          "female": ["Syla", "Uuna", "Grraka", "Mosskeela", "Barkfanga", "Deepgrowla"],
+          "surname_convention": "Animal whose hide they currently wear.",
+          "examples": ["Bearskin", "Wolfhide", "Roothide", "Boarhair"]
         },
-        {
-          "id": "gnome",
-          "name": "Gnomish Tinkerer-Guilds",
-          "other_names": ["Gnome", "Rock Gnome", "Tinkers", "Gadgeteers", "Forest Gnome (subvariant)"],
-          "primary_race": "Gnome (Rock)",
-          "abundance": "Uncommon",
-          "alignment_dominance": "Neutral Good / Chaotic Neutral",
-          "typical_classes": ["Artificer", "Wizard (Illusionist)", "Rogue", "Bard"],
-          "stance": "Helpful, Eccentric, Obsessive, Inventive",
-          "religions": ["Garl Glittergold (patron of gnomes)", "Nebelun (the Meddler)", "Segojan Earthcaller"],
-          "preferred_biomes": ["highlands", "temperate_forest"],
-          "traits": ["Inquisitive", "Eccentric", "Inventive", "Long-memoried", "Humor-loving"],
-          "architecture": "Mechanical underground workshops filled with clockwork and pipes; surface workshops are chaotically organized but perfectly functional.",
-          "character_names": {
-            "male": ["Alston", "Alvyn", "Boddynock", "Brocc", "Burgell", "Dimble", "Eldon", "Erky", "Fonkin", "Frug", "Gerbo", "Gimble", "Glim", "Jebeddo", "Kellen", "Namfoodle", "Orryn", "Roondar", "Seebo", "Sindri", "Warryn", "Wrenn", "Zook"],
-            "female": ["Bimpnotten", "Breena", "Caramip", "Carlin", "Donella", "Duvamil", "Ella", "Ellyjobell", "Ellywick", "Lilli", "Loopmottin", "Lorilla", "Mardnab", "Nissa", "Nyx", "Oda", "Orla", "Roywyn", "Shamil", "Tana", "Waywocket", "Zanna"],
-            "clan_or_surname": {
-              "convention": "Long complicated family surname (often a multi-syllable chain) plus a short personal nickname. The full name is only used in formal gnomish contexts.",
-              "examples": ["Timbers' Thistlewhick", "Fizzlewick", "Beren Cogsworth", "Dimble Nettlebottom", "Grumple Wrenchwhistle", "Overclank", "Rustsprocket", "Tinklebell", "Wizzlenap", "Zap-and-Crackle"]
-            }
-          },
-          "settlements": ["Underhome", "The Workshop Quarter", "Tinkertown", "Gnomengarde", "Cogspring Settlement", "The Brass Quarter", "Lantan Port"],
-          "regions": ["The Underpeak", "Bytopia", "The Forest of Opal", "Lantan", "The Tinker's Road", "Gnomish Warrens of the Iron Hills"]
+        "settlements": ["The Uun Wilds (no fixed location)", "Deep Interior camps"],
+        "regions": ["Dark Forest Interior"]
+      },
+      {
+        "id": "gor_vann",
+        "name": "Gor-Vann",
+        "state": "The Gor-Thicket",
+        "category": "Wildmen",
+        "race": "Foresters",
+        "geo_location": "The Boglands (Marsh-Edge)",
+        "temperament": "The Stoic",
+        "primary_materium": "Lifewhispering",
+        "alignment": "Neutral",
+        "description": "Stubborn, root-like recluses who can remain motionless for days in the mud. They have been mistaken for dead trees by every culture that encountered them.",
+        "typical_classes": ["Lifewhisperer", "Wayfarer", "Ravager"],
+        "typical_backgrounds": ["Hunter", "Hermit"],
+        "stance": "Immovable, patient, responds only to direct threat",
+        "architecture": "None. They are the architecture.",
+        "character_names": {
+          "male": ["Gor", "Vann", "Bogmoss", "Rootwait", "Stillwater"],
+          "female": ["Gora", "Vanna", "Bogmossa", "Rootwaita", "Stillwatera"],
+          "surname_convention": "Bog or thicket they claim.",
+          "examples": ["Thicketborn", "Bogclaim", "Rootkin", "Mudblood"]
         },
-        {
-          "id": "lizardfolk",
-          "name": "Lizardfolk Tribal-Kin",
-          "other_names": ["Lizardfolk", "Scale-kin", "Marsh-dwellers", "Cold-bloods", "Sseth-kin"],
-          "primary_race": "Lizardfolk",
-          "abundance": "Common (in wetlands)",
-          "alignment_dominance": "Neutral",
-          "typical_classes": ["Druid", "Fighter", "Ranger", "Cleric (Semuanya)"],
-          "stance": "Pragmatic, Emotionless-seeming, Survival-focused, Alien-minded",
-          "religions": ["Semuanya (Survive. Breed. Grow.)", "Sess'innek (demon lord, rare corrupted tribes)", "Primal spirits of the swamp"],
-          "preferred_biomes": ["swamp", "moorland", "coastal"],
-          "traits": ["Pragmatic", "Stoic", "Resourceful", "Bluntly logical", "Incomprehensible to outsiders"],
-          "architecture": "Mud-brick mounds and woven reed huts on raised platforms over water; no decoration, pure utility.",
-          "character_names": {
-            "male": ["Aryte", "Bek", "Dithyk", "Ehk", "Entek", "Essith", "Gahk", "Imakk", "Isk", "Kethik", "Kirik", "Lashk", "Mik", "Muthrukk", "Querk", "Sith", "Ssurk", "Tarka", "Thriff", "Xanrukk"],
-            "female": ["Achuak", "Aryte", "Dithyk", "Ehk", "Essith", "Gahk", "Isk", "Kethik", "Lashk", "Othrykk", "Querk", "Sith", "Tarka", "Thriff", "Zethik"],
-            "clan_or_surname": {
-              "convention": "No surnames; identified by their swamp or marsh territory. May add an epithetic descriptor tied to a hunt or kill. Tribe names are place-descriptive.",
-              "examples": ["of the Vast Swamp", "of the Reed-Mound", "Vanquisher-of-Evils", "Reed-Speaker", "Claw-of-the-Marsh", "Still-Water Tribe", "Snapjaw Kin"]
-            }
-          },
-          "settlements": ["The Great Swamp Nest", "Skuthossin", "Reed-Mound Village", "Marsh-Hold", "The Clutch Warrens", "Stillwater Nest", "The Fen Mounds"],
-          "regions": ["The Vast Swamp", "Lizard Marsh", "The Fens of Taar", "The Flooded Forest", "The Blackwater Mire", "The Reed Sea Reaches"]
+        "settlements": ["The Gor-Thicket", "Marsh-Edge camps"],
+        "regions": ["The Boglands Marsh-Edge"]
+      },
+      {
+        "id": "erem_ka",
+        "name": "Erem-Ka",
+        "state": "The Ka-Enclave",
+        "category": "Wildmen",
+        "race": "Foresters",
+        "geo_location": "The Sanctuary Lands (Vales)",
+        "temperament": "The Merciful",
+        "primary_materium": "Vitalism",
+        "alignment": "Neutral Good",
+        "description": "A reclusive 'Garden-Culture'. They cultivate healing spores that act as local medicine. The most approachable of the Wildmen cultures by a significant margin — still antisocial, but will trade healing for being left alone.",
+        "typical_classes": ["Lifewhisperer", "Artisan", "Scholar"],
+        "typical_backgrounds": ["Artisan", "Hermit", "Hunter"],
+        "stance": "Reluctantly approachable, healer-focused",
+        "architecture": "Spore gardens that triple as homes, medicine supplies, and defensive barriers.",
+        "character_names": {
+          "male": ["Erem", "Ka", "Bloom", "Sporesong", "Greenhand"],
+          "female": ["Erema", "Kaa", "Blooma", "Sporesonga", "Greenhand"],
+          "surname_convention": "Spore or plant they specialize in growing.",
+          "examples": ["Sporemaster", "Bloomkin", "of the Healing Garden", "Mossgrow"]
         },
-        {
-          "id": "githyanki",
-          "name": "Githyanki Astral-Legion",
-          "other_names": ["Githyanki", "Astral-warriors", "Dragon-riders", "Silver-knights", "Planar Conquerors"],
-          "primary_race": "Githyanki",
-          "abundance": "Very Rare (on Material Plane)",
-          "alignment_dominance": "Lawful Evil",
-          "typical_classes": ["Fighter (Eldritch Knight)", "Wizard", "Paladin (Oathbreaker)", "Warlock"],
-          "stance": "Militaristic, Aggressive, Supremacist, Planar-expansionist",
-          "religions": ["Vlaakith CLVII (The Lich-Queen, living god-empress)", "Zerthimon (schism deity, opposed by Vlaakith)"],
-          "preferred_biomes": ["highlands", "coastal"],
-          "traits": ["Militant", "Disciplined", "Planar-aware", "Supremacist", "Silver-sword bound"],
-          "architecture": "Fortresses carved from the calcified husks of dead gods; red-and-silver aesthetic, martial in all things.",
-          "character_names": {
-            "male": ["Belran", "Dak", "Dissero", "Fenith", "Gish", "Hasrak", "Jabra", "Kith", "Lykus", "Morak", "Nath", "Omeel", "Rak", "Rol", "Sken", "Tez", "Viran", "Xaren", "Zalith", "Zen"],
-            "female": ["Aarakess", "Belkan", "Crix", "Elan", "Ferith", "Gith", "Ivi", "Jurith", "Kesek", "Lythka", "Madrak", "Neth", "Ola", "Quith", "Rith", "Sek", "Thrith", "Urith", "Vith", "Xan"],
-            "clan_or_surname": {
-              "convention": "Military rank precedes given name in formal address; gish-title for those blending magic and combat. Clan affiliations are military units, not family.",
-              "examples": ["Knight-Captain Kith", "Gish Ferith", "Blademaster Nath", "Crèche K'liir", "The Silver Sword Company", "Legion of Vlaakith", "The Red Death Battalion"]
-            }
-          },
-          "settlements": ["Tu'narath (City of Death)", "Crèche K'liir", "The Silver Sword Barracks", "Zerth'Ad'lun", "Astral Fortress Thrak'tur", "Material-plane Crèche-fortresses"],
-          "regions": ["The Astral Plane (primary domain)", "Tu'narath floating city", "Laerakond incursion points", "Planar rift outposts", "Material Plane crèche-holds"]
+        "settlements": ["The Ka-Enclave", "The Garden Vales"],
+        "regions": ["Sanctuary Lands Vales"]
+      },
+      {
+        "id": "grak_var",
+        "name": "Grak-Var",
+        "state": "The Grak Legions",
+        "category": "Wildmen",
+        "race": "Ravagers",
+        "geo_location": "The Dark Forests (Western Rim)",
+        "temperament": "The Tyrant",
+        "primary_materium": "Dominion",
+        "alignment": "Lawful Evil",
+        "description": "8-foot-tall warriors who demand tribute in the form of 'Will-Aura' and service. Their legions function like a martial empire — organized, terrifying, and perpetually expanding their zone of tribute.",
+        "typical_classes": ["Ravager", "Ironguard", "Bloodsinger"],
+        "typical_backgrounds": ["Soldier", "Dishonored Soldier"],
+        "stance": "Expansionist, tribute-collecting, violent enforcer of hierarchy",
+        "architecture": "Crude but enormous forts. Every structure is scaled for 8-foot beings.",
+        "character_names": {
+          "male": ["Grak", "Var", "Krul", "Domrak", "Shatter", "Ironwill"],
+          "female": ["Graka", "Vara", "Krula", "Domraka", "Shattera", "Ironwilla"],
+          "surname_convention": "Legion number and rank.",
+          "examples": ["of the First Legion", "Legionborn", "Conqueror", "the Tribute-Taker"]
         },
-        {
-          "id": "goblinoid",
-          "name": "Goblinoid War-Host",
-          "other_names": ["Goblin", "Hobgoblin", "Bugbear", "The Legion", "Iron Shadow", "The Red Hand"],
-          "primary_race": "Goblinoid",
-          "abundance": "Common",
-          "alignment_dominance": "Lawful Evil (Hobgoblin) / Neutral Evil (Goblin) / Chaotic Evil (Bugbear)",
-          "typical_classes": ["Fighter", "Rogue", "Wizard", "Ranger"],
-          "stance": "Efficient, Conquering, Strategic (Hobgoblin); Scavenging, Opportunistic (Goblin); Ambush-predator (Bugbear)",
-          "religions": ["Maglubiyet (The Mighty One, goblin god of war)", "Hruggek (Bugbear deity)", "Nomog-Geaya (Hobgoblin deity of war)"],
-          "preferred_biomes": ["highlands", "plains", "underdark", "moorland"],
-          "traits": ["Disciplined", "Efficient", "Cruel", "Adaptable", "Hierarchical"],
-          "architecture": "Brutalist stone blockades and iron-reinforced bunkers (Hobgoblin); crude wooden palisades and cave dens (Goblin); hollow great-trees and cliff ambush lairs (Bugbear).",
-          "character_names": {
-            "male": ["Booyahg", "Catpie", "Dripp", "Frixie", "Gibber", "Grubbs", "Lunk", "Nurt", "Runt", "Scrape", "Skabs", "Slink", "Snot", "Stab", "Tack", "Tick", "Zigs", "Balrak", "Grak", "Harthorn", "Izkur", "Krugh", "Murd", "Ornrik", "Tarnak", "Ursath", "Vroth", "Zarak", "Arget", "Brug", "Drurk", "Gaur", "Gronk", "Klarg", "Ragzul"],
-            "female": ["Ek", "Kil", "Rix", "Saak", "Silkfur", "Tog", "Tragh", "Urza", "Vex", "Wort", "Draga", "Frix", "Krak", "Nagra", "Shriek", "Snag", "Urk"],
-            "clan_or_surname": {
-              "convention": "Legion number and banner name; named for a conquest or a warlord. Hobgoblins use military designations, goblins use chaotic gang names.",
-              "examples": ["The Red Hand", "Iron Shadow Legion", "Blood Eye Warband", "The Cragmaw Tribe", "Legion XVII", "Khurgorbaeyag's Chosen", "The Flame Skull Gang", "Ddrukarg Host"]
-            }
-          },
-          "settlements": ["Cragmaw Castle", "Khundrukar", "Ddrukarg", "Goblin Warren", "The Hobgoblin Fortress", "Caves of Chaos", "The Blood Eye Keep"],
-          "regions": ["The Sword Mountains (Faerûn)", "The Goblin Wastes", "Darguun (Eberron)", "The Caves of Chaos", "The Blood Hills", "The Iron Keep Territories"]
-        }
-      ]
-    }
+        "settlements": ["The Grak Fort", "Western Rim Camps", "The Legion Lines"],
+        "regions": ["Dark Forest Western Rim"]
+      },
+      {
+        "id": "maw_shulk",
+        "name": "Maw-Shulk",
+        "state": "The Shulk Tribes",
+        "category": "Wildmen",
+        "race": "Ravagers",
+        "geo_location": "The Dark Forests (Southern Valleys)",
+        "temperament": "The Destroyer",
+        "primary_materium": "Blood Magic",
+        "alignment": "Chaotic Evil",
+        "description": "Ritualistic predators who believe that eating an enemy's heart transfers their Conviction. Their battles are religious ceremonies. Their meals are theology.",
+        "typical_classes": ["Ravager", "Bloodsinger"],
+        "typical_backgrounds": ["Hunter", "Soldier"],
+        "stance": "Ritualistic, predatory, absolutely alien moral framework",
+        "architecture": "Bone and hide. Every structure is decorated with the remains of victories.",
+        "character_names": {
+          "male": ["Maw", "Shulk", "Gorrath", "Carnoth", "Bloodtooth"],
+          "female": ["Mawa", "Shulka", "Gorratha", "Carnotha", "Bloodtootha"],
+          "surname_convention": "Strongest enemy consumed.",
+          "examples": ["Heart-eater", "Conviction-taken", "the Consumed", "Soulswallower"]
+        },
+        "settlements": ["The Shulk Tribal Grounds", "Southern Valley camps"],
+        "regions": ["Dark Forest Southern Valleys"]
+      },
+      {
+        "id": "skard_hul",
+        "name": "Skard-Hul",
+        "state": "The Hul Horde",
+        "category": "Wildmen",
+        "race": "Ravagers",
+        "geo_location": "The Outer Steppes (Arid Fringe)",
+        "temperament": "The Rebel",
+        "primary_materium": "Mindwielding",
+        "alignment": "Chaotic Neutral",
+        "description": "Unstoppable brutes who use kinetic force to shatter gates and chains. The Horde considers all obstacles — physical and social — as things to be broken through. Ironically, they are one of the few Wildmen cultures that actively trades with outsiders.",
+        "typical_classes": ["Ravager", "Battlebrave", "Envoy (unusual)"],
+        "typical_backgrounds": ["Soldier", "Merchant", "Wayfarer"],
+        "stance": "Nomadic, anti-authoritarian, commercially opportunistic",
+        "architecture": "Mobile siege camps. They bring the walls down and live in them.",
+        "character_names": {
+          "male": ["Skard", "Hul", "Breakwall", "Gatefall", "Ironpulse"],
+          "female": ["Skarda", "Hula", "Breakwalla", "Gatefalla", "Ironpulsa"],
+          "surname_convention": "Obstacle broken.",
+          "examples": ["Wallbreaker", "Gatefall", "Chainbreaker", "of the Shatter"]
+        },
+        "settlements": ["The Hul Horde (mobile)", "The Shatter Camps"],
+        "regions": ["The Outer Steppes Arid Fringe"]
+      },
+      {
+        "id": "uun_dhal",
+        "name": "Uun-Dhal",
+        "state": "The Dhal Cloister",
+        "category": "The Ancients",
+        "race": "The Secluded",
+        "geo_location": "The Sanctuary Lands (Ancient Deep)",
+        "temperament": "The Arbiter",
+        "primary_materium": "Harmony Weaving",
+        "alignment": "Lawful Neutral",
+        "description": "Aloof entities who speak in chord-tones. They maintain the 'Psychic Equilibrium' of the forest — a function they believe is essential to preventing another Great Death in their region.",
+        "typical_classes": ["Scholar", "Elementalist", "Lifewhisperer"],
+        "typical_backgrounds": ["Scholar", "Hermit"],
+        "stance": "Deeply isolationist, maintain the forest as a sacred duty",
+        "architecture": "Sound-architecture — structures that produce specific harmonics when wind moves through them.",
+        "character_names": {
+          "male": ["Uun", "Dhal", "Aeluun", "Sylvar", "Chordin", "Harmoveil"],
+          "female": ["Uuna", "Dhala", "Aeluuna", "Sylvara", "Chordina", "Harmoveila"],
+          "surname_convention": "Chord-tone name — a specific harmonic frequency rendered phonetically.",
+          "examples": ["Chord-in-E", "of the Deep Tone", "Harmonist", "Silvertone"]
+        },
+        "settlements": ["The Dhal Cloister", "Ancient Deep", "The Harmony Nodes"],
+        "regions": ["The Ancient Deep of the Sanctuary Lands"]
+      },
+      {
+        "id": "grath_ka",
+        "name": "Grath-Ka",
+        "state": "The Grath Spires",
+        "category": "The Ancients",
+        "race": "The Greys",
+        "geo_location": "The Midlands (Highlands)",
+        "temperament": "The Stoic",
+        "primary_materium": "Arcane Arts",
+        "alignment": "Lawful Neutral",
+        "description": "They shape Materium into air-tight, windowless towers. Logic is their primary god. The Grath Spires are the closest thing to formal magical universities in Leonoria.",
+        "typical_classes": ["Scholar", "Elementalist", "Warden"],
+        "typical_backgrounds": ["Scholar", "Noble"],
+        "stance": "Academic, intellectual supremacist, practically neutral",
+        "architecture": "Tall, windowless spires. No ornamentation. Precision construction.",
+        "character_names": {
+          "male": ["Grath", "Ka", "Aelveth", "Sylron", "Aethun", "Vaelthar"],
+          "female": ["Gratha", "Kaa", "Aelvetha", "Sylrona", "Aethuna", "Vaelthara"],
+          "surname_convention": "Discipline or school of study.",
+          "examples": ["of the Arcane School", "Logic-born", "Silverkey", "Spirebound"]
+        },
+        "settlements": ["The Grath Spires", "The Logic City", "Silverkey Academy"],
+        "regions": ["The Midlands Highlands", "The Spire Network"]
+      },
+      {
+        "id": "cry_ath",
+        "name": "Cry-Ath",
+        "state": "The Ath Redoubt",
+        "category": "The Ancients",
+        "race": "Ice Ancients",
+        "geo_location": "The Eternal Winds (Deep North)",
+        "temperament": "The Guardian",
+        "primary_materium": "Soulkindling",
+        "alignment": "Neutral",
+        "description": "Beings of living frost. They do not eat; they absorb the conviction of the wind. Their culture is so alien that no outsider has ever been permitted inside — but their Redoubt is visible, a fortress of ice that does not melt.",
+        "typical_classes": ["Stormcaller", "Scholar", "Warden"],
+        "typical_backgrounds": ["Hermit", "Wayfarer"],
+        "stance": "Absolutely xenophobic, but passively so — they do not attack unless approached",
+        "architecture": "Living ice structures that grow in specific geometric patterns. No joints or seams — grown not built.",
+        "character_names": {
+          "male": ["Cry", "Ath", "Frelveth", "Zoral", "Iceveil", "Frostwatch"],
+          "female": ["Crya", "Atha", "Frelvetha", "Zorala", "Iceveil", "Frostwatcher"],
+          "surname_convention": "Ice formation they were born within.",
+          "examples": ["of the Great Glacier", "Frostborn", "Icespire", "Coldwatch"]
+        },
+        "settlements": ["The Ath Redoubt", "The Deep North Vigil"],
+        "regions": ["The Eternal Winds Deep North"]
+      },
+      {
+        "id": "shul_um",
+        "name": "Shul-Um",
+        "state": "The Um-Syndicate",
+        "category": "The Ancients",
+        "race": "The Dark Ones",
+        "geo_location": "The Forgotten Kingdom (Deep Ruins)",
+        "temperament": "The Tyrant",
+        "primary_materium": "Umbramancy",
+        "alignment": "Lawful Evil",
+        "description": "A cabal that rules through 'The Weight of Souls'. They see time as a resource to be spent and have spent millennia building influence networks that extend into the surface world through agents, proxies, and blackmail.",
+        "typical_classes": ["Shadowblade", "Voidweaver", "Envoy"],
+        "typical_backgrounds": ["Noble", "Criminal", "Scholar"],
+        "stance": "Expansionist through proxies, manipulative, long-game power players",
+        "architecture": "Deep black stone cities that were old when the surface world was young.",
+        "character_names": {
+          "male": ["Shul", "Um", "Vaelthar", "Mordreyn", "Shadowkin", "Nightborn"],
+          "female": ["Shula", "Uma", "Vaelthara", "Mordreynya", "Shadowkina", "Nightborna"],
+          "surname_convention": "Shadow-name — a name that describes their function in the Syndicate.",
+          "examples": ["of the Third Shadow", "the Weight-Bearer", "Umbra-born", "Night-Regent"]
+        },
+        "settlements": ["The Um-Syndicate", "The Deep Ruins", "The Shadow Exchange"],
+        "regions": ["The Forgotten Kingdom Deep Ruins"]
+      }
+    ]
   }
 }

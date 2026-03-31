@@ -1,24 +1,436 @@
-[
-  { "className": "Barbarian",    "source": "core",     "subclasses": ["Path of the Berserker", "Path of the Totem Warrior"] },
-  { "className": "Bard",         "source": "core",     "subclasses": ["College of Lore", "College of Valor"] },
-  { "className": "Cleric",       "source": "core",     "subclasses": ["Life Domain", "Light Domain", "Trickery Domain"] },
-  { "className": "Druid",        "source": "core",     "subclasses": ["Circle of the Land", "Circle of the Moon"] },
-  { "className": "Fighter",      "source": "core",     "subclasses": ["Champion", "Battle Master", "Eldritch Knight"] },
-  { "className": "Monk",         "source": "core",     "subclasses": ["Way of the Open Hand", "Way of Shadow", "Way of the Four Elements"] },
-  { "className": "Paladin",      "source": "core",     "subclasses": ["Oath of Devotion", "Oath of the Ancients", "Oath of Vengeance"] },
-  { "className": "Ranger",       "source": "core",     "subclasses": ["Hunter", "Beast Master"] },
-  { "className": "Rogue",        "source": "core",     "subclasses": ["Thief", "Assassin", "Arcane Trickster"] },
-  { "className": "Sorcerer",     "source": "core",     "subclasses": ["Draconic Bloodline", "Wild Magic"] },
-  { "className": "Warlock",      "source": "core",     "subclasses": ["The Fiend", "The Archfey", "The Great Old One"] },
-  { "className": "Wizard",       "source": "core",     "subclasses": ["School of Evocation", "School of Illusion", "School of Necromancy"] },
-  { "className": "Pyromancer",   "source": "expanded", "subclasses": ["Flame Adept", "Inferno Master"] },
-  { "className": "Cryomancer",   "source": "expanded", "subclasses": ["Frost Adept", "Ice Warden"] },
-  { "className": "Battle Mage",  "source": "expanded", "subclasses": ["Arcane Blade", "Runic Warrior"] },
-  { "className": "Shadow Knight","source": "expanded", "subclasses": ["Deathbringer", "Nightblade"] },
-  { "className": "Necromancer",  "source": "expanded", "subclasses": ["Bone Weaver", "Soul Binder"] },
-  { "className": "Alchemist",    "source": "expanded", "subclasses": ["Potion Master", "Transmuter"] },
-  { "className": "Beastmaster",  "source": "expanded", "subclasses": ["Pack Leader", "Animal Tamer"] },
-  { "className": "Elementalist", "source": "expanded", "subclasses": ["Storm Caller", "Earth Shaper"] },
-  { "className": "Illusionist",  "source": "expanded", "subclasses": ["Mirror Mage", "Trickster"] },
-  { "className": "Runesmith",    "source": "expanded", "subclasses": ["Sigil Carver", "Rune Forger"] }
-]
+{
+  "system": "Leonoria Classes",
+  "description": "The 15 playable class archetypes of Leonoria. Classes determine starting aptitude bonuses, available skills, starting wealth, starter equipment, and Materium school access. No class is locked by race — but some combinations are mechanically weak or strong.",
+  "aptitude_priority_note": "Each class lists aptitude priorities from primary to tertiary. These inform the character creation auto-fill and point-buy recommendations.",
+  "materium_pool_note": "Classes with Materium access begin with a larger Materium pool. Classes without access still have a pool (it supports magical resistance), but a much smaller one.",
+  "classes": [
+    {
+      "id": "ironguard",
+      "name": "Ironguard",
+      "archetype": "Heavy Warrior",
+      "description": "The backbone of any fighting force. The Ironguard is a disciplined heavy fighter who specializes in endurance, shield work, and heavy armor. They do not rush in — they hold the line until their enemies break.",
+      "aptitude_priorities": ["Physiology", "Martial Experience", "Conviction"],
+      "aptitude_bonuses": { "physiology": 15, "martial_experience": 10, "conviction": 5, "presence": -5 },
+      "materium_access": false,
+      "materium_pool_start": 10,
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": ["shield_fighting", "blunt_force"],
+        "choice_count": 1,
+        "choices": ["swordsmanship", "polearms", "axewielding", "athletics"]
+      },
+      "default_weapon_affinity": "swordsmanship",
+      "available_armor": ["light", "medium", "heavy"],
+      "starting_wealth_range": [30, 60],
+      "starter_kit": ["Arming Sword or Mace (choice)", "Shield (medium)", "Chain Hauberk", "Iron Helmet", "Rations x3", "Torchx2"],
+      "special_class_trait": {
+        "name": "Last Wall",
+        "description": "Once per battle, when Vitality drops below 25%, gain +10% to all physical Hardening for 3 turns."
+      },
+      "typical_races": ["stone_folk", "midlander", "northerner", "wildmen_ravagers"],
+      "lore": "Trained in organized militaries or by veteran guards, the Ironguard is the most common martial class in Leonoria's settled regions."
+    },
+    {
+      "id": "battlebrave",
+      "name": "Battlebrave",
+      "archetype": "Mobile Warrior",
+      "description": "A fluid, aggressive fighter who thrives in movement and momentum. Where the Ironguard holds, the Battlebrave pushes. Two-handed weapons, fast footwork, and controlled aggression define this class.",
+      "aptitude_priorities": ["Martial Experience", "Physiology", "Conviction"],
+      "aptitude_bonuses": { "martial_experience": 15, "physiology": 10, "conviction": 5 },
+      "materium_access": false,
+      "materium_pool_start": 10,
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": ["swordsmanship", "acrobatics"],
+        "choice_count": 1,
+        "choices": ["axewielding", "polearms", "athletics", "shield_fighting"]
+      },
+      "default_weapon_affinity": "swordsmanship",
+      "available_armor": ["light", "medium"],
+      "starting_wealth_range": [25, 55],
+      "starter_kit": ["Greatsword or Greataxe (choice)", "Studded Leather", "Open Helm", "Rations x3"],
+      "special_class_trait": {
+        "name": "Momentum",
+        "description": "Each consecutive hit on the same target grants +3% damage (max +15%). Resets if target is switched or missed."
+      },
+      "typical_races": ["midlander", "step_folk", "northerner"],
+      "lore": "Veterans who found the shield slowed them down. The Battlebrave trusts in offense to outlast defense."
+    },
+    {
+      "id": "ravager_class",
+      "name": "Ravager",
+      "archetype": "Berserker",
+      "description": "A brutish, rage-fuelled warrior who sacrifices defense for overwhelming offense. Common among Wildmen but occasionally found among battle-hardened Common Folk veterans who have seen too much.",
+      "aptitude_priorities": ["Physiology", "Martial Experience", "Conviction"],
+      "aptitude_bonuses": { "physiology": 20, "martial_experience": 12, "conviction": -5, "presence": -10 },
+      "materium_access": false,
+      "materium_pool_start": 5,
+      "shadow_connection_start": 5,
+      "starting_skills": {
+        "fixed": ["axewielding", "athletics"],
+        "choice_count": 1,
+        "choices": ["blunt_force", "intimidation", "survival"]
+      },
+      "default_weapon_affinity": "axewielding",
+      "available_armor": ["light", "medium"],
+      "starting_wealth_range": [10, 35],
+      "starter_kit": ["Greataxe or Maul (choice)", "Hide Armor", "Rations x5"],
+      "special_class_trait": {
+        "name": "Blood Rage",
+        "description": "Below 50% Vitality, all physical damage dealt increases by 20%. Below 25%, increases by 35%. No defensive bonus — pure offense."
+      },
+      "typical_races": ["wildmen_ravagers", "wildmen_foresters", "northerner"],
+      "lore": "Not trained. Forged by violence. The Ravager is what happens when someone survives long enough to stop being afraid."
+    },
+    {
+      "id": "wayfarer",
+      "name": "Wayfarer",
+      "archetype": "Scout / Ranger",
+      "description": "A self-sufficient wilderness specialist and ranged fighter. Equally at home navigating the Dark Forests or negotiating a trade route. Skilled with bows, survival, and reading the land.",
+      "aptitude_priorities": ["Martial Experience", "Cognition", "Physiology"],
+      "aptitude_bonuses": { "martial_experience": 10, "cognition": 10, "physiology": 5 },
+      "materium_access": false,
+      "materium_pool_start": 12,
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": ["archery", "survival", "tracking"],
+        "choice_count": 1,
+        "choices": ["navigation", "animal_handling", "small_arms", "stealth"]
+      },
+      "default_weapon_affinity": "archery",
+      "available_armor": ["light", "medium"],
+      "starting_wealth_range": [20, 45],
+      "starter_kit": ["Recurve Bow", "Shortsword or Knife", "Quiver (20 arrows)", "Light Leather", "Rations x5", "Rope", "Flint & Steel"],
+      "special_class_trait": {
+        "name": "Pathfinder",
+        "description": "In wilderness biomes, all movement costs are reduced by 25%. Perception checks for detecting ambushes gain +10%."
+      },
+      "typical_races": ["northerner", "step_folk", "wildmen_foresters", "ancients_secluded"],
+      "lore": "The Wayfarer lives between places. Neither city nor wilderness fully claims them."
+    },
+    {
+      "id": "shadowblade",
+      "name": "Shadowblade",
+      "archetype": "Shadow Warrior / Assassin",
+      "description": "A martial combatant who integrates shadow arts into physical fighting. Not a mage — a fighter who has learned to move through darkness and strike before being seen.",
+      "aptitude_priorities": ["Martial Experience", "Cognition", "Materium Affinity (Shadow)"],
+      "aptitude_bonuses": { "martial_experience": 12, "cognition": 8, "materium_affinity": 5 },
+      "materium_access": true,
+      "materium_schools_available": ["Darkvoid (basic)", "Chill (basic)"],
+      "materium_pool_start": 15,
+      "shadow_connection_start": 15,
+      "starting_skills": {
+        "fixed": ["small_arms", "stealth", "shadow_weaving"],
+        "choice_count": 1,
+        "choices": ["thievery", "lockpicking", "acrobatics", "swordsmanship"]
+      },
+      "default_weapon_affinity": "small_arms",
+      "available_armor": ["light"],
+      "starting_wealth_range": [20, 50],
+      "starter_kit": ["Stiletto x2", "Shortsword", "Black Leather Armor", "Lockpicks", "Smoke Pouch x2"],
+      "special_class_trait": {
+        "name": "Shadow Step",
+        "description": "Once per battle, teleport to any shadow tile within 3 hexes without triggering attacks of opportunity."
+      },
+      "typical_races": ["ancients_dark_ones", "ashen_halfbreeds", "step_folk", "midlander"],
+      "lore": "The Shadowblade uses the darkness as a tool, not a home. They chose shadow arts practically — not philosophically."
+    },
+    {
+      "id": "warden",
+      "name": "Warden",
+      "archetype": "Holy Warrior",
+      "description": "A martial champion of the Light. Not a healer — a fighter who uses conviction and divine light as weapons. Wardens are often associated with specific faiths, but any strong conviction can fuel the class.",
+      "aptitude_priorities": ["Conviction", "Physiology", "Materium Affinity (Light)"],
+      "aptitude_bonuses": { "conviction": 15, "physiology": 10, "materium_affinity": 5 },
+      "materium_access": true,
+      "materium_schools_available": ["Purelight", "Aegis Reflection", "Solacium"],
+      "materium_pool_start": 20,
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": ["lightwielding_skill", "leadership"],
+        "choice_count": 1,
+        "choices": ["swordsmanship", "shield_fighting", "blunt_force", "intimidation"]
+      },
+      "default_weapon_affinity": "swordsmanship",
+      "available_armor": ["light", "medium", "heavy"],
+      "starting_wealth_range": [35, 70],
+      "starter_kit": ["Arming Sword", "Shield (heavy)", "Chain Mail", "Holy Symbol (culture-appropriate)", "Rations x3"],
+      "special_class_trait": {
+        "name": "Divine Aegis",
+        "description": "While Materium pool is above 50%, all team members gain +5% resistance to Shadow Arts damage types."
+      },
+      "typical_races": ["midlander", "northerner", "ancients_greys", "stone_folk"],
+      "lore": "The Warden is the answer to the question: what does light do when darkness walks among us?"
+    },
+    {
+      "id": "soulkindler",
+      "name": "Soulkindler",
+      "archetype": "Healer / Cleric",
+      "description": "A practitioner of healing, restoration, and divine support. The Soulkindler specializes in Vitalism and Soulkindling magic — repairing what is broken, including Temporal damage. The rarest reliable healer in Leonoria.",
+      "aptitude_priorities": ["Conviction", "Materium Affinity", "Cognition"],
+      "aptitude_bonuses": { "conviction": 10, "materium_affinity": 15, "cognition": 8, "physiology": -5, "martial_experience": -8 },
+      "materium_access": true,
+      "materium_schools_available": ["Vitalism", "Soulkindling", "Purelight", "Solacium"],
+      "materium_pool_start": 30,
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": ["lightwielding_skill", "arcane_theory"],
+        "choice_count": 2,
+        "choices": ["herbalism", "alchemy", "leadership", "persuasion", "monster_lore"]
+      },
+      "default_weapon_affinity": "blunt_force",
+      "available_armor": ["light", "medium"],
+      "starting_wealth_range": [30, 60],
+      "starter_kit": ["Staff (Quarterstaff)", "Healer's Satchel (5 basic potions)", "Light Robes", "Holy Symbol", "Rations x3"],
+      "special_class_trait": {
+        "name": "Temporal Mend",
+        "description": "Only the Soulkindler can reverse the permanent Vitality loss from Temporal (Aged) damage. Costs 40% of Materium pool per restoration attempt."
+      },
+      "typical_races": ["ancients_greys", "midlander", "ice_ancients", "stone_folk"],
+      "lore": "A Soulkindler once said: 'I do not fight death. I argue with it.'"
+    },
+    {
+      "id": "elementalist",
+      "name": "Elementalist",
+      "archetype": "Broad Mage",
+      "description": "The most balanced magical class — broad access to the Focused Triad with high Materium affinity. Not specialized enough to be the best at any one element, but versatile enough to handle anything.",
+      "aptitude_priorities": ["Materium Affinity", "Cognition", "Conviction"],
+      "aptitude_bonuses": { "materium_affinity": 20, "cognition": 12, "conviction": 5, "physiology": -12, "martial_experience": -8 },
+      "materium_access": true,
+      "materium_schools_available": ["Impact", "Earthen", "Tempest", "Fire", "Aquas", "Athropium"],
+      "materium_pool_start": 40,
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": ["materium_channeling", "arcane_theory"],
+        "choice_count": 2,
+        "choices": ["herbalism", "alchemy", "monster_lore", "navigation", "stealth"]
+      },
+      "default_weapon_affinity": "small_arms",
+      "available_armor": ["light"],
+      "starting_wealth_range": [25, 55],
+      "starter_kit": ["Staff (Quarterstaff)", "Light Robes", "Reagent Pouch (basic materials)", "Arcane Focus Shard", "Rations x3"],
+      "special_class_trait": {
+        "name": "Synergy Instinct",
+        "description": "Elemental synergy bonuses (e.g. Aquas+Tempest) are automatically calculated and triggered — the Elementalist never misses a synergy."
+      },
+      "typical_races": ["ancients_secluded", "ancients_greys", "oakpeople", "ice_ancients"],
+      "lore": "An Elementalist sees the world as forces in conversation. They learned to join the conversation."
+    },
+    {
+      "id": "pyrecrafter",
+      "name": "Pyrecrafter",
+      "archetype": "Fire Specialist",
+      "description": "A mage who has devoted themselves entirely to Fire mastery. The most offensively focused magical class. Every spell they cast burns. Everything around them, eventually, also burns.",
+      "aptitude_priorities": ["Materium Affinity", "Cognition", "Physiology"],
+      "aptitude_bonuses": { "materium_affinity": 18, "cognition": 10, "physiology": 3, "martial_experience": -5 },
+      "materium_access": true,
+      "materium_schools_available": ["Fire", "Impact", "Earthen (basic)"],
+      "materium_pool_start": 35,
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": ["materium_channeling", "arcane_theory"],
+        "choice_count": 1,
+        "choices": ["alchemy", "herbalism", "survival", "monster_lore"]
+      },
+      "default_weapon_affinity": "small_arms",
+      "available_armor": ["light"],
+      "starting_wealth_range": [20, 45],
+      "starter_kit": ["Fire-Hardened Staff", "Light Robes (fire-treated)", "Reagent Pouch (combustion materials)", "Rations x3"],
+      "special_class_trait": {
+        "name": "Heatmaster",
+        "description": "All Fire damage dealt gains +15%. The Pyrecrafter does not suffer the Ignited status from their own fire. Friendly fire rules still apply."
+      },
+      "typical_races": ["midlander", "ancients_greys", "step_folk"],
+      "lore": "They did not choose fire. Fire chose them, and they were wise enough to say yes."
+    },
+    {
+      "id": "stormcaller",
+      "name": "Stormcaller",
+      "archetype": "Tempest Specialist",
+      "description": "A Materium mage attuned to wind, atmospheric pressure, and electricity. The Stormcaller is the most mobile magical class — they are always in motion, and they make the air itself a weapon.",
+      "aptitude_priorities": ["Materium Affinity", "Cognition", "Physiology"],
+      "aptitude_bonuses": { "materium_affinity": 18, "cognition": 10, "physiology": 3, "martial_experience": -5 },
+      "materium_access": true,
+      "materium_schools_available": ["Tempest", "Aquas", "Impact"],
+      "materium_pool_start": 35,
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": ["materium_channeling", "arcane_theory"],
+        "choice_count": 1,
+        "choices": ["navigation", "survival", "monster_lore", "acrobatics"]
+      },
+      "default_weapon_affinity": "small_arms",
+      "available_armor": ["light"],
+      "starting_wealth_range": [20, 45],
+      "starter_kit": ["Light Staff", "Wind-Woven Robes", "Reagent Pouch (atmospheric materials)", "Rations x3"],
+      "special_class_trait": {
+        "name": "Cascade Rider",
+        "description": "Tempest cascade effects (the electric secondary strike) trigger at 25% chance instead of 15% for the Stormcaller, and deal +10% bonus damage."
+      },
+      "typical_races": ["ice_ancients", "ancients_secluded", "midlander"],
+      "lore": "The Stormcaller does not call storms. They were born in one."
+    },
+    {
+      "id": "lifewhisperer",
+      "name": "Lifewhisperer",
+      "archetype": "Nature Mage",
+      "description": "A practitioner of Athropium, nature magic, and life-force manipulation. Different from the Soulkindler — the Lifewhisperer works with the natural world as a force, not as a faith. They can harm as easily as heal.",
+      "aptitude_priorities": ["Materium Affinity", "Conviction", "Cognition"],
+      "aptitude_bonuses": { "materium_affinity": 18, "conviction": 8, "cognition": 8, "physiology": -5, "martial_experience": -8 },
+      "materium_access": true,
+      "materium_schools_available": ["Athropium", "Lifewhispering", "Earthen", "Vitalism (basic)"],
+      "materium_pool_start": 35,
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": ["materium_channeling", "herbalism"],
+        "choice_count": 2,
+        "choices": ["alchemy", "animal_handling", "survival", "arcane_theory", "tracking"]
+      },
+      "default_weapon_affinity": "small_arms",
+      "available_armor": ["light"],
+      "starting_wealth_range": [15, 40],
+      "starter_kit": ["Thornwood Staff", "Nature Robes", "Herbalism Kit", "Animal Bond Talisman", "Rations x4"],
+      "special_class_trait": {
+        "name": "Life Reading",
+        "description": "Can assess the exact Vitality and current status effects of any biological creature within 3 hexes at will. No Materium cost."
+      },
+      "typical_races": ["oakpeople", "ancients_secluded", "wildmen_foresters", "swampbrood"],
+      "lore": "The Lifewhisperer hears what other mages ignore: the quiet voice of everything that is alive, or was, or will be."
+    },
+    {
+      "id": "voidweaver",
+      "name": "Voidweaver",
+      "archetype": "Dark / Void Mage",
+      "description": "A practitioner of the Malevolent Triad. They deal in entropy, darkness, and void energy. Difficult to play — the instability of Darkvoid requires constant management, and Shadow Arts are politically dangerous in Leonoria.",
+      "aptitude_priorities": ["Materium Affinity (Shadow)", "Cognition", "Conviction"],
+      "aptitude_bonuses": { "materium_affinity": 15, "cognition": 10, "conviction": -5, "physiology": -8, "presence": -8 },
+      "materium_access": true,
+      "materium_schools_available": ["Darkvoid", "Chill", "Arcane", "Darkmind"],
+      "materium_pool_start": 30,
+      "shadow_connection_start": 25,
+      "starting_skills": {
+        "fixed": ["shadow_weaving", "arcane_theory"],
+        "choice_count": 2,
+        "choices": ["stealth", "thievery", "monster_lore", "deception", "alchemy"]
+      },
+      "default_weapon_affinity": "small_arms",
+      "available_armor": ["light"],
+      "starting_wealth_range": [15, 40],
+      "starter_kit": ["Void-Etched Dagger", "Dark Robes", "Shadow Pouch (dark reagents)", "Rations x3"],
+      "special_class_trait": {
+        "name": "Void Mastery",
+        "description": "The Voidweaver reduces Darkvoid's damage variance from ±20% to ±10%. At Expert shadow_weaving level, variance is removed entirely."
+      },
+      "typical_races": ["ancients_dark_ones", "ashen_halfbreeds", "swampbrood"],
+      "lore": "The Voidweaver does not ask where the power comes from. They have decided that doesn't matter.",
+      "social_warning": "Shadow Arts users face legal persecution in most Midlands cultures. Voidweavers often travel in disguise."
+    },
+    {
+      "id": "bloodsinger",
+      "name": "Bloodsinger",
+      "archetype": "Blood Mage",
+      "description": "A practitioner of Darkblood magic who uses their own life force as fuel. Every powerful Bloodsinger is a controlled self-sacrifice machine. Exceptionally dangerous offensively; physically fragile.",
+      "aptitude_priorities": ["Materium Affinity (Shadow)", "Physiology", "Conviction"],
+      "aptitude_bonuses": { "materium_affinity": 12, "physiology": 8, "conviction": 5, "cognition": 5 },
+      "materium_access": true,
+      "materium_schools_available": ["Darkblood", "Blood Magic", "Darkvoid (basic)"],
+      "materium_pool_start": 25,
+      "shadow_connection_start": 20,
+      "starting_skills": {
+        "fixed": ["shadow_weaving", "athletics"],
+        "choice_count": 1,
+        "choices": ["alchemy", "herbalism", "intimidation", "small_arms"]
+      },
+      "default_weapon_affinity": "small_arms",
+      "available_armor": ["light"],
+      "starting_wealth_range": [15, 40],
+      "starter_kit": ["Bloodletter Blade (special small arm)", "Light Dark Robes", "Blood Vials x3", "Bandages x5"],
+      "special_class_trait": {
+        "name": "Pain Tithe",
+        "description": "Once per battle, can sacrifice 15% of current Vitality to restore 30% of Materium Connection pool. This Vitality loss cannot be healed in the same battle."
+      },
+      "typical_races": ["wildmen_ravagers", "ancients_dark_ones", "midlander (rare)"],
+      "lore": "Every Bloodsinger has made the same calculation at least once: how much of yourself is worth spending?",
+      "social_warning": "Blood magic is illegal in nearly every Midlands culture and heavily persecuted."
+    },
+    {
+      "id": "scholar",
+      "name": "Scholar",
+      "archetype": "Academic Mage",
+      "description": "A mage who prioritizes understanding over power. The Scholar has access to more Materium schools than anyone except the Elementalist, but at lower potency. What they lack in raw damage they compensate with perfect knowledge — tactical analysis, monster identification, and extraordinary learning speed.",
+      "aptitude_priorities": ["Cognition", "Materium Affinity", "Conviction"],
+      "aptitude_bonuses": { "cognition": 20, "materium_affinity": 10, "conviction": 5, "physiology": -10, "martial_experience": -10 },
+      "materium_access": true,
+      "materium_schools_available": ["Impact", "Earthen (basic)", "Purelight (basic)", "Darkvoid (basic)", "Any school with Erudition 50+"],
+      "materium_pool_start": 25,
+      "shadow_connection_start": 5,
+      "starting_skills": {
+        "fixed": ["arcane_theory", "monster_lore"],
+        "choice_count": 3,
+        "choices": ["materium_channeling", "lightwielding_skill", "alchemy", "herbalism", "lockpicking", "navigation", "perception"]
+      },
+      "default_weapon_affinity": "blunt_force",
+      "available_armor": ["light"],
+      "starting_wealth_range": [25, 60],
+      "starter_kit": ["Reference Tome (grants +5 to Arcane Theory starting value)", "Walking Staff", "Scholar's Robes", "Ink & Quill", "Rations x3"],
+      "special_class_trait": {
+        "name": "Rapid Learning",
+        "description": "All Erudition-connected skill levels gained in Cognition category are doubled. The Scholar levels theoretical knowledge at twice the standard rate."
+      },
+      "typical_races": ["ancients_greys", "midlander", "stone_folk"],
+      "lore": "The Scholar spent years studying what others only use. That gap — between theory and practice — is their home."
+    },
+    {
+      "id": "artisan",
+      "name": "Artisan",
+      "archetype": "Crafter / Support",
+      "description": "A practical maker and problem-solver. The Artisan may not be the most dangerous fighter or the most powerful mage, but they are often the most useful. A good Artisan keeps the team fed, armed, healed, and equipped.",
+      "aptitude_priorities": ["Cognition", "Physiology", "Presence"],
+      "aptitude_bonuses": { "cognition": 15, "physiology": 5, "presence": 5, "martial_experience": -5 },
+      "materium_access": false,
+      "materium_pool_start": 12,
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": ["potion_brewing", "weaponsmithing"],
+        "choice_count": 2,
+        "choices": ["armorsmithing", "alchemy", "herbalism", "animal_handling", "persuasion", "survival"]
+      },
+      "default_weapon_affinity": "blunt_force",
+      "available_armor": ["light", "medium"],
+      "starting_wealth_range": [35, 75],
+      "starter_kit": ["Crafting Toolkit", "Small Hammer and Chisel", "Leather Work Apron (light armor equivalent)", "Basic Potion Kit (3 basic healing potions)", "Rations x4"],
+      "special_class_trait": {
+        "name": "Master Maker",
+        "description": "All items crafted by an Artisan have 15% higher durability and one additional minor bonus (+2 to a stat) compared to the same item made by any other class."
+      },
+      "typical_races": ["stone_folk", "midlander", "swampbrood"],
+      "lore": "The Artisan believes that most problems are simply objects that haven't been made yet."
+    },
+    {
+      "id": "envoy",
+      "name": "Envoy",
+      "archetype": "Social Specialist / Diplomat",
+      "description": "A character built around social mastery, information gathering, and turning situations without violence. The Envoy's battlefield is the negotiating table. They can defuse fights, create alliances, and extract information that changes every calculation.",
+      "aptitude_priorities": ["Presence", "Cognition", "Conviction"],
+      "aptitude_bonuses": { "presence": 20, "cognition": 12, "conviction": 8, "physiology": -8, "martial_experience": -12 },
+      "materium_access": false,
+      "materium_pool_start": 15,
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": ["persuasion", "deception"],
+        "choice_count": 3,
+        "choices": ["leadership", "intimidation", "thievery", "lockpicking", "monster_lore", "navigation", "arcane_theory"]
+      },
+      "default_weapon_affinity": "small_arms",
+      "available_armor": ["light"],
+      "starting_wealth_range": [45, 90],
+      "starter_kit": ["Fine Clothes", "Concealed Dagger", "Seal of a Plausible Organization", "Letter of Introduction (culture-appropriate)", "Coin Purse (extra starting gold)"],
+      "special_class_trait": {
+        "name": "Read the Room",
+        "description": "At the start of any social encounter or battle, the Envoy automatically perceives the approximate Conviction level and primary motivation of all NPCs present (Perception roll not required)."
+      },
+      "typical_races": ["midlander", "step_folk", "ancients_greys"],
+      "lore": "The Envoy once ended a war in an afternoon. They do not talk about it."
+    }
+  ]
+}
