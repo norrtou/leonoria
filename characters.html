@@ -51,7 +51,7 @@
             gap: 1rem;
         }
         .cc-header a {
-            font-size: 0.88rem; font-style: italic;
+            font-size: 0.95rem; font-style: italic;
             color: var(--text-muted); text-decoration: none;
             transition: color 0.2s;
         }
@@ -62,7 +62,7 @@
             letter-spacing: 0.2em; color: var(--gold);
         }
         .hdr-btn {
-            font-family: inherit; font-size: 0.84rem;
+            font-family: inherit; font-size: 0.95rem;
             letter-spacing: 0.08em; padding: 0.35em 1.1em;
             border: 1px solid var(--green-dim); background: transparent;
             color: var(--text-muted); cursor: pointer;
@@ -80,11 +80,11 @@
             gap: 1rem;
         }
         .party-label {
-            font-size: 0.8rem; letter-spacing: 0.12em;
+            font-size: 0.9rem; letter-spacing: 0.12em;
             color: var(--text-muted); text-transform: uppercase;
         }
         .party-name-inp {
-            font-family: inherit; font-size: 0.88rem;
+            font-family: inherit; font-size: 0.95rem;
             background: var(--bg-input); border: 1px solid var(--green-dim);
             color: var(--text); padding: 0.32em 0.7em;
             width: 148px; letter-spacing: 0.04em;
@@ -111,7 +111,7 @@
             display: block;
         }
         .party-slot-name {
-            font-size: 0.72rem; color: var(--text-muted);
+            font-size: 0.82rem; color: var(--text-muted);
             letter-spacing: 0.03em; max-width: 52px;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             text-align: center;
@@ -120,7 +120,7 @@
 
         .party-size { display: flex; gap: 2px; }
         .sz-btn {
-            font-family: inherit; font-size: 0.84rem;
+            font-family: inherit; font-size: 0.95rem;
             padding: 0.25em 0.7em; border: 1px solid var(--green-dim);
             background: transparent; color: var(--text-muted); cursor: pointer;
             transition: border-color 0.15s, color 0.15s;
@@ -134,6 +134,12 @@
             display: grid;
             grid-template-columns: 240px 1fr 295px;
         }
+
+        /* ── Sheet-mode: hide side panels, center sheet fills full width ── */
+        .cc-main.sheet-mode { grid-template-columns: 1fr; }
+        .cc-main.sheet-mode .panel-left,
+        .cc-main.sheet-mode .panel-right { display: none; }
+        #view-sheet { max-width: 1200px; margin: 0 auto; }
 
         /* shared panel scroll */
         .panel-left, .panel-center, .panel-right {
@@ -197,7 +203,7 @@
         .nameplate-input::placeholder { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
 
         .identity-line {
-            text-align: center; font-size: 0.88rem;
+            text-align: center; font-size: 0.95rem;
             font-style: italic; color: var(--text-muted);
             letter-spacing: 0.06em; min-height: 1.2em;
         }
@@ -213,15 +219,15 @@
             text-align: center;
         }
         .dbox-val { font-size: 1.05rem; color: var(--gold); line-height: 1.2; }
-        .dbox-lbl { font-size: 0.76rem; color: var(--text-muted); letter-spacing: 0.08em; margin-top: 0.15rem; }
+        .dbox-lbl { font-size: 0.88rem; color: var(--text-muted); letter-spacing: 0.08em; margin-top: 0.15rem; }
 
         .saves-row {
             display: flex; gap: 0.3rem; flex-wrap: wrap;
             justify-content: center;
         }
         .save-pill {
-            font-size: 0.78rem; letter-spacing: 0.06em;
-            padding: 0.18em 0.55em;
+            font-size: 0.92rem; letter-spacing: 0.04em;
+            padding: 0.2em 0.65em;
             border: 1px solid var(--gold-dim);
             background: var(--gold-faint); color: var(--gold);
         }
@@ -229,7 +235,7 @@
         .left-actions { display: flex; flex-direction: column; gap: 0.4rem; }
 
         .rpg-btn {
-            font-family: inherit; font-size: 0.88rem;
+            font-family: inherit; font-size: 0.95rem;
             letter-spacing: 0.1em; padding: 0.55em 0;
             width: 100%; text-align: center;
             border: 1px solid var(--green);
@@ -242,23 +248,23 @@
         .rpg-btn.gold-btn { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.06); }
         .rpg-btn.gold-btn:hover { background: rgba(201,168,76,0.14); }
 
-        .saved-label { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+        .saved-label { font-size: 0.92rem; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
         .saved-list { display: flex; flex-direction: column; gap: 0.25rem; max-height: 180px; overflow-y: auto; }
         .saved-list::-webkit-scrollbar { width: 3px; }
         .saved-list::-webkit-scrollbar-thumb { background: var(--green-dim); }
         .saved-item {
             display: flex; align-items: center; gap: 0.4rem;
-            font-size: 0.84rem; padding: 0.35rem 0.5rem;
+            font-size: 0.93rem; padding: 0.35rem 0.5rem;
             border: 1px solid var(--green-dim); background: var(--bg-card);
             cursor: pointer; transition: border-color 0.15s;
         }
         .saved-item:hover { border-color: var(--green); }
         .saved-item-info { flex: 1; min-width: 0; }
         .saved-item-name { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .saved-item-sub { font-size: 0.76rem; color: var(--text-muted); font-style: italic; }
-        .del-btn { font-family: inherit; font-size: 0.78rem; background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.1em; }
+        .saved-item-sub { font-size: 0.88rem; color: var(--text-muted); font-style: italic; }
+        .del-btn { font-family: inherit; font-size: 0.9rem; background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.1em; }
         .del-btn:hover { color: #c04040; }
-        .empty-msg { font-size: 0.82rem; color: var(--text-muted); font-style: italic; }
+        .empty-msg { font-size: 0.92rem; color: var(--text-muted); font-style: italic; }
 
         /* ── Center panel ───────────────────────────────────────── */
         .panel-center {
@@ -274,7 +280,7 @@
             background: var(--bg-panel);
         }
         .cc-tab {
-            font-family: inherit; font-size: 0.88rem;
+            font-family: inherit; font-size: 0.95rem;
             letter-spacing: 0.1em; padding: 0.7em 1.2em;
             border: none; border-right: 1px solid var(--gold-dim);
             background: transparent; color: var(--text-muted);
@@ -295,7 +301,7 @@
         /* form rows */
         .form-block { margin-bottom: 1.4rem; }
         .form-block-title {
-            font-size: 0.84rem; letter-spacing: 0.14em;
+            font-size: 0.95rem; letter-spacing: 0.14em;
             color: var(--text-muted); text-transform: uppercase;
             border-bottom: 1px solid var(--green-dim);
             padding-bottom: 0.35rem; margin-bottom: 0.75rem;
@@ -307,15 +313,15 @@
         }
         .form-row:last-child { border-bottom: none; }
         .form-lbl {
-            font-size: 0.88rem; color: var(--text-muted);
+            font-size: 1rem; color: var(--text-muted);
             letter-spacing: 0.06em; min-width: 100px; flex-shrink: 0;
         }
         .form-ctrl { flex: 1; display: flex; align-items: center; gap: 0.5rem; }
 
         .rpg-select {
-            flex: 1; font-family: inherit; font-size: 0.82rem;
+            flex: 1; font-family: inherit; font-size: 1rem;
             background: var(--bg-input); color: var(--text);
-            border: 1px solid var(--green-dim); padding: 0.38em 2em 0.38em 0.6em;
+            border: 1px solid var(--green-dim); padding: 0.45em 2em 0.45em 0.7em;
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5'%3E%3Cpath d='M0 0l4.5 5L9 0z' fill='%238a7850'/%3E%3C/svg%3E");
             background-repeat: no-repeat; background-position: right 0.6em center;
@@ -324,8 +330,8 @@
         }
         .rpg-select:hover { border-color: var(--green); }
         .rpg-select:focus { outline: 1px solid var(--gold); }
-        .rpg-select option { background: #141a0a; }
-        .rpg-select optgroup { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+        .rpg-select option { background: #141a0a; font-size: 1rem; }
+        .rpg-select optgroup { color: var(--text-muted); font-style: italic; font-size: 1rem; }
 
         .src-badge {
             font-size: 0.76rem; letter-spacing: 0.06em;
@@ -346,7 +352,11 @@
             background: var(--gold); border-radius: 50%;
             border: 2px solid var(--bg); cursor: pointer;
         }
-        .form-hint { font-size: 0.82rem; color: var(--text-muted); font-style: italic; }
+        .form-hint { font-size: 0.92rem; color: var(--text-muted); font-style: italic; }
+        .class-filter-hint { display: block; margin-top: 0.35rem; }
+        .class-filter-toggle { font-style: normal; margin-left: 0.4rem; cursor: pointer; }
+        .class-filter-toggle input { cursor: pointer; margin-right: 0.25rem; }
+        option.unusual { color: #6a5e38; }
 
         /* birth mother sign select */
         #sel-birth-sign { width: 100%; }
@@ -356,7 +366,7 @@
             display: flex; gap: 2px; margin-bottom: 0.9rem;
         }
         .mth-btn {
-            font-family: inherit; font-size: 0.86rem;
+            font-family: inherit; font-size: 0.95rem;
             letter-spacing: 0.08em; padding: 0.4em 1em;
             border: 1px solid var(--green-dim);
             background: transparent; color: var(--text-muted);
@@ -374,15 +384,15 @@
             border-bottom: 1px solid rgba(78,110,50,0.1);
         }
         .ab-abbr {
-            font-size: 0.82rem; letter-spacing: 0.1em;
+            font-size: 0.92rem; letter-spacing: 0.1em;
             color: var(--text-muted); min-width: 38px; text-align: center;
         }
-        .ab-name { font-size: 0.9rem; color: var(--text-muted); flex: 1; font-style: italic; }
+        .ab-name { font-size: 0.95rem; color: var(--text-muted); flex: 1; font-style: italic; }
         .ab-score {
             font-size: 1.15rem; color: var(--gold);
             min-width: 2.2rem; text-align: center;
         }
-        .ab-mod { font-size: 0.78rem; color: var(--text); min-width: 2.4rem; text-align: center; }
+        .ab-mod { font-size: 0.88rem; color: var(--text); min-width: 2.4rem; text-align: center; }
 
         .ab-pb-ctrl { display: flex; align-items: center; gap: 4px; }
         .pb-adj {
@@ -393,21 +403,21 @@
             transition: border-color 0.15s; line-height: 1;
         }
         .pb-adj:hover { border-color: var(--green); color: var(--text); }
-        .pb-pts { font-size: 0.86rem; color: var(--text-muted); margin-top: 0.4rem; }
+        .pb-pts { font-size: 0.95rem; color: var(--text-muted); margin-top: 0.4rem; }
         .pb-pts span { color: var(--gold); }
 
         .roll-btn {
-            font-family: inherit; font-size: 0.88rem;
+            font-family: inherit; font-size: 0.95rem;
             letter-spacing: 0.08em; padding: 0.4em 1.2em;
             border: 1px solid var(--green); background: var(--bg-card);
             color: var(--text); cursor: pointer; margin-bottom: 0.6rem;
             transition: border-color 0.15s;
         }
         .roll-btn:hover { border-color: var(--gold); }
-        .roll-hint { font-size: 0.84rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.5rem; }
+        .roll-hint { font-size: 0.93rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.5rem; }
 
         .ab-roll-sel {
-            font-family: inherit; font-size: 0.82rem;
+            font-family: inherit; font-size: 0.95rem;
             background: var(--bg-input); color: var(--text);
             border: 1px solid var(--green-dim); padding: 0.3em 1.6em 0.3em 0.5em;
             appearance: none;
@@ -417,14 +427,14 @@
         }
 
         /* skills tab */
-        .skill-info { font-size: 0.9rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.75rem; line-height: 1.5; }
+        .skill-info { font-size: 0.95rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.75rem; line-height: 1.5; }
         .skills-grid {
             display: grid; grid-template-columns: 1fr 1fr;
             gap: 0.3rem;
         }
         .sk-category-header {
             grid-column: 1 / -1;
-            font-size: 0.82rem; letter-spacing: 0.12em;
+            font-size: 0.92rem; letter-spacing: 0.12em;
             color: var(--gold); text-transform: uppercase;
             border-bottom: 1px solid var(--gold-dim);
             padding: 0.6rem 0 0.25rem; margin-top: 0.5rem;
@@ -434,7 +444,7 @@
             padding: 0.42rem 0.6rem;
             border: 1px solid var(--green-dim);
             background: var(--bg-card); cursor: pointer;
-            font-size: 0.92rem; transition: border-color 0.15s, background 0.15s;
+            font-size: 0.96rem; transition: border-color 0.15s, background 0.15s;
             user-select: none;
         }
         .skill-row:hover { border-color: var(--green); }
@@ -442,8 +452,8 @@
         .sk-check { width: 13px; height: 13px; border: 1px solid var(--gold-dim); flex-shrink: 0; }
         .sk-on .sk-check { background: var(--gold); }
         .sk-name { flex: 1; color: var(--text); }
-        .sk-ab { font-size: 0.8rem; color: var(--text-muted); }
-        .sk-tag { font-size: 0.74rem; padding: 0.12em 0.4em; }
+        .sk-ab { font-size: 0.9rem; color: var(--text-muted); }
+        .sk-tag { font-size: 0.84rem; padding: 0.12em 0.4em; }
         .sk-tag.core     { background: var(--core-bg); color: var(--core-txt); }
         .sk-tag.expanded { background: var(--exp-bg);  color: var(--exp-txt); }
 
@@ -452,122 +462,268 @@
         .equip-opt {
             flex: 1; padding: 0.7em 0.8em;
             border: 1px solid var(--green-dim); background: var(--bg-card);
-            cursor: pointer; text-align: center; font-size: 0.8rem;
+            cursor: pointer; text-align: center; font-size: 0.93rem;
             transition: border-color 0.15s, background 0.15s;
         }
         .equip-opt:hover { border-color: var(--green); }
         .equip-opt.sel { border-color: var(--gold); background: var(--gold-faint); color: var(--gold); }
-        .equip-opt small { display: block; font-size: 0.8rem; color: var(--text-muted); font-style: italic; margin-top: 0.2rem; }
+        .equip-opt small { display: block; font-size: 0.88rem; color: var(--text-muted); font-style: italic; margin-top: 0.2rem; }
 
-        /* ── View sheet (read-only) ──────────────────────────────── */
-        #view-sheet { display: none; }
+        /* ── Abilities tab ──────────────────────────────────────── */
+        .abl-section { margin-bottom: 1.4rem; }
+        .abl-section-title {
+            font-size: 0.9rem; letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--gold); border-bottom: 1px solid var(--green-dim);
+            padding-bottom: 0.3rem; margin-bottom: 0.6rem;
+        }
+        .abl-school-title {
+            font-size: 0.88rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--text-muted); margin: 0.7rem 0 0.3rem;
+        }
+        .abl-card {
+            display: flex; align-items: baseline; gap: 0.5rem;
+            padding: 0.3rem 0.4rem; margin-bottom: 0.2rem;
+            border-left: 2px solid var(--green-dim);
+            font-size: 0.9rem; background: var(--bg-card);
+        }
+        .abl-card:hover { border-left-color: var(--gold); }
+        .abl-name { color: var(--text); font-weight: 600; min-width: 8rem; }
+        .abl-cost {
+            font-size: 0.82rem; color: var(--text-muted);
+            background: rgba(0,0,0,0.3); padding: 0.1em 0.35em;
+            white-space: nowrap;
+        }
+        .abl-cost.materium { border-left: 2px solid #8fa; }
+        .abl-cost.stamina  { border-left: 2px solid #fa8; }
+        .abl-cost.shadow   { border-left: 2px solid #a8f; }
+        .abl-dmg { font-size: 0.84rem; color: var(--text-muted); white-space: nowrap; }
+        .abl-effect { font-size: 0.86rem; color: var(--text-dim); flex: 1; font-style: italic; }
+        .abl-base-badge {
+            display: inline-block; font-size: 0.82rem; letter-spacing: 0.08em;
+            color: var(--gold); border: 1px solid var(--gold);
+            padding: 0.05em 0.4em; margin-bottom: 0.5rem; text-transform: uppercase;
+        }
+        .abl-subset-title {
+            font-size: 0.82rem; color: #8fa; letter-spacing: 0.08em;
+            text-transform: uppercase; margin: 0.5rem 0 0.2rem; padding-left: 0.2rem;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           VIEW SHEET — RPG Character Sheet
+           ══════════════════════════════════════════════════════════ */
+        #view-sheet { display: none; padding: 0 0 2rem; }
         #view-sheet.active { display: block; }
 
+        /* ── Header strip ── */
+        .sheet-header {
+            display: flex; align-items: center;
+            padding: 0.55rem 1rem;
+            border-bottom: 1px solid var(--gold-dim);
+            background: rgba(10,12,6,0.85);
+            margin-bottom: 0;
+        }
+        .sheet-back-btn {
+            font-family: inherit; font-size: 0.9rem;
+            background: none; border: none; color: var(--text-muted);
+            cursor: pointer; letter-spacing: 0.06em;
+            transition: color 0.15s;
+        }
+        .sheet-back-btn:hover { color: var(--gold); }
+        .sheet-header-title {
+            flex: 1; text-align: center;
+            font-size: 0.85rem; letter-spacing: 0.22em;
+            text-transform: uppercase; color: var(--text-muted);
+        }
+
+        /* ── Name banner ── */
+        .vs-banner {
+            text-align: center;
+            padding: 1rem 1rem 0.6rem;
+            border-bottom: 2px solid var(--gold-dim);
+            background: linear-gradient(180deg, rgba(201,168,76,0.06) 0%, transparent 100%);
+        }
         .vs-name {
-            font-size: 1.5rem; color: var(--gold);
-            letter-spacing: 0.12em; text-align: center;
-            margin-bottom: 0.3rem;
+            font-size: 2.4rem; color: var(--gold);
+            letter-spacing: 0.18em; font-style: italic;
+            text-shadow: 0 2px 18px rgba(201,168,76,0.22);
+            line-height: 1.1;
         }
         .vs-sub {
-            text-align: center; font-size: 0.9rem;
-            color: var(--text-muted); font-style: italic; margin-bottom: 1rem;
+            font-size: 1.05rem; color: var(--text-muted);
+            font-style: italic; margin-top: 0.25rem; letter-spacing: 0.05em;
         }
-        .vs-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
-            margin: 0.8rem 0 1rem;
-        }
-        .vs-layout {
+
+        /* ── Three-column body ── */
+        .vs-body {
             display: grid;
-            grid-template-columns: minmax(0, 1.7fr) minmax(240px, 0.95fr);
-            gap: 1rem;
+            grid-template-columns: 220px 1fr 1fr;
+            gap: 0;
             align-items: start;
+            border-bottom: 1px solid var(--gold-dim);
         }
-        .vs-main-col, .vs-side-col {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+
+        /* ── Portrait column ── */
+        .vs-portrait-col {
+            border-right: 1px solid var(--gold-dim);
+            display: flex; flex-direction: column;
         }
-        .vs-panel {
-            background: linear-gradient(180deg, rgba(28,26,14,0.96), rgba(19,22,8,0.96));
-            border: 1px solid var(--green-dim);
-            box-shadow: inset 0 0 0 1px rgba(201,168,76,0.06);
-            padding: 0.85rem 0.95rem;
-        }
-        .vs-section { margin-bottom: 0; }
-        .vs-section-title {
-            font-size: 0.82rem; letter-spacing: 0.14em;
-            color: var(--text-muted); text-transform: uppercase;
-            border-bottom: 1px solid var(--green-dim);
-            padding-bottom: 0.25rem; margin-bottom: 0.5rem;
-        }
-        .vs-row { display: flex; gap: 0.5rem; padding: 0.2rem 0; font-size: 0.9rem; }
-        .vs-lbl { color: var(--text-muted); min-width: 120px; }
-        .vs-val { color: var(--text-bright); }
-        .vs-ab-grid {
-            display: grid; grid-template-columns: repeat(6, 1fr);
-            gap: 0.4rem; margin-top: 0.4rem;
-        }
-        .vs-ab-cell {
-            background: rgba(12, 16, 8, 0.78); border: 1px solid var(--green-dim);
-            text-align: center; padding: 0.45rem 0.2rem;
-        }
-        .vs-ab-abbr { font-size: 0.78rem; color: var(--text-muted); display: block; }
-        .vs-ab-score { font-size: 1.1rem; color: var(--gold); }
-        .vs-ab-mod { font-size: 0.7rem; color: var(--text); display: block; margin-top: 0.1rem; }
-        .vs-skills { font-size: 0.9rem; color: var(--text); line-height: 1.7; }
-        .vs-portrait-card { padding: 0.7rem; }
         .vs-portrait-frame {
-            width: 100%;
-            aspect-ratio: 424 / 640;
-            min-height: 320px;
-            border: 1px solid var(--gold-dim);
-            background: radial-gradient(circle at top, rgba(78,110,50,0.14), rgba(12,16,8,0.98));
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 100%; aspect-ratio: 3/4;
             overflow: hidden;
+            background: radial-gradient(circle at top, rgba(78,110,50,0.14), rgba(12,16,8,0.98));
         }
         .vs-portrait-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            object-position: center top;
-            display: block;
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: center top; display: block;
         }
-        .vs-quick-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.55rem;
+        .vs-vitals-block {
+            padding: 0.9rem 0.8rem; display: flex; flex-direction: column; gap: 0.55rem;
         }
-        .vs-quick-box {
-            display: flex;
-            flex-direction: column;
-            gap: 0.22rem;
-            min-height: 74px;
-            padding: 0.55rem 0.6rem;
-            border: 1px solid rgba(201,168,76,0.14);
-            background: rgba(12,16,8,0.68);
+        .vs-vital-row {
+            display: flex; align-items: baseline;
+            gap: 0.7rem;
+            border-bottom: 1px solid rgba(78,110,50,0.2);
+            padding-bottom: 0.35rem;
         }
-        .vs-quick-lbl {
-            font-size: 0.72rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-muted);
+        .vs-vital-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .vs-vital-lbl {
+            font-size: 0.82rem; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--text-muted);
+            min-width: 105px; flex-shrink: 0;
         }
-        .vs-quick-val {
-            color: var(--gold);
-            font-size: 1rem;
-            line-height: 1.3;
+        .vs-vital-val {
+            font-size: 1.2rem; color: var(--gold);
         }
-        .vs-quick-small {
-            font-size: 0.82rem;
-            color: var(--text-bright);
+        .vs-vital-val.big { font-size: 1.6rem; color: #c84040; }
+        .vs-vital-val.mp  { color: #5fbcff; }
+        .vs-vital-val.sc  { color: #a07cff; }
+        .vs-vital-val.st  { color: #e0a040; }
+        .vs-id-row[data-tooltip]:hover .vs-id-val { color: var(--gold); text-decoration: underline dotted; }
+        .vs-focus-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; cursor: help; }
+        .vs-focus-val { font-size: 0.9rem !important; color: var(--text) !important; line-height: 1.7; white-space: pre-line; }
+
+        /* ── Center column ── */
+        .vs-center-col {
+            border-right: 1px solid var(--gold-dim);
+            padding: 1rem 1.1rem;
+            display: flex; flex-direction: column; gap: 1.2rem;
         }
-        @media (max-width: 900px) {
-            .vs-layout { grid-template-columns: 1fr; }
-            .vs-side-col { order: -1; }
-            .vs-portrait-frame { min-height: 280px; }
+
+        /* ── Right column ── */
+        .vs-right-col {
+            padding: 1rem 1.1rem;
+            display: flex; flex-direction: column; gap: 1.2rem;
+        }
+
+        /* ── Section heading ── */
+        .vs-heading {
+            font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--gold); border-bottom: 1px solid var(--gold-dim);
+            padding-bottom: 0.3rem; margin-bottom: 0.75rem;
+        }
+
+        /* ── Identity rows ── */
+        .vs-id-row {
+            display: flex; gap: 0.6rem;
+            font-size: 1rem; line-height: 1.8;
+        }
+        .vs-id-lbl { color: var(--text-muted); min-width: 105px; flex-shrink: 0; }
+        .vs-id-val { color: var(--text-bright); }
+
+        /* ── Aptitude grid ── */
+        .vs-apt-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        .vs-apt-cell {
+            border: 1px solid var(--green-dim);
+            background: rgba(12,16,8,0.7);
+            padding: 0.55rem 0.7rem;
+        }
+        .vs-apt-abbr {
+            display: block; font-size: 0.76rem;
+            letter-spacing: 0.02em;
+            color: var(--text-muted); margin-bottom: 0.1rem;
+        }
+        .vs-apt-score {
+            display: block; font-size: 1.45rem; color: var(--gold); line-height: 1.1;
+        }
+        .vs-apt-tier {
+            display: block; font-size: 0.72rem;
+            color: var(--text-muted); margin-top: 0.1rem; font-style: italic;
+        }
+
+        /* ── Class trait block ── */
+        .vs-trait-name {
+            font-size: 1.1rem; color: var(--gold);
+            margin-bottom: 0.4rem; font-style: italic;
+        }
+        .vs-trait-desc {
+            font-size: 0.92rem; color: var(--text);
+            line-height: 1.6; font-style: italic;
+        }
+
+        /* ── Skills ── */
+        .vs-skills {
+            font-size: 0.96rem; color: var(--text);
+            line-height: 1.85;
+        }
+        .vs-skill-item {
+            display: inline-block;
+            background: rgba(78,110,50,0.12);
+            border: 1px solid rgba(78,110,50,0.25);
+            padding: 0.15em 0.55em; margin: 0.18em;
+            font-size: 0.9rem; color: var(--text-bright);
+        }
+
+        /* ── Equipment ── */
+        .vs-equip-val {
+            font-size: 1rem; color: var(--text-bright); line-height: 1.6;
+        }
+        .vs-starter-kit {
+            margin-top: 0.5rem; font-size: 0.92rem;
+            color: var(--text-muted); line-height: 1.7; font-style: italic;
+        }
+
+        /* ── Abilities section (full width) ── */
+        .vs-abilities-section {
+            padding: 1.1rem 1.2rem;
+        }
+        /* ── Abilities — compact chip layout ── */
+        .vs-abl-columns {
+            display: flex; flex-wrap: wrap;
+            gap: 1.2rem 2rem; align-items: flex-start;
+            padding: 0.2rem 0;
+        }
+        .vs-abl-group { min-width: 180px; }
+        .vs-abl-group-title {
+            font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--text-muted); margin-bottom: 0.45rem;
+            border-bottom: 1px solid var(--green-dim); padding-bottom: 0.2rem;
+        }
+        .vs-abl-subset-label {
+            display: block; font-size: 0.7rem; letter-spacing: 0.07em;
+            text-transform: uppercase; color: #7acc90;
+            margin: 0.4rem 0 0.2rem;
+        }
+        .vs-abl-chips { display: flex; flex-wrap: wrap; gap: 0.28rem; }
+        .vs-abl-chip {
+            display: inline-flex; align-items: center; gap: 0.28em;
+            padding: 0.2em 0.55em;
+            background: var(--bg-card);
+            border: 1px solid var(--green-dim);
+            font-size: 0.88rem; color: var(--text);
+            cursor: help; white-space: nowrap;
+            transition: border-color 0.12s, color 0.12s;
+        }
+        .vs-abl-chip:hover { border-color: var(--gold); color: var(--text-bright); }
+        .vs-abl-icon { font-size: 0.82em; }
+        .vs-abl-dot  { font-size: 0.6em; line-height: 1; }
+
+        @media (max-width: 820px) {
+            .vs-body { grid-template-columns: 1fr; }
+            .vs-portrait-col { border-right: none; border-bottom: 1px solid var(--gold-dim); }
+            .vs-center-col { border-right: none; }
         }
 
         .view-new-btn {
@@ -780,7 +936,7 @@
 </div>
 
 <!-- ── Main ────────────────────────────────────────────────────────── -->
-<div class="cc-main">
+<div class="cc-main" id="cc-main">
 
     <!-- Left: portrait + stats + actions -->
     <div class="panel-left">
@@ -827,68 +983,106 @@
             <button class="cc-tab" data-tab="attributes">Attributes</button>
             <button class="cc-tab" data-tab="skills">Skills</button>
             <button class="cc-tab" data-tab="equipment">Equipment</button>
+            <button class="cc-tab" data-tab="abilities">Abilities</button>
         </nav>
 
         <div class="tab-area">
 
             <!-- VIEW SHEET (read-only) -->
             <div id="view-sheet">
+
                 <div class="sheet-header">
                     <button class="sheet-back-btn" id="btn-vs-back">&#8592; Back</button>
                     <span class="sheet-header-title">Character Sheet</span>
                     <span style="min-width:4rem;"></span>
                 </div>
-                <div class="vs-name" id="vs-name">—</div>
-                <div class="vs-sub" id="vs-sub">—</div>
-                <div class="vs-divider"></div>
 
-                <div class="vs-layout">
-                    <div class="vs-main-col">
-                        <div class="vs-panel vs-section">
-                            <div class="vs-section-title">Identity</div>
-                            <div class="vs-row"><span class="vs-lbl">Race</span><span class="vs-val" id="vs-race">—</span></div>
-                            <div class="vs-row"><span class="vs-lbl">Subrace</span><span class="vs-val" id="vs-subrace">—</span></div>
-                            <div class="vs-row"><span class="vs-lbl">Gender</span><span class="vs-val" id="vs-gender">—</span></div>
-                            <div class="vs-row"><span class="vs-lbl">Class</span><span class="vs-val" id="vs-class">—</span></div>
-                            <div class="vs-row"><span class="vs-lbl">Subclass</span><span class="vs-val" id="vs-subclass">—</span></div>
-                            <div class="vs-row"><span class="vs-lbl">Background</span><span class="vs-val" id="vs-background">—</span></div>
-                            <div class="vs-row"><span class="vs-lbl">Birth Mother Sign</span><span class="vs-val" id="vs-alignment">—</span></div>
-                            <div class="vs-row"><span class="vs-lbl">Level</span><span class="vs-val" id="vs-level">—</span></div>
+                <!-- Name banner -->
+                <div class="vs-banner">
+                    <div class="vs-name" id="vs-name">—</div>
+                    <div class="vs-sub" id="vs-sub">—</div>
+                </div>
+
+                <!-- Three-column body -->
+                <div class="vs-body">
+
+                    <!-- LEFT: Portrait + combat vitals -->
+                    <div class="vs-portrait-col">
+                        <div class="vs-portrait-frame">
+                            <img id="vs-portrait-img" src="assets/images/characterportraits/ashenfemale.jpg" alt="Character portrait">
                         </div>
-
-                        <div class="vs-panel vs-section">
-                            <div class="vs-section-title">Aptitudes</div>
-                            <div class="vs-ab-grid" id="vs-ab-grid"></div>
-                        </div>
-
-                        <div class="vs-panel vs-section">
-                            <div class="vs-section-title">Skills</div>
-                            <div class="vs-skills" id="vs-skills">—</div>
-                        </div>
-
-                        <div class="vs-panel vs-section">
-                            <div class="vs-section-title">Equipment</div>
-                            <div class="vs-row"><span class="vs-lbl">Method</span><span class="vs-val" id="vs-equip">—</span></div>
+                        <div class="vs-vitals-block">
+                            <div class="vs-vital-row">
+                                <span class="vs-vital-lbl">Vitality</span>
+                                <span class="vs-vital-val big" id="vs-vitality">—</span>
+                            </div>
+                            <div class="vs-vital-row">
+                                <span class="vs-vital-lbl">Materium</span>
+                                <span class="vs-vital-val mp" id="vs-mpool">—</span>
+                            </div>
+                            <div class="vs-vital-row">
+                                <span class="vs-vital-lbl">Shadow</span>
+                                <span class="vs-vital-val sc" id="vs-shadow">—</span>
+                            </div>
+                            <div class="vs-vital-row">
+                                <span class="vs-vital-lbl">Stamina</span>
+                                <span class="vs-vital-val st" id="vs-stamina">—</span>
+                            </div>
+                            <div class="vs-vital-row vs-focus-row">
+                                <span class="vs-vital-lbl">Class Priorities</span>
+                                <span class="vs-vital-val vs-focus-val" id="vs-focus">—</span>
+                            </div>
                         </div>
                     </div>
 
-                    <aside class="vs-side-col">
-                        <div class="vs-panel vs-portrait-card">
-                            <div class="vs-portrait-frame">
-                                <img id="vs-portrait-img" src="assets/images/characterportraits/ashenfemale.jpg" alt="Character portrait">
-                            </div>
+                    <!-- CENTER: Identity + Aptitudes + Class Trait -->
+                    <div class="vs-center-col">
+
+                        <div>
+                            <div class="vs-heading">Identity</div>
+                            <div class="vs-id-row"><span class="vs-id-lbl">Race</span><span class="vs-id-val" id="vs-race">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl">Gender</span><span class="vs-id-val" id="vs-gender">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl">Class</span><span class="vs-id-val" id="vs-class">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl">Background</span><span class="vs-id-val" id="vs-background">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl">Birth Sign</span><span class="vs-id-val" id="vs-alignment">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl">Level</span><span class="vs-id-val" id="vs-level">—</span></div>
                         </div>
 
-                        <div class="vs-panel">
-                            <div class="vs-section-title">Field Notes</div>
-                            <div class="vs-quick-grid">
-                                <div class="vs-quick-box"><span class="vs-quick-lbl">Vitality</span><span class="vs-quick-val" id="vs-vitality">—</span></div>
-                                <div class="vs-quick-box"><span class="vs-quick-lbl">Materium</span><span class="vs-quick-val" id="vs-mpool">—</span></div>
-                                <div class="vs-quick-box"><span class="vs-quick-lbl">Focus</span><span class="vs-quick-val vs-quick-small" id="vs-focus">—</span></div>
-                                <div class="vs-quick-box"><span class="vs-quick-lbl">Class Trait</span><span class="vs-quick-val vs-quick-small" id="vs-trait">—</span></div>
-                            </div>
+                        <div>
+                            <div class="vs-heading">Aptitudes</div>
+                            <div class="vs-apt-grid" id="vs-ab-grid"></div>
                         </div>
-                    </aside>
+
+                        <div id="vs-trait-panel">
+                            <div class="vs-heading">Class Trait</div>
+                            <div class="vs-trait-name" id="vs-trait">—</div>
+                            <div class="vs-trait-desc" id="vs-trait-desc">—</div>
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT: Skills + Equipment -->
+                    <div class="vs-right-col">
+
+                        <div>
+                            <div class="vs-heading">Skills</div>
+                            <div id="vs-skills">—</div>
+                        </div>
+
+                        <div>
+                            <div class="vs-heading">Equipment</div>
+                            <div class="vs-equip-val" id="vs-equip">—</div>
+                            <div class="vs-starter-kit" id="vs-starter-kit"></div>
+                        </div>
+
+                    </div>
+
+                </div><!-- /.vs-body -->
+
+                <!-- Abilities & Spells — full width -->
+                <div class="vs-abilities-section">
+                    <div class="vs-heading">Abilities &amp; Spells</div>
+                    <div id="vs-abilities-content"></div>
                 </div>
 
                 <button class="view-new-btn" id="btn-view-new">✦ Create New Character</button>
@@ -918,14 +1112,6 @@
                             <span id="race-badge" class="src-badge"></span>
                         </div>
                     </div>
-                    <div class="form-row" id="row-subrace" style="display:none">
-                        <span class="form-lbl">Subrace</span>
-                        <div class="form-ctrl">
-                            <select id="sel-subrace" class="rpg-select">
-                                <option value="">— Choose Subrace —</option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="form-row">
                         <span class="form-lbl">Gender</span>
                         <div class="form-ctrl">
@@ -949,14 +1135,10 @@
                                 <option value="">— Choose Class —</option>
                             </select>
                             <span id="class-badge" class="src-badge"></span>
-                        </div>
-                    </div>
-                    <div class="form-row" id="row-subclass" style="display:none">
-                        <span class="form-lbl">Subclass</span>
-                        <div class="form-ctrl">
-                            <select id="sel-subclass" class="rpg-select">
-                                <option value="">— Choose Subclass —</option>
-                            </select>
+                            <label id="class-filter-hint" class="form-hint class-filter-hint" style="display:none">
+                                Showing classes typical for <strong id="race-filter-name"></strong>.
+                                <label class="class-filter-toggle"><input type="checkbox" id="chk-all-classes"> Show all classes</label>
+                            </label>
                         </div>
                     </div>
                     <div class="form-row">
@@ -1033,6 +1215,13 @@
                     </div>
                 </div>
                 <p class="form-hint" id="gold-hint"></p>
+            </div>
+
+            <!-- ABILITIES TAB -->
+            <div class="tab-panel" id="tab-abilities">
+                <div id="abilities-content">
+                    <p class="skill-info">Select a class to see available abilities.</p>
+                </div>
             </div>
 
         </div><!-- /.tab-area -->

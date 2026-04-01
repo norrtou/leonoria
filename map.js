@@ -1745,8 +1745,9 @@ class FantasyMap {
         }
 
         // Standalone basin lakes — scan for flat low inland depressions not near
-        // any existing lake, river cell, or coast.  Adds 4–8 extra lakes per map.
-        const targetExtra = this.ri(4, 8);
+        // any existing lake, river cell, or coast.  Adds 4–8 extra lakes per map
+        // (1–2 for arid biomes like the_badlands).
+        const targetExtra = this.biomeId === 'the_badlands' ? this.ri(1, 2) : this.ri(4, 8);
         const stepR = Math.max(3, Math.floor(hm.rows / 14));
         const stepC = Math.max(3, Math.floor(hm.cols / 14));
         const basinCandidates = [];

@@ -459,7 +459,7 @@
             }
           ],
           "alignment_tendency": "Neutral",
-          "typical_classes": ["Ravager", "Wayfarer", "Lifewhisperer"],
+          "typical_classes": ["Reaver", "Wayfarer", "Lifewhisperer"],
           "typical_backgrounds": ["Hunter", "Hermit"],
           "openness_range": [0, 3],
           "naming_rules": {
@@ -516,7 +516,7 @@
             }
           ],
           "alignment_tendency": "Dark / Evil",
-          "typical_classes": ["Ravager", "Ironguard", "Bloodsinger"],
+          "typical_classes": ["Reaver", "Ironguard", "Bloodsinger"],
           "typical_backgrounds": ["Soldier", "Dishonored Soldier", "Criminal"],
           "openness_range": [0, 2],
           "naming_rules": {

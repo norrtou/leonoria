@@ -1,0 +1,766 @@
+{
+  "system": "Leonoria Attacks & Spells",
+  "description": "All combat abilities: base attacks for martial classes, lightwielding spells, materium spells, shadow arts spells, and martial ability sets. Spell cost is Materium unless noted. Martial ability cost is Stamina.",
+
+  "base_attacks": [
+    {
+      "id": "shield_bash",
+      "name": "Shield Bash",
+      "class_ids": ["ironguard"],
+      "cost": 4,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 14,
+      "effect": "Minor stagger — reduces target's next attack accuracy by 5%",
+      "role": "base_attack",
+      "note": "Fallback when special abilities unavailable. Requires shield equipped."
+    },
+    {
+      "id": "quick_slash",
+      "name": "Quick Slash",
+      "class_ids": ["battlebrave"],
+      "cost": 3,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 12,
+      "effect": "Counts as a consecutive hit for Momentum tracking",
+      "role": "base_attack"
+    },
+    {
+      "id": "wild_swing",
+      "name": "Wild Swing",
+      "class_ids": ["reaver"],
+      "cost": 3,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 15,
+      "effect": "-5% accuracy on self (reckless), +1 shadow_connection",
+      "role": "base_attack"
+    },
+    {
+      "id": "spear_jab",
+      "name": "Spear Jab",
+      "class_ids": ["vanguard"],
+      "cost": 4,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 12,
+      "effect": "Minor push — displaces target 1 hex",
+      "role": "base_attack"
+    },
+    {
+      "id": "basic_thrust",
+      "name": "Basic Thrust",
+      "class_ids": ["duelist"],
+      "cost": 3,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 11,
+      "effect": "+10% accuracy — precision strike, easy to land",
+      "role": "base_attack"
+    },
+    {
+      "id": "commanders_strike",
+      "name": "Commander's Strike",
+      "class_ids": ["warmaster"],
+      "cost": 4,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 12,
+      "effect": "One adjacent ally gains +5% damage on their next attack this turn",
+      "role": "base_attack"
+    },
+    {
+      "id": "quick_arrow",
+      "name": "Quick Arrow",
+      "class_ids": ["wayfarer"],
+      "cost": 3,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 10,
+      "effect": "No special effect — standard ranged strike",
+      "role": "base_attack"
+    },
+    {
+      "id": "aimed_shot",
+      "name": "Aimed Shot",
+      "class_ids": ["marksman"],
+      "cost": 4,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 13,
+      "effect": "+10% accuracy — the Marksman rarely misses",
+      "role": "base_attack"
+    },
+    {
+      "id": "hunting_strike",
+      "name": "Hunting Strike",
+      "class_ids": ["beastwarden"],
+      "cost": 3,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 10,
+      "effect": "Bonded companion attacks the same target for 6 bonus Physical damage",
+      "role": "base_attack"
+    },
+    {
+      "id": "swift_shot",
+      "name": "Swift Shot",
+      "class_ids": ["skirmisher"],
+      "cost": 3,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 10,
+      "effect": "Can be used immediately before or after movement without penalty",
+      "role": "base_attack"
+    },
+    {
+      "id": "shadow_jab",
+      "name": "Shadow Jab",
+      "class_ids": ["shadowblade"],
+      "cost": 3,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 11,
+      "effect": "Deals +2 Shadow bonus damage if attacking from a shadow tile",
+      "role": "base_attack"
+    },
+    {
+      "id": "quick_stab",
+      "name": "Quick Stab",
+      "class_ids": ["assassin"],
+      "cost": 3,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 12,
+      "effect": "No special effect — rapid, untracked strike",
+      "role": "base_attack"
+    },
+    {
+      "id": "cheap_shot",
+      "name": "Cheap Shot",
+      "class_ids": ["thief"],
+      "cost": 3,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 10,
+      "effect": "10% chance to interrupt the target's next action",
+      "role": "base_attack"
+    },
+    {
+      "id": "knife_strike",
+      "name": "Knife Strike",
+      "class_ids": ["saboteur"],
+      "cost": 3,
+      "cost_type": "stamina",
+      "damage_type": "Physical",
+      "amount": 10,
+      "effect": "No special effect — used only when no trap or explosive is available",
+      "role": "base_attack"
+    }
+  ],
+
+  "spell_schools": [
+
+    {
+      "id": "luminance",
+      "name": "Luminance",
+      "flavor": "Light Manipulation",
+      "magic_type": "lightwielding",
+      "spells": [
+        { "id": "glimmer_spark",    "name": "Glimmer Spark",    "level": 1, "cost": 5,  "damage_type": "Radiant", "amount": 12, "effect": "Minor blind — 10% accuracy reduction (1 turn)" },
+        { "id": "lumen_burst",      "name": "Lumen Burst",      "level": 2, "cost": 10, "damage_type": "Radiant", "amount": 22, "effect": "25% chance to blind target (1 turn)" },
+        { "id": "blinding_flare",   "name": "Blinding Flare",   "level": 3, "cost": 15, "damage_type": "Radiant", "amount": 30, "effect": "Blind (100%, 1 turn); reveals stealthed targets" },
+        { "id": "solar_lance",      "name": "Solar Lance",      "level": 4, "cost": 22, "damage_type": "Radiant", "amount": 45, "effect": "Ignores 25% of target armor" },
+        { "id": "judgement_beam",   "name": "Judgement Beam",   "level": 5, "cost": 30, "damage_type": "Radiant", "amount": 65, "effect": "Double damage vs Shadow-aligned targets" }
+      ]
+    },
+
+    {
+      "id": "sanctification",
+      "name": "Sanctification",
+      "flavor": "Warding & Purification",
+      "magic_type": "lightwielding",
+      "spells": [
+        { "id": "cleanse",           "name": "Cleanse",           "level": 1, "cost": 6,  "damage_type": null, "amount": 0,  "effect": "Removes 1 negative status from target" },
+        { "id": "purifying_touch",   "name": "Purifying Touch",   "level": 2, "cost": 12, "damage_type": "Radiant", "amount": 10, "effect": "Removes all minor debuffs from target" },
+        { "id": "sanctified_ground", "name": "Sanctified Ground", "level": 3, "cost": 18, "damage_type": "Radiant (AoE)", "amount": 12, "amount_note": "per turn", "effect": "Damages corrupted/undead each turn; heals allies for the same amount" },
+        { "id": "consecration_ward", "name": "Consecration Ward", "level": 4, "cost": 25, "damage_type": null, "amount": 0,  "effect": "+25% resistance vs Shadow damage (3 turns)" },
+        { "id": "absolute_purge",    "name": "Absolute Purge",    "level": 5, "cost": 35, "damage_type": "Radiant", "amount": 40, "effect": "Removes all debuffs from target; bonus damage vs corrupted" }
+      ]
+    },
+
+    {
+      "id": "vitalism",
+      "name": "Vitalism",
+      "flavor": "Healing",
+      "magic_type": "lightwielding",
+      "spells": [
+        { "id": "mend_flesh",        "name": "Mend Flesh",        "level": 1, "cost": 5,  "damage_type": null, "healing": 15, "effect": "Minor wound closure" },
+        { "id": "restoration_pulse", "name": "Restoration Pulse", "level": 2, "cost": 10, "damage_type": null, "healing": 25, "effect": "Removes bleed and poison" },
+        { "id": "vital_surge",       "name": "Vital Surge",       "level": 3, "cost": 18, "damage_type": null, "healing": 40, "effect": "Grants +10% Physiology for 2 turns" },
+        { "id": "renewal_wave",      "name": "Renewal Wave",      "level": 4, "cost": 25, "damage_type": null, "healing": 35, "aoe": true, "effect": "Heals all allies in area" },
+        { "id": "life_reclamation",  "name": "Life Reclamation",  "level": 5, "cost": 40, "damage_type": null, "healing": 70, "effect": "Revives fallen ally at 40% Vitality" }
+      ]
+    },
+
+    {
+      "id": "aegiscraft",
+      "name": "Aegiscraft",
+      "flavor": "Shields & Protection",
+      "magic_type": "lightwielding",
+      "spells": [
+        { "id": "light_guard",       "name": "Light Guard",       "level": 1, "cost": 6,  "damage_type": null, "shield": 15, "effect": "Absorbs incoming damage for 2 turns" },
+        { "id": "radiant_barrier",   "name": "Radiant Barrier",   "level": 2, "cost": 12, "damage_type": null, "shield": 30, "effect": "Reflects 10% of absorbed damage back at attacker" },
+        { "id": "aegis_field",       "name": "Aegis Field",       "level": 3, "cost": 20, "damage_type": null, "shield": 25, "aoe": true, "effect": "Extends shield protection to all allies" },
+        { "id": "bulwark_of_dawn",   "name": "Bulwark of Dawn",   "level": 4, "cost": 28, "damage_type": null, "shield": 50, "effect": "Grants stun resistance while shield is active" },
+        { "id": "seraphic_aegis",    "name": "Seraphic Aegis",    "level": 5, "cost": 40, "damage_type": null, "shield": 75, "effect": "Negates the next incoming special ability entirely" }
+      ]
+    },
+
+    {
+      "id": "revelation",
+      "name": "Revelation",
+      "flavor": "Truth & Vision",
+      "magic_type": "lightwielding",
+      "spells": [
+        { "id": "insight_flicker",     "name": "Insight Flicker",     "level": 1, "cost": 5,  "damage_type": null, "amount": 0, "effect": "Reveals a hidden enemy for 1 turn" },
+        { "id": "truth_glimpse",       "name": "Truth Glimpse",       "level": 2, "cost": 10, "damage_type": null, "amount": 0, "effect": "Shows full stat readout of target enemy" },
+        { "id": "piercing_sight",      "name": "Piercing Sight",      "level": 3, "cost": 15, "damage_type": "Radiant", "amount": 18, "effect": "Ignores invisibility and illusions; damage cannot be blocked by illusion layers" },
+        { "id": "expose_essence",      "name": "Expose Essence",      "level": 4, "cost": 22, "damage_type": null, "amount": 0, "effect": "Target takes +20% damage from all sources (2 turns)" },
+        { "id": "absolute_revelation", "name": "Absolute Revelation", "level": 5, "cost": 30, "damage_type": "Radiant", "amount": 35, "effect": "Removes all illusions on battlefield; reveals all hidden enemies" }
+      ]
+    },
+
+    {
+      "id": "seraphic_binding",
+      "name": "Seraphic Binding",
+      "flavor": "Celestial Summoning",
+      "magic_type": "lightwielding",
+      "spells": [
+        { "id": "lesser_wisp",      "name": "Lesser Wisp",      "level": 1, "cost": 10, "damage_type": "Radiant", "amount": 10, "amount_note": "per turn", "effect": "Summons a small floating wisp that attacks nearby enemies" },
+        { "id": "light_sentinel",   "name": "Light Sentinel",   "level": 2, "cost": 18, "damage_type": "Radiant", "amount": 18, "amount_note": "per turn", "effect": "Defensive summon — prioritizes blocking attacks on allies" },
+        { "id": "seraph_blade",     "name": "Seraph Blade",     "level": 3, "cost": 25, "damage_type": "Radiant", "amount": 30, "effect": "Summoned strike entity makes one powerful attack" },
+        { "id": "guardian_angel",   "name": "Guardian Angel",   "level": 4, "cost": 35, "damage_type": null, "amount": 0, "effect": "Absorbs one lethal hit for a chosen ally; angel is destroyed after" },
+        { "id": "seraph_ascendant", "name": "Seraph Ascendant", "level": 5, "cost": 50, "damage_type": "Radiant", "amount": 45, "amount_note": "per turn", "effect": "Summons a powerful celestial ally that persists until slain" }
+      ]
+    },
+
+    {
+      "id": "harmony_weaving",
+      "name": "Harmony Weaving",
+      "flavor": "Mind & Emotion",
+      "magic_type": "lightwielding",
+      "spells": [
+        { "id": "calm_whisper",      "name": "Calm Whisper",      "level": 1, "cost": 6,  "damage_type": null, "amount": 0, "effect": "Removes fear status from target ally" },
+        { "id": "soothing_pulse",    "name": "Soothing Pulse",    "level": 2, "cost": 12, "damage_type": null, "healing": 15, "effect": "Reduces aggression of target enemy (lowers their damage output this turn)" },
+        { "id": "tranquil_field",    "name": "Tranquil Field",    "level": 3, "cost": 18, "damage_type": null, "amount": 0, "aoe": true, "effect": "All enemies in area deal -15% damage for 2 turns" },
+        { "id": "mind_harmony",      "name": "Mind Harmony",      "level": 4, "cost": 25, "damage_type": null, "amount": 0, "effect": "All allies become immune to fear and charm effects" },
+        { "id": "serenity_dominion", "name": "Serenity Dominion", "level": 5, "cost": 35, "damage_type": null, "amount": 0, "effect": "Enemies cannot land critical hits for 2 turns" }
+      ]
+    },
+
+    {
+      "id": "dawncalling",
+      "name": "Dawncalling",
+      "flavor": "Anti-Darkness",
+      "magic_type": "lightwielding",
+      "spells": [
+        { "id": "dawn_spark",    "name": "Dawn Spark",    "level": 1, "cost": 6,  "damage_type": "Radiant", "amount": 15, "effect": "Bonus damage vs undead targets" },
+        { "id": "sunbreak",      "name": "Sunbreak",      "level": 2, "cost": 12, "damage_type": "Radiant", "amount": 25, "effect": "Removes all shadow-origin buffs from target" },
+        { "id": "radiant_sweep", "name": "Radiant Sweep", "level": 3, "cost": 18, "damage_type": "Radiant (AoE)", "amount": 20, "effect": "Pushes back all shadow-aligned units 1 hex" },
+        { "id": "dawnburst",     "name": "Dawnburst",     "level": 4, "cost": 28, "damage_type": "Radiant", "amount": 45, "effect": "Stuns undead targets for 1 turn" },
+        { "id": "final_sunrise", "name": "Final Sunrise", "level": 5, "cost": 45, "damage_type": "Radiant", "amount": 70, "effect": "Massive bonus damage vs shadow-aligned and undead targets" }
+      ]
+    },
+
+    {
+      "id": "soulkindling",
+      "name": "Soulkindling",
+      "flavor": "Willpower & Buffs",
+      "magic_type": "lightwielding",
+      "spells": [
+        { "id": "inner_spark",      "name": "Inner Spark",      "level": 1, "cost": 5,  "damage_type": null, "amount": 0, "effect": "+10% Conviction for 2 turns" },
+        { "id": "courage_flame",    "name": "Courage Flame",    "level": 2, "cost": 10, "damage_type": null, "amount": 0, "effect": "Target becomes immune to fear" },
+        { "id": "soul_surge",       "name": "Soul Surge",       "level": 3, "cost": 18, "damage_type": null, "amount": 0, "effect": "+15% to all damage dealt (2 turns)" },
+        { "id": "heroic_infusion",  "name": "Heroic Infusion",  "level": 4, "cost": 25, "damage_type": null, "amount": 0, "effect": "+20% Physiology and +20% Martial Experience (2 turns)" },
+        { "id": "ascendant_will",   "name": "Ascendant Will",   "level": 5, "cost": 35, "damage_type": null, "amount": 0, "effect": "Target cannot drop below 1 Vitality for 1 turn" }
+      ]
+    },
+
+    {
+      "id": "ascendance",
+      "name": "Ascendance",
+      "flavor": "Divine Power",
+      "magic_type": "lightwielding",
+      "spells": [
+        { "id": "radiant_lift",         "name": "Radiant Lift",         "level": 1, "cost": 10, "damage_type": null, "amount": 0, "effect": "Minor levitation — ignores ground-level movement penalties" },
+        { "id": "lightform",            "name": "Lightform",            "level": 2, "cost": 20, "damage_type": "Radiant", "amount": 15, "amount_note": "per turn", "effect": "Become semi-ethereal — reduce physical damage taken by 20%" },
+        { "id": "wings_of_dawn",        "name": "Wings of Dawn",        "level": 3, "cost": 30, "damage_type": null, "amount": 0, "effect": "Full flight + +20% evasion while airborne" },
+        { "id": "avatar_of_light",      "name": "Avatar of Light",      "level": 4, "cost": 45, "damage_type": "Radiant", "amount_modifier": "+25% output", "effect": "All spells cast this turn deal +25% damage" },
+        { "id": "divine_transcendence", "name": "Divine Transcendence", "level": 5, "cost": 60, "damage_type": "Radiant (AoE)", "amount": 50, "amount_note": "per turn", "effect": "Full divine transformation — massive aura damage to all enemies each turn" }
+      ]
+    },
+
+    {
+      "id": "lifewhispering",
+      "name": "Lifewhispering",
+      "flavor": "Plant & Life Control",
+      "magic_type": "materium",
+      "spells": [
+        { "id": "sprout_bind",   "name": "Sprout Bind",   "level": 1, "cost": 5,  "damage_type": "Nature", "amount": 10, "effect": "Root target for 1 turn" },
+        { "id": "verdant_grasp", "name": "Verdant Grasp", "level": 2, "cost": 10, "damage_type": "Nature", "amount": 18, "effect": "Root + slow (2 turns)" },
+        { "id": "thornlash",     "name": "Thornlash",     "level": 3, "cost": 16, "damage_type": "Nature", "amount": 28, "effect": "Bleed (10 damage per turn, 2 turns)" },
+        { "id": "overgrowth",    "name": "Overgrowth",    "level": 4, "cost": 24, "damage_type": "Nature (AoE)", "amount": 22, "effect": "Root all enemies in area for 1 turn" },
+        { "id": "wild_genesis",  "name": "Wild Genesis",  "level": 5, "cost": 38, "damage_type": "Nature", "amount": 45, "effect": "Summons entangling growth zone — damage + root for 2 turns" }
+      ]
+    },
+
+    {
+      "id": "bestial_communion",
+      "name": "Bestial Communion",
+      "flavor": "Animal Control",
+      "magic_type": "materium",
+      "spells": [
+        { "id": "beast_whisper",    "name": "Beast Whisper",    "level": 1, "cost": 6,  "damage_type": null, "amount": 0, "effect": "Pacify an animal enemy for 1 turn" },
+        { "id": "predators_mark",   "name": "Predator's Mark",  "level": 2, "cost": 12, "damage_type": null, "amount": 0, "effect": "Target takes +15% damage from all sources" },
+        { "id": "feral_surge",      "name": "Feral Surge",      "level": 3, "cost": 18, "damage_type": "Physical", "amount": 25, "effect": "Companion beast makes a targeted strike" },
+        { "id": "pack_call",        "name": "Pack Call",        "level": 4, "cost": 26, "damage_type": "Physical", "amount": 18, "amount_note": "per turn", "effect": "Summons a pack of animals to attack for 2 turns" },
+        { "id": "primal_dominion",  "name": "Primal Dominion",  "level": 5, "cost": 40, "damage_type": "Physical", "amount": 40, "effect": "Takes control of a beast enemy for 2 turns" }
+      ]
+    },
+
+    {
+      "id": "bloodpassion",
+      "name": "Bloodpassion",
+      "flavor": "Perception & Influence",
+      "magic_type": "materium",
+      "spells": [
+        { "id": "ember_gaze",            "name": "Ember Gaze",            "level": 1, "cost": 6,  "damage_type": null, "amount": 0, "effect": "Minor attraction/attention shift — draw a target's focus" },
+        { "id": "sway_pulse",            "name": "Sway Pulse",            "level": 2, "cost": 12, "damage_type": null, "amount": 0, "effect": "Reduce target's hostility — lower damage output this turn" },
+        { "id": "passion_mark",          "name": "Passion Mark",          "level": 3, "cost": 18, "damage_type": null, "amount": 0, "effect": "Target focuses all attacks on a chosen unit for 2 turns" },
+        { "id": "veil_of_desire",        "name": "Veil of Desire",        "level": 4, "cost": 26, "damage_type": null, "amount": 0, "effect": "Confuse target — random action (1 turn)" },
+        { "id": "overwhelming_presence", "name": "Overwhelming Presence", "level": 5, "cost": 40, "damage_type": null, "amount": 0, "aoe": true, "effect": "All enemies in area lose target priority — cannot focus fire" }
+      ]
+    },
+
+    {
+      "id": "terramancy",
+      "name": "Terramancy",
+      "flavor": "Earth & Stone",
+      "magic_type": "materium",
+      "spells": [
+        { "id": "stone_jab",       "name": "Stone Jab",       "level": 1, "cost": 5,  "damage_type": "Physical", "amount": 14, "effect": "Minor stagger on hit" },
+        { "id": "earthen_spike",   "name": "Earthen Spike",   "level": 2, "cost": 12, "damage_type": "Physical", "amount": 26, "effect": "Pierces 20% of target armor" },
+        { "id": "stonewall_rise",  "name": "Stonewall Rise",  "level": 3, "cost": 18, "damage_type": null, "amount": 0, "effect": "Creates a terrain obstacle (blocks movement/line of sight)" },
+        { "id": "quake_pulse",     "name": "Quake Pulse",     "level": 4, "cost": 26, "damage_type": "Physical (AoE)", "amount": 30, "effect": "Knocks down all enemies in area (1 turn)" },
+        { "id": "cataclysm_break", "name": "Cataclysm Break", "level": 5, "cost": 42, "damage_type": "Physical", "amount": 55, "effect": "Massive armor shred — reduces target armor by 40% for 3 turns" }
+      ]
+    },
+
+    {
+      "id": "aquorism",
+      "name": "Aquorism",
+      "flavor": "Water Control",
+      "magic_type": "materium",
+      "spells": [
+        { "id": "water_dart",    "name": "Water Dart",    "level": 1, "cost": 5,  "damage_type": "Cold", "amount": 12, "effect": "Minor slow" },
+        { "id": "flow_bind",     "name": "Flow Bind",     "level": 2, "cost": 12, "damage_type": "Cold", "amount": 20, "effect": "Slow (2 turns)" },
+        { "id": "crashing_wave", "name": "Crashing Wave", "level": 3, "cost": 18, "damage_type": "Cold (AoE)", "amount": 24, "effect": "Pushes back all targets in area" },
+        { "id": "tidal_grasp",   "name": "Tidal Grasp",   "level": 4, "cost": 26, "damage_type": "Cold", "amount": 32, "effect": "Root target for 1 turn" },
+        { "id": "abyssal_surge", "name": "Abyssal Surge", "level": 5, "cost": 40, "damage_type": "Cold", "amount": 50, "effect": "Massive knockback + stun (1 turn)" }
+      ]
+    },
+
+    {
+      "id": "pyricraft",
+      "name": "Pyricraft",
+      "flavor": "Controlled Fire",
+      "magic_type": "materium",
+      "spells": [
+        { "id": "ember_flick",    "name": "Ember Flick",    "level": 1, "cost": 5,  "damage_type": "Fire", "amount": 14, "effect": "Ignite (5 damage per turn)" },
+        { "id": "flame_lash",     "name": "Flame Lash",     "level": 2, "cost": 12, "damage_type": "Fire", "amount": 26, "effect": "Ignite (10 damage per turn)" },
+        { "id": "searing_arc",    "name": "Searing Arc",    "level": 3, "cost": 18, "damage_type": "Fire (AoE)", "amount": 28, "effect": "Spreads ignite to all targets in arc" },
+        { "id": "heat_surge",     "name": "Heat Surge",     "level": 4, "cost": 26, "damage_type": "Fire", "amount": 40, "effect": "Bonus damage vs heavily armored targets" },
+        { "id": "infernal_bloom", "name": "Infernal Bloom", "level": 5, "cost": 42, "damage_type": "Fire", "amount": 60, "effect": "Explosion + leaves lingering burn field (2 turns)" }
+      ]
+    },
+
+    {
+      "id": "aeromancy",
+      "name": "Aeromancy",
+      "flavor": "Air & Wind",
+      "magic_type": "materium",
+      "spells": [
+        { "id": "gust",         "name": "Gust",         "level": 1, "cost": 5,  "damage_type": "Physical", "amount": 10, "effect": "Push target 1 hex" },
+        { "id": "wind_cutter",  "name": "Wind Cutter",  "level": 2, "cost": 12, "damage_type": "Physical", "amount": 22, "effect": "High accuracy — nearly never misses" },
+        { "id": "cyclone_step", "name": "Cyclone Step", "level": 3, "cost": 18, "damage_type": null, "amount": 0, "effect": "Instant repositioning — move to any adjacent tile as a free action" },
+        { "id": "tempest_ring", "name": "Tempest Ring", "level": 4, "cost": 26, "damage_type": "Physical (AoE)", "amount": 28, "effect": "Disrupts spellcasting within area" },
+        { "id": "storm_vortex", "name": "Storm Vortex", "level": 5, "cost": 40, "damage_type": "Physical", "amount": 50, "effect": "Pulls all nearby enemies into center, then multi-hits" }
+      ]
+    },
+
+    {
+      "id": "geometrics",
+      "name": "Geometrics",
+      "flavor": "Gravity & Space",
+      "magic_type": "materium",
+      "spells": [
+        { "id": "weight_shift",        "name": "Weight Shift",        "level": 1, "cost": 6,  "damage_type": null, "amount": 0, "effect": "Slows target movement and action speed" },
+        { "id": "gravity_pin",         "name": "Gravity Pin",         "level": 2, "cost": 12, "damage_type": "Physical", "amount": 20, "effect": "Root (1 turn)" },
+        { "id": "spatial_warp",        "name": "Spatial Warp",        "level": 3, "cost": 18, "damage_type": null, "amount": 0, "effect": "Short teleport — caster or target moves up to 3 hexes" },
+        { "id": "crush_field",         "name": "Crush Field",         "level": 4, "cost": 28, "damage_type": "Physical (AoE)", "amount": 30, "effect": "Enemies inside zone take increased damage from all sources" },
+        { "id": "singularity_collapse","name": "Singularity Collapse", "level": 5, "cost": 45, "damage_type": "Physical", "amount": 65, "effect": "Pulls all enemies toward point, then massive burst" }
+      ]
+    },
+
+    {
+      "id": "mindwielding",
+      "name": "Mindwielding",
+      "flavor": "Kinetic Force",
+      "magic_type": "materium",
+      "spells": [
+        { "id": "force_tap",      "name": "Force Tap",      "level": 1, "cost": 5,  "damage_type": "Physical", "amount": 14, "effect": "Interrupts target's current action" },
+        { "id": "kinetic_push",   "name": "Kinetic Push",   "level": 2, "cost": 12, "damage_type": "Physical", "amount": 24, "effect": "Knockback" },
+        { "id": "force_grip",     "name": "Force Grip",     "level": 3, "cost": 18, "damage_type": "Physical", "amount": 30, "effect": "Hold target in place for 1 turn" },
+        { "id": "impact_wave",    "name": "Impact Wave",    "level": 4, "cost": 26, "damage_type": "Physical (AoE)", "amount": 32, "effect": "Knockdown chance on all targets in wave" },
+        { "id": "kinetic_rupture","name": "Kinetic Rupture","level": 5, "cost": 40, "damage_type": "Physical", "amount": 55, "effect": "Breaks guard and stuns (1 turn)" }
+      ]
+    },
+
+    {
+      "id": "arcane_arts",
+      "name": "Arcane Arts",
+      "flavor": "Matter Manipulation",
+      "magic_type": "materium",
+      "spells": [
+        { "id": "arcane_pulse",          "name": "Arcane Pulse",          "level": 1, "cost": 6,  "damage_type": "Arcane", "amount": 16, "effect": "Stable reliable damage — no variance" },
+        { "id": "matter_shift",          "name": "Matter Shift",          "level": 2, "cost": 12, "damage_type": "Arcane", "amount": 24, "effect": "Minor resistance bypass" },
+        { "id": "arcane_fracture",       "name": "Arcane Fracture",       "level": 3, "cost": 18, "damage_type": "Arcane", "amount": 32, "effect": "Reduces target's resistances for 2 turns" },
+        { "id": "reshape_field",         "name": "Reshape Field",         "level": 4, "cost": 28, "damage_type": "Arcane (AoE)", "amount": 30, "effect": "Alters terrain tile properties within zone" },
+        { "id": "prime_reconfiguration", "name": "Prime Reconfiguration", "level": 5, "cost": 45, "damage_type": "Arcane", "amount": 60, "effect": "Converts damage type to exploit target's greatest weakness" }
+      ]
+    },
+
+    {
+      "id": "necromancy",
+      "name": "Necromancy",
+      "flavor": "Death & Undead",
+      "magic_type": "shadow",
+      "spells": [
+        { "id": "grave_touch",      "name": "Grave Touch",      "level": 1, "cost": 6,  "damage_type": "Shadow", "amount": 16, "effect": "Minor heal to caster (50% of damage dealt)" },
+        { "id": "raise_husk",       "name": "Raise Husk",       "level": 2, "cost": 12, "damage_type": null, "amount": 0, "effect": "Summons a weak undead that lasts 2 turns" },
+        { "id": "life_siphon",      "name": "Life Siphon",      "level": 3, "cost": 18, "damage_type": "Shadow", "amount": 30, "effect": "Heals caster for full amount of damage dealt" },
+        { "id": "gravebind",        "name": "Gravebind",        "level": 4, "cost": 28, "damage_type": "Shadow", "amount": 35, "effect": "Root target + applies decay (10 damage per turn)" },
+        { "id": "legion_of_dead",   "name": "Legion of the Dead","level": 5, "cost": 45, "damage_type": "Shadow", "amount": 45, "effect": "Summons multiple undead simultaneously (lasts 3 turns)" }
+      ]
+    },
+
+    {
+      "id": "umbramancy",
+      "name": "Umbramancy",
+      "flavor": "Darkness Control",
+      "magic_type": "shadow",
+      "spells": [
+        { "id": "shadow_flicker",  "name": "Shadow Flicker",  "level": 1, "cost": 5,  "damage_type": "Shadow", "amount": 14, "effect": "Minor evasion boost to caster" },
+        { "id": "dark_veil",       "name": "Dark Veil",       "level": 2, "cost": 12, "damage_type": null, "amount": 0, "effect": "Enter stealth for 1 turn" },
+        { "id": "umbral_strike",   "name": "Umbral Strike",   "level": 3, "cost": 18, "damage_type": "Shadow", "amount": 32, "effect": "Bonus damage when used from stealth" },
+        { "id": "blackout_field",  "name": "Blackout Field",  "level": 4, "cost": 26, "damage_type": "Shadow (AoE)", "amount": 28, "effect": "Reduces accuracy of all enemies in area" },
+        { "id": "abyss_shroud",    "name": "Abyss Shroud",    "level": 5, "cost": 40, "damage_type": "Shadow", "amount": 50, "effect": "Full invisibility + critical hit bonus while active" }
+      ]
+    },
+
+    {
+      "id": "maleficium",
+      "name": "Maleficium",
+      "flavor": "Curses & Hexes",
+      "magic_type": "shadow",
+      "spells": [
+        { "id": "hex_mark",         "name": "Hex Mark",         "level": 1, "cost": 6,  "damage_type": "Shadow", "amount": 12, "effect": "Target takes +10% damage from all sources" },
+        { "id": "withering_curse",  "name": "Withering Curse",  "level": 2, "cost": 12, "damage_type": "Shadow", "amount": 20, "effect": "-10% Physiology for 3 turns" },
+        { "id": "lingering_hex",    "name": "Lingering Hex",    "level": 3, "cost": 18, "damage_type": "Shadow", "amount": 28, "effect": "Damage over time (10 per turn)" },
+        { "id": "crippling_malice", "name": "Crippling Malice", "level": 4, "cost": 28, "damage_type": "Shadow", "amount": 35, "effect": "Reduces attack and movement" },
+        { "id": "doom_sigil",       "name": "Doom Sigil",       "level": 5, "cost": 42, "damage_type": "Shadow", "amount": 55, "effect": "Massive delayed damage trigger — activates on the target's next action" }
+      ]
+    },
+
+    {
+      "id": "blood_magic",
+      "name": "Blood Magic",
+      "flavor": "Sacrifice & Blood Control",
+      "magic_type": "shadow",
+      "note": "Spells in this school have a dual cost: Materium + Vitality sacrifice",
+      "spells": [
+        { "id": "bloodletting",      "name": "Bloodletting",      "level": 1, "cost": 5,  "vitality_cost": 5,  "damage_type": "Shadow", "amount": 20, "effect": "Self-damage fuels spell power" },
+        { "id": "sanguine_lash",     "name": "Sanguine Lash",     "level": 2, "cost": 12, "vitality_cost": 8,  "damage_type": "Shadow", "amount": 34, "effect": "High scaling with caster's missing HP" },
+        { "id": "crimson_pact",      "name": "Crimson Pact",      "level": 3, "cost": 18, "vitality_cost": 10, "damage_type": null, "amount": 0, "effect": "Restores Materium pool (amount scales with Vitality spent)" },
+        { "id": "hemorrhage_curse",  "name": "Hemorrhage Curse",  "level": 4, "cost": 26, "vitality_cost": 12, "damage_type": "Shadow", "amount": 30, "effect": "Heavy bleed (15 damage per turn)" },
+        { "id": "blood_cataclysm",   "name": "Blood Cataclysm",   "level": 5, "cost": 40, "vitality_cost": 20, "damage_type": "Shadow (AoE)", "amount": 65, "effect": "Burst scales with caster's lost Vitality" }
+      ]
+    },
+
+    {
+      "id": "dominion",
+      "name": "Dominion",
+      "flavor": "Mind Control",
+      "magic_type": "shadow",
+      "spells": [
+        { "id": "whisper_command",   "name": "Whisper Command",   "level": 1, "cost": 6,  "damage_type": null, "amount": 0, "effect": "Minor control — force target to move one hex" },
+        { "id": "subjugate",         "name": "Subjugate",         "level": 2, "cost": 14, "damage_type": "Shadow", "amount": 18, "effect": "Interrupt + brief control (1 turn)" },
+        { "id": "will_break",        "name": "Will Break",        "level": 3, "cost": 22, "damage_type": "Shadow", "amount": 30, "effect": "Heavily reduces target's Conviction for 3 turns" },
+        { "id": "puppet_strings",    "name": "Puppet Strings",    "level": 4, "cost": 30, "damage_type": null, "amount": 0, "effect": "Control enemy's actions for 1 turn" },
+        { "id": "absolute_dominion", "name": "Absolute Dominion", "level": 5, "cost": 48, "damage_type": "Shadow", "amount": 45, "effect": "Full control for 2 turns; target makes resist check each turn" }
+      ]
+    },
+
+    {
+      "id": "rotweaving",
+      "name": "Rotweaving",
+      "flavor": "Decay & Disease",
+      "magic_type": "shadow",
+      "spells": [
+        { "id": "rot_touch",     "name": "Rot Touch",     "level": 1, "cost": 6,  "damage_type": "Blight", "amount": 14, "effect": "Disease (8 damage per turn)" },
+        { "id": "fester_wound",  "name": "Fester Wound",  "level": 2, "cost": 12, "damage_type": "Blight", "amount": 24, "effect": "Disease spreads to adjacent enemy on hit" },
+        { "id": "corrupt_flesh", "name": "Corrupt Flesh", "level": 3, "cost": 20, "damage_type": "Blight", "amount": 30, "effect": "Reduces healing received by 50% (3 turns)" },
+        { "id": "plague_field",  "name": "Plague Field",  "level": 4, "cost": 28, "damage_type": "Blight (AoE)", "amount": 26, "effect": "Creates an area infection zone (2 turns)" },
+        { "id": "carrion_bloom", "name": "Carrion Bloom", "level": 5, "cost": 45, "damage_type": "Blight", "amount": 55, "effect": "Spreading epidemic — chain infection effect across targets" }
+      ]
+    },
+
+    {
+      "id": "demonology",
+      "name": "Demonology",
+      "flavor": "Summoning Dark Entities",
+      "magic_type": "shadow",
+      "spells": [
+        { "id": "imp_call",       "name": "Imp Call",       "level": 1, "cost": 10, "damage_type": "Shadow", "amount": 10, "amount_note": "per turn", "effect": "Summons a weak demon (lasts until slain)" },
+        { "id": "fel_hound",      "name": "Fel Hound",      "level": 2, "cost": 18, "damage_type": "Shadow", "amount": 18, "amount_note": "per turn", "effect": "Fast melee demon summon" },
+        { "id": "abyssal_claw",   "name": "Abyssal Claw",   "level": 3, "cost": 26, "damage_type": "Shadow", "amount": 35, "effect": "Summons a claw entity for a single powerful strike" },
+        { "id": "demon_guard",    "name": "Demon Guard",    "level": 4, "cost": 34, "damage_type": "Shadow", "amount": 25, "amount_note": "per turn", "effect": "Summons a tanking demon that absorbs hits" },
+        { "id": "abyssal_overlord","name": "Abyssal Overlord","level": 5, "cost": 55, "damage_type": "Shadow", "amount": 50, "amount_note": "per turn", "effect": "Powerful persistent demon — remains until slain" }
+      ]
+    },
+
+    {
+      "id": "dreadforgering",
+      "name": "Dreadforgering",
+      "flavor": "Cursed Constructs & Items",
+      "magic_type": "shadow",
+      "spells": [
+        { "id": "cursed_edge",       "name": "Cursed Edge",       "level": 1, "cost": 8,  "damage_type": "Shadow", "amount": 10, "amount_note": "+10 weapon damage", "effect": "Applies a curse on every hit for 2 turns" },
+        { "id": "blight_armor",      "name": "Blight Armor",      "level": 2, "cost": 16, "damage_type": null, "amount": 0, "effect": "Reflects absorbed damage back as Blight" },
+        { "id": "dread_object",      "name": "Dread Object",      "level": 3, "cost": 24, "damage_type": "Shadow", "amount": 25, "effect": "Creates a cursed construct that persists on the battlefield" },
+        { "id": "soul_anchor",       "name": "Soul Anchor",       "level": 4, "cost": 32, "damage_type": null, "amount": 0, "effect": "Prevents death once — heavy drawback applied after activation" },
+        { "id": "nightforged_relic", "name": "Nightforged Relic", "level": 5, "cost": 50, "damage_type": "Shadow", "amount": 45, "effect": "Creates a persistent cursed artifact with ongoing effects" }
+      ]
+    },
+
+    {
+      "id": "timewhispering",
+      "name": "Timewhispering",
+      "flavor": "Time Manipulation",
+      "magic_type": "shadow",
+      "spells": [
+        { "id": "delay_pulse",       "name": "Delay Pulse",       "level": 1, "cost": 8,  "damage_type": null, "amount": 0, "effect": "Slows target's action speed (next action is delayed)" },
+        { "id": "time_slip",         "name": "Time Slip",         "level": 2, "cost": 16, "damage_type": null, "amount": 0, "effect": "Caster instantly repositions (no opportunity attacks)" },
+        { "id": "aging_touch",       "name": "Aging Touch",       "level": 3, "cost": 24, "damage_type": "Shadow", "amount": 30, "effect": "Reduces target's Physiology — applies Temporal damage" },
+        { "id": "temporal_reversal", "name": "Temporal Reversal", "level": 4, "cost": 32, "damage_type": null, "amount": 0, "effect": "Undoes the last damage instance dealt to caster (once per battle)" },
+        { "id": "chrono_collapse",   "name": "Chrono Collapse",   "level": 5, "cost": 55, "damage_type": "Shadow", "amount": 65, "effect": "Massive burst + target loses their next action" }
+      ]
+    },
+
+    {
+      "id": "voidreaving",
+      "name": "Voidreaving",
+      "flavor": "Entropy & Nothingness",
+      "magic_type": "shadow",
+      "spells": [
+        { "id": "void_flicker",       "name": "Void Flicker",       "level": 1, "cost": 8,  "damage_type": "Void", "amount": 18, "effect": "Minor instability — 20% chance of random secondary effect" },
+        { "id": "entropy_spike",      "name": "Entropy Spike",      "level": 2, "cost": 16, "damage_type": "Void", "amount": 30, "effect": "Partially ignores target resistances" },
+        { "id": "unravel",            "name": "Unravel",            "level": 3, "cost": 24, "damage_type": "Void", "amount": 38, "effect": "Removes all active buffs from target" },
+        { "id": "void_collapse",      "name": "Void Collapse",      "level": 4, "cost": 34, "damage_type": "Void (AoE)", "amount": 40, "effect": "High damage variance — minimum 20, maximum 80" },
+        { "id": "existence_erasure",  "name": "Existence Erasure",  "level": 5, "cost": 60, "damage_type": "Void", "amount": 80, "effect": "20% chance of instant kill on targets below 30% Vitality" }
+      ]
+    }
+
+  ],
+
+  "martial_ability_sets": [
+
+    {
+      "id": "vanguard_type",
+      "name": "Vanguard",
+      "archetype_note": "Heavy Frontline — used by Ironguard, Vanguard class",
+      "subsets": [
+        {
+          "id": "bulwark",
+          "name": "Bulwark",
+          "abilities": [
+            { "id": "shield_slam",         "name": "Shield Slam",         "cost": 10, "cost_type": "stamina", "damage_type": "Physical", "amount": 22, "effect": "Stun (1 turn)" },
+            { "id": "hold_the_line",       "name": "Hold the Line",       "cost": 14, "cost_type": "stamina", "damage_type": null, "amount": 0, "effect": "Massive defense increase; allies behind gain partial cover" },
+            { "id": "unbreakable_advance", "name": "Unbreakable Advance", "cost": 20, "cost_type": "stamina", "damage_type": "Physical", "amount": 30, "effect": "Ignore control effects while moving; push enemies back" }
+          ]
+        },
+        {
+          "id": "ironclad",
+          "name": "Ironclad",
+          "abilities": [
+            { "id": "fortress_stance",  "name": "Fortress Stance",  "cost": 12, "cost_type": "stamina", "damage_type": null, "amount": 0, "effect": "Reduce all incoming damage heavily for 1 turn" },
+            { "id": "rebound_strike",   "name": "Rebound Strike",   "cost": 14, "cost_type": "stamina", "damage_type": "Physical", "amount": 25, "effect": "Reflect a portion of damage taken back at attacker" },
+            { "id": "anchor_smash",     "name": "Anchor Smash",     "cost": 18, "cost_type": "stamina", "damage_type": "Physical", "amount": 34, "effect": "Root self for 1 turn; massive knockdown on target" }
+          ]
+        },
+        {
+          "id": "juggernaut",
+          "name": "Juggernaut",
+          "abilities": [
+            { "id": "crushing_blow",  "name": "Crushing Blow",  "cost": 12, "cost_type": "stamina", "damage_type": "Physical", "amount": 35, "effect": "Armor break on target" },
+            { "id": "rampage_step",   "name": "Rampage Step",   "cost": 14, "cost_type": "stamina", "damage_type": "Physical", "amount": 20, "effect": "Move + attack + cleave adjacent target" },
+            { "id": "titan_breaker",  "name": "Titan Breaker",  "cost": 22, "cost_type": "stamina", "damage_type": "Physical", "amount": 48, "effect": "Bonus damage vs high-HP targets (scales inversely with target HP loss)" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "skirmisher_type",
+      "name": "Skirmisher",
+      "archetype_note": "Mobile Melee — used by Battlebrave, Duelist, Reaver, Skirmisher class",
+      "subsets": [
+        {
+          "id": "duelist_set",
+          "name": "Duelist",
+          "abilities": [
+            { "id": "riposte_ability",  "name": "Riposte",          "cost": 8,  "cost_type": "stamina", "damage_type": "Physical", "amount": 20, "effect": "Counterattack if hit this turn" },
+            { "id": "precision_thrust", "name": "Precision Thrust", "cost": 12, "cost_type": "stamina", "damage_type": "Physical", "amount": 30, "effect": "Ignores armor" },
+            { "id": "feint_strike",     "name": "Feint Strike",     "cost": 14, "cost_type": "stamina", "damage_type": "Physical", "amount": 18, "effect": "Forces target to miss their next attack" }
+          ]
+        },
+        {
+          "id": "ravager",
+          "name": "Ravager",
+          "abilities": [
+            { "id": "frenzied_slash", "name": "Frenzied Slash", "cost": 10, "cost_type": "stamina", "damage_type": "Physical", "amount": 28, "effect": "Gain attack speed (extra action chance this turn)" },
+            { "id": "blood_rush",     "name": "Blood Rush",     "cost": 12, "cost_type": "stamina", "damage_type": null, "amount": 0, "effect": "Heal on every hit for 2 turns" },
+            { "id": "savage_cleave",  "name": "Savage Cleave",  "cost": 18, "cost_type": "stamina", "damage_type": "Physical (AoE)", "amount": 32, "effect": "Bonus damage if target is already bleeding" }
+          ]
+        },
+        {
+          "id": "reaver_set",
+          "name": "Reaver",
+          "abilities": [
+            { "id": "hook_pull",     "name": "Hook Pull",     "cost": 10, "cost_type": "stamina", "damage_type": "Physical", "amount": 18, "effect": "Pull enemy 1-2 hexes toward caster" },
+            { "id": "execution_cut", "name": "Execution Cut", "cost": 16, "cost_type": "stamina", "damage_type": "Physical", "amount": 40, "effect": "Bonus damage vs targets below 35% Vitality" },
+            { "id": "chain_assault", "name": "Chain Assault", "cost": 20, "cost_type": "stamina", "damage_type": "Physical", "amount": 22, "amount_note": "x2 hits", "effect": "Hits primary target and one adjacent target" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "marksman_type",
+      "name": "Marksman",
+      "archetype_note": "Ranged Physical — used by Wayfarer, Marksman, Beastwarden, Skirmisher class",
+      "subsets": [
+        {
+          "id": "sharpshooter",
+          "name": "Sharpshooter",
+          "abilities": [
+            { "id": "deadeye_shot", "name": "Deadeye Shot", "cost": 10, "cost_type": "stamina", "damage_type": "Physical", "amount": 35, "effect": "High critical hit chance" },
+            { "id": "pinned_shot",  "name": "Pinned Shot",  "cost": 12, "cost_type": "stamina", "damage_type": "Physical", "amount": 22, "effect": "Root target for 1 turn" },
+            { "id": "longshot",     "name": "Longshot",     "cost": 16, "cost_type": "stamina", "damage_type": "Physical", "amount": 40, "effect": "Increased effective range by 2 hexes" }
+          ]
+        },
+        {
+          "id": "hunter",
+          "name": "Hunter",
+          "abilities": [
+            { "id": "marked_prey", "name": "Marked Prey", "cost": 8,  "cost_type": "stamina", "damage_type": "Physical", "amount": 18, "effect": "Target takes +15% damage from all sources" },
+            { "id": "trap_set",    "name": "Trap Set",    "cost": 12, "cost_type": "stamina", "damage_type": "Physical", "amount": 20, "effect": "Root + bleed on trigger" },
+            { "id": "volley",      "name": "Volley",      "cost": 18, "cost_type": "stamina", "damage_type": "Physical (AoE)", "amount": 28, "effect": "Hits all enemies in target area" }
+          ]
+        },
+        {
+          "id": "beastmaster",
+          "name": "Beastmaster",
+          "abilities": [
+            { "id": "companion_strike", "name": "Companion Strike", "cost": 10, "cost_type": "stamina", "damage_type": "Physical", "amount": 26, "effect": "Pet attacks the same target simultaneously" },
+            { "id": "pack_tactics",     "name": "Pack Tactics",     "cost": 14, "cost_type": "stamina", "damage_type": null, "amount": 0, "effect": "All allies gain +10% critical hit chance (2 turns)" },
+            { "id": "savage_command",   "name": "Savage Command",   "cost": 20, "cost_type": "stamina", "damage_type": "Physical", "amount": 38, "effect": "Pet enrages — attacks twice this turn" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "rogue_type",
+      "name": "Rogue",
+      "archetype_note": "Stealth & Control — used by Shadowblade, Assassin, Thief, Saboteur class",
+      "subsets": [
+        {
+          "id": "assassin_set",
+          "name": "Assassin",
+          "abilities": [
+            { "id": "backstab",   "name": "Backstab",   "cost": 10, "cost_type": "stamina", "damage_type": "Physical", "amount": 42, "effect": "Requires stealth — massive damage from concealment" },
+            { "id": "vanish",     "name": "Vanish",     "cost": 12, "cost_type": "stamina", "damage_type": null, "amount": 0, "effect": "Enter stealth immediately" },
+            { "id": "death_mark", "name": "Death Mark", "cost": 18, "cost_type": "stamina", "damage_type": "Physical", "amount": 20, "effect": "Next hit against marked target deals massive bonus damage" }
+          ]
+        },
+        {
+          "id": "saboteur_set",
+          "name": "Saboteur",
+          "abilities": [
+            { "id": "smoke_bomb",      "name": "Smoke Bomb",      "cost": 10, "cost_type": "stamina", "damage_type": null, "amount": 0, "aoe": true, "effect": "Area blind — all targets in zone lose accuracy" },
+            { "id": "explosive_charge","name": "Explosive Charge","cost": 14, "cost_type": "stamina", "damage_type": "Physical (AoE)", "amount": 30, "effect": "Delayed detonation — triggers end of next turn" },
+            { "id": "disarm_trap",     "name": "Disarm Trap",     "cost": 8,  "cost_type": "stamina", "damage_type": null, "amount": 0, "effect": "Disables target enemy's weapon-based abilities for 1 turn" }
+          ]
+        },
+        {
+          "id": "trickster",
+          "name": "Trickster",
+          "abilities": [
+            { "id": "shadow_step_ability", "name": "Shadow Step",    "cost": 10, "cost_type": "stamina", "damage_type": "Physical", "amount": 20, "effect": "Teleport behind target — no opportunity attacks" },
+            { "id": "misdirection",        "name": "Misdirection",   "cost": 12, "cost_type": "stamina", "damage_type": null, "amount": 0, "effect": "Force enemy to attack a chosen ally instead" },
+            { "id": "phantom_strike",      "name": "Phantom Strike", "cost": 16, "cost_type": "stamina", "damage_type": "Physical", "amount": 28, "effect": "Creates an illusion double — registers as two hits" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "commander_type",
+      "name": "Commander",
+      "archetype_note": "Support / Tactical — used by Warmaster class",
+      "subsets": [
+        {
+          "id": "warlord",
+          "name": "Warlord",
+          "abilities": [
+            { "id": "rally_cry",    "name": "Rally Cry",    "cost": 12, "cost_type": "stamina", "damage_type": null, "amount": 0, "effect": "All allies gain +10% attack and +10% morale" },
+            { "id": "command_strike","name": "Command Strike","cost": 14, "cost_type": "stamina", "damage_type": "Physical", "amount": 26, "effect": "One ally within range immediately makes a follow-up attack" },
+            { "id": "battle_surge", "name": "Battle Surge", "cost": 20, "cost_type": "stamina", "damage_type": null, "amount": 0, "effect": "Allies gain a 30% chance for an extra action this turn" }
+          ]
+        },
+        {
+          "id": "tactician",
+          "name": "Tactician",
+          "abilities": [
+            { "id": "reposition",      "name": "Reposition",      "cost": 10, "cost_type": "stamina", "damage_type": null, "amount": 0, "effect": "Move one ally to any adjacent tile instantly" },
+            { "id": "exploit_weakness","name": "Exploit Weakness", "cost": 14, "cost_type": "stamina", "damage_type": "Physical", "amount": 22, "effect": "Target loses all damage resistances for 2 turns" },
+            { "id": "zone_control",    "name": "Zone Control",    "cost": 18, "cost_type": "stamina", "damage_type": null, "amount": 0, "aoe": true, "effect": "Area denial — enemies cannot move through zone" }
+          ]
+        },
+        {
+          "id": "banneret",
+          "name": "Banneret",
+          "abilities": [
+            { "id": "war_banner",      "name": "War Banner",      "cost": 12, "cost_type": "stamina", "damage_type": null, "amount": 0, "effect": "Aura — all allies in range gain stat bonuses while banner is active" },
+            { "id": "stand_firm",      "name": "Stand Firm",      "cost": 14, "cost_type": "stamina", "damage_type": null, "amount": 0, "effect": "All allies immune to knockback and fear effects (2 turns)" },
+            { "id": "inspiring_charge","name": "Inspiring Charge", "cost": 20, "cost_type": "stamina", "damage_type": "Physical", "amount": 30, "effect": "Caster charges — all allies advance and gain +10% damage this turn" }
+          ]
+        }
+      ]
+    }
+
+  ]
+}

@@ -869,9 +869,22 @@ class Game {
 
         const biomeEl = document.getElementById('param-biome');
 
+        // Biomes that are always inland — lock the map type selector to Inland only.
+        const INLAND_ONLY_BIOMES = new Set(['the_badlands']);
+
         const updateBiomeDesc = () => {
             document.getElementById('lbl-biome-desc').textContent =
                 biomeDescriptions[biomeEl.value] || '';
+
+            // Lock / unlock map type selector based on biome
+            const isInlandOnly = INLAND_ONLY_BIOMES.has(biomeEl.value);
+            Array.from(mapTypeEl.options).forEach(opt => {
+                opt.disabled = isInlandOnly && opt.value !== 'inland';
+            });
+            if (isInlandOnly && mapTypeEl.value !== 'inland') {
+                mapTypeEl.value = 'inland';
+                updateMapType();
+            }
         };
 
         biomeEl.addEventListener('change', updateBiomeDesc);

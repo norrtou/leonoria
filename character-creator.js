@@ -30,7 +30,7 @@ const ALLOC_BUDGET   = 20;   // extra points to distribute in point-allocation m
 const ALLOC_MIN      = 10;
 const ALLOC_MAX      = 75;
 
-const TAB_ORDER = ['identity', 'attributes', 'skills', 'equipment'];
+const TAB_ORDER = ['identity', 'attributes', 'skills', 'equipment', 'abilities'];
 
 // ─── Aptitude descriptions (tooltip) ──────────────────────────────────────────
 const APTITUDE_DESC = {
@@ -105,7 +105,7 @@ const RACE_BLURBS = {
 const CLASS_BLURBS = {
     ironguard:          'The shield that does not break. Ironguards are the wall between civilization and the dark. Pure physical warriors, utterly dedicated to durability and protection.',
     battlebrave:        'The tip of the spear. Where Ironguards hold the line, Battlebraves shatter it. Aggressive, mobile, and built for direct offensive combat.',
-    ravager_class:      'Overwhelm. Destroy. Move on. The Ravager does not defend — they overwhelm before defense is needed.',
+    reaver:              'Overwhelm. Destroy. Move on. The Reaver does not defend — they overwhelm before defense is needed.',
     wayfarer:           'Scouting the road ahead, hunting from shadow, surviving where others perish. Wayfarers are the eyes and blades of the wilderness.',
     shadowblade:        'Precision over power. The Shadowblade vanishes, strikes once with lethal intent, and is gone before the body falls.',
     warden:             'Bound by faith and duty to protect the innocent. Wardens are divine warriors — champions of a people, not servants of a god.',
@@ -187,6 +187,7 @@ function getAllRaces() {
 function findRace(id) { return getAllRaces().find(r => r.id === id) || null; }
 function findClass(id) { return (DB.classes?.classes || []).find(c => c.id === id) || null; }
 function findBackground(id) { return (DB.backgrounds?.profession_backgrounds || []).find(b => b.id === id) || null; }
+function findSign(id)       { return (DB.birthmothersigns?.signs || []).find(s => s.id === id) || null; }
 function getAllSkills() {
     const out = [];
     (DB.skills?.categories || []).forEach(cat => {
@@ -216,6 +217,15 @@ function initTooltip() {
         const y = Math.min(e.clientY + 16, window.innerHeight - 80);
         TTip.el.style.left = x + 'px';
         TTip.el.style.top  = y + 'px';
+    });
+    TTip.el.style.whiteSpace = 'pre-line';
+    // Delegated tooltip for identity rows and ability chips
+    document.addEventListener('mouseover', e => {
+        const target = e.target.closest('[data-tooltip]');
+        if (target) showTip(e, target.dataset.tooltip);
+    });
+    document.addEventListener('mouseout', e => {
+        if (!e.relatedTarget?.closest('[data-tooltip]')) hideTip();
     });
 }
 
@@ -294,50 +304,269 @@ function buildRaceSelect() {
     sel.addEventListener('change', e => {
         S.race    = e.target.value || null;
         S.subrace = null;
-        $('row-subrace').style.display = 'none';
-        $('sel-subrace').innerHTML = '';
+        const chk = $('chk-all-classes'); if (chk) chk.checked = false;
+        populateClassSelect();
         updateDerivedStats();
         updateFlavorText();
     });
 }
 
+// ─── Abilities tab ────────────────────────────────────────────────────────────
+// Maps class IDs to their martial ability set ID in attacks_and_spells.json
+const CLASS_MARTIAL_SET = {
+    ironguard: 'vanguard_type', vanguard: 'vanguard_type',
+    battlebrave: 'skirmisher_type', duelist: 'skirmisher_type',
+    reaver: 'skirmisher_type', skirmisher: 'skirmisher_type',
+    wayfarer: 'marksman_type', marksman: 'marksman_type', beastwarden: 'marksman_type',
+    shadowblade: 'rogue_type', assassin: 'rogue_type', thief: 'rogue_type', saboteur: 'rogue_type',
+    warmaster: 'commander_type',
+};
+
+// Maps school name keywords (from classes.json) to school IDs in attacks_and_spells.json
+const SCHOOL_NAME_TO_ID = {
+    'Purelight': 'luminance', 'Luminance': 'luminance',
+    'Aegis Reflection': 'aegiscraft', 'Aegiscraft': 'aegiscraft', 'Sanctification': 'sanctification',
+    'Vitalism': 'vitalism', 'Soulkindling': 'soulkindling', 'Revelation': 'revelation',
+    'Dawncalling': 'dawncalling', 'Solacium': 'harmony_weaving', 'Harmony Weaving': 'harmony_weaving',
+    'Seraphic Binding': 'seraphic_binding', 'Ascendance': 'ascendance',
+    'Fire': 'pyricraft', 'Pyricraft': 'pyricraft',
+    'Tempest': 'aeromancy', 'Aeromancy': 'aeromancy',
+    'Aquas': 'aquorism', 'Aquorism': 'aquorism',
+    'Earthen': 'terramancy', 'Terramancy': 'terramancy',
+    'Impact': 'mindwielding', 'Mindwielding': 'mindwielding',
+    'Athropium': 'lifewhispering', 'Lifewhispering': 'lifewhispering',
+    'Bestial Communion': 'bestial_communion', 'Bloodpassion': 'bloodpassion',
+    'Geometrics': 'geometrics', 'Arcane Arts': 'arcane_arts', 'Arcane': 'arcane_arts',
+    'Darkvoid': 'voidreaving', 'Voidreaving': 'voidreaving',
+    'Darkmind': 'dominion', 'Dominion': 'dominion',
+    'Darkblood': 'blood_magic', 'Blood Magic': 'blood_magic', 'Bloodpassion': 'bloodpassion',
+    'Necromancy': 'necromancy', 'Maleficium': 'maleficium', 'Rotweaving': 'rotweaving',
+    'Demonology': 'demonology', 'Dreadforgering': 'dreadforgering',
+    'Timewhispering': 'timewhispering', 'Umbramancy': 'umbramancy',
+};
+
+function resolveSchoolId(schoolName) {
+    // Try direct lookup first, then partial keyword match
+    const clean = schoolName.replace(/\s*\(.*?\)/g, '').trim(); // strip "(basic)" etc.
+    if (SCHOOL_NAME_TO_ID[clean]) return SCHOOL_NAME_TO_ID[clean];
+    for (const [key, id] of Object.entries(SCHOOL_NAME_TO_ID)) {
+        if (clean.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(clean.toLowerCase())) return id;
+    }
+    return null;
+}
+
+// ─── Ability chips (compact, tooltip-based) ───────────────────────────────────
+const MARTIAL_SET_ICON = {
+    vanguard_type: '⚔', skirmisher_type: '⚔',
+    marksman_type: '🏹', rogue_type: '🗡', commander_type: '✦',
+};
+const BASE_CLASS_ICON = {
+    ironguard:'⚔', vanguard:'⚔', battlebrave:'⚔', reaver:'⚔', duelist:'⚔',
+    warmaster:'✦', wayfarer:'🏹', marksman:'🏹', skirmisher:'🏹', beastwarden:'🏹',
+    shadowblade:'🗡', assassin:'🗡', thief:'🗡', saboteur:'🗡',
+    warden:'✦', aegisbearer:'✦', dawncaller:'✦', soulkindler:'✦',
+};
+const MAGIC_DOT_COLOR = {
+    lightwielding: '#e8cc30',
+    materium:      '#5fbcff',
+    shadow:        '#9060d0',
+};
+
+function escTip(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/\n/g,'&#10;');
+}
+
+function abilityChip(ab, iconHtml, costType) {
+    const costLabel = costType === 'stamina' ? 'Stamina' : costType === 'shadow' ? 'Materium (Shadow)' : 'Materium';
+    const lines = [
+        ab.name,
+        `Cost: ${ab.cost || 0} ${costLabel}`,
+    ];
+    if (ab.damage_type && ab.damage_type !== 'null') lines.push(`Damage: ${ab.damage_type}${ab.amount ? ' — ' + ab.amount : ''}`);
+    if (ab.effect) lines.push('', ab.effect);
+    const tip = escTip(lines.join('\n'));
+    return `<span class="vs-abl-chip" data-tooltip="${tip}">${iconHtml}${ab.name}</span>`;
+}
+
+function abilityCard(ab, costType) {
+    const dmgParts = [];
+    if (ab.damage_type && ab.damage_type !== 'null') dmgParts.push(ab.damage_type);
+    if (ab.amount > 0) dmgParts.push(String(ab.amount) + (ab.amount_note ? ' ' + ab.amount_note : ''));
+    if (ab.healing > 0) dmgParts.push('Heal ' + ab.healing);
+    if (ab.shield > 0)  dmgParts.push('Shield ' + ab.shield);
+    const costLabel = ab.vitality_cost
+        ? `${ab.cost} + ${ab.vitality_cost} HP`
+        : String(ab.cost);
+    return `<div class="abl-card">
+        <span class="abl-name">${ab.name}</span>
+        <span class="abl-cost ${costType}">${costLabel} ${costType === 'stamina' ? 'Stamina' : 'Materium'}</span>
+        ${dmgParts.length ? `<span class="abl-dmg">${dmgParts.join(' · ')}</span>` : ''}
+        <span class="abl-effect">${ab.effect}</span>
+    </div>`;
+}
+
+function sheetAbilityCard(ab, costType) { // kept for abilities tab
+    const dmgParts = [];
+    if (ab.damage_type && ab.damage_type !== 'null') dmgParts.push(ab.damage_type);
+    if (ab.amount > 0)  dmgParts.push(String(ab.amount) + (ab.amount_note ? ' ' + ab.amount_note : ''));
+    if (ab.healing > 0) dmgParts.push('Heals ' + ab.healing);
+    if (ab.shield > 0)  dmgParts.push('Shield ' + ab.shield);
+    const costLabel = ab.vitality_cost
+        ? `${ab.cost} + ${ab.vitality_cost} HP`
+        : String(ab.cost);
+    const typeLabel = costType === 'stamina' ? 'Stamina' : costType === 'shadow' ? 'Materium' : 'Materium';
+    return `<div class="vs-abl-card">
+        <div class="vs-abl-top">
+            <span class="vs-abl-name">${ab.name}</span>
+            <span class="vs-abl-cost ${costType}">${costLabel} ${typeLabel}</span>
+        </div>
+        ${dmgParts.length ? `<div class="vs-abl-dmg">${dmgParts.join(' · ')}</div>` : ''}
+        <div class="vs-abl-effect">${ab.effect}</div>
+    </div>`;
+}
+
+function renderAbilitiesHTML(classId) {
+    const cls = findClass(classId);
+    if (!cls) return '<p class="skill-info">Select a class to see available abilities.</p>';
+
+    const data = DB.spells;
+    if (!data) return '<p class="skill-info">Ability data not loaded.</p>';
+
+    const groups = [];
+
+    // ── Base attack ──────────────────────────────────────────
+    const baseAttacks = (data.base_attacks || []).filter(a => a.class_ids?.includes(classId));
+    if (baseAttacks.length) {
+        const icon = `<span class="vs-abl-icon">${BASE_CLASS_ICON[classId] || '⚔'}</span>`;
+        let chips = baseAttacks.map(a => abilityChip(a, icon, 'stamina')).join('');
+        groups.push(`<div class="vs-abl-group">
+            <div class="vs-abl-group-title">Base Attack</div>
+            <div class="vs-abl-chips">${chips}</div>
+        </div>`);
+    }
+
+    // ── Martial abilities ─────────────────────────────────────
+    const setId = CLASS_MARTIAL_SET[classId];
+    if (setId && data.martial_ability_sets) {
+        const set = data.martial_ability_sets.find(s => s.id === setId);
+        if (set) {
+            const icon = `<span class="vs-abl-icon">${MARTIAL_SET_ICON[setId] || '⚔'}</span>`;
+            let inner = '';
+            (set.subsets || []).forEach(sub => {
+                const chips = (sub.abilities || []).map(a => abilityChip(a, icon, 'stamina')).join('');
+                inner += `<span class="vs-abl-subset-label">${sub.name}</span><div class="vs-abl-chips">${chips}</div>`;
+            });
+            groups.push(`<div class="vs-abl-group">
+                <div class="vs-abl-group-title">Martial Abilities — ${set.name}</div>
+                ${inner}
+            </div>`);
+        }
+    }
+
+    // ── Spell schools ─────────────────────────────────────────
+    if (cls.materium_access && cls.materium_schools_available?.length && data.spell_schools) {
+        const seen = new Set();
+        cls.materium_schools_available.forEach(schoolName => {
+            const schoolId = resolveSchoolId(schoolName);
+            if (!schoolId || seen.has(schoolId)) return;
+            seen.add(schoolId);
+            const school = data.spell_schools.find(s => s.id === schoolId);
+            if (!school) return;
+            const costType = school.magic_type === 'shadow' ? 'shadow' : 'materium';
+            const dotColor = MAGIC_DOT_COLOR[school.magic_type] || '#aaa';
+            const icon = `<span class="vs-abl-dot" style="color:${dotColor}">●</span>`;
+            const chips = (school.spells || []).map(sp => abilityChip(sp, icon, costType)).join('');
+            groups.push(`<div class="vs-abl-group">
+                <div class="vs-abl-group-title">${school.name}</div>
+                <div class="vs-abl-chips">${chips}</div>
+            </div>`);
+        });
+    }
+
+    if (!groups.length) return '<p class="skill-info">No ability data found for this class.</p>';
+    return `<div class="vs-abl-columns">${groups.join('')}</div>`;
+}
+
+function buildAbilitiesTab() {
+    const el = $('abilities-content');
+    if (!el) return;
+    el.innerHTML = renderAbilitiesHTML(S.cls);
+}
+
 // ─── Class select ─────────────────────────────────────────────────────────────
-function buildClassSelect() {
-    const sel = $('sel-class');
+function normRaceName(s) {
+    return String(s).toLowerCase().replace(/^the\s+/, '').replace(/\s+/g, ' ').trim();
+}
+function classTypicalForRace(cls, raceName) {
+    if (!cls.typical_races?.length) return false;
+    const rn = normRaceName(raceName);
+    return cls.typical_races.some(tr => {
+        const trn = normRaceName(tr);
+        return trn === rn || trn.includes(rn) || rn.includes(trn);
+    });
+}
+function raceIsGeneralist(raceData) {
+    return (raceData?.special_traits || []).some(t => t.name === 'Generalist');
+}
+
+function populateClassSelect() {
+    const sel      = $('sel-class');
+    const showAll  = $('chk-all-classes')?.checked;
+    const raceData = findRace(S.race);
+    const raceName = raceData?.name || null;
+    const generalist = raceName && raceIsGeneralist(raceData);
+
+    // Show/hide filter hint
+    const hint = $('class-filter-hint');
+    const rnEl = $('race-filter-name');
+    if (hint) hint.style.display = (raceName && !generalist) ? '' : 'none';
+    if (rnEl && raceName) rnEl.textContent = raceName;
+
+    const currentVal = sel.value;
     sel.innerHTML = '<option value="">— Choose Class —</option>';
 
-    const archetypeOrder = ['Physical', 'Scout', 'Faith', 'Elemental', 'Dark', 'Social', 'Craft'];
+    const archetypeOrder = ['Warrior','Ranger','Rogue','Cleric','Mage','Sorcerer','Druid','Warlock','Witch','Necromancer'];
     const groups = {};
     (DB.classes?.classes || []).forEach(cls => {
-        const arch = cls.archetype || 'Other';
+        const arch = cls.class_group || cls.archetype || 'Other';
         if (!groups[arch]) groups[arch] = [];
         groups[arch].push(cls);
     });
-
-    // Sort by archetype order, then alphabetically for unlisted
     const sortedArchetypes = [
         ...archetypeOrder.filter(a => groups[a]),
         ...Object.keys(groups).filter(a => !archetypeOrder.includes(a)).sort(),
     ];
 
+    let hasCurrentVal = false;
     sortedArchetypes.forEach(arch => {
+        const allInGroup = groups[arch];
+        const isTypicalMap = new Map(allInGroup.map(c => [c.id, !raceName || generalist || classTypicalForRace(c, raceName)]));
+
+        // When filtering: show only typical; when showAll: show all
+        const visible = (!raceName || generalist || showAll)
+            ? allInGroup
+            : allInGroup.filter(c => isTypicalMap.get(c.id));
+
+        if (!visible.length) return;
         const og = document.createElement('optgroup');
         og.label = arch;
-        groups[arch].forEach(cls => {
+        visible.forEach(cls => {
             const opt = document.createElement('option');
             opt.value = cls.id;
-            opt.textContent = cls.name;
+            const typical = isTypicalMap.get(cls.id);
+            opt.textContent = cls.name + (showAll && !typical ? ' (unusual pairing)' : '');
+            if (!typical && showAll) opt.className = 'unusual';
+            if (cls.id === currentVal) hasCurrentVal = true;
             og.appendChild(opt);
         });
         sel.appendChild(og);
     });
 
-    sel.addEventListener('change', e => {
-        const id = e.target.value;
-        S.cls      = id || null;
+    // If previous selection is no longer visible, clear it
+    if (currentVal && !hasCurrentVal) {
+        sel.value = '';
+        S.cls = null;
         S.subclass = null;
-        $('row-subclass').style.display = 'none';
-        $('sel-subclass').innerHTML = '';
         applyDefaultAptitudes();
         buildSkillRows();
         applyDefaultSkills();
@@ -345,8 +574,28 @@ function buildClassSelect() {
         updateFlavorText();
         updateInventory();
         updateEquipGoldHint();
+        buildAbilitiesTab();
+    } else {
+        sel.value = currentVal;
+    }
+}
+
+function buildClassSelect() {
+    populateClassSelect();
+    $('sel-class').addEventListener('change', e => {
+        const id = e.target.value;
+        S.cls      = id || null;
+        S.subclass = null;
+        applyDefaultAptitudes();
+        buildSkillRows();
+        applyDefaultSkills();
+        updateDerivedStats();
+        updateFlavorText();
+        updateInventory();
+        updateEquipGoldHint();
+        buildAbilitiesTab();
     });
-    $('sel-subclass').addEventListener('change', e => { S.subclass = e.target.value || null; });
+    $('chk-all-classes')?.addEventListener('change', populateClassSelect);
 }
 
 // ─── Background select ────────────────────────────────────────────────────────
@@ -781,8 +1030,7 @@ function updateDerivedStats() {
         priorities.slice(0, 3).forEach(ap => {
             const id = ap.toLowerCase().replace(/ /g, '_');
             const p = el('span', 'save-pill');
-            p.textContent = aptShort(id);
-            p.title = aptName(id);
+            p.textContent = aptName(id);
             savesRow.appendChild(p);
         });
     }
@@ -793,7 +1041,7 @@ function updateDerivedStats() {
     const clsName   = cls ? cls.name : null;
     const parts = [];
     if (raceName) parts.push(raceName);
-    if (clsName)  parts.push(S.subclass || clsName);
+    if (clsName)  parts.push(clsName);
     if (S.level > 1) parts.push(`Level ${S.level}`);
     $('identity-line').textContent = parts.length ? parts.join(' · ') : 'Choose race & class';
 }
@@ -1024,15 +1272,32 @@ function showViewSheet(char, origin = 'create') {
     const clsName  = clsData ? clsData.name : char.cls;
     const portraitSrc = char.portrait || $('char-portrait-img')?.getAttribute('src') || 'assets/images/characterportraits/ashenfemale.jpg';
 
+    const bgData    = findBackground(char.background);
+    const signData  = findSign(char.birthSign);
+    const bgName    = bgData?.name   || (char.background   ? char.background.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase()) : '—');
+    const signName  = signData?.name || (char.birthSign    ? char.birthSign.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())   : 'No Sign (Childless)');
+
     $('vs-name').textContent       = char.name || 'Unnamed Hero';
-    $('vs-sub').textContent        = [`Lv${char.level}`, raceName, clsName, char.birthSign].filter(Boolean).join(' · ');
+    $('vs-sub').textContent        = [`Level ${char.level}`, raceName, clsName, signName !== 'No Sign (Childless)' ? signName : null].filter(Boolean).join(' · ');
     $('vs-race').textContent       = raceName  || '—';
-    $('vs-subrace').textContent    = char.subrace    || '—';
-    $('vs-gender').textContent     = char.gender     || '—';
+    $('vs-gender').textContent     = char.gender || '—';
     $('vs-class').textContent      = clsName   || '—';
-    $('vs-subclass').textContent   = char.subclass   || '—';
-    $('vs-background').textContent = char.background || '—';
-    $('vs-alignment').textContent  = char.birthSign  || 'No Sign (Childless)';
+    $('vs-background').textContent = bgName;
+    $('vs-alignment').textContent  = signName;
+
+    // Tooltips for identity rows
+    const setRowTip = (spanId, text) => {
+        const row = $(spanId)?.parentElement;
+        if (!row) return;
+        if (text) { row.dataset.tooltip = text; row.style.cursor = 'help'; }
+        else      { delete row.dataset.tooltip; row.style.cursor = ''; }
+    };
+    setRowTip('vs-race',       raceData ? `${raceData.name}\n${raceData.description || ''}` : null);
+    setRowTip('vs-gender',     null);
+    setRowTip('vs-class',      clsData  ? `${clsData.name} — ${clsData.archetype}\n${clsData.description}` : null);
+    setRowTip('vs-background', bgData   ? `${bgData.name}\n${bgData.description}\n\n"${bgData.flavor_trait}"` : null);
+    setRowTip('vs-alignment',  signData ? `${signData.name} (${signData.alignment})\n${signData.description}\n\nPerk — ${signData.perk.name}: ${signData.perk.effect}\nConflict — ${signData.conflict.name}: ${signData.conflict.effect}` : null);
+    setRowTip('vs-level',      null);
     $('vs-level').textContent      = char.level      || 1;
     const vsPortrait = $('vs-portrait-img');
     if (vsPortrait) {
@@ -1044,47 +1309,78 @@ function showViewSheet(char, origin = 'create') {
     abGrid.innerHTML = '';
     APTITUDES.forEach(apt => {
         const score = (char.aptitudes && char.aptitudes[apt]) || BASE_APTITUDE;
-        const cell  = el('div', 'vs-ab-cell');
-        const abbr  = el('span', 'vs-ab-abbr');  abbr.textContent  = aptShort(apt);
-        const sc    = el('span', 'vs-ab-score');  sc.textContent    = score;
-        const tier  = score >= 80 ? 'Leg' : score >= 60 ? 'Exp' : score >= 40 ? 'Sea' : score >= 20 ? 'Nov' : 'Unt';
-        const t     = el('span', 'vs-ab-mod');    t.textContent     = tier;
+        const cell  = el('div', 'vs-apt-cell');
+        const abbr  = el('span', 'vs-apt-abbr');  abbr.textContent  = aptName(apt);
+        const sc    = el('span', 'vs-apt-score');  sc.textContent    = score;
+        const tier  = score >= 80 ? 'Legendary' : score >= 60 ? 'Expert' : score >= 40 ? 'Seasoned' : score >= 20 ? 'Novice' : 'Untrained';
+        const t     = el('span', 'vs-apt-tier');   t.textContent     = tier;
         cell.append(abbr, sc, t);
         abGrid.appendChild(cell);
     });
 
     const allSk = getAllSkills();
-    const skillNames = (char.skills && char.skills.length)
-        ? char.skills.map(id => allSk.find(s => s.id === id)?.name || id).join(', ')
-        : '—';
-    $('vs-skills').textContent = skillNames;
+    const skillsEl = $('vs-skills');
+    if (char.skills && char.skills.length) {
+        skillsEl.innerHTML = char.skills
+            .map(id => {
+                const name = allSk.find(s => s.id === id)?.name || id;
+                return `<span class="vs-skill-item">${name}</span>`;
+            }).join('');
+    } else {
+        skillsEl.textContent = '—';
+    }
+
     $('vs-equip').textContent  = char.equipment === 'gold' ? 'Starting Gold' : 'Starting Pack';
+    const kitEl = $('vs-starter-kit');
+    if (kitEl && clsData?.starter_kit?.length && char.equipment !== 'gold') {
+        kitEl.textContent = clsData.starter_kit.join(' · ');
+    } else if (kitEl) {
+        kitEl.textContent = '';
+    }
 
     // Update left panel derived stats
     const physVal = ((char.aptitudes || {}).physiology) || BASE_APTITUDE;
     const vitality = Math.round(40 + physVal * 0.6);
-    const materiumPool = clsData?.materium_access ? `${clsData.materium_pool_start || 0} MP` : '—';
-    const classTrait = clsData?.special_class_trait?.name || '—';
-    const focusText = (clsData?.aptitude_priorities || [])
-        .slice(0, 3)
-        .map(ap => aptShort(ap.toLowerCase().replace(/ /g, '_')))
-        .join(' · ') || '—';
+    const materiumPool = clsData?.materium_access ? `${clsData.materium_pool_start || 0}` : '—';
+    const shadowConn   = clsData?.shadow_connection_start > 0 ? `${clsData.shadow_connection_start}` : '0';
+    const staminaPool  = clsData?.stamina_pool_start != null ? `${clsData.stamina_pool_start}` : '—';
+    const classTrait   = clsData?.special_class_trait?.name || '—';
+    const classTraitDesc = clsData?.special_class_trait?.description || '';
+    const focusPriorities = (clsData?.aptitude_priorities || []).slice(0, 3);
+    const focusText = focusPriorities
+        .map(ap => aptName(ap.toLowerCase().replace(/ /g, '_')))
+        .join('\n') || '—';
 
     $('d-hp').textContent    = vitality;
     $('d-hd').textContent    = materiumPool;
-    $('d-prof').textContent  = `Lv ${char.level}`;
+    $('d-prof').textContent  = `Level ${char.level}`;
     $('d-speed').textContent = classTrait;
     $('identity-line').textContent = [raceName, char.subclass || clsName].filter(Boolean).join(' · ') || 'Choose race & class';
     if ($('vs-vitality')) $('vs-vitality').textContent = vitality;
-    if ($('vs-mpool')) $('vs-mpool').textContent = materiumPool;
-    if ($('vs-focus')) $('vs-focus').textContent = focusText;
-    if ($('vs-trait')) $('vs-trait').textContent = classTrait;
+    if ($('vs-mpool'))    $('vs-mpool').textContent    = materiumPool;
+    if ($('vs-focus')) {
+        $('vs-focus').textContent = focusText;
+        const focusRow = $('vs-focus').closest('.vs-focus-row');
+        if (focusRow) {
+            focusRow.dataset.tooltip = 'The aptitudes this class relies on most.\nInvest points here when building this character for best results.';
+            focusRow.addEventListener('mouseenter', e => showTip(e, focusRow.dataset.tooltip));
+            focusRow.addEventListener('mouseleave', hideTip);
+        }
+    }
+    if ($('vs-shadow'))   $('vs-shadow').textContent   = shadowConn;
+    if ($('vs-stamina'))  $('vs-stamina').textContent  = staminaPool;
+    if ($('vs-trait'))    $('vs-trait').textContent    = classTrait;
+    if ($('vs-trait-desc')) $('vs-trait-desc').textContent = classTraitDesc;
+
+    // Abilities & Spells section
+    const ablContent = $('vs-abilities-content');
+    if (ablContent) ablContent.innerHTML = renderAbilitiesHTML(char.cls);
 
     const savesRow = $('saves-row');
     savesRow.innerHTML = '';
     (clsData?.aptitude_priorities || []).slice(0, 3).forEach(ap => {
         const id = ap.toLowerCase().replace(/ /g, '_');
-        const p = el('span', 'save-pill'); p.textContent = aptShort(id); savesRow.appendChild(p);
+        const p = el('span', 'save-pill'); p.textContent = aptName(id); savesRow.appendChild(p);
     });
 
     const vsBack = $('btn-vs-back');
@@ -1098,10 +1394,12 @@ function showViewSheet(char, origin = 'create') {
     $('party-sheet').classList.remove('active');
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     $('view-sheet').classList.add('active');
+    $('cc-main').classList.add('sheet-mode');
 }
 
 function hideViewSheet() {
     $('view-sheet').classList.remove('active');
+    $('cc-main').classList.remove('sheet-mode');
     if (S.viewSheetOrigin === 'party' && S.activeParty) {
         showPartySheet(S.activeParty);
         return;
@@ -1173,9 +1471,9 @@ function buildMemberCard(char) {
     const stats = el('div', 'ps-card-stats');
     const rows = [
         ['Vitality',   hp],
-        ['Mat. Pool',  clsData?.materium_access ? `${clsData.materium_pool_start || 0} MP` : '—'],
-        ['Sign',       char.birthSign || 'No Sign'],
-        ['Background', char.background || '—'],
+        ['Materium Pool', clsData?.materium_access ? `${clsData.materium_pool_start || 0}` : '—'],
+        ['Sign',       findSign(char.birthSign)?.name || (char.birthSign ? char.birthSign.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase()) : 'No Sign')],
+        ['Background', findBackground(char.background)?.name || char.background || '—'],
     ];
     if (char.skills && char.skills.length) {
         const allSk = getAllSkills();
@@ -1335,10 +1633,6 @@ function clearCreator() {
 
     ['sel-race','sel-class','sel-background','sel-gender'].forEach(id => { const e = $(id); if (e) e.value = ''; });
     const signSel = $('sel-birth-sign'); if (signSel) signSel.value = '';
-    $('sel-subrace').innerHTML  = '';
-    $('sel-subclass').innerHTML = '';
-    $('row-subrace').style.display  = 'none';
-    $('row-subclass').style.display = 'none';
 
     $('char-name').value        = '';
     $('level-disp').textContent = 1;
@@ -1402,15 +1696,16 @@ function wireButtons() {
 // ─── Init ─────────────────────────────────────────────────────────────────────
 async function init() {
     try {
-        const [races, classes, skills, backgrounds, birthmothersigns, aptitudes] = await Promise.all([
+        const [races, classes, skills, backgrounds, birthmothersigns, aptitudes, spells] = await Promise.all([
             loadJSON('data/heroes/races.json'),
             loadJSON('data/heroes/classes.json'),
             loadJSON('data/heroes/skills.json'),
             loadJSON('data/heroes/backgrounds.json'),
             loadJSON('data/mechanics/birthmothersigns.json'),
             loadJSON('data/heroes/aptitudes.json'),
+            loadJSON('data/combat/attacks_and_spells.json'),
         ]);
-        DB = { races, classes, skills, backgrounds, birthmothersigns, aptitudes };
+        DB = { races, classes, skills, backgrounds, birthmothersigns, aptitudes, spells };
 
         initTooltip();
         buildRaceSelect();

@@ -52,7 +52,7 @@
       "equipment_bonus": ["Stripped Military Gear (worn, no insignia)", "Hidden Blade"],
       "aptitude_modifier": { "martial_experience": 10, "scarring": 8, "presence": -3 },
       "typical_cultures": ["Any military culture"],
-      "typical_classes": ["Ravager", "Shadowblade", "Wayfarer", "Battlebrave"],
+      "typical_classes": ["Reaver", "Shadowblade", "Wayfarer", "Battlebrave"],
       "openness_modifier": -1,
       "flavor_trait": "You watch every new person's hands before their face.",
       "profession_note": "The dishonor sometimes was not yours to earn. It does not matter. The world treated it the same."
@@ -197,7 +197,7 @@
       "equipment_bonus": ["Shortbow and Quiver (20 arrows)", "Hunting Knife", "Tanning Kit", "Rations x4"],
       "aptitude_modifier": { "martial_experience": 5, "physiology": 3 },
       "typical_cultures": ["Syl-Uun", "Gor-Vann", "Wildmen cultures", "Northerner cultures"],
-      "typical_classes": ["Wayfarer", "Ravager", "Lifewhisperer"],
+      "typical_classes": ["Wayfarer", "Reaver", "Lifewhisperer"],
       "openness_modifier": -1,
       "flavor_trait": "You are almost always the most dangerous thing in any room you walk into. You just don't say that.",
       "profession_note": "Hunters become adventurers when the prey gets more dangerous than animals."

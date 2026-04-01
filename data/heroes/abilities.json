@@ -4,10 +4,10 @@
   "redirect": "See data/heroes/aptitudes.json for the complete aptitude definitions.",
   "aptitude_list": [
     { "id": "conviction",        "name": "Conviction",         "category": "Mental/Spiritual", "typical_classes": ["Warden", "Soulkindler", "Ironguard"] },
-    { "id": "physiology",        "name": "Physiology",         "category": "Physical",         "typical_classes": ["Ironguard", "Battlebrave", "Ravager"] },
+    { "id": "physiology",        "name": "Physiology",         "category": "Physical",         "typical_classes": ["Ironguard", "Battlebrave", "Reaver"] },
     { "id": "cognition",         "name": "Cognition",          "category": "Mental/Practical", "typical_classes": ["Scholar", "Artisan", "Envoy", "Shadowblade"] },
     { "id": "materium_affinity", "name": "Materium Affinity",  "category": "Magical",          "typical_classes": ["Elementalist", "Soulkindler", "Voidweaver", "Pyrecrafter", "Stormcaller", "Lifewhisperer", "Bloodsinger"] },
-    { "id": "martial_experience","name": "Martial Experience", "category": "Physical/Combat",  "typical_classes": ["Ironguard", "Battlebrave", "Ravager", "Wayfarer", "Shadowblade"] },
+    { "id": "martial_experience","name": "Martial Experience", "category": "Physical/Combat",  "typical_classes": ["Ironguard", "Battlebrave", "Reaver", "Wayfarer", "Shadowblade"] },
     { "id": "presence",          "name": "Presence",           "category": "Social",           "typical_classes": ["Envoy", "Warden", "Soulkindler"] }
   ]
 }
