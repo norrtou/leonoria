@@ -1,0 +1,40 @@
+{
+  "ashen_halfbreeds_settlements": {
+    "villages": [
+      "Zinjara", "Kouladi", "N'temba", "Sogari", "Fasira", "Karzifa", "M'beshan", "Kintoro",
+      "Olambe", "Jendara", "N'gorafe", "Zunbeko", "Kafundae", "Garsadi", "N'temiri", "Balenga",
+      "Djolofa", "Ruzani", "Tafasa", "N'boreka", "Zarifu", "Temeshi", "Malonga", "Sorkadi",
+      "Fandiko", "N'zulani", "Karedji", "Bolofe", "Dufari", "N'korali", "Safura", "Lofeza",
+      "Sazari", "N'falume", "Jassari", "Mefadi", "Dorashi", "Tifaya", "Bolandu", "Kershadi",
+      "N'temako", "Zalumbe", "Fasendi", "Karashi", "Somalu", "N'gorashi", "Moulafe", "Bekhara",
+      "Zolandi", "Kurashi", "Fendura", "Sorkane", "Djafiri", "Talumbe", "N'seradi", "Baroshi",
+      "Koulafa", "Dembari", "Sefandu", "Jorashi", "Malendi"
+    ],
+    "towns": [
+      "Timbeko", "Boulenga", "Turemba", "Sambili", "Talassa", "Dombari", "Sefaya", "Bakelun",
+      "Lomashi", "Sokhuru", "Matalai", "Keshari", "Jambarae", "Zenkara", "Olumbar", "Djennari",
+      "Banshuri", "Ramatou", "Kolendi", "Tebira", "Koulume", "Zangora", "Tazendi"
+    ],
+    "fortresses_and_keeps": [
+      "Lamakor", "Farukhan", "Olundra", "Tamasra", "Kintashe", "Luranga", "Djembira", "Komfara"
+    ],
+    "cities": [
+      "Aksumari", "Djenkuru", "Zawadiya", "Kairouma", "Khandura", "Garamba", "Lumbashi", "Zindalu"
+    ],
+    "plain_names": [
+      "Zinjara", "Kouladi", "N'temba", "Sogari", "Fasira", "Karzifa", "M'beshan", "Kintoro",
+      "Olambe", "Jendara", "N'gorafe", "Zunbeko", "Kafundae", "Garsadi", "N'temiri", "Balenga",
+      "Djolofa", "Ruzani", "Tafasa", "N'boreka", "Zarifu", "Temeshi", "Malonga", "Sorkadi",
+      "Fandiko", "N'zulani", "Karedji", "Bolofe", "Dufari", "N'korali", "Safura", "Lofeza",
+      "Sazari", "N'falume", "Jassari", "Mefadi", "Dorashi", "Tifaya", "Bolandu", "Kershadi",
+      "N'temako", "Zalumbe", "Fasendi", "Karashi", "Somalu", "N'gorashi", "Moulafe", "Bekhara",
+      "Zolandi", "Kurashi", "Fendura", "Sorkane", "Djafiri", "Talumbe", "N'seradi", "Baroshi",
+      "Koulafa", "Dembari", "Sefandu", "Jorashi", "Malendi",
+      "Timbeko", "Boulenga", "Turemba", "Sambili", "Talassa", "Dombari", "Sefaya", "Bakelun",
+      "Lomashi", "Sokhuru", "Matalai", "Keshari", "Jambarae", "Zenkara", "Olumbar", "Djennari",
+      "Banshuri", "Ramatou", "Kolendi", "Tebira", "Koulume", "Zangora", "Tazendi",
+      "Lamakor", "Farukhan", "Olundra", "Tamasra", "Kintashe", "Luranga", "Djembira", "Komfara",
+      "Aksumari", "Djenkuru", "Zawadiya", "Kairouma", "Khandura", "Garamba", "Lumbashi", "Zindalu"
+    ]
+  }
+}

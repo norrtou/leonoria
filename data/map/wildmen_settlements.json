@@ -1,0 +1,34 @@
+{
+  "wildmen_settlements": {
+    "strongholds": [
+      "Krothmarg", "Grakholt", "Krothdur", "Grakmor", "Krothkald", "Grakbone", "Krothholt", "Grakvrak",
+      "Krothgrak", "Grakthrak", "Krothmar", "Grakdur", "Krothdak", "Grakmarg", "Krothvrak"
+    ],
+    "camps_and_warbands": [
+      "Velshade", "Kaarwend", "Gruthenmoss", "Grothenroot", "Velshadow", "Kaardusk", "Gruthenveil", "Grothenbriar",
+      "Velkaarveil", "Kaarshroud", "Gruthenfen", "Grothenthick", "Velkaarfen", "Kaardark", "Gruthenmire",
+      "Grothenhollow", "Velshadewend", "Kaargloom", "Gruthenthatch", "Grothenbrake"
+    ],
+    "fortresses_and_keeps": [
+      "Krothhammer", "Grakspine", "Krothanvil", "Grakwarden", "Krothfang", "Grakscald", "Krothblood", "Grakwrath",
+      "Krothrend", "Grakslaughter"
+    ],
+    "pits_and_dens": [
+      "Gruthenbog", "Grothenpit", "Gruthensink", "Grothenburrow", "Gruthenmaw", "Grothenhollow", "Gruthendepth",
+      "Grothendeep", "Gruthenpot", "Grothenrift", "Gruthensump", "Grothentrench", "Gruthenmire", "Grothenslough", "Gruthenwallow"
+    ],
+    "raids_and_outposts": [
+      "Velkaarshard", "Kaarwatch", "Gruthenwend", "Grothenpost", "Velkaarveil", "Kaarprowl", "Gruthenscout",
+      "Grothenedge", "Velkaarfang", "Kaarshadow", "Gruthenthorn", "Grothenspear", "Velkaarclaw", "Kaardusk", "Grothenward"
+    ],
+    "plain_names": [
+      "Krothmarg", "Grakholt", "Krothdur", "Grakmor", "Krothkald", "Grakbone", "Krothholt", "Grakvrak",
+      "Krothgrak", "Grakthrak", "Krothmar", "Grakdur", "Krothdak", "Grakmarg", "Krothvrak",
+      "Velshade", "Kaarwend", "Gruthenmoss", "Grothenroot", "Velshadow", "Kaardusk", "Gruthenveil", "Grothenbriar",
+      "Velkaarveil", "Kaarshroud", "Gruthenfen", "Grothenthick", "Velkaarfen", "Kaardark", "Gruthenmire",
+      "Grothenhollow", "Velshadewend", "Kaargloom", "Gruthenthatch", "Grothenbrake",
+      "Krothhammer", "Grakspine", "Krothanvil", "Grakwarden", "Krothfang", "Grakscald", "Krothblood", "Grakwrath",
+      "Gruthenbog", "Grothenpit", "Gruthensink", "Grothenburrow", "Gruthenmaw", "Grothenhollow"
+    ]
+  }
+}

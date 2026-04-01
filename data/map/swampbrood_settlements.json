@@ -1,0 +1,52 @@
+{
+  "swampbrood_settlements": {
+    "capital": [
+      "Yathaca"
+    ],
+    "villages": [
+      "Xochitlan", "Tzapotla", "Chalxoco", "Acolhua", "Tlatecoya",
+      "Xaltipan", "Mizquitla", "Atzompa", "Tezcalco", "Yopico",
+      "Xolotlan", "Tzintla", "Ameyalco", "Tlapacoya", "Xochical",
+      "Teopantla", "Mazatla", "Tzopilco", "Atlahua", "Xayacatl",
+      "Tlalocan", "Xicalco", "Atemoztla", "Coaxolco", "Tzompanco",
+      "Xochpala", "Tecuayal", "Aztapola", "Tzicatlán", "Xilotla",
+      "Metztla", "Coatlaco", "Tzayanal", "Xocoyol", "Atlixco",
+      "Tlapoyan", "Xaltzingo", "Tepextla", "Tzocoyan", "Amatlán",
+      "Xayatl", "Tzapotlan", "Cozcatla", "Tlatempa", "Xomulco",
+      "Acalco", "Tzihuaco", "Xicalpan", "Teyollan", "Mazayal",
+      "Tzocotla", "Xiloteco", "Atlazal", "Cozamalo", "Tlapalco",
+      "Xochteca", "Tezoyan", "Tzopanal", "Xamolco", "Atenco",
+      "Tzintzala", "Xochiyal", "Coaxayal", "Tlatzalan", "Xocotla",
+      "Atempan", "Tzomayal", "Xicaltla", "Tezcatlan", "Mazaco",
+      "Tzayopan", "Xoloco", "Atlapeco", "Cozoyan", "Tlapoyatl",
+      "Xayopan", "Tzintoyan", "Acoltla", "Xocoyan", "Tepeyal",
+      "Tzocotlan", "Xicaloyan", "Atlaztla", "Cozamalco", "Tlapoyanco",
+      "Xayacoya", "Tzintlacoya", "Mazapan", "Xolotla", "Tezompan",
+      "Tzopoyan", "Xochitoya", "Atlacoya", "Coaxoyan", "Tlapoyanec",
+      "Xicalcoya", "Tzintzoyan", "Mazoyan", "Xayacolan", "Tezoyatl"
+    ],
+    "plain_names": [
+      "Yathaca",
+      "Xochitlan", "Tzapotla", "Chalxoco", "Acolhua", "Tlatecoya",
+      "Xaltipan", "Mizquitla", "Atzompa", "Tezcalco", "Yopico",
+      "Xolotlan", "Tzintla", "Ameyalco", "Tlapacoya", "Xochical",
+      "Teopantla", "Mazatla", "Tzopilco", "Atlahua", "Xayacatl",
+      "Tlalocan", "Xicalco", "Atemoztla", "Coaxolco", "Tzompanco",
+      "Xochpala", "Tecuayal", "Aztapola", "Tzicatlán", "Xilotla",
+      "Metztla", "Coatlaco", "Tzayanal", "Xocoyol", "Atlixco",
+      "Tlapoyan", "Xaltzingo", "Tepextla", "Tzocoyan", "Amatlán",
+      "Xayatl", "Tzapotlan", "Cozcatla", "Tlatempa", "Xomulco",
+      "Acalco", "Tzihuaco", "Xicalpan", "Teyollan", "Mazayal",
+      "Tzocotla", "Xiloteco", "Atlazal", "Cozamalo", "Tlapalco",
+      "Xochteca", "Tezoyan", "Tzopanal", "Xamolco", "Atenco",
+      "Tzintzala", "Xochiyal", "Coaxayal", "Tlatzalan", "Xocotla",
+      "Atempan", "Tzomayal", "Xicaltla", "Tezcatlan", "Mazaco",
+      "Tzayopan", "Xoloco", "Atlapeco", "Cozoyan", "Tlapoyatl",
+      "Xayopan", "Tzintoyan", "Acoltla", "Xocoyan", "Tepeyal",
+      "Tzocotlan", "Xicaloyan", "Atlaztla", "Cozamalco", "Tlapoyanco",
+      "Xayacoya", "Tzintlacoya", "Mazapan", "Xolotla", "Tezompan",
+      "Tzopoyan", "Xochitoya", "Atlacoya", "Coaxoyan", "Tlapoyanec",
+      "Xicalcoya", "Tzintzoyan", "Mazoyan", "Xayacolan", "Tezoyatl"
+    ]
+  }
+}

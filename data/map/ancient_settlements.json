@@ -1,0 +1,41 @@
+{
+  "secluded_settlements": {
+    "capital": [
+      "Sirilith"
+    ],
+    "villages": [
+      "Aeltharyn", "Thalindris", "Aelindris", "Rinethel", "Aelvaen", "Thirvael", "Aelthrin", "Rinleth",
+      "Aelvindis", "Thiraeleth", "Aelnethis", "Rintharyn", "Aelthindis", "Thirvindis", "Aelrindis", "Rinthael",
+      "Aelthiris", "Rinvaelin", "Aelvindael", "Thirnethis",
+      "Aelgael", "Thinvaeleth", "Aelvindeth", "Aelrineth", "Rintharael", "Thirsaereth"
+    ],
+    "towns": [
+      "Aeltharivael", "Thalindael", "Aelindaeleth", "Rinethvaelin", "Aelvaendris", "Thirvaelis", "Aelthrindis", "Rinlethael",
+      "Aelgaelveth", "Thinvaelindis", "Aelvindaeleth",
+      "Aeltharindis", "Rinethvaeleth", "Thirvindael"
+    ],
+    "groves_and_sanctuaries": [
+      "Aelthivael", "Rinvaeleth", "Thalinvael", "Aelindvael", "Thirnvael", "Aelvindvael", "Rinlethvael",
+      "Aelgaelrin", "Thinvaelrin", "Aelrindvael"
+    ],
+    "fortresses_and_keeps": [
+      "Aelthalindris", "Thalindkhal", "Aelindkhal", "Rinethkhal", "Aelvaenkhal"
+    ],
+    "halls_and_cities": [
+      "Aeltharindael", "Thalindrisael", "Aelindrisaeth", "Rinethvaelindis", "Aelvaenindael", "Thirvaelaeleth", "Aelthrindael", "Rinlethindael"
+    ],
+    "plain_names": [
+      "Sirilith",
+      "Aeltharyn", "Thalindris", "Aelindris", "Rinethel", "Aelvaen", "Thirvael", "Aelthrin", "Rinleth",
+      "Aelvindis", "Thiraeleth", "Aelnethis", "Rintharyn", "Aelthindis", "Thirvindis", "Aelrindis", "Rinthael",
+      "Aelthiris", "Rinvaelin", "Aelvindael", "Thirnethis",
+      "Aelgael", "Thinvaeleth", "Aelvindeth", "Aelrineth", "Rintharael", "Thirsaereth",
+      "Aeltharivael", "Thalindael", "Aelindaeleth", "Rinethvaelin", "Aelvaendris", "Thirvaelis", "Aelthrindis", "Rinlethael",
+      "Aelgaelveth", "Thinvaelindis", "Aelvindaeleth", "Aeltharindis", "Rinethvaeleth", "Thirvindael",
+      "Aelthivael", "Rinvaeleth", "Thalinvael", "Aelindvael", "Thirnvael", "Aelvindvael", "Rinlethvael",
+      "Aelgaelrin", "Thinvaelrin", "Aelrindvael",
+      "Aelthalindris", "Thalindkhal", "Aelindkhal", "Rinethkhal", "Aelvaenkhal",
+      "Aeltharindael", "Thalindrisael", "Aelindrisaeth", "Rinethvaelindis", "Aelvaenindael", "Thirvaelaeleth", "Aelthrindael", "Rinlethindael"
+    ]
+  }
+}

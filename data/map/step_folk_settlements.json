@@ -1,0 +1,44 @@
+{
+  "step_folk_settlements": {
+    "villages": [
+      "Khuldai", "Khorzunai", "Zunbatai", "Khorgatai", "Ulzunbek", "Mardugol", "Sarnatai",
+      "Borzunai", "Tsargolbek", "Ulganai", "Temurgol", "Khazurtai", "Toguldai", "Aldurgol",
+      "Khashantai", "Bortugan", "Zunbekai", "Khorgunzar", "Turdakai", "Sargunbek", "Olgatai",
+      "Nartugol", "Khazganai", "Urdunbek", "Tsargatai", "Khuldurgol", "Zorkhanai", "Turgatai",
+      "Suldai", "Arzunbek", "Khoratai", "Tashurgol", "Ulgatai", "Tsurgadai", "Khazurgan",
+      "Noyantai", "Zargolbek", "Khergatai", "Ulzurgol", "Torgatai", "Khundarbek", "Sargatai",
+      "Zunurgol", "Khortai", "Turzunai", "Balgolbek", "Khargatai", "Suldurgol", "Khaztai",
+      "Turgunbek", "Nartai", "Zarkhundai", "Uldurgan", "Borzatai", "Tsurgolai", "Khuldarbek",
+      "Khazunai", "Orkhandai", "Torgunbek", "Sarnugatai", "Zuldarbek", "Khargunai", "Ulzatai",
+      "Noyargol"
+    ],
+    "towns": [
+      "Torgunai", "Sarnugol", "Temurak", "Zayurgan", "Altunbek", "Bayantul", "Nogorbek",
+      "Tsengelai", "Uldamar", "Sogdai", "Khasurgol", "Erdenzul", "Balgatai", "Nurganbek",
+      "Tolgazar", "Khurundal", "Orsugol", "Tashkhanai", "Noyanbek"
+    ],
+    "fortresses_and_keeps": [
+      "Kharzul", "Ulgenbek", "Kharkhagan", "Khergundar", "Zarkhagan", "Khorgundal", "Orzundal", "Tashundal"
+    ],
+    "cities": [
+      "Baatarkhan", "Turgenkhan", "Borzunkhan", "Bayarkhan", "Khurbekhan", "Aldarkhan", "Orkhunzar", "Bayanturgol"
+    ],
+    "plain_names": [
+      "Khuldai", "Khorzunai", "Zunbatai", "Khorgatai", "Ulzunbek", "Mardugol", "Sarnatai",
+      "Borzunai", "Tsargolbek", "Ulganai", "Temurgol", "Khazurtai", "Toguldai", "Aldurgol",
+      "Khashantai", "Bortugan", "Zunbekai", "Khorgunzar", "Turdakai", "Sargunbek", "Olgatai",
+      "Nartugol", "Khazganai", "Urdunbek", "Tsargatai", "Khuldurgol", "Zorkhanai", "Turgatai",
+      "Suldai", "Arzunbek", "Khoratai", "Tashurgol", "Ulgatai", "Tsurgadai", "Khazurgan",
+      "Noyantai", "Zargolbek", "Khergatai", "Ulzurgol", "Torgatai", "Khundarbek", "Sargatai",
+      "Zunurgol", "Khortai", "Turzunai", "Balgolbek", "Khargatai", "Suldurgol", "Khaztai",
+      "Turgunbek", "Nartai", "Zarkhundai", "Uldurgan", "Borzatai", "Tsurgolai", "Khuldarbek",
+      "Khazunai", "Orkhandai", "Torgunbek", "Sarnugatai", "Zuldarbek", "Khargunai", "Ulzatai",
+      "Noyargol",
+      "Torgunai", "Sarnugol", "Temurak", "Zayurgan", "Altunbek", "Bayantul", "Nogorbek",
+      "Tsengelai", "Uldamar", "Sogdai", "Khasurgol", "Erdenzul", "Balgatai", "Nurganbek",
+      "Tolgazar", "Khurundal", "Orsugol", "Tashkhanai", "Noyanbek",
+      "Kharzul", "Ulgenbek", "Kharkhagan", "Khergundar", "Zarkhagan", "Khorgundal", "Orzundal", "Tashundal",
+      "Baatarkhan", "Turgenkhan", "Borzunkhan", "Bayarkhan", "Khurbekhan", "Aldarkhan", "Orkhunzar", "Bayanturgol"
+    ]
+  }
+}

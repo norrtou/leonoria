@@ -1,0 +1,40 @@
+{
+  "northerner_settlements": {
+    "villages": [
+      "Dornkrim", "Gruldak", "Bromthak", "Thalhak", "Karndul", "Grudnak", "Durthrim", "Bronkhal",
+      "Hokdur", "Ragthol", "Grimdul", "Boldak", "Ternkhal", "Drakhol", "Narduk", "Brindul",
+      "Grombak", "Thoknar", "Durnhak", "Brakdul", "Horndul", "Grimnak", "Doldak", "Ragnkrim",
+      "Brondul", "Thakdur", "Koldrim", "Norndak", "Grumbak", "Tolkrim", "Bornthak", "Durnak",
+      "Haldrim", "Grudkhal", "Darnhol", "Broknak", "Grimhak", "Tholbak", "Kolthrim", "Norkdak",
+      "Brondak", "Tholhak", "Durndak", "Grakhol", "Boldrim", "Thorndul", "Draknak", "Holbrim"
+    ],
+    "towns": [
+      "Dorngrond", "Grulthol", "Bromkhal", "Thalgrond", "Karnthol", "Grudgrim", "Durkhald", "Brongrond",
+      "Hokkrim", "Ragthrim", "Grimgrond", "Boldthol", "Terngrim", "Drakhald", "Nardthol", "Brindkhal",
+      "Grombthol", "Thokgrim", "Durngrond", "Brakhald", "Hornkhal", "Grimdur", "Doldgrond", "Ragnthol",
+      "Bronkhal", "Thakgrond", "Koldthol", "Norngrim"
+    ],
+    "mines": [
+      "Dornvrak", "Grulkrim", "Bromholt", "Thakdulm", "Karndrak", "Grudholm", "Durthrak", "Bronvrak",
+      "Hokvrak", "Ragthdulm", "Grimvrak", "Boldholm"
+    ],
+    "fortresses": [
+      "Dornkald", "Grulthrak", "Bromkald", "Thalgrak", "Karnkald", "Grudthrak", "Durkald", "Bronkald",
+      "Hokthrak", "Ragkald", "Grimkald", "Boldthrak"
+    ],
+    "halls": [
+      "Dornhall", "Grulthond", "Bromkhond", "Thalhond", "Karnhond", "Grudkhond", "Durkhond", "Bronhond",
+      "Hokkhond", "Ragthond", "Grimhond", "Boldkhond"
+    ],
+    "plain_names": [
+      "Dornkrim", "Gruldak", "Bromthak", "Thalhak", "Karndul", "Grudnak", "Durthrim", "Bronkhal",
+      "Hokdur", "Ragthol", "Grimdul", "Boldak", "Ternkhal", "Drakhol", "Narduk", "Brindul",
+      "Grombak", "Thoknar", "Durnhak", "Brakdul", "Horndul", "Grimnak", "Doldak", "Ragnkrim",
+      "Brondul", "Thakdur", "Koldrim", "Norndak", "Grumbak", "Tolkrim", "Bornthak", "Durnak",
+      "Haldrim", "Grudkhal", "Darnhol", "Broknak", "Grimhak", "Tholbak", "Kolthrim", "Norkdak",
+      "Brondak", "Tholhak", "Durndak", "Grakhol", "Boldrim", "Thorndul", "Draknak", "Holbrim",
+      "Dorngrond", "Grulthol", "Bromkhal", "Thalgrond", "Karnthol", "Grudgrim", "Durkhald", "Brongrond",
+      "Dornvrak", "Grulkrim", "Bromholt", "Thakdulm", "Karndrak", "Grudholm", "Durthrak", "Bronvrak"
+    ]
+  }
+}

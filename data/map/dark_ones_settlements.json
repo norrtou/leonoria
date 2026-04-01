@@ -1,0 +1,59 @@
+{
+  "dark_ones_settlements": {
+    "capital": [
+      "Voidbreaker"
+    ],
+    "villages": [
+      "Nhal'Voryth", "Xyraeth Nullspire", "Velkorath Umbra", "Thaz'Korrin", "Morvhalis Deep",
+      "Zyn'Taleth", "Kharvex Hollow", "Ul'Zaroth", "Veyndral Abyss", "Thul'Varak",
+      "Nyxorith Shade", "Vel'Kharun", "Morzeth Veil", "Xalvoryn Rift", "Thren'Khal",
+      "Zorveth Umbral", "Khel'Dravok", "Nyxarion Gloom", "Velthar Void", "Khar'Zethra",
+      "Ul'Morvain", "Xyr'Thalor", "Zethrakar Hollow", "Thal'Nyxor", "Mor'Velkath",
+      "Vorneth Rift", "Khelzaryn Deep", "Xal'Vorun", "Nyx'Talveth", "Dravokh Gloom",
+      "Vel'Norith", "Threxal Umber", "Zor'Khalis", "Morveth Abyss", "Khar'Nyxal",
+      "Ul'Vorith", "Xyrelth Vein", "Nyx'Morath", "Thal'Zorun", "Velkaris Shade",
+      "Khel'Vorath", "Mor'Xyren", "Zor'Velkhan", "Threx'Morin", "Nyx'Draveth",
+      "Ul'Zyroth", "Xal'Kharun", "Vel'Threnis", "Morzaryn Deep", "Thal'Vorneth"
+    ],
+    "towns": [
+      "Zeth'Nyxar", "Khar'Veloth", "Ul'Morveth", "Xyra'Zorin", "Nyx'Velkath",
+      "Threx'Zorun", "Mor'Khelis", "Vel'Nyxorin", "Zor'Thaleth", "Khel'Zorvath",
+      "Nyx'Ulvar", "Thal'Morvex", "Xal'Nyxorin", "Vel'Zethar", "Mor'Threxal",
+      "Ul'Kharon", "Zor'Velith", "Nyx'Tharun", "Khar'Zorin", "Threx'Velkath",
+      "Mor'Nyxorin", "Xal'Threnor", "Vel'Kharis", "Zor'Morvath", "Nyx'Velith"
+    ],
+    "fortresses_and_keeps": [
+      "Thal'Zyroth", "Ul'Nyxorin", "Khel'Morvex", "Xyra'Velkhan", "Mor'Zorath",
+      "Threx'Nyxorin", "Vel'Morveth", "Zor'Kharis", "Nyx'Threxal", "Ul'Velkhan",
+      "Khar'Morveth", "Xal'Zorin", "Thal'Velkath"
+    ],
+    "cities": [
+      "Mor'Nyxeth", "Vel'Zorun", "Nyx'Kharis", "Threx'Morvath",
+      "Zor'Nyxorin", "Ul'Thaleth", "Khel'Velkhan",
+      "Mor'Zyroth", "Xyra'Nyxorin", "Thal'Morveth", "Nyx'Velkhan"
+    ],
+    "plain_names": [
+      "Voidbreaker",
+      "Nhal'Voryth", "Xyraeth Nullspire", "Velkorath Umbra", "Thaz'Korrin", "Morvhalis Deep",
+      "Zyn'Taleth", "Kharvex Hollow", "Ul'Zaroth", "Veyndral Abyss", "Thul'Varak",
+      "Nyxorith Shade", "Vel'Kharun", "Morzeth Veil", "Xalvoryn Rift", "Thren'Khal",
+      "Zorveth Umbral", "Khel'Dravok", "Nyxarion Gloom", "Velthar Void", "Khar'Zethra",
+      "Ul'Morvain", "Xyr'Thalor", "Zethrakar Hollow", "Thal'Nyxor", "Mor'Velkath",
+      "Vorneth Rift", "Khelzaryn Deep", "Xal'Vorun", "Nyx'Talveth", "Dravokh Gloom",
+      "Vel'Norith", "Threxal Umber", "Zor'Khalis", "Morveth Abyss", "Khar'Nyxal",
+      "Ul'Vorith", "Xyrelth Vein", "Nyx'Morath", "Thal'Zorun", "Velkaris Shade",
+      "Khel'Vorath", "Mor'Xyren", "Zor'Velkhan", "Threx'Morin", "Nyx'Draveth",
+      "Ul'Zyroth", "Xal'Kharun", "Vel'Threnis", "Morzaryn Deep", "Thal'Vorneth",
+      "Zeth'Nyxar", "Khar'Veloth", "Ul'Morveth", "Xyra'Zorin", "Nyx'Velkath",
+      "Threx'Zorun", "Mor'Khelis", "Vel'Nyxorin", "Zor'Thaleth", "Khel'Zorvath",
+      "Nyx'Ulvar", "Thal'Morvex", "Xal'Nyxorin", "Vel'Zethar", "Mor'Threxal",
+      "Ul'Kharon", "Zor'Velith", "Nyx'Tharun", "Khar'Zorin", "Threx'Velkath",
+      "Mor'Nyxorin", "Xal'Threnor", "Vel'Kharis", "Zor'Morvath", "Nyx'Velith",
+      "Thal'Zyroth", "Ul'Nyxorin", "Khel'Morvex", "Xyra'Velkhan", "Mor'Zorath",
+      "Threx'Nyxorin", "Vel'Morveth", "Zor'Kharis", "Nyx'Threxal", "Ul'Velkhan",
+      "Khar'Morveth", "Xal'Zorin", "Thal'Velkath", "Mor'Nyxeth", "Vel'Zorun",
+      "Nyx'Kharis", "Threx'Morvath", "Zor'Nyxorin", "Ul'Thaleth", "Khel'Velkhan",
+      "Mor'Zyroth", "Xyra'Nyxorin", "Thal'Morveth", "Nyx'Velkhan"
+    ]
+  }
+}

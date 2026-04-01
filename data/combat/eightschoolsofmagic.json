@@ -1,98 +1,338 @@
 [
   {
-    "school": "Abjuration",
-    "tactical_role": "The Universal Nullifier",
-    "hard_counters": ["Evocation", "Conjuration"],
+    "school": "Athropium",
+    "domain": "Nature / Growth",
+    "tactical_role": "Terrain Controller & Sustained Damage",
+    "hard_counters": ["Fire", "Rotweaving"],
     "interaction_logic": {
-      "vs_evocation": "Directly absorbs or negates elemental energy (Shield, Absorb Elements).",
-      "vs_conjuration": "Banishes summoned entities and closes planar rifts (Banishment, Dispel Magic).",
-      "engine_hook": "INTERRUPT_ON_CAST: If target is Abjurer, trigger 'Counterspell' check on incoming spells."
+      "vs_fire": "Living plant growth is directly opposed by fire — Athropium terrain features burn away if Fire damage is applied to the area.",
+      "vs_rotweaving": "Decay and rot corrupt living growth. A Rotweaver can systematically dismantle Athropium constructs over time.",
+      "engine_hook": "TERRAIN_MODIFY: Athropium can create or remove plant-terrain tiles on the hex grid, affecting movement costs."
     },
-    "strategic_weakness": "Divination",
-    "weakness_logic": "Abjuration creates visible or tangible barriers; Divination bypasses them by finding weaknesses or 'True Seeing' through magical wards."
+    "strategic_weakness": "Fire",
+    "weakness_logic": "Any sustained Fire damage or Fire-school presence will suppress Athropium abilities. Athropium users avoid fire-heavy enemies.",
+    "primary_users": ["Talarin (Oakpeople)", "Aelthiryn (Secluded)", "Swampbrood"],
+    "materium_pool_cost": "Moderate",
+    "notes": "The strongest Athropium practitioners alive are the Talarin, dealing 20% more damage with this school than any other race."
   },
   {
-    "school": "Conjuration",
-    "tactical_role": "Battlefield Controller",
-    "hard_counters": ["Enchantment", "Transmutation"],
+    "school": "Lifewhispering",
+    "domain": "Healing / Life Force",
+    "tactical_role": "Support & Regeneration",
+    "hard_counters": ["Darkvoid", "Rotweaving"],
     "interaction_logic": {
-      "vs_enchantment": "Summoned creatures are often immune to 'Charm' if they lack a biological soul or follow distinct planar logic.",
-      "vs_transmutation": "Teleportation negates 'Restrained' or 'Slowed' status effects caused by physical alteration.",
-      "engine_hook": "ENTITY_SPAWN: Track summoned unit count; check for 'Concentration' break to de-spawn."
+      "vs_darkvoid": "Void energy actively drains life force — Lifewhispering heals cannot keep pace with Darkvoid drain if both are applied simultaneously.",
+      "vs_rotweaving": "Decay unravels healing; Lifewhispering repairs take double the Materium cost when Rotweaving is active in the same combat zone.",
+      "engine_hook": "HP_RESTORE: Lifewhispering heals are calculated per round and can be interrupted by Rotweaving or Darkvoid effects."
     },
-    "strategic_weakness": "Abjuration",
-    "weakness_logic": "Highly vulnerable to 'Dispel Magic' and 'Antimagic Field', which instantly unbinds the summoned matter."
+    "strategic_weakness": "Darkvoid",
+    "weakness_logic": "Darkvoid specifically suppresses life energy, reducing Lifewhispering heal values by up to 50% while active.",
+    "primary_users": ["Aelthiryn (Secluded)", "Wildmen Foresters", "Talarin (Oakpeople)"],
+    "materium_pool_cost": "Moderate",
+    "notes": "Northerner Clerics can reach High potency in Lifewhispering when their Conviction (faith) score is above 60."
   },
   {
-    "school": "Divination",
-    "tactical_role": "Precision & Accuracy",
-    "hard_counters": ["Illusion", "Abjuration"],
+    "school": "Harmony Weaving",
+    "domain": "Balance / Aura / Buff",
+    "tactical_role": "Party Booster & Debuff Clearer",
+    "hard_counters": ["Darkmind", "Blood Magic"],
     "interaction_logic": {
-      "vs_illusion": "Automatically pierces falsehoods (True Seeing, See Invisibility).",
-      "vs_abjuration": "Finds gaps in magical shielding; reduces target AC by predicting movements.",
-      "engine_hook": "ROLL_REPLACEMENT: Use 'Portent' logic to replace d20 rolls in the combat queue."
+      "vs_darkmind": "Mental intrusion tears at aura-based harmony; Darkmind illusions cause Harmony Weaves to apply to the wrong targets.",
+      "vs_blood_magic": "Blood-fueled rage states override Harmony buffs — the emotional violence of Blood Magic cancels the calm of Harmony Weaving.",
+      "engine_hook": "AURA_RADIUS: Harmony Weave effects apply to all party members within a hex range, calculated each round."
     },
-    "strategic_weakness": "Enchantment",
-    "weakness_logic": "The Diviner's mind is 'open' to information, making it more susceptible to psychic intrusion or memory modification."
+    "strategic_weakness": "Blood Magic",
+    "weakness_logic": "Harmony Weavers require mental calm; a Blood Magic frenzy state in the party disrupts the entire Weave.",
+    "primary_users": ["Aelthiryn (Secluded)", "Northerners", "Talarin (Oakpeople)"],
+    "materium_pool_cost": "Moderate to High",
+    "notes": "Most effective when the whole party is within range. Single-target use wastes the school's potential."
   },
   {
-    "school": "Enchantment",
-    "tactical_role": "Turn-Economy Disruptor",
-    "hard_counters": ["Divination", "Evocation"],
+    "school": "Tempest",
+    "domain": "Storm / Wind / Lightning",
+    "tactical_role": "Area Disruption & Positioning Control",
+    "hard_counters": ["Earthen", "Geometrics"],
     "interaction_logic": {
-      "vs_divination": "Overwhelms the info-gathering mind with false emotions or 'Feeblemind'.",
-      "vs_evocation": "The most effective counter to high damage is 'Charming' the damage dealer to attack their own allies.",
-      "engine_hook": "AFFILIATION_SWAP: Temporarily change 'Unit_Faction' tag of the target."
+      "vs_earthen": "Stone and deep earth grounds electrical charge and resists wind displacement — Earthen users are strongly resistant to Tempest.",
+      "vs_geometrics": "Structural geometry negates chaotic weather patterns within its field; Tempest spells lose potency against Geometric shields.",
+      "engine_hook": "KNOCKBACK_CALC: Tempest spells calculate displacement distance based on target's physical_hardening score."
     },
-    "strategic_weakness": "Conjuration",
-    "weakness_logic": "Summoned swarms and extraplanar entities often have high mental saves or 'Mindless' traits (Constructs/Undead)."
+    "strategic_weakness": "Earthen",
+    "weakness_logic": "Earthen magic roots, grounds, and stabilizes. It is the natural counter to all movement-based Tempest abilities.",
+    "primary_users": ["Aelthiryn (Secluded)", "Saereth (Greys)", "Thyraen (Ice Ancients)"],
+    "materium_pool_cost": "High",
+    "notes": "Exceptional for breaking formation-based enemies. Weak against single heavily-armored targets."
   },
   {
-    "school": "Evocation",
-    "tactical_role": "The Glass Cannon",
-    "hard_counters": ["Necromancy", "Illusion"],
+    "school": "Earthen",
+    "domain": "Stone / Ground / Structure",
+    "tactical_role": "Defense, Anchoring & Terrain Shaping",
+    "hard_counters": ["Tempest", "Fire"],
     "interaction_logic": {
-      "vs_necromancy": "Radiant Evocation (Holy Fire) stops undead regeneration and destroys hordes instantly.",
-      "vs_illusion": "AoE (Area of Effect) damage clears illusions by hitting the entire area, forcing 'Displacement' to fail.",
-      "engine_hook": "AOE_RESOLUTION: Calculate damage for all units within 'Radius_Value' geometry."
+      "vs_tempest": "Earthen magic grounds all electrical and wind effects. Earthen users are immune to Tempest knockback.",
+      "vs_fire": "Stone does not burn; Earthen shields negate fire spread. However sustained magical fire (Fire school) can eventually crack and melt stone.",
+      "engine_hook": "TERRAIN_BLOCK: Earthen can create impassable stone walls on hex tiles. Walls have HP and can be destroyed by Tempest or Fire damage."
     },
-    "strategic_weakness": "Abjuration",
-    "weakness_logic": "Abjuration was specifically evolved to withstand Evocation; 'Evasion' and 'Magic Resistance' are Evocation's hardest walls."
+    "strategic_weakness": "Terramancy",
+    "weakness_logic": "Terramancy operates at a deeper geological level — it can reshape the same stone that Earthen controls, overriding its structures.",
+    "primary_users": ["Dornak (Stone Folk)", "Saereth (Greys)", "Ul'Karash (Ashen Halfbreeds)"],
+    "materium_pool_cost": "Low to Moderate",
+    "notes": "Most reliable defensive school. No single weakness except deeper earth magic."
   },
   {
-    "school": "Illusion",
-    "tactical_role": "Stealth & Avoidance",
-    "hard_counters": ["Evocation", "Enchantment"],
+    "school": "Terramancy",
+    "domain": "Deep Earth / Geological Force",
+    "tactical_role": "Massive Terrain Manipulation",
+    "hard_counters": ["Earthen", "Athropium"],
     "interaction_logic": {
-      "vs_evocation": "Redirects attacks to 'Mirror Images' or decoy duplicates, wasting the attacker's resources.",
-      "vs_enchantment": "If the Enchanter cannot see the real target, they cannot cast 'Targeted' mind spells.",
-      "engine_hook": "MISS_CHANCE_REPLACEMENT: If Illusion active, check 'Target_Identity' vs 'Image_Count' before roll."
+      "vs_earthen": "Terramancy operates at a geological depth below Earthen — it reshapes what Earthen controls. Earthen walls can be sunk into the ground.",
+      "vs_athropium": "Root systems and plant life are torn apart when the ground itself shifts and fractures.",
+      "engine_hook": "EARTHQUAKE_RADIUS: Terramancy can apply stagger/prone effects to all units in a hex radius, ignoring physical_hardening."
     },
-    "strategic_weakness": "Divination",
-    "weakness_logic": "A Diviner makes Illusion irrelevant. One 'See Invisibility' spell renders the entire school moot."
+    "strategic_weakness": "Tempest",
+    "weakness_logic": "While Terramancy controls deep earth, Tempest operates in the air above it — lightning strikes can disrupt concentration required for deep geological manipulation.",
+    "primary_users": ["Dornak (Stone Folk)", "Saereth (Greys)"],
+    "materium_pool_cost": "Very High",
+    "notes": "Rarely mastered outside of Dornak culture. The most geologically potent school in Leonoria."
   },
   {
-    "school": "Necromancy",
-    "tactical_role": "Attrition & Resource Drain",
-    "hard_counters": ["Transmutation", "Divination"],
+    "school": "Arcane Arts",
+    "domain": "Pure Materium / Structured Magic",
+    "tactical_role": "Versatile High-Damage Caster",
+    "hard_counters": ["Darkvoid", "Voidreaving"],
     "interaction_logic": {
-      "vs_transmutation": "Necrotic rot and decay target the life force directly, often bypassing 'Hardened Skin' or 'Armor' buffs.",
-      "vs_divination": "Darkness and Necrotic mists often blind Diviners or cause 'Psychic Backlash' when scried upon.",
-      "engine_hook": "HP_CAP_MODIFIER: Implement 'Maximum_HP_Reduction' that persists past healing."
+      "vs_darkvoid": "Arcane energy is structured and predictable — Darkvoid's chaos directly disrupts Arcane construct patterns.",
+      "vs_voidreaving": "Void erasure can strip Arcane constructs from targets, negating their protective or offensive layers.",
+      "engine_hook": "CONSTRUCT_STABILITY: Arcane spells have a Stability rating that degrades under sustained Darkvoid pressure."
     },
-    "strategic_weakness": "Evocation",
-    "weakness_logic": "Necromancy is slow and requires 'Build-up' (corpses/rituals); Evocation’s instant, high-burst Fire/Radiant damage destroys it before it scales."
+    "strategic_weakness": "Darkvoid",
+    "weakness_logic": "Arcane structure requires order; Darkvoid is the absence of structure. Sustained Darkvoid exposure causes Arcane spells to misfire.",
+    "primary_users": ["Saereth (Greys)", "Scholars"],
+    "materium_pool_cost": "High",
+    "notes": "The Saereth are the primary masters of Arcane Arts. No other race has their breadth of access."
   },
   {
-    "school": "Transmutation",
-    "tactical_role": "Stat Mastery & Versatility",
-    "hard_counters": ["Necromancy", "Abjuration"],
+    "school": "Soulkindling",
+    "domain": "Inner Fire / Will / Spirit",
+    "tactical_role": "Conviction Amplifier & Anti-Undead",
+    "hard_counters": ["Umbramancy", "Darkmind"],
     "interaction_logic": {
-      "vs_necromancy": "Can 'Purify' blood or transmute necrotic flesh back to healthy tissue; 'Polymorph' gives a fresh HP pool.",
-      "vs_abjuration": "Alters the physical properties of weapons (Magic Weapon/Elemental Weapon) to bypass Abjuration wards.",
-      "engine_hook": "STAT_OVERRIDE: Replace 'Base_Stat_Block' with 'New_Form_Block' (e.g., Polymorph to T-Rex)."
+      "vs_umbramancy": "Soul light directly burns shadow; Soulkindling attacks against Umbramancy users deal bonus damage.",
+      "vs_darkmind": "Mental shadow and false thoughts are burned away by genuine spiritual fire. Soulkindling grants immunity to Darkmind illusions when the caster's Conviction is above 50.",
+      "engine_hook": "CONVICTION_SCALE: Soulkindling spell power scales directly with the caster's current Conviction score."
     },
-    "strategic_weakness": "Conjuration",
-    "weakness_logic": "A Transmuter can only be in one place; a Conjurer controls the battlefield map and can surround the Transmuter with summons."
+    "strategic_weakness": "Darkvoid",
+    "weakness_logic": "Void energy extinguishes inner light. Darkvoid effects reduce Soulkindling potency by up to 40%.",
+    "primary_users": ["Northerners (Skarn)", "Thyraen (Ice Ancients)", "Clerics/Templars"],
+    "materium_pool_cost": "Moderate",
+    "notes": "The only school that scales with Conviction. A high-faith Northerner Cleric can reach Very High potency."
+  },
+  {
+    "school": "Luminance",
+    "domain": "Light / Purelight / Divine",
+    "tactical_role": "Anti-Dark / Revelation / Healing (Light-type)",
+    "hard_counters": ["Umbramancy", "Darkvoid", "Darkmind"],
+    "interaction_logic": {
+      "vs_umbramancy": "Luminance is the direct opposite of shadow. All Luminance damage against Umbramancy users is treated as Holy damage with bonus multiplier.",
+      "vs_darkvoid": "Pure divine light partially negates void absorption.",
+      "engine_hook": "UNDEAD_MULTIPLIER: Luminance deals 1.5x damage to all Undead category enemies. Abyssal enemies take 1.25x."
+    },
+    "strategic_weakness": "Darkvoid",
+    "weakness_logic": "Void absorbs light. Sufficient Darkvoid presence can extinguish Luminance fields entirely.",
+    "primary_users": ["Saereth (Greys)", "Dornak (Stone Folk)", "Erdan (Midlanders) — rare"],
+    "materium_pool_cost": "Moderate to High",
+    "notes": "The primary school for dealing with Undead and Abyssal threats."
+  },
+  {
+    "school": "Chill",
+    "domain": "Cold / Ice / Stillness",
+    "tactical_role": "Slowing & Area Denial",
+    "hard_counters": ["Fire", "Earthen"],
+    "interaction_logic": {
+      "vs_fire": "Fire melts ice and counters chill effects. Fire damage removes all Chill terrain modifications.",
+      "vs_earthen": "Frozen ground is stone-stable; Earth magic can break ice formations but cannot reverse cold damage.",
+      "engine_hook": "SLOW_STACK: Each Chill hit applies a 5% initiative reduction, stacking up to 5 times before causing Frozen status."
+    },
+    "strategic_weakness": "Fire",
+    "weakness_logic": "Fire is the direct counter. Every Fire hit on a Chilled target removes one stack of Chill and deals bonus damage.",
+    "primary_users": ["Thyraen (Ice Ancients)", "Velkaar (Dark Ones) — secondary"],
+    "materium_pool_cost": "Moderate",
+    "notes": "Thyraen Chill damage gains +15%. The most powerful initiative-control school in Leonoria."
+  },
+  {
+    "school": "Umbramancy",
+    "domain": "Shadow / Darkness",
+    "tactical_role": "Stealth Assault & Vision Denial",
+    "hard_counters": ["Luminance", "Soulkindling"],
+    "interaction_logic": {
+      "vs_luminance": "Shadow is erased by light. Umbramancy effects are suppressed in Luminance fields.",
+      "vs_soulkindling": "Spiritual fire burns through shadow. Soulkindling users can pierce Umbramancy concealment.",
+      "engine_hook": "CONCEALMENT_MOD: Umbramancy applies a miss-chance modifier to all incoming attacks when darkness is active in the combat zone."
+    },
+    "strategic_weakness": "Luminance",
+    "weakness_logic": "Any active Luminance field removes Umbramancy concealment bonuses and damages the shadow fabric being maintained.",
+    "primary_users": ["Velkaar (Dark Ones)", "Ul'Karash (Ashen Halfbreeds)", "Shadowblades"],
+    "materium_pool_cost": "Moderate",
+    "notes": "Absolutely requires darkness or shadow environments to reach full potency. In full daylight, potency is halved."
+  },
+  {
+    "school": "Blood Magic",
+    "domain": "Life Force / Injury / Fury",
+    "tactical_role": "Injury-Scaling Power",
+    "hard_counters": ["Lifewhispering", "Harmony Weaving"],
+    "interaction_logic": {
+      "vs_lifewhispering": "Blood Magic fuels from injury; Lifewhispering heals that injury, removing the power source.",
+      "vs_harmony_weaving": "The emotional violence of Blood Magic frenzies cancels Harmony Weave auras.",
+      "engine_hook": "INJURY_SCALE: Blood Magic spell power increases by 2% for each 10% of max HP the caster has lost."
+    },
+    "strategic_weakness": "Lifewhispering",
+    "weakness_logic": "Healing removes the injury-state that powers Blood Magic. A sustained Lifewhisperer can keep a Blood Mage permanently below their power threshold.",
+    "primary_users": ["Krothan (Ravagers)", "Velkaar (Dark Ones)", "Bloodsingers"],
+    "materium_pool_cost": "Low (scales with HP loss)",
+    "notes": "A near-death Krothan Blood Mage is at their maximum power. Unusual and dangerous mechanic."
+  },
+  {
+    "school": "Darkvoid",
+    "domain": "Void / Absence / Entropy",
+    "tactical_role": "Anti-Magic & Drain",
+    "hard_counters": ["Arcane Arts", "Luminance", "Soulkindling"],
+    "interaction_logic": {
+      "vs_arcane_arts": "Darkvoid disrupts structured Arcane constructs, causing misfires and pool drain.",
+      "vs_luminance": "Void absorbs light; Luminance fields shrink and destabilize under Darkvoid pressure.",
+      "engine_hook": "POOL_DRAIN: Darkvoid attacks against spellcasters drain Materium pool directly (5–15% per successful hit)."
+    },
+    "strategic_weakness": "Arcane Arts",
+    "weakness_logic": "Structured Arcane constructs can contain and redirect void energy. An Arcane Arts master can seal a Darkvoid breach.",
+    "primary_users": ["Velkaar (Dark Ones)", "Ul'Karash (Ashen Halfbreeds)", "Voidweavers"],
+    "materium_pool_cost": "High",
+    "notes": "The most feared anti-mage school. Any caster facing a Darkvoid specialist must manage their Materium pool carefully."
+  },
+  {
+    "school": "Darkmind",
+    "domain": "Illusion / Mental Shadow",
+    "tactical_role": "Deception & Psychological Disruption",
+    "hard_counters": ["Soulkindling", "Luminance"],
+    "interaction_logic": {
+      "vs_soulkindling": "Genuine spiritual conviction burns through false thoughts. Soulkindling users above 50 Conviction resist all Darkmind illusions.",
+      "vs_luminance": "Divine light reveals true forms; all Darkmind illusions become transparent in a Luminance field.",
+      "engine_hook": "CONVICTION_CHECK: Darkmind illusions require a Conviction (Tenacity) check to see through. DC scales with caster's Cognition."
+    },
+    "strategic_weakness": "Soulkindling",
+    "weakness_logic": "High-Conviction characters are naturally immune or highly resistant to mental shadow.",
+    "primary_users": ["Velkaar (Dark Ones)", "Talarin (Oakpeople) — limited", "Urveth (Swampbrood) — hunting illusions"],
+    "materium_pool_cost": "Moderate",
+    "notes": "Most effective against low-Conviction enemies. Useless against faith-based characters."
+  },
+  {
+    "school": "Voidreaving",
+    "domain": "Void Erasure / Removal",
+    "tactical_role": "Debuff Removal & Nullification",
+    "hard_counters": ["Arcane Arts", "Harmony Weaving"],
+    "interaction_logic": {
+      "vs_arcane_arts": "Voidreaving can erase Arcane constructs entirely — making it appear as if the spell was never cast.",
+      "vs_harmony_weaving": "Void erasure strips Harmony Weave buffs from targets.",
+      "engine_hook": "DEBUFF_ERASE: Voidreaving can remove one active debuff from up to 2 targets per use. Ul'Karash can do this once per battle for free."
+    },
+    "strategic_weakness": "Blood Magic",
+    "weakness_logic": "Blood Magic's injury-state effects are biological, not magical — Voidreaving cannot erase them as they exist in the physical body.",
+    "primary_users": ["Velkaar (Dark Ones)", "Ul'Karash (Ashen Halfbreeds)", "Voidweavers"],
+    "materium_pool_cost": "High",
+    "notes": "Primarily a support/counter school. Limited offensive utility but exceptional in clearing dangerous debuff stacks."
+  },
+  {
+    "school": "Rotweaving",
+    "domain": "Decay / Blight / Disease",
+    "tactical_role": "Sustained Damage-Over-Time",
+    "hard_counters": ["Lifewhispering", "Luminance"],
+    "interaction_logic": {
+      "vs_lifewhispering": "Life energy resists rot; Lifewhispering slows or partially negates Rotweaving DoT ticks.",
+      "vs_luminance": "Divine light purifies rot; Luminance fields cleanse Rotweaving effects over time.",
+      "engine_hook": "DOT_STACK: Rotweaving applies Blight stacks each hit. At 5 stacks, target gains Disease status (persistent HP drain per round)."
+    },
+    "strategic_weakness": "Luminance",
+    "weakness_logic": "Light purifies corruption. Luminance is the most efficient way to cleanse Rotweaving effects.",
+    "primary_users": ["Urveth (Swampbrood)", "Ul'Karash (Ashen Halfbreeds)", "Voidweavers"],
+    "materium_pool_cost": "Low",
+    "notes": "Exceptional against targets that cannot heal (no Lifewhisperer). Against healing-capable parties it must be applied in overwhelming stacks."
+  },
+  {
+    "school": "Fire",
+    "domain": "Flame / Heat / Burning",
+    "tactical_role": "High Burst & Terrain Denial",
+    "hard_counters": ["Athropium", "Chill", "Earthen"],
+    "interaction_logic": {
+      "vs_athropium": "Living plant material burns. Fire counters all Athropium terrain creation.",
+      "vs_chill": "Fire melts all Chill stacks and ice terrain. Direct counter.",
+      "engine_hook": "TERRAIN_BURN: Fire spells convert plant/ice terrain tiles to Ash tiles, which provide no cover and deal minor burn damage per round."
+    },
+    "strategic_weakness": "Earthen / Chill",
+    "weakness_logic": "Stone blocks fire spread. Ice and cold-temperature environments reduce Fire potency by up to 30%.",
+    "primary_users": ["Ul'Karash (Ashen Halfbreeds)", "Elementalists"],
+    "materium_pool_cost": "Moderate to High",
+    "notes": "The Ul'Karash are resistant to all Fire damage they receive (25% reduction) while dealing it normally."
+  },
+  {
+    "school": "Bestial Communion",
+    "domain": "Wildlife / Animal Bond",
+    "tactical_role": "Passive Support & Animal Summoning",
+    "hard_counters": ["Dominion", "Darkmind"],
+    "interaction_logic": {
+      "vs_dominion": "Dominion can override animal bonds — summoned beasts may turn against their Communion master.",
+      "vs_darkmind": "False perceptions fed to bonded animals through Darkmind break the communion bond temporarily.",
+      "engine_hook": "ANIMAL_BOND: Summoned animals persist until destroyed or dismissed. Gruthen can use passive healing through this school without Materium cost."
+    },
+    "strategic_weakness": "Dominion",
+    "weakness_logic": "A Dominion caster can flip animal allegiances, weaponizing a Communion user's own allies against them.",
+    "primary_users": ["Gruthen (Wildmen Foresters)", "Talarin (Oakpeople)"],
+    "materium_pool_cost": "Low (passive) to Moderate (active summon)",
+    "notes": "Gruthen Bestial Communion healing requires no Materium pool. Animals are always neutral toward Talarin regardless."
+  },
+  {
+    "school": "Mindwielding",
+    "domain": "Psychic / Mental Force",
+    "tactical_role": "Mind Control & Perception Manipulation",
+    "hard_counters": ["Soulkindling", "Harmony Weaving"],
+    "interaction_logic": {
+      "vs_soulkindling": "A burning spiritual conviction resists mental intrusion.",
+      "vs_harmony_weaving": "Harmony Weave buffs include mental clarity that reduces Mindwielding duration.",
+      "engine_hook": "CONVICTION_RESIST: All Mindwielding effects require a Conviction (Tenacity) check. High-Conviction characters may be immune."
+    },
+    "strategic_weakness": "Soulkindling",
+    "weakness_logic": "Pure spiritual fire is anathema to mental manipulation. Soulkindling users above 60 Conviction are immune to Mindwielding control effects.",
+    "primary_users": ["Zai'Keth (Step Folk)", "Scholars"],
+    "materium_pool_cost": "High",
+    "notes": "Zai'Keth Mindwielding gains +10% potency in open-world environments outside cities and dungeons."
+  },
+  {
+    "school": "Bloodpassion",
+    "domain": "Bloodpassion / Fury / Drive",
+    "tactical_role": "Self-Buff & Aggression Booster",
+    "hard_counters": ["Darkmind", "Harmony Weaving"],
+    "interaction_logic": {
+      "vs_darkmind": "Emotional fire resists false thoughts — a Bloodpassion-boosted character rolls +5% against Darkmind illusions.",
+      "vs_harmony_weaving": "Bloodpassion rage overrides calming Harmony effects.",
+      "engine_hook": "RAGE_BUFF: Bloodpassion activation grants +10% martial and physical rolls for 3 rounds, then causes Exhausted status."
+    },
+    "strategic_weakness": "Harmony Weaving",
+    "weakness_logic": "Sustained Harmony Weaving can gradually reduce Bloodpassion rage stacks.",
+    "primary_users": ["Zai'Keth (Step Folk)", "Battlebrave class"],
+    "materium_pool_cost": "Low",
+    "notes": "The simplest offensive school in Leonoria — low cost, immediate impact, high exhaustion risk."
+  },
+  {
+    "school": "Dominion",
+    "domain": "Control / Will-Bending",
+    "tactical_role": "Enemy Control & Will Suppression",
+    "hard_counters": ["Soulkindling", "Harmony Weaving"],
+    "interaction_logic": {
+      "vs_soulkindling": "Strong conviction cannot be dominated; Soulkindling users above 50 Conviction are immune to Dominion control.",
+      "vs_harmony_weaving": "Harmony Weave mental clarity buffs reduce Dominion duration.",
+      "engine_hook": "WILL_CHECK: Dominion requires a Conviction check. On success, target acts against their faction for 1–3 rounds."
+    },
+    "strategic_weakness": "Soulkindling",
+    "weakness_logic": "Conviction is the direct counter to Dominion. High-Conviction characters resist or fully negate control attempts.",
+    "primary_users": ["Krothan (Ravagers) — battlefield control", "Dark arts classes"],
+    "materium_pool_cost": "Very High",
+    "notes": "The most expensive school per cast. A successful Dominion effect can swing a battle completely."
   }
 ]

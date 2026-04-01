@@ -1,0 +1,52 @@
+{
+  "ice_ancients_settlements": {
+    "capital": [
+      "Jogun"
+    ],
+    "villages": [
+      "Xogunaria-za", "Lianzhouvo-za", "Fenghaimo-za", "Qingyuanetti-za", "Shenzoulle-za",
+      "Yanchengaro-za", "Baiherino-za", "Longxivetti-za", "Huayino-za", "Zhaotongari-za",
+      "Mingzhoulli-za", "Jinsharico-za", "Yunhettini-za", "Taishanello-za", "Guanglingari-za",
+      "Beichengaro-za", "Donghaimo-za", "Xiningari-za", "Luoyanello-za", "Pingzhoulli-za",
+      "Changherini-za", "Wuchengaro-za", "Anxietti-za", "Fushuiano-za", "Linyuanni-za",
+      "Haizhoulli-za", "Qingshanaro-za", "Yong'anetti-za", "Jinchengaro-za", "Shuangherini-za",
+      "Daliangaro-za", "Xingzhoulli-za", "Rong'anello-za", "Zhenhaimo-za", "Hepingeri-za",
+      "Xuanhettini-za", "Nanlingaro-za", "Cangshanelli-za", "Yulinari-za", "Tonghaimo-za",
+      "Weichengari-za", "Hanzhoulli-za", "Lishuiano-za", "Pengzhoulli-za", "Xiangherini-za",
+      "Baishanari-za", "Guanchengaro-za", "Yechengari-za", "Zhongyuanni-za", "Lianchengaro-za",
+      "Xifengari-za", "Guang'anello-za", "Runzhoulli-za", "Qionghaiano-za", "Dechengari-za",
+      "Hongshanari-za", "Xuchengaro-za", "Jianherini-za", "Beiyuanni-za", "Lantianari-za",
+      "Shichengaro-za", "Yonganelli-za", "Huashanari-za", "Jingzhoulli-za", "Xuanpingari-za",
+      "Fengchengaro-za", "Heshanelli-za", "Linhaimo-za", "Cangzhoulli-za", "Yuechengaro-za",
+      "Zhoushanari-za", "Tongyuanni-za", "Hepingzhoulli-za", "Jinyuanno-za", "Xiangchengaro-za",
+      "Qinghaimo-za", "Deyangari-za", "Fuchengaro-za", "Long'anello-za", "Wushanari-za",
+      "Rongzhoulli-za", "Taiyuanaro-za", "Zhennanni-za", "Shunhettini-za", "Yuchengaro-za",
+      "Hailinaro-za", "Zhenyuanari-za", "Luyuanni-za", "Chang'anello-za", "Fengyuanari-za",
+      "Xipingari-za", "Nanhettini-za", "Jing'anello-za", "Baiyuanni-za", "Hanchengaro-za",
+      "Qingzhoulli-za", "Yongchengaro-za", "Shanyangari-za", "Xichengaro-za", "Guangzhoullo-za"
+    ],
+    "plain_names": [
+      "Jogun",
+      "Xogunaria-za", "Lianzhouvo-za", "Fenghaimo-za", "Qingyuanetti-za", "Shenzoulle-za",
+      "Yanchengaro-za", "Baiherino-za", "Longxivetti-za", "Huayino-za", "Zhaotongari-za",
+      "Mingzhoulli-za", "Jinsharico-za", "Yunhettini-za", "Taishanello-za", "Guanglingari-za",
+      "Beichengaro-za", "Donghaimo-za", "Xiningari-za", "Luoyanello-za", "Pingzhoulli-za",
+      "Changherini-za", "Wuchengaro-za", "Anxietti-za", "Fushuiano-za", "Linyuanni-za",
+      "Haizhoulli-za", "Qingshanaro-za", "Yong'anetti-za", "Jinchengaro-za", "Shuangherini-za",
+      "Daliangaro-za", "Xingzhoulli-za", "Rong'anello-za", "Zhenhaimo-za", "Hepingeri-za",
+      "Xuanhettini-za", "Nanlingaro-za", "Cangshanelli-za", "Yulinari-za", "Tonghaimo-za",
+      "Weichengari-za", "Hanzhoulli-za", "Lishuiano-za", "Pengzhoulli-za", "Xiangherini-za",
+      "Baishanari-za", "Guanchengaro-za", "Yechengari-za", "Zhongyuanni-za", "Lianchengaro-za",
+      "Xifengari-za", "Guang'anello-za", "Runzhoulli-za", "Qionghaiano-za", "Dechengari-za",
+      "Hongshanari-za", "Xuchengaro-za", "Jianherini-za", "Beiyuanni-za", "Lantianari-za",
+      "Shichengaro-za", "Yonganelli-za", "Huashanari-za", "Jingzhoulli-za", "Xuanpingari-za",
+      "Fengchengaro-za", "Heshanelli-za", "Linhaimo-za", "Cangzhoulli-za", "Yuechengaro-za",
+      "Zhoushanari-za", "Tongyuanni-za", "Hepingzhoulli-za", "Jinyuanno-za", "Xiangchengaro-za",
+      "Qinghaimo-za", "Deyangari-za", "Fuchengaro-za", "Long'anello-za", "Wushanari-za",
+      "Rongzhoulli-za", "Taiyuanaro-za", "Zhennanni-za", "Shunhettini-za", "Yuchengaro-za",
+      "Hailinaro-za", "Zhenyuanari-za", "Luyuanni-za", "Chang'anello-za", "Fengyuanari-za",
+      "Xipingari-za", "Nanhettini-za", "Jing'anello-za", "Baiyuanni-za", "Hanchengaro-za",
+      "Qingzhoulli-za", "Yongchengaro-za", "Shanyangari-za", "Xichengaro-za", "Guangzhoullo-za"
+    ]
+  }
+}

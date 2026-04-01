@@ -1,215 +1,156 @@
 {
   "meta": {
-    "purpose": "Key locations across D&D settings",
-    "categories": ["city", "ruin", "dungeon", "landmark"],
-    "scope": "Major canonical locations across settings"
+    "purpose": "Key named locations across Leonoria — ruins, dungeons, ancient sites, and landmarks used for flavor text and procedural references",
+    "categories": ["ruin", "dungeon", "landmark", "city", "ancient_site"]
   },
 
   "locations": [
     {
-      "name": "Waterdeep",
-      "type": "city",
-      "world": "Toril",
-      "region": "Sword Coast",
-      "culture": ["Trade hub", "Political intrigue"],
-      "notable_for": ["Lords' Alliance", "Urban adventuring"],
-      "threat_level": "medium"
-    },
-    {
-      "name": "Baldur's Gate",
-      "type": "city",
-      "world": "Toril",
-      "region": "Sword Coast",
-      "culture": ["Mercantile", "Corruption"],
-      "notable_for": ["Crime networks", "Trade"],
-      "threat_level": "medium"
-    },
-    {
-      "name": "Neverwinter",
-      "type": "city",
-      "world": "Toril",
-      "region": "Sword Coast",
-      "culture": ["Rebuilding civilization"],
-      "notable_for": ["Volcanic influence", "Renewal"],
-      "threat_level": "low"
-    },
-    {
-      "name": "Menzoberranzan",
-      "type": "city",
-      "world": "Toril",
-      "region": "Underdark",
-      "culture": ["Drow", "Matriarchal"],
-      "notable_for": ["Lolth worship", "Intrigue"],
-      "threat_level": "high"
-    },
-    {
-      "name": "Thay (Necropolis Cities)",
-      "type": "city",
-      "world": "Toril",
-      "region": "Thay",
-      "culture": ["Magocracy", "Necromancy"],
-      "notable_for": ["Red Wizards"],
-      "threat_level": "high"
-    },
-
-    {
-      "name": "Greyhawk City",
-      "type": "city",
-      "world": "Oerth",
-      "region": "Flanaess",
-      "culture": ["Adventurer hub"],
-      "notable_for": ["Central trade"],
-      "threat_level": "medium"
-    },
-
-    {
-      "name": "Sharn",
-      "type": "city",
-      "world": "Eberron",
-      "region": "Khorvaire",
-      "culture": ["Vertical metropolis", "Magitech"],
-      "notable_for": ["Sky towers", "Dragonmarked houses"],
-      "threat_level": "medium"
-    },
-
-    {
-      "name": "Tyr",
-      "type": "city",
-      "world": "Athas",
-      "region": "Tablelands",
-      "culture": ["Post-tyrant freedom"],
-      "notable_for": ["Gladiator culture"],
-      "threat_level": "high"
-    },
-
-    {
-      "name": "Istar (Ruins)",
-      "type": "ruin",
-      "world": "Krynn",
-      "region": "Ansalon",
-      "culture": ["Fallen theocracy"],
-      "notable_for": ["Cataclysm origin"],
-      "threat_level": "high"
-    },
-
-    {
-      "name": "Myth Drannor",
-      "type": "ruin",
-      "world": "Toril",
-      "region": "Cormanthor",
-      "culture": ["Ancient elven"],
-      "notable_for": ["High magic ruins"],
-      "threat_level": "high"
-    },
-
-    {
-      "name": "Netheril (Floating Cities)",
-      "type": "ruin",
-      "world": "Toril",
-      "region": "Anauroch",
-      "culture": ["Arcane empire"],
-      "notable_for": ["Fallen magic civilization"],
-      "threat_level": "high"
-    },
-
-    {
-      "name": "Xen’drik Ruins",
-      "type": "ruin",
-      "world": "Eberron",
-      "region": "Xen’drik",
-      "culture": ["Giant empire"],
-      "notable_for": ["Lost magic"],
-      "threat_level": "high"
-    },
-
-    {
-      "name": "Tomb of Horrors",
+      "name": "The Obsidian Throne Room",
+      "world": "The Forgotten Kingdom",
       "type": "dungeon",
-      "world": "Oerth",
-      "region": "Flanaess",
-      "culture": ["Lich domain"],
-      "notable_for": ["Deadly traps"],
-      "threat_level": "extreme"
+      "biome": "the_forgotten_kingdom",
+      "notable_for": ["seat of the Forgotten King", "void energy crystallization", "legendary boss location"]
     },
-
     {
-      "name": "Undermountain",
-      "type": "dungeon",
-      "world": "Toril",
-      "region": "Waterdeep",
-      "culture": ["Mega-dungeon"],
-      "notable_for": ["Mad Mage"],
-      "threat_level": "extreme"
-    },
-
-    {
-      "name": "Temple of Elemental Evil",
-      "type": "dungeon",
-      "world": "Oerth",
-      "region": "Flanaess",
-      "culture": ["Cult stronghold"],
-      "notable_for": ["Elemental cults"],
-      "threat_level": "high"
-    },
-
-    {
-      "name": "Barovia Castle (Castle Ravenloft)",
-      "type": "dungeon",
-      "world": "Ravenloft",
-      "region": "Barovia",
-      "culture": ["Gothic horror"],
-      "notable_for": ["Vampire lord"],
-      "threat_level": "extreme"
-    },
-
-    {
-      "name": "Mount Celestia",
+      "name": "The First Grove",
+      "world": "The Sanctuary Lands",
       "type": "landmark",
-      "world": "Outer Planes",
-      "region": "Seven Heavens",
-      "culture": ["Divine"],
-      "notable_for": ["Heavenly ascent"],
-      "threat_level": "variable"
+      "biome": "the_sanctuary_lands",
+      "notable_for": ["origin of the Warden of the Inner Forest", "oldest Materium concentration on Leonoria", "Aelthiryn sacred site"]
     },
-
     {
-      "name": "Nine Hells (Baator)",
+      "name": "The Pre-Kingdom Machine Vault",
+      "world": "The Forgotten Kingdom",
+      "type": "ruin",
+      "biome": "the_forgotten_kingdom",
+      "notable_for": ["predates the Velkaar by millennia", "ancient construct automata still running", "unknown original purpose"]
+    },
+    {
+      "name": "The Voidscar Chasm",
+      "world": "The Forgotten Kingdom",
+      "type": "dungeon",
+      "biome": "the_forgotten_kingdom",
+      "notable_for": ["abyssal breach site", "void energy actively leaks", "structural collapse risk"]
+    },
+    {
+      "name": "The Ancient Mire Ruins",
+      "world": "The Boglands",
+      "type": "ruin",
+      "biome": "the_boglands",
+      "notable_for": ["pre-Urveth construction", "partially submerged", "identity of original builders unknown"]
+    },
+    {
+      "name": "The Vigil Stone Markers",
+      "world": "The Eternal Winds",
       "type": "landmark",
-      "world": "Outer Planes",
-      "region": "Baator",
-      "culture": ["Infernal"],
-      "notable_for": ["Devil hierarchy"],
-      "threat_level": "extreme"
+      "biome": "the_eternal_winds",
+      "notable_for": ["Thyraen territorial boundaries", "ritual inscription in Crystal Script", "outsiders are warned away here"]
     },
-
     {
-      "name": "Abyss",
+      "name": "The Glacial Archive",
+      "world": "The Eternal Winds",
+      "type": "ruin",
+      "biome": "the_eternal_winds",
+      "notable_for": ["Thyraen records preserved in ice", "oldest intact Cold Tongue texts", "partially accessible without Thyraen escort"]
+    },
+    {
+      "name": "The Blinding Lands Ruins",
+      "world": "The Blinding Lands",
+      "type": "ruin",
+      "biome": "the_blinding_lands",
+      "notable_for": ["construction predates all known cultures", "salt-preserved stonework", "unknown script on all surfaces"]
+    },
+    {
+      "name": "The Fermentation Pits",
+      "world": "The Boglands",
+      "type": "dungeon",
+      "biome": "the_boglands",
+      "notable_for": ["Urveth ritual site", "Fermented Undead origin point", "chemically hostile environment"]
+    },
+    {
+      "name": "The Old Ul'Karash Exile Citadel",
+      "world": "The Badlands",
+      "type": "ruin",
+      "biome": "the_badlands",
+      "notable_for": ["first Ul'Karash settlement after exile", "transformation mutation is densest here", "partially inhabited by current exiles"]
+    },
+    {
+      "name": "The Krothan Bone Counting Hall",
+      "world": "The Dark Forests",
+      "type": "dungeon",
+      "biome": "the_dark_forests",
+      "notable_for": ["Krothan lineage records carved into bone pillars", "thousands of years of kill-counts", "the Krothan Warchief's seat of power"]
+    },
+    {
+      "name": "The Grey Harbourmaster's Archive",
+      "world": "The Gleam Havens",
       "type": "landmark",
-      "world": "Outer Planes",
-      "region": "Infinite Layers",
-      "culture": ["Chaotic evil"],
-      "notable_for": ["Demon realms"],
-      "threat_level": "extreme"
+      "biome": "the_gleam_havens",
+      "notable_for": ["180 years of shadow trade records", "Saereth geometric precision architecture", "politically dangerous to enter uninvited"]
     },
-
     {
-      "name": "Sigil",
+      "name": "The Deepwood Sanctuaries",
+      "world": "The Sanctuary Lands",
+      "type": "ancient_site",
+      "biome": "the_sanctuary_lands",
+      "notable_for": ["Talarin-Aelthiryn shared ritual sites", "ancient Materium node network", "entry without invitation causes Warden response"]
+    },
+    {
+      "name": "The Acid Geyser Fields",
+      "world": "The Badlands",
+      "type": "ruin",
+      "biome": "the_badlands",
+      "notable_for": ["ancient geological disruption", "old roads lead through them", "unpredictable eruption schedule"]
+    },
+    {
+      "name": "The Hall of Counting",
+      "world": "The Forgotten Kingdom",
+      "type": "dungeon",
+      "biome": "the_forgotten_kingdom",
+      "notable_for": ["Forgotten Kingdom census records", "void script on every surface", "Forgotten King actively patrols here"]
+    },
+    {
+      "name": "The Dornak Deep Citadels",
+      "world": "The Forgotten Kingdom",
       "type": "city",
-      "world": "Planescape",
-      "region": "Outlands",
-      "culture": ["Planar hub"],
-      "notable_for": ["Portals", "Lady of Pain"],
-      "threat_level": "variable"
+      "biome": "the_forgotten_kingdom",
+      "notable_for": ["largest Dornak underground settlements", "neutral ground between Dornak and Velkaar", "only place both races trade openly"]
     },
-
     {
-      "name": "The World Serpent Inn",
+      "name": "The Zai'Keth Trade Crossings",
+      "world": "The Outer Steppes",
       "type": "landmark",
-      "world": "Multiverse",
-      "region": "Planar",
-      "culture": ["Interplanar travelers"],
-      "notable_for": ["Planar connections"],
-      "threat_level": "low"
+      "biome": "the_outer_steppes",
+      "notable_for": ["major steppe nomadic trade route intersections", "marked in Zai trail notation", "neutral ground between hostile tribes"]
+    },
+    {
+      "name": "The Gruthen Elder Trees",
+      "world": "The Dark Forests",
+      "type": "landmark",
+      "biome": "the_dark_forests",
+      "notable_for": ["Gruthen community gathering sites", "centuries-old moss inscriptions", "considered sacred by all Dark Forest cultures"]
+    },
+    {
+      "name": "The Stillness Territory",
+      "world": "The Eternal Winds",
+      "type": "dungeon",
+      "biome": "the_eternal_winds",
+      "notable_for": ["Thyraen ritual gone wrong", "permanently frozen hexes", "Vigil Knights still patrol the perimeter"]
+    },
+    {
+      "name": "The First Foundation Stones",
+      "world": "The Forgotten Kingdom",
+      "type": "ancient_site",
+      "biome": "the_forgotten_kingdom",
+      "notable_for": ["oldest known construction on Leonoria", "material composition unknown", "the Deep Construct Overseer was built here"]
+    },
+    {
+      "name": "The Counting House",
+      "world": "The Gleam Havens",
+      "type": "landmark",
+      "biome": "the_gleam_havens",
+      "notable_for": ["center of Saereth mercantile law", "every major trade dispute adjudicated here", "front for the shadow trade network"]
     }
   ]
 }

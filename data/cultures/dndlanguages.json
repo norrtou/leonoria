@@ -1,358 +1,179 @@
 {
   "meta": {
-    "purpose": "Comprehensive linguistic system across D&D settings",
-    "scope": "Languages, scripts, speakers, evolution, cultural context",
-    "note": "Primarily 5e canon with cross-setting integration"
+    "purpose": "Leonoria linguistic system — languages, scripts, speakers, complexity, and cultural context",
+    "scope": "All 13 sub-races plus common trade tongues"
   },
-
-  "core_concepts": {
-    "language": "A structured system of communication tied to culture, race, or plane",
-    "script": "Written form of a language",
-    "dialect": "Regional or cultural variation",
-    "language_family": "Group of related languages sharing origin",
-    "exotic_language": "Non-material or planar language",
-    "dead_language": "No longer actively spoken"
-  },
-
-  "language_families": [
+  "common_tongues": [
     {
-      "id": "common_family",
-      "name": "Common Tongues",
-      "description": "Languages used by most humanoid civilizations",
-      "languages": ["Common", "Chondathan", "Damaran", "Calishite"]
-    },
-    {
-      "id": "elven_family",
-      "name": "Elven Languages",
-      "description": "Derived from ancient Fey and Elven civilizations",
-      "languages": ["Elvish", "Sylvan"]
-    },
-    {
-      "id": "dwarven_family",
-      "name": "Dwarven Languages",
-      "languages": ["Dwarvish"]
-    },
-    {
-      "id": "draconic_family",
-      "name": "Draconic Languages",
-      "languages": ["Draconic", "Kobold dialects"]
-    },
-    {
-      "id": "giant_family",
-      "name": "Giant Languages",
-      "languages": ["Giant", "Ogre", "Goblin"]
-    },
-    {
-      "id": "infernal_family",
-      "name": "Lower Planar Languages",
-      "languages": ["Infernal", "Abyssal"]
+      "id": "common_trade",
+      "name": "The Common Tongue",
+      "also_called": "Trade-speak, Midlands Common",
+      "script": "Erdan Script (simplified)",
+      "speakers": ["Erdan", "Skarn", "Zai'Keth", "Dornak (learned)", "Gruthen (partial)", "all traders and travellers"],
+      "origin": "Evolved from early Erdan dialects, simplified over centuries of cross-race trade in the Midlands.",
+      "complexity": 2,
+      "geographic_range": "The Midlands, The Gleam Havens, The Outer Steppes, trade routes everywhere",
+      "notes": "The default shared language on Leonoria. Nearly everyone who trades or travels speaks at least a basic form of it. The Thyraen and Velkaar are notable exceptions."
     }
   ],
-
   "languages": [
     {
-      "id": "common",
-      "name": "Common",
-      "type": "standard",
-      "script": "Common",
-      "family": "common_family",
-
-      "speakers": {
-        "races": ["Humans", "Half-Elves", "Most humanoids"],
-        "cultures": ["Urban societies", "Trade hubs"],
-        "monsters": ["Bandits", "Mercenaries"]
-      },
-
-      "eras": ["All eras (post Early Historic)"],
-
-      "dialects": [
-        "Chondathan",
-        "Damaran",
-        "Calishite"
-      ],
-
-      "notes": "Lingua franca of most settings"
+      "id": "ancient_tongue_aelthiryn",
+      "name": "Aelthari",
+      "also_called": "The Inner Tongue, Forest Speech",
+      "script": "Leaf-script (carved or painted, flowing curves)",
+      "spoken_by": "Aelthiryn (Secluded Ancients)",
+      "own_name_of_language": "Aelthari — 'the voice of the inner light'",
+      "origin": "One of the oldest living languages on Leonoria. Developed in isolation within The Sanctuary Lands over millennia. Has never been simplified.",
+      "complexity": 9,
+      "geographic_range": "The Sanctuary Lands exclusively. Rarely heard outside its borders.",
+      "notes": "Tonal and context-heavy. The same phrase can carry different meaning depending on the speaker's emotional state, time of day, and the health of surrounding plant life. Outsiders who attempt it are gently tolerated. The Aelthiryn and Talarin share root vocabulary.",
+      "shared_roots_with": ["talarin_root_speech"]
     },
-
     {
-      "id": "elvish",
-      "name": "Elvish",
-      "type": "racial",
-      "script": "Elvish",
-      "family": "elven_family",
-
-      "speakers": {
-        "races": ["Elves", "Half-Elves"],
-        "cultures": ["High Elves", "Wood Elves", "Drow (archaic variant)"]
-      },
-
-      "subcultures": [
-        {
-          "name": "High Elven",
-          "traits": "Formal, ancient vocabulary"
-        },
-        {
-          "name": "Wood Elven",
-          "traits": "Simplified, nature-influenced"
-        },
-        {
-          "name": "Drow",
-          "traits": "Harsh phonetics, undercommon influence"
-        }
-      ],
-
-      "eras": ["Ancient", "Modern"],
-
-      "notes": "Derived from Fey languages; highly musical"
+      "id": "ancient_tongue_saereth",
+      "name": "Saerathi",
+      "also_called": "Grey Tongue, Exact Speech, Ledger-Speak (derogatory)",
+      "script": "Grey Script (geometric, angular, highly precise — no ambiguous letterforms)",
+      "spoken_by": "Saereth Greys",
+      "own_name_of_language": "Saerathi — 'the ordered voice'",
+      "origin": "Developed alongside Saereth architecture and mathematical philosophy. Designed to eliminate ambiguity.",
+      "complexity": 8,
+      "geographic_range": "The Gleam Havens primarily. Used in scholarly and mercantile correspondence throughout coastal regions.",
+      "notes": "Has no idioms. Metaphors are considered imprecise and are avoided. Saereth Greys consider the Common Tongue distressingly vague. The language has an elaborate tense system covering not just when something happened but how certain the speaker is that it happened."
     },
-
     {
-      "id": "dwarvish",
-      "name": "Dwarvish",
-      "type": "racial",
-      "script": "Dwarvish",
-      "family": "dwarven_family",
-
-      "speakers": {
-        "races": ["Dwarves"],
-        "cultures": ["Mountain Dwarves", "Hill Dwarves"]
-      },
-
-      "subcultures": [
-        {
-          "name": "Clan Dialects",
-          "traits": "Strong regional variation"
-        }
-      ],
-
-      "eras": ["Ancient", "Modern"],
-
-      "notes": "Harsh consonants, built for stone inscription"
+      "id": "ancient_tongue_velkaar",
+      "name": "Vel'khari",
+      "also_called": "Void-speech, The Dark Tongue, The Whisper",
+      "script": "Void Script (written in near-invisible ink visible only in darkness or under darkvoid light)",
+      "spoken_by": "Velkaar (Dark Ones)",
+      "own_name_of_language": "Vel'khari — 'the tongue that carries darkness'",
+      "origin": "Evolved deep underground, shaped by centuries in total darkness. Contains sounds and resonances that affect the nervous system of light-sensitive creatures.",
+      "complexity": 10,
+      "geographic_range": "The Forgotten Kingdom. Fragments appear in some Boglands ruins.",
+      "notes": "Known to cause mild disorientation in non-Velkaar listeners when spoken in its full ritual form. The Velkaar have multiple registers: a surface register for interaction with Dornak and others, and a deep register restricted to internal use and ritual. The deep register is never written in Common Script."
     },
-
     {
-      "id": "draconic",
-      "name": "Draconic",
-      "type": "ancient",
-      "script": "Draconic",
-      "family": "draconic_family",
-
-      "speakers": {
-        "races": ["Dragons", "Dragonborn", "Kobolds"],
-        "monsters": ["Drakes", "Dragon cultists"]
-      },
-
-      "eras": ["Ancient", "All eras"],
-
-      "notes": "Language of magic; used in spellcasting formulas"
+      "id": "ancient_tongue_thyraen",
+      "name": "Thyraen",
+      "also_called": "Ice Speech, The Cold Tongue",
+      "script": "Crystal Script (carved into ice or bone; characters shatter if improperly formed)",
+      "spoken_by": "Thyraen (Ice Ancients)",
+      "own_name_of_language": "Thyraen — 'the speaking of cold truth'",
+      "origin": "Formed from the ritualistic invocations used to bind the first cold elementals. The language is partly functional: correct pronunciation of certain phrases has demonstrable environmental effects.",
+      "complexity": 9,
+      "geographic_range": "The Eternal Winds exclusively. The Thyraen do not teach it to outsiders.",
+      "notes": "Contains a class of words with no translation — concepts related to stillness, cold, and waiting that do not exist in warmer cultures. Outsiders who learn fragments are viewed with suspicion rather than admiration."
     },
-
     {
-      "id": "giant",
-      "name": "Giant",
-      "type": "racial",
-      "script": "Dwarvish",
-      "family": "giant_family",
-
-      "speakers": {
-        "races": ["Giants"],
-        "monsters": ["Ogres", "Trolls", "Goblinoids"]
-      },
-
-      "subcultures": [
-        {
-          "name": "Rune-based giant dialects",
-          "traits": "Linked to giant rune magic"
-        }
-      ],
-
-      "eras": ["Ancient", "Modern"]
+      "id": "common_folk_erdan",
+      "name": "Erdan",
+      "also_called": "Midlands Speech, Farmer's Tongue",
+      "script": "Erdan Script (the basis of Common Script)",
+      "spoken_by": "Erdan (Midlanders)",
+      "own_name_of_language": "Erdan — simply 'our speech'",
+      "origin": "The oldest of the human folk languages. Became the basis of Common Trade Tongue after Erdan merchants dominated Midlands trade routes.",
+      "complexity": 3,
+      "geographic_range": "The Midlands, spreading along all major trade routes",
+      "notes": "Rich in agricultural and geographical terms. Has more words for types of soil, weather, and river conditions than any other language on Leonoria. The Skarn and Zai'Keth both adopted elements of Erdan when forced to deal with Midlands trade."
     },
-
     {
-      "id": "goblin",
-      "name": "Goblin",
-      "type": "racial",
-      "script": "Dwarvish",
-      "family": "giant_family",
-
-      "speakers": {
-        "races": ["Goblinoids"],
-        "monsters": ["Goblins", "Hobgoblins", "Bugbears"]
-      },
-
-      "notes": "Derived from Giant language roots"
+      "id": "common_folk_skarn",
+      "name": "Skarnvok",
+      "also_called": "Northern Speech, Ironmark Tongue",
+      "script": "Skarn Runic (carved marks, used for permanence; does not lend itself to quick writing)",
+      "spoken_by": "Skarn (Northerners)",
+      "own_name_of_language": "Skarnvok — 'strong speech'",
+      "origin": "Developed along the cold northern borders where the Midlands meets the Dark Forests and Eternal Winds. Shaped by practical survival — short words, clear meaning, no wasted breath.",
+      "complexity": 4,
+      "geographic_range": "Northern Midlands, Dark Forest edges, scattered through cold regions",
+      "notes": "Has no word for 'unnecessary'. Skarn speakers using Common sometimes seem blunt or rude — they are simply continuing the linguistic habit of stripping filler. Has strong borrowings from Gruthen and Thyraen in its northern dialect."
     },
-
     {
-      "id": "orc",
-      "name": "Orc",
-      "type": "racial",
-      "script": "Dwarvish",
-      "family": "giant_family",
-
-      "speakers": {
-        "races": ["Orcs", "Half-Orcs"],
-        "monsters": ["Orc warbands"]
-      },
-
-      "notes": "Aggressive phonetics; often simplified grammar"
+      "id": "common_folk_zaiketh",
+      "name": "Zai",
+      "also_called": "Steppe Tongue, Rider's Speech, Wind-talk",
+      "script": "Zai Mark System (symbols tied to routes and landmarks; highly mobile, not used for literature)",
+      "spoken_by": "Zai'Keth (Step Folk)",
+      "own_name_of_language": "Zai — 'the tongue of the open path'",
+      "origin": "Developed across the Outer Steppes by nomadic trade and raiding cultures. Highly adaptable — absorbs words from every language the Zai'Keth encounter along their routes.",
+      "complexity": 3,
+      "geographic_range": "The Outer Steppes, The Blinding Lands edges, wherever Zai'Keth routes pass",
+      "notes": "Has an unusually large vocabulary for navigation, weather prediction, and horse-rearing. Its mark system is not a true writing system — it is a trail notation system for path-finding. Zai'Keth poetry is entirely oral."
     },
-
     {
-      "id": "undercommon",
-      "name": "Undercommon",
-      "type": "trade_language",
-      "script": "Elvish",
-      "family": "mixed",
-
-      "speakers": {
-        "races": ["Drow", "Duergar", "Svirfneblin"],
-        "monsters": ["Underdark creatures"]
-      },
-
-      "subcultures": [
-        {
-          "name": "Drow Trade Cant",
-          "traits": "Influenced by Elvish and Abyssal"
-        }
-      ],
-
-      "notes": "Underdark lingua franca"
+      "id": "wildmen_gruthen",
+      "name": "Gruth",
+      "also_called": "Moss Speech, Deep Forest Tongue",
+      "script": "None (oral tradition; some elder marks carved into trees, but not a formal script)",
+      "spoken_by": "Gruthen (Forest Folk)",
+      "own_name_of_language": "Gruth — 'the breathing of the forest'",
+      "origin": "Developed in the deep Dark Forests alongside centuries of bark-and-root material culture. Has many words for fungi, root types, and forest floor conditions.",
+      "complexity": 5,
+      "geographic_range": "The Dark Forests",
+      "notes": "Spoken quietly. Loud speech in Gruth is considered threatening or panicked. Has a complex honor-register system based on age and role in the community. Outsiders often fail to learn the honor-registers and accidentally speak to Gruthen elders as children."
     },
-
     {
-      "id": "abyssal",
-      "name": "Abyssal",
-      "type": "exotic",
-      "script": "Infernal",
-      "family": "infernal_family",
-
-      "speakers": {
-        "monsters": ["Demons"],
-        "cultures": ["Demon cults"]
-      },
-
-      "eras": ["All eras"],
-
-      "notes": "Chaotic, constantly evolving"
+      "id": "wildmen_krothan",
+      "name": "Krotha",
+      "also_called": "Blood Speech, Crusher's Tongue, The Loud Tongue",
+      "script": "Bone Marks (carved into trophies and weapons; records kills and lineage)",
+      "spoken_by": "Krothan (Ravagers)",
+      "own_name_of_language": "Krotha — 'the voice that breaks things'",
+      "origin": "The simplest of all Leonorian languages by grammar, but with an enormous vocabulary for combat, prey, lineage, and hierarchy. Everything unrelated to survival or domination has no word.",
+      "complexity": 2,
+      "geographic_range": "The Dark Forests (Krothan territory)",
+      "notes": "Volume is meaningful in Krotha — louder generally means higher social position in context. The concept of 'asking' does not exist grammatically; requests are phrased as commands with tone modifiers. Has no word for mercy. The Krothan Bone Count (carved numbers of confirmed kills) is technically a writing system, but records only numbers."
     },
-
     {
-      "id": "infernal",
-      "name": "Infernal",
-      "type": "exotic",
-      "script": "Infernal",
-      "family": "infernal_family",
-
-      "speakers": {
-        "monsters": ["Devils"],
-        "cultures": ["Warlocks", "Contracts"]
-      },
-
-      "notes": "Highly structured, legalistic"
+      "id": "elemental_talarin",
+      "name": "Talarin Root Speech",
+      "also_called": "Root Tongue, Living Speech, Bark-voice",
+      "script": "Root Inscription (patterns that grow into wood over time; readable only with Athropium awareness)",
+      "spoken_by": "Talarin (Forest Bound)",
+      "own_name_of_language": "No spoken name — identified by sound and growth-pattern, not label",
+      "origin": "Shares ancient roots with Aelthari but diverged as the Talarin became physically bound to The Sanctuary Lands. Part of the language is spoken, part is expressed through changes in growth around the speaker.",
+      "complexity": 8,
+      "geographic_range": "The Sanctuary Lands",
+      "notes": "Non-Athropium users can only hear the spoken half of conversations. The other half — expressed through root movement, bark vibration, and new growth — is completely inaccessible without Materium awareness. The Aelthiryn can hear both halves.",
+      "shared_roots_with": ["ancient_tongue_aelthiryn"]
     },
-
     {
-      "id": "celestial",
-      "name": "Celestial",
-      "type": "exotic",
-      "script": "Celestial",
-
-      "speakers": {
-        "monsters": ["Angels"],
-        "cultures": ["Clerics", "Paladins"]
-      },
-
-      "notes": "Language of divine beings"
+      "id": "elemental_dornak",
+      "name": "Dornakk",
+      "also_called": "Stone Speech, Deep Rumble",
+      "script": "Chisel Script (carved into stone; highly durable; the Dornak do not consider text written on anything else to be 'real')",
+      "spoken_by": "Dornak (Stone Folk)",
+      "own_name_of_language": "Dornakk — 'the tongue of the deep stone'",
+      "origin": "Developed underground across millennia of mining, building, and deep-citadel culture. Grammar reflects the layered, structured thinking of the Dornak — everything has a category, a sub-category, and a material classification.",
+      "complexity": 6,
+      "geographic_range": "The Forgotten Kingdom (Dornak sections), deep mines and tunnels throughout Leonoria",
+      "notes": "Has an extremely precise material vocabulary — more words for types of stone, ore, and mineral formation than any other language. Time is measured differently: the Dornak count in 'depth-years', related to how deep underground a community lives. The Dornak and Velkaar co-exist uneasily underground; many Dornak speak enough Vel'khari to trade but resent doing so."
     },
-
     {
-      "id": "primordial",
-      "name": "Primordial",
-      "type": "exotic",
-      "script": "Dwarvish",
-
-      "subdialects": [
-        "Ignan",
-        "Aquan",
-        "Auran",
-        "Terran"
-      ],
-
-      "speakers": {
-        "monsters": ["Elementals"]
-      },
-
-      "eras": ["Primordial Age"]
+      "id": "elemental_urveth",
+      "name": "Urv",
+      "also_called": "Bog Speech, Wet Tongue",
+      "script": "Spore Script (patterns left in dried fungal spore; degrades quickly; not considered permanent)",
+      "spoken_by": "Urveth (Swampbrood)",
+      "own_name_of_language": "Urv — 'the tongue of the deep wet'",
+      "origin": "Developed in the deepest bogs, where sound carries strangely through water and mist. Many phonemes are produced with the throat partially closed — a sound pattern that is difficult for non-Urveth to reproduce without practice.",
+      "complexity": 7,
+      "geographic_range": "The Boglands",
+      "notes": "Rich in chemical and biological vocabulary. Has detailed terminology for types of venom, decay, and fermentation. The Urveth consider this their practical knowledge preserved in language. Has no concept of 'clean' — the closest word translates to 'temporarily without useful organisms'."
+    },
+    {
+      "id": "elemental_ulkarash",
+      "name": "Ul'ka",
+      "also_called": "Ash Tongue, Changed Speech",
+      "script": "Scar Script (burned or scarred into surfaces; mirrors the physical transformation the Ul'Karash experience)",
+      "spoken_by": "Ul'Karash (Ashen Halfbreeds)",
+      "own_name_of_language": "Ul'ka — 'the tongue of the changed'",
+      "origin": "A hybrid language born from exile. The Ul'Karash ancestors were cast out from multiple parent cultures; their language blended elements of whatever tongues they carried into the Badlands with new words born from the transformative environment.",
+      "complexity": 5,
+      "geographic_range": "The Badlands, some Forgotten Kingdom edges",
+      "notes": "The only language on Leonoria that actively incorporates words from multiple parent tongues as part of its core vocabulary — not as loanwords, but as foundational elements. Linguists consider it a natural creole. The Ul'Karash themselves consider it proof that transformation creates something new rather than something lesser."
     }
-  ],
-
-  "scripts": [
-    {
-      "name": "Common",
-      "used_by": ["Common"]
-    },
-    {
-      "name": "Elvish",
-      "used_by": ["Elvish", "Undercommon"]
-    },
-    {
-      "name": "Dwarvish",
-      "used_by": ["Dwarvish", "Giant", "Orc", "Goblin"]
-    },
-    {
-      "name": "Infernal",
-      "used_by": ["Infernal", "Abyssal"]
-    }
-  ],
-
-  "era_language_dynamics": [
-    {
-      "era": "Ancient & Mythic",
-      "dominant_languages": [
-        "Draconic",
-        "Primordial",
-        "Elvish (proto)"
-      ],
-      "notes": "Languages tied to powerful non-human empires"
-    },
-    {
-      "era": "Classical",
-      "dominant_languages": [
-        "Draconic",
-        "Elvish",
-        "Dwarvish"
-      ],
-      "notes": "Rise of structured racial languages"
-    },
-    {
-      "era": "Modern",
-      "dominant_languages": [
-        "Common",
-        "Regional dialects",
-        "Trade languages"
-      ],
-      "notes": "Common becomes dominant lingua franca"
-    }
-  ],
-
-  "monster_language_mapping": {
-    "dragons": ["Draconic", "Common"],
-    "undead": ["Common", "Abyssal", "None"],
-    "fiends": ["Infernal", "Abyssal"],
-    "celestials": ["Celestial"],
-    "elementals": ["Primordial"],
-    "goblinoids": ["Goblin", "Common"],
-    "giants": ["Giant"],
-    "aberrations": ["Deep Speech"]
-  },
-
-  "linguistic_rules_of_thumb": [
-    "Most intelligent creatures know at least one language",
-    "Common is not universal but widely understood",
-    "Ancient languages often hold magical significance",
-    "Planar languages reflect alignment (law vs chaos)",
-    "Trade languages emerge in mixed cultures (e.g. Undercommon)"
   ]
 }

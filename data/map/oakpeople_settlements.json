@@ -1,0 +1,22 @@
+{
+  "oakpeople_settlements": {
+    "capital": [
+      "Heart Of The Oak"
+    ],
+    "villages": [
+      "Oakhearth", "Underbough", "Mossburrow", "Greenhollow", "Thistledown", "Willowshade", "Softvale", "Roothearth", "Brambleburrow", "Dewhollow",
+      "Oakshadow", "Riverbend", "Leafrest", "Brookshade", "Hillburrow", "Petalhollow", "Underfern", "Glowvale", "Reedshade", "Sunhollow",
+      "Mosshearth", "Skyburrow", "Bloomrest", "Underroot", "Stonehollow", "Clovervale", "Fernhollow", "Oakrest", "Nightvale", "Dreamburrow",
+      "Deepwood", "Thornshade", "Meadowrest", "Brookhollow", "Underhill", "Windvale", "Rootshade", "Fieldhollow", "Sunrest", "Rivermoss",
+      "Hollowshade", "Thornhollow", "Snowvale", "Understone", "Starhollow", "Hedgevale", "Willowrest", "Mossvale", "Fernrest", "Greenrest"
+    ],
+    "plain_names": [
+      "Heart Of The Oak",
+      "Oakhearth", "Underbough", "Mossburrow", "Greenhollow", "Thistledown", "Willowshade", "Softvale", "Roothearth", "Brambleburrow", "Dewhollow",
+      "Oakshadow", "Riverbend", "Leafrest", "Brookshade", "Hillburrow", "Petalhollow", "Underfern", "Glowvale", "Reedshade", "Sunhollow",
+      "Mosshearth", "Skyburrow", "Bloomrest", "Underroot", "Stonehollow", "Clovervale", "Fernhollow", "Oakrest", "Nightvale", "Dreamburrow",
+      "Deepwood", "Thornshade", "Meadowrest", "Brookhollow", "Underhill", "Windvale", "Rootshade", "Fieldhollow", "Sunrest", "Rivermoss",
+      "Hollowshade", "Thornhollow", "Snowvale", "Understone", "Starhollow", "Hedgevale", "Willowrest", "Mossvale", "Fernrest", "Greenrest"
+    ]
+  }
+}

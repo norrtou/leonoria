@@ -1,0 +1,18 @@
+{
+  "oakspeople_names": {
+    "_note": "First names blend Basque and Italian phonology. Surnames are always the settlement of birth, drawn from oakspeople_settlements.json.",
+    "naming_rule": "Full name is: [first_name] of [birthplace]. Surname is never a family name — it is always the settlement where the individual was born or where they first took root. Example: Amaia of Mossburrow, Lorentxo of Dewhollow.",
+    "first_names": [
+      "Amaia", "Eneko", "Garazi", "Aitor", "Itziar",
+      "Gorka", "Leire", "Unai", "Ainhoa", "Miren",
+      "Iker", "Nerea", "Txomin", "Maialen", "Alaitz",
+      "Iratxe", "Lorea", "Izaskun", "Argia", "Zorion",
+      "Oihane", "Bixente", "Gaizka", "Mitxel", "Kepa",
+      "Mirella", "Lorentxo", "Elorino", "Leiria", "Txomino",
+      "Nekaela", "Garazia", "Unaiel", "Ainalia", "Zoriona",
+      "Erriko", "Andero", "Basilio", "Maiora", "Itzaro",
+      "Txarela", "Bixenta", "Enkelia", "Ainolio", "Gorkalia",
+      "Uxuela", "Eztelia", "Nekio", "Oianelo", "Mirentxo"
+    ]
+  }
+}

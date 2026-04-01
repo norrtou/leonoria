@@ -3,7 +3,15 @@
     {
       "id": "the_midlands",
       "name": "The Midlands",
-      "also_known_as": ["Farmlands", "Crown Lands", "Bread Basket", "Rich Lands", "Vale Lands", "Flood Plains", "Alluvial Lands"],
+      "also_known_as": [
+        "Farmlands",
+        "Crown Lands",
+        "Bread Basket",
+        "Rich Lands",
+        "Vale Lands",
+        "Flood Plains",
+        "Alluvial Lands"
+      ],
       "description": "The fertile heart of Leonoria. Rolling plains, river floodplains, broadleaf woodlands, and high settlement density define this biome. All races live here, but Common Folk dominate. The default biome of Leonoria — a little of everything, most things in moderate amounts.",
       "climate": {
         "precipitation": "moderate",
@@ -12,13 +20,38 @@
         "temperatureRange": "8–18 °C average; cold winters, warm summers",
         "notes": "River floodplains accumulate moisture. Spring floods deposit rich silt. Reliable growing seasons."
       },
-      "terrainTypes": ["Lowlands", "Rolling Hills", "Deciduous Forest", "Wetlands", "Rivers & Streams", "Inland Lakes", "Plains", "Farmland"],
+      "terrainTypes": [
+        "Lowlands",
+        "Rolling Hills",
+        "Deciduous Forest",
+        "Wetlands",
+        "Rivers & Streams",
+        "Inland Lakes",
+        "Plains",
+        "Farmland"
+      ],
       "wetlandDensity": 0.04,
       "visual": {
-        "landLow":       [96,  154,  42],
-        "landMid":       [138, 186,  78],
-        "landHigh":      [168, 206, 112],
-        "landMountain":  [180, 190, 155],
+        "landLow": [
+          96,
+          154,
+          42
+        ],
+        "landMid": [
+          138,
+          186,
+          78
+        ],
+        "landHigh": [
+          168,
+          206,
+          112
+        ],
+        "landMountain": [
+          180,
+          190,
+          155
+        ],
         "seaColor": "#aaccdd",
         "snowPeaks": false
       },
@@ -30,7 +63,11 @@
         "ruin": 0.8,
         "mountain": 0.6
       },
-      "preferredCultures": ["midlander", "step_folk", "ancients_greys"],
+      "preferredCultures": [
+        "midlander",
+        "step_folk",
+        "ancients_greys"
+      ],
       "climate_hazards": [],
       "undead_presence": "rare",
       "navigation_risk": "low"
@@ -38,7 +75,15 @@
     {
       "id": "the_sanctuary_lands",
       "name": "The Sanctuary Lands",
-      "also_known_as": ["Temperate Forests", "Holy Forests", "Ancient Forests", "Feyland", "Lush Lands", "Magical Lands", "Broad Leaf Lands"],
+      "also_known_as": [
+        "Temperate Forests",
+        "Holy Forests",
+        "Ancient Forests",
+        "Feyland",
+        "Lush Lands",
+        "Magical Lands",
+        "Broad Leaf Lands"
+      ],
       "description": "Lush broadleaf-covered lands rich in wildlife, game, and magic. Local smaller areas hold pastures and farmland with settlements. Common Folk settle in the pastoral edges; Ancients and Oakpeople inhabit the deep forests. Mountains to the west have snow-capped peaks with Stone Folk settlements. The forests are filled with magic, wonders, and a sense that something ancient watches.",
       "climate": {
         "precipitation": "moderate to high",
@@ -47,25 +92,62 @@
         "temperatureRange": "8–15 °C average; mild winters, cool summers",
         "notes": "Magical interference with weather is common. Fog is persistent in deep forest areas. Rainfall is evenly distributed."
       },
-      "terrainTypes": ["Lowlands", "Rolling Hills", "Mountains", "Deciduous Forest", "Wetlands", "Rivers & Streams", "Inland Lakes", "Coastline", "High Peaks"],
+      "terrainTypes": [
+        "Lowlands",
+        "Rolling Hills",
+        "Mountains",
+        "Deciduous Forest",
+        "Wetlands",
+        "Rivers & Streams",
+        "Inland Lakes",
+        "Coastline",
+        "High Peaks"
+      ],
       "wetlandDensity": 0.03,
       "visual": {
-        "landLow":       [50,  108,  45],
-        "landMid":       [85,  148,  80],
-        "landHigh":      [128, 185, 110],
-        "landMountain":  [205, 218, 198],
+        "landLow": [
+          50,
+          108,
+          45
+        ],
+        "landMid": [
+          85,
+          148,
+          80
+        ],
+        "landHigh": [
+          128,
+          185,
+          110
+        ],
+        "landMountain": [
+          205,
+          218,
+          198
+        ],
         "seaColor": "#88bbcc",
         "snowPeaks": true
       },
       "treeStyle": "broadleaf",
+      "forestHeightMax": 0.52,
+      "forestRadiusMin": 5.0,
+      "forestRadiusMax": 9.0,
+      "forestSeedSpacing": 1,
+      "forestAttempts": 2000,
       "featureMult": {
-        "forest": 2.8,
+        "forest": 6.0,
         "river": 1.0,
         "settlement": 0.9,
         "ruin": 0.6,
         "mountain": 1.4
       },
-      "preferredCultures": ["ancients_secluded", "ancients_greys", "oakpeople", "stone_folk", "midlander"],
+      "preferredCultures": [
+        "ancients_secluded",
+        "ancients_greys",
+        "oakpeople",
+        "stone_folk",
+        "midlander"
+      ],
       "climate_hazards": [],
       "undead_presence": "none",
       "navigation_risk": "low",
@@ -74,7 +156,14 @@
     {
       "id": "the_dark_forests",
       "name": "The Dark Forests",
-      "also_known_as": ["Boreal Forests", "Wild Woods", "Beast Woods", "Haunted Forests", "Wilderness", "Deep Woods"],
+      "also_known_as": [
+        "Boreal Forests",
+        "Wild Woods",
+        "Beast Woods",
+        "Haunted Forests",
+        "Wilderness",
+        "Deep Woods"
+      ],
       "description": "Dark, dense, almost impenetrable conifer forests stretching to the horizon. High movement cost. Rich in dangerous wild animals. Undead are present — old ones, left from the Tyranny of Irin. A few strongly fortified and isolated settlements cling to the edges. The interior is rarely visited and even more rarely survived.",
       "climate": {
         "precipitation": "low to moderate",
@@ -83,26 +172,56 @@
         "temperatureRange": "1–10 °C average; winters down to -30 °C",
         "notes": "Long, brutal winters. Short summers. 25-30% of terrain is peat bog or muskeg. Permafrost in northern sections."
       },
-      "terrainTypes": ["Lowlands", "Rolling Hills", "Mountains", "Conifer Forest", "Wetlands (Peat Bog)", "Rivers & Streams", "Cold Lakes"],
+      "terrainTypes": [
+        "Lowlands",
+        "Rolling Hills",
+        "Mountains",
+        "Conifer Forest",
+        "Wetlands (Peat Bog)",
+        "Rivers & Streams",
+        "Cold Lakes"
+      ],
       "wetlandDensity": 0.12,
       "visual": {
-        "landLow":       [38,  72,  38],
-        "landMid":       [62, 102,  58],
-        "landHigh":      [98, 138,  92],
-        "landMountain":  [152, 160, 148],
+        "landLow": [
+          38,
+          72,
+          38
+        ],
+        "landMid": [
+          62,
+          102,
+          58
+        ],
+        "landHigh": [
+          98,
+          138,
+          92
+        ],
+        "landMountain": [
+          152,
+          160,
+          148
+        ],
         "seaColor": "#7799bb",
         "snowPeaks": true
       },
       "treeStyle": "conifer",
       "featureMult": {
-        "forest": 3.2,
+        "forest": 2.4,
         "river": 0.8,
         "settlement": 0.3,
         "ruin": 1.2,
         "mountain": 1.6
       },
-      "preferredCultures": ["northerner", "wildmen_foresters", "wildmen_ravagers"],
-      "climate_hazards": ["cold"],
+      "preferredCultures": [
+        "northerner",
+        "wildmen_foresters",
+        "wildmen_ravagers"
+      ],
+      "climate_hazards": [
+        "cold"
+      ],
       "undead_presence": "moderate",
       "navigation_risk": "high",
       "movement_cost_modifier": 1.5
@@ -110,7 +229,11 @@
     {
       "id": "the_eternal_winds",
       "name": "The Eternal Winds",
-      "also_known_as": ["Arctic", "The Frozen North", "The Ice Reaches"],
+      "also_known_as": [
+        "Arctic",
+        "The Frozen North",
+        "The Ice Reaches"
+      ],
       "description": "The northernmost biome. Icy tundra, glaciers, and wind-scoured plains with no farmland. Rich in furs and Norium — the essential material for remedies against land-condition afflictions. All races except Ice Ancients and Wildmen suffer Conviction penalty in this biome. Undead roam the deeper regions.",
       "climate": {
         "precipitation": "very low",
@@ -119,36 +242,82 @@
         "temperatureRange": "-5 to -40 °C; brief summer above freezing",
         "notes": "Permafrost everywhere. Tundra with no trees beyond scattered, wind-blasted specimens. Blizzards are frequent and deadly."
       },
-      "terrainTypes": ["Tundra", "Glaciers", "Frozen Lakes", "Permafrost Plains", "Ice Shelf", "Barren Rock"],
+      "terrainTypes": [
+        "Tundra",
+        "Glaciers",
+        "Frozen Lakes",
+        "Permafrost Plains",
+        "Ice Shelf",
+        "Barren Rock"
+      ],
       "wetlandDensity": 0.25,
       "visual": {
-        "landLow":       [175, 208, 228],
-        "landMid":       [210, 228, 242],
-        "landHigh":      [232, 240, 248],
-        "landMountain":  [245, 248, 252],
+        "landLow": [
+          175,
+          208,
+          228
+        ],
+        "landMid": [
+          210,
+          228,
+          242
+        ],
+        "landHigh": [
+          232,
+          240,
+          248
+        ],
+        "landMountain": [
+          245,
+          248,
+          252
+        ],
         "seaColor": "#4477aa",
         "snowPeaks": true
       },
       "treeStyle": "conifer",
       "featureMult": {
-        "forest": 0.2,
+        "forest": 0.1,
         "river": 0.4,
         "settlement": 0.2,
         "ruin": 0.6,
         "mountain": 1.2
       },
-      "preferredCultures": ["ice_ancients", "wildmen_foresters"],
-      "climate_hazards": ["cold"],
-      "conviction_penalty": { "races_affected": "all_except", "exceptions": ["ice_ancients", "wildmen_foresters", "wildmen_ravagers", "northerner"], "penalty": -5 },
+      "preferredCultures": [
+        "ice_ancients",
+        "wildmen_foresters"
+      ],
+      "climate_hazards": [
+        "cold"
+      ],
+      "conviction_penalty": {
+        "races_affected": "all_except",
+        "exceptions": [
+          "ice_ancients",
+          "wildmen_foresters",
+          "wildmen_ravagers",
+          "northerner"
+        ],
+        "penalty": -5
+      },
       "undead_presence": "moderate",
-      "resources": ["Norium", "Furs", "Ice Crystal"],
+      "resources": [
+        "Norium",
+        "Furs",
+        "Ice Crystal"
+      ],
       "navigation_risk": "very_high",
       "movement_cost_modifier": 2.0
     },
     {
       "id": "the_badlands",
       "name": "The Badlands",
-      "also_known_as": ["Deserts", "The Scar", "The Cataclysm Zone", "The Dead Center"],
+      "also_known_as": [
+        "Deserts",
+        "The Scar",
+        "The Cataclysm Zone",
+        "The Dead Center"
+      ],
       "description": "Hot, arid, and empty lands. The site of The Great Death — the central cataclysm that shaped Leonoria. Located on primary trade routes, so the few who live here survive primarily off trade. Ancient ruins of pre-Death civilizations jut from the cracked earth, half-buried and largely unexplored.",
       "climate": {
         "precipitation": "minimal",
@@ -157,26 +326,55 @@
         "temperatureRange": "35–52 °C days; drops sharply at night",
         "notes": "Extreme heat in the day. The soil is not simply sand — it is scorched, warped earth from the cataclysm. Some areas glow faintly at night (residual Great Death energy)."
       },
-      "terrainTypes": ["Cracked Plains", "Canyons", "Dunes", "Rocky Outcroppings", "Ancient Ruins", "Salt Flats", "Dried Riverbeds"],
+      "terrainTypes": [
+        "Cracked Plains",
+        "Canyons",
+        "Dunes",
+        "Rocky Outcroppings",
+        "Ancient Ruins",
+        "Salt Flats",
+        "Dried Riverbeds"
+      ],
       "wetlandDensity": 0.0,
       "visual": {
-        "landLow":       [162,  98,  45],
-        "landMid":       [190, 130,  68],
-        "landHigh":      [214, 165, 100],
-        "landMountain":  [178, 148, 118],
+        "landLow": [
+          162,
+          98,
+          45
+        ],
+        "landMid": [
+          190,
+          130,
+          68
+        ],
+        "landHigh": [
+          214,
+          165,
+          100
+        ],
+        "landMountain": [
+          178,
+          148,
+          118
+        ],
         "seaColor": "#997755",
         "snowPeaks": false
       },
       "treeStyle": "palm",
       "featureMult": {
-        "forest": 0.1,
+        "forest": 0.005,
         "river": 0.2,
         "settlement": 0.3,
         "ruin": 2.5,
         "mountain": 0.8
       },
-      "preferredCultures": ["midlander", "step_folk"],
-      "climate_hazards": ["hot"],
+      "preferredCultures": [
+        "midlander",
+        "step_folk"
+      ],
+      "climate_hazards": [
+        "hot"
+      ],
       "undead_presence": "high",
       "navigation_risk": "high",
       "movement_cost_modifier": 1.4,
@@ -185,7 +383,11 @@
     {
       "id": "the_outer_steppes",
       "name": "The Outer Steppes",
-      "also_known_as": ["Dry Plains", "The Buffer", "The Margin"],
+      "also_known_as": [
+        "Dry Plains",
+        "The Buffer",
+        "The Margin"
+      ],
       "description": "Large, dry plains-like terrain surrounding the Badlands. Bordering the Midlands to the north and east, they serve as a buffer zone between civilization and the wasteland. Scarcely populated with wandering groups and fortified waypoints.",
       "climate": {
         "precipitation": "low",
@@ -194,25 +396,51 @@
         "temperatureRange": "-15 to +30 °C; extreme seasonal swing",
         "notes": "Hot dry summers, cold winters. Dust storms in summer. Occasional flash floods in spring."
       },
-      "terrainTypes": ["Dry Plains", "Scrubland", "Scattered Woodland", "Rocky Hills", "Dried Riverbeds"],
+      "terrainTypes": [
+        "Dry Plains",
+        "Scrubland",
+        "Scattered Woodland",
+        "Rocky Hills",
+        "Dried Riverbeds"
+      ],
       "wetlandDensity": 0.01,
       "visual": {
-        "landLow":       [145, 155,  85],
-        "landMid":       [172, 178, 112],
-        "landHigh":      [198, 200, 142],
-        "landMountain":  [185, 182, 162],
+        "landLow": [
+          145,
+          155,
+          85
+        ],
+        "landMid": [
+          172,
+          178,
+          112
+        ],
+        "landHigh": [
+          198,
+          200,
+          142
+        ],
+        "landMountain": [
+          185,
+          182,
+          162
+        ],
         "seaColor": "#aabbcc",
         "snowPeaks": false
       },
       "treeStyle": "broadleaf",
       "featureMult": {
-        "forest": 0.6,
+        "forest": 0.03,
         "river": 0.5,
         "settlement": 0.4,
         "ruin": 1.2,
         "mountain": 0.8
       },
-      "preferredCultures": ["wildmen_ravagers", "step_folk", "midlander"],
+      "preferredCultures": [
+        "wildmen_ravagers",
+        "step_folk",
+        "midlander"
+      ],
       "climate_hazards": [],
       "undead_presence": "rare",
       "navigation_risk": "medium"
@@ -220,7 +448,11 @@
     {
       "id": "the_blinding_lands",
       "name": "The Blinding Lands",
-      "also_known_as": ["Steplands", "Dry Steppes", "The Ruins-Steppe"],
+      "also_known_as": [
+        "Steplands",
+        "Dry Steppes",
+        "The Ruins-Steppe"
+      ],
       "description": "Mongol/Kazakhstan-style dry steppes. Scarcely populated. Many haunted ancient ruins from the pre-Death era protrude from the flat plains. The glare of sunlight on white stone and pale earth in midday is genuinely blinding without eye protection.",
       "climate": {
         "precipitation": "very low",
@@ -229,26 +461,55 @@
         "temperatureRange": "-20 to +38 °C; brutal seasonal swing",
         "notes": "Near-desert conditions in summer. Sparse grasses and scrub. Dust devils are common. Ruins dot the landscape."
       },
-      "terrainTypes": ["Flat Plains", "Scrubland", "Ancient Ruins", "Dry Riverbeds", "Cracked Earth", "Scattered Rocky Formations"],
+      "terrainTypes": [
+        "Flat Plains",
+        "Scrubland",
+        "Ancient Ruins",
+        "Dry Riverbeds",
+        "Cracked Earth",
+        "Scattered Rocky Formations"
+      ],
       "wetlandDensity": 0.0,
       "visual": {
-        "landLow":       [175, 168,  95],
-        "landMid":       [200, 192, 118],
-        "landHigh":      [218, 208, 145],
-        "landMountain":  [192, 182, 162],
+        "landLow": [
+          175,
+          168,
+          95
+        ],
+        "landMid": [
+          200,
+          192,
+          118
+        ],
+        "landHigh": [
+          218,
+          208,
+          145
+        ],
+        "landMountain": [
+          192,
+          182,
+          162
+        ],
         "seaColor": "#aabbcc",
         "snowPeaks": false
       },
       "treeStyle": "palm",
       "featureMult": {
-        "forest": 0.2,
+        "forest": 0.01,
         "river": 0.3,
         "settlement": 0.3,
         "ruin": 2.0,
         "mountain": 0.5
       },
-      "preferredCultures": ["wildmen_foresters", "step_folk", "midlander"],
-      "climate_hazards": ["hot"],
+      "preferredCultures": [
+        "wildmen_foresters",
+        "step_folk",
+        "midlander"
+      ],
+      "climate_hazards": [
+        "hot"
+      ],
       "undead_presence": "moderate",
       "navigation_risk": "medium",
       "special_notes": "Many ruins are haunted by pre-Death undead of unknown type. The locals avoid them. Outsiders do not."
@@ -256,7 +517,11 @@
     {
       "id": "the_gleam_havens",
       "name": "The Gleam Havens",
-      "also_known_as": ["Coastal Havens", "The Gleam", "Southern Lush Lands"],
+      "also_known_as": [
+        "Coastal Havens",
+        "The Gleam",
+        "Southern Lush Lands"
+      ],
       "description": "Dryer plains and savannas with a Mediterranean coastal climate to the west. Warmer and drier than the Midlands or Sanctuary Lands, but not harsh. Located in the far southeast. Ancients and Step Folk dominate this biome — a more comfortable climate for both.",
       "climate": {
         "precipitation": "moderate",
@@ -265,13 +530,36 @@
         "temperatureRange": "14–28 °C average; mild dry summers, warm rainy winters",
         "notes": "Coastal areas have sea breezes and salt air. Interior savanna zones are hotter and drier. Lush in rainy season, dry and golden in summer."
       },
-      "terrainTypes": ["Savanna", "Coastal Plains", "Dry Forest", "Sandy Coves", "Grassland", "Mediterranean Scrubland"],
+      "terrainTypes": [
+        "Savanna",
+        "Coastal Plains",
+        "Dry Forest",
+        "Sandy Coves",
+        "Grassland",
+        "Mediterranean Scrubland"
+      ],
       "wetlandDensity": 0.04,
       "visual": {
-        "landLow":       [140, 162,  65],
-        "landMid":       [172, 188, 100],
-        "landHigh":      [202, 202, 130],
-        "landMountain":  [195, 188, 168],
+        "landLow": [
+          140,
+          162,
+          65
+        ],
+        "landMid": [
+          172,
+          188,
+          100
+        ],
+        "landHigh": [
+          202,
+          202,
+          130
+        ],
+        "landMountain": [
+          195,
+          188,
+          168
+        ],
         "seaColor": "#55aacc",
         "snowPeaks": false
       },
@@ -283,7 +571,11 @@
         "ruin": 0.8,
         "mountain": 0.6
       },
-      "preferredCultures": ["ancients_secluded", "step_folk", "midlander"],
+      "preferredCultures": [
+        "ancients_secluded",
+        "step_folk",
+        "midlander"
+      ],
       "climate_hazards": [],
       "undead_presence": "rare",
       "navigation_risk": "low"
@@ -291,7 +583,12 @@
     {
       "id": "the_boglands",
       "name": "The Boglands",
-      "also_known_as": ["Swamplands", "The Bogs", "The Fen", "The Southern Wetlands"],
+      "also_known_as": [
+        "Swamplands",
+        "The Bogs",
+        "The Fen",
+        "The Southern Wetlands"
+      ],
       "description": "South of the southern dry steppes. Wet, marshy, and oppressive. Home of Wildmen and Swampbrood. The water never quite dries. Ancient trees stand in standing water. Sounds carry in strange ways through the mist. Navigation is genuinely dangerous without local knowledge.",
       "climate": {
         "precipitation": "very high",
@@ -300,13 +597,36 @@
         "temperatureRange": "16–30 °C; rarely cold; oppressively humid",
         "notes": "Year-round humidity. Frequent rain. Mist and fog are constant. Blight and rot thrive here."
       },
-      "terrainTypes": ["Swampland", "Mudflats", "Flooded Forest", "Reed Beds", "Stagnant Lakes", "Bog Islands"],
+      "terrainTypes": [
+        "Swampland",
+        "Mudflats",
+        "Flooded Forest",
+        "Reed Beds",
+        "Stagnant Lakes",
+        "Bog Islands"
+      ],
       "wetlandDensity": 0.38,
       "visual": {
-        "landLow":       [48,  88,  48],
-        "landMid":       [75, 118,  72],
-        "landHigh":      [108, 150,  98],
-        "landMountain":  [148, 155, 132],
+        "landLow": [
+          48,
+          88,
+          48
+        ],
+        "landMid": [
+          75,
+          118,
+          72
+        ],
+        "landHigh": [
+          108,
+          150,
+          98
+        ],
+        "landMountain": [
+          148,
+          155,
+          132
+        ],
         "seaColor": "#558866",
         "snowPeaks": false
       },
@@ -318,8 +638,13 @@
         "ruin": 1.2,
         "mountain": 0.2
       },
-      "preferredCultures": ["swampbrood", "wildmen_foresters"],
-      "climate_hazards": ["humidity"],
+      "preferredCultures": [
+        "swampbrood",
+        "wildmen_foresters"
+      ],
+      "climate_hazards": [
+        "humidity"
+      ],
       "undead_presence": "moderate",
       "navigation_risk": "very_high",
       "movement_cost_modifier": 1.8,
@@ -329,7 +654,12 @@
     {
       "id": "the_forgotten_kingdom",
       "name": "The Forgotten Kingdom",
-      "also_known_as": ["Underdark", "The Below", "The Deep", "The Kingdom Beneath"],
+      "also_known_as": [
+        "Underdark",
+        "The Below",
+        "The Deep",
+        "The Kingdom Beneath"
+      ],
       "description": "An underground cave world characterized by darkness and dark magic. Connected to the surface of Leonoria by small entrances that only Gatekeepers can open. Three distinct zones: The Light (nearest to the surface), The Well (mid-depth), and The Fallen (deepest, most corrupted). Home to Shadow Ancients, Stone Folk, Ashen Halfbreeds, and Fallen Corrupted Ancients.",
       "climate": {
         "precipitation": "none",
@@ -338,13 +668,36 @@
         "temperatureRange": "5–12 °C in The Light; colder in The Well; near-freezing in The Fallen",
         "notes": "No weather. No sunlight. Bioluminescent flora provides dim illumination in The Light. The Well is near-darkness. The Fallen is absolute black."
       },
-      "terrainTypes": ["Cave Systems", "Underground Rivers", "Crystal Formations", "Mushroom Forests", "Subterranean Lakes", "Lava Vents (deep)"],
+      "terrainTypes": [
+        "Cave Systems",
+        "Underground Rivers",
+        "Crystal Formations",
+        "Mushroom Forests",
+        "Subterranean Lakes",
+        "Lava Vents (deep)"
+      ],
       "wetlandDensity": 0.08,
       "visual": {
-        "landLow":       [38,  22,  58],
-        "landMid":       [62,  48,  88],
-        "landHigh":      [92,  78, 118],
-        "landMountain":  [28,  18,  44],
+        "landLow": [
+          38,
+          22,
+          58
+        ],
+        "landMid": [
+          62,
+          48,
+          88
+        ],
+        "landHigh": [
+          92,
+          78,
+          118
+        ],
+        "landMountain": [
+          28,
+          18,
+          44
+        ],
         "seaColor": "#1a0a2a",
         "snowPeaks": false
       },
@@ -356,14 +709,30 @@
         "ruin": 1.8,
         "mountain": 0.5
       },
-      "preferredCultures": ["stone_folk", "ashen_halfbreeds", "ancients_dark_ones"],
+      "preferredCultures": [
+        "stone_folk",
+        "ashen_halfbreeds",
+        "ancients_dark_ones"
+      ],
       "climate_hazards": [],
       "undead_presence": "very_high",
       "navigation_risk": "extreme",
       "zones": [
-        { "id": "the_light", "depth": 1, "description": "Nearest surface. Bioluminescent. Home of Stone Folk and Shadow Ancients." },
-        { "id": "the_well", "depth": 2, "description": "Mid-depth. Near-darkness. Home of deeper Stone Folk clans." },
-        { "id": "the_fallen", "depth": 3, "description": "Deepest zone. Absolute corruption. Home of Ashen Halfbreeds and Fallen Ancients." }
+        {
+          "id": "the_light",
+          "depth": 1,
+          "description": "Nearest surface. Bioluminescent. Home of Stone Folk and Shadow Ancients."
+        },
+        {
+          "id": "the_well",
+          "depth": 2,
+          "description": "Mid-depth. Near-darkness. Home of deeper Stone Folk clans."
+        },
+        {
+          "id": "the_fallen",
+          "depth": 3,
+          "description": "Deepest zone. Absolute corruption. Home of Ashen Halfbreeds and Fallen Ancients."
+        }
       ],
       "access_note": "Surface entry requires a Gatekeeper. Without one, the entrances cannot be found or opened.",
       "materium_note": "Shadow Connection pools regenerate 30% faster here. Materium (non-shadow) pools drain 20% faster.",

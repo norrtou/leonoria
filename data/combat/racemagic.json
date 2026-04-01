@@ -1,121 +1,199 @@
 [
   {
-    "race": "Human",
-    "subraces": ["Standard", "Variant"],
-    "affinity_matrix": {
-      "Abjuration": "Neutral", "Conjuration": "Neutral", "Divination": "Neutral", 
-      "Enchantment": "Neutral", "Evocation": "Neutral", "Illusion": "Neutral", 
-      "Necromancy": "Neutral", "Transmutation": "Neutral"
+    "race": "Midlander",
+    "own_name": "Erdan",
+    "materium_affinity": "Low / Generalist",
+    "accessible_schools": ["Any (reduced potency)"],
+    "strongest_school": "Lightwielding (rare) or None",
+    "magic_notes": "Erdan rarely show magical affinity. When they do, it is almost exclusively Lightwielding — Clerics and Templars. A small number demonstrate minor Dark arts. They have no natural school mastery but can access any school at low potency.",
+    "school_scaling": {
+      "Lightwielding": "Low to Moderate (rare individuals only)",
+      "Luminance": "Low",
+      "Dark Arts": "Very Rare"
     },
-    "engine_logic": "Adaptability: +1 to all stats (Standard) or +1 Feat (Variant). No natural weaknesses, but no specialized school scaling.",
-    "unique_hook": "Universal Vessel: Can attune to any school-specific artifact without racial restriction."
+    "unique_hook": "Universal Vessel: No racial school restriction. An Erdan Cleric or Templar can grow into modest Lightwielding; an Erdan Scholar can dabble in any Materium school."
   },
   {
-    "race": "Halfling",
-    "subraces": ["Lightfoot", "Stout", "Ghostwise"],
-    "affinity_matrix": {
-      "Abjuration": "High (Luck)", "Conjuration": "Neutral", "Divination": "Low", 
-      "Enchantment": "Neutral", "Evocation": "Low", "Illusion": "Neutral", 
-      "Necromancy": "High (Stout-Resilience)", "Transmutation": "High (Nimble)"
+    "race": "Northerner",
+    "own_name": "Skarn",
+    "materium_affinity": "Low — Faith-focused",
+    "accessible_schools": ["Harmony Weaving", "Soulkindling"],
+    "strongest_school": "Soulkindling",
+    "magic_notes": "Skarn magic is almost entirely faith-based. Their Shamans are the exception — using Dark-adjacent blood rites passed down in isolation. Most Skarn are not mages at all.",
+    "school_scaling": {
+      "Harmony Weaving": "Moderate",
+      "Soulkindling": "Moderate to High (when faith is strong)",
+      "Blood Shamanism": "Low, rare"
     },
-    "engine_logic": "Probability Manipulation: 'Brave' provides Advantage vs Frightened (Enchantment). 'Lucky' allows rerolling 1s.",
-    "weakness": "Evocation (Heavy): Small size limits the casting of 'Heavy' material component spells.",
-    "unique_hook": "Halfling Nimbleness: Can move through spaces occupied by creatures larger than them (Transmutation logic)."
+    "unique_hook": "Faith Amplifier: Soulkindling effects scale with Conviction score. A Northerner Cleric with high Conviction can reach High potency despite low Materium base."
   },
   {
-    "race": "Dragonborn",
-    "subraces": ["Chromatic", "Metallic", "Gem"],
-    "affinity_matrix": {
-      "Abjuration": "Low", "Conjuration": "Low", "Divination": "Low", 
-      "Enchantment": "Low", "Evocation": "Max (Elemental)", "Illusion": "Weak", 
-      "Necromancy": "Neutral", "Transmutation": "High (Gem-Psionic)"
+    "race": "Step Folk",
+    "own_name": "Zai'Keth",
+    "materium_affinity": "Low to Moderate — Versatile",
+    "accessible_schools": ["Luminance", "Mindwielding", "Bloodpassion"],
+    "strongest_school": "Mindwielding",
+    "magic_notes": "Zai'Keth magic is practical and mobile — illusion-adjacent mind skills, short bursts of Bloodpassion fury, and rare Luminance use. Their Shamans appear in tribes of the Dark Forest outskirts, occasionally wielding dark arts.",
+    "school_scaling": {
+      "Luminance": "Low to Moderate",
+      "Mindwielding": "Moderate",
+      "Bloodpassion": "Low to Moderate",
+      "Dark Shamanism": "Very Rare"
     },
-    "engine_logic": "Elemental Conduit: Breath weapon scales as an Evocation spell. Damage type resistance is permanent.",
-    "weakness": "Illusion: Low natural investigative stats make them susceptible to sensory deception.",
-    "unique_hook": "Draconic Presence: Gem variants gain 30ft Telepathy (Divination/Enchantment hybrid)."
+    "unique_hook": "Road Magic: Zai'Keth Mindwielding rolls in the open world (outside cities and dungeons) gain +10%. Their magic is tied to movement and open space."
   },
   {
-    "race": "Gnome",
-    "subraces": ["Forest", "Rock", "Deep (Svirfneblin)"],
-    "affinity_matrix": {
-      "Abjuration": "High (Deep)", "Conjuration": "High (Rock)", "Divination": "High", 
-      "Enchantment": "High (Cunning)", "Evocation": "Neutral", "Illusion": "Max", 
-      "Necromancy": "Low", "Transmutation": "High"
+    "race": "The Secluded",
+    "own_name": "Aelthiryn",
+    "materium_affinity": "Very High — Nature focus",
+    "accessible_schools": ["Athropium", "Lifewhispering", "Harmony Weaving", "Tempest", "Earthen"],
+    "strongest_school": "Athropium",
+    "magic_notes": "Aelthiryn carry norium in their blood, making them natural magical conductors. Their school access is nature-centric. They cannot naturally access Shadow Arts or Void schools.",
+    "school_scaling": {
+      "Athropium": "High",
+      "Lifewhispering": "High",
+      "Harmony Weaving": "Moderate to High",
+      "Tempest": "Moderate",
+      "Earthen": "Moderate"
     },
-    "engine_logic": "Gnome Cunning: Advantage on all INT/WIS/CHA saves vs Magic. This is a passive Abjuration shell.",
-    "weakness": "Necromancy (Physical): Susceptible to Strength-drain effects.",
-    "unique_hook": "Svirfneblin Camouflage: Advantage on Stealth in rocky terrain (Illusion logic)."
+    "unique_hook": "Norium Blood: All Materium-school spells cost 10% less Materium Connection. In forested biomes, spell regeneration increases by 20%."
   },
   {
-    "race": "Tiefling",
-    "subraces": ["Asmodeus", "Mephistopheles", "Zariel", "Feral"],
-    "affinity_matrix": {
-      "Abjuration": "Neutral", "Conjuration": "High", "Divination": "Low", 
-      "Enchantment": "High", "Evocation": "Max (Fire/Smite)", "Illusion": "Neutral", 
-      "Necromancy": "High", "Transmutation": "Neutral"
+    "race": "The Greys",
+    "own_name": "Saereth",
+    "materium_affinity": "High — Broad access",
+    "accessible_schools": ["Arcane Arts", "Revelation", "Geometrics", "Tempest", "Earthen", "Impact", "Luminance (50%)", "Darkvoid (50%)"],
+    "strongest_school": "Arcane Arts / Geometrics",
+    "magic_notes": "Saereth have the broadest school access of any race — they can touch both Light and Shadow schools, though at half potency. Their strength is in Arcane and Geometric schools. No single-school mastery but unmatched versatility.",
+    "school_scaling": {
+      "Arcane Arts": "High",
+      "Geometrics": "High",
+      "Revelation": "Moderate to High",
+      "Tempest": "Moderate",
+      "Earthen": "Moderate",
+      "Impact": "Moderate",
+      "Luminance": "Low (50% cap)",
+      "Darkvoid": "Low (50% cap)"
     },
-    "engine_logic": "Infernal Legacy: Innate scaling of 'Hellish Rebuke' (Evocation) and 'Darkness' (Evocation/Illusion).",
-    "weakness": "Abjuration (Holy): Susceptible to 'Banishment' or 'Dispel Evil and Good'.",
-    "unique_hook": "Fire Resistance: Reduces all incoming Evocation (Fire) damage by 50%."
+    "unique_hook": "Broad Conduit: Saereth are the only race that can access both Light and Shadow schools simultaneously, albeit capped at 50% potency for those dual-aligned schools."
   },
   {
-    "race": "Orc / Half-Orc",
-    "subraces": ["Standard", "Mark of Finding"],
-    "affinity_matrix": {
-      "Abjuration": "Low", "Conjuration": "Low", "Divination": "Neutral", 
-      "Enchantment": "Weak", "Evocation": "Neutral", "Illusion": "Weak", 
-      "Necromancy": "Max (Relentless)", "Transmutation": "Neutral"
+    "race": "The Dark Ones",
+    "own_name": "Velkaar",
+    "materium_affinity": "High — Shadow only",
+    "accessible_schools": ["Umbramancy", "Blood Magic", "Darkvoid", "Darkmind", "Voidreaving"],
+    "strongest_school": "Umbramancy / Darkvoid",
+    "magic_notes": "Velkaar are exclusively Shadow Arts practitioners. They cannot access Light or nature Materium schools. Their shadow potency is among the highest of any race. All Shadow school spells cost 15% less Materium Connection.",
+    "school_scaling": {
+      "Umbramancy": "Very High",
+      "Darkvoid": "Very High",
+      "Blood Magic": "High",
+      "Darkmind": "High",
+      "Voidreaving": "Moderate to High"
     },
-    "engine_logic": "Relentless Endurance: If reduced to 0 HP, drop to 1 HP instead (Necromancy/Abjuration hybrid).",
-    "weakness": "Enchantment/Illusion: Very low mental saves; easily charmed or confused.",
-    "unique_hook": "Savage Attacks: Extra damage die on critical hits (Physical Evocation)."
+    "unique_hook": "Dark Arts Only: Complete restriction from Light and Nature schools. All Shadow costs reduced 15%. In dark environments, Shadow pool does not drain."
   },
   {
-    "race": "Goliath",
-    "subraces": ["Mountain", "Cloud", "Fire", "Frost", "Stone", "Storm"],
-    "affinity_matrix": {
-      "Abjuration": "High (Stone's Endurance)", "Conjuration": "Low", "Divination": "Low", 
-      "Enchantment": "Weak", "Evocation": "High (Elemental Ancestry)", "Illusion": "Weak", 
-      "Necromancy": "Neutral", "Transmutation": "Neutral"
+    "race": "The Ice Ancients",
+    "own_name": "Thyraen",
+    "materium_affinity": "High — Cold and stillness",
+    "accessible_schools": ["Soulkindling", "Chill", "Tempest", "Earthen"],
+    "strongest_school": "Chill",
+    "magic_notes": "Thyraen magic is cold, slow, and deep. Their Chill school effects are the most potent of any race. They regenerate Materium 25% faster in The Eternal Winds. Fire and hot damage counters them directly.",
+    "school_scaling": {
+      "Chill": "Very High",
+      "Soulkindling": "High",
+      "Tempest": "Moderate",
+      "Earthen": "Moderate"
     },
-    "engine_logic": "Stone's Endurance: Use Reaction to reduce damage by 1d12 + CON (Abjuration logic).",
-    "weakness": "Enchantment: Vulnerable to psychic control due to high physical/low mental focus.",
-    "unique_hook": "Powerful Build: Count as one size larger for carrying/pushing (Transmutation logic)."
+    "unique_hook": "Frozen Conduit: All Chill damage dealt by Thyraen gains +15%. In The Eternal Winds, Materium pool regenerates 25% faster. Fire damage received +20% (vulnerability)."
   },
   {
-    "race": "Tabaxi",
-    "subraces": ["Standard"],
-    "affinity_matrix": {
-      "Abjuration": "Low", "Conjuration": "Low", "Divination": "High (Perception)", 
-      "Enchantment": "Neutral", "Evocation": "Neutral", "Illusion": "High", 
-      "Necromancy": "Low", "Transmutation": "Max (Mobility)"
+    "race": "Foresters",
+    "own_name": "Gruthen",
+    "materium_affinity": "Low — Shamanic",
+    "accessible_schools": ["Bestial Communion", "Athropium"],
+    "strongest_school": "Bestial Communion",
+    "magic_notes": "Gruthen magic is entirely shamanic and nature-bound. They cannot access cities' formal Materium schools. Their Bestial Communion gives them a passive healing tool between battles, requiring no pool drain.",
+    "school_scaling": {
+      "Bestial Communion": "Moderate to High",
+      "Athropium": "Low to Moderate"
     },
-    "engine_logic": "Feline Agility: Double movement speed for 1 turn (Transmutation).",
-    "weakness": "Abjuration (Binding): Curses or spells that restrict movement (Hold Person) are critical counters.",
-    "unique_hook": "Cat's Talent: Permanent proficiency in Perception and Stealth."
+    "unique_hook": "Shamanistic Healing: Bestial Communion can restore 10% max HP between battles passively, without spending Materium pool."
   },
   {
-    "race": "Aasimar",
-    "subraces": ["Protector", "Scourge", "Fallen"],
-    "affinity_matrix": {
-      "Abjuration": "High", "Conjuration": "Neutral", "Divination": "High", 
-      "Enchantment": "Neutral", "Evocation": "Max (Radiant)", "Illusion": "Low", 
-      "Necromancy": "Max (Fallen/Necrotic)", "Transmutation": "High (Flight)"
+    "race": "Ravagers",
+    "own_name": "Krothan",
+    "materium_affinity": "Very Low — Battle-only",
+    "accessible_schools": ["Blood Magic", "Dominion"],
+    "strongest_school": "Blood Magic",
+    "magic_notes": "Krothan have almost no Materium affinity. Their school access is purely combat-support — Blood Magic for injury-fueled power, Dominion for controlling weaker opponents. Most Krothan never use any magic at all.",
+    "school_scaling": {
+      "Blood Magic": "Moderate (injury-scaled)",
+      "Dominion": "Low"
     },
-    "engine_logic": "Celestial Revelation: Transformation provides flight or AoE damage/healing (Transmutation/Evocation).",
-    "weakness": "Necromancy (Cursed): Targeted vulnerability to 'Vile' or 'Unholy' damage variants.",
-    "unique_hook": "Healing Hands: Touch-based healing pool (Evocation) independent of spell slots."
+    "unique_hook": "Battle Surge: Krothan Blood Magic scales with current damage taken — the more injured, the more potent. A near-death Krothan Blood Mage is at their strongest."
   },
   {
-    "race": "Warforged",
-    "subraces": ["Standard"],
-    "affinity_matrix": {
-      "Abjuration": "Max (Armor)", "Conjuration": "Low", "Divination": "Neutral", 
-      "Enchantment": "Immune (Sleep)", "Evocation": "High (Resistant)", "Illusion": "Low", 
-      "Necromancy": "Immune (Disease/Poison)", "Transmutation": "Neutral"
+    "race": "Oakpeople",
+    "own_name": "Talarin",
+    "materium_affinity": "Very High — Nature and illusion",
+    "accessible_schools": ["Athropium", "Bestial Communion", "Lifewhispering", "Harmony Weaving", "Darkmind"],
+    "strongest_school": "Athropium",
+    "magic_notes": "Talarin deal the most Athropium damage of any race. Their Darkmind access is unusual — illusory and deceptive rather than aggressive. Animals are always neutral to them, giving passive Bestial Communion effects even without casting.",
+    "school_scaling": {
+      "Athropium": "Maximum (20% above all other races)",
+      "Lifewhispering": "High",
+      "Bestial Communion": "High",
+      "Harmony Weaving": "Moderate",
+      "Darkmind": "Low (illusion-only)"
     },
-    "engine_logic": "Integrated Protection: Permanent +1 AC. Does not eat, sleep, or breathe.",
-    "weakness": "Transmutation (Rust): Vulnerable to 'Heat Metal' or rust-based monster effects.",
-    "unique_hook": "Construct Nature: Immune to the 'Exhaustion' status effect from environmental sources."
+    "unique_hook": "Nature's Apex: Talarin Athropium damage always rolls at +20%. Their magical insulation (20) makes them highly resistant to hostile Materium effects."
+  },
+  {
+    "race": "Stone Folk",
+    "own_name": "Dornak",
+    "materium_affinity": "Moderate — Earth and structure",
+    "accessible_schools": ["Geometrics", "Terramancy", "Earthen", "Luminance"],
+    "strongest_school": "Terramancy / Earthen",
+    "magic_notes": "All Dornak have an innate affinity for Earthern magic — some develop into masters. Their Geometrics use is architectural and structural, not combat-primary. Luminance access is limited but present, allowing some Dornak Clerics.",
+    "school_scaling": {
+      "Terramancy": "High to Very High",
+      "Earthen": "High",
+      "Geometrics": "Moderate",
+      "Luminance": "Low to Moderate"
+    },
+    "unique_hook": "Stone-Bound: Dornak Earthen and Terramancy rolls gain +10% underground or in mountain environments. Their connection to stone is literal — rock responds to them."
+  },
+  {
+    "race": "Swampbrood",
+    "own_name": "Urveth",
+    "materium_affinity": "Moderate — Blight and decay",
+    "accessible_schools": ["Rotweaving", "Lifewhispering", "Athropium", "Darkmind"],
+    "strongest_school": "Rotweaving",
+    "magic_notes": "Urveth magic centers on Blight, decay, and poison. Rotweaving is their signature school, and they are among the best poison-infusion alchemists on Leonoria. Their Darkmind access is shadow-illusion, used for hunting rather than combat.",
+    "school_scaling": {
+      "Rotweaving": "High",
+      "Lifewhispering": "Moderate",
+      "Athropium": "Moderate",
+      "Darkmind": "Low (hunting illusions)"
+    },
+    "unique_hook": "Venom Passive: Every Urveth attack — melee or ranged — carries natural venom (5% initiative slow + 1 HP bleed per round) without any Materium cost. All poison alchemy rolls gain +15%."
+  },
+  {
+    "race": "The Ashen Halfbreeds",
+    "own_name": "Ul'Karash",
+    "materium_affinity": "Moderate — Fire, blight, void",
+    "accessible_schools": ["Earthen", "Rotweaving", "Fire", "Voidreaving", "Umbramancy"],
+    "strongest_school": "Earthen / Fire",
+    "magic_notes": "Ul'Karash are gifted in Earthern, Blight, and Fire magic — a combination born from their exile in the transformative Badlands. Their Voidreaving and Umbramancy remain from their Velkaar origin, though at reduced potency after the change. They are skilled general warriors first, mages second.",
+    "school_scaling": {
+      "Earthen": "Moderate to High",
+      "Rotweaving": "Moderate",
+      "Fire": "Moderate to High",
+      "Voidreaving": "Moderate",
+      "Umbramancy": "Low to Moderate"
+    },
+    "unique_hook": "Ash-Born Resilience: Fire damage received is reduced 25%. Void Erasure (once per battle) removes a debuff from up to 2 allies. Purelight damage taken +15% (vulnerability)."
   }
 ]

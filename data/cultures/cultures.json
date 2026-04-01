@@ -327,7 +327,7 @@
         "primary_materium": "Bloodpassion",
         "alignment": "True Neutral",
         "description": "Bio-diplomats who negotiate through pheromones and pulse-manipulation. Their 'diplomacy' includes subtle physical influence on emotional states. They are excellent trade partners and deeply unsettling negotiating opponents.",
-        "typical_classes": ["Envoy", Scholar", "Lifewhisperer"],
+        "typical_classes": ["Envoy", "Scholar", "Lifewhisperer"],
         "typical_backgrounds": ["Merchant", "Wayfarer", "Noble"],
         "stance": "Trade-obsessed, biologically sophisticated, ethically flexible",
         "architecture": "Living caravans — everything is mobile, but the caravans are built like small cities.",

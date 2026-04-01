@@ -1,128 +1,132 @@
 [
   {
-    "biome_id": "BME-001",
-    "name": "Arctic",
-    "description": "Tundra, glaciers, and frozen peaks where survival is a constant struggle against the cold.",
-    "environmental_hazards": ["Extreme Cold", "Freezing Water", "Thin Ice"],
-    "primary_settings": ["Icewind Dale", "The Frostfell", "Iron Peaks"],
+    "biome_id": "the_midlands",
+    "name": "The Midlands",
+    "description": "Fertile plains, river valleys, and rolling farmland. The most populated biome on Leonoria. Danger is moderate but constant — bandits, wolves, and rogue constructs are the primary threats.",
+    "environmental_hazards": ["River flooding", "Bandit ambush", "Plague spread"],
     "native_bestiary": {
-      "common": ["Dire Wolf", "Winter Wolf", "Ice Mephit", "Snowy Owl", "Polar Bear"],
-      "uncommon": ["Remorhaz", "Yeti", "Mammoth", "Young White Dragon", "Crag Cat"],
-      "rare_bosses": ["Ancient White Dragon", "Frost Giant Quintessential", "Auril the Frostmaiden"],
-      "humanoid_cultures": ["Reghed Barbarians", "Goliath Tribes", "Frost Giants"]
+      "common": ["Dire Wolf Pack", "Midlands Boar", "River Serpent", "Bandit Warband", "Rabid Elk"],
+      "uncommon": ["Cave Bear", "Flesh Golem (escaped construct)", "Midlands Plague Worg", "Feral Ironguard Deserter"],
+      "rare_bosses": ["The Endless Herd (stampede entity)", "Corrupted River Guardian", "Warlord of the Ruined Tower"],
+      "humanoid_threats": ["Bandit Companies", "Corrupt Merchant Guards", "Cultists of the Dark Birth Signs"]
     },
-    "loot_modifiers": ["Fur/Hide (Double Yield)", "Cold-Resistant Materials"]
+    "loot_modifiers": ["Foodstuffs", "Livestock Materials", "Trade Coin", "Farmland Iron"]
   },
   {
-    "biome_id": "BME-002",
-    "name": "Coastal",
-    "description": "The threshold between land and sea, including cliffs, beaches, and tide pools.",
-    "environmental_hazards": ["High Tides", "Slippery Rocks", "Gale Winds"],
-    "primary_settings": ["The Sword Coast", "Chult Coastline", "Saltmarsh"],
+    "biome_id": "the_sanctuary_lands",
+    "name": "The Sanctuary Lands",
+    "description": "Ancient forests of towering trees, mountain sanctuaries, and fey-touched glades. Home to the Aelthiryn and Talarin. Beautiful and serene — but the deeper forests hold things that have never been named.",
+    "environmental_hazards": ["Materium Surges (spells misfire)", "Impassable growth", "Ancient wards"],
     "native_bestiary": {
-      "common": ["Sahuagin", "Merfolk", "Giant Crab", "Harpy", "Pterafolk"],
-      "uncommon": ["Dragon Turtle", "Marid", "Sea Hag", "Banshee (Shipwreck)"],
-      "rare_bosses": ["Kraken", "Ancient Bronze Dragon", "Storm Giant"],
-      "humanoid_cultures": ["Lizardfolk Clans", "Pirate Coalitions", "Coastal Tritons"]
+      "common": ["Silver Stag", "Thorn Lurker", "Aelthiryn Border Warden", "Giant Sentinel Spider", "Forest Phantom"],
+      "uncommon": ["Bark Golem", "Ancient Root Strider", "Luminous Dire Bear", "Boundary Wraith"],
+      "rare_bosses": ["The Warden of the Inner Forest (Athropium-born entity)", "The Deepwood Mother (ancient entity)", "Fallen Aelthiryn Archmage"],
+      "humanoid_threats": ["Aelthiryn isolationist patrols", "Talarin root-traps (non-hostile unless provoked)"]
     },
-    "loot_modifiers": ["Pearls", "Coral Artifacts", "Sunken Gold"]
+    "loot_modifiers": ["Rare Herbs", "Norium Crystals", "Magical Wood", "Sanctuary Moss (alchemical)"]
   },
   {
-    "biome_id": "BME-003",
-    "name": "Desert",
-    "description": "Arid wastes of shifting dunes, rocky canyons, and hidden oases.",
-    "environmental_hazards": ["Extreme Heat", "Sandstorms", "Dehydration"],
-    "primary_settings": ["Anauroch", "Calim Desert", "The Searing Plain"],
+    "biome_id": "the_dark_forests",
+    "name": "The Dark Forests",
+    "description": "Boreal forests of black pine and dense canopy. Permanent twilight at ground level. Home to the Skarn, Gruthen, and Krothan. Violence is constant and nature here is red in tooth and claw.",
+    "environmental_hazards": ["Near-total darkness at ground level", "Cold snap events", "Sound carries far (stealth harder)"],
     "native_bestiary": {
-      "common": ["Giant Scorpion", "Dust Mephit", "Jackalwere", "Gnoll", "Thri-kreen"],
-      "uncommon": ["Lamia", "Air Elemental", "Efreeti", "Yuan-ti Malison"],
-      "rare_bosses": ["Ancient Blue Dragon", "Androsphinx", "Mummy Lord"],
-      "humanoid_cultures": ["Bedine Tribes", "Yuan-ti Cults", "Fire Giant Smithies"]
+      "common": ["Krothan Hunting Party", "Dire Timber Wolf", "Black Bear", "Gruthen Border Watcher", "Fungal Crawler"],
+      "uncommon": ["Shadow Elk (void-touched)", "Great Horned Mauler", "Gruthen Shaman Construct", "Shade Hound"],
+      "rare_bosses": ["The Krothan Warchief", "The Mossgiant (Gruthen ancient elder)", "The Darkwood Herald (Abyssal-adjacent spirit)"],
+      "humanoid_threats": ["Krothan raiding parties", "Skarn isolationist hunters", "Lost Dark One scouting cells"]
     },
-    "loot_modifiers": ["Gems", "Exotic Silks", "Ancient Relics"]
+    "loot_modifiers": ["Furs (superior)", "Dark Pine Timber", "Rare Mushrooms", "Krothan Trophy Bones"]
   },
   {
-    "biome_id": "BME-004",
-    "name": "Forest",
-    "description": "Densely wooded areas ranging from temperate groves to ancient, dark timberlands.",
-    "environmental_hazards": ["Dense Undergrowth", "Limited Visibility", "Spores"],
-    "primary_settings": ["Neverwinter Wood", "High Forest", "Shadowfell Forests"],
+    "biome_id": "the_eternal_winds",
+    "name": "The Eternal Winds",
+    "description": "The frozen north. Blizzard-scoured tundra and glacial plains. Home to the Thyraen Ice Ancients, who venture out rarely and never explain why. The cold here has a presence of its own.",
+    "environmental_hazards": ["Blizzard (reduces visibility to 0)", "Frost bite (Conviction drain per round)", "Crevasse collapse"],
     "native_bestiary": {
-      "common": ["Owlbear", "Dryad", "Satyr", "Giant Spider", "Goblin"],
-      "uncommon": ["Treant", "Unicorn", "Shambling Mound", "Green Hag"],
-      "rare_bosses": ["Ancient Green Dragon", "The Whispering Wall", "Archfey Presence"],
-      "humanoid_cultures": ["Wood Elves", "Emerald Enclave", "Orc Hordes"]
+      "common": ["Frost Stalker", "Glacial Bear", "Ice Wraith", "Thyraen Border Sentinel", "Tundra Warg"],
+      "uncommon": ["Blizzard Elemental", "Permafrost Undead (ancient frozen bodies reanimated)", "Thyraen Vigil Knight"],
+      "rare_bosses": ["The Stillness (Thyraen ancient ritual entity)", "The White Hunger (massive predator)", "Glacial Titan"],
+      "humanoid_threats": ["Thyraen patrols (extremely hostile to outsiders)", "Frozen undead migrations from deeper regions"]
     },
-    "loot_modifiers": ["Rare Herbs", "Magical Lumber", "Fey-touched Items"]
+    "loot_modifiers": ["Chill Crystals", "White Furs (highest grade)", "Glacial Iron", "Thyraen Carved Bones"]
   },
   {
-    "biome_id": "BME-005",
-    "name": "Mountain",
-    "description": "High-altitude peaks, treacherous passes, and jagged ridges.",
-    "environmental_hazards": ["High Altitude (Oxygen)", "Rockslides", "Falling Hazards"],
-    "primary_settings": ["Spine of the World", "Cloud Peaks", "Greypeak Mountains"],
+    "biome_id": "the_badlands",
+    "name": "The Badlands",
+    "description": "Arid wastes, cracked earth, and isolated volcanic formations. The central Badlands are the exile zone of the Ul'Karash — a mutating, transformative environment. Nothing lives here for long without changing.",
+    "environmental_hazards": ["Heat Stroke (Conviction drain)", "Acid geyser fields", "Transformative exposure (prolonged stay changes characters)"],
     "native_bestiary": {
-      "common": ["Griffon", "Hippogriff", "Eagle", "Orc", "Giant Goat"],
-      "uncommon": ["Gorgon", "Chimera", "Wyvern", "Stone Giant"],
-      "rare_bosses": ["Ancient Red Dragon", "Cloud Giant Baron", "Roc"],
-      "humanoid_cultures": ["Dwarven Citadels", "Goliath Clans", "Aarakocra Tribes"]
+      "common": ["Dust Serpent", "Badlands Scavenger Pack", "Ash Crawler", "Ul'Karash Exile Survivor", "Baked Bone Undead"],
+      "uncommon": ["Ashen Golem", "Magma Lurker", "Scarred Warbeast", "Corrupted Wanderer"],
+      "rare_bosses": ["The Ul'Karash Patriarch (first exile)", "The Mutation Breach (localized transformative entity)", "Ancient Ruined War Machine"],
+      "humanoid_threats": ["Ul'Karash exile communities (defensive, territorial)", "Bandit camps avoiding civilization"]
     },
-    "loot_modifiers": ["Ores", "Raw Diamonds", "Adamantine"]
+    "loot_modifiers": ["Ash Minerals", "Fire Stones", "Hardened Badlands Ore", "Ul'Karash Crafted Items"]
   },
   {
-    "biome_id": "BME-006",
-    "name": "Swamp",
-    "description": "Misty, stagnant wetlands, bogs, and mangroves where rot is king.",
-    "environmental_hazards": ["Quicksand", "Toxic Miasma", "Disease (Cackle Fever)"],
-    "primary_settings": ["Mere of Dead Men", "The Vast Swamp", "Barovia Wetlands"],
+    "biome_id": "the_outer_steppes",
+    "name": "The Outer Steppes",
+    "description": "Open grasslands and wind-swept plains. The home of the Zai'Keth. Vast, empty, and traversed by nomadic trade routes. Raiders and free riders share these plains.",
+    "environmental_hazards": ["Windstorm (initiative penalty)", "Flash drought", "Open ground (no cover in combat)"],
     "native_bestiary": {
-      "common": ["Bullywug", "Lizardfolk", "Will-o'-Wisp", "Swarm of Insects"],
-      "uncommon": ["Hydra", "Black Pudding", "Chuul", "Froghemoth"],
-      "rare_bosses": ["Ancient Black Dragon", "Grandmother Night (Hag)", "The Wendigo"],
-      "humanoid_cultures": ["Bullywug Royalties", "Lizardfolk Tribes", "Swamp Hermits"]
+      "common": ["Steppes Hawk", "Grass Wolf", "Plains Boar", "Zai'Keth Raider Band", "Stampede Bison Herd"],
+      "uncommon": ["Steppe Giant Cat", "Wind Elemental", "Rider Construct (old war remnant)", "Warg Pack"],
+      "rare_bosses": ["The Great Plains Bull (massive territorial creature)", "Zai'Keth Warchief on Mounted Warbeast", "The Wandering Ruin (mobile construct fortress)"],
+      "humanoid_threats": ["Hostile Zai'Keth raiding tribes", "Erdan bandit cavalry", "Displaced Krothan warbands"]
     },
-    "loot_modifiers": ["Venom Sacs", "Alchemical Spores", "Ancient Armor"]
+    "loot_modifiers": ["Steppe Hides", "Grains and Seeds", "Trade Goods", "Horse-quality Beasts"]
   },
   {
-    "biome_id": "BME-007",
-    "name": "Underdark",
-    "description": "A vast, subterranean world of bioluminescent fungi and alien geometry.",
-    "environmental_hazards": ["Magical Darkness", "Madness (Faerzress)", "Cave-ins"],
-    "primary_settings": ["Menzoberranzan", "Blingdenstone", "The Gracklstugh"],
+    "biome_id": "the_blinding_lands",
+    "name": "The Blinding Lands",
+    "description": "White salt flats, bleached stone plains, and blinding reflected light. The sun is merciless here. Ancient ruins dot the landscape — something built here long before anyone alive.",
+    "environmental_hazards": ["Blindness (prolonged exposure, Cognition check)", "Extreme Heat", "Disorientation (navigation checks required)"],
     "native_bestiary": {
-      "common": ["Drow", "Duergar", "Quaggoth", "Hook Horror", "Grimlock"],
-      "uncommon": ["Mind Flayer", "Beholder", "Aboleth", "Roper", "Cloaker"],
-      "rare_bosses": ["Elder Brain", "Lich", "The Demogorgon (Rage of Demons)"],
-      "humanoid_cultures": ["Drow Houses", "Mind Flayer Colonies", "Svirfneblin Enclaves"]
+      "common": ["Salt Scorpion", "Bleached Undead (old armies)", "Desert Stalker Cat", "Mirage Wraith", "Dust Devil Elemental"],
+      "uncommon": ["White Drake", "Bone Golem", "Heat Elemental", "Ancient Guard Construct"],
+      "rare_bosses": ["The White Sentinel (ancient construct guardian)", "The Last Bleaching (corruption entity)", "Blinding Light Oracle (forgotten god echo)"],
+      "humanoid_threats": ["Zai'Keth tribes (fire elemental shamans)", "Looters of the ancient ruins"]
     },
-    "loot_modifiers": ["Faerzress Crystals", "Drow Magic Items", "Mind Crystals"]
+    "loot_modifiers": ["Salt", "Bleached Bone (alchemical)", "Ancient Relics", "White Stone Materials"]
   },
   {
-    "biome_id": "BME-008",
-    "name": "Urban/Settlement",
-    "description": "High-density civilization, sewers, and back alleys of major cities.",
-    "environmental_hazards": ["Law Enforcement", "Crowded Streets", "Disease"],
-    "primary_settings": ["Waterdeep", "Baldur's Gate", "Neverwinter"],
+    "biome_id": "the_gleam_havens",
+    "name": "The Gleam Havens",
+    "description": "Coastal cliffs, silver-water bays, and gleaming harbour towns. Preferred home of the Saereth Greys and wealthy Erdan merchants. Danger is political as much as physical.",
+    "environmental_hazards": ["Coastal storms", "Treacherous cliff passes", "Criminal guild activity"],
     "native_bestiary": {
-      "common": ["Thug", "Guard", "Swarm of Rats", "Spy", "Cultist"],
-      "uncommon": ["Doppelganger", "Mimic", "Wererat", "Succubus/Inccubus"],
-      "rare_bosses": ["The Xanathar", "Lord Cassalanter", "Vampire Lord"],
-      "humanoid_cultures": ["Thieves' Guilds", "Religious Orders", "Noble Houses"]
+      "common": ["Cliff Harpy", "Giant Shore Crab", "Sea Wraith", "Saereth Grey Private Guard", "Smuggler Crew"],
+      "uncommon": ["Deep Water Serpent", "Gleam Tide Elemental", "Grey Ancient Construct Warden", "Spectral Shipwreck Crew"],
+      "rare_bosses": ["The Sunken Palace Guardian", "The Grey Harbourmaster (corrupt Saereth)", "Tide Titan"],
+      "humanoid_threats": ["Saereth mercenary companies", "Criminal harbour syndicates", "Pirate flotillas"]
     },
-    "loot_modifiers": ["Coinage", "Intel/Documents", "Fine Apparel"]
+    "loot_modifiers": ["Coastal Fish (high quality)", "Silver Ore", "Crafted Goods (Saereth)", "Sea Salvage"]
   },
   {
-    "biome_id": "BME-009",
-    "name": "Planar (Outer Planes)",
-    "description": "Dimensions beyond the material world, representing pure alignment or element.",
-    "environmental_hazards": ["Alignment Warp", "Gravity Shifts", "Psychic Static"],
-    "primary_settings": ["The Nine Hells", "The Abyss", "The Feywild", "Shadowfell"],
+    "biome_id": "the_boglands",
+    "name": "The Boglands",
+    "description": "The home of the Urveth Swampbrood. Perpetual mist, rotting vegetation, and deep black water. Everything here is poisonous, sticky, or both. Navigation without a guide is almost impossible.",
+    "environmental_hazards": ["Quicksand tiles (movement trap)", "Miasma (Blight stacks per round without protection)", "Complete disorientation"],
     "native_bestiary": {
-      "common": ["Imp", "Dretch", "Shadow", "Mephit", "Blink Dog"],
-      "uncommon": ["Chain Devil", "Vrock", "Nightwalker", "Githyanki Warrior"],
-      "rare_bosses": ["Zariel", "Tiamat", "Vecna", "Orcus"],
-      "humanoid_cultures": ["Devil Legions", "Githyanki Warbands", "Shadar-kai"]
+      "common": ["Bog Serpent", "Plague Rat Swarm", "Urveth Hunter", "Rot Hound", "Mire Lurker"],
+      "uncommon": ["Swamp Troll", "Bog Wraith", "Fermented Undead (Urveth ritual creation)", "Venomous Hydra"],
+      "rare_bosses": ["The Broodmother Urveth (eldest and largest)", "The Black Deep (abyssal-adjacent entity in the deepest bog)", "Rotweave Golem"],
+      "humanoid_threats": ["Urveth territorial patrols (hostile to city-dwellers)", "Forsaken cultists drawn to the decay"]
     },
-    "loot_modifiers": ["Planar Essence", "Soul Coins", "Astral Silver"]
+    "loot_modifiers": ["Venom Sacs (rare)", "Alchemical Spores", "Bog Iron", "Urveth Poison Compounds"]
+  },
+  {
+    "biome_id": "the_forgotten_kingdom",
+    "name": "The Forgotten Kingdom",
+    "description": "An underground empire of caves, ancient halls, and bioluminescent depths. The Velkaar and Dornak both have deep presence here, as do things that arrived before either of them. The most dangerous biome on Leonoria.",
+    "environmental_hazards": ["Magical Darkness (all non-Velkaar units suffer -15% rolls)", "Cave-in risk", "Void exposure (Conviction drain over time)"],
+    "native_bestiary": {
+      "common": ["Velkaar Shadow Guard", "Dornak Deep Miner (armed)", "Forgotten Kingdom Wraith", "Blind Cave Crawler", "Void Mephit"],
+      "uncommon": ["Mind Flayer Echo (Materium construct)", "Deep Construct (pre-kingdom automaton)", "Undead Ancient Legionnaire", "Void Shade"],
+      "rare_bosses": ["The Forgotten King (eldest undead Velkaar ruler)", "The Deep Construct Overseer (massive ancient machine)", "The Abyss Rift (localized abyssal breach)"],
+      "humanoid_threats": ["Velkaar assassination squads", "Dornak deep citadel guards", "Cultists of the Forgotten"]
+    },
+    "loot_modifiers": ["Darkvoid Crystals", "Ancient Kingdom Relics", "Dornak Ore (deep grade)", "Vel'kaar Ritual Objects"]
   }
 ]

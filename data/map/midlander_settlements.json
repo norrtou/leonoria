@@ -1,0 +1,46 @@
+{
+  "midlander_settlements": {
+    "villages": [
+      "Millford", "Ashwick", "Stonebridge", "Greymoor", "Havenridge", "Coppercross", "Brackhill", "Fernhollow",
+      "Dunswick", "Trestleford", "Ashridge", "Coldmoor", "Westwick", "Millcross", "Thornbridge", "Marshwick",
+      "Dunmoor", "Hollowick", "Bridgeford", "Copperwick", "Greymill", "Stonecross", "Havenwick", "Fernridge",
+      "Brackford", "Ashhollow", "Dunridge", "Coldwick", "Millhollow", "Westmoor",
+      "Skarnvik", "Stormholm", "Ironmark", "Greyvik", "Ironholm", "Stormgar", "Greymark", "Skarnholm",
+      "Ironvik", "Stormmark", "Greystorm", "Skarngar", "Irongar", "Stormvik", "Greyholm",
+      "Trailreach", "Passcrossing", "Wanderreach", "Pathcrossing", "Trailpass", "Driftreach", "Windcrossing",
+      "Farreach", "Openpass", "Dustreach"
+    ],
+    "towns": [
+      "Millhaven", "Stonewick", "Greyfords", "Ashbridge", "Copperridge", "Brackenmoor", "Fernhollow", "Dunhaven",
+      "Trestlemoor", "Ashwickham", "Coldbridge", "Westfords", "Millcrossing", "Thornhaven", "Marshwick",
+      "Dunmoorham", "Hollobridge", "Bridgehaven",
+      "Skarnhaven", "Stormhaven", "Ironhaven", "Greyhaven", "Skarnbridge", "Stormbridge", "Ironbridge",
+      "Trailhaven", "Passhaven", "Wanderhaven"
+    ],
+    "trade_and_industry": [
+      "Coppervale", "Millstone", "Ironside", "Tradeford", "Coppergate", "Ironwick", "Millgate",
+      "Tradecross", "Copperhollow", "Ironhollow", "Millhollow", "Tradehollow", "Coppercroft", "Ironcroft", "Millcroft"
+    ],
+    "fortresses_and_keeps": [
+      "Skarnkald", "Stormkald", "Ironkald", "Greykald", "Stonekald", "Ashkald", "Dunward", "Coldward",
+      "Westward", "Trailward"
+    ],
+    "cities": [
+      "Millhaven Cross", "Stonewick Haven", "Greyfords Gate", "Ashbridge Market", "Copperridge Vale",
+      "Skarnhaven Port", "Stormholm Gate", "Ironmark Vale", "Greyholm Cross", "Skarnvik Haven",
+      "Trailreach Gate", "Passcrossing Vale", "Wanderreach Market", "Pathcrossing Gate", "Farreach Port"
+    ],
+    "plain_names": [
+      "Millford", "Ashwick", "Stonebridge", "Greymoor", "Havenridge", "Coppercross", "Brackhill", "Fernhollow",
+      "Dunswick", "Trestleford", "Ashridge", "Coldmoor", "Westwick", "Millcross", "Thornbridge", "Marshwick",
+      "Dunmoor", "Hollowick", "Bridgeford", "Copperwick", "Greymill", "Stonecross", "Havenwick", "Fernridge",
+      "Brackford", "Ashhollow", "Dunridge", "Coldwick", "Millhollow", "Westmoor",
+      "Skarnvik", "Stormholm", "Ironmark", "Greyvik", "Ironholm", "Stormgar", "Greymark", "Skarnholm",
+      "Ironvik", "Stormmark", "Greystorm", "Skarngar", "Irongar", "Stormvik", "Greyholm",
+      "Trailreach", "Passcrossing", "Wanderreach", "Pathcrossing", "Trailpass", "Driftreach", "Windcrossing",
+      "Farreach", "Openpass", "Dustreach",
+      "Millhaven", "Stonewick", "Greyfords", "Ashbridge", "Copperridge", "Brackenmoor", "Dunhaven",
+      "Skarnhaven", "Stormhaven", "Ironhaven", "Greyhaven", "Trailhaven", "Passhaven", "Wanderhaven"
+    ]
+  }
+}

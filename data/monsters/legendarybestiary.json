@@ -1,178 +1,186 @@
 [
   {
-    "name": "Strahd von Zarovich",
-    "title": "The First Vampire",
-    "creature_type": "Undead (Vampire)",
-    "description": "The tragic and cruel lord of Barovia, a master tactician and wizard who is physically bound to his land.",
-    "power_scaling": { "cr": 15, "tier": "Legendary Boss", "initiative_mod": "+4" },
+    "name": "The Forgotten King",
+    "title": "Last Ruler of the Forgotten Kingdom",
+    "creature_type": "Undead (Ancient Liege)",
+    "description": "A Velkaar ruler who refused to die when his kingdom fell. He has sat on his obsidian throne for so long that the Forgotten Kingdom's void energy has become part of his body. He does not know his kingdom is gone.",
+    "power_scaling": { "threat": 18, "tier": "Legendary Boss", "initiative_mod": "+3" },
     "damage_profile": {
-      "primary": "Necrotic",
-      "secondary": ["Unarmed Strike (Bludgeoning)", "Spells (Varies)"],
-      "signature_move": "Bite (Max HP reduction)"
+      "primary": "Darkvoid",
+      "secondary": ["Slashing (Obsidian Blade)", "Darkmind (madness touch)"],
+      "signature_move": "Void Proclamation — forces all enemies to succeed a Conviction check or lose 1 action turn"
     },
     "base_stats": {
-      "typical_hp": 144,
-      "alignment": "Lawful Evil",
-      "ac": 16,
-      "resistances": ["Necrotic", "Non-magical Physical"],
-      "vulnerabilities": ["Radiant", "Running Water", "Sunlight"]
+      "typical_hp": 320,
+      "alignment_tendency": "Dark",
+      "physical_hardening": 22,
+      "resistances": ["Darkvoid (immune)", "Non-magical Physical", "Chill"],
+      "vulnerabilities": ["Purelight (takes 2x)", "Luminance", "Fire (above-ground exposure)"]
     },
-    "traits": ["Legendary Resistance (3/Day)", "Regeneration (20 HP/Turn)", "Shapechanger", "Spider Climb"],
-    "win_condition": "Must be killed in his coffin with a stake to the heart or sunlight exposure; otherwise, mist-reforms.",
-    "subtypes_and_minions": ["Vampire Spawn", "Dire Wolves", "Bat Swarms"]
+    "traits": ["Void Regeneration (15 HP/round in darkness)", "Legendary Will (3/battle)", "Kingdom Memory (becomes more powerful in the Forgotten Kingdom the longer combat lasts)", "Shadow Court (summons 3 Velkaar Shadow Guards on first injury)"],
+    "win_condition": "Must be destroyed AND his obsidian throne must be shattered in the same battle — otherwise he reforms on his throne within 3 days.",
+    "location": "the_forgotten_kingdom",
+    "subtypes_and_minions": ["Velkaar Shadow Guards", "Ancient Kingdom Wraiths", "Void Mephits"]
   },
   {
-    "name": "Tiamat",
-    "title": "The Dragon Queen",
-    "creature_type": "Fiend (Deity)",
-    "description": "The five-headed queen of evil dragons, dwelling in Avernus. Each head represents a different chromatic element.",
-    "power_scaling": { "cr": 30, "tier": "Deific Boss", "initiative_mod": "+0" },
+    "name": "The Broodmother",
+    "title": "Eldest of the Urveth",
+    "creature_type": "Living (Ancient Swampbrood)",
+    "description": "The oldest living Urveth. She has never left the deepest bog. Every Urveth alive can trace their lineage to her. She is larger than any Swampbrood seen in the upper bogs, and her venom has had centuries to evolve into something that can dissolve stone.",
+    "power_scaling": { "threat": 14, "tier": "Regional Boss", "initiative_mod": "+1" },
     "damage_profile": {
-      "primary": "Elemental (Fire, Cold, Acid, Lightning, Poison)",
-      "secondary": ["Magical Piercing (Bite)", "Slashing (Claws)"],
-      "signature_move": "Multiple Breath Weapons"
+      "primary": "Venomous (stone-dissolving)",
+      "secondary": ["Blight (passive aura)", "Slashing (elongated claws)"],
+      "signature_move": "Ancient Brew — applies a stacking Blight + Venom combination that cannot be cured without Lifewhispering at Expert level or above"
     },
     "base_stats": {
-      "typical_hp": 615,
-      "alignment": "Lawful Evil",
-      "ac": 25,
-      "resistances": ["All Elemental Types", "Non-magical Physical"],
-      "vulnerabilities": ["None (Limited Magic Immunity)"]
+      "typical_hp": 240,
+      "alignment_tendency": "Dark / Neutral",
+      "physical_hardening": 12,
+      "resistances": ["Venomous (immune)", "Poisonous (immune)", "Blight (50% reduction)", "Humidity (immune)"],
+      "vulnerabilities": ["Purelight (takes 1.5x)", "Fire", "Cold"]
     },
-    "traits": ["Legendary Resistance (5/Day)", "Multiple Heads", "Regeneration (30 HP/Turn)", "Frightful Presence"],
-    "win_condition": "Massive damage output; typically requires the use of 'Dragonmasks' or deific intervention to banish.",
-    "subtypes_and_minions": ["Adult Dragons", "Abishai", "Cult of the Dragon"]
+    "traits": ["Passive Venom Aura (all Blight/Venomous resistance rolls in her presence are made at -10%)", "Regeneration (8 HP/round in the Boglands)", "Ancient Chemistry (her venom bypasses standard Bog Immunity traits)", "Swarm Summon (calls Bog Serpents and Mire Lurkers)"],
+    "win_condition": "Standard combat; her death causes a Boglands environmental shift (reduced miasma for one generation).",
+    "location": "the_boglands",
+    "subtypes_and_minions": ["Urveth Hunters", "Bog Serpents", "Rot Hounds", "Fermented Undead"]
   },
   {
-    "name": "Acererak",
-    "title": "The Eternal Lich",
-    "creature_type": "Undead (Lich)",
-    "description": "A multiverse-traveling archlich who builds deadly dungeons to harvest souls for his atropal.",
-    "power_scaling": { "cr": 23, "tier": "Epic Spellcaster", "initiative_mod": "+3" },
+    "name": "The Krothan Warchief",
+    "title": "The Bone Counter",
+    "creature_type": "Living (Wildmen Ravager)",
+    "description": "The largest Krothan to have ever been confirmed alive. He keeps a precise count of every creature he has eaten. The number, carved into his bones, is currently above three thousand. His presence alone causes initiative loss in low-Conviction enemies.",
+    "power_scaling": { "threat": 16, "tier": "Warlord Boss", "initiative_mod": "+5" },
     "damage_profile": {
-      "primary": "Necrotic",
-      "secondary": ["Cold", "Force (Disintegrate)"],
-      "signature_move": "Power Word Kill"
+      "primary": "Blunt (massive war club, carved from a single ancient tree)",
+      "secondary": ["Blood Magic (injury-scaled)", "Fear (passive)"],
+      "signature_move": "Bone Count — every enemy defeated in his presence restores 20% of his max HP"
     },
     "base_stats": {
-      "typical_hp": 285,
-      "alignment": "Neutral Evil",
-      "ac": 21,
-      "resistances": ["Cold", "Lightning", "Necrotic"],
-      "vulnerabilities": ["None (Immune to non-magical physical)"]
+      "typical_hp": 480,
+      "alignment_tendency": "Dark / Evil",
+      "physical_hardening": 30,
+      "resistances": ["Blunt (immune to stagger)", "Cold", "Venomous", "Moral Affliction (immune)"],
+      "vulnerabilities": ["Arcane Arts", "Luminance (mild 1.2x)", "Fire"]
     },
-    "traits": ["Legendary Resistance (3/Day)", "Turn Resistance", "Rejuvenation (Phylactery)", "Innate Spellcasting"],
-    "win_condition": "Destruction of his hidden Phylactery; otherwise, reforms 1d10 days after death.",
-    "subtypes_and_minions": ["Tomb Guardians", "Wights", "Demiliches"]
+    "traits": ["Unstoppable (cannot be rooted, knocked back, or staggered by any physical force)", "Cannibalistic Surge (restores HP on kill)", "Fear Presence (enemies below 40 Conviction lose initiative on first encounter)", "Rage Threshold (above 50% HP loss, deals +25% damage)"],
+    "win_condition": "Standard combat. His warband disbands on his death due to the Krothan succession ritual (fight for leadership).",
+    "location": "the_dark_forests",
+    "subtypes_and_minions": ["Krothan Hunting Party", "Krothan War-Drummers", "Captured and enslaved other races"]
   },
   {
-    "name": "Zariel",
-    "title": "Archduke of Avernus",
-    "creature_type": "Fiend (Devil)",
-    "description": "The fallen angel who now rules the first layer of the Nine Hells, fueled by eternal rage and martial prowess.",
-    "power_scaling": { "cr": 26, "tier": "Planar General", "initiative_mod": "+7" },
+    "name": "The Warden of the Inner Forest",
+    "title": "Keeper of the First Grove",
+    "creature_type": "Elemental / Living (Athropium-born)",
+    "description": "Not a creature that was born — a creature that became. The first grove of The Sanctuary Lands developed enough Materium concentration over millennia that the forest itself partially achieved consciousness. It takes the form of an enormous stag made of living wood, but it has never needed to be seen to kill.",
+    "power_scaling": { "threat": 15, "tier": "Ancient Guardian", "initiative_mod": "+2" },
     "damage_profile": {
-      "primary": "Fire",
-      "secondary": ["Radiant (Fallen Spark)", "Magical Slashing"],
-      "signature_move": "Horrid Touch"
+      "primary": "Athropium (root-and-crush)",
+      "secondary": ["Blunt (antler charge)", "Lifewhispering (heals others, not self, to create permanent defenders)"],
+      "signature_move": "Grove Call — summons root walls and living defenders; transforms terrain tiles into impassable growth"
     },
     "base_stats": {
-      "typical_hp": 580,
-      "alignment": "Lawful Evil",
-      "ac": 21,
-      "resistances": ["Cold", "Fire", "Radiant", "Non-magical Physical"],
-      "vulnerabilities": ["None"]
+      "typical_hp": 280,
+      "alignment_tendency": "Neutral",
+      "physical_hardening": 18,
+      "resistances": ["Athropium (immune)", "Lifewhispering (immune)", "Blunt", "Cold"],
+      "vulnerabilities": ["Fire (takes 3x)", "Blight (takes 2x)"]
     },
-    "traits": ["Legendary Resistance (3/Day)", "Magic Resistance", "Teleport (At-will)", "Regeneration (20 HP/Turn)"],
-    "win_condition": "Combat defeat or 'Redemption Quest' to return her to Celestial form.",
-    "subtypes_and_minions": ["Pit Fiends", "Ertinyes", "Hell Wasps"]
+    "traits": ["Terrain Dominion (in The Sanctuary Lands, creates new plant terrain tiles each round)", "Grove Regeneration (20 HP/round while on plant-terrain tiles)", "True Neutral (only attacks those who threaten the Sanctuary — Aelthiryn and Talarin are immune to its attacks)", "Ancient Intellect (cannot be Charmed, Dominated, or Darkmind-ed)"],
+    "win_condition": "Defeat in combat drives it dormant for decades. It cannot be permanently killed without destroying the entire First Grove — which would collapse The Sanctuary Lands biome.",
+    "location": "the_sanctuary_lands",
+    "subtypes_and_minions": ["Bark Golems", "Root Striders", "Summoned Silver Stags"]
   },
   {
-    "name": "Demogorgon",
-    "title": "Prince of Demons",
-    "creature_type": "Fiend (Demon)",
-    "description": "The Sibilant Beast, a two-headed monstrosity whose very gaze causes madness and internal war.",
-    "power_scaling": { "cr": 26, "tier": "Abyssal Lord", "initiative_mod": "+2" },
+    "name": "The Deep Construct Overseer",
+    "title": "Pre-Kingdom Machine",
+    "creature_type": "Construct (Ancient Pre-Death)",
+    "description": "Something built in the Forgotten Kingdom before the Velkaar arrived. It has been running its original program — whatever that was — ever since. The Velkaar tried to understand it once and lost seventeen scholars. It is not hostile by design, but its program makes it lethal.",
+    "power_scaling": { "threat": 17, "tier": "Ancient Machine Boss", "initiative_mod": "-1" },
     "damage_profile": {
-      "primary": "Necrotic",
-      "secondary": ["Bludgeoning (Tentacles)", "Psychic (Madness)"],
-      "signature_move": "Gaze of Abyssal Might"
+      "primary": "Impact (hydraulic force)",
+      "secondary": ["Earthen (tunnel collapse, structural attacks)", "Arcane Arts (automated ward discharge)"],
+      "signature_move": "Program Execution — one target each round is selected as a 'threat variable' and receives focused automated attacks until removed from its threat list"
     },
     "base_stats": {
-      "typical_hp": 464,
-      "alignment": "Chaotic Evil",
-      "ac": 22,
-      "resistances": ["Cold", "Fire", "Lightning"],
-      "vulnerabilities": ["None"]
+      "typical_hp": 520,
+      "alignment_tendency": "None (machine logic)",
+      "physical_hardening": 35,
+      "resistances": ["Venomous (immune)", "Blight (immune)", "Chill (immune)", "Darkmind (immune)", "Fire (50% reduction)"],
+      "vulnerabilities": ["Earthen (deep structural attacks)", "Voidreaving (disrupts program logic)", "Lightning-type Tempest (electrical damage)"]
     },
-    "traits": ["Legendary Resistance (3/Day)", "Two Heads", "Magic Resistance", "Madness Aura"],
-    "win_condition": "Defeat within the Abyss; banishment usually only delays his return.",
-    "subtypes_and_minions": ["Mariliths", "Hezrou", "Kuo-toa (Cultists)"]
+    "traits": ["Indestructible Frame (cannot be staggered or knocked back)", "Program Logic (once it designates a target it will not switch unless that target is gone)", "Self-Repair (10 HP/round)", "Ancient Ward Discharge (once per battle, discharges all stored Arcane wards simultaneously — massive AoE)"],
+    "win_condition": "Must be destroyed AND the core power conduit destroyed; otherwise self-repairs over 72 hours.",
+    "location": "the_forgotten_kingdom",
+    "subtypes_and_minions": ["Ancient Guard Constructs", "Automated Ward Turrets"]
   },
   {
-    "name": "The Xanathar",
-    "title": "Beholder Crime Lord",
-    "creature_type": "Aberration",
-    "description": "The paranoid leader of the Xanathar Guild in Waterdeep, obsessed with his goldfish and total control.",
-    "power_scaling": { "cr": 13, "tier": "Urban Boss", "initiative_mod": "+2" },
+    "name": "The Stillness",
+    "title": "Thyraen Ritual Entity",
+    "creature_type": "Elemental / Spiritual (Chill-born)",
+    "description": "A Thyraen ritual that succeeded too well. The Ice Ancients attempted to bind the cold itself into a servitor form. What emerged was something that now serves no master. It does not move. It waits. And the temperature drops around it until the area freezes solid.",
+    "power_scaling": { "threat": 13, "tier": "Area Denial Boss", "initiative_mod": "-3" },
     "damage_profile": {
-      "primary": "Psychic / Force / Elemental",
-      "secondary": ["Piercing (Bite)"],
-      "signature_move": "Disintegration Ray"
+      "primary": "Chill (passive area — all in range take Chill stacks each round)",
+      "secondary": ["Cold (direct damage on attack)", "Initiative Reduction (stacking)"],
+      "signature_move": "Absolute Zero — once per battle, everything within 4 hex range is Frozen simultaneously"
     },
     "base_stats": {
       "typical_hp": 180,
-      "alignment": "Lawful Evil",
-      "ac": 18,
-      "resistances": ["None"],
-      "vulnerabilities": ["None"]
+      "alignment_tendency": "None",
+      "physical_hardening": 8,
+      "resistances": ["Cold (immune)", "Chill (immune)", "Tempest (immune)", "Fire (takes 3x — critical vulnerability)"],
+      "vulnerabilities": ["Fire (takes 3x)", "Luminance (takes 1.5x)"]
     },
-    "traits": ["Eye Rays (Randomized)", "Antimagic Cone", "Legendary Actions", "Paranoia Logic"],
-    "win_condition": "Standard combat; death triggers guild-collapse events.",
-    "subtypes_and_minions": ["Xanathar Guild Thugs", "Intellect Devourers", "Gazers"]
+    "traits": ["Passive Chill Aura (2 Chill stacks per round to all non-Thyraen units within 3 hexes)", "Stillness Field (movement costs +50% in its range)", "Thyraen Immune (Thyraen Ice Ancients are completely ignored by The Stillness — it sees them as an extension of itself)", "Crystalline Form (physical attacks shatter into ice shards, dealing half damage back to attacker)"],
+    "win_condition": "Fire damage is the only reliable way to damage it. At 0 HP it disperses into harmless cold air.",
+    "location": "the_eternal_winds",
+    "subtypes_and_minions": ["Frost Stalkers", "Ice Wraiths", "Thyraen Vigil Knights (who follow it, believing it is still a bound servitor)"]
   },
   {
-    "name": "Lord Soth",
-    "title": "Knight of the Black Rose",
-    "creature_type": "Undead (Death Knight)",
-    "description": "A fallen paladin of Solamnia, cursed to eternal unlife for his betrayal and pride.",
-    "power_scaling": { "cr": 19, "tier": "Elite Undead Martial", "initiative_mod": "+0" },
+    "name": "The Grey Harbourmaster",
+    "title": "Corrupt Saereth Power Broker",
+    "creature_type": "Humanoid (Saereth Ancient)",
+    "description": "A Saereth Grey who achieved what his kind always wanted: total logical control of a harbour economy. He has been running The Gleam Havens' shadow trade for 180 years. Every criminal syndicate in the region pays him tribute. His logic has become a disease. He genuinely believes he is making optimal decisions for everyone.",
+    "power_scaling": { "threat": 11, "tier": "Urban Mastermind Boss", "initiative_mod": "+3" },
     "damage_profile": {
-      "primary": "Necrotic",
-      "secondary": ["Fire (Hellfire Orb)", "Magical Slashing"],
-      "signature_move": "Power Word Kill (1/Day)"
+      "primary": "Arcane Arts (geometrically precise strikes)",
+      "secondary": ["Darkmind (manipulated allies)", "Revelation (knows everyone's weaknesses)"],
+      "signature_move": "Optimal Solution — once per battle, reveals the statistical 'best play' against each party member and commands his guards to execute it simultaneously"
     },
     "base_stats": {
-      "typical_hp": 180,
-      "alignment": "Lawful Evil",
-      "ac": 20,
-      "resistances": ["Necrotic", "Poison", "Non-magical Physical"],
-      "vulnerabilities": ["None"]
+      "typical_hp": 160,
+      "alignment_tendency": "Neutral-Dark",
+      "physical_hardening": 5,
+      "resistances": ["Arcane Arts (50% reduction)", "Darkmind (immune — too logical for illusions)", "Chill (5%)"],
+      "vulnerabilities": ["Blood Magic (emotional force disrupts his logic)", "Soulkindling (conviction burns through his cold reasoning)"]
     },
-    "traits": ["Magic Resistance", "Marshal Undead", "Spellcasting (Paladin/Wizard)", "Parry"],
-    "win_condition": "Combat destruction; however, he often returns unless the curse of his armor is broken.",
-    "subtypes_and_minions": ["Skeletal Knights", "Wraiths", "Banshees"]
+    "traits": ["Broad Conduit (accesses both Light and Dark schools)", "Scholar's Precision (all attacks ignore physical_hardening below 15)", "Information Network (knows the party's composition and recent actions before combat begins)", "Logical Escape Clause (if reduced below 30% HP, triggers prepared exit — teleport scroll, hired decoy)"],
+    "win_condition": "Defeating his guards first isolates him. Cornered, he will negotiate. Killing him collapses his trade network, causing economic instability in the Gleam Havens for years.",
+    "location": "the_gleam_havens",
+    "subtypes_and_minions": ["Saereth Mercenary Guards", "Criminal Syndicate Enforcers", "Hired Shadowblade Assassins"]
   },
   {
-    "name": "Auril the Frostmaiden",
-    "title": "The Coldsoul",
-    "creature_type": "Elemental (Deity)",
-    "description": "The embodiment of winter’s cruelty, maintaining an eternal night in Icewind Dale.",
-    "power_scaling": { "cr": 9, "tier": "Multi-Phase Boss", "initiative_mod": "+2" },
+    "name": "The White Hunger",
+    "title": "The Eternal Predator",
+    "creature_type": "Living (Primordial Apex Predator)",
+    "description": "No one knows what it is. It is white, enormous, and has been in The Eternal Winds since before the Thyraen arrived. It does not hunt for food — it hunts because that is what it does. The Thyraen leave offerings at marked stones to keep it out of their settlements. Mostly this works.",
+    "power_scaling": { "threat": 19, "tier": "Apex Beast Boss", "initiative_mod": "+6" },
     "damage_profile": {
-      "primary": "Cold",
-      "secondary": ["Radiant", "Piercing (Ice)"],
-      "signature_move": "Ice Tomb"
+      "primary": "Slashing (mass claws and bite)",
+      "secondary": ["Cold (breath)", "Blunt (charge impact)"],
+      "signature_move": "Hunger Drive — each round it targets whoever has the lowest HP in the combat, regardless of position or threat"
     },
     "base_stats": {
-      "typical_hp": 300,
-      "alignment": "Neutral Evil",
-      "ac": 13,
-      "resistances": ["Poison"],
-      "vulnerabilities": ["Fire (Sometimes, varies by form)"]
+      "typical_hp": 560,
+      "alignment_tendency": "None (pure predator)",
+      "physical_hardening": 25,
+      "resistances": ["Cold (immune)", "Chill (immune)", "Physical (non-magical, 50% reduction)", "Moral Affliction (immune)"],
+      "vulnerabilities": ["Fire (takes 2x)", "Purelight", "Arcane Arts"]
     },
-    "traits": ["Three Forms (Crone, Owl, Crystal)", "Legendary Resistance (2/Day)", "Ice Walk"],
-    "win_condition": "Must defeat all three consecutive forms in a single encounter to banish her from the Material Plane.",
-    "subtypes_and_minions": ["Frost Giants", "Coldlight Walkers", "Ice Mephits"]
+    "traits": ["Primordial Instinct (cannot be Charmed, Feared, or Dominated)", "Hunger Focus (always attacks the lowest HP target)", "Relentless (cannot be rooted or slowed)", "Cold Breath (3 hex cone, applies 3 Chill stacks to all targets)"],
+    "win_condition": "Standard combat. It does not flee. If reduced to 0 HP it simply stops. The Thyraen regard its death as an extremely bad omen.",
+    "location": "the_eternal_winds",
+    "subtypes_and_minions": ["None — it hunts alone"]
   }
 ]

@@ -2117,19 +2117,26 @@ class FantasyMap {
         const usedCells = [];
         const SL = this.SL;
 
-        for (let attempt = 0; attempt < 600 * this.scale && forests.length < SEEDS; attempt++) {
+        // Per-biome overrides for elevation range, patch radius, seed spacing, attempt budget
+        const heightMax      = this.biomeData?.forestHeightMax  ?? 0.30;
+        const radiusMin      = this.biomeData?.forestRadiusMin  ?? 3.5;
+        const radiusMax      = this.biomeData?.forestRadiusMax  ?? 6.0;
+        const seedSpacing    = this.biomeData?.forestSeedSpacing ?? 3;
+        const maxAttempts    = (this.biomeData?.forestAttempts  ?? 600) * this.scale;
+
+        for (let attempt = 0; attempt < maxAttempts && forests.length < SEEDS; attempt++) {
             const c = this.ri(3, cols - 4), r = this.ri(3, rows - 4);
             const h = hm.get(c, r);
             // Forests: land, not mountain, not coast, mid-elevation
             if (!hm.isLand(c, r) || hm.isMountain(c, r) || hm.isCoast(c, r)) continue;
-            if (h < SL + 0.03 || h > SL + 0.30) continue;
-            if (usedCells.some(([uc, ur]) => Math.hypot(uc-c, ur-r) < 3)) continue;
+            if (h < SL + 0.03 || h > SL + heightMax) continue;
+            if (usedCells.some(([uc, ur]) => Math.hypot(uc-c, ur-r) < seedSpacing)) continue;
 
             const moist = riverSet.has(`${c},${r}`) ? 1.6 : 1.0;
             forests.push({
                 c, r,
                 count:  Math.round(this.ri(65 * this.scale, 110 * this.scale) * moist * fs),
-                radius: this.r(3.5, 6.0)
+                radius: this.r(radiusMin, radiusMax)
             });
             usedCells.push([c, r]);
         }
@@ -3637,6 +3644,22 @@ class FantasyMap {
         }
         const flat = (c, r) => hm.isLand(c, r) && !hm.isMountain(c, r) && !hm.isCoast(c, r)
                              && !lakeExclSet.has(`${c},${r}`);
+
+        // ── Shared terrain sets (used by culture placement rules) ─────────────
+        const forestSet = new Set();
+        for (const { c: fc, r: fr, radius } of (this.forests ?? [])) {
+            const fr2 = Math.ceil(radius);
+            for (let dr = -fr2; dr <= fr2; dr++)
+                for (let dc = -fr2; dc <= fr2; dc++)
+                    if (dc * dc + dr * dr <= radius * radius)
+                        forestSet.add(`${fc + dc},${fr + dr}`);
+        }
+        const inForest = (c, r) => forestSet.has(`${c},${r}`);
+        const inSwamp  = (c, r) => !!(this.swampCells?.has(`${c},${r}`));
+        // Mountain placement base — land + mountain, no coast, no lake exclusion
+        const mtn = (c, r) => hm.isLand(c, r) && hm.isMountain(c, r)
+                            && !hm.isCoast(c, r) && !lakeExclSet.has(`${c},${r}`);
+
         const settles = [];
         const tooClose = (x, y, minD) => settles.some(s => Math.hypot(s.x-x, s.y-y) < minD);
 
@@ -3664,67 +3687,165 @@ class FantasyMap {
         // ── Culture-aware name pools ──────────────────────────────────────────
         // Dominant culture drives primary pool; neutral pools fill secondary slots.
         const culture = this.culture ?? 'midlander';
+        const biomeId = this.biomeId ?? 'the_midlands';
+
+        // ── Biome hard constraints (absolute rules — block generation on conflict) ─
+        if (culture === 'ancients_dark_ones' && biomeId !== 'the_forgotten_kingdom') {
+            console.warn('[Leonoria] RULE CONFLICT: Dark Ones settlements may only spawn in the_forgotten_kingdom. No settlements placed. Check your culture/biome selection.');
+            return [];
+        }
+        if (culture === 'midlander' && biomeId === 'the_forgotten_kingdom') {
+            console.warn('[Leonoria] RULE CONFLICT: Midlander settlements cannot spawn in the_forgotten_kingdom. No settlements placed. Check your culture/biome selection.');
+            return [];
+        }
+        if (culture === 'mixed' && biomeId === 'the_forgotten_kingdom') {
+            console.warn('[Leonoria] RULE CONFLICT: Mixed culture cannot spawn in the_forgotten_kingdom (Dark Ones are subterranean there and excluded from Mixed). Use mixed_forgotten_kingdom. No settlements placed.');
+            return [];
+        }
+
+        // ── Soft biome-culture warnings (inform but do not block — user may override) ─
+        const _biomeExpected = {
+            northerner:              ['the_dark_forests'],
+            ancients_secluded:       ['the_sanctuary_lands', 'the_midlands'],
+            ice_ancients:            ['the_eternal_winds', 'the_dark_forests'],
+            ancients_greys:          ['the_gleam_havens'],
+            ashen_halfbreeds:        ['the_badlands', 'the_outer_steppes', 'the_blinding_lands'],
+            step_folk:               ['the_outer_steppes', 'the_blinding_lands', 'the_badlands'],
+            stone_folk:              ['the_dark_forests'],
+            wildmen_foresters:       ['the_dark_forests', 'the_sanctuary_lands', 'the_midlands', 'the_gleam_havens', 'the_boglands'],
+            wildmen_ravagers:        ['the_dark_forests', 'the_sanctuary_lands', 'the_midlands', 'the_gleam_havens', 'the_boglands', 'the_outer_steppes', 'the_blinding_lands', 'the_badlands', 'the_eternal_winds'],
+            oakpeople:               ['the_sanctuary_lands'],
+            swampbrood:              ['the_midlands', 'the_dark_forests', 'the_sanctuary_lands', 'the_boglands'],
+            mixed_forgotten_kingdom: ['the_forgotten_kingdom'],
+            mixed_sanctuary:         ['the_sanctuary_lands'],
+            mixed_wildlands:         ['the_outer_steppes', 'the_blinding_lands', 'the_badlands'],
+        };
+        if (_biomeExpected[culture] && !_biomeExpected[culture].includes(biomeId))
+            console.warn(`[Leonoria] Note: culture "${culture}" is not typically found in biome "${biomeId}". Generation continues — verify your selection.`);
+
+        // ── Per-culture placeable test (terrain requirements beyond basic flat land) ─
+        const isBoglands = biomeId === 'the_boglands';
+        let placeable;
+        switch (culture) {
+            case 'stone_folk':
+                placeable = (c, r) => mtn(c, r);
+                break;
+            case 'wildmen_foresters':
+            case 'wildmen_ravagers':
+            case 'oakpeople':
+                placeable = (c, r) => flat(c, r) && inForest(c, r);
+                break;
+            case 'swampbrood':
+                // Boglands biome: no terrain restriction. All others: must be swamp.
+                placeable = isBoglands
+                    ? (c, r) => flat(c, r)
+                    : (c, r) => flat(c, r) && inSwamp(c, r);
+                break;
+            case 'ancients_greys':
+                // Prefer river-adjacent or near-coast for inland placements (ports handle true coast)
+                placeable = (c, r) => flat(c, r) && nearRiver(c, r);
+                break;
+            case 'step_folk':
+                // Open terrain — no forest, swamp, or mountain
+                placeable = (c, r) => flat(c, r) && !inForest(c, r) && !inSwamp(c, r);
+                break;
+            default:
+                placeable = (c, r) => flat(c, r);
+        }
 
         // Primary name pools by culture
         const cityPools = {
-            midlander:          ['human_settlements.plain_names', 'human_settlements.cities'],
-            northerner:         ['human_settlements.plain_names', 'human_settlements.cities'],
-            step_folk:          ['human_settlements.plain_names', 'human_settlements.towns'],
-            ancients_secluded:  ['elvish_settlements.plain_names', 'elvish_settlements.halls_and_cities'],
-            ancients_greys:     ['elvish_settlements.plain_names', 'elvish_settlements.halls_and_cities'],
-            ancients_dark_ones: ['orc_settlements.plain_names', 'elvish_settlements.plain_names'],
-            ice_ancients:       ['human_settlements.plain_names'],
-            wildmen_foresters:  ['orc_settlements.plain_names', 'human_settlements.plain_names'],
-            wildmen_ravagers:   ['orc_settlements.plain_names', 'orc_settlements.strongholds'],
-            oakpeople:          ['human_settlements.plain_names'],
-            stone_folk:         ['dwarven_settlements.plain_names', 'dwarven_settlements.halls'],
-            swampbrood:         ['orc_settlements.plain_names', 'human_settlements.plain_names'],
-            ashen_halfbreeds:   ['orc_settlements.plain_names', 'human_settlements.plain_names'],
+            midlander:               ['midlander_settlements.plain_names', 'midlander_settlements.cities'],
+            northerner:              ['northerner_settlements.plain_names', 'northerner_settlements.halls'],
+            step_folk:               ['step_folk_settlements.plain_names', 'step_folk_settlements.cities'],
+            ancients_secluded:       ['secluded_settlements.plain_names', 'secluded_settlements.halls_and_cities'],
+            ancients_greys:          ['greys_settlements.plain_names', 'greys_settlements.cities'],
+            ancients_dark_ones:      ['dark_ones_settlements.plain_names', 'dark_ones_settlements.cities'],
+            ice_ancients:            ['ice_ancients_settlements.plain_names'],
+            wildmen_foresters:       ['wildmen_settlements.plain_names'],
+            wildmen_ravagers:        ['wildmen_settlements.plain_names', 'wildmen_settlements.strongholds'],
+            oakpeople:               ['oakpeople_settlements.plain_names'],
+            stone_folk:              ['stone_folk_settlements.plain_names', 'stone_folk_settlements.halls'],
+            swampbrood:              ['swampbrood_settlements.plain_names'],
+            ashen_halfbreeds:        ['ashen_halfbreeds_settlements.plain_names'],
+            // Mixed cultures
+            mixed:                   ['midlander_settlements.plain_names', 'northerner_settlements.plain_names',
+                                      'step_folk_settlements.plain_names', 'greys_settlements.plain_names',
+                                      'ice_ancients_settlements.plain_names', 'stone_folk_settlements.halls'],
+            mixed_forgotten_kingdom: ['dark_ones_settlements.plain_names', 'dark_ones_settlements.cities',
+                                      'stone_folk_settlements.plain_names', 'stone_folk_settlements.halls'],
+            mixed_wildlands:         ['ashen_halfbreeds_settlements.plain_names', 'step_folk_settlements.plain_names',
+                                      'wildmen_settlements.strongholds', 'wildmen_settlements.plain_names'],
+            mixed_sanctuary:         ['secluded_settlements.plain_names', 'secluded_settlements.halls_and_cities'],
         };
         const townPools = {
-            midlander:          ['human_settlements.plain_names', 'human_settlements.towns'],
-            northerner:         ['human_settlements.plain_names', 'human_settlements.towns'],
-            step_folk:          ['human_settlements.plain_names', 'human_settlements.towns'],
-            ancients_secluded:  ['elvish_settlements.plain_names', 'elvish_settlements.halls_and_cities'],
-            ancients_greys:     ['elvish_settlements.plain_names', 'elvish_settlements.halls_and_cities'],
-            ancients_dark_ones: ['orc_settlements.plain_names', 'elvish_settlements.plain_names'],
-            ice_ancients:       ['human_settlements.plain_names'],
-            wildmen_foresters:  ['orc_settlements.plain_names', 'human_settlements.plain_names'],
-            wildmen_ravagers:   ['orc_settlements.plain_names', 'orc_settlements.strongholds'],
-            oakpeople:          ['human_settlements.plain_names', 'human_settlements.towns'],
-            stone_folk:         ['dwarven_settlements.plain_names', 'dwarven_settlements.halls'],
-            swampbrood:         ['orc_settlements.plain_names', 'human_settlements.plain_names'],
-            ashen_halfbreeds:   ['orc_settlements.plain_names', 'human_settlements.plain_names'],
+            midlander:               ['midlander_settlements.plain_names', 'midlander_settlements.towns'],
+            northerner:              ['northerner_settlements.plain_names', 'northerner_settlements.towns'],
+            step_folk:               ['step_folk_settlements.plain_names', 'step_folk_settlements.towns'],
+            ancients_secluded:       ['secluded_settlements.plain_names', 'secluded_settlements.groves_and_sanctuaries'],
+            ancients_greys:          ['greys_settlements.plain_names', 'greys_settlements.towns'],
+            ancients_dark_ones:      ['dark_ones_settlements.plain_names', 'dark_ones_settlements.towns'],
+            ice_ancients:            ['ice_ancients_settlements.plain_names', 'ice_ancients_settlements.villages'],
+            wildmen_foresters:       ['wildmen_settlements.plain_names', 'wildmen_settlements.camps_and_warbands'],
+            wildmen_ravagers:        ['wildmen_settlements.plain_names', 'wildmen_settlements.raids_and_outposts'],
+            oakpeople:               ['oakpeople_settlements.plain_names', 'oakpeople_settlements.villages'],
+            stone_folk:              ['stone_folk_settlements.plain_names', 'stone_folk_settlements.towns'],
+            swampbrood:              ['swampbrood_settlements.plain_names', 'swampbrood_settlements.villages'],
+            ashen_halfbreeds:        ['ashen_halfbreeds_settlements.plain_names', 'ashen_halfbreeds_settlements.villages'],
+            // Mixed cultures
+            mixed:                   ['midlander_settlements.towns', 'northerner_settlements.towns',
+                                      'step_folk_settlements.towns', 'greys_settlements.towns'],
+            mixed_forgotten_kingdom: ['dark_ones_settlements.towns', 'stone_folk_settlements.towns',
+                                      'dark_ones_settlements.plain_names'],
+            mixed_wildlands:         ['ashen_halfbreeds_settlements.plain_names', 'step_folk_settlements.towns',
+                                      'wildmen_settlements.raids_and_outposts'],
+            mixed_sanctuary:         ['secluded_settlements.plain_names', 'secluded_settlements.groves_and_sanctuaries'],
         };
         const villagePools = {
-            midlander:          ['human_settlements.villages'],
-            northerner:         ['human_settlements.villages'],
-            step_folk:          ['human_settlements.villages'],
-            ancients_secluded:  ['elvish_settlements.villages'],
-            ancients_greys:     ['elvish_settlements.villages'],
-            ancients_dark_ones: ['orc_settlements.camps_and_warbands'],
-            ice_ancients:       ['human_settlements.villages'],
-            wildmen_foresters:  ['orc_settlements.camps_and_warbands', 'human_settlements.villages'],
-            wildmen_ravagers:   ['orc_settlements.camps_and_warbands', 'orc_settlements.raids_and_outposts'],
-            oakpeople:          ['human_settlements.villages'],
-            stone_folk:         ['dwarven_settlements.villages', 'dwarven_settlements.mines'],
-            swampbrood:         ['orc_settlements.camps_and_warbands', 'human_settlements.villages'],
-            ashen_halfbreeds:   ['orc_settlements.camps_and_warbands', 'human_settlements.villages'],
+            midlander:               ['midlander_settlements.villages'],
+            northerner:              ['northerner_settlements.villages'],
+            step_folk:               ['step_folk_settlements.villages'],
+            ancients_secluded:       ['secluded_settlements.villages'],
+            ancients_greys:          ['greys_settlements.villages'],
+            ancients_dark_ones:      ['dark_ones_settlements.villages'],
+            ice_ancients:            ['ice_ancients_settlements.villages'],
+            wildmen_foresters:       ['wildmen_settlements.camps_and_warbands'],
+            wildmen_ravagers:        ['wildmen_settlements.camps_and_warbands', 'wildmen_settlements.raids_and_outposts'],
+            oakpeople:               ['oakpeople_settlements.villages'],
+            stone_folk:              ['stone_folk_settlements.villages', 'stone_folk_settlements.mines'],
+            swampbrood:              ['swampbrood_settlements.villages'],
+            ashen_halfbreeds:        ['ashen_halfbreeds_settlements.villages'],
+            // Mixed cultures
+            mixed:                   ['midlander_settlements.villages', 'northerner_settlements.villages',
+                                      'step_folk_settlements.villages', 'swampbrood_settlements.villages',
+                                      'ashen_halfbreeds_settlements.villages'],
+            mixed_forgotten_kingdom: ['dark_ones_settlements.villages', 'stone_folk_settlements.villages'],
+            mixed_wildlands:         ['ashen_halfbreeds_settlements.villages', 'step_folk_settlements.villages',
+                                      'wildmen_settlements.camps_and_warbands'],
+            // mixed_sanctuary: secluded villages only here; forest-only Oakspeople/Foresters added separately
+            mixed_sanctuary:         ['secluded_settlements.villages', 'secluded_settlements.groves_and_sanctuaries'],
         };
         const portPools = {
-            midlander:          ['human_settlements.plain_names'],
-            northerner:         ['human_settlements.plain_names'],
-            step_folk:          ['human_settlements.plain_names'],
-            ancients_secluded:  ['elvish_settlements.plain_names'],
-            ancients_greys:     ['elvish_settlements.plain_names'],
-            ancients_dark_ones: ['orc_settlements.plain_names'],
-            ice_ancients:       ['human_settlements.plain_names'],
-            wildmen_foresters:  ['human_settlements.plain_names', 'orc_settlements.plain_names'],
-            wildmen_ravagers:   ['orc_settlements.raids_and_outposts', 'orc_settlements.plain_names'],
-            oakpeople:          ['human_settlements.plain_names'],
-            stone_folk:         ['dwarven_settlements.plain_names'],
-            swampbrood:         ['orc_settlements.plain_names'],
-            ashen_halfbreeds:   ['human_settlements.plain_names', 'orc_settlements.plain_names'],
+            midlander:               ['midlander_settlements.plain_names'],
+            northerner:              ['northerner_settlements.plain_names'],
+            step_folk:               ['step_folk_settlements.plain_names'],
+            ancients_secluded:       ['secluded_settlements.plain_names'],
+            ancients_greys:          ['greys_settlements.plain_names'],
+            ancients_dark_ones:      ['dark_ones_settlements.plain_names'],
+            ice_ancients:            ['ice_ancients_settlements.plain_names'],
+            wildmen_foresters:       ['wildmen_settlements.plain_names'],
+            wildmen_ravagers:        ['wildmen_settlements.raids_and_outposts', 'wildmen_settlements.plain_names'],
+            oakpeople:               ['oakpeople_settlements.plain_names'],
+            stone_folk:              ['stone_folk_settlements.plain_names'],
+            swampbrood:              ['swampbrood_settlements.plain_names'],
+            ashen_halfbreeds:        ['ashen_halfbreeds_settlements.plain_names'],
+            // Mixed cultures
+            mixed:                   ['midlander_settlements.plain_names', 'northerner_settlements.plain_names',
+                                      'step_folk_settlements.plain_names'],
+            mixed_forgotten_kingdom: ['dark_ones_settlements.plain_names', 'stone_folk_settlements.plain_names'],
+            mixed_wildlands:         ['ashen_halfbreeds_settlements.plain_names', 'step_folk_settlements.plain_names',
+                                      'wildmen_settlements.plain_names'],
+            mixed_sanctuary:         ['secluded_settlements.plain_names'],
         };
 
         const cp = cityPools[culture]    ?? cityPools.midlander;
@@ -3732,16 +3853,10 @@ class FantasyMap {
         const vp = villagePools[culture] ?? villagePools.midlander;
         const pp = portPools[culture]    ?? portPools.midlander;
 
-        // Neutral secondary names always mix in for variety
-        const cityNames    = this._pool([...cp, 'human_settlements.plain_names'],
-            ['Valdris', 'Sorvane', 'Thelindra', 'Kethara']);
-        const townNames    = this._pool([...tp, 'human_settlements.towns', 'human_settlements.plain_names'],
-            ['Millhaven', 'Duskford', 'Thornwick', 'Greycross', 'Ashbridge', 'Westmere']);
-        const portNames    = this._pool([...pp],
-            ['Saltmere', 'Greyharbour', 'The Anchorage', 'Wavebreak', 'Tidehaven']);
-        const villageNames = this._pool([...vp],
-            ['Millbrook', 'Ashford', 'Westhollow', 'Dunmere', 'Coldridge',
-             'Greenfen', 'Stonecroft', 'Yarwick', 'Ealdham', 'Brackenfield']);
+        const cityNames    = this._pool([...cp], ['Valdris', 'Sorvane', 'Thelindra', 'Kethara']);
+        const townNames    = this._pool([...tp], ['Duskford', 'Thornwick', 'Greycross', 'Ashbridge']);
+        const portNames    = this._pool([...pp], ['Saltmere', 'Greyharbour', 'The Anchorage', 'Wavebreak', 'Tidehaven']);
+        const villageNames = this._pool([...vp], ['Millbrook', 'Ashford', 'Westhollow', 'Dunmere', 'Coldridge']);
         const ruinNames    = this._pool(
             ['ruins.standalone_ruins', 'ruins.descriptive_names'],
             ['The Forgotten Keep', 'Old Thorngate', 'Shadowmere', 'Drakenfeld', 'Ironwatch']);
@@ -3753,25 +3868,90 @@ class FantasyMap {
         const sn  = v => Math.max(0, Math.round(v * ss * plainsMult));
         const rn  = v => Math.max(0, Math.round(v * rs));
 
-        // Ravager culture: strongholds replace cities; camps replace villages
-        const cityType    = (culture === 'wildmen_ravagers' || culture === 'ancients_dark_ones') ? 'stronghold' : 'city';
-        const villageType = (culture === 'wildmen_ravagers' || culture === 'wildmen_foresters')  ? 'camp'       : 'village';
+        // Ravager/dark cultures: strongholds replace cities; camps replace villages
+        const strongholdCultures = new Set(['wildmen_ravagers', 'ancients_dark_ones', 'mixed_forgotten_kingdom', 'mixed_wildlands']);
+        const campCultures       = new Set(['wildmen_ravagers', 'wildmen_foresters', 'mixed_wildlands']);
+        const cityType    = strongholdCultures.has(culture) ? 'stronghold' : 'city';
+        const villageType = campCultures.has(culture)       ? 'camp'       : 'village';
 
-        tryPlace(cityType,
-            (c, r) => flat(c, r) && nearRiver(c, r),
+        // Mountain cultures don't require river proximity for their capital/stronghold
+        const mountainCulture = culture === 'stone_folk';
+        const cityTest = mountainCulture
+            ? (c, r) => placeable(c, r)
+            : (c, r) => placeable(c, r) && nearRiver(c, r);
+
+        tryPlace(cityType,   cityTest,
             sn(this.ri(2 * sc, 3 * sc)), 150, cityNames);
-        tryPlace('town',
-            (c, r) => flat(c, r),
+        tryPlace('town',     (c, r) => placeable(c, r),
             sn(this.ri(4 * sc, 6 * sc)), 90, townNames);
-        tryPlace('port',
-            (c, r) => hm.isCoast(c, r),
+        tryPlace('port',     (c, r) => hm.isCoast(c, r),
             sn(this.ri(2 * sc, 3 * sc)), 100, portNames);
-        tryPlace(villageType,
-            (c, r) => flat(c, r),
+        tryPlace(villageType, (c, r) => placeable(c, r),
             sn(this.ri(14 * sc, 18 * sc)), 55, villageNames);
         tryPlace('ruin',
             (c, r) => hm.isMountain(c, r) || (flat(c, r) && !nearRiver(c, r)),
             rn(this.ri(2 * sc, 3 * sc)), 110, ruinNames);
+
+        // ── Mixed-culture terrain-specific sub-placements ─────────────────────
+
+        // Mixed: additionally seed terrain-restricted sub-cultures on appropriate land
+        if (culture === 'mixed') {
+            if (forestSet.size > 0) {
+                const fNames = this._pool(
+                    ['wildmen_settlements.camps_and_warbands', 'oakpeople_settlements.villages'],
+                    ['Deepwood', 'Willowshade', 'Mossburrow']
+                );
+                tryPlace('camp', (c, r) => flat(c, r) && inForest(c, r),
+                    sn(this.ri(2 * sc, 3 * sc)), 70, fNames);
+            }
+            if ((this.swampCells?.size ?? 0) > 0) {
+                const sNames = this._pool(
+                    ['swampbrood_settlements.villages'],
+                    ['Xochitlan', 'Tzapotla', 'Chalxoco']
+                );
+                tryPlace('village', (c, r) => flat(c, r) && inSwamp(c, r),
+                    sn(this.ri(1 * sc, 2 * sc)), 80, sNames);
+            }
+            const mtnNames = this._pool(
+                ['stone_folk_settlements.villages'],
+                ['Dornkrim', 'Gruldak', 'Bromthak']
+            );
+            tryPlace('village', (c, r) => mtn(c, r),
+                sn(this.ri(2 * sc, 3 * sc)), 85, mtnNames);
+            const ashenNames = this._pool(
+                ['ashen_halfbreeds_settlements.villages'],
+                ['Zinjara', 'Kouladi', 'Fasira']
+            );
+            tryPlace('village', (c, r) => flat(c, r),
+                sn(this.ri(1 * sc, 2 * sc)), 75, ashenNames);
+        }
+
+        // Mixed Wildlands: Ashen on mountains, Step Folk on open terrain
+        if (culture === 'mixed_wildlands') {
+            const mtnNames = this._pool(
+                ['ashen_halfbreeds_settlements.villages'],
+                ['Zinjara', 'Kouladi', 'Fasira']
+            );
+            tryPlace('village', (c, r) => mtn(c, r),
+                sn(this.ri(2 * sc, 4 * sc)), 75, mtnNames);
+            const openNames = this._pool(
+                ['step_folk_settlements.villages'],
+                ['Khuldai', 'Khorzunai', 'Zunbatai']
+            );
+            tryPlace('camp', (c, r) => flat(c, r) && !inForest(c, r) && !inSwamp(c, r),
+                sn(this.ri(2 * sc, 4 * sc)), 65, openNames);
+        }
+
+        // Mixed Sanctuary: Oakspeople and Foresters only on forested cells
+        if (culture === 'mixed_sanctuary') {
+            const forestNames = this._pool(
+                ['oakpeople_settlements.villages', 'wildmen_settlements.camps_and_warbands'],
+                ['Willowshade', 'Mossburrow', 'Underbough', 'Brambleburrow', 'Deepwood']
+            );
+            tryPlace('camp', (c, r) => flat(c, r) && inForest(c, r),
+                sn(this.ri(2 * sc, 4 * sc)), 65, forestNames);
+        }
+
         return settles;
     }
 
@@ -4762,23 +4942,24 @@ class FantasyMap {
         const MIN_CELLS  = 30; // ignore tiny isolated patches
 
         const FOREST_NAMES_FALLBACK = [
-            "The High Forest", "The Misty Forest", "The Neverwinter Wood",
-            "The Ardeep Forest", "The Lurkwood Forest", "The Moonwood Forest",
-            "The Winterwood Forest", "The Cormanthor Forest", "The King's Forest",
-            "The Gulthmere Forest", "The Reaching Woods Forest", "The Wealdath Forest",
-            "The Forest of Tethir", "The Chondalwood Forest", "The Methwood Forest",
-            "The Amtar Forest", "The Forest of Mir", "The Rawlinswood Forest",
-            "The Spiderhaunt Woods Forest", "The Glimmerwood Forest",
-            "The Cloak Wood Forest", "The Forest of Wyrms", "The Flooded Forest",
-            "The Thornwood Forest", "The Witchwood Forest", "The Vesve Forest",
-            "The Gnarley Forest", "The Adri Forest", "The Celadon Forest",
-            "The Dreadwood Forest", "The Hraak Forest", "The Nightwood Forest",
-            "The Blackwood Forest", "The Darkwood Forest", "The Eldeen Reaches Forest",
-            "The Towering Wood Forest", "The Twilight Forest", "The Silverwood Forest",
-            "The Deepwood Forest", "The Ironwood Forest", "The Shadowwood Forest",
+            "The High Forest", "The Misty Forest", "The Darkpine Wood",
+            "The Aelthir Wood", "The Heartwood Forest", "The Moonshroud Forest",
+            "The Frostbough Forest", "The Ancient Veil", "The Warden's Wood",
+            "The Greenmantle Forest", "The Elder Reaches", "The Rootwoven Forest",
+            "The Forest of Whispers", "The Living Wood", "The Forest of Oaks",
+            "The Oldgrowth Wood", "The Tangleroots", "The Glimmerwood Forest",
+            "The Greencloak Wood", "The Forest of Echoes", "The Flooded Forest",
+            "The Thornwood Forest", "The Grimwood Forest", "The Verdant Reaches",
+            "The Knotwood Forest", "The Oakheart Forest", "The Dawnleaf Forest",
+            "The Witchwood Forest", "The Nightwood Forest", "The Blackwood Forest",
+            "The Evermore Wood", "The Canopy Wood", "The Twilight Forest",
+            "The Silverwood Forest", "The Deepwood Forest", "The Ironwood Forest",
+            "The Shadowwood Forest", "The Whispering Wood", "The Elder Grove",
+            "The Inner Forest",
         ];
 
-        const namePool = this._pool(['geographical_features.forests'], FOREST_NAMES_FALLBACK);
+        const biomeForestKey = `geographical_features.forests_${this.biomeId}`;
+        const namePool = this._pool([biomeForestKey, 'geographical_features.forests'], FOREST_NAMES_FALLBACK);
 
         const { hm } = this;
         const { cols, rows } = hm;

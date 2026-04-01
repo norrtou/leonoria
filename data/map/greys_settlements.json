@@ -1,0 +1,62 @@
+{
+  "greys_settlements": {
+    "capital": [
+      "Daanos"
+    ],
+    "villages": [
+      "Suriya of Old", "Khamin by the North", "Thavorn Downstream", "Anurak of the Highlands", "Chantara by the Riverbend",
+      "Vichai of the East", "Preecha Upstream", "Niran of the Deep Vale", "Sakda by the Western Reach", "Rattanak of the Old Hills",
+      "Kittisak by the Lowlands", "Boonsri of the Far South", "Wichan Above the Falls", "Somchai of the Red Valley", "Jaran by the Ancient Road",
+      "Narong of the Upper Plains", "Prasert Downriver", "Chalerm of the High Ridge", "Damrong by the Eastern Shore", "Phanurat of the Old Forest",
+      "Kraisee Below the Cliffs", "Thongchai of the Northern Vale", "Surachet by the Long River", "Pichai of the Golden Fields", "Montree Across the Marsh",
+      "Anucha of the Stone Hills", "Chanin by the Southern Reach", "Decha of the Old Crossing", "Rungroj Above the Valley", "Wirot of the Mist Plains",
+      "Sakchai by the Deepwood", "Thammarat of the Far Ridge", "Kovit Down the Pass", "Pramote of the Old River", "Udom by the Western Hills",
+      "Sompong of the High Plateau", "Chaiya Beyond the Forest", "Yutthana of the Ancient Vale", "Phirun by the Upper Shore", "Adisorn of the Long Valley",
+      "Chokchai of the Old Peaks", "Krit by the River's End", "Banyat of the Low Ridge", "Ekachai Across the Plain", "Sirichai of the Far Hills",
+      "Nopparat by the Northern Pass", "Amnuay of the Old Basin", "Kanchai Down the Valley", "Thotsapol of the Upper Reach", "Arnon by the High Cliffs"
+    ],
+    "towns": [
+      "Watchara of the Eastern Vale", "Paisan Below the Ridge", "Thada by the Old Stream", "Surin of the Long Plain", "Chanintha Across the Valley",
+      "Ratchai of the High Hills", "Anan by the Western Vale", "Panya of the Old Grove", "Chatura Above the Plains", "Kraisorn of the Far Valley",
+      "Boonchai by the Deep Valley", "Virote of the Old Ridge", "Sakon Downstream", "Thirawat of the Northern Hills", "Niranan by the Far Shore",
+      "Somsak of the Long Ridge", "Anurach Across the Highlands", "Phakorn of the Old Vale", "Chatchai by the River's Bend", "Sutham of the Upper Hills",
+      "Kriangkrai of the Ancient Ridge", "Wuttichai by the Southern Hills", "Thammanoon of the Long Valley", "Arkhom Below the Highlands", "Sayan of the Old Path"
+    ],
+    "fortresses_and_keeps": [
+      "Praphan by the Eastern Ridge", "Direk of the Far Highlands", "Somboon Across the Riverlands", "Uthai of the Old Hills", "Kittipong by the Upper Valley",
+      "Phongchai of the Western Plains", "Narit by the Long Pass", "Wanchai of the Old Basin", "Thawatchai Down the Hills", "Paitoon of the Northern Plains",
+      "Somsri by the Riverlands", "Vichit of the High Vale", "Suthon Across the Lowlands"
+    ],
+    "cities": [
+      "Niphon of the Old Crossing", "Banjong by the Upper Ridge", "Ronnachai of the Long Valley", "Sakarin Below the Old Hills",
+      "Amarin by the Eastern Pass", "Prasong of the High Valley", "Chanchai Across the Ridge",
+      "Suwit of the Old Vale", "Kittinan by the Western Pass", "Thonglor of the Upper Plains",
+      "Somnuk of the Ancient Hills", "Rachanon by the River's Reach"
+    ],
+    "plain_names": [
+      "Daanos",
+      "Suriya of Old", "Khamin by the North", "Thavorn Downstream", "Anurak of the Highlands", "Chantara by the Riverbend",
+      "Vichai of the East", "Preecha Upstream", "Niran of the Deep Vale", "Sakda by the Western Reach", "Rattanak of the Old Hills",
+      "Kittisak by the Lowlands", "Boonsri of the Far South", "Wichan Above the Falls", "Somchai of the Red Valley", "Jaran by the Ancient Road",
+      "Narong of the Upper Plains", "Prasert Downriver", "Chalerm of the High Ridge", "Damrong by the Eastern Shore", "Phanurat of the Old Forest",
+      "Kraisee Below the Cliffs", "Thongchai of the Northern Vale", "Surachet by the Long River", "Pichai of the Golden Fields", "Montree Across the Marsh",
+      "Anucha of the Stone Hills", "Chanin by the Southern Reach", "Decha of the Old Crossing", "Rungroj Above the Valley", "Wirot of the Mist Plains",
+      "Sakchai by the Deepwood", "Thammarat of the Far Ridge", "Kovit Down the Pass", "Pramote of the Old River", "Udom by the Western Hills",
+      "Sompong of the High Plateau", "Chaiya Beyond the Forest", "Yutthana of the Ancient Vale", "Phirun by the Upper Shore", "Adisorn of the Long Valley",
+      "Chokchai of the Old Peaks", "Krit by the River's End", "Banyat of the Low Ridge", "Ekachai Across the Plain", "Sirichai of the Far Hills",
+      "Nopparat by the Northern Pass", "Amnuay of the Old Basin", "Kanchai Down the Valley", "Thotsapol of the Upper Reach", "Arnon by the High Cliffs",
+      "Watchara of the Eastern Vale", "Paisan Below the Ridge", "Thada by the Old Stream", "Surin of the Long Plain", "Chanintha Across the Valley",
+      "Ratchai of the High Hills", "Anan by the Western Vale", "Panya of the Old Grove", "Chatura Above the Plains", "Kraisorn of the Far Valley",
+      "Boonchai by the Deep Valley", "Virote of the Old Ridge", "Sakon Downstream", "Thirawat of the Northern Hills", "Niranan by the Far Shore",
+      "Somsak of the Long Ridge", "Anurach Across the Highlands", "Phakorn of the Old Vale", "Chatchai by the River's Bend", "Sutham of the Upper Hills",
+      "Kriangkrai of the Ancient Ridge", "Wuttichai by the Southern Hills", "Thammanoon of the Long Valley", "Arkhom Below the Highlands", "Sayan of the Old Path",
+      "Praphan by the Eastern Ridge", "Direk of the Far Highlands", "Somboon Across the Riverlands", "Uthai of the Old Hills", "Kittipong by the Upper Valley",
+      "Phongchai of the Western Plains", "Narit by the Long Pass", "Wanchai of the Old Basin", "Thawatchai Down the Hills", "Paitoon of the Northern Plains",
+      "Somsri by the Riverlands", "Vichit of the High Vale", "Suthon Across the Lowlands",
+      "Niphon of the Old Crossing", "Banjong by the Upper Ridge", "Ronnachai of the Long Valley", "Sakarin Below the Old Hills",
+      "Amarin by the Eastern Pass", "Prasong of the High Valley", "Chanchai Across the Ridge",
+      "Suwit of the Old Vale", "Kittinan by the Western Pass", "Thonglor of the Upper Plains",
+      "Somnuk of the Ancient Hills", "Rachanon by the River's Reach"
+    ]
+  }
+}

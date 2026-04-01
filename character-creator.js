@@ -201,10 +201,10 @@ const TTip = { el: null, visible: false };
 function initTooltip() {
     const t = document.createElement('div');
     Object.assign(t.style, {
-        position: 'fixed', maxWidth: '260px',
+        position: 'fixed', maxWidth: '300px',
         background: 'var(--bg-card)', border: '1px solid var(--gold-dim)',
-        color: 'var(--text-muted)', fontSize: '0.7rem', lineHeight: '1.55',
-        padding: '0.5em 0.75em', pointerEvents: 'none',
+        color: 'var(--text)', fontSize: '0.92rem', lineHeight: '1.65',
+        padding: '0.65em 0.9em', pointerEvents: 'none',
         opacity: '0', transition: 'opacity 0.12s', zIndex: '1001',
         fontStyle: 'italic', fontFamily: 'inherit',
     });
@@ -285,7 +285,7 @@ function buildRaceSelect() {
         (group.sub_races || []).forEach(race => {
             const opt = document.createElement('option');
             opt.value = race.id;
-            opt.textContent = race.name;
+            opt.textContent = race.own_name ? `${race.name} (${race.own_name})` : race.name;
             og.appendChild(opt);
         });
         sel.appendChild(og);
@@ -682,21 +682,25 @@ function buildSkillRows() {
         infoEl.textContent = 'Select a class to see available skills.';
     }
 
-    // Group skills by category
+    // Group skills by category — when a class is selected, skip skills not available to it
     (DB.skills?.categories || []).forEach(cat => {
         const catSkills = cat.skills || [];
         if (!catSkills.length) return;
+
+        // Pre-filter: only show skills the class can use (fixed or in choices)
+        const visibleSkills = cls
+            ? catSkills.filter(sk => fixed.has(sk.id) || !choiceSet || choiceSet.has(sk.id))
+            : catSkills;
+        if (!visibleSkills.length) return;
 
         const header = el('div', 'sk-category-header');
         header.textContent = `${cat.category} [${aptShort(cat.aptitude_link)}]`;
         grid.appendChild(header);
 
-        catSkills.forEach(sk => {
+        visibleSkills.forEach(sk => {
             const isFixed    = fixed.has(sk.id);
-            const inChoices  = !choiceSet || choiceSet.has(sk.id);
-            const disabled   = cls && !isFixed && !inChoices;
 
-            const row = el('div', `skill-row${disabled ? ' sk-disabled' : ''}${isFixed ? ' sk-fixed' : ''}`);
+            const row = el('div', `skill-row${isFixed ? ' sk-fixed' : ''}`);
             row.dataset.name = sk.id;
 
             const check = el('span', 'sk-check'); row.appendChild(check);
@@ -709,20 +713,18 @@ function buildSkillRows() {
                 row.addEventListener('mouseleave', hideTip);
             }
 
-            if (!disabled) {
-                row.addEventListener('click', () => {
-                    if (isFixed) return;
-                    if (row.classList.contains('sk-on')) {
-                        row.classList.remove('sk-on');
-                        S.skills.delete(sk.id);
-                    } else {
-                        const nonFixed = [...S.skills].filter(id => !fixed.has(id)).length;
-                        if (nonFixed >= choiceCount) { toast(`Max ${choiceCount} choice skills for this class.`); return; }
-                        row.classList.add('sk-on');
-                        S.skills.add(sk.id);
-                    }
-                });
-            }
+            row.addEventListener('click', () => {
+                if (isFixed) return;
+                if (row.classList.contains('sk-on')) {
+                    row.classList.remove('sk-on');
+                    S.skills.delete(sk.id);
+                } else {
+                    const nonFixed = [...S.skills].filter(id => !fixed.has(id)).length;
+                    if (nonFixed >= choiceCount) { toast(`Max ${choiceCount} choice skills for this class.`); return; }
+                    row.classList.add('sk-on');
+                    S.skills.add(sk.id);
+                }
+            });
             grid.appendChild(row);
         });
     });
@@ -808,39 +810,89 @@ function updateFlavorText() {
     const clsData  = findClass(S.cls);
     const clsName  = clsData ? clsData.name : (S.cls ? S.cls : '');
 
+    const ownName    = raceData?.own_name || null;
+    const ownMeaning = raceData?.own_name_meaning || null;
+    const ownPrefix  = ownName ? ` Known among themselves as the <em>${ownName}</em>${ownMeaning ? ` — "${ownMeaning}"` : ''}.` : '';
     const raceBlurb  = S.race ? (RACE_BLURBS[S.race]  || (raceData?.description) || `The ${raceName} are a proud and storied people.`) : '';
     const classBlurb = S.cls  ? (CLASS_BLURBS[S.cls]  || (clsData?.description)  || `The ${clsName} follows a path of power and purpose.`) : '';
 
     let html = '';
-    if (S.race) html += `<strong>${raceName}.</strong> ${raceBlurb}`;
+    if (S.race) html += `<strong>${raceName}.</strong> ${raceBlurb}${ownPrefix}`;
     if (S.race && S.cls) html += '<br><br>';
     if (S.cls)  html += `<strong>${clsName}.</strong> ${classBlurb}`;
     ft.innerHTML = html;
 }
 
 // ─── Background detail ────────────────────────────────────────────────────────
+function makeBgBullet(label, value, valClass) {
+    const row  = el('div', 'bg-bullet');
+    const dot  = el('span', 'bg-bullet-dot');  dot.textContent  = '✦';
+    const lbl  = el('span', 'bg-bullet-label'); lbl.textContent = label;
+    const val  = el('span', `bg-bullet-val${valClass ? ' ' + valClass : ''}`); val.textContent = value;
+    row.append(dot, lbl, val);
+    return row;
+}
+
+function makeBgSection(title) {
+    const h = el('div', 'bg-section-title');
+    h.textContent = title;
+    return h;
+}
+
 function updateBgDetail(bg) {
     const d = $('bg-detail-text');
-    if (!bg) { d.textContent = 'Select a background to see its perks.'; return; }
-    const parts = [];
-    if (bg.flavor_trait) parts.push(`"${bg.flavor_trait}"`);
-    if (bg.aptitude_modifier) {
-        const mods = Object.entries(bg.aptitude_modifier)
-            .map(([k, v]) => `${aptName(k)} ${v > 0 ? '+' : ''}${v}`).join(', ');
-        if (mods) parts.push(`Aptitudes: ${mods}`);
+    d.innerHTML = '';
+    if (!bg) {
+        d.textContent = 'Select a background to see its perks.';
+        return;
     }
+
+    // Flavor quote
+    if (bg.flavor_trait) {
+        const q = el('div', 'bg-flavor-quote');
+        q.textContent = `"${bg.flavor_trait}"`;
+        d.appendChild(q);
+    }
+
+    // Aptitude modifiers
+    const aptMods = bg.aptitude_modifier ? Object.entries(bg.aptitude_modifier).filter(([, v]) => v !== 0) : [];
+    if (aptMods.length) {
+        d.appendChild(makeBgSection('Aptitude Effects'));
+        aptMods.forEach(([k, v]) => {
+            const sign = v > 0 ? '+' : '';
+            d.appendChild(makeBgBullet(aptName(k), `${sign}${v}`, v > 0 ? 'pos' : 'neg'));
+        });
+    }
+
+    // Skill bonuses
     if (bg.starting_skill_bonuses) {
         const allSk = getAllSkills();
-        const skBonuses = Object.entries(bg.starting_skill_bonuses)
-            .map(([id, v]) => {
+        const entries = Object.entries(bg.starting_skill_bonuses).filter(([, v]) => v !== 0);
+        if (entries.length) {
+            d.appendChild(makeBgSection('Skill Bonuses'));
+            entries.forEach(([id, v]) => {
                 const sk = allSk.find(s => s.id === id);
-                return `${sk ? sk.name : id} +${v}`;
-            }).join(', ');
-        if (skBonuses) parts.push(`Skills: ${skBonuses}`);
+                const sign = v > 0 ? '+' : '';
+                d.appendChild(makeBgBullet(sk ? sk.name : id, `${sign}${v}`, v > 0 ? 'pos' : 'neg'));
+            });
+        }
     }
-    if (bg.starting_wealth_modifier) parts.push(`Wealth: ${bg.starting_wealth_modifier}`);
-    if (bg.equipment_bonus?.length)  parts.push(`Gear: ${bg.equipment_bonus.join(', ')}`);
-    d.textContent = parts.length ? parts.join(' · ') : bg.name;
+
+    // Wealth
+    if (bg.starting_wealth_modifier) {
+        d.appendChild(makeBgSection('Starting Wealth'));
+        const wv = bg.starting_wealth_modifier;
+        const isNum = typeof wv === 'number';
+        d.appendChild(makeBgBullet('Gold modifier', isNum ? `${wv > 0 ? '+' : ''}${wv} crowns` : String(wv), isNum && wv > 0 ? 'pos' : isNum && wv < 0 ? 'neg' : ''));
+    }
+
+    // Equipment bonus
+    if (bg.equipment_bonus?.length) {
+        d.appendChild(makeBgSection('Starting Gear'));
+        bg.equipment_bonus.forEach(item => {
+            d.appendChild(makeBgBullet('', item, ''));
+        });
+    }
 }
 
 // ─── Inventory ────────────────────────────────────────────────────────────────

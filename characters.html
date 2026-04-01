@@ -417,36 +417,33 @@
         }
 
         /* skills tab */
-        .skill-info { font-size: 0.86rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.7rem; }
+        .skill-info { font-size: 0.9rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.75rem; line-height: 1.5; }
         .skills-grid {
             display: grid; grid-template-columns: 1fr 1fr;
-            gap: 0.28rem;
+            gap: 0.3rem;
         }
         .sk-category-header {
             grid-column: 1 / -1;
-            font-size: 0.78rem; letter-spacing: 0.12em;
-            color: var(--text-muted); text-transform: uppercase;
-            border-bottom: 1px solid var(--green-dim);
-            padding: 0.5rem 0 0.2rem; margin-top: 0.3rem;
+            font-size: 0.82rem; letter-spacing: 0.12em;
+            color: var(--gold); text-transform: uppercase;
+            border-bottom: 1px solid var(--gold-dim);
+            padding: 0.6rem 0 0.25rem; margin-top: 0.5rem;
         }
         .skill-row {
             display: flex; align-items: center; gap: 0.4rem;
-            padding: 0.38rem 0.55rem;
+            padding: 0.42rem 0.6rem;
             border: 1px solid var(--green-dim);
             background: var(--bg-card); cursor: pointer;
-            font-size: 0.88rem; transition: border-color 0.15s, background 0.15s;
+            font-size: 0.92rem; transition: border-color 0.15s, background 0.15s;
             user-select: none;
         }
-        .skill-row:hover:not(.sk-disabled) { border-color: var(--green); }
+        .skill-row:hover { border-color: var(--green); }
         .skill-row.sk-on { border-color: var(--gold); background: var(--gold-faint); }
-        .skill-row.sk-disabled { opacity: 0.3; pointer-events: none; }
-        .sk-check { width: 12px; height: 12px; border: 1px solid var(--gold-dim); flex-shrink: 0; }
+        .sk-check { width: 13px; height: 13px; border: 1px solid var(--gold-dim); flex-shrink: 0; }
         .sk-on .sk-check { background: var(--gold); }
         .sk-name { flex: 1; color: var(--text); }
-        .sk-ab { font-size: 0.76rem; color: var(--text-muted); }
-        .sk-tag {
-            font-size: 0.72rem; padding: 0.12em 0.4em;
-        }
+        .sk-ab { font-size: 0.8rem; color: var(--text-muted); }
+        .sk-tag { font-size: 0.74rem; padding: 0.12em 0.4em; }
         .sk-tag.core     { background: var(--core-bg); color: var(--core-txt); }
         .sk-tag.expanded { background: var(--exp-bg);  color: var(--exp-txt); }
 
@@ -596,11 +593,11 @@
             border-bottom: 1px solid var(--gold-dim);
         }
         .flavor-text {
-            font-size: 0.9rem; line-height: 1.75;
-            color: var(--text-muted); font-style: italic;
+            font-size: 1rem; line-height: 1.8;
+            color: var(--text); font-style: italic;
             min-height: 120px; margin-bottom: 1.2rem;
         }
-        .flavor-text strong { color: var(--text); font-style: normal; }
+        .flavor-text strong { color: var(--gold); font-style: normal; font-size: 1.02rem; }
 
         .right-divider { height: 1px; background: var(--green-dim); margin: 0.6rem 0 1rem; }
 
@@ -613,10 +610,28 @@
         .inv-bullet { color: var(--gold); flex-shrink: 0; font-size: 0.8rem; padding-top: 0.1em; }
         .inv-empty { font-size: 0.88rem; color: var(--text-muted); font-style: italic; }
 
-        .bg-detail-text {
-            font-size: 0.86rem; color: var(--text-muted);
-            font-style: italic; line-height: 1.6; margin-top: 0.8rem;
+        /* background detail panel */
+        #bg-detail-text { margin-top: 0.4rem; }
+        .bg-flavor-quote {
+            font-size: 0.95rem; color: var(--text-muted); font-style: italic;
+            line-height: 1.6; margin-bottom: 0.9rem; padding-left: 0.6rem;
+            border-left: 2px solid var(--gold-dim);
         }
+        .bg-section-title {
+            font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--text-muted); border-bottom: 1px solid var(--green-dim);
+            padding-bottom: 0.2rem; margin: 0.75rem 0 0.4rem;
+        }
+        .bg-bullet {
+            display: flex; align-items: baseline; gap: 0.55rem;
+            font-size: 0.95rem; color: var(--text); padding: 0.22rem 0;
+            line-height: 1.45;
+        }
+        .bg-bullet-dot { color: var(--gold); flex-shrink: 0; font-size: 0.8rem; }
+        .bg-bullet-label { color: var(--text-muted); min-width: 110px; flex-shrink: 0; }
+        .bg-bullet-val { color: var(--text-bright); font-style: italic; }
+        .bg-bullet-val.pos { color: #7acc50; }
+        .bg-bullet-val.neg { color: #cc7050; }
 
         /* ── Toast ──────────────────────────────────────────────── */
         #toast {
@@ -1039,7 +1054,7 @@
         <div class="right-divider"></div>
 
         <div class="pane-title">✦ Background Detail</div>
-        <div class="bg-detail-text" id="bg-detail-text">Select a background to see its perks.</div>
+        <div id="bg-detail-text">Select a background to see its perks.</div>
 
         <div class="right-divider"></div>
 

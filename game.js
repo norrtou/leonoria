@@ -637,6 +637,115 @@ class Game {
         },
     }; }
 
+    static get BIOME_CULTURES() { return {
+        the_midlands: {
+            dominant: 'midlander',
+            // MAJOR: Midlander
+            // MINOR: Wildmen Ravager (forested), Wildmen Forester (rare, forested),
+            //        Swampbrood (swamp terrain), Stone Folk (very rare, mountains),
+            //        Secluded Ancients (extremely rare)
+            cultures: [
+                { value: 'midlander',        label: 'Midlander',                          role: 'major' },
+                { value: 'wildmen_ravagers',  label: 'Wildmen Ravagers (forested)',         role: 'minor' },
+                { value: 'wildmen_foresters', label: 'Wildmen Foresters (rare, forested)',  role: 'minor' },
+                { value: 'swampbrood',        label: 'Swampbrood (swamp terrain)',          role: 'minor' },
+                { value: 'stone_folk',        label: 'Stone Folk (very rare, mountains)',   role: 'minor' },
+                { value: 'ancients_secluded', label: 'Secluded Ancients (extremely rare)',  role: 'minor' },
+            ],
+        },
+        the_dark_forests: {
+            dominant: 'northerner',
+            // MAJOR: Northerner, Wildmen Foresters, Stone Folk (mountains)
+            // MINOR: Wildmen Ravager, Ice Ancients (rare), Swampbrood (swamp terrain)
+            cultures: [
+                { value: 'northerner',        label: 'Northerner',                         role: 'major' },
+                { value: 'wildmen_foresters', label: 'Wildmen Foresters',                  role: 'major' },
+                { value: 'stone_folk',        label: 'Stone Folk (mountains)',              role: 'major' },
+                { value: 'wildmen_ravagers',  label: 'Wildmen Ravagers',                   role: 'minor' },
+                { value: 'ice_ancients',      label: 'Ice Ancients (rare)',                 role: 'minor' },
+                { value: 'swampbrood',        label: 'Swampbrood (swamp terrain)',          role: 'minor' },
+            ],
+        },
+        the_sanctuary_lands: {
+            dominant: 'ancients_secluded',
+            // MAJOR: Secluded Ancients
+            // MINOR: Oakspeople (forested), Wildmen Forester (rare, forested),
+            //        Wildmen Ravager, Swampbrood (swamp terrain)
+            cultures: [
+                { value: 'ancients_secluded', label: 'Secluded Ancients',                  role: 'major' },
+                { value: 'oakpeople',         label: 'Oakpeople (forested areas)',          role: 'minor' },
+                { value: 'wildmen_foresters', label: 'Wildmen Foresters (rare, forested)',  role: 'minor' },
+                { value: 'wildmen_ravagers',  label: 'Wildmen Ravagers',                   role: 'minor' },
+                { value: 'swampbrood',        label: 'Swampbrood (swamp terrain)',          role: 'minor' },
+            ],
+        },
+        the_forgotten_kingdom: {
+            dominant: 'ancients_dark_ones',
+            // MAJOR: Dark Ones — absolute, no other culture permitted
+            cultures: [
+                { value: 'ancients_dark_ones', label: 'Dark Ones', role: 'major' },
+            ],
+        },
+        the_eternal_winds: {
+            dominant: 'ice_ancients',
+            // MAJOR: Ice Ancients
+            // MINOR: Wildmen Ravager (rare)
+            cultures: [
+                { value: 'ice_ancients',     label: 'Ice Ancients',              role: 'major' },
+                { value: 'wildmen_ravagers', label: 'Wildmen Ravagers (rare)',    role: 'minor' },
+            ],
+        },
+        the_gleam_havens: {
+            dominant: 'ancients_greys',
+            // MAJOR: Grey Ancients (coastal/riverside)
+            // MINOR: Wildmen Foresters (forested areas), Wildmen Ravager (forested)
+            cultures: [
+                { value: 'ancients_greys',    label: 'Grey Ancients',                       role: 'major' },
+                { value: 'wildmen_foresters', label: 'Wildmen Foresters (forested areas)',   role: 'minor' },
+                { value: 'wildmen_ravagers',  label: 'Wildmen Ravagers (forested areas)',    role: 'minor' },
+            ],
+        },
+        the_boglands: {
+            dominant: 'swampbrood',
+            // MAJOR: Swampbrood (all terrain — no swamp restriction in boglands)
+            // MINOR: Wildmen Ravager
+            cultures: [
+                { value: 'swampbrood',       label: 'Swampbrood',        role: 'major' },
+                { value: 'wildmen_ravagers', label: 'Wildmen Ravagers',  role: 'minor' },
+            ],
+        },
+        the_badlands: {
+            dominant: 'ashen_halfbreeds',
+            // MAJOR: Ashen Halfbreeds
+            // MINOR: Step Folk (rare), Wildmen Ravager
+            cultures: [
+                { value: 'ashen_halfbreeds', label: 'Ashen Halfbreeds',   role: 'major' },
+                { value: 'step_folk',        label: 'Step Folk (rare)',    role: 'minor' },
+                { value: 'wildmen_ravagers', label: 'Wildmen Ravagers',   role: 'minor' },
+            ],
+        },
+        the_outer_steppes: {
+            dominant: 'step_folk',
+            // MAJOR: Step Folk
+            // MINOR: Ashen Halfbreeds, Wildmen Ravager
+            cultures: [
+                { value: 'step_folk',        label: 'Step Folk',          role: 'major' },
+                { value: 'ashen_halfbreeds', label: 'Ashen Halfbreeds',   role: 'minor' },
+                { value: 'wildmen_ravagers', label: 'Wildmen Ravagers',   role: 'minor' },
+            ],
+        },
+        the_blinding_lands: {
+            dominant: 'step_folk',
+            // MAJOR: Step Folk
+            // MINOR: Ashen Halfbreeds, Wildmen Ravager
+            cultures: [
+                { value: 'step_folk',        label: 'Step Folk',          role: 'major' },
+                { value: 'ashen_halfbreeds', label: 'Ashen Halfbreeds',   role: 'minor' },
+                { value: 'wildmen_ravagers', label: 'Wildmen Ravagers',   role: 'minor' },
+            ],
+        },
+    }; }
+
     _initPanel() {
         const panel  = document.getElementById('settings-panel');
         const openBtn = document.getElementById('settings-open');
@@ -715,24 +824,56 @@ class Game {
         bind('param-ruins',       'lbl-ruins',       ['None','Rare','Few','Some','Many']);
 
 
-        // Biome description hint
+        // Biome description hint — lists all cultures with dominance level
         const biomeDescriptions = {
-            the_midlands:         'Fertile heartland — rolling plains, high settlement density, all races.',
-            the_sanctuary_lands:  'Lush magical forests — ancient trees, Ancients territory, snow-capped peaks.',
-            the_dark_forests:     'Dense dark wilderness — few settlements, undead present, brutal winters.',
-            the_eternal_winds:    'Arctic tundra — only Ice Ancients and Wildmen thrive here.',
-            the_badlands:         'Scorched cataclysm zone — ancient ruins, trade routes, undead everywhere.',
-            the_outer_steppes:    'Dry buffer plains — wandering groups, fortified waypoints, dust storms.',
-            the_blinding_lands:   'Windswept steppe — haunted ruins, pre-Death era remnants.',
-            the_gleam_havens:     'Warm southern coast — Mediterranean climate, Ancients and Step Folk.',
-            the_boglands:         'Murky swamplands — rivers everywhere, Swampbrood and Wildmen territory.',
-            the_forgotten_kingdom:'Underground cave world — darkness, shadow magic, Stone Folk and Ashen.',
+            the_midlands:
+                'Fertile heartland — rolling plains and farmland. ' +
+                'MAJOR: Midlander. ' +
+                'MINOR: Wildmen Ravagers (forested areas), Wildmen Foresters (rare, forested), Swampbrood (swamp terrain), Stone Folk (very rare, mountains), Secluded Ancients (extremely rare).',
+            the_dark_forests:
+                'Dense dark wilderness — brutal winters, few settlements, undead present. ' +
+                'MAJOR: Northerner, Wildmen Foresters, Stone Folk (mountains). ' +
+                'MINOR: Wildmen Ravagers, Ice Ancients (rare), Swampbrood (swamp terrain).',
+            the_sanctuary_lands:
+                'Lush ancient forests — magical, snow-capped peaks, highly isolated. ' +
+                'MAJOR: Secluded Ancients. ' +
+                'MINOR: Oakspeople (forested areas), Wildmen Foresters (rare, forested), Wildmen Ravagers, Swampbrood (swamp terrain).',
+            the_eternal_winds:
+                'Arctic tundra — brutal cold, endless winds, near-uninhabitable. ' +
+                'MAJOR: Ice Ancients. ' +
+                'MINOR: Wildmen Ravagers (rare).',
+            the_badlands:
+                'Scorched cataclysm zone — ancient ruins, trade routes, undead everywhere. ' +
+                'MAJOR: Ashen Halfbreeds. ' +
+                'MINOR: Step Folk (rare), Wildmen Ravagers.',
+            the_outer_steppes:
+                'Dry buffer plains — wandering groups, fortified waypoints, dust storms. ' +
+                'MAJOR: Step Folk. ' +
+                'MINOR: Ashen Halfbreeds, Wildmen Ravagers.',
+            the_blinding_lands:
+                'Windswept steppe — haunted ruins, pre-Death era remnants, extreme sun. ' +
+                'MAJOR: Step Folk. ' +
+                'MINOR: Ashen Halfbreeds, Wildmen Ravagers.',
+            the_gleam_havens:
+                'Warm southern coast — Mediterranean climate, coastal cities, calm seas. ' +
+                'MAJOR: Grey Ancients (coastal and riverside). ' +
+                'MINOR: Wildmen Foresters (forested areas), Wildmen Ravagers (forested areas).',
+            the_boglands:
+                'Murky swamplands — rivers everywhere, dense fog, treacherous ground. ' +
+                'MAJOR: Swampbrood (unrestricted terrain). ' +
+                'MINOR: Wildmen Ravagers.',
+            the_forgotten_kingdom:
+                'Subterranean cave world — absolute darkness, shadow magic, no surface light. ' +
+                'MAJOR: Dark Ones (only culture permitted here — absolute rule).',
         };
+
         const biomeEl = document.getElementById('param-biome');
+
         const updateBiomeDesc = () => {
             document.getElementById('lbl-biome-desc').textContent =
                 biomeDescriptions[biomeEl.value] || '';
         };
+
         biomeEl.addEventListener('change', updateBiomeDesc);
         updateBiomeDesc();
 
@@ -1047,16 +1188,8 @@ class Game {
         const p      = val => val / 100;
         const mapType = sel('param-map-type');
         const typePreset = Game.MAP_TYPE_PRESETS[mapType] ?? Game.MAP_TYPE_PRESETS.standard;
-        const cultures = [
-            'human','elf','dwarf','halfling','half_elf','half_orc','orc',
-            'drow','wood_elf','duergar','svirfneblin','dragonborn','aasimar',
-            'genasi','goliath','tabaxi','firbolg','kenku','triton','warforged',
-            'shifter','tiefling','gnome','lizardfolk','githyanki','goblinoid'
-        ];
-        const rawCulture = sel('param-culture');
-        const culture = rawCulture === 'random'
-            ? cultures[Math.floor(Math.random() * cultures.length)]
-            : rawCulture;
+        // Culture is derived automatically from the selected biome — no manual selection.
+        const culture = Game.BIOME_CULTURES[sel('param-biome')]?.dominant ?? 'midlander';
         // seaLevel formula varies by map type so sliders stay meaningful per type
         const seaLevel = mapType === 'inland'
             ? 0.08                                          // nearly all land; valleys become lakes
@@ -1189,8 +1322,8 @@ window.showTownPopup = function(settlementName, biomeId, settlementType) {
 
     nameEl.textContent = settlementName;
 
-    const culture     = window._leonoriaHumanCulture;
-    const settlements = window._leonoriaHumanSettlements;
+    const culture     = window._leonoriaMidlanderCulture;
+    const settlements = window._leonoriaMidlanderSettlements;
 
     let html = '';
 
@@ -1374,39 +1507,55 @@ function _initTownPopup() {
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
     const jsonFiles = [
-        'data/map/human_settlements.json',       // 0
-        'data/map/elvish_settlements.json',       // 1
-        'data/map/dwarven_settlements.json',      // 2
-        'data/map/orc_settlements.json',          // 3
-        'data/map/ruins.json',                    // 4
-        'data/map/waterways.json',                // 5
-        'data/map/map_regions.json',              // 6
-        'data/map/landmarks.json',                // 7
-        'data/map/biomes.json',                   // 8
-        'data/cultures/cultures.json',            // 9
-        'data/map/importantlocations.json',       // 10
-        'data/cultures/eras.json',                // 11
-        'data/map/lake_names.json',               // 12
-        'data/map/geographical_features.json',    // 13
+        'data/map/midlander_settlements.json',          //  0
+        'data/map/ancient_settlements.json',            //  1  (root key: secluded_settlements)
+        'data/map/northerner_settlements.json',         //  2
+        'data/map/wildmen_settlements.json',            //  3
+        'data/map/ruins.json',                          //  4
+        'data/map/waterways.json',                      //  5
+        'data/map/map_regions.json',                    //  6
+        'data/map/landmarks.json',                      //  7
+        'data/map/biomes.json',                         //  8
+        'data/cultures/cultures.json',                  //  9
+        'data/map/importantlocations.json',             // 10
+        'data/cultures/eras.json',                      // 11
+        'data/map/lake_names.json',                     // 12
+        'data/map/geographical_features.json',          // 13
+        'data/map/greys_settlements.json',              // 14
+        'data/map/dark_ones_settlements.json',          // 15
+        'data/map/ice_ancients_settlements.json',       // 16
+        'data/map/oakpeople_settlements.json',          // 17
+        'data/map/stone_folk_settlements.json',         // 18
+        'data/map/swampbrood_settlements.json',         // 19
+        'data/map/ashen_halfbreeds_settlements.json',   // 20
+        'data/map/step_folk_settlements.json',          // 21
     ];
     try {
         const loaded = await Promise.all(jsonFiles.map(p => fetch(p).then(r => r.json())));
         FantasyMap.setData({
-            human_settlements:   loaded[0].human_settlements,
-            elvish_settlements:  loaded[1].elvish_settlements,
-            dwarven_settlements: loaded[2].dwarven_settlements,
-            orc_settlements:     loaded[3].orc_settlements,
-            ruins:               loaded[4].ruins,
-            waterways:           loaded[5].waterways,
-            regions:             loaded[6].regions,
-            landmarks:           loaded[7].landmarks,
-            biomes:              loaded[8].biomes,
-            lakes:               loaded[12]?.lakes ?? [],
-            geographical_features: loaded[13]?.terrain ?? {},
+            midlander_settlements:      loaded[0].midlander_settlements,
+            secluded_settlements:       loaded[1].secluded_settlements,
+            northerner_settlements:     loaded[2].northerner_settlements,
+            wildmen_settlements:        loaded[3].wildmen_settlements,
+            ruins:                      loaded[4].ruins,
+            waterways:                  loaded[5].waterways,
+            regions:                    loaded[6].regions,
+            landmarks:                  loaded[7].landmarks,
+            biomes:                     loaded[8].biomes,
+            lakes:                      loaded[12]?.lakes ?? [],
+            geographical_features:      loaded[13]?.terrain ?? {},
+            greys_settlements:          loaded[14].greys_settlements,
+            dark_ones_settlements:      loaded[15].dark_ones_settlements,
+            ice_ancients_settlements:   loaded[16].ice_ancients_settlements,
+            oakpeople_settlements:      loaded[17].oakpeople_settlements,
+            stone_folk_settlements:     loaded[18].stone_folk_settlements,
+            swampbrood_settlements:     loaded[19].swampbrood_settlements,
+            ashen_halfbreeds_settlements: loaded[20].ashen_halfbreeds_settlements,
+            step_folk_settlements:      loaded[21].step_folk_settlements,
         });
         const cultures = loaded[9]?.world_database?.cultures?.main_cultures ?? [];
-        window._leonoriaHumanCulture     = cultures.find(c => c.id === 'human') ?? null;
-        window._leonoriaHumanSettlements = loaded[0].human_settlements ?? null;
+        window._leonoriaMidlanderCulture     = cultures.find(c => c.id === 'human') ?? null;
+        window._leonoriaMidlanderSettlements = loaded[0].midlander_settlements ?? null;
         window._leonoriaRuinsData        = loaded[4].ruins ?? null;
         window._leonoriaLocationsData    = loaded[10]?.locations ?? [];
         window._leonoriaErasData         = Array.isArray(loaded[11]) ? loaded[11] : [];
