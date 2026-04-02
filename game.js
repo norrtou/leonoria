@@ -655,15 +655,15 @@ class Game {
         },
         the_dark_forests: {
             dominant: 'northerner',
-            // MAJOR: Northerner, Wildmen Foresters, Stone Folk (mountains)
-            // MINOR: Wildmen Ravager, Ice Ancients (rare), Swampbrood (swamp terrain)
+            // Rank 1: Northerner (dominant), 2: Wildmen Foresters, 3: Stone Folk,
+            // 4: Wildmen Ravagers, 5: Swampbrood, 6: Ice Ancients (rarest)
             cultures: [
-                { value: 'northerner',        label: 'Northerner',                         role: 'major' },
-                { value: 'wildmen_foresters', label: 'Wildmen Foresters',                  role: 'major' },
-                { value: 'stone_folk',        label: 'Stone Folk (mountains)',              role: 'major' },
-                { value: 'wildmen_ravagers',  label: 'Wildmen Ravagers',                   role: 'minor' },
-                { value: 'ice_ancients',      label: 'Ice Ancients (rare)',                 role: 'minor' },
-                { value: 'swampbrood',        label: 'Swampbrood (swamp terrain)',          role: 'minor' },
+                { value: 'northerner',        label: 'Northerner'                        },
+                { value: 'wildmen_foresters', label: 'Wildmen Foresters'                 },
+                { value: 'stone_folk',        label: 'Stone Folk (mountains)'            },
+                { value: 'wildmen_ravagers',  label: 'Wildmen Ravagers'                  },
+                { value: 'swampbrood',        label: 'Swampbrood (swamp terrain)'        },
+                { value: 'ice_ancients',      label: 'Ice Ancients (rarest)'             },
             ],
         },
         the_sanctuary_lands: {
@@ -1147,11 +1147,27 @@ class Game {
             });
         }
 
-        // ── Settlements — only types present on this map ───────────────────────
-        if (presentSettlementTypes.length) {
+        // ── Settlements — only types present on this map, ruins excluded ─────
+        const SETTLEMENT_ORDER = ['capital', 'city', 'stronghold', 'port_city', 'market_town', 'town', 'fishing_village', 'village'];
+        const presentSettlements = SETTLEMENT_ORDER.filter(t => presentSettlementTypes.includes(t));
+        if (presentSettlements.length) {
             h += `<div class="legend-section">Settlements</div>`;
-            presentSettlementTypes.forEach(type => {
+            presentSettlements.forEach(type => {
                 const cfg = LEGEND_SETTLEMENTS[type];
+                if (!cfg) return;
+                h += `<div class="legend-row">
+                    <span class="legend-icon-svg">${cfg.icon}</span>
+                    <span><strong>${cfg.label}</strong> — <em style="color:#666;font-size:10px">${cfg.desc}</em></span>
+                </div>`;
+            });
+        }
+
+        // ── Ruins & camps — separate section ──────────────────────────────────
+        const pointsOfInterest = ['ruin', 'camp', 'fortified_camp'].filter(t => presentSettlementTypes.includes(t));
+        if (pointsOfInterest.length) {
+            h += `<div class="legend-section">Points of Interest</div>`;
+            pointsOfInterest.forEach(type => {
+                const cfg = type === 'ruin' ? LEGEND_SETTLEMENTS['ruin'] : LEGEND_LANDMARKS[type];
                 if (!cfg) return;
                 h += `<div class="legend-row">
                     <span class="legend-icon-svg">${cfg.icon}</span>
@@ -1202,7 +1218,9 @@ class Game {
         const mapType = sel('param-map-type');
         const typePreset = Game.MAP_TYPE_PRESETS[mapType] ?? Game.MAP_TYPE_PRESETS.standard;
         // Culture is derived automatically from the selected biome — no manual selection.
-        const culture = Game.BIOME_CULTURES[sel('param-biome')]?.dominant ?? 'midlander';
+        const biomeId       = sel('param-biome');
+        const biomeCultures = Game.BIOME_CULTURES[biomeId] ?? {};
+        const culture       = biomeCultures.dominant ?? 'midlander';
         // seaLevel formula varies by map type so sliders stay meaningful per type
         const seaLevel = mapType === 'inland'
             ? 0.08                                          // nearly all land; valleys become lakes
@@ -1229,11 +1247,13 @@ class Game {
             edgeSinkStart:   typePreset.edgeSinkStart  ?? 0,
             islandSeeds:     typePreset.islandSeeds    ?? 0,
             bigIsland:       typePreset.bigIsland      ?? false,
-            biome:           sel('param-biome'),
+            biome:           biomeId,
             culture,
+            allCultures:     biomeCultures.cultures ?? [],
             seaLevel,
             mountainOffset,
             forestScale:     p(v('param-forests'))             * 2.5,
+            showTreeSymbols: document.getElementById('param-show-trees').checked,
             riverScale:      p(v('param-rivers'))              * 2.5,
             settlementScale: p(v('param-settlements'))         * 2.5,
             ruinScale:       p(v('param-ruins'))               * 2.5,
@@ -1310,14 +1330,20 @@ function _ruinImage(name) {
 }
 
 // ─── Settlement popup (towns & cities — temperate forest & plains) ────────────
-window.showTownPopup = function(settlementName, biomeId, settlementType) {
+window.showTownPopup = function(settlementName, biomeId, settlementType, settlementCultureId) {
     const popup  = document.getElementById('town-popup');
     const imgEl  = document.getElementById('town-popup-img');
     const nameEl = document.getElementById('town-popup-name');
     const bodyEl = document.getElementById('town-popup-body');
     if (!popup) return;
 
-    const isCity   = settlementType === 'city';
+    const isCapital = settlementType === 'capital';
+    const isPortCity = settlementType === 'port_city';
+    const isPort = settlementType === 'port' || isPortCity;
+    const isFishing = settlementType === 'fishing_village';
+    const isMarketTown = settlementType === 'market_town';
+    const isTown = settlementType === 'town';
+    const isCity   = isCapital || settlementType === 'city' || isPort;
     const terrain  = biomeId === 'the_midlands' ? 'open farmlands' : 'Leonorian lands';
 
     const isVillage = settlementType === 'village';
@@ -1326,58 +1352,252 @@ window.showTownPopup = function(settlementName, biomeId, settlementType) {
     if (isRuin) {
         imgEl.src = _ruinImage(settlementName);
         imgEl.alt = 'Ruin';
+        imgEl.style.display = '';
+        delete imgEl.dataset.placeholder;
+    } else if (biomeId === 'the_midlands') {
+        // Midlands: use existing imagery
+        if (isPortCity) {
+            imgEl.src = 'assets/images/landmarkimages/humancapital.jpg';
+            imgEl.alt = 'Port City';
+        } else if (isPort) {
+            imgEl.src = 'assets/images/landmarkimages/humansmalltown2.jpg';
+            imgEl.alt = 'Port';
+        } else if (isFishing) {
+            imgEl.src = 'assets/images/landmarkimages/humansmalltown2.jpg';
+            imgEl.alt = 'Fishing Village';
+        } else {
+            imgEl.src = isCity    ? 'assets/images/landmarkimages/humancapital.jpg'
+                      : isVillage ? 'assets/images/landmarkimages/humancountryside.jpg'
+                      :              'assets/images/landmarkimages/humansmalltown2.jpg';
+            imgEl.alt = isCity ? 'City' : isVillage ? 'Village' : 'Town';
+        }
+        imgEl.style.display = '';
+        delete imgEl.dataset.placeholder;
     } else {
-        imgEl.src = isCity    ? 'assets/images/landmarkimages/humancapital.jpg'
-                  : isVillage ? 'assets/images/landmarkimages/humancountryside.jpg'
-                  :              'assets/images/landmarkimages/humansmalltown2.jpg';
-        imgEl.alt = isCity ? 'City' : isVillage ? 'Village' : 'Town';
+        // Other biomes: no graphics yet. Hide image element and mark as placeholder
+        imgEl.removeAttribute('src');
+        imgEl.alt = '';
+        imgEl.style.display = 'none';
+        imgEl.dataset.placeholder = 'biome-graphics-not-implemented';
     }
 
     nameEl.textContent = settlementName;
 
-    const culture     = window._leonoriaMidlanderCulture;
-    const settlements = window._leonoriaMidlanderSettlements;
+    // Prepare a short, human-friendly culture token for the settlement.
+    // The `settlementCultureId` often comes from name-pool sources like
+    // "step_folk_settlements"; clean that to produce "step_folk".
+    let settlementCultureToken = null;
+    try {
+        if (settlementCultureId) {
+            settlementCultureToken = String(settlementCultureId)
+                .replace(/_settlements$/i, '')
+                .split('/')?.pop()?.trim();
+        }
+    } catch (e) { settlementCultureToken = null; }
+
+    // Resolve the settlement's culture token to a full culture object.
+    let settlementCultureObj = null;
+    try {
+        const allCultures = window._leonoriaCultures ?? [];
+        if (settlementCultureToken && allCultures.length) {
+            const token = settlementCultureToken.toLowerCase();
+
+            // Explicit token→race aliases for pool names that don't match race strings.
+            const TOKEN_RACE_ALIASES = {
+                wildmen:   'forester',    // wildmen_settlements → Foresters race
+                ancient:   'ice ancient', // ancient_settlements → Ice Ancients
+                secluded:  'secluded',    // ancients_secluded covers via id match below
+            };
+            const raceHint = TOKEN_RACE_ALIASES[token] ?? null;
+
+            const alt      = token.replace(/_/g, ' ').trim();
+            const tokenSing = token.replace(/s$/i, '');
+            const altSing  = alt.replace(/s$/i, '');
+
+            // Gather all candidates by fuzzy match
+            const candidates = allCultures.filter(c =>
+                (c.id   && (c.id.toLowerCase() === token || c.id.toLowerCase().includes(token))) ||
+                (c.name && (c.name.toLowerCase().includes(token) || c.name.toLowerCase().includes(alt))) ||
+                (c.race && (
+                    String(c.race).toLowerCase() === token ||
+                    String(c.race).toLowerCase().includes(token) ||
+                    String(c.race).toLowerCase().includes(alt) ||
+                    String(c.race).toLowerCase().includes(tokenSing) ||
+                    String(c.race).toLowerCase().includes(altSing) ||
+                    (raceHint && String(c.race).toLowerCase().includes(raceHint))
+                ))
+            );
+
+            if (candidates.length === 1) {
+                settlementCultureObj = candidates[0];
+            } else if (candidates.length > 1) {
+                // Multiple cultures share this race — use a stable hash of the
+                // settlement name to pick one deterministically so each named
+                // settlement always shows the same culture but the map has variety.
+                let hash = 0;
+                for (let i = 0; i < settlementName.length; i++)
+                    hash = Math.imul(hash ^ settlementName.charCodeAt(i), 0x9e3779b9) >>> 0;
+                settlementCultureObj = candidates[hash % candidates.length];
+            }
+        }
+    } catch (e) { settlementCultureObj = null; }
+
+    // Choose culture/settlement data where available.  Default to the
+    // Midlander datasets for the midlands biome; otherwise fall back to
+    // safe generic placeholders so capitals in other biomes still show a
+    // reasonable popup when specific culture data isn't loaded.
+    let culture = null;
+    let settlements = null;
+    if (biomeId === 'the_midlands') {
+        culture = window._leonoriaMidlanderCulture;
+        settlements = window._leonoriaMidlanderSettlements;
+    } else {
+        // Attempt other globals if present (future-proofing)
+        culture = window._leonoriaMidlanderCulture || null;
+        settlements = window._leonoriaMidlanderSettlements || null;
+    }
+
+    // Generic fallbacks to avoid undefined errors and provide reasonable
+    // content when no specific culture/settlement data exists for a biome.
+    if (!settlements) settlements = { cities: [], villages: [], trade_and_industry: [], fortresses_and_keeps: [] };
+
+    // If no explicit culture data is available, try to infer a dominant
+    // local culture from the biome's preferredCultures list and the
+    // loaded cultures dataset. Fall back to Midlander or a safe generic
+    // placeholder if nothing suitable is found.
+    if (!culture) {
+        const biomes = window._leonoriaBiomes ?? [];
+        const allCultures = window._leonoriaCultures ?? [];
+        const biomeEntry = biomes.find(b => b.id === biomeId) || null;
+        let inferred = null;
+        if (biomeEntry && Array.isArray(biomeEntry.preferredCultures) && biomeEntry.preferredCultures.length > 0) {
+            // Try to match preferred culture tokens to loaded culture objects using
+            // several heuristics (id, race, name, category) to handle differing
+            // naming schemes between biomes and culture records.
+            for (const pref of biomeEntry.preferredCultures) {
+                const token = String(pref).toLowerCase();
+                inferred = allCultures.find(c => (c.id && c.id.toLowerCase() === token))
+                    || allCultures.find(c => (c.id && c.id.toLowerCase().includes(token)))
+                    || allCultures.find(c => (c.race && String(c.race).toLowerCase().includes(token)))
+                    || allCultures.find(c => (c.name && String(c.name).toLowerCase().includes(token)))
+                    || allCultures.find(c => (c.category && String(c.category).toLowerCase().includes(token)));
+                if (inferred) break;
+            }
+        }
+        culture = inferred || window._leonoriaMidlanderCulture || {
+            name: 'Local populace', stance: 'Independent', alignment_dominance: 'Varied',
+            architecture: 'Local vernacular', traits: ['Practical'], typical_classes: ['Commoner'], regions: []
+        };
+        // Debug helper: expose last inferred culture for dev inspection
+        try { window._lastInferredPopupCulture = { biomeId, inferredId: inferred?.id ?? null, inferredName: inferred?.name ?? null } } catch(e){}
+    }
+    // Log chosen culture to console to help verify runtime behavior
+    try { console.log('[Leonoria] showTownPopup chosen culture:', { biomeId, settlementType, cultureName: culture?.name, cultureId: culture?.id, settlementCultureId }); } catch(e){}
+
+    // Compose a culture summary for the "People" section. Prefer the
+    // settlement-specific culture object resolved from name-pool inference;
+    // fall back to the biome-inferred culture. Show race, full description + stance.
+    let cultureSummary = '';
+    let cultureRaceHtml = '';
+    try {
+        const sourceCulture = settlementCultureObj || culture || null;
+        if (sourceCulture) {
+            const race = String(sourceCulture.race || '').trim();
+            const desc = String(sourceCulture.description || '').trim();
+            const stance = String(sourceCulture.stance || '').trim();
+            const traits = Array.isArray(sourceCulture.traits) ? sourceCulture.traits.slice(0, 4).join(' · ') : '';
+            const parts = [];
+            if (desc) parts.push(desc.endsWith('.') ? desc : desc + '.');
+            if (stance) parts.push(stance.endsWith('.') ? stance : stance + '.');
+            if (traits && !desc) parts.push(traits);
+            cultureSummary = parts.join(' ');
+            if (race) cultureRaceHtml = `<div class="popup-fact"><strong>Race:</strong> ${race}</div>`;
+        }
+    } catch (e) { cultureSummary = ''; cultureRaceHtml = ''; }
+
+    let cultureDescriptorHtml = '';
+    try {
+        // Use the same resolved culture object as the People section so the
+        // descriptor and race line always refer to the same culture.
+        const sourceCulture = settlementCultureObj || culture || null;
+        const displayCultureName = sourceCulture
+            ? (String(sourceCulture.name || sourceCulture.race || '').trim() || null)
+            : null;
+
+        if (displayCultureName) {
+            const kind = isVillage ? 'village' : isFishing ? 'fishing village' : isTown ? 'town' : isMarketTown ? 'market town' : isCity ? 'city' : settlementType;
+            const sizeWord = (isVillage || isFishing || settlementType === 'camp') ? 'small' : '';
+            const size = sizeWord ? `${sizeWord} ` : '';
+            const articleBase = (sizeWord ? sizeWord : displayCultureName).toLowerCase();
+            const article = (/^[aeiou]/i.test(articleBase)) ? 'An' : 'A';
+            cultureDescriptorHtml = `<div class="popup-fact">${article} ${size}${displayCultureName} ${kind}.</div>`;
+        }
+    } catch (e) { cultureDescriptorHtml = ''; }
 
     let html = '';
+    // Insert the simple culture descriptor first so it's clearly visible
+    if (cultureDescriptorHtml) html += cultureDescriptorHtml;
 
-    if (isCity) {
+    if (isFishing) {
+        html += `<div class="popup-section-label">Settlement</div>`;
+        html += `<div class="popup-fact">A fishing village — a small coastal settlement sustained by fishing, boatwrights, and fish-processing. Boats, drying racks, and nets dominate daily life on the shore.</div>`;
+        if (culture) {
+            html += `<div class="popup-section-label">Economy</div>`;
+            html += `<div class="popup-fact">Fishing and small-scale processing form the backbone of the local economy; a few traders ply salted fish and bait along nearby routes.</div>`;
+            html += `<div class="popup-section-label">People</div>`;
+            html += cultureRaceHtml;
+            html += `<div class="popup-fact">${cultureSummary || (culture.traits ? culture.traits.join(' · ') : '')}</div>`;
+        }
+    } else if (isCity) {
         const cityList = settlements?.cities ?? [];
         const cityEntry = cityList.length
             ? cityList[Math.floor(Math.random() * cityList.length)]
             : null;
 
         html += `<div class="popup-section-label">Settlement</div>`;
-        html += `<div class="popup-fact">A great walled city — seat of power, law, and high commerce amid the ${terrain}. Home to guilds, garrisons, and a ruling council or lord.`;
+        if (isPortCity) {
+            html += `<div class="popup-fact">${isCapital ? 'The regional capital port' : 'A fortified port city'} — a major harbour and centre of maritime trade on the ${terrain}. Ships berth here; customs, shipwrights, and mercantile houses dominate the waterfront.`;
+        } else if (isPort) {
+            html += `<div class="popup-fact">A coastal port — a working harbour and hub of sea-borne trade on the ${terrain}. Fishermen, merchants, and mariners keep the docks alive.`;
+        } else {
+            html += `<div class="popup-fact">${isCapital ? 'The regional capital' : 'City'} — seat of power, law, and high commerce amid the ${terrain}. Home to guilds, garrisons, and a ruling council or lord.`;
+        }
         if (cityEntry) html += ` Cities of this stature include such places as <em>${cityEntry}</em>.`;
         html += `</div>`;
 
         if (culture) {
-            html += `<div class="popup-section-label">Governance</div>`;
-            html += `<div class="popup-fact">Ruled under the <strong>${culture.name}</strong> — ${culture.stance.toLowerCase()}. Cities serve as regional capitals enforcing the Regency's will across the land.</div>`;
-
-            html += `<div class="popup-section-label">Alignment</div>`;
-            html += `<div class="popup-fact">${culture.alignment_dominance}</div>`;
-
-            const fortList = settlements?.fortresses_and_keeps ?? [];
-            const fort = fortList.length
-                ? fortList[Math.floor(Math.random() * fortList.length)]
-                : null;
-            html += `<div class="popup-section-label">Defences</div>`;
-            html += `<div class="popup-fact">${culture.architecture} Every city of note is protected by a fortress keep`;
-            if (fort) html += ` such as <em>${fort}</em>`;
-            html += `.`;
-            html += `</div>`;
-
             html += `<div class="popup-section-label">People</div>`;
-            html += `<div class="popup-fact">${culture.traits.join(' · ')}</div>`;
-
-            html += `<div class="popup-section-label">Common Classes</div>`;
-            html += `<div class="popup-fact">${culture.typical_classes.join(' · ')}</div>`;
+            html += cultureRaceHtml;
+            html += `<div class="popup-fact">${cultureSummary || (culture.traits ? culture.traits.join(' · ') : '')}</div>`;
 
             if (culture.regions?.length) {
                 html += `<div class="popup-section-label">Known Regions</div>`;
                 html += `<div class="popup-fact">${culture.regions.join(' · ')}</div>`;
             }
+        }
+    } else if (isMarketTown) {
+        const tradeList = settlements?.trade_and_industry ?? [];
+        const tradeFact = tradeList.length
+            ? tradeList[Math.floor(Math.random() * tradeList.length)]
+            : null;
+
+        html += `<div class="popup-section-label">Settlement</div>`;
+        html += `<div class="popup-fact">A prosperous market town — a centre of trade, law, and governance amid the ${terrain}.`;
+        if (tradeFact) html += ` Notable institutions include <em>${tradeFact}</em>.`;
+        html += `</div>`;
+
+        if (culture) {
+            html += `<div class="popup-section-label">People</div>`;
+            html += cultureRaceHtml;
+            html += `<div class="popup-fact">${cultureSummary || (culture.traits ? culture.traits.join(' · ') : '')}</div>`;
+        }
+    } else if (isTown) {
+        html += `<div class="popup-section-label">Settlement</div>`;
+        html += `<div class="popup-fact">A town — a local centre of services, markets, and minor governance serving surrounding villages in the ${terrain}.</div>`;
+        if (culture) {
+            html += `<div class="popup-section-label">People</div>`;
+            html += cultureRaceHtml;
+            html += `<div class="popup-fact">${cultureSummary || (culture.traits ? culture.traits.join(' · ') : '')}</div>`;
         }
     } else if (isVillage) {
         const villageList = settlements?.villages ?? [];
@@ -1391,17 +1611,10 @@ window.showTownPopup = function(settlementName, biomeId, settlementType) {
         html += `</div>`;
 
         if (culture) {
-            html += `<div class="popup-section-label">Culture</div>`;
-            html += `<div class="popup-fact"><strong>${culture.name}</strong><br>Village folk follow the Regency's laws loosely — life here is governed more by seasons and harvests than by distant lords.</div>`;
-
-            html += `<div class="popup-section-label">Architecture</div>`;
-            html += `<div class="popup-fact">Thatched-roof cottages and earthen paths lined with vegetable gardens. The local inn and a small chapel are the social heart of the settlement.</div>`;
-
             html += `<div class="popup-section-label">People</div>`;
-            html += `<div class="popup-fact">${culture.traits.join(' · ')}</div>`;
+            html += cultureRaceHtml;
+            html += `<div class="popup-fact">${cultureSummary || (culture.traits ? culture.traits.join(' · ') : '')}</div>`;
 
-            html += `<div class="popup-section-label">Common Folk</div>`;
-            html += `<div class="popup-fact">Most villagers are commoners and farmers. Passing adventurers often find work here — or trouble.</div>`;
         }
     } else if (isRuin) {
         const nameL = settlementName.toLowerCase();
@@ -1484,21 +1697,48 @@ window.showTownPopup = function(settlementName, biomeId, settlementType) {
         html += `</div>`;
 
         if (culture) {
-            html += `<div class="popup-section-label">Culture</div>`;
-            html += `<div class="popup-fact"><strong>${culture.name}</strong><br>${culture.stance}</div>`;
-
-            html += `<div class="popup-section-label">Alignment</div>`;
-            html += `<div class="popup-fact">${culture.alignment_dominance}</div>`;
-
-            html += `<div class="popup-section-label">Architecture</div>`;
-            html += `<div class="popup-fact">${culture.architecture}</div>`;
-
             html += `<div class="popup-section-label">People</div>`;
-            html += `<div class="popup-fact">${culture.traits.join(' · ')}</div>`;
-
-            html += `<div class="popup-section-label">Common Classes</div>`;
-            html += `<div class="popup-fact">${culture.typical_classes.join(' · ')}</div>`;
+            html += cultureRaceHtml;
+            html += `<div class="popup-fact">${cultureSummary || (culture.traits ? culture.traits.join(' · ') : '')}</div>`;
         }
+    }
+    // Amenities summary (all biomes) — use FantasyMap static helper when present
+    if (!isRuin) {
+        const amenFactory = window.FantasyMap && typeof window.FantasyMap._settlementAmenities === 'function'
+            ? window.FantasyMap._settlementAmenities
+            : (t => ({}));
+        const amen = amenFactory(settlementType) ?? {};
+
+        const displayNames = {
+            capital: 'capital', city: 'city', stronghold: 'stronghold', port_city: 'port city',
+            market_town: 'market town', town: 'town', fishing_village: 'fishing village',
+            village: 'village', camp: 'camp', fortified_camp: 'fortified camp', port: 'port', ruin: 'ruin'
+        };
+        const disp = displayNames[settlementType] || settlementType;
+
+        const lines = [];
+        const inns = amen.inns ?? [];
+        if (inns.length === 1) lines.push(`One inn — ${inns[0].quality}`);
+        else if (inns.length > 1) lines.push(`${inns.length} inns — ${inns.map(i=>i.quality).join(', ')}`);
+
+        const traders = Number(amen.traders ?? 0);
+        if (traders === 1) lines.push('One small trader');
+        else if (traders > 1) lines.push(`${traders} traders`);
+
+        const healers = Number(amen.healers ?? 0);
+        if (healers === 1) lines.push('One healer');
+        else if (healers > 1) lines.push(`${healers} healers`);
+
+        if (amen.guards) lines.push('Garrison / formal guards present');
+        if (amen.temple) lines.push('Temple or place of worship');
+        if (amen.port) lines.push('Harbour / port facilities');
+        if (amen.castle) lines.push('Castle / keep');
+        if (amen.royalCourt) lines.push('Royal court or regional administration');
+
+        if (lines.length === 0) lines.push('No notable amenities recorded.');
+
+        html += `<div class="popup-section-label">Amenities in this ${disp}</div>`;
+        html += `<ul class="popup-amenities">${lines.map(l => `<li>${l}</li>`).join('')}</ul>`;
     }
 
     bodyEl.innerHTML = html;
@@ -1566,8 +1806,14 @@ window.addEventListener('DOMContentLoaded', async () => {
             ashen_halfbreeds_settlements: loaded[20].ashen_halfbreeds_settlements,
             step_folk_settlements:      loaded[21].step_folk_settlements,
         });
-        const cultures = loaded[9]?.world_database?.cultures?.main_cultures ?? [];
-        window._leonoriaMidlanderCulture     = cultures.find(c => c.id === 'human') ?? null;
+        const cultures = loaded[9]?.world_database?.cultures ?? [];
+        window._leonoriaCultures = cultures;
+        window._leonoriaBiomes = loaded[8]?.biomes ?? [];
+        // Prefer a culture entry whose `race` is Midlander as a sensible
+        // Midlands fallback. If none found, fall back to the first loaded
+        // culture or null.
+        window._leonoriaMidlanderCulture     = cultures.find(c => String(c.race).toLowerCase() === 'midlander')
+            || cultures.find(c => (c.id && c.id.toLowerCase().includes('midland'))) || cultures[0] || null;
         window._leonoriaMidlanderSettlements = loaded[0].midlander_settlements ?? null;
         window._leonoriaRuinsData        = loaded[4].ruins ?? null;
         window._leonoriaLocationsData    = loaded[10]?.locations ?? [];

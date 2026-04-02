@@ -12,9 +12,30 @@
 
 const LEGEND_SETTLEMENTS = {
 
+    capital: {
+        label: 'Capital',
+        desc:  'Seat of power — megacity with castle, temple, and royal court',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -37 40 41" width="20" height="20">
+            <rect x="-18" y="-22" width="10" height="14" fill="#f0e8d0" stroke="#111" stroke-width="1"/>
+            <rect x="8"   y="-22" width="10" height="14" fill="#f0e8d0" stroke="#111" stroke-width="1"/>
+            <rect x="-8"  y="-26" width="16" height="18" fill="#f0e8d0" stroke="#111" stroke-width="1.2"/>
+            <rect x="-18" y="-26" width="2.2" height="5" fill="#111"/>
+            <rect x="-14.5" y="-26" width="2.2" height="5" fill="#111"/>
+            <rect x="-11"  y="-26" width="2.2" height="5" fill="#111"/>
+            <rect x="8"    y="-26" width="2.2" height="5" fill="#111"/>
+            <rect x="11.5" y="-26" width="2.2" height="5" fill="#111"/>
+            <rect x="15"   y="-26" width="2.2" height="5" fill="#111"/>
+            <path d="M -8,-26 L -8,-28 L -5,-33 L -2.5,-28.5 L 0,-35 L 2.5,-28.5 L 5,-33 L 8,-28 L 8,-26 Z" fill="#c8a020" stroke="#8a6010" stroke-width="0.8"/>
+            <circle cx="-5"  cy="-31" r="1"   fill="#e8c840"/>
+            <circle cx="0"   cy="-33" r="1.2" fill="#e8c840"/>
+            <circle cx="5"   cy="-31" r="1"   fill="#e8c840"/>
+            <path d="M -4,2 L -4,-3 Q 0,-9 4,-3 L 4,2 Z" fill="#3a2818" stroke="#111" stroke-width="0.5"/>
+        </svg>`,
+    },
+
     city: {
         label: 'City',
-        desc:  'Major fortified settlement',
+        desc:  'Major fortified settlement with stone walls and all amenities',
         icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-15 -24 30 28" width="18" height="18">
             <rect x="-13" y="-19" width="8"  height="11" fill="#e4dece" stroke="#333" stroke-width="1"/>
             <rect x="5"   y="-19" width="8"  height="11" fill="#e4dece" stroke="#333" stroke-width="1"/>
@@ -28,9 +49,38 @@ const LEGEND_SETTLEMENTS = {
         </svg>`,
     },
 
+    port_city: {
+        label: 'Port City',
+        desc:  'Coastal city with a harbour — allows sea travel to other ports',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-16 -24 34 30" width="20" height="20">
+            <rect x="-14" y="-19" width="9"  height="11" fill="#e0dace" stroke="#0a0a18" stroke-width="1"/>
+            <rect x="-5"  y="-10" width="10" height="12" fill="#e0dace" stroke="#0a0a18" stroke-width="1"/>
+            <rect x="-14" y="-22" width="2.2" height="4" fill="#0a0a18"/>
+            <rect x="-10.8" y="-22" width="2.2" height="4" fill="#0a0a18"/>
+            <rect x="-7.6"  y="-22" width="2.2" height="4" fill="#0a0a18"/>
+            <line x1="8"  y1="-18" x2="8"  y2="2"  stroke="#1a3a5a" stroke-width="1.2"/>
+            <line x1="6"  y1="-15" x2="13" y2="-15" stroke="#1a3a5a" stroke-width="1"/>
+            <path d="M 8,-14 L 13,-10 L 8,-6 Z" fill="#d8eaf0" stroke="#1a3a5a" stroke-width="0.6"/>
+            <path d="M 3,4 Q 7,2 11,4 Q 15,6 16,4" fill="none" stroke="#4a7a9a" stroke-width="0.9" stroke-linecap="round"/>
+        </svg>`,
+    },
+
+    market_town: {
+        label: 'Market Town',
+        desc:  'Trade hub with 4 traders — always on a major road',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -18 24 22" width="18" height="18">
+            <rect x="-8" y="-5" width="16" height="9" fill="#e8dfc8" stroke="#222" stroke-width="1"/>
+            <path d="M -10 -5 L 0 -16 L 10 -5" fill="#e8dfc8" stroke="#222" stroke-width="1" stroke-linejoin="round"/>
+            <rect x="-2" y="-1" width="4" height="5" fill="#555"/>
+            <rect x="-6.5" y="-3" width="2.5" height="2.5" fill="#888"/>
+            <rect x="4"   y="-3" width="2.5" height="2.5" fill="#888"/>
+            <line x1="-2.5" y1="-13" x2="2.5" y2="-13" stroke="#222" stroke-width="1"/>
+        </svg>`,
+    },
+
     town: {
         label: 'Town',
-        desc:  'Market town',
+        desc:  'Market town with 2 traders and 2 inns',
         icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-11 -17 22 20" width="18" height="18">
             <rect x="-7" y="-5" width="14" height="9" fill="#eae4d4" stroke="#333" stroke-width="1"/>
             <path d="M -9 -5 L 0 -15 L 9 -5" fill="#eae4d4" stroke="#333" stroke-width="1" stroke-linejoin="round"/>
@@ -38,24 +88,19 @@ const LEGEND_SETTLEMENTS = {
         </svg>`,
     },
 
-    port: {
-        label: 'Port',
-        desc:  'Coastal trading post',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-11 -17 22 22" width="18" height="18">
-            <rect x="-10" y="-1" width="20" height="3" fill="#dce8ec" stroke="#1a3a5a" stroke-width="0.9"/>
-            <rect x="-7"  y="2"  width="4"  height="5" fill="#dce8ec" stroke="#1a3a5a" stroke-width="0.8"/>
-            <rect x="3"   y="2"  width="4"  height="5" fill="#dce8ec" stroke="#1a3a5a" stroke-width="0.8"/>
-            <circle cx="0" cy="-14" r="2.5" fill="none" stroke="#1a3a5a" stroke-width="1"/>
-            <line x1="0"  y1="-11" x2="0"  y2="-2"  stroke="#1a3a5a" stroke-width="1.2"/>
-            <line x1="-5" y1="-9"  x2="5"  y2="-9"  stroke="#1a3a5a" stroke-width="1.2"/>
-            <line x1="0"  y1="-2"  x2="-5" y2="1"   stroke="#1a3a5a" stroke-width="1.2"/>
-            <line x1="0"  y1="-2"  x2="5"  y2="1"   stroke="#1a3a5a" stroke-width="1.2"/>
+    fishing_village: {
+        label: 'Fishing Village',
+        desc:  'Small settlement by a lake or coast',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -10 18 18" width="18" height="18">
+            <rect x="-3.5" y="-2" width="7" height="5" fill="#e8e0cc" stroke="#444" stroke-width="0.7"/>
+            <path d="M -5 -2 L 0 -8 L 5 -2" fill="#e8e0cc" stroke="#444" stroke-width="0.7" stroke-linejoin="round"/>
+            <path d="M -6 5 Q -4 3 -2 5 Q 0 7 2 5 Q 4 3 6 5" fill="none" stroke="#1a3a5a" stroke-width="0.9" stroke-linecap="round"/>
         </svg>`,
     },
 
     village: {
         label: 'Village',
-        desc:  'Small hamlet',
+        desc:  'Small hamlet with an inn and perhaps one trader',
         icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-7 -10 14 14" width="18" height="18">
             <rect x="-3.5" y="-2" width="7" height="5" fill="#e8e0cc" stroke="#444" stroke-width="0.7"/>
             <path d="M -5.5 -2 L 0 -8 L 5.5 -2" fill="#e8e0cc" stroke="#444" stroke-width="0.7" stroke-linejoin="round"/>
@@ -64,7 +109,7 @@ const LEGEND_SETTLEMENTS = {
 
     stronghold: {
         label: 'Stronghold',
-        desc:  'Major orcish fortress',
+        desc:  'Fortified orcish or warlord fortress',
         icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-16 -22 32 26" width="18" height="18">
             <rect x="-14" y="-14" width="28" height="16" fill="#d8c8a8" stroke="#1a1410" stroke-width="1.2"/>
             <rect x="-14"  y="-20" width="3.8" height="7" fill="#1a1410"/>
@@ -73,15 +118,6 @@ const LEGEND_SETTLEMENTS = {
             <rect x="2.8"  y="-20" width="3.8" height="7" fill="#1a1410"/>
             <rect x="8.4"  y="-20" width="3.8" height="7" fill="#1a1410"/>
             <path d="M -4 2 L -4 -5 L 0 -10 L 4 -5 L 4 2 Z" fill="#2a1808" stroke="#1a1410" stroke-width="0.6"/>
-        </svg>`,
-    },
-
-    camp: {
-        label: 'Camp',
-        desc:  'Warband encampment',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -9 16 17" width="18" height="18">
-            <path d="M -6 3 L 0 -7 L 6 3 Z" fill="#c4a870" stroke="#443020" stroke-width="0.7"/>
-            <circle cx="0" cy="6" r="1.6" fill="#c04020" opacity="0.85"/>
         </svg>`,
     },
 
@@ -103,6 +139,35 @@ const LEGEND_SETTLEMENTS = {
 
 
 const LEGEND_LANDMARKS = {
+
+    camp: {
+        label: 'Camp',
+        desc:  'Warband encampment',
+        color: '#443020',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -9 16 17" width="18" height="18">
+            <path d="M -6 3 L 0 -7 L 6 3 Z" fill="#c4a870" stroke="#443020" stroke-width="0.7"/>
+            <circle cx="0" cy="6" r="1.6" fill="#c04020" opacity="0.85"/>
+        </svg>`,
+    },
+
+    fortified_camp: {
+        label: 'Fortified Camp',
+        desc:  'Palisaded military camp — not yet in use',
+        color: '#555',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-11 -13 22 17" width="18" height="18">
+            <line x1="-8" y1="-10" x2="-8" y2="2"  stroke="#777" stroke-width="1"/>
+            <line x1="-4" y1="-10" x2="-4" y2="2"  stroke="#777" stroke-width="1"/>
+            <line x1="0"  y1="-10" x2="0"  y2="2"  stroke="#777" stroke-width="1"/>
+            <line x1="4"  y1="-10" x2="4"  y2="2"  stroke="#777" stroke-width="1"/>
+            <line x1="8"  y1="-10" x2="8"  y2="2"  stroke="#777" stroke-width="1"/>
+            <path d="M -9,-10 L -8,-12 L -7,-10" fill="#777" stroke="none"/>
+            <path d="M -5,-10 L -4,-12 L -3,-10" fill="#777" stroke="none"/>
+            <path d="M -1,-10 L  0,-12 L  1,-10" fill="#777" stroke="none"/>
+            <path d="M  3,-10 L  4,-12 L  5,-10" fill="#777" stroke="none"/>
+            <path d="M  7,-10 L  8,-12 L  9,-10" fill="#777" stroke="none"/>
+            <line x1="-9" y1="-7" x2="9" y2="-7" stroke="#777" stroke-width="0.7"/>
+        </svg>`,
+    },
 
     dungeon: {
         label: 'Dungeon',

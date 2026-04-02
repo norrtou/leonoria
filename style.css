@@ -798,4 +798,18 @@ html, body {
     color: #444;
     line-height: 1.45;
 }
+
+/* Amenities list in the town popup should match popup-fact text styling */
+.popup-amenities {
+    list-style: disc;
+    margin: 0;
+    padding-left: 1.05em; /* align bullets with paragraph text */
+    font-family: inherit;
+    font-size: 12px;
+    color: #444;
+    line-height: 1.45;
+}
+.popup-amenities li {
+    margin: 0 0 4px 0;
+}
 .popup-fact strong { color: #5a4010; }

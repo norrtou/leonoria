@@ -428,7 +428,7 @@
         "seaColor": "#aabbcc",
         "snowPeaks": false
       },
-      "treeStyle": "broadleaf",
+      "treeStyle": "conifer",
       "featureMult": {
         "forest": 0.03,
         "river": 0.5,

@@ -18,7 +18,7 @@ const BIOME_PRESETS = {
     //                           landLow              landMid              landHigh             landMountain                seaColor       snowPeaks  Density
     the_midlands:        { landLow:[96, 154, 42],  landMid:[138,186, 78], landHigh:[168,206,112], landMountain:[180,190,155], seaColor:'#aaccdd', snowPeaks:false, wetlandDensity:0.04 },
     the_sanctuary_lands: { landLow:[50, 108, 45],  landMid:[ 85,148, 80], landHigh:[128,185,110], landMountain:[205,218,198], seaColor:'#88bbcc', snowPeaks:true,  wetlandDensity:0.03 },
-    the_dark_forests:    { landLow:[38,  72, 38],  landMid:[ 62,102, 58], landHigh:[ 98,138, 92], landMountain:[152,160,148], seaColor:'#7799bb', snowPeaks:true,  wetlandDensity:0.12 },
+    the_dark_forests:    { landLow:[50,  68, 52],  landMid:[ 75, 96, 72], landHigh:[110,126,108], landMountain:[152,160,148], seaColor:'#7799bb', snowPeaks:true,  wetlandDensity:0.12 },
     the_eternal_winds:   { landLow:[175,208,228],  landMid:[210,228,242], landHigh:[232,240,248], landMountain:[245,248,252], seaColor:'#4477aa', snowPeaks:true,  wetlandDensity:0.25 },
     the_badlands:        { landLow:[162, 98, 45],  landMid:[190,130, 68], landHigh:[214,165,100], landMountain:[178,148,118], seaColor:'#997755', snowPeaks:false, wetlandDensity:0.00 },
     the_outer_steppes:   { landLow:[145,155, 85],  landMid:[172,178,112], landHigh:[198,200,142], landMountain:[185,182,162], seaColor:'#aabbcc', snowPeaks:false, wetlandDensity:0.01 },
@@ -452,19 +452,34 @@ class FantasyMap {
     // Build a shuffled name pool from one or more _mapData paths, fall back if unavailable
     _pool(paths, fallback) {
         const arr = [];
+        const nameSource = Object.create(null);
         if (_mapData) {
             for (const p of paths) {
                 let node = _mapData;
                 for (const k of p.split('.')) node = node?.[k];
-                if (Array.isArray(node)) arr.push(...node);
+                if (Array.isArray(node)) {
+                    for (const n of node) {
+                        arr.push(n);
+                        try { nameSource[String(n)] = String(p); } catch (e) {}
+                    }
+                }
             }
         }
         const src = arr.length >= 4 ? arr : fallback;
         const out = [...src];
+        // If using fallback, mark sources as fallback for traceability
+        if (arr.length < 4) {
+            for (const n of out) try { nameSource[String(n)] = 'fallback'; } catch (e) {}
+        }
         for (let i = out.length - 1; i > 0; i--) {
             const j = this.ri(0, i);
             [out[i], out[j]] = [out[j], out[i]];
         }
+        // Attach metadata: overall first-path source (best-effort) and a
+        // per-name source map so consumers can determine which pool a
+        // particular name originated from (important for mixed pools).
+        try { out._poolSource = paths && paths.length ? String(paths[0]) : null; } catch (e) { out._poolSource = null; }
+        try { out._nameSourceMap = nameSource; } catch (e) { out._nameSourceMap = {}; }
         return out;
     }
 
@@ -656,7 +671,7 @@ class FantasyMap {
             the_dark_forests:     'conifer',
             the_eternal_winds:    'conifer',
             the_badlands:         'palm',
-            the_outer_steppes:    'broadleaf',
+            the_outer_steppes:    'conifer',
             the_blinding_lands:   'palm',
             the_gleam_havens:     'palm',
             the_boglands:         'swamp',
@@ -709,6 +724,9 @@ class FantasyMap {
         const forestAreas    = this._genForestAreas(forests);
         this.forestAreas     = forestAreas;
         const hills     = this._genHills();
+        // Must be assigned before _genSettlements so inForest() works correctly
+        // for terrain-restricted secondary culture placement.
+        this.forests    = forests;
         const settles   = this._genSettlements(rivers);
         const roads     = this._genRoads(settles);
         this._buildMajorRoadCells(roads);
@@ -717,7 +735,6 @@ class FantasyMap {
         // Expose for legend, saveMapData, and other external consumers
         this.settlements = settles;
         this.landmarks   = landmarks;
-        this.forests     = forests;
         this.rivers      = rivers;
         this.hasRivers   = rivers.length > 0;
         this.lakes       = lakes;
@@ -735,9 +752,11 @@ class FantasyMap {
         this._drawHills(hills);
         this._drawLakes(lakes);
         this._drawForestShade(forests);
-        this._drawForests(forests);
-        if (this.treeStyle === 'conifer' || this.biomeId === 'the_midlands') this._drawBorealMarks(forests);
-        if (this.treeStyle === 'broadleaf' || this.biomeId === 'the_midlands') this._drawBroadleafMarks(forests);
+        if (this.params.showTreeSymbols !== false) {
+            this._drawForests(forests);
+            if (this.treeStyle === 'conifer' || this.biomeId === 'the_midlands') this._drawBorealMarks(forests);
+            if (this.treeStyle === 'broadleaf' || this.biomeId === 'the_midlands') this._drawBroadleafMarks(forests);
+        }
         try { this._drawFarmland(settles, rivers); } catch(e) { console.error('[Leonoria] farmland error:', e); }
         this._drawRivers(rivers);
         this._drawMountainStipple();
@@ -1035,10 +1054,10 @@ class FantasyMap {
             };
             const isSwampBiome = biomeId === 'the_boglands';
 
-            // Two colour passes — dark teal-green and warmer olive — each a single batch stroke
+            // Two colour passes — dark near-black tones with high alpha for contrast
             const REED_PASSES = [
-                { style: '#2e4438', lw: 0.80, alpha: 0.55 },
-                { style: '#3e5030', lw: 0.65, alpha: 0.40 },
+                { style: '#18261c', lw: 0.90, alpha: 0.80 },
+                { style: '#1e2a14', lw: 0.70, alpha: 0.65 },
             ];
 
             for (const pass of REED_PASSES) {
@@ -2196,7 +2215,7 @@ class FantasyMap {
         const treeStyle = this.treeStyle;
 
         // Clearance zones: all settlements get a clear area sized to their icon + label
-        const CLEAR_RADIUS = { city: 44, stronghold: 38, town: 32, port: 32, village: 18, camp: 14, ruin: 14 };
+        const CLEAR_RADIUS = { capital: 55, city: 44, stronghold: 38, port_city: 44, market_town: 36, town: 32, fishing_village: 20, village: 18, camp: 14, ruin: 14, fortified_camp: 20 };
         const clearZones = (this.settlements || [])
             .filter(s => s.type in CLEAR_RADIUS)
             .map(s => {
@@ -2226,7 +2245,11 @@ class FantasyMap {
             }
         }
 
-        const treeDensityMult = this.scale === 1 ? 2.44 : 1.0;
+        const _BIOME_TREE_DENSITY = { the_sanctuary_lands: 0.25, the_dark_forests: 0.5, the_outer_steppes: 1.6 };
+        const treeDensityMult = (this.scale === 1 ? 2.44 : 1.0) * (_BIOME_TREE_DENSITY[this.biomeId] ?? 1.0);
+
+        // ── Pass 1: collect valid tree positions ──────────────────────────────
+        const treeList = [];
         forests.forEach(({ c, r, count, radius }) => {
             const {x: cx, y: cy} = this.hexCenter(c, r);
             const treeCount = Math.round(count * treeDensityMult);
@@ -2235,7 +2258,6 @@ class FantasyMap {
                 const d = Math.sqrt(this._rng()) * radius * this.hexW;
                 const tx = cx + Math.cos(a) * d;
                 const ty = cy + Math.sin(a) * d;
-                // Pixel-to-hex approximation for tree placement check
                 const gc = Math.round((tx / this.hexW) - 0.5), gr = Math.round((ty - this.hexR) / this.rowH);
                 const gc2 = Math.max(0, Math.min(this.COLS-1, gc)), gr2 = Math.max(0, Math.min(this.ROWS-1, gr));
                 const inClearZone = clearZones.some(z => (tx-z.x)*(tx-z.x) + (ty-z.y)*(ty-z.y) < z.r2);
@@ -2248,14 +2270,41 @@ class FantasyMap {
                         if (hm.get(gc2, gr2) - SL > 0.273) style = 'conifer';
                     }
                     const s = (style === 'palm' || style === 'fungal') ? this.r(16, 30) : this.r(9, 18);
-                    if      (style === 'conifer') this._drawConiferTree(ctx, tx, ty, s, biomeId === 'the_eternal_winds');
-                    else if (style === 'palm')    this._drawPalmTree(ctx, tx, ty, s);
-                    else if (style === 'swamp')   this._drawSwampTree(ctx, tx, ty, s);
-                    else if (style === 'fungal')  this._drawFungiTree(ctx, tx, ty, s);
-                    else                          this._drawBroadleafTree(ctx, tx, ty, s);
+                    treeList.push({ tx, ty, style, s });
                 }
             }
         });
+
+        // ── Pass 2: sort north-to-south so southern trees overlap northern ones ─
+        treeList.sort((a, b) => a.ty - b.ty);
+
+        // ── Pass 3: draw — boolean NOT erase before each symbol ──────────────
+        // Matches mountain painter's algorithm: destination-out clears the
+        // current tree's silhouette so no previously drawn tree bleeds through.
+        for (const { tx, ty, style, s } of treeList) {
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.globalAlpha = 1;
+            ctx.beginPath();
+            if (style === 'conifer') {
+                // Erase triangular column matching the three-tier silhouette
+                ctx.moveTo(tx,           ty - s);
+                ctx.lineTo(tx - s * 0.5, ty + s * 0.28);
+                ctx.lineTo(tx + s * 0.5, ty + s * 0.28);
+                ctx.closePath();
+            } else {
+                // Erase bounding ellipse covering canopy + trunk for all other styles
+                ctx.ellipse(tx, ty - s * 0.05, s * 0.48, s * 0.62, 0, 0, Math.PI * 2);
+            }
+            ctx.fill();
+            ctx.restore();
+
+            if      (style === 'conifer') this._drawConiferTree(ctx, tx, ty, s, biomeId === 'the_eternal_winds');
+            else if (style === 'palm')    this._drawPalmTree(ctx, tx, ty, s);
+            else if (style === 'swamp')   this._drawSwampTree(ctx, tx, ty, s);
+            else if (style === 'fungal')  this._drawFungiTree(ctx, tx, ty, s);
+            else                          this._drawBroadleafTree(ctx, tx, ty, s);
+        }
 
         el('image', { href: canvas.toDataURL('image/png'), x: 0, y: 0, width: W, height: H }, gForests);
     }
@@ -3256,7 +3305,7 @@ class FantasyMap {
             // Random-walk perpendicular displacement creates curved, natural chains.
             // Small maps (cols≤80) get a tighter step — fewer cells per cluster
             // means density must be higher to fill the range visually.
-            const SPINE_STEP = (cols <= 80 ? 0.32 : 0.40) / Math.max(1, mountainMult);
+            const SPINE_STEP = (cols <= 80 ? 0.20 : 0.26) / Math.max(1, mountainMult);
             const nSpineSteps = Math.max(2, Math.ceil((tMax - tMin) / SPINE_STEP));
             const dispMax = Math.min(2.8, axRange * 0.38);
             let perpDisp = 0;
@@ -3292,7 +3341,7 @@ class FantasyMap {
                 const pw  = (minor ? 14 + hFrac * 16 : 18 + hFrac * 22) * ss * widthMult;
                 const ph  = (minor ? 17 + hFrac * 20 : 22 + hFrac * 28) * ss;
                 // Exclusion radius — spread peaks enough so they don't pile up
-                const exRFactor = cols <= 80 ? (minor ? 0.36 : 0.30) : (minor ? 0.42 : 0.36);
+                const exRFactor = cols <= 80 ? (minor ? 0.28 : 0.22) : (minor ? 0.32 : 0.26);
                 const exR = pw * exRFactor;
 
                 if (tooClose(px, py, exR)) return;
@@ -3352,11 +3401,11 @@ class FantasyMap {
                     );
                     return { i, perp };
                 })
-                .filter(d => d.perp > 0.8)  // exclude spine area
+                .filter(d => d.perp > 0.5)  // exclude only very close spine cells
                 .sort((a, b) => elevs[b.i] - elevs[a.i]);
 
             for (const { i } of flankOrder) {
-                if (this._rng() > 0.55) continue;   // keep ~55 %
+                if (this._rng() > 0.78) continue;   // keep ~78 %
 
                 const [c, r] = cluster[i];
                 const elev   = elevs[i];
@@ -3373,7 +3422,7 @@ class FantasyMap {
                 const py   = _fpy + this.r(-0.30, 0.30) * ch;
                 const pw   = (14 + hFrac * 16) * ss;
                 const ph   = (17 + hFrac * 20) * ss;
-                const exR  = pw * 0.44;
+                const exR  = pw * 0.30;
 
                 const seed = Math.imul((c * 1013) ^ (r * 2017), 0x9e3779b9) >>> 0;
                 peaks.push({
@@ -3679,7 +3728,17 @@ class FantasyMap {
                 if (placed >= count) break;
                 const {x, y} = this.hexCenter(c, r);
                 if (!tooClose(x, y, minD)) {
-                    settles.push({ type, name: names[placed % names.length], x, y, c, r });
+                    const chosenName = names[placed % names.length];
+                    let cultureTag = null;
+                    try {
+                        // Prefer per-name source mapping when available (handles mixed pools)
+                        const nameMap = names && names._nameSourceMap ? names._nameSourceMap : null;
+                        let src = nameMap && nameMap[chosenName] ? String(nameMap[chosenName]) : (names && names._poolSource ? String(names._poolSource) : null);
+                        // If a name was marked as 'fallback', prefer the pool's declared source
+                        if (src === 'fallback' && names && names._poolSource) src = String(names._poolSource);
+                        if (src) cultureTag = src.split('.')[0];
+                    } catch (e) { cultureTag = null; }
+                    settles.push({ type, name: chosenName, x, y, c, r, culture: cultureTag });
                     placed++;
                 }
             }
@@ -3854,13 +3913,16 @@ class FantasyMap {
         const vp = villagePools[culture] ?? villagePools.midlander;
         const pp = portPools[culture]    ?? portPools.midlander;
 
-        const cityNames    = this._pool([...cp], ['Valdris', 'Sorvane', 'Thelindra', 'Kethara']);
-        const townNames    = this._pool([...tp], ['Duskford', 'Thornwick', 'Greycross', 'Ashbridge']);
-        const portNames    = this._pool([...pp], ['Saltmere', 'Greyharbour', 'The Anchorage', 'Wavebreak', 'Tidehaven']);
-        const villageNames = this._pool([...vp], ['Millbrook', 'Ashford', 'Westhollow', 'Dunmere', 'Coldridge']);
-        const ruinNames    = this._pool(
+        const cityNames        = this._pool([...cp], ['Valdris', 'Sorvane', 'Thelindra', 'Kethara']);
+        const townNames        = this._pool([...tp], ['Duskford', 'Thornwick', 'Greycross', 'Ashbridge']);
+        const portCityNames    = this._pool([...pp], ['Saltmere', 'Greyharbour', 'The Anchorage', 'Wavebreak', 'Tidehaven']);
+        const villageNames     = this._pool([...vp], ['Millbrook', 'Ashford', 'Westhollow', 'Dunmere', 'Coldridge']);
+        const ruinNames        = this._pool(
             ['ruins.standalone_ruins', 'ruins.descriptive_names'],
             ['The Forgotten Keep', 'Old Thorngate', 'Shadowmere', 'Drakenfeld', 'Ironwatch']);
+        const capitalNames     = this._pool([...cp], ['The High Seat', 'Valdris Magna', 'Sorvane', 'Kethara', 'The Crown City', 'Thorngate']);
+        const marketTownNames  = this._pool([...tp], ['Crossmarket', 'Fairhaven', 'The Crossing', 'Marketstead', 'Tradewood', 'Bridgeholm']);
+        const fishingNames     = this._pool([...vp], ['Saltholm', 'Fishwick', 'Tideway', 'Crabstone', 'Anchoridge', 'Nettleshore']);
 
         const sc  = this.scale;
         const ss  = (this.params.settlementScale ?? 1.0) * (this.biomeMult?.settlement ?? 1);
@@ -3868,6 +3930,26 @@ class FantasyMap {
         const plainsMult = this.biomeId === 'the_midlands' ? 2 : 1;
         const sn  = v => Math.max(0, Math.round(v * ss * plainsMult));
         const rn  = v => Math.max(0, Math.round(v * rs));
+
+        // ── Water-proximity set for fishing villages ──────────────────────────
+        const nearWaterSet = new Set();
+        for (let r = 0; r < rows; r++)
+            for (let c = 0; c < cols; c++)
+                if (hm.isCoast(c, r))
+                    for (let dr = -2; dr <= 2; dr++)
+                        for (let dc = -2; dc <= 2; dc++) {
+                            const nc = c+dc, nr = r+dr;
+                            if (nc >= 0 && nc < cols && nr >= 0 && nr < rows)
+                                nearWaterSet.add(`${nc},${nr}`);
+                        }
+        for (const { c: lc, r: lr } of (this.lakes ?? []))
+            for (let dr = -4; dr <= 4; dr++)
+                for (let dc = -4; dc <= 4; dc++) {
+                    const nc = lc+dc, nr = lr+dr;
+                    if (nc >= 0 && nc < cols && nr >= 0 && nr < rows)
+                        nearWaterSet.add(`${nc},${nr}`);
+                }
+        const nearWater = (c, r) => nearWaterSet.has(`${c},${r}`);
 
         // Ravager/dark cultures: strongholds replace cities; camps replace villages
         const strongholdCultures = new Set(['wildmen_ravagers', 'ancients_dark_ones', 'mixed_forgotten_kingdom', 'mixed_wildlands']);
@@ -3881,17 +3963,133 @@ class FantasyMap {
             ? (c, r) => placeable(c, r)
             : (c, r) => placeable(c, r) && nearRiver(c, r);
 
-        tryPlace(cityType,   cityTest,
-            sn(this.ri(2 * sc, 3 * sc)), 150, cityNames);
-        tryPlace('town',     (c, r) => placeable(c, r),
-            sn(this.ri(4 * sc, 6 * sc)), 90, townNames);
-        tryPlace('port',     (c, r) => hm.isCoast(c, r),
-            sn(this.ri(2 * sc, 3 * sc)), 100, portNames);
-        tryPlace(villageType, (c, r) => placeable(c, r),
-            sn(this.ri(14 * sc, 18 * sc)), 55, villageNames);
+        // ── Capital — only one per map, ~55% spawn chance, not for stronghold cultures ──
+        const spawnCapital = this._rng() < 0.55 && !strongholdCultures.has(culture);
+        if (spawnCapital) {
+            const centerC = Math.floor(cols / 2), centerR = Math.floor(rows / 2);
+            const capRadius = Math.min(cols, rows) * 0.52;
+            tryPlace('capital',
+                (c, r) => placeable(c, r) && nearRiver(c, r) && Math.hypot(c - centerC, r - centerR) < capRadius,
+                1, 280, capitalNames);
+        }
+
+        tryPlace(cityType,      cityTest,
+            sn(this.ri(1 * sc, 2 * sc)), 170, cityNames);
+        // Place port cities before market towns so coastal slots are reserved
+        // for true port cities rather than being filled by inland market towns.
+        // Helper: distinguish ocean coasts from lake shores.  `lakeExclSet`
+        // marks cells occupied by lakes; a coast adjacent only to lake cells
+        // should be treated differently (allow fishing villages, not ports).
+        const isOceanCoast = (c, r) => {
+            if (!hm.isCoast(c, r)) return false;
+            const nbrs = (hm._hexNeighbors ? hm._hexNeighbors(c, r) : this._hexNeighbors ? this._hexNeighbors(c, r) : []);
+            for (const [nc, nr] of nbrs) {
+                if (nc < 0 || nc >= cols || nr < 0 || nr >= rows) return true; // map edge = ocean
+                if (hm.isLand(nc, nr)) continue;
+                if (!lakeExclSet.has(`${nc},${nr}`)) return true; // adjacent water that's not part of a lake
+            }
+            return false; // all adjacent water cells (if any) are lake cells
+        };
+
+        tryPlace('port_city',   (c, r) => isOceanCoast(c, r),
+            sn(this.ri(1 * sc, 2 * sc)), 110, portCityNames);
+        // New rule: cap the number of standard market towns by map size.
+        // Small maps (cols ≤ 80): max 5; Large maps: max 7.
+        const baseMaxMarketTowns = (cols <= 80) ? 5 : 7;
+        const marketDesired = sn(this.ri(1 * sc, 2 * sc));
+        const marketCount = Math.max(0, Math.min(baseMaxMarketTowns, marketDesired));
+        tryPlace('market_town', (c, r) => placeable(c, r) && nearRiver(c, r),
+            marketCount, 130, marketTownNames);
+        const townCount = sn(this.ri(3 * sc, 5 * sc));
+        tryPlace('town',        (c, r) => placeable(c, r),
+            townCount, 90, townNames);
+        // Fishing villages: only on ocean coasts or on land cells immediately
+        // adjacent to lake cells. Ports (ocean ports) remain separate.
+        // Increase fishing village attempts so shoreline communities appear more often
+        const fishingCount = sn(this.ri(2 * sc, 4 * sc));
+        // Helper: test whether a cell is adjacent to a lake cell (using lakeExclSet)
+        const isAdjacentToLake = (c, r) => {
+            const nbrs = (hm._hexNeighbors ? hm._hexNeighbors(c, r) : this._hexNeighbors ? this._hexNeighbors(c, r) : []);
+            for (const [nc, nr] of nbrs) {
+                if (nc < 0 || nc >= cols || nr < 0 || nr >= rows) continue;
+                if (!hm.isLand(nc, nr) && lakeExclSet.has(`${nc},${nr}`)) return true;
+            }
+            return false;
+        };
+        // Allow fishing villages only on ocean coast cells or on flat land adjacent to lakes
+        tryPlace('fishing_village', (c, r) => isOceanCoast(c, r) || (flat(c, r) && isAdjacentToLake(c, r)),
+            fishingCount, 65, fishingNames);
+
+        // Reduce village density in the midlands by 50% (was too many)
+        let villageCount = sn(this.ri(12 * sc, 16 * sc));
+        if (this.biomeId === 'the_midlands') villageCount = Math.max(0, Math.round(villageCount * 0.5));
+        // Villages must never be inside a lake or adjacent to one.
+        tryPlace(villageType,   (c, r) => placeable(c, r) && !lakeExclSet.has(`${c},${r}`) && !isAdjacentToLake(c, r),
+            villageCount, 55, villageNames);
         tryPlace('ruin',
             (c, r) => hm.isMountain(c, r) || (flat(c, r) && !nearRiver(c, r)),
             rn(this.ri(2 * sc, 3 * sc)), 110, ruinNames);
+
+        // ── Secondary cultures — rank-based proportional distribution ────────────
+        // Cultures are listed in rank order in BIOME_CULTURES (rank 1 = dominant,
+        // already handled above). For biomes with > 2 cultures, counts scale
+        // Secondary cultures: each rank halves the previous.
+        // Rank 2 = 50% of dominant village count, rank 3 = 25%, rank 4 = 12%, etc.
+        // Minimum 1 settlement per culture always guaranteed.
+        const allBiomeCultures = (this.params?.allCultures ?? []).filter(c => c.value !== culture);
+        const totalCultures    = (this.params?.allCultures ?? []).length;
+        const useProportional  = totalCultures > 2;
+
+        // HALVING_MULTS: rank 2 = idx 0, rank 3 = idx 1, etc.
+        const HALVING_MULTS = [0.50, 0.25, 0.125, 0.0625, 0.03125, 0.015625];
+
+        for (let mcIdx = 0; mcIdx < allBiomeCultures.length; mcIdx++) {
+            const mc = allBiomeCultures[mcIdx];
+            const mv = mc.value;
+
+            const isRavagerCulture = strongholdCultures.has(mv);
+            const isCampCulture    = campCultures.has(mv);
+            const secVillageType   = isRavagerCulture || isCampCulture ? 'camp' : 'village';
+
+            let terrainFilter;
+            if      (mv === 'wildmen_foresters' || mv === 'oakpeople') terrainFilter = (c, r) => flat(c, r) && inForest(c, r);
+            else if (mv === 'swampbrood')                              terrainFilter = (c, r) => flat(c, r) && inSwamp(c, r);
+            else if (mv === 'stone_folk')                              terrainFilter = (c, r) => mtn(c, r);
+            else                                                       terrainFilter = (c, r) => placeable(c, r);
+
+            const svp       = villagePools[mv] ?? villagePools.midlander;
+            const villNames = this._pool([...svp], ['Millbrook', 'Ashford', 'Westhollow', 'Dunmere', 'Coldridge']);
+
+            if (useProportional) {
+                const mult = HALVING_MULTS[Math.min(mcIdx, HALVING_MULTS.length - 1)];
+
+                // Rank 2 only: one chance at a city / stronghold
+                if (mcIdx === 0) {
+                    const secCityType = isRavagerCulture ? 'stronghold' : 'city';
+                    const scp     = cityPools[mv] ?? cityPools.midlander;
+                    const cityNms = this._pool([...scp], ['Valdris', 'Sorvane', 'Thelindra', 'Kethara']);
+                    const cityTest2 = (c, r) => (mv === 'stone_folk' ? mtn(c, r) : placeable(c, r) && nearRiver(c, r));
+                    tryPlace(secCityType, cityTest2, sn(this.ri(0, 1 * sc)), 200, cityNms);
+                }
+
+                // Towns for ranks 2–4 — proportional to dominant town count
+                if (mcIdx <= 2) {
+                    const stp      = townPools[mv] ?? townPools.midlander;
+                    const twnNames = this._pool([...stp], ['Duskford', 'Thornwick', 'Greycross', 'Ashbridge']);
+                    const twnCount = Math.max(0, Math.round(townCount * mult));
+                    if (twnCount > 0) tryPlace('town', terrainFilter, twnCount, 100, twnNames);
+                }
+
+                // All ranks: villages / camps — proportional to dominant village count, min 1
+                const villCount = Math.max(1, Math.round(villageCount * mult));
+                tryPlace(secVillageType, terrainFilter, villCount, 60, villNames);
+
+            } else {
+                // Two-culture biome: flat count, minimum 1
+                tryPlace(secVillageType, terrainFilter,
+                    Math.max(1, sn(this.ri(1 * sc, 3 * sc))), 65, villNames);
+            }
+        }
 
         // ── Mixed-culture terrain-specific sub-placements ─────────────────────
 
@@ -3958,52 +4156,59 @@ class FantasyMap {
 
     _drawSettlements(settles) {
         settles.forEach(loc => {
-            const g = el('g', {
-                'data-name': loc.name, 'data-type': loc.type,
-                style: 'cursor:pointer'
-            }, this.gIcons);
-            g.addEventListener('mouseenter', () => { g.style.opacity = '0.65'; });
-            g.addEventListener('mouseleave', () => { g.style.opacity = '1'; });
-            g.addEventListener('click', () => {
-                const popupBiomes = ['the_midlands'];
-                const popupTypes  = ['town', 'city', 'village', 'ruin'];
-                if (popupTypes.includes(loc.type) && popupBiomes.includes(this.biomeId) && typeof window.showTownPopup === 'function') {
-                    window.showTownPopup(loc.name, this.biomeId, loc.type);
-                } else {
-                    console.log('[Leonoria]', loc.type, ':', loc.name);
-                }
-            });
+            const isCapital  = loc.type === 'capital';
+            const isSmall    = ['village','fishing_village','camp'].includes(loc.type);
+            const isMajor    = ['capital','city','stronghold','port_city','market_town','town'].includes(loc.type);
+            const fontSize   = isCapital ? 13 : ['city','stronghold','port_city'].includes(loc.type) ? 11 : isSmall ? 7.5 : 9;
+            const bold       = isCapital || ['city','stronghold','port_city'].includes(loc.type);
+            const ly         = loc.y + (isCapital ? 32 : ['city','stronghold','port_city'].includes(loc.type) ? 24 : ['market_town','town'].includes(loc.type) ? 18 : loc.type === 'fishing_village' ? 14 : isSmall ? 12 : 18);
 
-            if      (loc.type === 'city')       this._iconCity(g, loc.x, loc.y);
-            else if (loc.type === 'stronghold') this._iconStronghold(g, loc.x, loc.y);
-            else if (loc.type === 'town')       this._iconTown(g, loc.x, loc.y);
-            else if (loc.type === 'port')       this._iconPort(g, loc.x, loc.y);
-            else if (loc.type === 'village')    this._iconVillage(g, loc.x, loc.y);
-            else if (loc.type === 'camp')       this._iconCamp(g, loc.x, loc.y);
-            else                                this._iconRuin(g, loc.x, loc.y);
-
-            const isSmall = loc.type === 'village' || loc.type === 'camp';
-            const isMajor = ['city','stronghold','town','port'].includes(loc.type);
-            const fontSize = ['city','stronghold'].includes(loc.type) ? 11 : isSmall ? 7.5 : 9;
-            const bold = ['city','stronghold'].includes(loc.type);
-            const ly = loc.y + (['city','stronghold'].includes(loc.type) ? 24 : loc.type === 'port' ? 21 : isSmall ? 12 : 18);
-
+            // Compute label bounding box first and skip drawing both label and icon
+            // if it would overlap — this prevents icons from being added to the DOM
+            // when their labels are suppressed.
             if (isMajor) {
-                // Measure text width via canvas for accurate sizing
                 const _mc = document.createElement('canvas').getContext('2d');
                 _mc.font = `${bold ? 'bold ' : ''}${fontSize}px 'IM Fell English',Georgia,serif`;
                 const tw = _mc.measureText(loc.name).width;
-
                 const padX = 8, padY = 3.5;
                 const bw = tw + padX * 2, bh = fontSize + padY * 2;
                 const bx = loc.x - bw / 2, by = ly - fontSize - padY;
                 const midY = by + bh / 2;
-                const f2 = n => n.toFixed(2);
-
                 const nameBBox = { cx: loc.x, cy: midY, x: bx, y: by, w: bw, h: bh };
                 if (this._labelOverlaps(nameBBox, 3)) return;
                 (this._labelRegistry ??= []).push(nameBBox);
 
+                // Only create the icon group after the label check passes
+                const g = el('g', {
+                    'data-name': loc.name, 'data-type': loc.type,
+                    style: 'cursor:pointer'
+                }, this.gIcons);
+                g.addEventListener('mouseenter', () => { g.style.opacity = '0.65'; });
+                g.addEventListener('mouseleave', () => { g.style.opacity = '1'; });
+                g.addEventListener('click', () => {
+                    const popupTypes  = ['capital','city','port_city','port','market_town','town','fishing_village','village','ruin'];
+                    if (popupTypes.includes(loc.type) && typeof window.showTownPopup === 'function') {
+                        window.showTownPopup(loc.name, this.biomeId, loc.type, loc.culture || null);
+                    } else {
+                        console.log('[Leonoria]', loc.type, ':', loc.name);
+                    }
+                });
+
+                const _tint = FantasyMap._cultureTints()[this._cultureRank(loc.culture)] ?? null;
+                if      (loc.type === 'capital')         this._iconCapital(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'city')            this._iconCity(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'stronghold')      this._iconStronghold(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'port_city')       this._iconPortCity(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'market_town')     this._iconMarketTown(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'town')            this._iconTown(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'fishing_village') this._iconFishingVillage(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'village')         this._iconVillage(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'camp')            this._iconCamp(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'fortified_camp')  this._iconFortifiedCamp(g, loc.x, loc.y);
+                else if (loc.type === 'port')            this._iconPort(g, loc.x, loc.y); // legacy fallback
+                else                                     this._iconRuin(g, loc.x, loc.y);
+
+                const f2 = n => n.toFixed(2);
                 const ng = el('g', { filter: 'url(#nps)' }, this.gLabels);
 
                 // Parchment fill + outer border
@@ -4046,12 +4251,45 @@ class FantasyMap {
                 const smallBBox = this._labelBBox(loc.x, ly, loc.name, fontSize, 0);
                 if (this._labelOverlaps(smallBBox, 3)) return;
                 (this._labelRegistry ??= []).push(smallBBox);
+
+                const g = el('g', {
+                    'data-name': loc.name, 'data-type': loc.type,
+                    style: 'cursor:pointer'
+                }, this.gIcons);
+                g.addEventListener('mouseenter', () => { g.style.opacity = '0.65'; });
+                g.addEventListener('mouseleave', () => { g.style.opacity = '1'; });
+                g.addEventListener('click', () => {
+                    const popupTypes  = ['capital','city','port_city','port','market_town','town','fishing_village','village','ruin'];
+                    if (popupTypes.includes(loc.type) && typeof window.showTownPopup === 'function') {
+                        window.showTownPopup(loc.name, this.biomeId, loc.type, loc.culture || null);
+                    } else {
+                        console.log('[Leonoria]', loc.type, ':', loc.name);
+                    }
+                });
+
+                const _tint = FantasyMap._cultureTints()[this._cultureRank(loc.culture)] ?? null;
+                if      (loc.type === 'capital')         this._iconCapital(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'city')            this._iconCity(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'stronghold')      this._iconStronghold(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'port_city')       this._iconPortCity(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'market_town')     this._iconMarketTown(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'town')            this._iconTown(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'fishing_village') this._iconFishingVillage(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'village')         this._iconVillage(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'camp')            this._iconCamp(g, loc.x, loc.y, _tint);
+                else if (loc.type === 'fortified_camp')  this._iconFortifiedCamp(g, loc.x, loc.y);
+                else if (loc.type === 'port')            this._iconPort(g, loc.x, loc.y); // legacy fallback
+                else                                     this._iconRuin(g, loc.x, loc.y);
+
                 el('text', {
                     x: loc.x, y: ly,
                     'text-anchor': 'middle', 'font-family': "'IM Fell English',Georgia,serif",
                     'font-size': String(fontSize),
                     'font-style': loc.type === 'ruin' ? 'italic' : 'normal',
-                    fill: isSmall ? '#444' : '#111', filter: 'url(#sk)'
+                    fill: '#111',
+                    stroke: 'rgba(255,255,255,0.36)', 'stroke-width': '2.8',
+                    'stroke-linejoin': 'round', 'paint-order': 'stroke',
+                    filter: 'url(#sk)'
                 }, this.gLabels).textContent = loc.name;
             }
         });
@@ -4281,7 +4519,15 @@ class FantasyMap {
                 });
             }
             pts.push({ x: b.x, y: b.y });
-            return catmullPath(pts);
+            // Use straight-line segments between sampled hex centres to ensure
+            // roads do not visually bulge over adjacent water cells. Catmull
+            // splines can arc outside the polygon formed by centres and may
+            // cross lakes; straight segments keep the path within cells.
+            if (pts.length < 2) return null;
+            const f = n => n.toFixed(1);
+            let d = `M ${f(pts[0].x)} ${f(pts[0].y)}`;
+            for (let i = 1; i < pts.length; i++) d += ` L ${f(pts[i].x)} ${f(pts[i].y)}`;
+            return d;
         };
 
         // Draw in layers: trails → roads → major (so major renders on top)
@@ -4378,9 +4624,50 @@ class FantasyMap {
         });
     }
 
+    // ── Culture tint helpers ──────────────────────────────────────────────────
+    // Returns tint colors indexed by culture rank within BIOME_CULTURES.cultures.
+    // Rank 0 = dominant (null = no tint). Subsequent ranks apply a pale hue blend.
+    static _cultureTints() {
+        // Rank 0 = dominant: no tint (null).
+        // Ranks 1–5 use saturated targets; _blendFill pulls the parchment fill
+        // toward these at 0.55 strength so the result is clearly visible but
+        // still reads as a pale map symbol.
+        //   1 → warm ochre/gold (beige)
+        //   2 → mid blue
+        //   3 → mid red
+        //   4 → mid green
+        //   5 → orange
+        return [null, '#b08828', '#3868b8', '#b83030', '#388038', '#b86818'];
+    }
+
+    // Blend a hex fill toward a tint color by `strength` (0–1).
+    static _blendFill(base, tint, strength = 0.55) {
+        const h = s => [parseInt(s.slice(1,3),16), parseInt(s.slice(3,5),16), parseInt(s.slice(5,7),16)];
+        const [br,bg,bb] = h(base), [tr,tg,tb] = h(tint);
+        const r = Math.round(br + (tr-br)*strength);
+        const g2= Math.round(bg + (tg-bg)*strength);
+        const b = Math.round(bb + (tb-bb)*strength);
+        return `rgb(${r},${g2},${b})`;
+    }
+
+    // Compute culture rank (index in allCultures) for a settlement culture tag.
+    _cultureRank(cultureTag) {
+        if (!cultureTag) return 0;
+        const all = this.params?.allCultures ?? [];
+        if (!all.length) return 0;
+        const token = String(cultureTag).replace(/_settlements$/i,'').toLowerCase();
+        const idx = all.findIndex(c => {
+            const cv = String(c.value).toLowerCase();
+            return cv === token || cv.includes(token) || token.includes(cv);
+        });
+        return idx >= 0 ? idx : 0;
+    }
+
     // ── Location icons ────────────────────────────────────────────────────────
-    _iconCity(g, x, y) {
-        const f = '#e4dece', s = '#111', sw = '1.1';
+    _iconCity(g, x, y, tint) {
+        const base = '#e4dece';
+        const f = tint ? FantasyMap._blendFill(base, tint) : base;
+        const s = '#111', sw = '1.1';
         el('rect', { x:x-13, y:y-19, width:9,  height:12, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
         el('rect', { x:x+4,  y:y-19, width:9,  height:12, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
         el('rect', { x:x-10, y:y-10, width:20, height:13, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
@@ -4396,8 +4683,10 @@ class FantasyMap {
         }, g);
     }
 
-    _iconTown(g, x, y) {
-        const f = '#eae4d4', s = '#222', sw = '1';
+    _iconTown(g, x, y, tint) {
+        const base = '#eae4d4';
+        const f = tint ? FantasyMap._blendFill(base, tint) : base;
+        const s = '#222', sw = '1';
         el('rect', { x:x-7, y:y-5, width:14, height:9, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
         el('path', {
             d: `M ${x-9} ${y-5} L ${x} ${y-15} L ${x+9} ${y-5}`,
@@ -4435,8 +4724,10 @@ class FantasyMap {
         );
     }
 
-    _iconVillage(g, x, y) {
-        const f = '#e8e0cc', s = '#444', sw = '0.7';
+    _iconVillage(g, x, y, tint) {
+        const base = '#e8e0cc';
+        const f = tint ? FantasyMap._blendFill(base, tint) : base;
+        const s = '#444', sw = '0.7';
         el('rect', { x:x-3.5, y:y-2, width:7, height:5, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
         el('path', {
             d: `M ${x-5} ${y-2} L ${x} ${y-8} L ${x+5} ${y-2}`,
@@ -4444,9 +4735,11 @@ class FantasyMap {
         }, g);
     }
 
-    _iconStronghold(g, x, y) {
+    _iconStronghold(g, x, y, tint) {
         // Heavy orc fortress: wide battlement block, angular silhouette
-        const f = '#d8c8a8', s = '#1a1410', sw = '1.2';
+        const base = '#d8c8a8';
+        const f = tint ? FantasyMap._blendFill(base, tint) : base;
+        const s = '#1a1410', sw = '1.2';
         el('rect', { x:x-14, y:y-14, width:28, height:16, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
         // Battlements — wide, jagged
         for (let i = 0; i < 5; i++) {
@@ -4461,15 +4754,122 @@ class FantasyMap {
         el('circle', { cx:x, cy:y-12, r:'2', fill:'none', stroke:'#888', 'stroke-width':'0.6' }, g);
     }
 
-    _iconCamp(g, x, y) {
+    _iconCamp(g, x, y, tint) {
         // Orc camp: tent + fire symbol
         const s = '#443020', sw = '0.7';
+        const base = '#c4a870';
+        const tentFill = tint ? FantasyMap._blendFill(base, tint) : base;
         el('path', {
             d: `M ${x-6} ${y+3} L ${x} ${y-7} L ${x+6} ${y+3} Z`,
-            fill: '#c4a870', stroke: s, 'stroke-width': sw, filter: 'url(#sk)'
+            fill: tentFill, stroke: s, 'stroke-width': sw, filter: 'url(#sk)'
         }, g);
         // Fire dot
         el('circle', { cx:x, cy:y+5, r:'1.6', fill:'#c04020', opacity:'0.8' }, g);
+    }
+
+    _iconFishingVillage(g, x, y, tint) {
+        const base = '#e8e0cc';
+        const f = tint ? FantasyMap._blendFill(base, tint) : base;
+        const s = '#444', sw = '0.7';
+        el('rect', { x:x-3.5, y:y-2, width:7, height:5, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
+        el('path', { d:`M ${x-5} ${y-2} L ${x} ${y-8} L ${x+5} ${y-2}`, fill:f, stroke:s, 'stroke-width':sw, 'stroke-linejoin':'round', filter:'url(#sk)' }, g);
+        // Wave marks below — indicate waterside location
+        el('path', { d:`M ${x-6} ${y+5} Q ${x-4} ${y+3} ${x-2} ${y+5} Q ${x} ${y+7} ${x+2} ${y+5} Q ${x+4} ${y+3} ${x+6} ${y+5}`, fill:'none', stroke:'#1a3a5a', 'stroke-width':'0.9', 'stroke-linecap':'round' }, g);
+    }
+
+    _iconMarketTown(g, x, y, tint) {
+        // Slightly wider than town with a cross on the spire (market towns historically centred on church/market cross)
+        const base = '#e8dfc8';
+        const f = tint ? FantasyMap._blendFill(base, tint) : base;
+        const s = '#222', sw = '1';
+        el('rect', { x:x-8, y:y-5, width:16, height:9, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
+        el('path', { d:`M ${x-10} ${y-5} L ${x} ${y-16} L ${x+10} ${y-5}`, fill:f, stroke:s, 'stroke-width':sw, 'stroke-linejoin':'round', filter:'url(#sk)' }, g);
+        // Door
+        el('rect', { x:x-2, y:y-1, width:4, height:5, fill:'#555' }, g);
+        // Two side windows
+        el('rect', { x:x-6.5, y:y-3, width:2.5, height:2.5, fill:'#888' }, g);
+        el('rect', { x:x+4,   y:y-3, width:2.5, height:2.5, fill:'#888' }, g);
+        // Market cross on spire
+        el('line', { x1:x-2.5, y1:y-13, x2:x+2.5, y2:y-13, stroke:s, 'stroke-width':'1' }, g);
+    }
+
+    _iconPortCity(g, x, y, tint) {
+        // Left: fortified city walls — Right: ship mast and sail
+        const base = '#e0dace';
+        const f = tint ? FantasyMap._blendFill(base, tint) : base;
+        const s = '#0a0a18', sw = '1.1';
+        // Left tower + connecting wall
+        el('rect', { x:x-14, y:y-19, width:9,  height:11, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
+        el('rect', { x:x-5,  y:y-10, width:10, height:12, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
+        // Battlements on left tower
+        for (let i = 0; i < 3; i++) el('rect', { x:x-14+i*3.2, y:y-22, width:2.2, height:4, fill:s }, g);
+        // Gate arch
+        el('path', { d:`M ${x-3} ${y+2} L ${x-3} ${y-2} Q ${x-0.5} ${y-7} ${x+2} ${y-2} L ${x+2} ${y+2} Z`, fill:'#3a3828', stroke:s, 'stroke-width':'0.5' }, g);
+        // Ship mast (right side)
+        const mc = '#1a3a5a';
+        el('line', { x1:x+8, y1:y-18, x2:x+8,  y2:y+2,   stroke:mc, 'stroke-width':'1.2' }, g);
+        el('line', { x1:x+6, y1:y-15, x2:x+13, y2:y-15,  stroke:mc, 'stroke-width':'1' }, g);
+        el('path', { d:`M ${x+8} ${y-14} L ${x+13} ${y-10} L ${x+8} ${y-6} Z`, fill:'#d8eaf0', stroke:mc, 'stroke-width':'0.6' }, g);
+        // Waterline
+        el('path', { d:`M ${x+3} ${y+4} Q ${x+7} ${y+2} ${x+11} ${y+4} Q ${x+15} ${y+6} ${x+16} ${y+4}`, fill:'none', stroke:'#4a7a9a', 'stroke-width':'0.9', 'stroke-linecap':'round' }, g);
+    }
+
+    _iconCapital(g, x, y, tint) {
+        // Three-tower castle with gold crown — largest, most majestic icon
+        const base = '#f0e8d0';
+        const f = tint ? FantasyMap._blendFill(base, tint) : base;
+        const s = '#0a0808', sw = '1.2';
+        // Left tower
+        el('rect', { x:x-18, y:y-22, width:10, height:14, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
+        // Right tower
+        el('rect', { x:x+8,  y:y-22, width:10, height:14, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
+        // Central keep (tallest)
+        el('rect', { x:x-8,  y:y-26, width:16, height:18, fill:f, stroke:s, 'stroke-width':sw, filter:'url(#sk)' }, g);
+        // Battlements — left tower
+        for (let i = 0; i < 3; i++) el('rect', { x:x-18+i*3.5, y:y-26, width:2.2, height:5, fill:s }, g);
+        // Battlements — right tower
+        for (let i = 0; i < 3; i++) el('rect', { x:x+8+i*3.5,  y:y-26, width:2.2, height:5, fill:s }, g);
+        // Crown — gold, three points, sits on top of central keep
+        el('path', {
+            d: `M ${x-8} ${y-26} L ${x-8} ${y-28} L ${x-5} ${y-33} L ${x-2.5} ${y-28.5} L ${x} ${y-35} L ${x+2.5} ${y-28.5} L ${x+5} ${y-33} L ${x+8} ${y-28} L ${x+8} ${y-26} Z`,
+            fill: '#c8a020', stroke: '#8a6010', 'stroke-width': '0.9', filter: 'url(#sk)'
+        }, g);
+        // Crown gems (three dots)
+        el('circle', { cx:x-5,   cy:y-31, r:'1',   fill:'#e8c840' }, g);
+        el('circle', { cx:x,     cy:y-33, r:'1.2', fill:'#e8c840' }, g);
+        el('circle', { cx:x+5,   cy:y-31, r:'1',   fill:'#e8c840' }, g);
+        // Gate arch
+        el('path', {
+            d: `M ${x-4} ${y+3} L ${x-4} ${y-3} Q ${x} ${y-9} ${x+4} ${y-3} L ${x+4} ${y+3} Z`,
+            fill: '#3a2818', stroke: s, 'stroke-width': '0.5'
+        }, g);
+    }
+
+    _iconFortifiedCamp(g, x, y) {
+        // Placeholder — not yet in use. Palisade stakes silhouette.
+        const s = '#777';
+        for (let i = -2; i <= 2; i++) {
+            el('line',   { x1:x+i*4, y1:y-8, x2:x+i*4, y2:y+2, stroke:s, 'stroke-width':'1' }, g);
+            el('path',   { d:`M ${x+i*4-1.2} ${y-8} L ${x+i*4} ${y-11} L ${x+i*4+1.2} ${y-8}`, fill:s, stroke:'none' }, g);
+        }
+        el('line', { x1:x-9, y1:y-6, x2:x+9, y2:y-6, stroke:s, 'stroke-width':'0.7' }, g);
+    }
+
+    // ── Settlement amenities — placeholder data, full implementation coming later ─
+    static _settlementAmenities(type) {
+        const DATA = {
+            village:          { inns: [{ quality: 'modest' }],    traders: 1,  healers: 0, guards: false, temple: false, port: false, castle: false },
+            fishing_village:  { inns: [{ quality: 'modest' }],    traders: 1,  healers: 0, guards: false, temple: false, port: true,  castle: false },
+            town:             { inns: [{ quality: 'modest' }, { quality: 'comfortable' }], traders: 2, healers: 0, guards: false, temple: false, port: false, castle: false },
+            market_town:      { inns: [{ quality: 'comfortable' }, { quality: 'modest' }], traders: 4, healers: 0, guards: false, temple: false, port: false, castle: false },
+            city:             { inns: [{ quality: 'fine' }, { quality: 'comfortable' }, { quality: 'modest' }], traders: 7, healers: 1, guards: true, temple: false, port: false, castle: false, walls: 'stone' },
+            port_city:        { inns: [{ quality: 'fine' }, { quality: 'comfortable' }, { quality: 'modest' }], traders: 7, healers: 1, guards: true, temple: false, port: true,  castle: false, walls: 'stone' },
+            capital:          { inns: [{ quality: 'grand' }, { quality: 'fine' }, { quality: 'comfortable' }, { quality: 'comfortable' }, { quality: 'modest' }], traders: 10, healers: 2, guards: true, temple: true, port: false, castle: true, walls: 'stone', royalCourt: true },
+            stronghold:       { inns: [], traders: 1, healers: 0, guards: true, temple: false, port: false, castle: false, walls: 'wood' },
+            camp:             { inns: [], traders: 0, healers: 0, guards: false, temple: false, port: false, castle: false },
+            fortified_camp:   { inns: [], traders: 0, healers: 0, guards: false, temple: false, port: false, castle: false }, // placeholder
+        };
+        return DATA[type] ?? {};
     }
 
     // ── Landmarks ─────────────────────────────────────────────────────────────
