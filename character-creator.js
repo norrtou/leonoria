@@ -29,6 +29,7 @@ const BASE_APTITUDE  = 30;   // default starting value for each aptitude
 const ALLOC_BUDGET   = 20;   // extra points to distribute in point-allocation mode
 const ALLOC_MIN      = 10;
 const ALLOC_MAX      = 75;
+const MAX_LEVEL      = 30;   // maximum character level
 
 const TAB_ORDER = ['identity', 'attributes', 'skills', 'equipment', 'abilities'];
 
@@ -1364,8 +1365,8 @@ function showViewSheet(char, origin = 'create') {
     setRowTip('vs-class',      clsData  ? `${clsData.name} — ${clsData.archetype}\n${clsData.description}` : null);
     setRowTip('vs-background', bgData   ? `${bgData.name}\n${bgData.description}\n\n"${bgData.flavor_trait}"` : null);
     setRowTip('vs-alignment',  signData ? `${signData.name} (${signData.alignment})\n${signData.description}\n\nPerk — ${signData.perk.name}: ${signData.perk.effect}\nConflict — ${signData.conflict.name}: ${signData.conflict.effect}` : null);
-    setRowTip('vs-level',      null);
-    $('vs-level').textContent      = char.level      || 1;
+    setRowTip('vs-level',      `Maximum level: ${MAX_LEVEL}`);
+    $('vs-level').textContent      = `${char.level || 1} / ${MAX_LEVEL}`;
     const vsPortrait = $('vs-portrait-img');
     if (vsPortrait) {
         vsPortrait.src = portraitSrc;
