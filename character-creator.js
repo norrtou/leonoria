@@ -1095,6 +1095,11 @@ function updateBgDetail(bg) {
         return;
     }
 
+    // Background name heading
+    const bgName = el('div', 'bg-detail-name');
+    bgName.textContent = bg.name || 'Unknown Background';
+    d.appendChild(bgName);
+
     // Flavor quote
     if (bg.flavor_trait) {
         const q = el('div', 'bg-flavor-quote');
