@@ -35,17 +35,17 @@ const TAB_ORDER = ['identity', 'attributes', 'skills', 'equipment', 'abilities']
 // ─── Aptitude descriptions (tooltip) ──────────────────────────────────────────
 const APTITUDE_DESC = {
     conviction:
-        'Mental and spiritual strength. Governs willpower, faith, resilience against dark forces, and the ability to sustain magical effort. Sub-traits: Tenacity, Resonance, Openness (fixed at creation).',
+        'CONVICTION — Mental & Spiritual Strength\nYour willpower, resilience, and connection to faith.\n\n▸ CONTROLS:\n  • Initiative order (higher = faster)\n  • Maximum dice roll outcomes (your ceiling for rolls)\n  • Resistance to fear, curses, morale shocks\n  • Maximum Stamina cost you can push through\n\n▸ SUB-TRAITS:\n  • Tenacity: Push past death, resist breaking\n  • Resonance: Team loyalty & faith effectiveness\n  • Openness: Receptivity to foreign magic (fixed)\n\n▸ BREAKING POINTS:\n  At 25: Can attempt fear saves\n  At 50: +1 initiative position\n  At 75: Dice ceiling raised to 90%\n  At 100: Once/battle, block any Conviction effect\n\n▸ STARTING RANGE: 20–60 | MAX: 100',
     physiology:
-        'Physical body and durability. Governs Vitality (HP), physical Hardening (resistances), Vigor (raw strength), and Metabolism (stamina).',
+        'PHYSIOLOGY — Physical Body & Durability\nYour health, strength, endurance, and resistance.\n\n▸ CONTROLS:\n  • Vitality (HP) = 40 + (Physiology × 0.6)\n  • Hardening resistances (Physical, Magical, Poison)\n  • Vigor: Carry capacity & melee damage (peaks at 50)\n  • Metabolism: Movement & action stamina pool\n\n▸ RESISTANCES:\n  Max hardening per type: 50%\n  Gain ~5% resistance per 100 hits of that type\n\n▸ BREAKING POINTS:\n  At 30: Equip medium armor\n  At 50: Heavy armor available, +3 hardening\n  At 70: Vigor cap 80, heavy weapons free\n  At 100: Stone Body—reduce all physical by 10%\n\n▸ STARTING RANGE: 20–60 | MAX: 100',
     cognition:
-        'Mental acuity and life experience. Governs Erudition, Ingenuity, Worldliness, Perception, and Intelligence (fixed). Grows with age indefinitely.',
+        'COGNITION — Mental Acuity & Experience\nYour knowledge, creativity, perception, and street smarts.\n\n▸ CONTROLS:\n  • Erudition: Learn spells, absorb knowledge faster\n  • Ingenuity: Crafting & magical item creation\n  • Worldliness: Lockpicking, reading people, survival\n  • Perception: Detect danger, notice hidden details\n  • Intelligence: +0.5% to all non-physical skill rolls (fixed)\n\n▸ UNIQUE:\n  Grows naturally with age regardless of use\n  Never declines with age (unlike Physiology)\n\n▸ BREAKING POINTS:\n  At 30: Read advanced Materium texts alone\n  At 50: +5 to new skill starting values\n  At 70: +10% danger detection permanently\n  At 100: All Cognition skill learning +20%\n\n▸ STARTING RANGE: 15–55 | MAX: 100',
     materium_affinity:
-        'Attunement to the world\'s magical energy. Governs Conduit Grade, Shadow Connection, and magic Insulation. Distinct from the Materium pool resource which is depleted by spellcasting.',
+        'MATERIUM AFFINITY — Magical Attunement\nYour capacity to channel and control magical energy.\n\n▸ CONTROLS:\n  • Conduit Grade: Max spell power (race/class set)\n  • Shadow Connection: Dark arts pool (separate from Materium)\n  • Insulation: Magic resistance vs all schools\n  • Materium Pool Size: More Affinity = larger pool\n\n▸ IMPORTANT NOTES:\n  Distinct from Materium Pool resource\n  Pool depletes when casting, pool is what you spend\n  Affinity is your capacity, determines max pool\n  High Vigor above 60 reduces Conduit Grade (−1 per 10)\n\n▸ BREAKING POINTS:\n  At 20: Access second Materium school\n  At 40: Pool +15%, school mastery available\n  At 60: Shadow & Materium regen together\n  At 80: Elemental synergies at 50% bonus\n  At 100: Living Conduit—+5% pool regen/turn in combat\n\n▸ STARTING RANGE: 5–45 | MAX: 100',
     martial_experience:
-        'Combat training, reflexes, and weapon mastery. Governs Agilities (dodge/reflex) and Weapon Affinities. Increases faster with use than other aptitudes.',
+        'MARTIAL EXPERIENCE — Combat Skill\nYour training, reflexes, technique, and weapon mastery.\n\n▸ CONTROLS:\n  • Agilities: Dodge, reflex, crit strikes\n  • Weapon Affinities: Master each weapon type (1–100)\n  • Physical damage bonus: floor(Martial / 10)%\n  • Initiative bonus at 50+\n\n▸ LEVELING:\n  Fastest-growing aptitude\n  But: Veterans face diminishing returns\n  After 50 battles: −50% exp per battle\n  After 150 battles: −75% exp per battle\n\n▸ BREAKING POINTS:\n  At 20: Any weapon equippable\n  At 40: +5% physical damage, passive dodge\n  At 60: Combat Memory—reroll 1 failed attack/battle\n  At 80: +10% physical damage, crit +5%\n  At 100: Veteran\'s Edge—new heroes start weapons at 11\n\n▸ STARTING RANGE: 5–45 | MAX: 100',
     presence:
-        'Force of personality and social command. Governs Gravitas (authority) and Eloquence (persuasion). Filtered by the Openness sub-trait of Conviction.',
+        'PRESENCE — Force of Personality\nHow the world perceives you. Your authority, charm, and social weight.\n\n▸ CONTROLS:\n  • Gravitas: Passive projection (fear or magnetism)\n  • Eloquence: Active persuasion & negotiation\n  • Social impact based on Openness filter\n  • Reputation spread\n\n▸ FILTERED BY OPENNESS:\n  Low Openness + High Presence = Domination (fear)\n  High Openness + High Presence = Magnetism (inspiration)\n  Low Openness + Low = Ghost (invisible)\n  High Openness + Low = Everyman (trusted, underestimated)\n\n▸ BREAKING POINTS:\n  At 25: Social rolls vs neutral NPCs\n  At 50: Reputation spreads to regions\n  At 75: Commanding Presence—hostile NPCs Conviction <30 hesitate\n  At 100: Legend—known across continent, free items per town\n\n▸ STARTING RANGE: 10–55 | MAX: 100',
 };
 
 // ─── Skill descriptions (tooltip) ────────────────────────────────────────────
@@ -1377,7 +1377,26 @@ function showViewSheet(char, origin = 'create') {
     APTITUDES.forEach(apt => {
         const score = (char.aptitudes && char.aptitudes[apt]) || BASE_APTITUDE;
         const aptData = DB.aptitudes?.aptitudes?.find(a => a.id === apt);
-        const tooltip = aptData ? `${aptData.name}: ${aptData.function}` : aptName(apt);
+        let tooltip = aptName(apt);
+        if (aptData) {
+            const lines = [
+                `${aptData.name}`,
+                ``,
+                aptData.function,
+                ``,
+                `"${aptData.flavor}"`,
+                ``,
+                `Starting range: ${Array.isArray(aptData.starting_range) ? aptData.starting_range.join('–') : aptData.starting_range}`,
+                `Max: ${aptData.max}`
+            ];
+            if (aptData.breaking_points && aptData.breaking_points.length) {
+                lines.push('', 'Breaking Points:');
+                aptData.breaking_points.forEach(bp => {
+                    lines.push(`  ${bp.threshold}: ${bp.unlock}`);
+                });
+            }
+            tooltip = lines.join('\n');
+        }
         const cell  = el('div', 'vs-apt-cell');
         cell.setAttribute('data-tooltip', tooltip);
         const abbr  = el('span', 'vs-apt-abbr');  abbr.textContent  = aptName(apt);
