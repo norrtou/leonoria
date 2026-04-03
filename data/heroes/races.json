@@ -2,15 +2,18 @@
   "system": "Leonoria Races",
   "description": "All playable races of Leonoria. Each race group has sub-races with distinct physical profiles, aptitude modifiers, resistances, and traits. Physical data uses randomized ranges for hero generation.",
   "size_order_note": "Largest to smallest: Wildmen Ravagers > Wildmen Foresters > Ancients > Ashen Halfbreeds > Common Folk / Step Folk > Swampbrood > Stone Folk > Oakpeople",
-  "age_generation_range": [15, 95],
+  "age_generation_range": [
+    15,
+    95
+  ],
   "own_name_note": "Own names are what each sub-race calls themselves. Common Folk names are the widely-used outsider labels.",
   "race_groups": [
     {
       "id": "ancients",
       "name": "Ancients",
       "category": "Ancients",
-      "general_description": "Tall, slender, and nimble with a natural affinity for norium that runs through their blood, granting exceptional magical capacity. Often regarded as attractive and naturally charismatic. 6–7 feet tall with a slender to athletic build — an elegance reflected in skin tint rather than pointed ears. All sub-groups are elitist and arrogant about their own importance, viewing themselves as custodians of wisdom. Their destinies were shaped by The Great Death. They share the same human origin as Common Folk, though this is not widely known.",
-      "lore": "The oldest living memory of Leonoria. No Ancient alive remembers before The Great Death — but all believe their current form was caused by it. Each sub-race interprets this differently: the Aelthiryn as a spiritual gift, the Saereth as a philosophical evolution, the Velkaar as a curse to weaponize, and the Thyraen as something too private to discuss.",
+      "general_description": "Tall, slender, and nimble with a natural affinity for norium that runs through their blood, granting exceptional magical capacity. Often regarded as attractive and naturally charismatic. 6\u20137 feet tall with a slender to athletic build \u2014 an elegance reflected in skin tint rather than pointed ears. All sub-groups are elitist and arrogant about their own importance, viewing themselves as custodians of wisdom. Their destinies were shaped by The Great Death. They share the same human origin as Common Folk, though this is not widely known.",
+      "lore": "The oldest living memory of Leonoria. No Ancient alive remembers before The Great Death \u2014 but all believe their current form was caused by it. Each sub-race interprets this differently: the Aelthiryn as a spiritual gift, the Saereth as a philosophical evolution, the Velkaar as a curse to weaponize, and the Thyraen as something too private to discuss.",
       "sub_races": [
         {
           "id": "ancients_secluded",
@@ -18,22 +21,44 @@
           "own_name": "Aelthiryn",
           "own_name_etymology": "ael = light/essence, thiryn = keepers",
           "own_name_meaning": "Keepers of the inner light",
-          "description": "Forest dwellers and extreme isolationists with an aloof, detached character. Naturally connected to most magical entities. Neutral affinity. Can become passionate about nature-related things. Often mistaken for unfeeling, but they feel deeply — they simply do not share. Among themselves they are called the Aelthiryn.",
-          "habitat": ["the_sanctuary_lands"],
+          "description": "Forest dwellers and extreme isolationists with an aloof, detached character. Naturally connected to most magical entities. Neutral affinity. Can become passionate about nature-related things. Often mistaken for unfeeling, but they feel deeply \u2014 they simply do not share. Among themselves they are called the Aelthiryn.",
+          "habitat": [
+            "the_sanctuary_lands"
+          ],
           "physical": {
-            "height_cm": { "male": [175, 205], "female": [168, 198] },
-            "weight_kg": { "male": [55, 80], "female": [50, 72] },
-            "lifespan_years": [250, 350],
-            "hero_age_note": "Can be generated age 20–95. Physically mature at 30, considered young until 100.",
-            "appearance_notes": "High, angular cheekbones. Large, luminous eyes (silver, green, gold). Very fine hair. Skin carries a faint green or silver tint — the mark of norium in their blood."
+            "height_cm": {
+              "male": [
+                175,
+                205
+              ],
+              "female": [
+                168,
+                198
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                55,
+                80
+              ],
+              "female": [
+                50,
+                72
+              ]
+            },
+            "lifespan_years": [
+              250,
+              350
+            ],
+            "hero_age_note": "Can be generated age 20\u201395. Physically mature at 30, considered young until 100.",
+            "appearance_notes": "High, angular cheekbones. Large, luminous eyes (silver, green, gold). Very fine hair. Skin carries a faint green or silver tint \u2014 the mark of norium in their blood."
           },
           "aptitude_modifiers": {
             "conviction": 5,
             "physiology": -10,
-            "cognition": 8,
-            "materium_affinity": 20,
+            "cognition": 28,
             "martial_experience": -5,
-            "presence": 10
+            "discipline": 10
           },
           "starting_resistances": {
             "purelight": 10,
@@ -43,7 +68,13 @@
             "blight": 5,
             "venomous": 8
           },
-          "materium_schools": ["Athropium", "Lifewhispering", "Harmony Weaving", "Tempest", "Earthen"],
+          "materium_schools": [
+            "Athropium",
+            "Lifewhispering",
+            "Harmony Weaving",
+            "Tempest",
+            "Earthen"
+          ],
           "materium_pool_bonus": 25,
           "shadow_connection": 0,
           "special_traits": [
@@ -53,7 +84,7 @@
             },
             {
               "name": "Aloof Nature",
-              "description": "Presence (Gravitas) rolls in formal social settings suffer -5% — the Aelthiryn find social performance tedious. However, Presence rolls with nature-aligned beings (Oakpeople, wildlife) gain +10%."
+              "description": "Presence (Gravitas) rolls in formal social settings suffer -5% \u2014 the Aelthiryn find social performance tedious. However, Presence rolls with nature-aligned beings (Oakpeople, wildlife) gain +10%."
             },
             {
               "name": "Norium Blood",
@@ -61,11 +92,23 @@
             }
           ],
           "alignment_tendency": "Neutral",
-          "typical_classes": ["Lifewhisperer", "Elementalist", "Wayfarer", "Scholar"],
-          "typical_backgrounds": ["Hermit", "Wayfarer", "Hunter"],
-          "openness_range": [1, 4],
+          "typical_classes": [
+            "Lifewhisperer",
+            "Elementalist",
+            "Wayfarer",
+            "Scholar"
+          ],
+          "typical_backgrounds": [
+            "Hermit",
+            "Wayfarer",
+            "Hunter"
+          ],
+          "openness_range": [
+            1,
+            4
+          ],
           "naming_rules": {
-            "_placeholder": "To be filled in — first_names list, surname rules, format, and examples."
+            "_placeholder": "To be filled in \u2014 first_names list, surname rules, format, and examples."
           }
         },
         {
@@ -75,20 +118,43 @@
           "own_name_etymology": "sae = bleached/emptied, reth = line/bloodline",
           "own_name_meaning": "The emptied lineage",
           "description": "City builders, scholars, clerics with a Neutral-Good affinity. Tendencies toward religious fanaticism regarding logic and stoicism. Strong convictions. They see themselves as the rational apex of civilization and find disorder physically uncomfortable. Among themselves they are the Saereth. They prefer the Gleam Havens.",
-          "habitat": ["the_gleam_havens", "the_sanctuary_lands"],
+          "habitat": [
+            "the_gleam_havens",
+            "the_sanctuary_lands"
+          ],
           "physical": {
-            "height_cm": { "male": [178, 208], "female": [170, 200] },
-            "weight_kg": { "male": [58, 82], "female": [52, 74] },
-            "lifespan_years": [250, 320],
+            "height_cm": {
+              "male": [
+                178,
+                208
+              ],
+              "female": [
+                170,
+                200
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                58,
+                82
+              ],
+              "female": [
+                52,
+                74
+              ]
+            },
+            "lifespan_years": [
+              250,
+              320
+            ],
             "appearance_notes": "Pale grey or white skin. Silver or white hair, always styled precisely. Eyes range from pale blue to near-colorless. Angular, clean-cut features."
           },
           "aptitude_modifiers": {
             "conviction": 10,
             "physiology": -8,
-            "cognition": 15,
-            "materium_affinity": 15,
+            "cognition": 30,
             "martial_experience": -5,
-            "presence": 8
+            "discipline": 8
           },
           "starting_resistances": {
             "purelight": 8,
@@ -98,7 +164,14 @@
             "darkvoid": 8,
             "chill": 5
           },
-          "materium_schools": ["Arcane Arts", "Revelation", "Geometrics", "Tempest", "Earthen", "Impact"],
+          "materium_schools": [
+            "Arcane Arts",
+            "Revelation",
+            "Geometrics",
+            "Tempest",
+            "Earthen",
+            "Impact"
+          ],
           "materium_pool_bonus": 20,
           "shadow_connection": 5,
           "special_traits": [
@@ -116,11 +189,23 @@
             }
           ],
           "alignment_tendency": "Neutral-Good / Lawful",
-          "typical_classes": ["Scholar", "Elementalist", "Warden", "Soulkindler"],
-          "typical_backgrounds": ["Scholar", "Noble", "Cleric"],
-          "openness_range": [3, 6],
+          "typical_classes": [
+            "Scholar",
+            "Elementalist",
+            "Warden",
+            "Soulkindler"
+          ],
+          "typical_backgrounds": [
+            "Scholar",
+            "Noble",
+            "Cleric"
+          ],
+          "openness_range": [
+            3,
+            6
+          ],
           "naming_rules": {
-            "_placeholder": "To be filled in — first_names list, surname rules, format, and examples."
+            "_placeholder": "To be filled in \u2014 first_names list, surname rules, format, and examples."
           }
         },
         {
@@ -129,21 +214,43 @@
           "own_name": "Velkaar",
           "own_name_etymology": "vel = depth/void, kaar = will/dominion",
           "own_name_meaning": "Those of the deep will",
-          "description": "Secretive, unsocial, and gifted exclusively in dark arts and deceptive fighting. Naturally selfish but with an occasional, surprising compassionate side. Some make great leaders of darker forces — not through love but through terrifying competence. Generally shorter than other Ancients. They call themselves Velkaar and originate in the Forgotten Kingdom.",
-          "habitat": ["the_forgotten_kingdom"],
+          "description": "Secretive, unsocial, and gifted exclusively in dark arts and deceptive fighting. Naturally selfish but with an occasional, surprising compassionate side. Some make great leaders of darker forces \u2014 not through love but through terrifying competence. Generally shorter than other Ancients. They call themselves Velkaar and originate in the Forgotten Kingdom.",
+          "habitat": [
+            "the_forgotten_kingdom"
+          ],
           "physical": {
-            "height_cm": { "male": [168, 198], "female": [162, 192] },
-            "weight_kg": { "male": [52, 76], "female": [48, 68] },
-            "lifespan_years": [200, 300],
-            "appearance_notes": "Near-black or obsidian skin. Eyes glow a faint red, violet, or pale gold in darkness. Hair is dark, often white in older individuals. Eerily quiet movers — often noticed only when they choose to be."
+            "height_cm": {
+              "male": [
+                168,
+                198
+              ],
+              "female": [
+                162,
+                192
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                52,
+                76
+              ],
+              "female": [
+                48,
+                68
+              ]
+            },
+            "lifespan_years": [
+              200,
+              300
+            ],
+            "appearance_notes": "Near-black or obsidian skin. Eyes glow a faint red, violet, or pale gold in darkness. Hair is dark, often white in older individuals. Eerily quiet movers \u2014 often noticed only when they choose to be."
           },
           "aptitude_modifiers": {
             "conviction": -5,
             "physiology": -5,
-            "cognition": 10,
-            "materium_affinity": 10,
+            "cognition": 20,
             "martial_experience": 5,
-            "presence": -10
+            "discipline": -10
           },
           "starting_resistances": {
             "purelight": -10,
@@ -154,7 +261,13 @@
             "chill": 10,
             "arcane": 12
           },
-          "materium_schools": ["Umbramancy", "Blood Magic", "Darkvoid", "Darkmind", "Voidreaving"],
+          "materium_schools": [
+            "Umbramancy",
+            "Blood Magic",
+            "Darkvoid",
+            "Darkmind",
+            "Voidreaving"
+          ],
           "materium_pool_bonus": 15,
           "shadow_connection": 30,
           "special_traits": [
@@ -172,11 +285,22 @@
             }
           ],
           "alignment_tendency": "Dark / Neutral",
-          "typical_classes": ["Shadowblade", "Voidweaver", "Bloodsinger"],
-          "typical_backgrounds": ["Criminal", "Dishonored Soldier", "Wayfarer"],
-          "openness_range": [0, 2],
+          "typical_classes": [
+            "Shadowblade",
+            "Voidweaver",
+            "Bloodsinger"
+          ],
+          "typical_backgrounds": [
+            "Criminal",
+            "Dishonored Soldier",
+            "Wayfarer"
+          ],
+          "openness_range": [
+            0,
+            2
+          ],
           "naming_rules": {
-            "_placeholder": "To be filled in — first_names list, surname rules, format, and examples."
+            "_placeholder": "To be filled in \u2014 first_names list, surname rules, format, and examples."
           }
         },
         {
@@ -185,21 +309,43 @@
           "own_name": "Thyraen",
           "own_name_etymology": "thyr = stillness/cold silence, aen = state of being",
           "own_name_meaning": "Those who are of stillness",
-          "description": "Solitary, mystical, and extremely xenophobic. Their culture and background remain largely unknown to the outside world. They live in The Eternal Winds and leave very rarely. When they do, it is always for an unknown, private reason — and they do not explain themselves. They know themselves as the Thyraen.",
-          "habitat": ["the_eternal_winds"],
+          "description": "Solitary, mystical, and extremely xenophobic. Their culture and background remain largely unknown to the outside world. They live in The Eternal Winds and leave very rarely. When they do, it is always for an unknown, private reason \u2014 and they do not explain themselves. They know themselves as the Thyraen.",
+          "habitat": [
+            "the_eternal_winds"
+          ],
           "physical": {
-            "height_cm": { "male": [180, 210], "female": [172, 204] },
-            "weight_kg": { "male": [62, 90], "female": [55, 80] },
-            "lifespan_years": [280, 500],
+            "height_cm": {
+              "male": [
+                180,
+                210
+              ],
+              "female": [
+                172,
+                204
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                62,
+                90
+              ],
+              "female": [
+                55,
+                80
+              ]
+            },
+            "lifespan_years": [
+              280,
+              500
+            ],
             "appearance_notes": "Blue-white or translucent skin. Hair is always white, often with a blue sheen. Eyes are pale ice-blue or near-white. Body temperature is measurably lower than all other races."
           },
           "aptitude_modifiers": {
             "conviction": 8,
             "physiology": 8,
-            "cognition": 5,
-            "materium_affinity": 15,
+            "cognition": 20,
             "martial_experience": 0,
-            "presence": -8
+            "discipline": -8
           },
           "starting_resistances": {
             "cold": 50,
@@ -210,7 +356,12 @@
             "magical_insulation": 12,
             "purelight": 10
           },
-          "materium_schools": ["Soulkindling", "Chill", "Tempest", "Earthen"],
+          "materium_schools": [
+            "Soulkindling",
+            "Chill",
+            "Tempest",
+            "Earthen"
+          ],
           "materium_pool_bonus": 18,
           "shadow_connection": 5,
           "special_traits": [
@@ -224,15 +375,26 @@
             },
             {
               "name": "The Vigil",
-              "description": "Thyraen rarely sleep. They enter a waking meditative state. This grants +5% to Perception rolls — they are always partially aware."
+              "description": "Thyraen rarely sleep. They enter a waking meditative state. This grants +5% to Perception rolls \u2014 they are always partially aware."
             }
           ],
           "alignment_tendency": "Neutral / Unknown",
-          "typical_classes": ["Stormcaller", "Scholar", "Warden", "Elementalist"],
-          "typical_backgrounds": ["Hermit", "Wayfarer"],
-          "openness_range": [0, 1],
+          "typical_classes": [
+            "Stormcaller",
+            "Scholar",
+            "Warden",
+            "Elementalist"
+          ],
+          "typical_backgrounds": [
+            "Hermit",
+            "Wayfarer"
+          ],
+          "openness_range": [
+            0,
+            1
+          ],
           "naming_rules": {
-            "_placeholder": "To be filled in — first_names list, surname rules, format, and examples."
+            "_placeholder": "To be filled in \u2014 first_names list, surname rules, format, and examples."
           }
         }
       ]
@@ -241,8 +403,8 @@
       "id": "common_folk",
       "name": "Common Folk",
       "category": "Common Folk",
-      "general_description": "Ordinary Caucasian to Mediterranean humans, average in build — from small to large examples. The original humans from before The Great Death. They live ordinary human lifespans of around 70–100 years and are the most plentiful race on Leonoria. They rarely show magical affinity — if they do, it is exclusively in Lightwielding magics (Clerics and Templars) and in some rare cases Dark arts (Shamans of Step Folk and Northerners). No unified history or mythology.",
-      "lore": "Every scholar who has tried to trace Common Folk history before The Great Death has failed. The records simply don't exist — which some argue means they were there, and that The Great Death destroyed everything. Others say they appeared after. The Common Folk themselves don't particularly care. They are busy living.",
+      "general_description": "Ordinary Caucasian to Mediterranean humans, average in build \u2014 from small to large examples. The original humans from before The Great Death. They live ordinary human lifespans of around 70\u2013100 years and are the most plentiful race on Leonoria. They rarely show magical affinity \u2014 if they do, it is exclusively in Lightwielding magics (Clerics and Templars) and in some rare cases Dark arts (Shamans of Step Folk and Northerners). No unified history or mythology.",
+      "lore": "Every scholar who has tried to trace Common Folk history before The Great Death has failed. The records simply don't exist \u2014 which some argue means they were there, and that The Great Death destroyed everything. Others say they appeared after. The Common Folk themselves don't particularly care. They are busy living.",
       "sub_races": [
         {
           "id": "midlander",
@@ -250,28 +412,53 @@
           "own_name": "Erdan",
           "own_name_etymology": "er = land, dan = people",
           "own_name_meaning": "People of the land",
-          "description": "The classic commoner of Leonoria. Highly varied in appearance — no unifying physical trait. Skilled traders, leaders, bards, and diplomats. Prone to religious fanaticism. They built the Midlands into the breadbasket of the continent through sheer stubbornness and organizational skill. They call themselves the Erdan. Strong presence in The Gleam Havens as well.",
-          "habitat": ["the_midlands", "the_gleam_havens"],
+          "description": "The classic commoner of Leonoria. Highly varied in appearance \u2014 no unifying physical trait. Skilled traders, leaders, bards, and diplomats. Prone to religious fanaticism. They built the Midlands into the breadbasket of the continent through sheer stubbornness and organizational skill. They call themselves the Erdan. Strong presence in The Gleam Havens as well.",
+          "habitat": [
+            "the_midlands",
+            "the_gleam_havens"
+          ],
           "physical": {
-            "height_cm": { "male": [162, 192], "female": [155, 182] },
-            "weight_kg": { "male": [62, 102], "female": [52, 88] },
-            "lifespan_years": [65, 100],
+            "height_cm": {
+              "male": [
+                162,
+                192
+              ],
+              "female": [
+                155,
+                182
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                62,
+                102
+              ],
+              "female": [
+                52,
+                88
+              ]
+            },
+            "lifespan_years": [
+              65,
+              100
+            ],
             "appearance_notes": "The most variable appearance of any sub-race. Every skin tone, hair color, and build exists among the Erdan. No unifying physical trait."
           },
           "aptitude_modifiers": {
             "conviction": 5,
             "physiology": 0,
             "cognition": 5,
-            "materium_affinity": 0,
             "martial_experience": 0,
-            "presence": 5
+            "discipline": 5
           },
           "starting_resistances": {
             "physical_hardening": 2,
             "magical_insulation": 2,
             "weathering": 5
           },
-          "materium_schools": ["Any (low affinity across all schools)"],
+          "materium_schools": [
+            "Any (low affinity across all schools)"
+          ],
           "materium_pool_bonus": 0,
           "shadow_connection": 0,
           "special_traits": [
@@ -289,11 +476,25 @@
             }
           ],
           "alignment_tendency": "Neutral / Any",
-          "typical_classes": ["Ironguard", "Scholar", "Wayfarer", "Artisan", "Envoy"],
-          "typical_backgrounds": ["Merchant", "Noble", "Soldier", "Artisan"],
-          "openness_range": [3, 7],
+          "typical_classes": [
+            "Ironguard",
+            "Scholar",
+            "Wayfarer",
+            "Artisan",
+            "Envoy"
+          ],
+          "typical_backgrounds": [
+            "Merchant",
+            "Noble",
+            "Soldier",
+            "Artisan"
+          ],
+          "openness_range": [
+            3,
+            7
+          ],
           "naming_rules": {
-            "_placeholder": "To be filled in — first_names list, surname rules, format, and examples."
+            "_placeholder": "To be filled in \u2014 first_names list, surname rules, format, and examples."
           }
         },
         {
@@ -303,20 +504,44 @@
           "own_name_etymology": "skar = weathered/harsh, -n = collective",
           "own_name_meaning": "The weathered ones",
           "description": "Isolationist hunters, traders, and fierce warriors. Heavier build with weathered or ruddy skin and mostly dark or auburn hair. Strong convictions around their faith. Stoic, practical, and deeply suspicious of outsiders. Known for exceptional endurance in hostile conditions. They call themselves the Skarn. They dwell in northern parts of the Midlands, deeper forests, the Dark Forests, and reach as far as the Eternal Winds.",
-          "habitat": ["the_midlands", "the_dark_forests", "the_eternal_winds"],
+          "habitat": [
+            "the_midlands",
+            "the_dark_forests",
+            "the_eternal_winds"
+          ],
           "physical": {
-            "height_cm": { "male": [168, 196], "female": [158, 186] },
-            "weight_kg": { "male": [70, 110], "female": [58, 92] },
-            "lifespan_years": [65, 95],
+            "height_cm": {
+              "male": [
+                168,
+                196
+              ],
+              "female": [
+                158,
+                186
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                70,
+                110
+              ],
+              "female": [
+                58,
+                92
+              ]
+            },
+            "lifespan_years": [
+              65,
+              95
+            ],
             "appearance_notes": "Heavier build than other Common Folk. Skin often weathered and ruddy. Hair predominantly dark or auburn. Eyes typically grey or blue. Dress practically and rarely for show."
           },
           "aptitude_modifiers": {
             "conviction": 10,
             "physiology": 5,
-            "cognition": 0,
-            "materium_affinity": -3,
+            "cognition": -3,
             "martial_experience": 5,
-            "presence": -3
+            "discipline": -3
           },
           "starting_resistances": {
             "cold": 10,
@@ -324,7 +549,10 @@
             "magical_insulation": 2,
             "weathering": 10
           },
-          "materium_schools": ["Harmony Weaving", "Soulkindling"],
+          "materium_schools": [
+            "Harmony Weaving",
+            "Soulkindling"
+          ],
           "materium_pool_bonus": 0,
           "shadow_connection": 5,
           "special_traits": [
@@ -342,11 +570,23 @@
             }
           ],
           "alignment_tendency": "Neutral / Lawful",
-          "typical_classes": ["Ironguard", "Battlebrave", "Wayfarer", "Warden"],
-          "typical_backgrounds": ["Hunter", "Soldier", "Cleric"],
-          "openness_range": [1, 4],
+          "typical_classes": [
+            "Ironguard",
+            "Battlebrave",
+            "Wayfarer",
+            "Warden"
+          ],
+          "typical_backgrounds": [
+            "Hunter",
+            "Soldier",
+            "Cleric"
+          ],
+          "openness_range": [
+            1,
+            4
+          ],
           "naming_rules": {
-            "_placeholder": "To be filled in — first_names list, surname rules, format, and examples."
+            "_placeholder": "To be filled in \u2014 first_names list, surname rules, format, and examples."
           }
         },
         {
@@ -356,20 +596,45 @@
           "own_name_etymology": "zai = path/journey, keth = people/tribe",
           "own_name_meaning": "People of the long path",
           "description": "Dark-skinned, hardy, rugged people shaped by open plains and a harder travel life. Their home is the Outer Steppes, also the Badlands and plains of The Midlands, with some tribes in the outskirts of the Dark Forests. Skilled all-around warriors and traders. Neither exceptional warriors nor exceptional mages, but rarely outmatched in pure versatility. They call themselves the Zai'Keth.",
-          "habitat": ["the_outer_steppes", "the_badlands", "the_midlands", "the_dark_forests"],
+          "habitat": [
+            "the_outer_steppes",
+            "the_badlands",
+            "the_midlands",
+            "the_dark_forests"
+          ],
           "physical": {
-            "height_cm": { "male": [163, 190], "female": [157, 182] },
-            "weight_kg": { "male": [63, 98], "female": [54, 84] },
-            "lifespan_years": [65, 100],
-            "appearance_notes": "Dark-skinned, lean and wiry builds optimized for travel. Hair is often kept practical — braided, short, or covered. Tribal markings or tattoos are common in Zai'Keth culture."
+            "height_cm": {
+              "male": [
+                163,
+                190
+              ],
+              "female": [
+                157,
+                182
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                63,
+                98
+              ],
+              "female": [
+                54,
+                84
+              ]
+            },
+            "lifespan_years": [
+              65,
+              100
+            ],
+            "appearance_notes": "Dark-skinned, lean and wiry builds optimized for travel. Hair is often kept practical \u2014 braided, short, or covered. Tribal markings or tattoos are common in Zai'Keth culture."
           },
           "aptitude_modifiers": {
             "conviction": 3,
             "physiology": 5,
             "cognition": 3,
-            "materium_affinity": 0,
             "martial_experience": 5,
-            "presence": 3
+            "discipline": 3
           },
           "starting_resistances": {
             "hot": 8,
@@ -377,7 +642,11 @@
             "magical_insulation": 3,
             "weathering": 12
           },
-          "materium_schools": ["Luminance", "Mindwielding", "Bloodpassion"],
+          "materium_schools": [
+            "Luminance",
+            "Mindwielding",
+            "Bloodpassion"
+          ],
           "materium_pool_bonus": 5,
           "shadow_connection": 5,
           "special_traits": [
@@ -395,11 +664,23 @@
             }
           ],
           "alignment_tendency": "Neutral / Any",
-          "typical_classes": ["Wayfarer", "Battlebrave", "Envoy", "Shadowblade"],
-          "typical_backgrounds": ["Merchant", "Soldier", "Wayfarer"],
-          "openness_range": [4, 8],
+          "typical_classes": [
+            "Wayfarer",
+            "Battlebrave",
+            "Envoy",
+            "Shadowblade"
+          ],
+          "typical_backgrounds": [
+            "Merchant",
+            "Soldier",
+            "Wayfarer"
+          ],
+          "openness_range": [
+            4,
+            8
+          ],
           "naming_rules": {
-            "_placeholder": "To be filled in — first_names list, surname rules, format, and examples."
+            "_placeholder": "To be filled in \u2014 first_names list, surname rules, format, and examples."
           }
         }
       ]
@@ -408,8 +689,8 @@
       "id": "wildmen",
       "name": "Wildmen",
       "category": "Wildmen",
-      "general_description": "Rugged, hairy, muscular barbarian-like humanoids with some bear-like features. Not plentiful but deeply feared. Partially physically afflicted and maddened by The Great Death. Brutish, tall, and extraordinarily strong — up to 8 feet tall. All are resistant to cold weather and have strong natural resistance to moral afflictions. Foresters have an affinity for communing with wildlife magic. Ravagers are fearsome warriors with two-handed weapons and shamanism in their culture.",
-      "lore": "The Wildmen were changed by The Great Death in a different way than the Ancients. Where the Ancients were refined and elevated, the Wildmen were enlarged and partially maddened. Their connection to the pre-Death world is visceral and physical — something in their blood remembers violence, and they are never quite free of it.",
+      "general_description": "Rugged, hairy, muscular barbarian-like humanoids with some bear-like features. Not plentiful but deeply feared. Partially physically afflicted and maddened by The Great Death. Brutish, tall, and extraordinarily strong \u2014 up to 8 feet tall. All are resistant to cold weather and have strong natural resistance to moral afflictions. Foresters have an affinity for communing with wildlife magic. Ravagers are fearsome warriors with two-handed weapons and shamanism in their culture.",
+      "lore": "The Wildmen were changed by The Great Death in a different way than the Ancients. Where the Ancients were refined and elevated, the Wildmen were enlarged and partially maddened. Their connection to the pre-Death world is visceral and physical \u2014 something in their blood remembers violence, and they are never quite free of it.",
       "sub_races": [
         {
           "id": "wildmen_foresters",
@@ -417,21 +698,45 @@
           "own_name": "Gruthen",
           "own_name_etymology": "gru = root/growth, then = kin",
           "own_name_meaning": "Root-kin",
-          "description": "Secluded, hairy, mossy, camouflaged, rough and beast-like in appearance. 6–7 feet tall. Peaceful until threatened. Extreme isolationists with shamanistic faiths. Naturally neutral in alignment — they are not cruel by nature, just absolutely self-reliant. They know themselves as the Gruthen. Home is the Dark Forests, with settlements in nearby forested biomes; rumors of an isolated tribe as far south as The Boglands.",
-          "habitat": ["the_dark_forests", "the_boglands", "the_eternal_winds"],
+          "description": "Secluded, hairy, mossy, camouflaged, rough and beast-like in appearance. 6\u20137 feet tall. Peaceful until threatened. Extreme isolationists with shamanistic faiths. Naturally neutral in alignment \u2014 they are not cruel by nature, just absolutely self-reliant. They know themselves as the Gruthen. Home is the Dark Forests, with settlements in nearby forested biomes; rumors of an isolated tribe as far south as The Boglands.",
+          "habitat": [
+            "the_dark_forests",
+            "the_boglands",
+            "the_eternal_winds"
+          ],
           "physical": {
-            "height_cm": { "male": [190, 215], "female": [185, 210] },
-            "weight_kg": { "male": [92, 162], "female": [82, 148] },
-            "lifespan_years": [45, 75],
-            "appearance_notes": "Heavy, moss-like hair covering much of the body. Green-brown skin tones. Bark-like texture to forearms and shoulders. Eyes are usually amber or dark brown. Move surprisingly quietly for their size despite being 6–7 feet tall."
+            "height_cm": {
+              "male": [
+                190,
+                215
+              ],
+              "female": [
+                185,
+                210
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                92,
+                162
+              ],
+              "female": [
+                82,
+                148
+              ]
+            },
+            "lifespan_years": [
+              45,
+              75
+            ],
+            "appearance_notes": "Heavy, moss-like hair covering much of the body. Green-brown skin tones. Bark-like texture to forearms and shoulders. Eyes are usually amber or dark brown. Move surprisingly quietly for their size despite being 6\u20137 feet tall."
           },
           "aptitude_modifiers": {
             "conviction": 5,
             "physiology": 15,
-            "cognition": -5,
-            "materium_affinity": -5,
+            "cognition": -10,
             "martial_experience": 10,
-            "presence": -12
+            "discipline": -12
           },
           "starting_resistances": {
             "cold": 20,
@@ -441,7 +746,10 @@
             "blight": 10,
             "moral_affliction": 15
           },
-          "materium_schools": ["Bestial Communion", "Athropium"],
+          "materium_schools": [
+            "Bestial Communion",
+            "Athropium"
+          ],
           "materium_pool_bonus": 5,
           "shadow_connection": 5,
           "special_traits": [
@@ -459,11 +767,21 @@
             }
           ],
           "alignment_tendency": "Neutral",
-          "typical_classes": ["Reaver", "Wayfarer", "Lifewhisperer"],
-          "typical_backgrounds": ["Hunter", "Hermit"],
-          "openness_range": [0, 3],
+          "typical_classes": [
+            "Reaver",
+            "Wayfarer",
+            "Lifewhisperer"
+          ],
+          "typical_backgrounds": [
+            "Hunter",
+            "Hermit"
+          ],
+          "openness_range": [
+            0,
+            3
+          ],
           "naming_rules": {
-            "_placeholder": "To be filled in — first_names list, surname rules, format, and examples."
+            "_placeholder": "To be filled in \u2014 first_names list, surname rules, format, and examples."
           }
         },
         {
@@ -472,21 +790,43 @@
           "own_name": "Krothan",
           "own_name_etymology": "kroth = to crush/break bone, -an = people",
           "own_name_meaning": "The breakers",
-          "description": "Very large, brutal-looking, muscular warrior types with a savage presence. 7–8 feet tall. Aggressive. Known for cannibalism. Large frontline mercenaries and destroyers. Naturally dark in alignment — though on rare occasions, benign neutral outliers appear, often expelled from their tribes. They call themselves the Krothan. Home is in the Dark Forests.",
-          "habitat": ["the_dark_forests"],
+          "description": "Very large, brutal-looking, muscular warrior types with a savage presence. 7\u20138 feet tall. Aggressive. Known for cannibalism. Large frontline mercenaries and destroyers. Naturally dark in alignment \u2014 though on rare occasions, benign neutral outliers appear, often expelled from their tribes. They call themselves the Krothan. Home is in the Dark Forests.",
+          "habitat": [
+            "the_dark_forests"
+          ],
           "physical": {
-            "height_cm": { "male": [210, 248], "female": [200, 238] },
-            "weight_kg": { "male": [102, 182], "female": [90, 162] },
-            "lifespan_years": [40, 70],
+            "height_cm": {
+              "male": [
+                210,
+                248
+              ],
+              "female": [
+                200,
+                238
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                102,
+                182
+              ],
+              "female": [
+                90,
+                162
+              ]
+            },
+            "lifespan_years": [
+              40,
+              70
+            ],
             "appearance_notes": "Enormous, heavily muscled. Scarred and war-marked skin. Skin tones from dark grey to deep red-brown. Eyes are small and predatory. Teeth are unusually pronounced. The smell of smoke and iron follows them."
           },
           "aptitude_modifiers": {
             "conviction": 0,
             "physiology": 20,
-            "cognition": -10,
-            "materium_affinity": -15,
+            "cognition": -25,
             "martial_experience": 15,
-            "presence": -18
+            "discipline": -18
           },
           "starting_resistances": {
             "cold": 15,
@@ -497,7 +837,10 @@
             "blunt": 10,
             "slashing": 5
           },
-          "materium_schools": ["Blood Magic", "Dominion"],
+          "materium_schools": [
+            "Blood Magic",
+            "Dominion"
+          ],
           "materium_pool_bonus": 0,
           "shadow_connection": 8,
           "special_traits": [
@@ -516,11 +859,22 @@
             }
           ],
           "alignment_tendency": "Dark / Evil",
-          "typical_classes": ["Reaver", "Ironguard", "Bloodsinger"],
-          "typical_backgrounds": ["Soldier", "Dishonored Soldier", "Criminal"],
-          "openness_range": [0, 2],
+          "typical_classes": [
+            "Reaver",
+            "Ironguard",
+            "Bloodsinger"
+          ],
+          "typical_backgrounds": [
+            "Soldier",
+            "Dishonored Soldier",
+            "Criminal"
+          ],
+          "openness_range": [
+            0,
+            2
+          ],
           "naming_rules": {
-            "_placeholder": "To be filled in — first_names list, surname rules, format, and examples."
+            "_placeholder": "To be filled in \u2014 first_names list, surname rules, format, and examples."
           }
         }
       ]
@@ -529,7 +883,7 @@
       "id": "elementally_afflicted",
       "name": "The Elementally Afflicted",
       "category": "The Elementally Afflicted",
-      "general_description": "Various humanoids with scarred or mutated skin due to environment and adaptation. Mutants whose destinies were shaped at The Great Death when the laws of nature were rewritten. Where the Ancients were elevated spiritually, the Afflicted were fused with the physical world itself — wood, stone, swamp, or void.",
+      "general_description": "Various humanoids with scarred or mutated skin due to environment and adaptation. Mutants whose destinies were shaped at The Great Death when the laws of nature were rewritten. Where the Ancients were elevated spiritually, the Afflicted were fused with the physical world itself \u2014 wood, stone, swamp, or void.",
       "lore": "Some scholars argue the Elementally Afflicted are not one group but several unrelated accidents of The Great Death. What they share is an elemental bond to some part of the natural or subnatural world.",
       "sub_races": [
         {
@@ -539,20 +893,42 @@
           "own_name_etymology": "tal = root/trunk/that which stands, arin = people/kin",
           "own_name_meaning": "The Rooted People",
           "description": "Small, hobbit-like people with bark and leaf-like growths and a nature-bound look. Extremely isolationist and aloof. Have their own nature-friendly faiths unknown to outsiders. Those who wander the wider world often do so because they were set out as children in the forest, with no cultural connection to their origin. Gifted in lockpicking, thievery, and small weapons; agile and nimble. Strong resilience against all forms of magic; good insights in athropium and earthern magics; some Dark Illusion skills. They know themselves as the Talarin. Originally reside in The Sanctuary.",
-          "habitat": ["the_sanctuary_lands"],
+          "habitat": [
+            "the_sanctuary_lands"
+          ],
           "physical": {
-            "height_cm": { "male": [92, 128], "female": [88, 122] },
-            "weight_kg": { "male": [26, 52], "female": [22, 46] },
-            "lifespan_years": [150, 450],
+            "height_cm": {
+              "male": [
+                92,
+                128
+              ],
+              "female": [
+                88,
+                122
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                26,
+                52
+              ],
+              "female": [
+                22,
+                46
+              ]
+            },
+            "lifespan_years": [
+              150,
+              450
+            ],
             "appearance_notes": "Covered in real living leaf and bark growths. Skin ranges from bark-brown to deep green. Hair grows as a tangle of small branches and leaves. Eyes are luminous green or gold. Small and deceptively light on their feet."
           },
           "aptitude_modifiers": {
             "conviction": 0,
             "physiology": -15,
-            "cognition": 5,
-            "materium_affinity": 20,
+            "cognition": 25,
             "martial_experience": -8,
-            "presence": -10
+            "discipline": -10
           },
           "starting_resistances": {
             "physical_hardening": 0,
@@ -562,7 +938,13 @@
             "cold": -5,
             "fire": -10
           },
-          "materium_schools": ["Athropium", "Bestial Communion", "Lifewhispering", "Harmony Weaving", "Darkmind"],
+          "materium_schools": [
+            "Athropium",
+            "Bestial Communion",
+            "Lifewhispering",
+            "Harmony Weaving",
+            "Darkmind"
+          ],
           "materium_pool_bonus": 25,
           "shadow_connection": 0,
           "special_traits": [
@@ -588,14 +970,29 @@
             }
           ],
           "alignment_tendency": "Neutral",
-          "typical_classes": ["Lifewhisperer", "Elementalist", "Scholar"],
-          "typical_backgrounds": ["Hermit", "Hunter", "Wayfarer"],
-          "openness_range": [0, 3],
+          "typical_classes": [
+            "Lifewhisperer",
+            "Elementalist",
+            "Scholar"
+          ],
+          "typical_backgrounds": [
+            "Hermit",
+            "Hunter",
+            "Wayfarer"
+          ],
+          "openness_range": [
+            0,
+            3
+          ],
           "naming_rules": {
             "first_name_source": "data/heroes/oakspeople_names.json",
-            "surname_rule": "The surname is always the settlement of birth, taken from data/map/oakspeople_settlements.json. It is not a family name — it changes if the individual permanently relocates and puts down roots elsewhere.",
+            "surname_rule": "The surname is always the settlement of birth, taken from data/map/oakspeople_settlements.json. It is not a family name \u2014 it changes if the individual permanently relocates and puts down roots elsewhere.",
             "format": "[first_name] of [birthplace]",
-            "examples": ["Amaia of Mossburrow", "Lorentxo of Dewhollow", "Zorion of Heart Of The Oak"]
+            "examples": [
+              "Amaia of Mossburrow",
+              "Lorentxo of Dewhollow",
+              "Zorion of Heart Of The Oak"
+            ]
           }
         },
         {
@@ -605,20 +1002,43 @@
           "own_name_etymology": "dor = stone, nak = bound/solid",
           "own_name_meaning": "Stone-bound people",
           "description": "Short, sturdy, rock-like people tied to mountain living. Their shiny, reflecting silvery eyes are adapted for darkness. They strongly prefer their own race and are deeply suspicious of outsiders. Gifted melee warriors, especially with maces and axes. All have an affinity for Earthern magic, with some being masters of it. Incredibly tough with huge resistances to all forms of damage except poisons. They call themselves the Dornak. Home is the eastern mountains of The Sanctuary, with mountain settlements across the continent and a presence in The Forgotten Kingdom.",
-          "habitat": ["the_sanctuary_lands", "the_forgotten_kingdom"],
+          "habitat": [
+            "the_sanctuary_lands",
+            "the_forgotten_kingdom"
+          ],
           "physical": {
-            "height_cm": { "male": [130, 158], "female": [126, 152] },
-            "weight_kg": { "male": [72, 122], "female": [65, 110] },
-            "lifespan_years": [150, 380],
+            "height_cm": {
+              "male": [
+                130,
+                158
+              ],
+              "female": [
+                126,
+                152
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                72,
+                122
+              ],
+              "female": [
+                65,
+                110
+              ]
+            },
+            "lifespan_years": [
+              150,
+              380
+            ],
             "appearance_notes": "Rock-grey, slate, or iron-colored skin. Very dense musculature. Shiny, reflecting silvery eyes adapted for darkness. Hair grows thick and often contains trace mineral deposits (flecks of quartz or iron visible). Some Dornak have partial skin calcification."
           },
           "aptitude_modifiers": {
             "conviction": 5,
             "physiology": 18,
-            "cognition": 0,
-            "materium_affinity": -5,
+            "cognition": -5,
             "martial_experience": 5,
-            "presence": 0
+            "discipline": 0
           },
           "starting_resistances": {
             "physical_hardening": 20,
@@ -629,13 +1049,18 @@
             "magical_insulation": 5,
             "cold": 8
           },
-          "materium_schools": ["Geometrics", "Terramancy", "Earthen", "Luminance"],
+          "materium_schools": [
+            "Geometrics",
+            "Terramancy",
+            "Earthen",
+            "Luminance"
+          ],
           "materium_pool_bonus": 5,
           "shadow_connection": 5,
           "special_traits": [
             {
               "name": "Stone Skin",
-              "description": "Physical Hardening starts 10 levels higher than other races. Heavy armor proficiency comes naturally — no class restriction needed."
+              "description": "Physical Hardening starts 10 levels higher than other races. Heavy armor proficiency comes naturally \u2014 no class restriction needed."
             },
             {
               "name": "Darkblood Resilience",
@@ -651,11 +1076,23 @@
             }
           ],
           "alignment_tendency": "Neutral / Lawful",
-          "typical_classes": ["Ironguard", "Artisan", "Scholar", "Elementalist"],
-          "typical_backgrounds": ["Artisan", "Soldier", "Merchant"],
-          "openness_range": [2, 6],
+          "typical_classes": [
+            "Ironguard",
+            "Artisan",
+            "Scholar",
+            "Elementalist"
+          ],
+          "typical_backgrounds": [
+            "Artisan",
+            "Soldier",
+            "Merchant"
+          ],
+          "openness_range": [
+            2,
+            6
+          ],
           "naming_rules": {
-            "_placeholder": "To be filled in — first_names list, surname rules, format, and examples."
+            "_placeholder": "To be filled in \u2014 first_names list, surname rules, format, and examples."
           }
         },
         {
@@ -664,21 +1101,43 @@
           "own_name": "Urveth",
           "own_name_etymology": "ur = deep/below/submerged, veth = those who endure/live within",
           "own_name_meaning": "Those who dwell beneath",
-          "description": "Human-sized, swamp-adapted, damp, murky, and mutated in appearance with black eyes. All Urveth naturally infuse every attack with foul venom — slowing the target's attack initiative by 5% and causing 1 HP bleed per round until rested. Skilled in shadow illusions and blow-dart-type weapons; crafty hunters who hate cities. Very skilled in Blight magic and poison-infusion potions. Their culture revolves around fermentation, decay, and the cycles of rot. They call themselves the Urveth and home is The Boglands.",
-          "habitat": ["the_boglands"],
+          "description": "Human-sized, swamp-adapted, damp, murky, and mutated in appearance with black eyes. All Urveth naturally infuse every attack with foul venom \u2014 slowing the target's attack initiative by 5% and causing 1 HP bleed per round until rested. Skilled in shadow illusions and blow-dart-type weapons; crafty hunters who hate cities. Very skilled in Blight magic and poison-infusion potions. Their culture revolves around fermentation, decay, and the cycles of rot. They call themselves the Urveth and home is The Boglands.",
+          "habitat": [
+            "the_boglands"
+          ],
           "physical": {
-            "height_cm": { "male": [158, 186], "female": [152, 180] },
-            "weight_kg": { "male": [65, 102], "female": [58, 92] },
-            "lifespan_years": [80, 130],
-            "appearance_notes": "Hunched posture from a crooked spine. Skin has a mottled, wet look — greenish, grey, or mud-brown. Fingers are elongated with slight webbing. Eyes are very large, pure black, and adapted to low light. Carry a persistent earthy, fermented smell."
+            "height_cm": {
+              "male": [
+                158,
+                186
+              ],
+              "female": [
+                152,
+                180
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                65,
+                102
+              ],
+              "female": [
+                58,
+                92
+              ]
+            },
+            "lifespan_years": [
+              80,
+              130
+            ],
+            "appearance_notes": "Hunched posture from a crooked spine. Skin has a mottled, wet look \u2014 greenish, grey, or mud-brown. Fingers are elongated with slight webbing. Eyes are very large, pure black, and adapted to low light. Carry a persistent earthy, fermented smell."
           },
           "aptitude_modifiers": {
             "conviction": 0,
             "physiology": 5,
-            "cognition": 3,
-            "materium_affinity": 5,
+            "cognition": 8,
             "martial_experience": 0,
-            "presence": -10
+            "discipline": -10
           },
           "starting_resistances": {
             "venomous": 25,
@@ -688,13 +1147,18 @@
             "physical_hardening": 5,
             "magical_insulation": 5
           },
-          "materium_schools": ["Rotweaving", "Lifewhispering", "Athropium", "Darkmind"],
+          "materium_schools": [
+            "Rotweaving",
+            "Lifewhispering",
+            "Athropium",
+            "Darkmind"
+          ],
           "materium_pool_bonus": 10,
           "shadow_connection": 8,
           "special_traits": [
             {
               "name": "Venom Infusion (Passive)",
-              "description": "Every Urveth attack — melee or ranged — naturally carries foul venom. Each hit slows the target's attack initiative by 5% and causes 1 HP bleed per round until the target rests or is treated. This is a passive racial trait requiring no Materium."
+              "description": "Every Urveth attack \u2014 melee or ranged \u2014 naturally carries foul venom. Each hit slows the target's attack initiative by 5% and causes 1 HP bleed per round until the target rests or is treated. This is a passive racial trait requiring no Materium."
             },
             {
               "name": "Bog Immunity",
@@ -710,11 +1174,23 @@
             }
           ],
           "alignment_tendency": "Neutral / Dark",
-          "typical_classes": ["Artisan", "Lifewhisperer", "Scholar", "Voidweaver"],
-          "typical_backgrounds": ["Artisan", "Hermit", "Criminal"],
-          "openness_range": [2, 5],
+          "typical_classes": [
+            "Artisan",
+            "Lifewhisperer",
+            "Scholar",
+            "Voidweaver"
+          ],
+          "typical_backgrounds": [
+            "Artisan",
+            "Hermit",
+            "Criminal"
+          ],
+          "openness_range": [
+            2,
+            5
+          ],
           "naming_rules": {
-            "_placeholder": "To be filled in — first_names list, surname rules, format, and examples."
+            "_placeholder": "To be filled in \u2014 first_names list, surname rules, format, and examples."
           }
         },
         {
@@ -723,21 +1199,44 @@
           "own_name": "Ul'Karash",
           "own_name_etymology": "Ul = self/people, kar = ash/cinder, ash = state of becoming",
           "own_name_meaning": "We who became ash and lived",
-          "description": "Tall, physically corrupted former Dark One Ancients with an ashen, twisted look — no hair, deeply scarred and crusted skin, but hauntingly beautiful glowing red or orange eyes. Exiled from the Forgotten Kingdom, they were left to suffer and change in the isolated central parts of The Badlands — a transformative, mutating biome. Skilled general warriors, gifted in Earthern, Blight, and Fire magic. Very resilient to all forms of fire damage and venoms. They call themselves the Ul'Karash.",
-          "habitat": ["the_badlands", "the_forgotten_kingdom"],
+          "description": "Tall, physically corrupted former Dark One Ancients with an ashen, twisted look \u2014 no hair, deeply scarred and crusted skin, but hauntingly beautiful glowing red or orange eyes. Exiled from the Forgotten Kingdom, they were left to suffer and change in the isolated central parts of The Badlands \u2014 a transformative, mutating biome. Skilled general warriors, gifted in Earthern, Blight, and Fire magic. Very resilient to all forms of fire damage and venoms. They call themselves the Ul'Karash.",
+          "habitat": [
+            "the_badlands",
+            "the_forgotten_kingdom"
+          ],
           "physical": {
-            "height_cm": { "male": [172, 200], "female": [165, 194] },
-            "weight_kg": { "male": [50, 76], "female": [44, 68] },
-            "lifespan_years": [80, 200],
-            "appearance_notes": "Ash-grey or white skin with dark crack-like markings tracing their veins. No hair whatsoever — the exile burned it away permanently. Eyes glow a haunting red or orange. Movement is fluid but slightly wrong — like watching something move that should not be alive."
+            "height_cm": {
+              "male": [
+                172,
+                200
+              ],
+              "female": [
+                165,
+                194
+              ]
+            },
+            "weight_kg": {
+              "male": [
+                50,
+                76
+              ],
+              "female": [
+                44,
+                68
+              ]
+            },
+            "lifespan_years": [
+              80,
+              200
+            ],
+            "appearance_notes": "Ash-grey or white skin with dark crack-like markings tracing their veins. No hair whatsoever \u2014 the exile burned it away permanently. Eyes glow a haunting red or orange. Movement is fluid but slightly wrong \u2014 like watching something move that should not be alive."
           },
           "aptitude_modifiers": {
             "conviction": -10,
             "physiology": -5,
-            "cognition": 8,
-            "materium_affinity": 10,
+            "cognition": 18,
             "martial_experience": 5,
-            "presence": -15
+            "discipline": -15
           },
           "starting_resistances": {
             "fire": 25,
@@ -749,7 +1248,13 @@
             "magical_insulation": 8,
             "purelight": -15
           },
-          "materium_schools": ["Earthen", "Rotweaving", "Fire", "Voidreaving", "Umbramancy"],
+          "materium_schools": [
+            "Earthen",
+            "Rotweaving",
+            "Fire",
+            "Voidreaving",
+            "Umbramancy"
+          ],
           "materium_pool_bonus": 12,
           "shadow_connection": 20,
           "special_traits": [
@@ -763,7 +1268,7 @@
             },
             {
               "name": "Void Erasure",
-              "description": "Once per battle, can use Voidreaving to partially erase one enemy debuff from the battlefield — removing it from up to 2 enemies in range."
+              "description": "Once per battle, can use Voidreaving to partially erase one enemy debuff from the battlefield \u2014 removing it from up to 2 enemies in range."
             },
             {
               "name": "Badlands Mutation",
@@ -771,11 +1276,23 @@
             }
           ],
           "alignment_tendency": "Dark / Neutral",
-          "typical_classes": ["Voidweaver", "Shadowblade", "Scholar", "Elementalist"],
-          "typical_backgrounds": ["Criminal", "Dishonored Soldier", "Wayfarer"],
-          "openness_range": [0, 3],
+          "typical_classes": [
+            "Voidweaver",
+            "Shadowblade",
+            "Scholar",
+            "Elementalist"
+          ],
+          "typical_backgrounds": [
+            "Criminal",
+            "Dishonored Soldier",
+            "Wayfarer"
+          ],
+          "openness_range": [
+            0,
+            3
+          ],
           "naming_rules": {
-            "_placeholder": "To be filled in — first_names list, surname rules, format, and examples."
+            "_placeholder": "To be filled in \u2014 first_names list, surname rules, format, and examples."
           }
         }
       ]

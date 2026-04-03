@@ -187,7 +187,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            object-position: center top;
+            object-position: center;
             display: block;
         }
 
@@ -572,13 +572,17 @@
         .vs-portrait-frame {
             width: 240px;
             height: 320px;
-            overflow: hidden;
+            padding: 16px;
             background: radial-gradient(circle at top, rgba(78,110,50,0.14), rgba(12,16,8,0.98));
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
         }
         .vs-portrait-frame img {
             width: 100%; height: 100%;
-            object-fit: contain; object-position: center top; display: block;
+            object-fit: contain; object-position: center; display: block;
         }
         .vs-portrait-col > .vs-heading {
             padding: 0.7rem 0.8rem 0.3rem;
@@ -611,9 +615,43 @@
         .vs-vital-val.mp  { color: #5fbcff; }
         .vs-vital-val.sc  { color: #a07cff; }
         .vs-vital-val.st  { color: #e0a040; }
+        .vs-vital-val.phy { color: #7acc50; }
+        .vs-vital-val.cog { color: #5fbcff; }
+        .vs-vital-val.dis { color: #d4a574; }
         .vs-id-row[data-tooltip]:hover .vs-id-val { color: var(--gold); text-decoration: underline dotted; }
         .vs-focus-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; cursor: help; }
         .vs-focus-val { font-size: 0.9rem !important; color: var(--text) !important; line-height: 1.7; white-space: pre-line; }
+
+        /* Morality slider */
+        .morality-row { flex-direction: column; align-items: flex-start !important; gap: 0.4rem !important; border-bottom: none !important; border-top: 1px solid rgba(78,110,50,0.2); padding-bottom: 0 !important; padding-top: 0.5rem !important; margin-top: 0.5rem !important; }
+        .morality-slider-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.3rem; }
+        .morality-track-outer {
+            position: relative; width: 100%; height: 8px; border-radius: 4px;
+            background: linear-gradient(to right, #050505, #200030, #5a1080, #808098, #c0c0d8, #e8e8f0, #ffffff);
+        }
+        .morality-bp { position: absolute; top: -3px; width: 2px; height: 14px;
+            background: var(--gold); opacity: 0.9; }
+        .morality-bp-marks { position: absolute; width: 100%; height: 100%; }
+        .morality-thumb { position: absolute; top: -4px; width: 10px; height: 16px;
+            background: var(--gold); border: 1px solid var(--bg);
+            border-radius: 2px; transform: translateX(-50%); pointer-events: none; z-index: 10; left: 50%; }
+        .morality-zone-labels { position: relative; display: flex; justify-content: space-between; font-size: 0.62rem; }
+        .morality-zone-labels .mz.balanced { position: absolute; left: 50%; transform: translateX(-50%); }
+        .mz.despair    { color: #9060d0; }
+        .mz.balanced   { color: var(--text-muted); }
+        .mz.neutral    { color: #b8a060; }
+        .mz.conviction { color: #e0e0ff; }
+        .morality-val-row { display: flex; gap: 0.5rem; font-size: 0.85rem; }
+        .morality-zone.conviction { color: #e0e0ff; }
+        .morality-zone.neutral    { color: #b8a060; }
+        .morality-zone.balanced   { color: var(--text-muted); }
+        .morality-zone.despair    { color: #9060d0; }
+
+        /* Wisdom block */
+        .wisdom-row { display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: 0.5rem; }
+        .wisdom-type-lbl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+        .wisdom-tier-display { font-size: 0.95rem; color: var(--text-bright); cursor: help; }
+        .wisdom-tier-name { color: var(--gold); }
 
         /* ── Center column ── */
         .vs-center-col {
@@ -664,6 +702,25 @@
         .vs-apt-tier {
             display: block; font-size: 0.72rem;
             color: var(--text-muted); margin-top: 0.1rem; font-style: italic;
+        }
+
+        /* ── Traits grid ── */
+        .vs-trait-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        .vs-trait-cell {
+            border: 1px solid rgba(139,69,19,0.5);
+            background: rgba(50,30,20,0.7);
+            padding: 0.55rem 0.7rem;
+        }
+        .vs-trait-abbr {
+            display: block; font-size: 0.76rem;
+            letter-spacing: 0.02em;
+            color: var(--text-muted); margin-bottom: 0.1rem;
+        }
+        .vs-trait-score {
+            display: block; font-size: 1.45rem; color: #d4a574; line-height: 1.1;
         }
 
         /* ── Class trait block ── */
@@ -1064,10 +1121,6 @@
                                 <span class="vs-vital-val big" id="vs-vitality">—</span>
                             </div>
                             <div class="vs-vital-row">
-                                <span class="vs-vital-lbl" title="Your willpower and mental strength. Controls initiative order, maximum dice roll outcomes, and resistance to fear and psychological effects.">Conviction</span>
-                                <span class="vs-vital-val" id="vs-conviction">—</span>
-                            </div>
-                            <div class="vs-vital-row">
                                 <span class="vs-vital-lbl" title="Your physical endurance pool. Powers attacks, dodge rolls, movement, and other physical exertion.">Stamina</span>
                                 <span class="vs-vital-val st" id="vs-stamina">—</span>
                             </div>
@@ -1075,13 +1128,20 @@
                                 <span class="vs-vital-lbl" title="Your pool of elemental magic energy. Powers spells from the five schools of Materium.">Materium</span>
                                 <span class="vs-vital-val mp" id="vs-mpool">—</span>
                             </div>
+                        </div>
+                        <div class="vs-heading">Aptitudes</div>
+                        <div class="vs-vitals-block">
                             <div class="vs-vital-row">
-                                <span class="vs-vital-lbl" title="Your connection to dark arts and shadow magic. Required to cast spells from shadow schools (Darkvoid, Chill, Darkmind, etc).">Shadow Connection</span>
-                                <span class="vs-vital-val sc" id="vs-shadow">—</span>
+                                <span class="vs-vital-lbl" title="Your natural ability for physical actions, reflexes, and bodily control.">Physiology</span>
+                                <span class="vs-vital-val phy" id="vs-apt-physiology">—</span>
                             </div>
-                            <div class="vs-vital-row vs-focus-row">
-                                <span class="vs-vital-lbl" title="Your class's core strengths. These are the aptitudes where your class excels. Build your character by improving these for maximum effectiveness.">Class Strengths</span>
-                                <span class="vs-vital-val vs-focus-val" id="vs-focus">—</span>
+                            <div class="vs-vital-row">
+                                <span class="vs-vital-lbl" title="Your natural ability for reasoning, memory, and mental analysis.">Cognition</span>
+                                <span class="vs-vital-val cog" id="vs-apt-cognition">—</span>
+                            </div>
+                            <div class="vs-vital-row">
+                                <span class="vs-vital-lbl" title="Your natural ability for willpower, focus, and magical sensitivity.">Discipline</span>
+                                <span class="vs-vital-val dis" id="vs-apt-discipline">—</span>
                             </div>
                         </div>
                     </div>
@@ -1097,11 +1157,33 @@
                             <div class="vs-id-row"><span class="vs-id-lbl" title="Your history and origin story. Provides cultural skills and narrative flavor.">Background</span><span class="vs-id-val" id="vs-background" title="">—</span></div>
                             <div class="vs-id-row"><span class="vs-id-lbl" title="The celestial sign under which you were born. Influences personality, luck, and mystical affinity.">Birth Sign</span><span class="vs-id-val" id="vs-alignment" title="">—</span></div>
                             <div class="vs-id-row"><span class="vs-id-lbl" title="Your experience rank. Higher levels grant increased pools and stronger abilities.">Level</span><span class="vs-id-val" id="vs-level" title="">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl" title="Your natural age. Affects stamina pool (peaks age 50), materium pool (peaks 80), HP regeneration, and affliction susceptibility.">Age</span><span class="vs-id-val" id="vs-age" title="">—</span></div>
                         </div>
 
                         <div>
-                            <div class="vs-heading" title="Natural abilities and talents that define your character's strengths and limitations">Aptitudes</div>
-                            <div class="vs-apt-grid" id="vs-ab-grid"></div>
+                            <div class="vs-heading">Morality &amp; Class</div>
+                            <div class="vs-vital-row morality-row" id="morality-section">
+                                <span class="vs-vital-lbl" id="morality-lbl" style="cursor: help;">Morality</span>
+                                <div class="morality-slider-wrap" id="vs-morality-wrap">
+                                    <div class="morality-track-outer">
+                                        <div class="morality-bp-marks">
+                                            <div class="morality-bp" style="left:35%"></div>
+                                            <div class="morality-bp" style="left:65%"></div>
+                                        </div>
+                                        <div class="morality-thumb" id="morality-thumb"></div>
+                                    </div>
+                                    <div class="morality-zone-labels">
+                                        <span class="mz despair" id="zone-despair" style="cursor: help;">Despair</span>
+                                        <span class="mz balanced" id="zone-neutral" style="cursor: help;">Neutral</span>
+                                        <span class="mz conviction" id="zone-conviction" style="cursor: help;">Conviction</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height: 1px; background: var(--green-dim); margin: 0.5rem 0;"></div>
+                            <div class="vs-vital-row vs-focus-row">
+                                <span class="vs-vital-lbl" title="Your class's core strengths. These are the aptitudes where your class excels. Build your character by improving these for maximum effectiveness.">Class Strengths</span>
+                                <span class="vs-vital-val vs-focus-val" id="vs-focus">—</span>
+                            </div>
                         </div>
 
                         <div id="vs-trait-panel">
@@ -1114,6 +1196,11 @@
 
                     <!-- RIGHT: Skills + Abilities & Spells + Equipment -->
                     <div class="vs-right-col">
+
+                        <div>
+                            <div class="vs-heading" title="Combat experience tier derived from character level. Controls damage output.">Wisdom</div>
+                            <div id="vs-wisdom-block"></div>
+                        </div>
 
                         <div>
                             <div class="vs-heading" title="Trained competencies that you excel at. Bonuses are added when using these skills in tests.">Skills</div>
@@ -1218,6 +1305,9 @@
 
             <!-- ATTRIBUTES TAB -->
             <div class="tab-panel" id="tab-attributes">
+                <div class="form-block-title" style="margin-bottom:0.7rem;">Age</div>
+                <div id="age-row-cont" style="margin-bottom:1rem;"></div>
+
                 <div class="form-block-title" style="margin-bottom:0.7rem;">Aptitude Method</div>
                 <div class="method-row">
                     <button class="mth-btn active" data-method="standard">Standard</button>

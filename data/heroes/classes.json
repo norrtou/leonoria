@@ -1,1153 +1,2501 @@
 {
   "system": "Leonoria Classes",
-  "description": "The playable class archetypes of Leonoria, organized into class groups. Classes determine starting aptitude bonuses, available skills, starting wealth, starter equipment, and Materium school access. No class is locked by race — but some combinations are mechanically weak or strong.",
+  "description": "The playable class archetypes of Leonoria, organized into class groups. Classes determine starting aptitude bonuses, available skills, starting wealth, starter equipment, and Materium school access. No class is locked by race \u2014 but some combinations are mechanically weak or strong.",
   "aptitude_priority_note": "Each class lists aptitude priorities from primary to tertiary. These inform the character creation auto-fill and point-buy recommendations.",
   "materium_pool_note": "Classes with Materium access begin with a larger Materium pool. Classes without access still have a pool (it supports magical resistance), but a much smaller one.",
-  "stamina_pool_note": "Stamina is the physical exertion resource for martial and hybrid classes. It is drained when using named martial abilities from attacks_and_spells.json (costs 8–22 per ability). Base attacks never cost Stamina. Recovery: full on Long Rest, half on Short Rest. Pure casters have no stamina_pool_start field. Hybrid classes (Shadowblade, Warden, Aegisbearer, Verdant Warden) have both a Stamina pool and a Materium pool, balanced towards their primary role.",
+  "stamina_pool_note": "Stamina is the physical exertion resource for martial and hybrid classes. It is drained when using named martial abilities from attacks_and_spells.json (costs 8\u201322 per ability). Base attacks never cost Stamina. Recovery: full on Long Rest, half on Short Rest. Pure casters have no stamina_pool_start field. Hybrid classes (Shadowblade, Warden, Aegisbearer, Verdant Warden) have both a Stamina pool and a Materium pool, balanced towards their primary role.",
   "classes": [
-
     {
       "id": "ironguard",
       "name": "Ironguard",
       "class_group": "Warrior",
       "archetype": "Heavy Warrior",
-      "description": "The backbone of any fighting force. The Ironguard is a disciplined heavy fighter who specializes in endurance, shield work, and heavy armor. They do not rush in — they hold the line until their enemies break.",
-      "aptitude_priorities": ["Physiology", "Martial Experience", "Conviction"],
-      "aptitude_bonuses": { "physiology": 15, "martial_experience": 10, "conviction": 5, "presence": -5 },
+      "description": "The backbone of any fighting force. The Ironguard is a disciplined heavy fighter who specializes in endurance, shield work, and heavy armor. They do not rush in \u2014 they hold the line until their enemies break.",
+      "aptitude_priorities": [
+        "Physiology",
+        "Martial Experience",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "physiology": 15,
+        "martial_experience": 10,
+        "conviction": 5,
+        "discipline": -5
+      },
       "materium_access": false,
-      "materium_pool_start": 10,
       "shadow_connection_start": 0,
-      "stamina_pool_start": 75,
       "starting_skills": {
-        "fixed": ["shield_fighting", "blunt_force"],
+        "fixed": [
+          "shield_fighting",
+          "blunt_force"
+        ],
         "choice_count": 1,
-        "choices": ["swordsmanship", "polearms", "axewielding", "athletics"]
+        "choices": [
+          "swordsmanship",
+          "polearms",
+          "axewielding",
+          "athletics"
+        ]
       },
       "default_weapon_affinity": "swordsmanship",
-      "available_armor": ["light", "medium", "heavy"],
-      "starting_wealth_range": [30, 60],
-      "starter_kit": ["Arming Sword or Mace (choice)", "Shield (medium)", "Chain Hauberk", "Iron Helmet", "Rations x3", "Torch x2"],
+      "available_armor": [
+        "light",
+        "medium",
+        "heavy"
+      ],
+      "starting_wealth_range": [
+        30,
+        60
+      ],
+      "starter_kit": [
+        "Arming Sword or Mace (choice)",
+        "Shield (medium)",
+        "Chain Hauberk",
+        "Iron Helmet",
+        "Rations x3",
+        "Torch x2"
+      ],
       "special_class_trait": {
         "name": "Last Wall",
         "description": "Once per battle, when Vitality drops below 25%, gain +10% to all physical Hardening for 3 turns."
       },
-      "typical_races": ["Stone Folk", "Midlander", "Northerner", "Wildmen Ravagers"],
-      "lore": "Trained in organized militaries or by veteran guards, the Ironguard is the most common martial class in Leonoria's settled regions."
+      "typical_races": [
+        "Stone Folk",
+        "Midlander",
+        "Northerner",
+        "Wildmen Ravagers"
+      ],
+      "lore": "Trained in organized militaries or by veteran guards, the Ironguard is the most common martial class in Leonoria's settled regions.",
+      "morality_range": [
+        45,
+        70
+      ]
     },
-
     {
       "id": "battlebrave",
       "name": "Battlebrave",
       "class_group": "Warrior",
       "archetype": "Mobile Warrior",
       "description": "A fluid, aggressive fighter who thrives in movement and momentum. Where the Ironguard holds, the Battlebrave pushes. Two-handed weapons, fast footwork, and controlled aggression define this class.",
-      "aptitude_priorities": ["Martial Experience", "Physiology", "Conviction"],
-      "aptitude_bonuses": { "martial_experience": 15, "physiology": 10, "conviction": 5 },
+      "aptitude_priorities": [
+        "Martial Experience",
+        "Physiology",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "martial_experience": 15,
+        "physiology": 10,
+        "conviction": 5
+      },
       "materium_access": false,
-      "materium_pool_start": 10,
       "shadow_connection_start": 0,
-      "stamina_pool_start": 70,
       "starting_skills": {
-        "fixed": ["swordsmanship", "acrobatics"],
+        "fixed": [
+          "swordsmanship",
+          "acrobatics"
+        ],
         "choice_count": 1,
-        "choices": ["axewielding", "polearms", "athletics", "shield_fighting"]
+        "choices": [
+          "axewielding",
+          "polearms",
+          "athletics",
+          "shield_fighting"
+        ]
       },
       "default_weapon_affinity": "swordsmanship",
-      "available_armor": ["light", "medium"],
-      "starting_wealth_range": [25, 55],
-      "starter_kit": ["Greatsword or Greataxe (choice)", "Studded Leather", "Open Helm", "Rations x3"],
+      "available_armor": [
+        "light",
+        "medium"
+      ],
+      "starting_wealth_range": [
+        25,
+        55
+      ],
+      "starter_kit": [
+        "Greatsword or Greataxe (choice)",
+        "Studded Leather",
+        "Open Helm",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Momentum",
         "description": "Each consecutive hit on the same target grants +3% damage (max +15%). Resets if target is switched or missed."
       },
-      "typical_races": ["Midlander", "Step Folk", "Northerner"],
-      "lore": "Veterans who found the shield slowed them down. The Battlebrave trusts in offense to outlast defense."
+      "typical_races": [
+        "Midlander",
+        "Step Folk",
+        "Northerner"
+      ],
+      "lore": "Veterans who found the shield slowed them down. The Battlebrave trusts in offense to outlast defense.",
+      "morality_range": [
+        45,
+        70
+      ]
     },
-
     {
       "id": "reaver",
       "name": "Reaver",
       "class_group": "Warrior",
       "archetype": "Berserker",
       "description": "A brutish, rage-fuelled warrior who sacrifices defense for overwhelming offense. Common among Wildmen but occasionally found among battle-hardened Common Folk veterans who have seen too much.",
-      "aptitude_priorities": ["Physiology", "Martial Experience", "Conviction"],
-      "aptitude_bonuses": { "physiology": 20, "martial_experience": 12, "conviction": -5, "presence": -10 },
+      "aptitude_priorities": [
+        "Physiology",
+        "Martial Experience",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "physiology": 20,
+        "martial_experience": 12,
+        "conviction": -5,
+        "discipline": -10
+      },
       "materium_access": false,
-      "materium_pool_start": 5,
       "shadow_connection_start": 5,
-      "stamina_pool_start": 85,
       "starting_skills": {
-        "fixed": ["axewielding", "athletics"],
+        "fixed": [
+          "axewielding",
+          "athletics"
+        ],
         "choice_count": 1,
-        "choices": ["blunt_force", "intimidation", "survival"]
+        "choices": [
+          "blunt_force",
+          "intimidation",
+          "survival"
+        ]
       },
       "default_weapon_affinity": "axewielding",
-      "available_armor": ["light", "medium"],
-      "starting_wealth_range": [10, 35],
-      "starter_kit": ["Greataxe or Maul (choice)", "Hide Armor", "Rations x5"],
+      "available_armor": [
+        "light",
+        "medium"
+      ],
+      "starting_wealth_range": [
+        10,
+        35
+      ],
+      "starter_kit": [
+        "Greataxe or Maul (choice)",
+        "Hide Armor",
+        "Rations x5"
+      ],
       "special_class_trait": {
         "name": "Blood Rage",
-        "description": "Below 50% Vitality, all physical damage dealt increases by 20%. Below 25%, increases by 35%. No defensive bonus — pure offense."
+        "description": "Below 50% Vitality, all physical damage dealt increases by 20%. Below 25%, increases by 35%. No defensive bonus \u2014 pure offense."
       },
-      "typical_races": ["Wildmen Ravagers", "Wildmen Foresters", "Northerner"],
-      "lore": "Not trained. Forged by violence. The Reaver is what happens when someone survives long enough to stop being afraid."
+      "typical_races": [
+        "Wildmen Ravagers",
+        "Wildmen Foresters",
+        "Northerner"
+      ],
+      "lore": "Not trained. Forged by violence. The Reaver is what happens when someone survives long enough to stop being afraid.",
+      "morality_range": [
+        45,
+        70
+      ]
     },
-
     {
       "id": "vanguard",
       "name": "Vanguard",
       "class_group": "Warrior",
       "archetype": "Formation Tank",
-      "description": "A disciplined frontline fighter built around protecting allies. The Vanguard does not kill fastest — they keep others alive long enough to. Their presence on a battlefield is felt most by those standing behind them.",
-      "aptitude_priorities": ["Physiology", "Conviction", "Presence"],
-      "aptitude_bonuses": { "physiology": 15, "conviction": 10, "presence": 5 },
+      "description": "A disciplined frontline fighter built around protecting allies. The Vanguard does not kill fastest \u2014 they keep others alive long enough to. Their presence on a battlefield is felt most by those standing behind them.",
+      "aptitude_priorities": [
+        "Physiology",
+        "Conviction",
+        "Discipline"
+      ],
+      "aptitude_bonuses": {
+        "physiology": 15,
+        "conviction": 10,
+        "discipline": 5
+      },
       "materium_access": false,
-      "materium_pool_start": 10,
       "shadow_connection_start": 0,
-      "stamina_pool_start": 65,
       "starting_skills": {
-        "fixed": ["shield_fighting", "leadership"],
+        "fixed": [
+          "shield_fighting",
+          "leadership"
+        ],
         "choice_count": 1,
-        "choices": ["blunt_force", "swordsmanship", "polearms", "intimidation"]
+        "choices": [
+          "blunt_force",
+          "swordsmanship",
+          "polearms",
+          "intimidation"
+        ]
       },
       "default_weapon_affinity": "swordsmanship",
-      "available_armor": ["light", "medium", "heavy"],
-      "starting_wealth_range": [30, 65],
-      "starter_kit": ["Spear or Sword (choice)", "Tower Shield", "Plate-Reinforced Hauberk", "Iron Helmet", "Rations x3"],
+      "available_armor": [
+        "light",
+        "medium",
+        "heavy"
+      ],
+      "starting_wealth_range": [
+        30,
+        65
+      ],
+      "starter_kit": [
+        "Spear or Sword (choice)",
+        "Tower Shield",
+        "Plate-Reinforced Hauberk",
+        "Iron Helmet",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Hold the Line",
         "description": "Allies standing directly behind the Vanguard gain +10% damage reduction while the Vanguard has a shield equipped."
       },
-      "typical_races": ["Stone Folk", "Midlander", "Northerner"],
-      "lore": "Every army needs someone who faces the worst of it so others don't have to. The Vanguard made that choice deliberately."
+      "typical_races": [
+        "Stone Folk",
+        "Midlander",
+        "Northerner"
+      ],
+      "lore": "Every army needs someone who faces the worst of it so others don't have to. The Vanguard made that choice deliberately.",
+      "morality_range": [
+        45,
+        70
+      ]
     },
-
     {
       "id": "duelist",
       "name": "Duelist",
       "class_group": "Warrior",
       "archetype": "Precision Fighter",
       "description": "A master of one-on-one combat. The Duelist reads opponents, exploits openings, and wins through precision rather than brute force. They fight light and fast, turning the enemy's aggression back on them.",
-      "aptitude_priorities": ["Martial Experience", "Cognition", "Physiology"],
-      "aptitude_bonuses": { "martial_experience": 15, "cognition": 10 },
+      "aptitude_priorities": [
+        "Martial Experience",
+        "Cognition",
+        "Physiology"
+      ],
+      "aptitude_bonuses": {
+        "martial_experience": 15,
+        "cognition": 10
+      },
       "materium_access": false,
-      "materium_pool_start": 8,
       "shadow_connection_start": 0,
-      "stamina_pool_start": 60,
       "starting_skills": {
-        "fixed": ["swordsmanship", "parrying"],
+        "fixed": [
+          "swordsmanship",
+          "parrying"
+        ],
         "choice_count": 1,
-        "choices": ["acrobatics", "small_arms", "perception", "athletics"]
+        "choices": [
+          "acrobatics",
+          "small_arms",
+          "perception",
+          "athletics"
+        ]
       },
       "default_weapon_affinity": "swordsmanship",
-      "available_armor": ["light", "medium"],
-      "starting_wealth_range": [25, 55],
-      "starter_kit": ["Rapier or Arming Sword (choice)", "Off-hand Dagger", "Light Studded Armor", "Rations x3"],
+      "available_armor": [
+        "light",
+        "medium"
+      ],
+      "starting_wealth_range": [
+        25,
+        55
+      ],
+      "starter_kit": [
+        "Rapier or Arming Sword (choice)",
+        "Off-hand Dagger",
+        "Light Studded Armor",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Riposte",
         "description": "After a successful parry, the Duelist may immediately make a counterattack with +20% damage bonus. Once per combat round."
       },
-      "typical_races": ["Midlander", "Step Folk", "The Greys"],
-      "lore": "The Duelist learned that the fight is won before the first swing. Everything after that is confirmation."
+      "typical_races": [
+        "Midlander",
+        "Step Folk",
+        "The Greys"
+      ],
+      "lore": "The Duelist learned that the fight is won before the first swing. Everything after that is confirmation.",
+      "morality_range": [
+        45,
+        70
+      ]
     },
-
     {
       "id": "warmaster",
       "name": "Warmaster",
       "class_group": "Warrior",
       "archetype": "Battlefield Commander",
-      "description": "A seasoned commander who fights from the front and leads by example. The Warmaster does not just win — they make everyone around them better. Presence and tactical instinct define the class as much as martial skill.",
-      "aptitude_priorities": ["Presence", "Martial Experience", "Conviction"],
-      "aptitude_bonuses": { "presence": 15, "martial_experience": 10 },
+      "description": "A seasoned commander who fights from the front and leads by example. The Warmaster does not just win \u2014 they make everyone around them better. Discipline and tactical instinct define the class as much as martial skill.",
+      "aptitude_priorities": [
+        "Discipline",
+        "Martial Experience",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "discipline": 15,
+        "martial_experience": 10
+      },
       "materium_access": false,
-      "materium_pool_start": 10,
       "shadow_connection_start": 0,
-      "stamina_pool_start": 55,
       "starting_skills": {
-        "fixed": ["leadership", "tactics"],
+        "fixed": [
+          "leadership",
+          "tactics"
+        ],
         "choice_count": 1,
-        "choices": ["swordsmanship", "intimidation", "shield_fighting", "perception"]
+        "choices": [
+          "swordsmanship",
+          "intimidation",
+          "shield_fighting",
+          "perception"
+        ]
       },
       "default_weapon_affinity": "swordsmanship",
-      "available_armor": ["light", "medium", "heavy"],
-      "starting_wealth_range": [35, 70],
-      "starter_kit": ["Commander's Sword", "Chainmail", "Command Baton (social item)", "Campaign Map", "Rations x3"],
+      "available_armor": [
+        "light",
+        "medium",
+        "heavy"
+      ],
+      "starting_wealth_range": [
+        35,
+        70
+      ],
+      "starter_kit": [
+        "Commander's Sword",
+        "Chainmail",
+        "Command Baton (social item)",
+        "Campaign Map",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Warcry",
         "description": "Once per battle, issue a Warcry that grants all allies +5% damage for 3 turns. On coordinated attacks, stacks up to +15%."
       },
-      "typical_races": ["Midlander", "Northerner"],
-      "lore": "The Warmaster has learned that the best weapon is the soldier standing next to you — if they know what you need from them."
+      "typical_races": [
+        "Midlander",
+        "Northerner"
+      ],
+      "lore": "The Warmaster has learned that the best weapon is the soldier standing next to you \u2014 if they know what you need from them.",
+      "morality_range": [
+        45,
+        70
+      ]
     },
-
     {
       "id": "wayfarer",
       "name": "Wayfarer",
       "class_group": "Ranger",
       "archetype": "Scout / Ranger",
       "description": "A self-sufficient wilderness specialist and ranged fighter. Equally at home navigating the Dark Forests or negotiating a trade route. Skilled with bows, survival, and reading the land.",
-      "aptitude_priorities": ["Martial Experience", "Cognition", "Physiology"],
-      "aptitude_bonuses": { "martial_experience": 10, "cognition": 10, "physiology": 5 },
+      "aptitude_priorities": [
+        "Martial Experience",
+        "Cognition",
+        "Physiology"
+      ],
+      "aptitude_bonuses": {
+        "martial_experience": 10,
+        "cognition": 10,
+        "physiology": 5
+      },
       "materium_access": false,
-      "materium_pool_start": 12,
       "shadow_connection_start": 0,
-      "stamina_pool_start": 55,
       "starting_skills": {
-        "fixed": ["archery", "survival", "tracking"],
+        "fixed": [
+          "archery",
+          "survival",
+          "tracking"
+        ],
         "choice_count": 1,
-        "choices": ["navigation", "animal_handling", "small_arms", "stealth"]
+        "choices": [
+          "navigation",
+          "animal_handling",
+          "small_arms",
+          "stealth"
+        ]
       },
       "default_weapon_affinity": "archery",
-      "available_armor": ["light", "medium"],
-      "starting_wealth_range": [20, 45],
-      "starter_kit": ["Recurve Bow", "Shortsword or Knife", "Quiver (20 arrows)", "Light Leather", "Rations x5", "Rope", "Flint & Steel"],
+      "available_armor": [
+        "light",
+        "medium"
+      ],
+      "starting_wealth_range": [
+        20,
+        45
+      ],
+      "starter_kit": [
+        "Recurve Bow",
+        "Shortsword or Knife",
+        "Quiver (20 arrows)",
+        "Light Leather",
+        "Rations x5",
+        "Rope",
+        "Flint & Steel"
+      ],
       "special_class_trait": {
         "name": "Pathfinder",
         "description": "In wilderness biomes, all movement costs are reduced by 25%. Perception checks for detecting ambushes gain +10%."
       },
-      "typical_races": ["Northerner", "Step Folk", "Wildmen Foresters", "The Secluded"],
-      "lore": "The Wayfarer lives between places. Neither city nor wilderness fully claims them."
+      "typical_races": [
+        "Northerner",
+        "Step Folk",
+        "Wildmen Foresters",
+        "The Secluded"
+      ],
+      "lore": "The Wayfarer lives between places. Neither city nor wilderness fully claims them.",
+      "morality_range": [
+        38,
+        65
+      ]
     },
-
     {
       "id": "marksman",
       "name": "Marksman",
       "class_group": "Ranger",
       "archetype": "Long-Range Sniper",
       "description": "A patient, calculating ranged fighter who specializes in eliminating targets at extreme distances. Where the Wayfarer ranges widely, the Marksman finds one position and makes it count.",
-      "aptitude_priorities": ["Martial Experience", "Cognition", "Physiology"],
-      "aptitude_bonuses": { "martial_experience": 15, "cognition": 10 },
+      "aptitude_priorities": [
+        "Martial Experience",
+        "Cognition",
+        "Physiology"
+      ],
+      "aptitude_bonuses": {
+        "martial_experience": 15,
+        "cognition": 10
+      },
       "materium_access": false,
-      "materium_pool_start": 10,
       "shadow_connection_start": 0,
-      "stamina_pool_start": 50,
       "starting_skills": {
-        "fixed": ["archery", "focus_aim"],
+        "fixed": [
+          "archery",
+          "focus_aim"
+        ],
         "choice_count": 1,
-        "choices": ["perception", "stealth", "survival", "tracking"]
+        "choices": [
+          "perception",
+          "stealth",
+          "survival",
+          "tracking"
+        ]
       },
       "default_weapon_affinity": "archery",
-      "available_armor": ["light"],
-      "starting_wealth_range": [20, 50],
-      "starter_kit": ["Longbow (high-quality)", "Quiver (30 arrows)", "Light Leather", "Spotter's Scope", "Rations x4"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        20,
+        50
+      ],
+      "starter_kit": [
+        "Longbow (high-quality)",
+        "Quiver (30 arrows)",
+        "Light Leather",
+        "Spotter's Scope",
+        "Rations x4"
+      ],
       "special_class_trait": {
         "name": "Deadeye",
         "description": "Critical hit chance increases by +10% and critical damage by +15% when attacking targets at long range (3+ hexes)."
       },
-      "typical_races": ["Step Folk", "The Secluded"],
-      "lore": "The Marksman knows that the best fight is the one you win before the enemy knows it started."
+      "typical_races": [
+        "Step Folk",
+        "The Secluded"
+      ],
+      "lore": "The Marksman knows that the best fight is the one you win before the enemy knows it started.",
+      "morality_range": [
+        38,
+        65
+      ]
     },
-
     {
       "id": "beastwarden",
       "name": "Beastwarden",
       "class_group": "Ranger",
       "archetype": "Companion Ranger",
-      "description": "A ranger who fights alongside a bonded animal companion. The Beastwarden is less about personal combat ability and more about the combined effectiveness of handler and beast — a partnership built over years.",
-      "aptitude_priorities": ["Cognition", "Conviction", "Physiology"],
-      "aptitude_bonuses": { "cognition": 12, "conviction": 10 },
+      "description": "A ranger who fights alongside a bonded animal companion. The Beastwarden is less about personal combat ability and more about the combined effectiveness of handler and beast \u2014 a partnership built over years.",
+      "aptitude_priorities": [
+        "Cognition",
+        "Conviction",
+        "Physiology"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 12,
+        "conviction": 10
+      },
       "materium_access": false,
-      "materium_pool_start": 12,
       "shadow_connection_start": 0,
-      "stamina_pool_start": 40,
       "starting_skills": {
-        "fixed": ["tracking", "beast_handling"],
+        "fixed": [
+          "tracking",
+          "beast_handling"
+        ],
         "choice_count": 1,
-        "choices": ["survival", "archery", "herbalism", "perception"]
+        "choices": [
+          "survival",
+          "archery",
+          "herbalism",
+          "perception"
+        ]
       },
       "default_weapon_affinity": "archery",
-      "available_armor": ["light", "medium"],
-      "starting_wealth_range": [15, 40],
-      "starter_kit": ["Shortbow or Hunting Spear (choice)", "Light Leather", "Beast Bond Harness", "Rations x5 (includes animal feed)"],
+      "available_armor": [
+        "light",
+        "medium"
+      ],
+      "starting_wealth_range": [
+        15,
+        40
+      ],
+      "starter_kit": [
+        "Shortbow or Hunting Spear (choice)",
+        "Light Leather",
+        "Beast Bond Harness",
+        "Rations x5 (includes animal feed)"
+      ],
       "special_class_trait": {
         "name": "Bonded Companion",
         "description": "The Beastwarden begins play with a permanent animal companion. The companion's stats scale with the Beastwarden's level and Conviction."
       },
-      "typical_races": ["Wildmen Foresters", "Oakpeople"],
-      "lore": "The Beastwarden did not tame their companion. They earned them — and there is a difference."
+      "typical_races": [
+        "Wildmen Foresters",
+        "Oakpeople"
+      ],
+      "lore": "The Beastwarden did not tame their companion. They earned them \u2014 and there is a difference.",
+      "morality_range": [
+        38,
+        65
+      ]
     },
-
     {
       "id": "skirmisher",
       "name": "Skirmisher",
       "class_group": "Ranger",
       "archetype": "Hit-and-Run Fighter",
-      "description": "A fast, mobile combatant who fires and retreats before the enemy can respond. The Skirmisher never stands still — their tactics are constant pressure, constant movement, and never giving the enemy a fixed target.",
-      "aptitude_priorities": ["Martial Experience", "Physiology", "Cognition"],
-      "aptitude_bonuses": { "martial_experience": 15, "physiology": 10 },
+      "description": "A fast, mobile combatant who fires and retreats before the enemy can respond. The Skirmisher never stands still \u2014 their tactics are constant pressure, constant movement, and never giving the enemy a fixed target.",
+      "aptitude_priorities": [
+        "Martial Experience",
+        "Physiology",
+        "Cognition"
+      ],
+      "aptitude_bonuses": {
+        "martial_experience": 15,
+        "physiology": 10
+      },
       "materium_access": false,
-      "materium_pool_start": 10,
       "shadow_connection_start": 0,
-      "stamina_pool_start": 65,
       "starting_skills": {
-        "fixed": ["archery", "acrobatics"],
+        "fixed": [
+          "archery",
+          "acrobatics"
+        ],
         "choice_count": 1,
-        "choices": ["small_arms", "stealth", "survival", "athletics"]
+        "choices": [
+          "small_arms",
+          "stealth",
+          "survival",
+          "athletics"
+        ]
       },
       "default_weapon_affinity": "archery",
-      "available_armor": ["light"],
-      "starting_wealth_range": [20, 45],
-      "starter_kit": ["Short Bow", "Short Sword", "Quiver (20 arrows)", "Light Leather", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        20,
+        45
+      ],
+      "starter_kit": [
+        "Short Bow",
+        "Short Sword",
+        "Quiver (20 arrows)",
+        "Light Leather",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Evasive Flow",
         "description": "Movement made immediately after an attack does not trigger attacks of opportunity from the target."
       },
-      "typical_races": ["Step Folk", "Midlander"],
-      "lore": "The Skirmisher learned that being hard to hit is worth more than being hard to kill."
+      "typical_races": [
+        "Step Folk",
+        "Midlander"
+      ],
+      "lore": "The Skirmisher learned that being hard to hit is worth more than being hard to kill.",
+      "morality_range": [
+        38,
+        65
+      ]
     },
-
     {
       "id": "shadowblade",
       "name": "Shadowblade",
       "class_group": "Rogue",
       "archetype": "Shadow Warrior / Assassin",
-      "description": "A martial combatant who integrates shadow arts into physical fighting. Not a mage — a fighter who has learned to move through darkness and strike before being seen.",
-      "aptitude_priorities": ["Martial Experience", "Cognition", "Materium Affinity (Shadow)"],
-      "aptitude_bonuses": { "martial_experience": 12, "cognition": 8, "materium_affinity": 5 },
+      "description": "A martial combatant who integrates shadow arts into physical fighting. Not a mage \u2014 a fighter who has learned to move through darkness and strike before being seen.",
+      "aptitude_priorities": [
+        "Martial Experience",
+        "Cognition",
+        "Materium Affinity (Shadow)"
+      ],
+      "aptitude_bonuses": {
+        "martial_experience": 12,
+        "cognition": 13
+      },
       "materium_access": true,
-      "materium_schools_available": ["Darkvoid (basic)", "Chill (basic)"],
-      "materium_pool_start": 15,
+      "materium_schools_available": [
+        "Darkvoid (basic)",
+        "Chill (basic)"
+      ],
       "shadow_connection_start": 15,
-      "stamina_pool_start": 45,
       "starting_skills": {
-        "fixed": ["small_arms", "stealth", "shadow_weaving"],
+        "fixed": [
+          "small_arms",
+          "stealth",
+          "shadow_weaving"
+        ],
         "choice_count": 1,
-        "choices": ["thievery", "lockpicking", "acrobatics", "swordsmanship"]
+        "choices": [
+          "thievery",
+          "lockpicking",
+          "acrobatics",
+          "swordsmanship"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [20, 50],
-      "starter_kit": ["Stiletto x2", "Shortsword", "Black Leather Armor", "Lockpicks", "Smoke Pouch x2"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        20,
+        50
+      ],
+      "starter_kit": [
+        "Stiletto x2",
+        "Shortsword",
+        "Black Leather Armor",
+        "Lockpicks",
+        "Smoke Pouch x2"
+      ],
       "special_class_trait": {
         "name": "Shadow Step",
         "description": "Once per battle, teleport to any shadow tile within 3 hexes without triggering attacks of opportunity."
       },
-      "typical_races": ["The Dark Ones", "Ashen Halfbreeds", "Step Folk", "Midlander"],
-      "lore": "The Shadowblade uses the darkness as a tool, not a home. They chose shadow arts practically — not philosophically."
+      "typical_races": [
+        "The Dark Ones",
+        "Ashen Halfbreeds",
+        "Step Folk",
+        "Midlander"
+      ],
+      "lore": "The Shadowblade uses the darkness as a tool, not a home. They chose shadow arts practically \u2014 not philosophically.",
+      "morality_range": [
+        25,
+        60
+      ]
     },
-
     {
       "id": "assassin",
       "name": "Assassin",
       "class_group": "Rogue",
       "archetype": "Execution Killer",
-      "description": "A cold, methodical killer built around eliminating single targets. The Assassin does not brawl — they wait, identify the moment, and end the fight before it begins. They are specialists in closing the last gap.",
-      "aptitude_priorities": ["Martial Experience", "Cognition", "Physiology"],
-      "aptitude_bonuses": { "martial_experience": 15, "cognition": 10 },
+      "description": "A cold, methodical killer built around eliminating single targets. The Assassin does not brawl \u2014 they wait, identify the moment, and end the fight before it begins. They are specialists in closing the last gap.",
+      "aptitude_priorities": [
+        "Martial Experience",
+        "Cognition",
+        "Physiology"
+      ],
+      "aptitude_bonuses": {
+        "martial_experience": 15,
+        "cognition": 10
+      },
       "materium_access": false,
-      "materium_pool_start": 8,
       "shadow_connection_start": 0,
-      "stamina_pool_start": 55,
       "starting_skills": {
-        "fixed": ["small_arms", "stealth"],
+        "fixed": [
+          "small_arms",
+          "stealth"
+        ],
         "choice_count": 1,
-        "choices": ["acrobatics", "thievery", "lockpicking", "perception"]
+        "choices": [
+          "acrobatics",
+          "thievery",
+          "lockpicking",
+          "perception"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [20, 50],
-      "starter_kit": ["Stiletto", "Garotte", "Dark Leather Armor", "Poison Vials x2", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        20,
+        50
+      ],
+      "starter_kit": [
+        "Stiletto",
+        "Garotte",
+        "Dark Leather Armor",
+        "Poison Vials x2",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Execution",
         "description": "Attacks against targets below 30% Vitality deal +25% bonus damage. Against targets below 15%, this increases to +40%."
       },
-      "typical_races": ["The Dark Ones", "Step Folk"],
-      "lore": "The Assassin does not hate their targets. That would make the work personal. It isn't."
+      "typical_races": [
+        "The Dark Ones",
+        "Step Folk"
+      ],
+      "lore": "The Assassin does not hate their targets. That would make the work personal. It isn't.",
+      "morality_range": [
+        25,
+        60
+      ]
     },
-
     {
       "id": "thief",
       "name": "Thief",
       "class_group": "Rogue",
       "archetype": "Utility Rogue",
-      "description": "A quick-fingered opportunist who thrives in chaos and preparation. The Thief is the most socially versatile Rogue — equally at home picking pockets, breaking and entering, or reading a room for the fastest exit.",
-      "aptitude_priorities": ["Cognition", "Presence", "Physiology"],
-      "aptitude_bonuses": { "cognition": 12, "presence": 12 },
+      "description": "A quick-fingered opportunist who thrives in chaos and preparation. The Thief is the most socially versatile Rogue \u2014 equally at home picking pockets, breaking and entering, or reading a room for the fastest exit.",
+      "aptitude_priorities": [
+        "Cognition",
+        "Discipline",
+        "Physiology"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 12,
+        "discipline": 12
+      },
       "materium_access": false,
-      "materium_pool_start": 10,
       "shadow_connection_start": 0,
-      "stamina_pool_start": 35,
       "starting_skills": {
-        "fixed": ["lockpicking", "stealth"],
+        "fixed": [
+          "lockpicking",
+          "stealth"
+        ],
         "choice_count": 1,
-        "choices": ["thievery", "acrobatics", "deception", "perception"]
+        "choices": [
+          "thievery",
+          "acrobatics",
+          "deception",
+          "perception"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [20, 55],
-      "starter_kit": ["Concealed Dagger", "Lockpick Set", "Dark Clothes", "Rope (10m)", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        20,
+        55
+      ],
+      "starter_kit": [
+        "Concealed Dagger",
+        "Lockpick Set",
+        "Dark Clothes",
+        "Rope (10m)",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Opportunist",
         "description": "The Thief gains bonus loot from defeated enemies and can disarm traps instantly without a roll when detected."
       },
-      "typical_races": ["Midlander", "Step Folk"],
-      "lore": "The Thief is not defined by what they take. They are defined by how many options they keep open."
+      "typical_races": [
+        "Midlander",
+        "Step Folk"
+      ],
+      "lore": "The Thief is not defined by what they take. They are defined by how many options they keep open.",
+      "morality_range": [
+        25,
+        60
+      ]
     },
-
     {
       "id": "saboteur",
       "name": "Saboteur",
       "class_group": "Rogue",
       "archetype": "Trap Specialist",
       "description": "A cunning combatant who prepares the battlefield before the enemy arrives. The Saboteur uses traps, planted devices, and timed detonations to control ground rather than fight for it.",
-      "aptitude_priorities": ["Cognition", "Martial Experience", "Physiology"],
-      "aptitude_bonuses": { "cognition": 15, "martial_experience": 10 },
+      "aptitude_priorities": [
+        "Cognition",
+        "Martial Experience",
+        "Physiology"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 15,
+        "martial_experience": 10
+      },
       "materium_access": false,
-      "materium_pool_start": 10,
       "shadow_connection_start": 0,
-      "stamina_pool_start": 40,
       "starting_skills": {
-        "fixed": ["trapmaking", "explosives"],
+        "fixed": [
+          "trapmaking",
+          "explosives"
+        ],
         "choice_count": 1,
-        "choices": ["stealth", "alchemy", "perception", "thievery"]
+        "choices": [
+          "stealth",
+          "alchemy",
+          "perception",
+          "thievery"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light", "medium"],
-      "starting_wealth_range": [25, 55],
-      "starter_kit": ["Short Blade", "Trap Kit (3 basic traps)", "Explosive Charge x1", "Light Leather", "Rations x3"],
+      "available_armor": [
+        "light",
+        "medium"
+      ],
+      "starting_wealth_range": [
+        25,
+        55
+      ],
+      "starter_kit": [
+        "Short Blade",
+        "Trap Kit (3 basic traps)",
+        "Explosive Charge x1",
+        "Light Leather",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Chain Reaction",
         "description": "When a Saboteur trap triggers, it has a 30% chance to detonate any other Saboteur trap within 2 hexes as a chain reaction."
       },
-      "typical_races": ["Swampbrood", "Midlander"],
-      "lore": "The Saboteur's philosophy: by the time the enemy knows where you were, you've already won."
+      "typical_races": [
+        "Swampbrood",
+        "Midlander"
+      ],
+      "lore": "The Saboteur's philosophy: by the time the enemy knows where you were, you've already won.",
+      "morality_range": [
+        25,
+        60
+      ]
     },
-
     {
       "id": "warden",
       "name": "Warden",
       "class_group": "Cleric",
       "archetype": "Holy Warrior",
-      "description": "A martial champion of the Light. Not a healer — a fighter who uses conviction and divine light as weapons. Wardens are often associated with specific faiths, but any strong conviction can fuel the class.",
-      "aptitude_priorities": ["Conviction", "Physiology", "Materium Affinity (Light)"],
-      "aptitude_bonuses": { "conviction": 15, "physiology": 10, "materium_affinity": 5 },
+      "description": "A martial champion of the Light. Not a healer \u2014 a fighter who uses conviction and divine light as weapons. Wardens are often associated with specific faiths, but any strong conviction can fuel the class.",
+      "aptitude_priorities": [
+        "Conviction",
+        "Physiology",
+        "Materium Affinity (Light)"
+      ],
+      "aptitude_bonuses": {
+        "conviction": 15,
+        "physiology": 10,
+        "cognition": 5
+      },
       "materium_access": true,
-      "materium_schools_available": ["Purelight", "Aegis Reflection", "Solacium"],
-      "materium_pool_start": 20,
+      "materium_schools_available": [
+        "Purelight",
+        "Aegis Reflection",
+        "Solacium"
+      ],
       "shadow_connection_start": 0,
-      "stamina_pool_start": 50,
       "starting_skills": {
-        "fixed": ["lightwielding_skill", "leadership"],
+        "fixed": [
+          "lightwielding_skill",
+          "leadership"
+        ],
         "choice_count": 1,
-        "choices": ["swordsmanship", "shield_fighting", "blunt_force", "intimidation"]
+        "choices": [
+          "swordsmanship",
+          "shield_fighting",
+          "blunt_force",
+          "intimidation"
+        ]
       },
       "default_weapon_affinity": "swordsmanship",
-      "available_armor": ["light", "medium", "heavy"],
-      "starting_wealth_range": [35, 70],
-      "starter_kit": ["Arming Sword", "Shield (heavy)", "Chain Mail", "Holy Symbol (culture-appropriate)", "Rations x3"],
+      "available_armor": [
+        "light",
+        "medium",
+        "heavy"
+      ],
+      "starting_wealth_range": [
+        35,
+        70
+      ],
+      "starter_kit": [
+        "Arming Sword",
+        "Shield (heavy)",
+        "Chain Mail",
+        "Holy Symbol (culture-appropriate)",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Divine Aegis",
         "description": "While Materium pool is above 50%, all team members gain +5% resistance to Shadow Arts damage types."
       },
-      "typical_races": ["Midlander", "Northerner", "The Greys", "Stone Folk"],
-      "lore": "The Warden is the answer to the question: what does light do when darkness walks among us?"
+      "typical_races": [
+        "Midlander",
+        "Northerner",
+        "The Greys",
+        "Stone Folk"
+      ],
+      "lore": "The Warden is the answer to the question: what does light do when darkness walks among us?",
+      "morality_range": [
+        66,
+        85
+      ]
     },
-
     {
       "id": "soulkindler",
       "name": "Soulkindler",
       "class_group": "Cleric",
       "archetype": "Healer / Cleric",
-      "description": "A practitioner of healing, restoration, and divine support. The Soulkindler specializes in Vitalism and Soulkindling magic — repairing what is broken, including Temporal damage. The rarest reliable healer in Leonoria.",
-      "aptitude_priorities": ["Conviction", "Materium Affinity", "Cognition"],
-      "aptitude_bonuses": { "conviction": 10, "materium_affinity": 15, "cognition": 8, "physiology": -5, "martial_experience": -8 },
+      "description": "A practitioner of healing, restoration, and divine support. The Soulkindler specializes in Vitalism and Soulkindling magic \u2014 repairing what is broken, including Temporal damage. The rarest reliable healer in Leonoria.",
+      "aptitude_priorities": [
+        "Conviction",
+        "Materium Affinity",
+        "Cognition"
+      ],
+      "aptitude_bonuses": {
+        "conviction": 10,
+        "cognition": 23,
+        "physiology": -5,
+        "martial_experience": -8
+      },
       "materium_access": true,
-      "materium_schools_available": ["Vitalism", "Soulkindling", "Purelight", "Solacium"],
-      "materium_pool_start": 30,
+      "materium_schools_available": [
+        "Vitalism",
+        "Soulkindling",
+        "Purelight",
+        "Solacium"
+      ],
       "shadow_connection_start": 0,
       "starting_skills": {
-        "fixed": ["lightwielding_skill", "arcane_theory"],
+        "fixed": [
+          "lightwielding_skill",
+          "arcane_theory"
+        ],
         "choice_count": 2,
-        "choices": ["herbalism", "alchemy", "leadership", "persuasion", "monster_lore"]
+        "choices": [
+          "herbalism",
+          "alchemy",
+          "leadership",
+          "persuasion",
+          "monster_lore"
+        ]
       },
       "default_weapon_affinity": "blunt_force",
-      "available_armor": ["light", "medium"],
-      "starting_wealth_range": [30, 60],
-      "starter_kit": ["Staff (Quarterstaff)", "Healer's Satchel (5 basic potions)", "Light Robes", "Holy Symbol", "Rations x3"],
+      "available_armor": [
+        "light",
+        "medium"
+      ],
+      "starting_wealth_range": [
+        30,
+        60
+      ],
+      "starter_kit": [
+        "Staff (Quarterstaff)",
+        "Healer's Satchel (5 basic potions)",
+        "Light Robes",
+        "Holy Symbol",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Temporal Mend",
         "description": "Only the Soulkindler can reverse the permanent Vitality loss from Temporal (Aged) damage. Costs 40% of Materium pool per restoration attempt."
       },
-      "typical_races": ["The Greys", "Midlander", "Ice Ancients", "Stone Folk"],
-      "lore": "A Soulkindler once said: 'I do not fight death. I argue with it.'"
+      "typical_races": [
+        "The Greys",
+        "Midlander",
+        "Ice Ancients",
+        "Stone Folk"
+      ],
+      "lore": "A Soulkindler once said: 'I do not fight death. I argue with it.'",
+      "morality_range": [
+        66,
+        85
+      ]
     },
-
     {
       "id": "dawncaller",
       "name": "Dawncaller",
       "class_group": "Cleric",
       "archetype": "Anti-Shadow Cleric",
-      "description": "A Cleric who has dedicated themselves specifically to fighting the shadow — undead, void-touched creatures, and those corrupted by dark arts. The Dawncaller's light is not gentle. It burns.",
-      "aptitude_priorities": ["Conviction", "Materium Affinity", "Cognition"],
-      "aptitude_bonuses": { "conviction": 15, "materium_affinity": 10 },
+      "description": "A Cleric who has dedicated themselves specifically to fighting the shadow \u2014 undead, void-touched creatures, and those corrupted by dark arts. The Dawncaller's light is not gentle. It burns.",
+      "aptitude_priorities": [
+        "Conviction",
+        "Materium Affinity",
+        "Cognition"
+      ],
+      "aptitude_bonuses": {
+        "conviction": 15,
+        "cognition": 10
+      },
       "materium_access": true,
-      "materium_schools_available": ["Dawncalling", "Luminance", "Purelight (basic)"],
-      "materium_pool_start": 25,
+      "materium_schools_available": [
+        "Dawncalling",
+        "Luminance",
+        "Purelight (basic)"
+      ],
       "shadow_connection_start": 0,
       "starting_skills": {
-        "fixed": ["lightwielding_skill", "revelation"],
+        "fixed": [
+          "lightwielding_skill",
+          "revelation"
+        ],
         "choice_count": 1,
-        "choices": ["monster_lore", "swordsmanship", "leadership", "blunt_force"]
+        "choices": [
+          "monster_lore",
+          "swordsmanship",
+          "leadership",
+          "blunt_force"
+        ]
       },
       "default_weapon_affinity": "blunt_force",
-      "available_armor": ["light", "medium"],
-      "starting_wealth_range": [30, 60],
-      "starter_kit": ["Blessed Mace", "Radiant Symbol", "Light Robes", "Daybreak Torch x2", "Rations x3"],
+      "available_armor": [
+        "light",
+        "medium"
+      ],
+      "starting_wealth_range": [
+        30,
+        60
+      ],
+      "starter_kit": [
+        "Blessed Mace",
+        "Radiant Symbol",
+        "Light Robes",
+        "Daybreak Torch x2",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Radiant Purge",
         "description": "All Purelight and Dawncalling damage deals a +20% bonus against undead and shadow-touched entities. Shadow-touched enemies struck by the Dawncaller are briefly banished from shadow tile bonuses."
       },
-      "typical_races": ["The Greys", "Midlander"],
-      "lore": "The Dawncaller does not wait for darkness to recede. They decide when it ends."
+      "typical_races": [
+        "The Greys",
+        "Midlander"
+      ],
+      "lore": "The Dawncaller does not wait for darkness to recede. They decide when it ends.",
+      "morality_range": [
+        66,
+        85
+      ]
     },
-
     {
       "id": "aegisbearer",
       "name": "Aegisbearer",
       "class_group": "Cleric",
       "archetype": "Shield Cleric",
-      "description": "A Cleric of fortification and sacred protection. The Aegisbearer channels divine light into physical barriers — shields that glow, wards that hold, and armor that turns blades. They exist to make the faithful impossible to break.",
-      "aptitude_priorities": ["Conviction", "Physiology", "Materium Affinity"],
-      "aptitude_bonuses": { "conviction": 15, "physiology": 10 },
+      "description": "A Cleric of fortification and sacred protection. The Aegisbearer channels divine light into physical barriers \u2014 shields that glow, wards that hold, and armor that turns blades. They exist to make the faithful impossible to break.",
+      "aptitude_priorities": [
+        "Conviction",
+        "Physiology",
+        "Materium Affinity"
+      ],
+      "aptitude_bonuses": {
+        "conviction": 15,
+        "physiology": 10
+      },
       "materium_access": true,
-      "materium_schools_available": ["Aegiscraft", "Sanctification", "Purelight (basic)"],
-      "materium_pool_start": 25,
+      "materium_schools_available": [
+        "Aegiscraft",
+        "Sanctification",
+        "Purelight (basic)"
+      ],
       "shadow_connection_start": 0,
-      "stamina_pool_start": 45,
       "starting_skills": {
-        "fixed": ["lightwielding_skill", "defense"],
+        "fixed": [
+          "lightwielding_skill",
+          "defense"
+        ],
         "choice_count": 1,
-        "choices": ["shield_fighting", "blunt_force", "leadership", "intimidation"]
+        "choices": [
+          "shield_fighting",
+          "blunt_force",
+          "leadership",
+          "intimidation"
+        ]
       },
       "default_weapon_affinity": "blunt_force",
-      "available_armor": ["light", "medium", "heavy"],
-      "starting_wealth_range": [35, 70],
-      "starter_kit": ["Heavy Mace", "Tower Shield (light-etched)", "Chain Mail", "Holy Symbol", "Rations x3"],
+      "available_armor": [
+        "light",
+        "medium",
+        "heavy"
+      ],
+      "starting_wealth_range": [
+        35,
+        70
+      ],
+      "starter_kit": [
+        "Heavy Mace",
+        "Tower Shield (light-etched)",
+        "Chain Mail",
+        "Holy Symbol",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Radiant Bulwark",
         "description": "Shields wielded by the Aegisbearer absorb +20% more damage. This bonus applies to any shield-bearing ally within 2 hexes while the Aegisbearer's Materium pool is above 30%."
       },
-      "typical_races": ["Stone Folk", "Northerner"],
-      "lore": "The Aegisbearer has decided that faith is not just a feeling. It is something you put between the blade and the person behind you."
+      "typical_races": [
+        "Stone Folk",
+        "Northerner"
+      ],
+      "lore": "The Aegisbearer has decided that faith is not just a feeling. It is something you put between the blade and the person behind you.",
+      "morality_range": [
+        66,
+        85
+      ]
     },
-
     {
       "id": "scholar",
       "name": "Scholar",
       "class_group": "Mage",
       "archetype": "Academic Mage",
-      "description": "A mage who prioritizes understanding over power. The Scholar has access to more Materium schools than anyone except the Elementalist, but at lower potency. What they lack in raw damage they compensate with perfect knowledge — tactical analysis, monster identification, and extraordinary learning speed.",
-      "aptitude_priorities": ["Cognition", "Materium Affinity", "Conviction"],
-      "aptitude_bonuses": { "cognition": 20, "materium_affinity": 10, "conviction": 5, "physiology": -10, "martial_experience": -10 },
+      "description": "A mage who prioritizes understanding over power. The Scholar has access to more Materium schools than anyone except the Elementalist, but at lower potency. What they lack in raw damage they compensate with perfect knowledge \u2014 tactical analysis, monster identification, and extraordinary learning speed.",
+      "aptitude_priorities": [
+        "Cognition",
+        "Materium Affinity",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 30,
+        "conviction": 5,
+        "physiology": -10,
+        "martial_experience": -10
+      },
       "materium_access": true,
-      "materium_schools_available": ["Impact", "Earthen (basic)", "Purelight (basic)", "Darkvoid (basic)", "Any school with Erudition 50+"],
-      "materium_pool_start": 25,
+      "materium_schools_available": [
+        "Impact",
+        "Earthen (basic)",
+        "Purelight (basic)",
+        "Darkvoid (basic)",
+        "Any school with Erudition 50+"
+      ],
       "shadow_connection_start": 5,
       "starting_skills": {
-        "fixed": ["arcane_theory", "monster_lore"],
+        "fixed": [
+          "arcane_theory",
+          "monster_lore"
+        ],
         "choice_count": 3,
-        "choices": ["materium_channeling", "lightwielding_skill", "alchemy", "herbalism", "lockpicking", "navigation", "perception"]
+        "choices": [
+          "materium_channeling",
+          "lightwielding_skill",
+          "alchemy",
+          "herbalism",
+          "lockpicking",
+          "navigation",
+          "perception"
+        ]
       },
       "default_weapon_affinity": "blunt_force",
-      "available_armor": ["light"],
-      "starting_wealth_range": [25, 60],
-      "starter_kit": ["Reference Tome (grants +5 to Arcane Theory starting value)", "Walking Staff", "Scholar's Robes", "Ink & Quill", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        25,
+        60
+      ],
+      "starter_kit": [
+        "Reference Tome (grants +5 to Arcane Theory starting value)",
+        "Walking Staff",
+        "Scholar's Robes",
+        "Ink & Quill",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Rapid Learning",
         "description": "All Erudition-connected skill levels gained in Cognition category are doubled. The Scholar levels theoretical knowledge at twice the standard rate."
       },
-      "typical_races": ["The Greys", "Midlander", "Stone Folk"],
-      "lore": "The Scholar spent years studying what others only use. That gap — between theory and practice — is their home."
+      "typical_races": [
+        "The Greys",
+        "Midlander",
+        "Stone Folk"
+      ],
+      "lore": "The Scholar spent years studying what others only use. That gap \u2014 between theory and practice \u2014 is their home.",
+      "morality_range": [
+        40,
+        65
+      ]
     },
-
     {
       "id": "elementalist",
       "name": "Elementalist",
       "class_group": "Mage",
       "archetype": "Broad Mage",
-      "description": "The most balanced magical class — broad access to the Focused Triad with high Materium affinity. Not specialized enough to be the best at any one element, but versatile enough to handle anything.",
-      "aptitude_priorities": ["Materium Affinity", "Cognition", "Conviction"],
-      "aptitude_bonuses": { "materium_affinity": 20, "cognition": 12, "conviction": 5, "physiology": -12, "martial_experience": -8 },
+      "description": "The most balanced magical class \u2014 broad access to the Focused Triad with high Materium affinity. Not specialized enough to be the best at any one element, but versatile enough to handle anything.",
+      "aptitude_priorities": [
+        "Materium Affinity",
+        "Cognition",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 32,
+        "conviction": 5,
+        "physiology": -12,
+        "martial_experience": -8
+      },
       "materium_access": true,
-      "materium_schools_available": ["Impact", "Earthen", "Tempest", "Fire", "Aquas", "Athropium"],
-      "materium_pool_start": 40,
+      "materium_schools_available": [
+        "Impact",
+        "Earthen",
+        "Tempest",
+        "Fire",
+        "Aquas",
+        "Athropium"
+      ],
       "shadow_connection_start": 0,
       "starting_skills": {
-        "fixed": ["materium_channeling", "arcane_theory"],
+        "fixed": [
+          "materium_channeling",
+          "arcane_theory"
+        ],
         "choice_count": 2,
-        "choices": ["herbalism", "alchemy", "monster_lore", "navigation", "stealth"]
+        "choices": [
+          "herbalism",
+          "alchemy",
+          "monster_lore",
+          "navigation",
+          "stealth"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [25, 55],
-      "starter_kit": ["Staff (Quarterstaff)", "Light Robes", "Reagent Pouch (basic materials)", "Arcane Focus Shard", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        25,
+        55
+      ],
+      "starter_kit": [
+        "Staff (Quarterstaff)",
+        "Light Robes",
+        "Reagent Pouch (basic materials)",
+        "Arcane Focus Shard",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Synergy Instinct",
-        "description": "Elemental synergy bonuses (e.g. Aquas+Tempest) are automatically calculated and triggered — the Elementalist never misses a synergy."
+        "description": "Elemental synergy bonuses (e.g. Aquas+Tempest) are automatically calculated and triggered \u2014 the Elementalist never misses a synergy."
       },
-      "typical_races": ["The Secluded", "The Greys", "Oakpeople", "Ice Ancients"],
-      "lore": "An Elementalist sees the world as forces in conversation. They learned to join the conversation."
+      "typical_races": [
+        "The Secluded",
+        "The Greys",
+        "Oakpeople",
+        "Ice Ancients"
+      ],
+      "lore": "An Elementalist sees the world as forces in conversation. They learned to join the conversation.",
+      "morality_range": [
+        40,
+        65
+      ]
     },
-
     {
       "id": "arcanist",
       "name": "Arcanist",
       "class_group": "Mage",
       "archetype": "Raw Arcane Mage",
-      "description": "A mage who channels raw arcane force without the theoretical scaffolding of the Scholar or the elemental discipline of the Elementalist. The Arcanist improvises and overwhelms — sometimes both at once.",
-      "aptitude_priorities": ["Cognition", "Materium Affinity", "Conviction"],
-      "aptitude_bonuses": { "cognition": 15, "materium_affinity": 10 },
+      "description": "A mage who channels raw arcane force without the theoretical scaffolding of the Scholar or the elemental discipline of the Elementalist. The Arcanist improvises and overwhelms \u2014 sometimes both at once.",
+      "aptitude_priorities": [
+        "Cognition",
+        "Materium Affinity",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 25
+      },
       "materium_access": true,
-      "materium_schools_available": ["Arcane Arts", "Geometrics", "Impact (basic)"],
-      "materium_pool_start": 30,
+      "materium_schools_available": [
+        "Arcane Arts",
+        "Geometrics",
+        "Impact (basic)"
+      ],
       "shadow_connection_start": 0,
       "starting_skills": {
-        "fixed": ["arcane_theory", "materium_channeling"],
+        "fixed": [
+          "arcane_theory",
+          "materium_channeling"
+        ],
         "choice_count": 1,
-        "choices": ["monster_lore", "alchemy", "perception", "stealth"]
+        "choices": [
+          "monster_lore",
+          "alchemy",
+          "perception",
+          "stealth"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [20, 50],
-      "starter_kit": ["Arcanist's Focus Rod", "Light Robes", "Reagent Pouch", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        20,
+        50
+      ],
+      "starter_kit": [
+        "Arcanist's Focus Rod",
+        "Light Robes",
+        "Reagent Pouch",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Arcane Surge",
-        "description": "Each spell cast has a 20% chance to trigger Arcane Surge — the spell is cast a second time at no additional Materium cost."
+        "description": "Each spell cast has a 20% chance to trigger Arcane Surge \u2014 the spell is cast a second time at no additional Materium cost."
       },
-      "typical_races": ["The Greys"],
-      "lore": "The Arcanist stopped asking whether the power was stable. They started asking whether the target was still standing."
+      "typical_races": [
+        "The Greys"
+      ],
+      "lore": "The Arcanist stopped asking whether the power was stable. They started asking whether the target was still standing.",
+      "morality_range": [
+        40,
+        65
+      ]
     },
-
     {
       "id": "runescribe",
       "name": "Runescribe",
       "class_group": "Mage",
       "archetype": "Prepared Mage",
-      "description": "A mage who inscribes spells in advance and releases them at will. The Runescribe cannot improvise the way an Arcanist can — but they can unleash devastating prepared effects with instant precision that no other mage can match.",
-      "aptitude_priorities": ["Cognition", "Conviction", "Materium Affinity"],
-      "aptitude_bonuses": { "cognition": 15, "conviction": 10 },
+      "description": "A mage who inscribes spells in advance and releases them at will. The Runescribe cannot improvise the way an Arcanist can \u2014 but they can unleash devastating prepared effects with instant precision that no other mage can match.",
+      "aptitude_priorities": [
+        "Cognition",
+        "Conviction",
+        "Materium Affinity"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 15,
+        "conviction": 10
+      },
       "materium_access": true,
-      "materium_schools_available": ["Delayed casting (Inscription-based)", "Impact", "Earthen (basic)", "Purelight (basic)"],
-      "materium_pool_start": 25,
+      "materium_schools_available": [
+        "Delayed casting (Inscription-based)",
+        "Impact",
+        "Earthen (basic)",
+        "Purelight (basic)"
+      ],
       "shadow_connection_start": 0,
       "starting_skills": {
-        "fixed": ["arcane_theory", "inscription"],
+        "fixed": [
+          "arcane_theory",
+          "inscription"
+        ],
         "choice_count": 2,
-        "choices": ["materium_channeling", "monster_lore", "alchemy", "perception"]
+        "choices": [
+          "materium_channeling",
+          "monster_lore",
+          "alchemy",
+          "perception"
+        ]
       },
       "default_weapon_affinity": "blunt_force",
-      "available_armor": ["light"],
-      "starting_wealth_range": [25, 55],
-      "starter_kit": ["Inscription Kit (special item)", "Rune-Scribed Staff", "Scholar's Robes", "Blank Tablets x3", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        25,
+        55
+      ],
+      "starter_kit": [
+        "Inscription Kit (special item)",
+        "Rune-Scribed Staff",
+        "Scholar's Robes",
+        "Blank Tablets x3",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Stored Casting",
         "description": "The Runescribe may inscribe up to 3 spells during preparation phases. Inscribed spells can be released as instant actions in combat, ignoring normal casting time."
       },
-      "typical_races": ["Stone Folk", "The Greys"],
-      "lore": "The Runescribe believes that the most powerful spell is the one you already cast — you just haven't released it yet."
+      "typical_races": [
+        "Stone Folk",
+        "The Greys"
+      ],
+      "lore": "The Runescribe believes that the most powerful spell is the one you already cast \u2014 you just haven't released it yet.",
+      "morality_range": [
+        40,
+        65
+      ]
     },
-
     {
       "id": "pyrecrafter",
       "name": "Pyrecrafter",
       "class_group": "Sorcerer",
       "archetype": "Fire Specialist",
       "description": "A mage who has devoted themselves entirely to Fire mastery. The most offensively focused magical class. Every spell they cast burns. Everything around them, eventually, also burns.",
-      "aptitude_priorities": ["Materium Affinity", "Cognition", "Physiology"],
-      "aptitude_bonuses": { "materium_affinity": 18, "cognition": 10, "physiology": 3, "martial_experience": -5 },
+      "aptitude_priorities": [
+        "Materium Affinity",
+        "Cognition",
+        "Physiology"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 28,
+        "physiology": 3,
+        "martial_experience": -5
+      },
       "materium_access": true,
-      "materium_schools_available": ["Fire", "Impact", "Earthen (basic)"],
-      "materium_pool_start": 35,
+      "materium_schools_available": [
+        "Fire",
+        "Impact",
+        "Earthen (basic)"
+      ],
       "shadow_connection_start": 0,
       "starting_skills": {
-        "fixed": ["materium_channeling", "arcane_theory"],
+        "fixed": [
+          "materium_channeling",
+          "arcane_theory"
+        ],
         "choice_count": 1,
-        "choices": ["alchemy", "herbalism", "survival", "monster_lore"]
+        "choices": [
+          "alchemy",
+          "herbalism",
+          "survival",
+          "monster_lore"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [20, 45],
-      "starter_kit": ["Fire-Hardened Staff", "Light Robes (fire-treated)", "Reagent Pouch (combustion materials)", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        20,
+        45
+      ],
+      "starter_kit": [
+        "Fire-Hardened Staff",
+        "Light Robes (fire-treated)",
+        "Reagent Pouch (combustion materials)",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Heatmaster",
         "description": "All Fire damage dealt gains +15%. The Pyrecrafter does not suffer the Ignited status from their own fire. Friendly fire rules still apply."
       },
-      "typical_races": ["Midlander", "The Greys", "Step Folk"],
-      "lore": "They did not choose fire. Fire chose them, and they were wise enough to say yes."
+      "typical_races": [
+        "Midlander",
+        "The Greys",
+        "Step Folk"
+      ],
+      "lore": "They did not choose fire. Fire chose them, and they were wise enough to say yes.",
+      "morality_range": [
+        45,
+        70
+      ]
     },
-
     {
       "id": "stormcaller",
       "name": "Stormcaller",
       "class_group": "Sorcerer",
       "archetype": "Tempest Specialist",
-      "description": "A Materium mage attuned to wind, atmospheric pressure, and electricity. The Stormcaller is the most mobile magical class — they are always in motion, and they make the air itself a weapon.",
-      "aptitude_priorities": ["Materium Affinity", "Cognition", "Physiology"],
-      "aptitude_bonuses": { "materium_affinity": 18, "cognition": 10, "physiology": 3, "martial_experience": -5 },
+      "description": "A Materium mage attuned to wind, atmospheric pressure, and electricity. The Stormcaller is the most mobile magical class \u2014 they are always in motion, and they make the air itself a weapon.",
+      "aptitude_priorities": [
+        "Materium Affinity",
+        "Cognition",
+        "Physiology"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 28,
+        "physiology": 3,
+        "martial_experience": -5
+      },
       "materium_access": true,
-      "materium_schools_available": ["Tempest", "Aquas", "Impact"],
-      "materium_pool_start": 35,
+      "materium_schools_available": [
+        "Tempest",
+        "Aquas",
+        "Impact"
+      ],
       "shadow_connection_start": 0,
       "starting_skills": {
-        "fixed": ["materium_channeling", "arcane_theory"],
+        "fixed": [
+          "materium_channeling",
+          "arcane_theory"
+        ],
         "choice_count": 1,
-        "choices": ["navigation", "survival", "monster_lore", "acrobatics"]
+        "choices": [
+          "navigation",
+          "survival",
+          "monster_lore",
+          "acrobatics"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [20, 45],
-      "starter_kit": ["Light Staff", "Wind-Woven Robes", "Reagent Pouch (atmospheric materials)", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        20,
+        45
+      ],
+      "starter_kit": [
+        "Light Staff",
+        "Wind-Woven Robes",
+        "Reagent Pouch (atmospheric materials)",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Cascade Rider",
         "description": "Tempest cascade effects (the electric secondary strike) trigger at 25% chance instead of 15% for the Stormcaller, and deal +10% bonus damage."
       },
-      "typical_races": ["Ice Ancients", "The Secluded", "Midlander"],
-      "lore": "The Stormcaller does not call storms. They were born in one."
+      "typical_races": [
+        "Ice Ancients",
+        "The Secluded",
+        "Midlander"
+      ],
+      "lore": "The Stormcaller does not call storms. They were born in one.",
+      "morality_range": [
+        45,
+        70
+      ]
     },
-
     {
       "id": "geomancer",
       "name": "Geomancer",
       "class_group": "Sorcerer",
       "archetype": "Earth Specialist",
-      "description": "A Sorcerer attuned to earth, stone, and the deep places of the world. The Geomancer fights slowly but devastatingly — shaping terrain, raising barriers, and making the ground itself a weapon.",
-      "aptitude_priorities": ["Materium Affinity", "Physiology", "Cognition"],
-      "aptitude_bonuses": { "materium_affinity": 15, "physiology": 10 },
+      "description": "A Sorcerer attuned to earth, stone, and the deep places of the world. The Geomancer fights slowly but devastatingly \u2014 shaping terrain, raising barriers, and making the ground itself a weapon.",
+      "aptitude_priorities": [
+        "Materium Affinity",
+        "Physiology",
+        "Cognition"
+      ],
+      "aptitude_bonuses": {
+        "physiology": 10,
+        "cognition": 15
+      },
       "materium_access": true,
-      "materium_schools_available": ["Terramancy", "Earthen", "Impact (basic)"],
-      "materium_pool_start": 35,
+      "materium_schools_available": [
+        "Terramancy",
+        "Earthen",
+        "Impact (basic)"
+      ],
       "shadow_connection_start": 0,
       "starting_skills": {
-        "fixed": ["materium_channeling", "earthcraft"],
+        "fixed": [
+          "materium_channeling",
+          "earthcraft"
+        ],
         "choice_count": 1,
-        "choices": ["arcane_theory", "survival", "monster_lore", "athletics"]
+        "choices": [
+          "arcane_theory",
+          "survival",
+          "monster_lore",
+          "athletics"
+        ]
       },
       "default_weapon_affinity": "blunt_force",
-      "available_armor": ["light", "medium"],
-      "starting_wealth_range": [20, 50],
-      "starter_kit": ["Stone-Headed Staff", "Earthen Robes", "Reagent Pouch (mineral materials)", "Rations x3"],
+      "available_armor": [
+        "light",
+        "medium"
+      ],
+      "starting_wealth_range": [
+        20,
+        50
+      ],
+      "starter_kit": [
+        "Stone-Headed Staff",
+        "Earthen Robes",
+        "Reagent Pouch (mineral materials)",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Stoneform",
         "description": "Once per battle, the Geomancer may enter Stoneform for 2 turns, gaining +25% physical damage reduction and immunity to knockback."
       },
-      "typical_races": ["Stone Folk", "Ashen Halfbreeds"],
-      "lore": "The Geomancer understands something the fire mages don't: the earth was here before you, and it will be here after."
+      "typical_races": [
+        "Stone Folk",
+        "Ashen Halfbreeds"
+      ],
+      "lore": "The Geomancer understands something the fire mages don't: the earth was here before you, and it will be here after.",
+      "morality_range": [
+        45,
+        70
+      ]
     },
-
     {
       "id": "aquorist",
       "name": "Aquorist",
       "class_group": "Sorcerer",
       "archetype": "Water Specialist",
-      "description": "A Sorcerer attuned to water, ice, and fluid dynamics. The Aquorist controls battlefield movement through environmental manipulation — slowing, flooding, freezing. They are the most defensively creative of the elemental specialists.",
-      "aptitude_priorities": ["Materium Affinity", "Cognition", "Physiology"],
-      "aptitude_bonuses": { "materium_affinity": 15, "cognition": 10 },
+      "description": "A Sorcerer attuned to water, ice, and fluid dynamics. The Aquorist controls battlefield movement through environmental manipulation \u2014 slowing, flooding, freezing. They are the most defensively creative of the elemental specialists.",
+      "aptitude_priorities": [
+        "Materium Affinity",
+        "Cognition",
+        "Physiology"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 25
+      },
       "materium_access": true,
-      "materium_schools_available": ["Aquorism", "Aquas", "Tempest (basic)"],
-      "materium_pool_start": 35,
+      "materium_schools_available": [
+        "Aquorism",
+        "Aquas",
+        "Tempest (basic)"
+      ],
       "shadow_connection_start": 0,
       "starting_skills": {
-        "fixed": ["materium_channeling", "flow_control"],
+        "fixed": [
+          "materium_channeling",
+          "flow_control"
+        ],
         "choice_count": 1,
-        "choices": ["arcane_theory", "survival", "navigation", "monster_lore"]
+        "choices": [
+          "arcane_theory",
+          "survival",
+          "navigation",
+          "monster_lore"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [20, 45],
-      "starter_kit": ["Fluid-Glass Staff", "Current-Woven Robes", "Reagent Pouch (water materials)", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        20,
+        45
+      ],
+      "starter_kit": [
+        "Fluid-Glass Staff",
+        "Current-Woven Robes",
+        "Reagent Pouch (water materials)",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Fluid Adaptation",
         "description": "The Aquorist is immune to slow effects and gains +15% movement bonus in water or flooded terrain. Aquas and Aquorism spells ignore movement penalties."
       },
-      "typical_races": ["Ice Ancients"],
-      "lore": "The Aquorist knows that water does not fight. It simply finds the way through."
+      "typical_races": [
+        "Ice Ancients"
+      ],
+      "lore": "The Aquorist knows that water does not fight. It simply finds the way through.",
+      "morality_range": [
+        45,
+        70
+      ]
     },
-
     {
       "id": "lifewhisperer",
       "name": "Lifewhisperer",
       "class_group": "Druid",
       "archetype": "Nature Mage",
-      "description": "A practitioner of Athropium, nature magic, and life-force manipulation. Different from the Soulkindler — the Lifewhisperer works with the natural world as a force, not as a faith. They can harm as easily as heal.",
-      "aptitude_priorities": ["Materium Affinity", "Conviction", "Cognition"],
-      "aptitude_bonuses": { "materium_affinity": 18, "conviction": 8, "cognition": 8, "physiology": -5, "martial_experience": -8 },
+      "description": "A practitioner of Athropium, nature magic, and life-force manipulation. Different from the Soulkindler \u2014 the Lifewhisperer works with the natural world as a force, not as a faith. They can harm as easily as heal.",
+      "aptitude_priorities": [
+        "Materium Affinity",
+        "Conviction",
+        "Cognition"
+      ],
+      "aptitude_bonuses": {
+        "conviction": 8,
+        "cognition": 26,
+        "physiology": -5,
+        "martial_experience": -8
+      },
       "materium_access": true,
-      "materium_schools_available": ["Athropium", "Lifewhispering", "Earthen", "Vitalism (basic)"],
-      "materium_pool_start": 35,
+      "materium_schools_available": [
+        "Athropium",
+        "Lifewhispering",
+        "Earthen",
+        "Vitalism (basic)"
+      ],
       "shadow_connection_start": 0,
       "starting_skills": {
-        "fixed": ["materium_channeling", "herbalism"],
+        "fixed": [
+          "materium_channeling",
+          "herbalism"
+        ],
         "choice_count": 2,
-        "choices": ["alchemy", "animal_handling", "survival", "arcane_theory", "tracking"]
+        "choices": [
+          "alchemy",
+          "animal_handling",
+          "survival",
+          "arcane_theory",
+          "tracking"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [15, 40],
-      "starter_kit": ["Thornwood Staff", "Nature Robes", "Herbalism Kit", "Animal Bond Talisman", "Rations x4"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        15,
+        40
+      ],
+      "starter_kit": [
+        "Thornwood Staff",
+        "Nature Robes",
+        "Herbalism Kit",
+        "Animal Bond Talisman",
+        "Rations x4"
+      ],
       "special_class_trait": {
         "name": "Life Reading",
         "description": "Can assess the exact Vitality and current status effects of any biological creature within 3 hexes at will. No Materium cost."
       },
-      "typical_races": ["Oakpeople", "The Secluded", "Wildmen Foresters", "Swampbrood"],
-      "lore": "The Lifewhisperer hears what other mages ignore: the quiet voice of everything that is alive, or was, or will be."
+      "typical_races": [
+        "Oakpeople",
+        "The Secluded",
+        "Wildmen Foresters",
+        "Swampbrood"
+      ],
+      "lore": "The Lifewhisperer hears what other mages ignore: the quiet voice of everything that is alive, or was, or will be.",
+      "morality_range": [
+        48,
+        70
+      ]
     },
-
     {
       "id": "beastcaller",
       "name": "Beastcaller",
       "class_group": "Druid",
       "archetype": "Animal Druid",
-      "description": "A Druid who specializes in summoning and bonding with animals. The Beastcaller does not control beasts — they invite them into a shared purpose. The distinction matters more to the beasts than anyone else.",
-      "aptitude_priorities": ["Conviction", "Cognition", "Materium Affinity"],
-      "aptitude_bonuses": { "conviction": 15, "cognition": 10 },
+      "description": "A Druid who specializes in summoning and bonding with animals. The Beastcaller does not control beasts \u2014 they invite them into a shared purpose. The distinction matters more to the beasts than anyone else.",
+      "aptitude_priorities": [
+        "Conviction",
+        "Cognition",
+        "Materium Affinity"
+      ],
+      "aptitude_bonuses": {
+        "conviction": 15,
+        "cognition": 10
+      },
       "materium_access": true,
-      "materium_schools_available": ["Bestial Communion", "Athropium (basic)", "Lifewhispering (basic)"],
-      "materium_pool_start": 30,
+      "materium_schools_available": [
+        "Bestial Communion",
+        "Athropium (basic)",
+        "Lifewhispering (basic)"
+      ],
       "shadow_connection_start": 0,
       "starting_skills": {
-        "fixed": ["materium_channeling", "beastcraft"],
+        "fixed": [
+          "materium_channeling",
+          "beastcraft"
+        ],
         "choice_count": 1,
-        "choices": ["animal_handling", "tracking", "survival", "herbalism"]
+        "choices": [
+          "animal_handling",
+          "tracking",
+          "survival",
+          "herbalism"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [15, 35],
-      "starter_kit": ["Bone-Carved Staff", "Hide Robes", "Beast-Call Horn", "Rations x4 (includes offerings)"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        15,
+        35
+      ],
+      "starter_kit": [
+        "Bone-Carved Staff",
+        "Hide Robes",
+        "Beast-Call Horn",
+        "Rations x4 (includes offerings)"
+      ],
       "special_class_trait": {
         "name": "Primal Bond",
         "description": "The Beastcaller may summon scaling beast companions (wolf, bear, bird of prey) whose stats scale with the Beastcaller's level and Conviction. Multiple weaker beasts or one powerful beast."
       },
-      "typical_races": ["Wildmen Foresters"],
-      "lore": "The Beastcaller's strength is borrowed — from the wolf, the hawk, the boar. They spend their whole life repaying it."
+      "typical_races": [
+        "Wildmen Foresters"
+      ],
+      "lore": "The Beastcaller's strength is borrowed \u2014 from the wolf, the hawk, the boar. They spend their whole life repaying it.",
+      "morality_range": [
+        48,
+        70
+      ]
     },
-
     {
       "id": "verdant_warden",
       "name": "Verdant Warden",
       "class_group": "Druid",
       "archetype": "Defensive Nature Druid",
-      "description": "A Druid who defends rather than attacks — reinforcing the living, rooting out corruption, and turning nature itself into armor. The Verdant Warden is a bulwark of green, slow-burning and impossible to dislodge.",
-      "aptitude_priorities": ["Physiology", "Materium Affinity", "Conviction"],
-      "aptitude_bonuses": { "physiology": 12, "materium_affinity": 12 },
+      "description": "A Druid who defends rather than attacks \u2014 reinforcing the living, rooting out corruption, and turning nature itself into armor. The Verdant Warden is a bulwark of green, slow-burning and impossible to dislodge.",
+      "aptitude_priorities": [
+        "Physiology",
+        "Materium Affinity",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "physiology": 12,
+        "cognition": 12
+      },
       "materium_access": true,
-      "materium_schools_available": ["Lifewhispering", "Earthen", "Athropium (basic)"],
-      "materium_pool_start": 30,
+      "materium_schools_available": [
+        "Lifewhispering",
+        "Earthen",
+        "Athropium (basic)"
+      ],
       "shadow_connection_start": 0,
-      "stamina_pool_start": 35,
       "starting_skills": {
-        "fixed": ["materium_channeling", "defense"],
+        "fixed": [
+          "materium_channeling",
+          "defense"
+        ],
         "choice_count": 1,
-        "choices": ["herbalism", "survival", "shield_fighting", "athletics"]
+        "choices": [
+          "herbalism",
+          "survival",
+          "shield_fighting",
+          "athletics"
+        ]
       },
       "default_weapon_affinity": "blunt_force",
-      "available_armor": ["light", "medium"],
-      "starting_wealth_range": [20, 45],
-      "starter_kit": ["Root-Staff", "Bark-Woven Armor (medium equivalent)", "Herbalism Kit", "Rations x4"],
+      "available_armor": [
+        "light",
+        "medium"
+      ],
+      "starting_wealth_range": [
+        20,
+        45
+      ],
+      "starter_kit": [
+        "Root-Staff",
+        "Bark-Woven Armor (medium equivalent)",
+        "Herbalism Kit",
+        "Rations x4"
+      ],
       "special_class_trait": {
         "name": "Rooted Defense",
         "description": "When the Verdant Warden does not move during a turn, they gain +20% damage reduction for that turn. While rooted, nearby allies within 1 hex also gain +8% damage reduction."
       },
-      "typical_races": ["Oakpeople"],
-      "lore": "The Verdant Warden does not guard the forest. They are the forest, briefly deciding to stand somewhere specific."
+      "typical_races": [
+        "Oakpeople"
+      ],
+      "lore": "The Verdant Warden does not guard the forest. They are the forest, briefly deciding to stand somewhere specific.",
+      "morality_range": [
+        48,
+        70
+      ]
     },
-
     {
       "id": "voidweaver",
       "name": "Voidweaver",
       "class_group": "Warlock",
       "archetype": "Dark / Void Mage",
-      "description": "A practitioner of the Malevolent Triad. They deal in entropy, darkness, and void energy. Difficult to play — the instability of Darkvoid requires constant management, and Shadow Arts are politically dangerous in Leonoria.",
-      "aptitude_priorities": ["Materium Affinity (Shadow)", "Cognition", "Conviction"],
-      "aptitude_bonuses": { "materium_affinity": 15, "cognition": 10, "conviction": -5, "physiology": -8, "presence": -8 },
+      "description": "A practitioner of the Malevolent Triad. They deal in entropy, darkness, and void energy. Difficult to play \u2014 the instability of Darkvoid requires constant management, and Shadow Arts are politically dangerous in Leonoria.",
+      "aptitude_priorities": [
+        "Materium Affinity (Shadow)",
+        "Cognition",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 25,
+        "conviction": -5,
+        "physiology": -8,
+        "discipline": -8
+      },
       "materium_access": true,
-      "materium_schools_available": ["Darkvoid", "Chill", "Arcane", "Darkmind"],
-      "materium_pool_start": 30,
+      "materium_schools_available": [
+        "Darkvoid",
+        "Chill",
+        "Arcane",
+        "Darkmind"
+      ],
       "shadow_connection_start": 25,
       "starting_skills": {
-        "fixed": ["shadow_weaving", "arcane_theory"],
+        "fixed": [
+          "shadow_weaving",
+          "arcane_theory"
+        ],
         "choice_count": 2,
-        "choices": ["stealth", "thievery", "monster_lore", "deception", "alchemy"]
+        "choices": [
+          "stealth",
+          "thievery",
+          "monster_lore",
+          "deception",
+          "alchemy"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [15, 40],
-      "starter_kit": ["Void-Etched Dagger", "Dark Robes", "Shadow Pouch (dark reagents)", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        15,
+        40
+      ],
+      "starter_kit": [
+        "Void-Etched Dagger",
+        "Dark Robes",
+        "Shadow Pouch (dark reagents)",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Void Mastery",
-        "description": "The Voidweaver reduces Darkvoid's damage variance from ±20% to ±10%. At Expert shadow_weaving level, variance is removed entirely."
+        "description": "The Voidweaver reduces Darkvoid's damage variance from \u00b120% to \u00b110%. At Expert shadow_weaving level, variance is removed entirely."
       },
-      "typical_races": ["The Dark Ones", "Ashen Halfbreeds", "Swampbrood"],
+      "typical_races": [
+        "The Dark Ones",
+        "Ashen Halfbreeds",
+        "Swampbrood"
+      ],
       "lore": "The Voidweaver does not ask where the power comes from. They have decided that doesn't matter.",
-      "social_warning": "Shadow Arts users face legal persecution in most Midlands cultures. Voidweavers often travel in disguise."
+      "social_warning": "Shadow Arts users face legal persecution in most Midlands cultures. Voidweavers often travel in disguise.",
+      "morality_range": [
+        15,
+        50
+      ]
     },
-
     {
       "id": "bloodsinger",
       "name": "Bloodsinger",
       "class_group": "Warlock",
       "archetype": "Blood Mage",
       "description": "A practitioner of Darkblood magic who uses their own life force as fuel. Every powerful Bloodsinger is a controlled self-sacrifice machine. Exceptionally dangerous offensively; physically fragile.",
-      "aptitude_priorities": ["Materium Affinity (Shadow)", "Physiology", "Conviction"],
-      "aptitude_bonuses": { "materium_affinity": 12, "physiology": 8, "conviction": 5, "cognition": 5 },
+      "aptitude_priorities": [
+        "Materium Affinity (Shadow)",
+        "Physiology",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "physiology": 8,
+        "conviction": 5,
+        "cognition": 17
+      },
       "materium_access": true,
-      "materium_schools_available": ["Darkblood", "Blood Magic", "Darkvoid (basic)"],
-      "materium_pool_start": 25,
+      "materium_schools_available": [
+        "Darkblood",
+        "Blood Magic",
+        "Darkvoid (basic)"
+      ],
       "shadow_connection_start": 20,
       "starting_skills": {
-        "fixed": ["shadow_weaving", "athletics"],
+        "fixed": [
+          "shadow_weaving",
+          "athletics"
+        ],
         "choice_count": 1,
-        "choices": ["alchemy", "herbalism", "intimidation", "small_arms"]
+        "choices": [
+          "alchemy",
+          "herbalism",
+          "intimidation",
+          "small_arms"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [15, 40],
-      "starter_kit": ["Bloodletter Blade (special small arm)", "Light Dark Robes", "Blood Vials x3", "Bandages x5"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        15,
+        40
+      ],
+      "starter_kit": [
+        "Bloodletter Blade (special small arm)",
+        "Light Dark Robes",
+        "Blood Vials x3",
+        "Bandages x5"
+      ],
       "special_class_trait": {
         "name": "Pain Tithe",
         "description": "Once per battle, can sacrifice 15% of current Vitality to restore 30% of Materium Connection pool. This Vitality loss cannot be healed in the same battle."
       },
-      "typical_races": ["Wildmen Ravagers", "The Dark Ones", "Midlander"],
+      "typical_races": [
+        "Wildmen Ravagers",
+        "The Dark Ones",
+        "Midlander"
+      ],
       "lore": "Every Bloodsinger has made the same calculation at least once: how much of yourself is worth spending?",
-      "social_warning": "Blood magic is illegal in nearly every Midlands culture and heavily persecuted."
+      "social_warning": "Blood magic is illegal in nearly every Midlands culture and heavily persecuted.",
+      "morality_range": [
+        15,
+        50
+      ]
     },
-
     {
       "id": "dreadbinder",
       "name": "Dreadbinder",
       "class_group": "Warlock",
       "archetype": "Demon Warlock",
-      "description": "A Warlock who has bargained with, bound, or partially merged with a demonic entity. The Dreadbinder's power is real — but it belongs to two of them, and only one is entirely in control at any given moment.",
-      "aptitude_priorities": ["Materium Affinity", "Conviction", "Cognition"],
-      "aptitude_bonuses": { "materium_affinity": 15, "conviction": 10 },
+      "description": "A Warlock who has bargained with, bound, or partially merged with a demonic entity. The Dreadbinder's power is real \u2014 but it belongs to two of them, and only one is entirely in control at any given moment.",
+      "aptitude_priorities": [
+        "Materium Affinity",
+        "Conviction",
+        "Cognition"
+      ],
+      "aptitude_bonuses": {
+        "conviction": 10,
+        "cognition": 15
+      },
       "materium_access": true,
-      "materium_schools_available": ["Demonology", "Darkvoid (basic)", "Darkmind (basic)"],
-      "materium_pool_start": 30,
+      "materium_schools_available": [
+        "Demonology",
+        "Darkvoid (basic)",
+        "Darkmind (basic)"
+      ],
       "shadow_connection_start": 20,
       "starting_skills": {
-        "fixed": ["shadow_weaving", "summoning"],
+        "fixed": [
+          "shadow_weaving",
+          "summoning"
+        ],
         "choice_count": 1,
-        "choices": ["arcane_theory", "intimidation", "monster_lore", "deception"]
+        "choices": [
+          "arcane_theory",
+          "intimidation",
+          "monster_lore",
+          "deception"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [15, 40],
-      "starter_kit": ["Binding Sigil (ritual item)", "Dark Robes", "Pact Seal", "Shadow Reagents", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        15,
+        40
+      ],
+      "starter_kit": [
+        "Binding Sigil (ritual item)",
+        "Dark Robes",
+        "Pact Seal",
+        "Shadow Reagents",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Bound Entity",
         "description": "The Dreadbinder has a persistent demonic companion whose power scales with shadow_connection. At high shadow_connection values, the entity may begin acting semi-independently."
       },
-      "typical_races": ["The Dark Ones"],
+      "typical_races": [
+        "The Dark Ones"
+      ],
       "lore": "The Dreadbinder asked for power and something answered. They are still not sure whether they got the better end of the arrangement.",
-      "social_warning": "Demonology is banned in virtually all settled Leonorian regions. Dreadbinders are hunted on sight in most cultures."
+      "social_warning": "Demonology is banned in virtually all settled Leonorian regions. Dreadbinders are hunted on sight in most cultures.",
+      "morality_range": [
+        15,
+        50
+      ]
     },
-
     {
       "id": "dominionist",
       "name": "Dominionist",
       "class_group": "Warlock",
       "archetype": "Mind Control Warlock",
-      "description": "A Warlock who specializes in dominating the minds of others. The Dominionist does not fight enemies — they redirect them. A skilled Dominionist can walk into a hostile camp and leave with an army.",
-      "aptitude_priorities": ["Cognition", "Materium Affinity", "Presence"],
-      "aptitude_bonuses": { "cognition": 15, "materium_affinity": 10 },
+      "description": "A Warlock who specializes in dominating the minds of others. The Dominionist does not fight enemies \u2014 they redirect them. A skilled Dominionist can walk into a hostile camp and leave with an army.",
+      "aptitude_priorities": [
+        "Cognition",
+        "Materium Affinity",
+        "Discipline"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 25
+      },
       "materium_access": true,
-      "materium_schools_available": ["Dominion", "Darkmind", "Chill (basic)"],
-      "materium_pool_start": 30,
+      "materium_schools_available": [
+        "Dominion",
+        "Darkmind",
+        "Chill (basic)"
+      ],
       "shadow_connection_start": 15,
       "starting_skills": {
-        "fixed": ["shadow_weaving", "mindcontrol"],
+        "fixed": [
+          "shadow_weaving",
+          "mindcontrol"
+        ],
         "choice_count": 1,
-        "choices": ["deception", "perception", "persuasion", "stealth"]
+        "choices": [
+          "deception",
+          "perception",
+          "persuasion",
+          "stealth"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [20, 50],
-      "starter_kit": ["Mind-Scribe Staff", "Muted Robes", "Focus Lens (mental resonance item)", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        20,
+        50
+      ],
+      "starter_kit": [
+        "Mind-Scribe Staff",
+        "Muted Robes",
+        "Focus Lens (mental resonance item)",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Overrule",
         "description": "Once per battle, the Dominionist may attempt to seize temporary control of an enemy below 40% Vitality. The dominated enemy acts on the Dominionist's turn for 2 rounds."
       },
-      "typical_races": ["The Dark Ones"],
+      "typical_races": [
+        "The Dark Ones"
+      ],
       "lore": "The Dominionist does not consider what they do to be violence. That philosophical position has never comforted their targets.",
-      "social_warning": "Mind domination is illegal everywhere and is one of the most feared and persecuted dark arts."
+      "social_warning": "Mind domination is illegal everywhere and is one of the most feared and persecuted dark arts.",
+      "morality_range": [
+        15,
+        50
+      ]
     },
-
     {
       "id": "malefactor",
       "name": "Malefactor",
       "class_group": "Witch",
       "archetype": "Curse Witch",
-      "description": "A Witch specializing in curses, hexes, and lingering afflictions. The Malefactor does not win in a single blow — they poison the well, plant the seed of ruin, and wait for it to grow. Patience is their primary weapon.",
-      "aptitude_priorities": ["Cognition", "Materium Affinity (Shadow)", "Conviction"],
-      "aptitude_bonuses": { "cognition": 15, "materium_affinity": 10 },
+      "description": "A Witch specializing in curses, hexes, and lingering afflictions. The Malefactor does not win in a single blow \u2014 they poison the well, plant the seed of ruin, and wait for it to grow. Patience is their primary weapon.",
+      "aptitude_priorities": [
+        "Cognition",
+        "Materium Affinity (Shadow)",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 25
+      },
       "materium_access": true,
-      "materium_schools_available": ["Maleficium", "Darkvoid (basic)", "Chill (basic)"],
-      "materium_pool_start": 30,
+      "materium_schools_available": [
+        "Maleficium",
+        "Darkvoid (basic)",
+        "Chill (basic)"
+      ],
       "shadow_connection_start": 20,
       "starting_skills": {
-        "fixed": ["shadow_weaving", "ritualcraft"],
+        "fixed": [
+          "shadow_weaving",
+          "ritualcraft"
+        ],
         "choice_count": 1,
-        "choices": ["herbalism", "alchemy", "deception", "monster_lore"]
+        "choices": [
+          "herbalism",
+          "alchemy",
+          "deception",
+          "monster_lore"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [15, 40],
-      "starter_kit": ["Curse Bone (ritual focus)", "Dark Robes", "Hex Pouch (curse materials)", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        15,
+        40
+      ],
+      "starter_kit": [
+        "Curse Bone (ritual focus)",
+        "Dark Robes",
+        "Hex Pouch (curse materials)",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Lingering Hex",
         "description": "Curses applied by the Malefactor persist after combat ends, continuing to affect targets for up to 24 hours outside of battle."
       },
-      "typical_races": ["Swampbrood", "The Dark Ones"],
-      "lore": "The Malefactor has learned that the best revenge is the kind that arrives quietly, long after you've left."
+      "typical_races": [
+        "Swampbrood",
+        "The Dark Ones"
+      ],
+      "lore": "The Malefactor has learned that the best revenge is the kind that arrives quietly, long after you've left.",
+      "morality_range": [
+        20,
+        55
+      ]
     },
-
     {
       "id": "blightweaver",
       "name": "Blightweaver",
       "class_group": "Witch",
       "archetype": "Rot Witch",
-      "description": "A Witch attuned to decay, infection, and spreading corruption. The Blightweaver does not curse individuals — they contaminate groups. One touch can spread through an entire battlefield if left unchecked.",
-      "aptitude_priorities": ["Materium Affinity", "Physiology", "Conviction"],
-      "aptitude_bonuses": { "materium_affinity": 15, "physiology": 10 },
+      "description": "A Witch attuned to decay, infection, and spreading corruption. The Blightweaver does not curse individuals \u2014 they contaminate groups. One touch can spread through an entire battlefield if left unchecked.",
+      "aptitude_priorities": [
+        "Materium Affinity",
+        "Physiology",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "physiology": 10,
+        "cognition": 15
+      },
       "materium_access": true,
-      "materium_schools_available": ["Rotweaving", "Darkvoid (basic)", "Maleficium (basic)"],
-      "materium_pool_start": 30,
+      "materium_schools_available": [
+        "Rotweaving",
+        "Darkvoid (basic)",
+        "Maleficium (basic)"
+      ],
       "shadow_connection_start": 20,
       "starting_skills": {
-        "fixed": ["shadow_weaving", "herbalism"],
+        "fixed": [
+          "shadow_weaving",
+          "herbalism"
+        ],
         "choice_count": 1,
-        "choices": ["alchemy", "survival", "ritualcraft", "monster_lore"]
+        "choices": [
+          "alchemy",
+          "survival",
+          "ritualcraft",
+          "monster_lore"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [10, 35],
-      "starter_kit": ["Festering Vial x2", "Blight Staff", "Woven Hide Robes", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        10,
+        35
+      ],
+      "starter_kit": [
+        "Festering Vial x2",
+        "Blight Staff",
+        "Woven Hide Robes",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Spreading Decay",
         "description": "Any affliction (rot, blight, infection) applied by the Blightweaver has a 25% chance per turn to spread to a random adjacent enemy."
       },
-      "typical_races": ["Swampbrood"],
-      "lore": "The Blightweaver does not see rot as destruction. They see it as transformation — the world returning to a simpler state.",
-      "social_warning": "Blight magic is considered plague-craft by most settled cultures. Blight practitioners are killed on sight in populated areas."
+      "typical_races": [
+        "Swampbrood"
+      ],
+      "lore": "The Blightweaver does not see rot as destruction. They see it as transformation \u2014 the world returning to a simpler state.",
+      "social_warning": "Blight magic is considered plague-craft by most settled cultures. Blight practitioners are killed on sight in populated areas.",
+      "morality_range": [
+        20,
+        55
+      ]
     },
-
     {
       "id": "bloodwitch",
       "name": "Bloodwitch",
       "class_group": "Witch",
       "archetype": "Hybrid Blood Witch",
-      "description": "A Witch who uses blood as both a medium of power and a tool of manipulation — not through direct violence, but through influence, passion, and the strange pull that living blood exerts on those who share it.",
-      "aptitude_priorities": ["Materium Affinity", "Presence", "Conviction"],
-      "aptitude_bonuses": { "materium_affinity": 12, "presence": 12 },
+      "description": "A Witch who uses blood as both a medium of power and a tool of manipulation \u2014 not through direct violence, but through influence, passion, and the strange pull that living blood exerts on those who share it.",
+      "aptitude_priorities": [
+        "Materium Affinity",
+        "Discipline",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "discipline": 12,
+        "cognition": 12
+      },
       "materium_access": true,
-      "materium_schools_available": ["Blood Magic", "Bloodpassion", "Darkvoid (basic)"],
-      "materium_pool_start": 30,
+      "materium_schools_available": [
+        "Blood Magic",
+        "Bloodpassion",
+        "Darkvoid (basic)"
+      ],
       "shadow_connection_start": 15,
       "starting_skills": {
-        "fixed": ["shadow_weaving", "manipulation"],
+        "fixed": [
+          "shadow_weaving",
+          "manipulation"
+        ],
         "choice_count": 1,
-        "choices": ["deception", "persuasion", "ritualcraft", "herbalism"]
+        "choices": [
+          "deception",
+          "persuasion",
+          "ritualcraft",
+          "herbalism"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [20, 50],
-      "starter_kit": ["Bloodthorn Knife", "Dark Robes", "Blood Vials x3", "Crimson Focus Charm", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        20,
+        50
+      ],
+      "starter_kit": [
+        "Bloodthorn Knife",
+        "Dark Robes",
+        "Blood Vials x3",
+        "Crimson Focus Charm",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Crimson Influence",
         "description": "The Bloodwitch can redirect the aggression of a blood-affected target, causing them to focus attacks on a chosen enemy for 2 rounds."
       },
-      "typical_races": ["Ashen Halfbreeds"],
-      "lore": "The Bloodwitch does not spill blood carelessly. Every drop spent is an investment — in fear, in debt, in power over those who share a wound."
+      "typical_races": [
+        "Ashen Halfbreeds"
+      ],
+      "lore": "The Bloodwitch does not spill blood carelessly. Every drop spent is an investment \u2014 in fear, in debt, in power over those who share a wound.",
+      "morality_range": [
+        20,
+        55
+      ]
     },
-
     {
       "id": "gravecaller",
       "name": "Gravecaller",
       "class_group": "Necromancer",
       "archetype": "Summoner Necromancer",
-      "description": "A Necromancer who specializes in raising and commanding the dead in numbers. The Gravecaller does not fight — their army does. Management of undead forces and careful positioning define the class.",
-      "aptitude_priorities": ["Materium Affinity (Shadow)", "Cognition", "Conviction"],
-      "aptitude_bonuses": { "materium_affinity": 15, "cognition": 10 },
+      "description": "A Necromancer who specializes in raising and commanding the dead in numbers. The Gravecaller does not fight \u2014 their army does. Management of undead forces and careful positioning define the class.",
+      "aptitude_priorities": [
+        "Materium Affinity (Shadow)",
+        "Cognition",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 25
+      },
       "materium_access": true,
-      "materium_schools_available": ["Necromancy", "Darkvoid (basic)", "Maleficium (basic)"],
-      "materium_pool_start": 35,
+      "materium_schools_available": [
+        "Necromancy",
+        "Darkvoid (basic)",
+        "Maleficium (basic)"
+      ],
       "shadow_connection_start": 25,
       "starting_skills": {
-        "fixed": ["shadow_weaving", "summoning"],
+        "fixed": [
+          "shadow_weaving",
+          "summoning"
+        ],
         "choice_count": 1,
-        "choices": ["arcane_theory", "monster_lore", "ritualcraft", "deception"]
+        "choices": [
+          "arcane_theory",
+          "monster_lore",
+          "ritualcraft",
+          "deception"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [15, 40],
-      "starter_kit": ["Bone-Staff", "Dark Robes", "Grave Dust Pouch", "Corpse Binding Cord x3", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        15,
+        40
+      ],
+      "starter_kit": [
+        "Bone-Staff",
+        "Dark Robes",
+        "Grave Dust Pouch",
+        "Corpse Binding Cord x3",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Undead Legion",
         "description": "The Gravecaller may maintain up to 4 undead summons simultaneously (most Necromancers max at 2). Each summon is weaker individually, but the combined force is overwhelming."
       },
-      "typical_races": ["The Dark Ones"],
+      "typical_races": [
+        "The Dark Ones"
+      ],
       "lore": "The Gravecaller does not mourn the dead. They see potential in them.",
-      "social_warning": "Necromancy is illegal everywhere and among the most feared dark arts in Leonoria. Gravecallers survive by hiding what they are."
+      "social_warning": "Necromancy is illegal everywhere and among the most feared dark arts in Leonoria. Gravecallers survive by hiding what they are.",
+      "morality_range": [
+        10,
+        35
+      ]
     },
-
     {
       "id": "soulreaper",
       "name": "Soulreaper",
       "class_group": "Necromancer",
       "archetype": "Drain Necromancer",
-      "description": "A Necromancer who drains life force from living targets and converts it into Materium or vitality for themselves. The Soulreaper gets stronger as enemies weaken — a self-sustaining predator in combat.",
-      "aptitude_priorities": ["Materium Affinity", "Conviction", "Cognition"],
-      "aptitude_bonuses": { "materium_affinity": 15, "conviction": 10 },
+      "description": "A Necromancer who drains life force from living targets and converts it into Materium or vitality for themselves. The Soulreaper gets stronger as enemies weaken \u2014 a self-sustaining predator in combat.",
+      "aptitude_priorities": [
+        "Materium Affinity",
+        "Conviction",
+        "Cognition"
+      ],
+      "aptitude_bonuses": {
+        "conviction": 10,
+        "cognition": 15
+      },
       "materium_access": true,
-      "materium_schools_available": ["Necromancy", "Darkvoid", "Siphoning (basic)"],
-      "materium_pool_start": 30,
+      "materium_schools_available": [
+        "Necromancy",
+        "Darkvoid",
+        "Siphoning (basic)"
+      ],
       "shadow_connection_start": 20,
       "starting_skills": {
-        "fixed": ["shadow_weaving", "siphoning"],
+        "fixed": [
+          "shadow_weaving",
+          "siphoning"
+        ],
         "choice_count": 1,
-        "choices": ["arcane_theory", "stealth", "monster_lore", "ritualcraft"]
+        "choices": [
+          "arcane_theory",
+          "stealth",
+          "monster_lore",
+          "ritualcraft"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light"],
-      "starting_wealth_range": [15, 40],
-      "starter_kit": ["Soul-Crack Staff", "Dark Robes", "Drain Focus Crystal", "Shadow Reagents", "Rations x3"],
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        15,
+        40
+      ],
+      "starter_kit": [
+        "Soul-Crack Staff",
+        "Dark Robes",
+        "Drain Focus Crystal",
+        "Shadow Reagents",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Essence Drain",
         "description": "Each Soulreaper drain attack that deals damage also restores Vitality to the caster equal to 20% of the damage dealt."
       },
-      "typical_races": ["The Dark Ones", "Swampbrood"],
+      "typical_races": [
+        "The Dark Ones",
+        "Swampbrood"
+      ],
       "lore": "The Soulreaper does not think of what they do as theft. Life is a resource. They have simply found a way to reallocate it.",
-      "social_warning": "Soul drain magic is the most universally condemned dark art in Leonoria. Soulreapers are killed without negotiation if exposed."
+      "social_warning": "Soul drain magic is the most universally condemned dark art in Leonoria. Soulreapers are killed without negotiation if exposed.",
+      "morality_range": [
+        10,
+        35
+      ]
     },
-
     {
       "id": "rotforged",
       "name": "Rotforged",
       "class_group": "Necromancer",
       "archetype": "Blight-Necro Hybrid",
-      "description": "A Necromancer who combines death magic with blight and decay — raising diseased, infectious undead that spread corruption as they fight. The Rotforged turns the battlefield itself into a contamination zone.",
-      "aptitude_priorities": ["Materium Affinity", "Physiology", "Conviction"],
-      "aptitude_bonuses": { "materium_affinity": 15, "physiology": 10 },
+      "description": "A Necromancer who combines death magic with blight and decay \u2014 raising diseased, infectious undead that spread corruption as they fight. The Rotforged turns the battlefield itself into a contamination zone.",
+      "aptitude_priorities": [
+        "Materium Affinity",
+        "Physiology",
+        "Conviction"
+      ],
+      "aptitude_bonuses": {
+        "physiology": 10,
+        "cognition": 15
+      },
       "materium_access": true,
-      "materium_schools_available": ["Necromancy", "Rotweaving", "Darkvoid (basic)"],
-      "materium_pool_start": 35,
+      "materium_schools_available": [
+        "Necromancy",
+        "Rotweaving",
+        "Darkvoid (basic)"
+      ],
       "shadow_connection_start": 20,
       "starting_skills": {
-        "fixed": ["shadow_weaving", "rotcraft"],
+        "fixed": [
+          "shadow_weaving",
+          "rotcraft"
+        ],
         "choice_count": 1,
-        "choices": ["herbalism", "ritualcraft", "summoning", "monster_lore"]
+        "choices": [
+          "herbalism",
+          "ritualcraft",
+          "summoning",
+          "monster_lore"
+        ]
       },
       "default_weapon_affinity": "small_arms",
-      "available_armor": ["light", "medium"],
-      "starting_wealth_range": [10, 35],
-      "starter_kit": ["Festering Bone-Staff", "Rot-Soaked Robes (medium equivalent)", "Blight Vials x2", "Carrion Dust Pouch", "Rations x3"],
+      "available_armor": [
+        "light",
+        "medium"
+      ],
+      "starting_wealth_range": [
+        10,
+        35
+      ],
+      "starter_kit": [
+        "Festering Bone-Staff",
+        "Rot-Soaked Robes (medium equivalent)",
+        "Blight Vials x2",
+        "Carrion Dust Pouch",
+        "Rations x3"
+      ],
       "special_class_trait": {
         "name": "Carrion Constructs",
         "description": "Undead raised by the Rotforged carry an active blight infection. Each time a Rotforged undead strikes a living enemy, there is a 30% chance of spreading a blight affliction."
       },
-      "typical_races": ["Swampbrood", "Wildmen Ravagers"],
+      "typical_races": [
+        "Swampbrood",
+        "Wildmen Ravagers"
+      ],
       "lore": "The Rotforged found that death and decay are not opposites. Decay is just death doing the work slowly, the way it prefers.",
-      "social_warning": "Rotforged are considered plague-bearers on top of necromancers — they face the most extreme persecution of any dark arts practitioner."
+      "social_warning": "Rotforged are considered plague-bearers on top of necromancers \u2014 they face the most extreme persecution of any dark arts practitioner.",
+      "morality_range": [
+        10,
+        35
+      ]
     }
-
   ]
 }

@@ -32,24 +32,20 @@
    ════════════════════════════════════════════════════════════════════════════ */
 
 // ─── Aptitude system ──────────────────────────────────────────────────────────
-const APTITUDES = ['conviction', 'physiology', 'cognition', 'materium_affinity', 'martial_experience', 'presence'];
+const APTITUDES = ['physiology', 'cognition'];
 
 const APTITUDE_NAMES = {
-    conviction:         'Conviction',
     physiology:         'Physiology',
     cognition:          'Cognition',
-    materium_affinity:  'Materium Affinity',
+    discipline:         'Discipline',
     martial_experience: 'Martial Experience',
-    presence:           'Presence',
+    materium_affinity:  'Materium Affinity',
 };
 
 const APTITUDE_SHORT = {
-    conviction:         'COV',
     physiology:         'PHY',
     cognition:          'COG',
-    materium_affinity:  'MAT',
-    martial_experience: 'MAR',
-    presence:           'PRE',
+    discipline:         'DIS',
 };
 
 const BASE_APTITUDE  = 30;   // default starting value for each aptitude
@@ -62,18 +58,10 @@ const TAB_ORDER = ['identity', 'attributes', 'skills', 'equipment', 'abilities']
 
 // ─── Aptitude descriptions (tooltip) ──────────────────────────────────────────
 const APTITUDE_DESC = {
-    conviction:
-        'CONVICTION — Mental & Spiritual Strength\nYour willpower, resilience, and connection to faith.\n\n▸ CONTROLS:\n  • Initiative order (higher = faster)\n  • Maximum dice roll outcomes (your ceiling for rolls)\n  • Resistance to fear, curses, morale shocks\n  • Maximum Stamina cost you can push through\n\n▸ SUB-TRAITS:\n  • Tenacity: Push past death, resist breaking\n  • Resonance: Team loyalty & faith effectiveness\n  • Openness: Receptivity to foreign magic (fixed)\n\n▸ BREAKING POINTS:\n  At 25: Can attempt fear saves\n  At 50: +1 initiative position\n  At 75: Dice ceiling raised to 90%\n  At 100: Once/battle, block any Conviction effect\n\n▸ STARTING RANGE: 20–60 | MAX: 100',
     physiology:
         'PHYSIOLOGY — Physical Body & Durability\nYour health, strength, endurance, and resistance.\n\n▸ CONTROLS:\n  • Vitality (HP) = 40 + (Physiology × 0.6)\n  • Hardening resistances (Physical, Magical, Poison)\n  • Vigor: Carry capacity & melee damage (peaks at 50)\n  • Metabolism: Movement & action stamina pool\n\n▸ RESISTANCES:\n  Max hardening per type: 50%\n  Gain ~5% resistance per 100 hits of that type\n\n▸ BREAKING POINTS:\n  At 30: Equip medium armor\n  At 50: Heavy armor available, +3 hardening\n  At 70: Vigor cap 80, heavy weapons free\n  At 100: Stone Body—reduce all physical by 10%\n\n▸ STARTING RANGE: 20–60 | MAX: 100',
     cognition:
-        'COGNITION — Mental Acuity & Experience\nYour knowledge, creativity, perception, and street smarts.\n\n▸ CONTROLS:\n  • Erudition: Learn spells, absorb knowledge faster\n  • Ingenuity: Crafting & magical item creation\n  • Worldliness: Lockpicking, reading people, survival\n  • Perception: Detect danger, notice hidden details\n  • Intelligence: +0.5% to all non-physical skill rolls (fixed)\n\n▸ UNIQUE:\n  Grows naturally with age regardless of use\n  Never declines with age (unlike Physiology)\n\n▸ BREAKING POINTS:\n  At 30: Read advanced Materium texts alone\n  At 50: +5 to new skill starting values\n  At 70: +10% danger detection permanently\n  At 100: All Cognition skill learning +20%\n\n▸ STARTING RANGE: 15–55 | MAX: 100',
-    materium_affinity:
-        'MATERIUM AFFINITY — Magical Attunement\nYour capacity to channel and control magical energy.\n\n▸ CONTROLS:\n  • Conduit Grade: Max spell power (race/class set)\n  • Shadow Connection: Dark arts pool (separate from Materium)\n  • Insulation: Magic resistance vs all schools\n  • Materium Pool Size: More Affinity = larger pool\n\n▸ IMPORTANT NOTES:\n  Distinct from Materium Pool resource\n  Pool depletes when casting, pool is what you spend\n  Affinity is your capacity, determines max pool\n  High Vigor above 60 reduces Conduit Grade (−1 per 10)\n\n▸ BREAKING POINTS:\n  At 20: Access second Materium school\n  At 40: Pool +15%, school mastery available\n  At 60: Shadow & Materium regen together\n  At 80: Elemental synergies at 50% bonus\n  At 100: Living Conduit—+5% pool regen/turn in combat\n\n▸ STARTING RANGE: 5–45 | MAX: 100',
-    martial_experience:
-        'MARTIAL EXPERIENCE — Combat Skill\nYour training, reflexes, technique, and weapon mastery.\n\n▸ CONTROLS:\n  • Agilities: Dodge, reflex, crit strikes\n  • Weapon Affinities: Master each weapon type (1–100)\n  • Physical damage bonus: floor(Martial / 10)%\n  • Initiative bonus at 50+\n\n▸ LEVELING:\n  Fastest-growing aptitude\n  But: Veterans face diminishing returns\n  After 50 battles: −50% exp per battle\n  After 150 battles: −75% exp per battle\n\n▸ BREAKING POINTS:\n  At 20: Any weapon equippable\n  At 40: +5% physical damage, passive dodge\n  At 60: Combat Memory—reroll 1 failed attack/battle\n  At 80: +10% physical damage, crit +5%\n  At 100: Veteran\'s Edge—new heroes start weapons at 11\n\n▸ STARTING RANGE: 5–45 | MAX: 100',
-    presence:
-        'PRESENCE — Force of Personality\nHow the world perceives you. Your authority, charm, and social weight.\n\n▸ CONTROLS:\n  • Gravitas: Passive projection (fear or magnetism)\n  • Eloquence: Active persuasion & negotiation\n  • Social impact based on Openness filter\n  • Reputation spread\n\n▸ FILTERED BY OPENNESS:\n  Low Openness + High Presence = Domination (fear)\n  High Openness + High Presence = Magnetism (inspiration)\n  Low Openness + Low = Ghost (invisible)\n  High Openness + Low = Everyman (trusted, underestimated)\n\n▸ BREAKING POINTS:\n  At 25: Social rolls vs neutral NPCs\n  At 50: Reputation spreads to regions\n  At 75: Commanding Presence—hostile NPCs Conviction <30 hesitate\n  At 100: Legend—known across continent, free items per town\n\n▸ STARTING RANGE: 10–55 | MAX: 100',
+        'COGNITION — Mental Acuity, Experience & Magical Attunement\nYour knowledge, creativity, perception, street smarts, and capacity to channel magical energy.\n\n▸ CONTROLS:\n  • Erudition: Learn spells, absorb knowledge faster\n  • Ingenuity: Crafting & magical item creation\n  • Worldliness: Lockpicking, reading people, survival\n  • Perception: Detect danger, notice hidden details\n  • Conduit Grade: Max spell power & Materium pool size\n  • Shadow Connection: Dark arts school access\n  • Insulation: Magic resistance vs all schools\n\n▸ CREATION-FIXED:\n  Does not grow through leveling\n  Set at character creation by race + class + age\n  Only items, curses, and spells can alter it\n\n▸ RESOURCE SCALING:\n  Materium pool = Cognition × 1.2 + age bonus + race bonus\n  Age increases pool until 80, then flat\n\n▸ BREAKING POINTS:\n  At 20: Access second Materium school\n  At 30: Read advanced Materium texts alone\n  At 40: Pool +15%, school mastery available\n  At 50: +5 to new skill starting values, Erudition +10%\n  At 60: Shadow & Materium regen together\n  At 70: +10% danger detection, Elemental synergies at 50%\n  At 80: Materium regen +2% per combat turn\n  At 100: All Cognition learning +20%, +5% combat regen\n\n▸ STARTING RANGE: 15–55 | MAX: 100\n▸ NOTE: Replaces former Materium Affinity aptitude',
 };
 
 // ─── Skill descriptions (tooltip) ────────────────────────────────────────────
@@ -164,6 +152,8 @@ const S = {
     race: null, subrace: null, gender: null,
     cls: null,  subclass: null,
     level: 1,
+    age: 35,
+    morality: 50,
     aptitudeMethod: 'standard',
     aptitudes:      makeAptObj(BASE_APTITUDE),
     allocAptitudes: makeAptObj(BASE_APTITUDE),
@@ -670,6 +660,7 @@ function buildClassSelect() {
         S.cls      = id || null;
         S.subclass = null;
         applyDefaultAptitudes();
+        rollMoralityForClass(id);
         buildSkillRows();
         applyDefaultSkills();
         updateDerivedStats();
@@ -784,10 +775,26 @@ function buildBirthSignSelect() {
 }
 
 // ─── Aptitude scores ──────────────────────────────────────────────────────────
+function rollAge() {
+    // Default range 15–100; races may override
+    const race = findRace(S.race);
+    const min = race?.age_roll_range?.[0] || 15;
+    const max = race?.age_roll_range?.[1] || 100;
+    S.age = Math.floor(Math.random() * (max - min + 1)) + min;
+    updateAgeDisplay();
+    updateDerivedStats();
+}
+
+function updateAgeDisplay() {
+    const el = $('age-roll-display');
+    if (el) el.textContent = S.age ?? '—';
+}
+
 function buildAptitudeScores() {
     buildStdAptRows();
     buildAllocRows();
     buildRollAptRows();
+    buildAgeRow();
 
     document.querySelectorAll('.mth-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -800,6 +807,25 @@ function buildAptitudeScores() {
             updateDerivedStats();
         });
     });
+}
+
+function buildAgeRow() {
+    const cont = $('age-row-cont');
+    if (!cont) return;
+    cont.innerHTML = '';
+    const row = el('div', 'age-row-inner');
+    const label = el('span', 'age-label');
+    label.textContent = 'Age';
+    const display = el('span', 'age-roll-display');
+    display.textContent = S.age ?? '—';
+    display.id = 'age-roll-display';
+    const rollBtn = el('button', 'age-roll-btn');
+    rollBtn.textContent = 'Roll';
+    rollBtn.addEventListener('click', rollAge);
+    const ageTip = 'Natural Age (15–100): Affects stamina pool (peaks 50), materium pool (peaks 80), HP regen, and affliction susceptibility.';
+    label.setAttribute('data-tooltip', ageTip);
+    row.append(label, display, rollBtn);
+    cont.appendChild(row);
 }
 
 function makeAptRow(apt) {
@@ -1084,19 +1110,138 @@ function updateEquipGoldHint() {
 }
 
 // ─── Derived stats ────────────────────────────────────────────────────────────
+// ─── Wisdom Tier System ───────────────────────────────────────────────────────
+const WISDOM_TIERS = [
+    { name: 'Novice',        minLevel: 1,  maxLevel: 3,  damage_bonus: 3  },
+    { name: 'Intermediate',  minLevel: 4,  maxLevel: 8,  damage_bonus: 8  },
+    { name: 'Seasoned',      minLevel: 9,  maxLevel: 15, damage_bonus: 15 },
+    { name: 'Expert',        minLevel: 16, maxLevel: 22, damage_bonus: 24 },
+    { name: 'Master',        minLevel: 23, maxLevel: 27, damage_bonus: 34 },
+    { name: 'Grandmaster',   minLevel: 28, maxLevel: 30, damage_bonus: 45 },
+];
+
+function getWisdomTier(level) {
+    return WISDOM_TIERS.find(t => level >= t.minLevel && level <= t.maxLevel) || WISDOM_TIERS[0];
+}
+
+function getMoralityZone(morality) {
+    if (morality >= 66) return 'Conviction';
+    if (morality <= 34) return 'Despair';
+    return 'Neutral';
+}
+
+function getSpellSchoolAccess(morality) {
+    const zone = getMoralityZone(morality);
+    if (zone === 'Conviction') {
+        return { lightwielding: true, materium: false, shadow: false };
+    } else if (zone === 'Despair') {
+        return { lightwielding: false, materium: false, shadow: true };
+    } else {
+        return { lightwielding: false, materium: true, shadow: false };
+    }
+}
+
+function getSpellAccessString(morality) {
+    const access = getSpellSchoolAccess(morality);
+    const parts = [];
+    if (access.lightwielding) parts.push('✓ Lightwielding (Purelight, Solacium, etc.)');
+    else parts.push('✗ Lightwielding (Purelight, Solacium, etc.)');
+
+    if (access.materium) parts.push('✓ Materium (Impact, Earthen, Tempest, Fire, Aquas, etc.)');
+    else parts.push('✗ Materium (Impact, Earthen, Tempest, Fire, Aquas, etc.)');
+
+    if (access.shadow) parts.push('✓ Shadow Arts (Darkvoid, Chill, Darkmind, etc.)');
+    else parts.push('✗ Shadow Arts (Darkvoid, Chill, Darkmind, etc.)');
+
+    return parts.join('\n');
+}
+
+function calcInitiative(discipline, morality) {
+    // Base initiative from Discipline (0-100)
+    let initiative = discipline;
+
+    // Alignment modifiers (alignment bonuses stack on top of discipline)
+    const zone = getMoralityZone(morality);
+    if (zone === 'Despair') {
+        initiative += Math.round((34 - morality) / 10) + 1;  // +1 to +4 for being evil
+    } else if (zone === 'Conviction') {
+        initiative += Math.round((morality - 66) / 10) + 1;  // +1 to +4 for being good
+    }
+    // Neutral gets no alignment bonus
+
+    return initiative;
+}
+
+// ─── Age-based scaling functions ──────────────────────────────────────────────
+function ageStaminaBonus(age) {
+    if (age <= 50) {
+        return Math.round((age - 15) / 35 * 15); // Linear growth: 0 to +15
+    } else if (age <= 60) {
+        return 15; // Plateau
+    } else {
+        return Math.max(-15, Math.round(15 - (age - 60) * 0.75)); // Decline after 60
+    }
+}
+
+function ageMateriumBonus(age) {
+    return Math.min(20, Math.round((age - 15) / 65 * 20)); // +0 to +20, capped at age 80
+}
+
+function calcHpRegenPerTurn(physiology, age) {
+    // PLACEHOLDER: Turn system not yet implemented
+    // In combat: no regen unless healing spell active
+    // World map: slow per-turn regen; one sleep = full restore
+    const base = Math.max(0.5, physiology * 0.03);
+    const agePenalty = age > 50 ? (age - 50) * 0.01 : 0;
+    return Math.max(0.1, parseFloat((base - agePenalty).toFixed(2)));
+}
+
+function ageAfflictionModifier(age) {
+    // % additional susceptibility to afflictions, poisons, venoms
+    if (age <= 30) return -5;   // Young: slight resistance
+    if (age <= 50) return 0;    // Prime: baseline
+    if (age <= 70) return age - 50;  // +1% per year above 50
+    return 20 + Math.round((age - 70) * 1.5); // Steep after 70
+}
+
+function updateMoralityDisplay() {
+    const val = S.morality ?? 50;
+    const zone = getMoralityZone(val);
+    const pct = val; // 0-100 maps to 0%-100% position
+    const thumb = $('morality-thumb');
+    if (thumb) thumb.style.left = pct + '%';
+}
+
+function rollMoralityForClass(classId) {
+    const cls = findClass(classId);
+    const [min, max] = cls?.morality_range || [35, 65];
+    S.morality = Math.floor(Math.random() * (max - min + 1)) + min;
+    updateMoralityDisplay();
+}
+
 function updateDerivedStats() {
     syncAptitudesToState();
     const cls  = findClass(S.cls);
     const race = findRace(S.race);
 
-    // Vitality (HP) = 40 + Physiology * 0.6 (approximation)
+    // Character attributes
     const physVal = S.aptitudes.physiology || BASE_APTITUDE;
-    const baseVit = Math.round(40 + physVal * 0.6);
-    $('d-hp').textContent = baseVit;
+    const cogVal  = S.aptitudes.cognition   || BASE_APTITUDE;
+    const age     = S.age || 35;
+    const raceMat = race?.materium_pool_bonus || 0;
 
-    // Materium pool
-    const matPool = (cls?.materium_pool_start || 0) + (race?.materium_pool_bonus || 0);
-    $('d-hd').textContent = cls?.materium_access ? `${matPool} MP` : '—';
+    // Vitality (HP) = Physiology * 1.3 + 8
+    const hp      = Math.round(physVal * 1.3 + 8);
+
+    // Stamina pool = Physiology * 1.5 + age modifier
+    const stamina = Math.round(physVal * 1.5 + ageStaminaBonus(age));
+
+    // Materium pool = Cognition * 1.2 + age modifier + race bonus
+    const materium = Math.round(cogVal * 1.2 + ageMateriumBonus(age) + raceMat);
+
+    // Display derived stats
+    $('d-hp').textContent = hp;
+    $('d-hd').textContent = cls?.materium_access ? `${materium} MP` : '—';
 
     // Level display
     $('d-prof').textContent = `Lv ${S.level}`;
@@ -1373,6 +1518,12 @@ function showViewSheet(char, origin = 'create') {
     $('vs-class').textContent      = clsName   || '—';
     $('vs-background').textContent = bgName;
     $('vs-alignment').textContent  = signName;
+    if ($('vs-age')) {
+        const charAge = char.age || 35;
+        $('vs-age').textContent = charAge;
+        const ageTip = `Natural Age: ${charAge}\nAffects:\n  • Stamina pool: peaks at age 50, declines after 60\n  • Materium pool: increases until age 80\n  • HP Regeneration: slows by ~1% per year after 50\n  • Affliction susceptibility: increases with age (young get -5%, elderly get +30%+)`;
+        $('vs-age').setAttribute('data-tooltip', ageTip);
+    }
 
     // Tooltips for identity rows
     const setRowTip = (spanId, text) => {
@@ -1403,40 +1554,6 @@ function showViewSheet(char, origin = 'create') {
         vsPortrait.alt = `${char.name || 'Character'} portrait`;
     }
 
-    const abGrid = $('vs-ab-grid');
-    abGrid.innerHTML = '';
-    APTITUDES.forEach(apt => {
-        const score = (char.aptitudes && char.aptitudes[apt]) || BASE_APTITUDE;
-        const aptData = DB.aptitudes?.aptitudes?.find(a => a.id === apt);
-        let tooltip = aptName(apt);
-        if (aptData) {
-            const lines = [
-                `${aptData.name}`,
-                ``,
-                aptData.function,
-                ``,
-                `"${aptData.flavor}"`,
-                ``,
-                `Starting range: ${Array.isArray(aptData.starting_range) ? aptData.starting_range.join('–') : aptData.starting_range}`,
-                `Max: ${aptData.max}`
-            ];
-            if (aptData.breaking_points && aptData.breaking_points.length) {
-                lines.push('', 'Breaking Points:');
-                aptData.breaking_points.forEach(bp => {
-                    lines.push(`  ${bp.threshold}: ${bp.unlock}`);
-                });
-            }
-            tooltip = lines.join('\n');
-        }
-        const cell  = el('div', 'vs-apt-cell');
-        cell.setAttribute('data-tooltip', tooltip);
-        const abbr  = el('span', 'vs-apt-abbr');  abbr.textContent  = aptName(apt);
-        const sc    = el('span', 'vs-apt-score');  sc.textContent    = score;
-        const tier  = score >= 80 ? 'Legendary' : score >= 60 ? 'Expert' : score >= 40 ? 'Seasoned' : score >= 20 ? 'Novice' : 'Untrained';
-        const t     = el('span', 'vs-apt-tier');   t.textContent     = tier;
-        cell.append(abbr, sc, t);
-        abGrid.appendChild(cell);
-    });
 
     const allSk = getAllSkills();
     const skillsEl = $('vs-skills');
@@ -1471,12 +1588,22 @@ function showViewSheet(char, origin = 'create') {
 
     // Update left panel derived stats
     const physVal = ((char.aptitudes || {}).physiology) || BASE_APTITUDE;
-    const convictionVal = ((char.aptitudes || {}).conviction) || BASE_APTITUDE;
-    const vitality = Math.round(40 + physVal * 0.6);
-    const conviction = convictionVal;
-    const materiumPool = clsData?.materium_access ? `${clsData.materium_pool_start || 0}` : '—';
-    const shadowConn   = clsData?.shadow_connection_start > 0 ? `${clsData.shadow_connection_start}` : '0';
-    const staminaPool  = clsData?.stamina_pool_start != null ? `${clsData.stamina_pool_start}` : '—';
+    const cogVal = ((char.aptitudes || {}).cognition) || BASE_APTITUDE;
+    const disciplineVal = ((char.aptitudes || {}).discipline) || BASE_APTITUDE;
+    const age = char.age || 35;
+    const morality = char.morality ?? 50;
+    const raceMat = raceData?.materium_pool_bonus || 0;
+
+    // Calculate resource pools using formulas
+    const vitality = Math.round(physVal * 1.3 + 8);
+    const stamina = Math.round(physVal * 1.5 + ageStaminaBonus(age));
+    const materium = Math.round(cogVal * 1.2 + ageMateriumBonus(age) + raceMat);
+    const hpRegen = calcHpRegenPerTurn(physVal, age);
+    const afflictionMod = ageAfflictionModifier(age);
+    const afflictionStr = afflictionMod === 0 ? 'Baseline' : (afflictionMod > 0 ? `+${afflictionMod}%` : `${afflictionMod}%`);
+
+    const materiumPool = clsData?.materium_access ? String(materium) : '—';
+    const staminaPool = String(stamina);
     const classTrait   = clsData?.special_class_trait?.name || '—';
     const classTraitDesc = clsData?.special_class_trait?.description || '';
     const focusPriorities = (clsData?.aptitude_priorities || []).slice(0, 3);
@@ -1491,23 +1618,166 @@ function showViewSheet(char, origin = 'create') {
     $('identity-line').textContent = [raceName, char.subclass || clsName].filter(Boolean).join(' · ') || 'Choose race & class';
     if ($('vs-vitality')) {
         $('vs-vitality').textContent = vitality;
-        $('vs-vitality').setAttribute('data-tooltip', 'Your health pool. When this reaches 0, you are defeated.');
-    }
-    if ($('vs-conviction')) {
-        $('vs-conviction').textContent = conviction;
-        $('vs-conviction').setAttribute('data-tooltip', 'Your willpower and mental strength. Controls initiative order, maximum dice roll outcomes, and resistance to fear and psychological effects.');
+        $('vs-vitality').setAttribute('data-tooltip', 'Your health pool. When this reaches 0, you are defeated. Can be drained from using Blood Magic.');
     }
     if ($('vs-stamina')) {
         $('vs-stamina').textContent = staminaPool;
-        $('vs-stamina').setAttribute('data-tooltip', 'Your physical endurance pool. Powers attacks, dodge rolls, movement, and other physical exertion.');
+        const stamTip = `Stamina Pool: ${stamina}\nDerived from: Physiology (${physVal}) × 1.5 + Age (${age}) modifier\nPowers martial attacks, dodge rolls, movement, and physical exertion.`;
+        $('vs-stamina').setAttribute('data-tooltip', stamTip);
     }
     if ($('vs-mpool')) {
         $('vs-mpool').textContent = materiumPool;
-        $('vs-mpool').setAttribute('data-tooltip', 'Your pool of elemental magic energy. Powers spells from the five schools of Materium.');
+        const matTip = `Materium Pool: ${materium}\nDerived from: Cognition (${cogVal}) × 1.2 + Age (${age}) modifier + Race bonus (${raceMat})\nPowers spells from the schools of Materium.`;
+        $('vs-mpool').setAttribute('data-tooltip', matTip);
     }
-    if ($('vs-shadow')) {
-        $('vs-shadow').textContent = shadowConn;
-        $('vs-shadow').setAttribute('data-tooltip', 'Your connection to dark arts and shadow magic. Required to cast spells from shadow schools (Darkvoid, Chill, Darkmind, etc).');
+    if ($('vs-hp-regen')) {
+        $('vs-hp-regen').textContent = hpRegen.toFixed(2) + '/turn';
+        $('vs-hp-regen').setAttribute('data-tooltip', 'HP regenerated per turn on world map (not in combat). Reduced by age penalty after age 50.');
+    }
+    if ($('vs-affliction-mod')) {
+        $('vs-affliction-mod').textContent = afflictionStr;
+        $('vs-affliction-mod').setAttribute('data-tooltip', `Age ${age}: ${afflictionMod === 0 ? 'normal' : afflictionMod > 0 ? 'increased' : 'decreased'} susceptibility to afflictions, poisons, and venoms.`);
+    }
+
+    // Populate aptitudes in left column
+    if ($('vs-apt-physiology')) {
+        $('vs-apt-physiology').textContent = physVal;
+        const physTip = `PHYSIOLOGY (${physVal})\n\nGoverns: Vitality (Health) & Stamina\n\nYour physical strength and endurance. Higher Physiology means more HP to survive damage and more Stamina to perform physical attacks and actions.`;
+        $('vs-apt-physiology').setAttribute('data-tooltip', physTip);
+    }
+    if ($('vs-apt-cognition')) {
+        $('vs-apt-cognition').textContent = cogVal;
+        const cogTip = `COGNITION (${cogVal})\n\nGoverns: Materium Pool\n\nYour mental acuity and magical understanding. Higher Cognition means more Materium (spell power) for casting elemental spells.`;
+        $('vs-apt-cognition').setAttribute('data-tooltip', cogTip);
+    }
+    if ($('vs-apt-discipline')) {
+        $('vs-apt-discipline').textContent = disciplineVal;
+        const disTip = `DISCIPLINE (${disciplineVal})\n\nGoverns: Initiative\n\nYour willpower and focus. Higher Discipline means you act sooner in combat — your turn comes earlier in the round, letting you strike or cast before enemies.`;
+        $('vs-apt-discipline').setAttribute('data-tooltip', disTip);
+    }
+
+    // Morality slider
+    if ($('morality-thumb')) {
+        const moralityThumb = $('morality-thumb');
+        moralityThumb.style.left = morality + '%';
+        const zone = getMoralityZone(morality);
+        const schoolAccess = zone === 'Conviction' ? 'Lightwielding' :
+                             zone === 'Neutral' ? 'Materium (Elemental)' :
+                             'Shadow Arts';
+        const thumbTip = `${zone} (${morality})\nSchool: ${schoolAccess}\n\nDrag left for Despair • Center for Neutral • Right for Conviction`;
+        moralityThumb.setAttribute('data-tooltip', thumbTip);
+        moralityThumb.addEventListener('mouseenter', e => showTip(e, thumbTip));
+        moralityThumb.addEventListener('mouseleave', hideTip);
+    }
+    // Morality track tooltip
+    if ($('morality-track-outer')) {
+        const trackTip = 'MORALITY SCALE — Three Alignments\n\n' +
+            '◀ DESPAIR (0–34)    NEUTRAL (35–65)    CONVICTION (66+) ▶\n\n' +
+            'Shadow Arts access: Despair zone (0–34)\n' +
+            'Materium access: Neutral zone (35–65) — elemental spells\n' +
+            'Lightwielding access: Conviction zone (66–100)\n\n' +
+            'Golden marks at 35% and 65% show zone boundaries.\n' +
+            'Each alignment has unique spells and powers.';
+        const track = $('morality-track-outer');
+        track.setAttribute('data-tooltip', trackTip);
+        track.style.cursor = 'help';
+        track.addEventListener('mouseenter', e => showTip(e, trackTip));
+        track.addEventListener('mouseleave', hideTip);
+    }
+
+    // Zone label tooltips
+    const despairLabel = $('zone-despair');
+    if (despairLabel) {
+        const despairTip = 'DESPAIR (0–34) — Evil Alignment\n\n' +
+            'Aligned with shadow, malevolence, and dark power.\n\n' +
+            'SPELL ACCESS:\n' +
+            '✓ Shadow Arts (Darkvoid, Chill, Darkmind, Blight, etc.)\n' +
+            '✗ Materium (Elemental spells)\n' +
+            '✗ Lightwielding (Holy spells)\n\n' +
+            'INITIATIVE BONUS: +1 to +4 for staying evil\n\n' +
+            'Your character is driven by selfish goals and dark ambitions.\n' +
+            'Maintain evil actions to keep this alignment.';
+        despairLabel.setAttribute('data-tooltip', despairTip);
+        despairLabel.addEventListener('mouseenter', e => showTip(e, despairTip));
+        despairLabel.addEventListener('mouseleave', hideTip);
+    }
+
+    const neutralLabel = $('zone-neutral');
+    if (neutralLabel) {
+        const neutralTip = 'NEUTRAL (35–65) — Primal Alignment\n\n' +
+            'You embrace raw elemental force without moral judgment.\n' +
+            'A path of balance, pragmatism, and natural power.\n\n' +
+            'SPELL ACCESS:\n' +
+            '✓ Materium (Impact, Earthen, Tempest, Fire, Aquas, Athropium, Temporal)\n' +
+            '✗ Shadow Arts (Dark magic)\n' +
+            '✗ Lightwielding (Holy magic)\n\n' +
+            'INITIATIVE BONUS: None (balanced approach)\n\n' +
+            'Neutral spellcasters are versatile and independent,\n' +
+            'neither bound by good nor evil doctrines.';
+        neutralLabel.setAttribute('data-tooltip', neutralTip);
+        neutralLabel.addEventListener('mouseenter', e => showTip(e, neutralTip));
+        neutralLabel.addEventListener('mouseleave', hideTip);
+    }
+
+    const convictionLabel = $('zone-conviction');
+    if (convictionLabel) {
+        const convictionTip = 'CONVICTION (66–100) — Good Alignment\n\n' +
+            'Aligned with light, benevolence, and divine magic.\n' +
+            'Driven by ideals of justice, compassion, and righteousness.\n\n' +
+            'SPELL ACCESS:\n' +
+            '✓ Lightwielding (Purelight, Solacium, Aegis Reflection, Verdicium, etc.)\n' +
+            '✗ Materium (Elemental spells)\n' +
+            '✗ Shadow Arts (Dark magic)\n\n' +
+            'INITIATIVE BONUS: +1 to +4 for staying good\n\n' +
+            'Your character is noble and heroic, guided by faith.\n' +
+            'Maintain righteous actions to keep this alignment.';
+        convictionLabel.setAttribute('data-tooltip', convictionTip);
+        convictionLabel.addEventListener('mouseenter', e => showTip(e, convictionTip));
+        convictionLabel.addEventListener('mouseleave', hideTip);
+    }
+
+    // Detailed morality tooltip
+    const moralityLbl = $('morality-lbl');
+    if (moralityLbl) {
+        const zone = getMoralityZone(morality);
+        const zoneDesc =
+            zone === 'Conviction' ? 'Conviction (Good/Light)\nYou are aligned with light, benevolence, and divine magic.' :
+            zone === 'Despair' ? 'Despair (Evil/Shadow)\nYou are aligned with shadow, malevolence, and dark power.' :
+            'Neutral (Primal Force)\nYou embrace raw elemental power without moral judgment.';
+
+        const spellAccess = getSpellAccessString(morality);
+        const initiativeValue = calcInitiative(disciplineVal, morality);
+        const alignmentBonus = zone === 'Neutral' ? 0 :
+            zone === 'Despair' ? Math.round((34 - morality) / 10) + 1 :
+            Math.round((morality - 66) / 10) + 1;
+
+        const tooltipText =
+            'MORALITY — Three Alignments\n\n' +
+            `Current Zone: ${zoneDesc}\n\n` +
+            `Morality Value: ${morality}/100\n` +
+            '0–34 = Despair (Evil), 35–65 = Neutral (Primal), 66–100 = Conviction (Good)\n\n' +
+            'SPELL SCHOOL ACCESS:\n' +
+            spellAccess + '\n\n' +
+            'INITIATIVE:\n' +
+            `Base (Discipline): ${disciplineVal} | Alignment Bonus: +${alignmentBonus} | Total: ${initiativeValue}\n\n` +
+            'THREE ALIGNMENTS:\n' +
+            '• CONVICTION (66+): Lightwielding spells only, +initiative bonus for staying good\n' +
+            '• NEUTRAL (35–65): Materium spells only, no alignment bonus\n' +
+            '• DESPAIR (0–34): Shadow Arts spells only, +initiative bonus for staying evil\n\n' +
+            'HOW INITIATIVE WORKS:\n' +
+            '• Base initiative is set by your Discipline trait (0–100)\n' +
+            '• Conviction and Despair alignments add bonus on top of Discipline\n' +
+            '• Neutral alignment grants no additional initiative bonus\n' +
+            'HOW MORALITY WORKS:\n' +
+            '• Your morality shifts slowly through actions and choices\n' +
+            '• Each alignment grants access to unique spell schools\n' +
+            '• Straying from your alignment weakens your access to those spells\n' +
+            '• Your class has a natural morality range (e.g., Cleric 66–85, Necromancer 10–34)\n' +
+            '• The three paths are equally powerful—choose the one that fits your character';
+
+        moralityLbl.setAttribute('data-tooltip', tooltipText);
+        moralityLbl.addEventListener('mouseenter', e => showTip(e, tooltipText));
+        moralityLbl.addEventListener('mouseleave', hideTip);
     }
     if ($('vs-focus')) {
         $('vs-focus').textContent = focusText;
@@ -1530,6 +1800,50 @@ function showViewSheet(char, origin = 'create') {
     // Abilities & Spells section
     const ablContent = $('vs-abilities-content');
     if (ablContent) ablContent.innerHTML = renderAbilitiesHTML(char.cls, char.level || 1);
+
+    // Wisdom block (experience tiers)
+    const wisdomBlock = $('vs-wisdom-block');
+    if (wisdomBlock) {
+        wisdomBlock.innerHTML = '';
+        const tier = getWisdomTier(char.level || 1);
+        const clsGroup = clsData?.class_group || '';
+        const hasMartial = ['Warrior', 'Ranger', 'Rogue'].includes(clsGroup);
+        const hasMagical = ['Cleric', 'Mage', 'Sorcerer', 'Druid', 'Warlock', 'Witch', 'Necromancer'].includes(clsGroup);
+
+        if (hasMartial) {
+            const martRow = el('div', 'wisdom-row');
+            const martLbl = el('span', 'wisdom-type-lbl');
+            martLbl.textContent = 'Martial Experience';
+            const martDisp = el('span', 'wisdom-tier-display');
+            martDisp.textContent = `${tier.name} ${clsData?.name || clsName || 'Character'}`;
+            martDisp.setAttribute('data-tooltip', `Martial Experience: ${tier.name}\nDamage bonus: +${tier.damage_bonus}% to all physical attacks.\nLevel ${char.level}: ${tier.minLevel}–${tier.maxLevel} = ${tier.name}`);
+            martDisp.style.cursor = 'help';
+            martRow.append(martLbl, martDisp);
+            wisdomBlock.appendChild(martRow);
+        }
+
+        if (hasMagical) {
+            const magRow = el('div', 'wisdom-row');
+            const magLbl = el('span', 'wisdom-type-lbl');
+            magLbl.textContent = 'Materium Insights';
+            const magDisp = el('span', 'wisdom-tier-display');
+            magDisp.textContent = `${tier.name} ${clsData?.name || clsName || 'Character'}`;
+            magDisp.setAttribute('data-tooltip', `Materium Insights: ${tier.name}\nDamage bonus: +${tier.damage_bonus}% to all magical attacks.\nLevel ${char.level}: ${tier.minLevel}–${tier.maxLevel} = ${tier.name}`);
+            magDisp.style.cursor = 'help';
+            magRow.append(magLbl, magDisp);
+            wisdomBlock.appendChild(magRow);
+        }
+
+        if (!hasMartial && !hasMagical) {
+            const balRow = el('div', 'wisdom-row');
+            const balDisp = el('span', 'wisdom-tier-display');
+            balDisp.textContent = `${tier.name} ${clsData?.name || clsName || 'Character'}`;
+            balDisp.setAttribute('data-tooltip', `Experience Tier: ${tier.name}\nAll-purpose experience bonus: +${tier.damage_bonus}% effectiveness.\nLevel ${char.level}: ${tier.minLevel}–${tier.maxLevel} = ${tier.name}`);
+            balDisp.style.cursor = 'help';
+            balRow.appendChild(balDisp);
+            wisdomBlock.appendChild(balRow);
+        }
+    }
 
     const savesRow = $('saves-row');
     savesRow.innerHTML = '';
@@ -1656,6 +1970,8 @@ function buildCharObj() {
         gender:     S.gender,
         cls:        S.cls,        subclass:   S.subclass,
         level:      S.level,
+        age:        S.age || 35,
+        morality:   S.morality ?? 50,
         aptitudes:  { ...S.aptitudes },
         birthSign:  S.birthSign,
         skills:     [...S.skills],
@@ -1686,6 +2002,8 @@ function loadChar(char) {
     S.gender     = char.gender;
     S.cls        = char.cls;        S.subclass = char.subclass;
     S.level      = char.level;
+    S.age        = char.age || 35;
+    S.morality   = char.morality ?? 50;
     S.aptitudes  = { ...makeAptObj(BASE_APTITUDE), ...(char.aptitudes || char.scores || {}) };
     S.birthSign  = char.birthSign || char.alignment || null;
     S.skills     = new Set(char.skills || []);
@@ -1693,7 +2011,7 @@ function loadChar(char) {
     S.equipment  = char.equipment || 'pack';
     const portrait = char.portrait || 'assets/images/characterportraits/ashenfemale.jpg';
     if ($('char-portrait-img')) $('char-portrait-img').src = portrait;
-    showViewSheet({ ...char, portrait });
+    showViewSheet({ ...char, portrait, age: S.age, morality: S.morality });
     toast(`Loaded: ${char.name || 'character'}`);
 }
 

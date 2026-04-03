@@ -446,7 +446,7 @@
           "cost": 5,
           "damage_type": "Radiant",
           "amount": 12,
-          "effect": "Minor blind — 10% accuracy reduction (1 turn)"
+          "effect": "Minor blind \u2014 10% accuracy reduction (1 turn)"
         },
         {
           "id": "lumen_burst",
@@ -725,7 +725,7 @@
           "damage_type": "Radiant",
           "amount": 36,
           "amount_note": "per turn",
-          "effect": "Defensive summon — prioritizes blocking attacks on allies"
+          "effect": "Defensive summon \u2014 prioritizes blocking attacks on allies"
         },
         {
           "id": "seraph_blade",
@@ -930,7 +930,7 @@
           "cost": 10,
           "damage_type": null,
           "amount": 0,
-          "effect": "Minor levitation — ignores ground-level movement penalties"
+          "effect": "Minor levitation \u2014 ignores ground-level movement penalties"
         },
         {
           "id": "lightform",
@@ -940,7 +940,7 @@
           "damage_type": "Radiant",
           "amount": 30,
           "amount_note": "per turn",
-          "effect": "Become semi-ethereal — reduce physical damage taken by 20%"
+          "effect": "Become semi-ethereal \u2014 reduce physical damage taken by 20%"
         },
         {
           "id": "wings_of_dawn",
@@ -968,7 +968,7 @@
           "damage_type": "Radiant (AoE)",
           "amount": 240,
           "amount_note": "per turn",
-          "effect": "Full divine transformation — massive aura damage to all enemies each turn"
+          "effect": "Full divine transformation \u2014 massive aura damage to all enemies each turn"
         }
       ]
     },
@@ -1021,7 +1021,7 @@
           "cost": 182,
           "damage_type": "Nature",
           "amount": 216,
-          "effect": "Summons entangling growth zone — damage + root for 2 turns"
+          "effect": "Summons entangling growth zone \u2014 damage + root for 2 turns"
         }
       ]
     },
@@ -1092,7 +1092,7 @@
           "cost": 6,
           "damage_type": null,
           "amount": 0,
-          "effect": "Minor attraction/attention shift — draw a target's focus"
+          "effect": "Minor attraction/attention shift \u2014 draw a target's focus"
         },
         {
           "id": "sway_pulse",
@@ -1101,7 +1101,7 @@
           "cost": 24,
           "damage_type": null,
           "amount": 0,
-          "effect": "Reduce target's hostility — lower damage output this turn"
+          "effect": "Reduce target's hostility \u2014 lower damage output this turn"
         },
         {
           "id": "passion_mark",
@@ -1119,7 +1119,7 @@
           "cost": 104,
           "damage_type": null,
           "amount": 0,
-          "effect": "Confuse target — random action (1 turn)"
+          "effect": "Confuse target \u2014 random action (1 turn)"
         },
         {
           "id": "overwhelming_presence",
@@ -1129,7 +1129,7 @@
           "damage_type": null,
           "amount": 0,
           "aoe": true,
-          "effect": "All enemies in area lose target priority — cannot focus fire"
+          "effect": "All enemies in area lose target priority \u2014 cannot focus fire"
         }
       ]
     },
@@ -1182,7 +1182,7 @@
           "cost": 202,
           "damage_type": "Physical",
           "amount": 264,
-          "effect": "Massive armor shred — reduces target armor by 40% for 3 turns"
+          "effect": "Massive armor shred \u2014 reduces target armor by 40% for 3 turns"
         }
       ]
     },
@@ -1314,7 +1314,7 @@
           "cost": 24,
           "damage_type": "Physical",
           "amount": 44,
-          "effect": "High accuracy — nearly never misses"
+          "effect": "High accuracy \u2014 nearly never misses"
         },
         {
           "id": "cyclone_step",
@@ -1323,7 +1323,7 @@
           "cost": 54,
           "damage_type": null,
           "amount": 0,
-          "effect": "Instant repositioning — move to any adjacent tile as a free action"
+          "effect": "Instant repositioning \u2014 move to any adjacent tile as a free action"
         },
         {
           "id": "tempest_ring",
@@ -1376,7 +1376,7 @@
           "cost": 54,
           "damage_type": null,
           "amount": 0,
-          "effect": "Short teleport — caster or target moves up to 3 hexes"
+          "effect": "Short teleport \u2014 caster or target moves up to 3 hexes"
         },
         {
           "id": "crush_field",
@@ -1464,7 +1464,7 @@
           "cost": 6,
           "damage_type": "Arcane",
           "amount": 16,
-          "effect": "Stable reliable damage — no variance"
+          "effect": "Stable reliable damage \u2014 no variance"
         },
         {
           "id": "matter_shift",
@@ -1659,7 +1659,7 @@
           "cost": 202,
           "damage_type": "Shadow",
           "amount": 264,
-          "effect": "Massive delayed damage trigger — activates on the target's next action"
+          "effect": "Massive delayed damage trigger \u2014 activates on the target's next action"
         }
       ]
     },
@@ -1735,7 +1735,7 @@
           "cost": 6,
           "damage_type": null,
           "amount": 0,
-          "effect": "Minor control — force target to move one hex"
+          "effect": "Minor control \u2014 force target to move one hex"
         },
         {
           "id": "subjugate",
@@ -1824,7 +1824,7 @@
           "cost": 216,
           "damage_type": "Blight",
           "amount": 264,
-          "effect": "Spreading epidemic — chain infection effect across targets"
+          "effect": "Spreading epidemic \u2014 chain infection effect across targets"
         }
       ]
     },
@@ -1881,7 +1881,7 @@
           "damage_type": "Shadow",
           "amount": 240,
           "amount_note": "per turn",
-          "effect": "Powerful persistent demon — remains until slain"
+          "effect": "Powerful persistent demon \u2014 remains until slain"
         }
       ]
     },
@@ -1926,7 +1926,7 @@
           "cost": 128,
           "damage_type": null,
           "amount": 0,
-          "effect": "Prevents death once — heavy drawback applied after activation"
+          "effect": "Prevents death once \u2014 heavy drawback applied after activation"
         },
         {
           "id": "nightforged_relic",
@@ -1970,7 +1970,7 @@
           "cost": 72,
           "damage_type": "Shadow",
           "amount": 90,
-          "effect": "Reduces target's Physiology — applies Temporal damage"
+          "effect": "Reduces target's Physiology \u2014 applies Temporal damage"
         },
         {
           "id": "temporal_reversal",
@@ -2005,7 +2005,7 @@
           "cost": 8,
           "damage_type": "Void",
           "amount": 18,
-          "effect": "Minor instability — 20% chance of random secondary effect"
+          "effect": "Minor instability \u2014 20% chance of random secondary effect"
         },
         {
           "id": "entropy_spike",
@@ -2032,7 +2032,7 @@
           "cost": 136,
           "damage_type": "Void (AoE)",
           "amount": 160,
-          "effect": "High damage variance — minimum 20, maximum 80"
+          "effect": "High damage variance \u2014 minimum 20, maximum 80"
         },
         {
           "id": "existence_erasure",
@@ -2050,7 +2050,7 @@
     {
       "id": "vanguard_type",
       "name": "Vanguard",
-      "archetype_note": "Heavy Frontline — used by Ironguard, Vanguard class",
+      "archetype_note": "Heavy Frontline \u2014 used by Ironguard, Vanguard class",
       "subsets": [
         {
           "id": "bulwark",
@@ -2074,7 +2074,7 @@
               "damage_type": null,
               "amount": 0,
               "effect": "Massive defense increase; allies behind gain partial cover",
-              "level": 2
+              "level": 10
             },
             {
               "id": "unbreakable_advance",
@@ -2084,7 +2084,7 @@
               "damage_type": "Physical",
               "amount": 30,
               "effect": "Ignore control effects while moving; push enemies back",
-              "level": 2
+              "level": 24
             }
           ]
         },
@@ -2100,7 +2100,7 @@
               "damage_type": null,
               "amount": 0,
               "effect": "Reduce all incoming damage heavily for 1 turn",
-              "level": 2
+              "level": 1
             },
             {
               "id": "rebound_strike",
@@ -2110,7 +2110,7 @@
               "damage_type": "Physical",
               "amount": 25,
               "effect": "Reflect a portion of damage taken back at attacker",
-              "level": 2
+              "level": 9
             },
             {
               "id": "anchor_smash",
@@ -2120,7 +2120,7 @@
               "damage_type": "Physical",
               "amount": 34,
               "effect": "Root self for 1 turn; massive knockdown on target",
-              "level": 2
+              "level": 24
             }
           ]
         },
@@ -2136,7 +2136,7 @@
               "damage_type": "Physical",
               "amount": 35,
               "effect": "Armor break on target",
-              "level": 2
+              "level": 1
             },
             {
               "id": "rampage_step",
@@ -2146,7 +2146,7 @@
               "damage_type": "Physical",
               "amount": 20,
               "effect": "Move + attack + cleave adjacent target",
-              "level": 2
+              "level": 6
             },
             {
               "id": "titan_breaker",
@@ -2156,7 +2156,7 @@
               "damage_type": "Physical",
               "amount": 48,
               "effect": "Bonus damage vs high-HP targets (scales inversely with target HP loss)",
-              "level": 2
+              "level": 24
             }
           ]
         }
@@ -2165,7 +2165,7 @@
     {
       "id": "skirmisher_type",
       "name": "Skirmisher",
-      "archetype_note": "Mobile Melee — used by Battlebrave, Duelist, Reaver, Skirmisher class",
+      "archetype_note": "Mobile Melee \u2014 used by Battlebrave, Duelist, Reaver, Skirmisher class",
       "subsets": [
         {
           "id": "duelist_set",
@@ -2189,7 +2189,7 @@
               "damage_type": "Physical",
               "amount": 30,
               "effect": "Ignores armor",
-              "level": 2
+              "level": 16
             },
             {
               "id": "feint_strike",
@@ -2199,7 +2199,7 @@
               "damage_type": "Physical",
               "amount": 18,
               "effect": "Forces target to miss their next attack",
-              "level": 2
+              "level": 24
             }
           ]
         },
@@ -2225,7 +2225,7 @@
               "damage_type": null,
               "amount": 0,
               "effect": "Heal on every hit for 2 turns",
-              "level": 2
+              "level": 7
             },
             {
               "id": "savage_cleave",
@@ -2235,7 +2235,7 @@
               "damage_type": "Physical (AoE)",
               "amount": 32,
               "effect": "Bonus damage if target is already bleeding",
-              "level": 2
+              "level": 24
             }
           ]
         },
@@ -2261,7 +2261,7 @@
               "damage_type": "Physical",
               "amount": 40,
               "effect": "Bonus damage vs targets below 35% Vitality",
-              "level": 2
+              "level": 15
             },
             {
               "id": "chain_assault",
@@ -2272,7 +2272,7 @@
               "amount": 22,
               "amount_note": "x2 hits",
               "effect": "Hits primary target and one adjacent target",
-              "level": 2
+              "level": 24
             }
           ]
         }
@@ -2281,7 +2281,7 @@
     {
       "id": "marksman_type",
       "name": "Marksman",
-      "archetype_note": "Ranged Physical — used by Wayfarer, Marksman, Beastwarden, Skirmisher class",
+      "archetype_note": "Ranged Physical \u2014 used by Wayfarer, Marksman, Beastwarden, Skirmisher class",
       "subsets": [
         {
           "id": "sharpshooter",
@@ -2305,7 +2305,7 @@
               "damage_type": "Physical",
               "amount": 22,
               "effect": "Root target for 1 turn",
-              "level": 2
+              "level": 9
             },
             {
               "id": "longshot",
@@ -2315,7 +2315,7 @@
               "damage_type": "Physical",
               "amount": 40,
               "effect": "Increased effective range by 2 hexes",
-              "level": 2
+              "level": 24
             }
           ]
         },
@@ -2341,7 +2341,7 @@
               "damage_type": "Physical",
               "amount": 20,
               "effect": "Root + bleed on trigger",
-              "level": 2
+              "level": 10
             },
             {
               "id": "volley",
@@ -2351,7 +2351,7 @@
               "damage_type": "Physical (AoE)",
               "amount": 28,
               "effect": "Hits all enemies in target area",
-              "level": 2
+              "level": 24
             }
           ]
         },
@@ -2377,7 +2377,7 @@
               "damage_type": null,
               "amount": 0,
               "effect": "All allies gain +10% critical hit chance (2 turns)",
-              "level": 2
+              "level": 10
             },
             {
               "id": "savage_command",
@@ -2386,8 +2386,8 @@
               "cost_type": "stamina",
               "damage_type": "Physical",
               "amount": 38,
-              "effect": "Pet enrages — attacks twice this turn",
-              "level": 2
+              "effect": "Pet enrages \u2014 attacks twice this turn",
+              "level": 24
             }
           ]
         }
@@ -2396,7 +2396,7 @@
     {
       "id": "rogue_type",
       "name": "Rogue",
-      "archetype_note": "Stealth & Control — used by Shadowblade, Assassin, Thief, Saboteur class",
+      "archetype_note": "Stealth & Control \u2014 used by Shadowblade, Assassin, Thief, Saboteur class",
       "subsets": [
         {
           "id": "assassin_set",
@@ -2409,7 +2409,7 @@
               "cost_type": "stamina",
               "damage_type": "Physical",
               "amount": 42,
-              "effect": "Requires stealth — massive damage from concealment",
+              "effect": "Requires stealth \u2014 massive damage from concealment",
               "level": 1
             },
             {
@@ -2420,7 +2420,7 @@
               "damage_type": null,
               "amount": 0,
               "effect": "Enter stealth immediately",
-              "level": 2
+              "level": 7
             },
             {
               "id": "death_mark",
@@ -2430,7 +2430,7 @@
               "damage_type": "Physical",
               "amount": 20,
               "effect": "Next hit against marked target deals massive bonus damage",
-              "level": 2
+              "level": 24
             }
           ]
         },
@@ -2446,8 +2446,8 @@
               "damage_type": null,
               "amount": 0,
               "aoe": true,
-              "effect": "Area blind — all targets in zone lose accuracy",
-              "level": 1
+              "effect": "Area blind \u2014 all targets in zone lose accuracy",
+              "level": 9
             },
             {
               "id": "explosive_charge",
@@ -2456,8 +2456,8 @@
               "cost_type": "stamina",
               "damage_type": "Physical (AoE)",
               "amount": 30,
-              "effect": "Delayed detonation — triggers end of next turn",
-              "level": 2
+              "effect": "Delayed detonation \u2014 triggers end of next turn",
+              "level": 24
             },
             {
               "id": "disarm_trap",
@@ -2482,7 +2482,7 @@
               "cost_type": "stamina",
               "damage_type": "Physical",
               "amount": 20,
-              "effect": "Teleport behind target — no opportunity attacks",
+              "effect": "Teleport behind target \u2014 no opportunity attacks",
               "level": 1
             },
             {
@@ -2493,7 +2493,7 @@
               "damage_type": null,
               "amount": 0,
               "effect": "Force enemy to attack a chosen ally instead",
-              "level": 2
+              "level": 9
             },
             {
               "id": "phantom_strike",
@@ -2502,8 +2502,8 @@
               "cost_type": "stamina",
               "damage_type": "Physical",
               "amount": 28,
-              "effect": "Creates an illusion double — registers as two hits",
-              "level": 2
+              "effect": "Creates an illusion double \u2014 registers as two hits",
+              "level": 24
             }
           ]
         }
@@ -2512,7 +2512,7 @@
     {
       "id": "commander_type",
       "name": "Commander",
-      "archetype_note": "Support / Tactical — used by Warmaster class",
+      "archetype_note": "Support / Tactical \u2014 used by Warmaster class",
       "subsets": [
         {
           "id": "warlord",
@@ -2526,7 +2526,7 @@
               "damage_type": null,
               "amount": 0,
               "effect": "All allies gain +10% attack and +10% morale",
-              "level": 2
+              "level": 1
             },
             {
               "id": "command_strike",
@@ -2536,7 +2536,7 @@
               "damage_type": "Physical",
               "amount": 26,
               "effect": "One ally within range immediately makes a follow-up attack",
-              "level": 2
+              "level": 7
             },
             {
               "id": "battle_surge",
@@ -2546,7 +2546,7 @@
               "damage_type": null,
               "amount": 0,
               "effect": "Allies gain a 30% chance for an extra action this turn",
-              "level": 2
+              "level": 24
             }
           ]
         },
@@ -2572,7 +2572,7 @@
               "damage_type": "Physical",
               "amount": 22,
               "effect": "Target loses all damage resistances for 2 turns",
-              "level": 2
+              "level": 12
             },
             {
               "id": "zone_control",
@@ -2582,8 +2582,8 @@
               "damage_type": null,
               "amount": 0,
               "aoe": true,
-              "effect": "Area denial — enemies cannot move through zone",
-              "level": 2
+              "effect": "Area denial \u2014 enemies cannot move through zone",
+              "level": 24
             }
           ]
         },
@@ -2598,8 +2598,8 @@
               "cost_type": "stamina",
               "damage_type": null,
               "amount": 0,
-              "effect": "Aura — all allies in range gain stat bonuses while banner is active",
-              "level": 2
+              "effect": "Aura \u2014 all allies in range gain stat bonuses while banner is active",
+              "level": 1
             },
             {
               "id": "stand_firm",
@@ -2609,7 +2609,7 @@
               "damage_type": null,
               "amount": 0,
               "effect": "All allies immune to knockback and fear effects (2 turns)",
-              "level": 2
+              "level": 7
             },
             {
               "id": "inspiring_charge",
@@ -2618,8 +2618,8 @@
               "cost_type": "stamina",
               "damage_type": "Physical",
               "amount": 30,
-              "effect": "Caster charges — all allies advance and gain +10% damage this turn",
-              "level": 2
+              "effect": "Caster charges \u2014 all allies advance and gain +10% damage this turn",
+              "level": 24
             }
           ]
         }
