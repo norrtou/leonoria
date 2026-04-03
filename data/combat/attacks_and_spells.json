@@ -451,7 +451,7 @@
         {
           "id": "lumen_burst",
           "name": "Lumen Burst",
-          "level": 2,
+          "level": 3,
           "cost": 20,
           "damage_type": "Radiant",
           "amount": 44,
@@ -460,7 +460,7 @@
         {
           "id": "blinding_flare",
           "name": "Blinding Flare",
-          "level": 4,
+          "level": 8,
           "cost": 45,
           "damage_type": "Radiant",
           "amount": 90,
@@ -469,7 +469,7 @@
         {
           "id": "solar_lance",
           "name": "Solar Lance",
-          "level": 8,
+          "level": 15,
           "cost": 88,
           "damage_type": "Radiant",
           "amount": 180,
@@ -478,7 +478,7 @@
         {
           "id": "judgement_beam",
           "name": "Judgement Beam",
-          "level": 12,
+          "level": 24,
           "cost": 144,
           "damage_type": "Radiant",
           "amount": 312,
@@ -504,7 +504,7 @@
         {
           "id": "purifying_touch",
           "name": "Purifying Touch",
-          "level": 3,
+          "level": 4,
           "cost": 24,
           "damage_type": "Radiant",
           "amount": 20,
@@ -513,7 +513,7 @@
         {
           "id": "sanctified_ground",
           "name": "Sanctified Ground",
-          "level": 5,
+          "level": 8,
           "cost": 54,
           "damage_type": "Radiant (AoE)",
           "amount": 36,
@@ -523,7 +523,7 @@
         {
           "id": "consecration_ward",
           "name": "Consecration Ward",
-          "level": 9,
+          "level": 14,
           "cost": 100,
           "damage_type": null,
           "amount": 0,
@@ -532,7 +532,7 @@
         {
           "id": "absolute_purge",
           "name": "Absolute Purge",
-          "level": 14,
+          "level": 24,
           "cost": 168,
           "damage_type": "Radiant",
           "amount": 192,
@@ -558,7 +558,7 @@
         {
           "id": "restoration_pulse",
           "name": "Restoration Pulse",
-          "level": 2,
+          "level": 3,
           "cost": 20,
           "damage_type": null,
           "healing": 50,
@@ -567,7 +567,7 @@
         {
           "id": "vital_surge",
           "name": "Vital Surge",
-          "level": 5,
+          "level": 7,
           "cost": 54,
           "damage_type": null,
           "healing": 120,
@@ -576,7 +576,7 @@
         {
           "id": "renewal_wave",
           "name": "Renewal Wave",
-          "level": 9,
+          "level": 13,
           "cost": 100,
           "damage_type": null,
           "healing": 140,
@@ -586,7 +586,7 @@
         {
           "id": "life_reclamation",
           "name": "Life Reclamation",
-          "level": 16,
+          "level": 24,
           "cost": 192,
           "damage_type": null,
           "healing": 336,
@@ -621,7 +621,7 @@
         {
           "id": "aegis_field",
           "name": "Aegis Field",
-          "level": 5,
+          "level": 8,
           "cost": 60,
           "damage_type": null,
           "shield": 75,
@@ -631,7 +631,7 @@
         {
           "id": "bulwark_of_dawn",
           "name": "Bulwark of Dawn",
-          "level": 10,
+          "level": 14,
           "cost": 112,
           "damage_type": null,
           "shield": 200,
@@ -640,7 +640,7 @@
         {
           "id": "seraphic_aegis",
           "name": "Seraphic Aegis",
-          "level": 16,
+          "level": 24,
           "cost": 192,
           "damage_type": null,
           "shield": 360,
@@ -666,7 +666,7 @@
         {
           "id": "truth_glimpse",
           "name": "Truth Glimpse",
-          "level": 2,
+          "level": 3,
           "cost": 20,
           "damage_type": null,
           "amount": 0,
@@ -675,7 +675,7 @@
         {
           "id": "piercing_sight",
           "name": "Piercing Sight",
-          "level": 4,
+          "level": 8,
           "cost": 45,
           "damage_type": "Radiant",
           "amount": 54,
@@ -684,7 +684,7 @@
         {
           "id": "expose_essence",
           "name": "Expose Essence",
-          "level": 8,
+          "level": 15,
           "cost": 88,
           "damage_type": null,
           "amount": 0,
@@ -693,7 +693,7 @@
         {
           "id": "absolute_revelation",
           "name": "Absolute Revelation",
-          "level": 12,
+          "level": 24,
           "cost": 144,
           "damage_type": "Radiant",
           "amount": 168,
@@ -739,7 +739,7 @@
         {
           "id": "guardian_angel",
           "name": "Guardian Angel",
-          "level": 12,
+          "level": 14,
           "cost": 140,
           "damage_type": null,
           "amount": 0,
@@ -748,7 +748,7 @@
         {
           "id": "seraph_ascendant",
           "name": "Seraph Ascendant",
-          "level": 20,
+          "level": 24,
           "cost": 240,
           "damage_type": "Radiant",
           "amount": 216,
@@ -775,7 +775,7 @@
         {
           "id": "soothing_pulse",
           "name": "Soothing Pulse",
-          "level": 3,
+          "level": 4,
           "cost": 24,
           "damage_type": null,
           "healing": 30,
@@ -784,7 +784,7 @@
         {
           "id": "tranquil_field",
           "name": "Tranquil Field",
-          "level": 5,
+          "level": 8,
           "cost": 54,
           "damage_type": null,
           "amount": 0,
@@ -794,7 +794,7 @@
         {
           "id": "mind_harmony",
           "name": "Mind Harmony",
-          "level": 9,
+          "level": 14,
           "cost": 100,
           "damage_type": null,
           "amount": 0,
@@ -803,7 +803,7 @@
         {
           "id": "serenity_dominion",
           "name": "Serenity Dominion",
-          "level": 14,
+          "level": 24,
           "cost": 168,
           "damage_type": null,
           "amount": 0,
@@ -838,7 +838,7 @@
         {
           "id": "radiant_sweep",
           "name": "Radiant Sweep",
-          "level": 5,
+          "level": 6,
           "cost": 54,
           "damage_type": "Radiant (AoE)",
           "amount": 60,
@@ -847,7 +847,7 @@
         {
           "id": "dawnburst",
           "name": "Dawnburst",
-          "level": 10,
+          "level": 13,
           "cost": 112,
           "damage_type": "Radiant",
           "amount": 180,
@@ -856,7 +856,7 @@
         {
           "id": "final_sunrise",
           "name": "Final Sunrise",
-          "level": 18,
+          "level": 24,
           "cost": 216,
           "damage_type": "Radiant",
           "amount": 336,
@@ -882,7 +882,7 @@
         {
           "id": "courage_flame",
           "name": "Courage Flame",
-          "level": 2,
+          "level": 3,
           "cost": 20,
           "damage_type": null,
           "amount": 0,
@@ -891,7 +891,7 @@
         {
           "id": "soul_surge",
           "name": "Soul Surge",
-          "level": 5,
+          "level": 8,
           "cost": 54,
           "damage_type": null,
           "amount": 0,
@@ -900,7 +900,7 @@
         {
           "id": "heroic_infusion",
           "name": "Heroic Infusion",
-          "level": 9,
+          "level": 14,
           "cost": 100,
           "damage_type": null,
           "amount": 0,
@@ -909,7 +909,7 @@
         {
           "id": "ascendant_will",
           "name": "Ascendant Will",
-          "level": 14,
+          "level": 24,
           "cost": 168,
           "damage_type": null,
           "amount": 0,
@@ -935,7 +935,7 @@
         {
           "id": "lightform",
           "name": "Lightform",
-          "level": 4,
+          "level": 3,
           "cost": 40,
           "damage_type": "Radiant",
           "amount": 30,
@@ -990,7 +990,7 @@
         {
           "id": "verdant_grasp",
           "name": "Verdant Grasp",
-          "level": 2,
+          "level": 3,
           "cost": 20,
           "damage_type": "Nature",
           "amount": 36,
@@ -999,7 +999,7 @@
         {
           "id": "thornlash",
           "name": "Thornlash",
-          "level": 4,
+          "level": 7,
           "cost": 48,
           "damage_type": "Nature",
           "amount": 84,
@@ -1008,7 +1008,7 @@
         {
           "id": "overgrowth",
           "name": "Overgrowth",
-          "level": 8,
+          "level": 13,
           "cost": 96,
           "damage_type": "Nature (AoE)",
           "amount": 88,
@@ -1017,7 +1017,7 @@
         {
           "id": "wild_genesis",
           "name": "Wild Genesis",
-          "level": 15,
+          "level": 24,
           "cost": 182,
           "damage_type": "Nature",
           "amount": 216,
@@ -1052,7 +1052,7 @@
         {
           "id": "feral_surge",
           "name": "Feral Surge",
-          "level": 5,
+          "level": 7,
           "cost": 54,
           "damage_type": "Physical",
           "amount": 75,
@@ -1061,7 +1061,7 @@
         {
           "id": "pack_call",
           "name": "Pack Call",
-          "level": 9,
+          "level": 13,
           "cost": 104,
           "damage_type": "Physical",
           "amount": 72,
@@ -1071,7 +1071,7 @@
         {
           "id": "primal_dominion",
           "name": "Primal Dominion",
-          "level": 16,
+          "level": 24,
           "cost": 192,
           "damage_type": "Physical",
           "amount": 192,
@@ -1106,7 +1106,7 @@
         {
           "id": "passion_mark",
           "name": "Passion Mark",
-          "level": 5,
+          "level": 7,
           "cost": 54,
           "damage_type": null,
           "amount": 0,
@@ -1115,7 +1115,7 @@
         {
           "id": "veil_of_desire",
           "name": "Veil of Desire",
-          "level": 9,
+          "level": 13,
           "cost": 104,
           "damage_type": null,
           "amount": 0,
@@ -1124,7 +1124,7 @@
         {
           "id": "overwhelming_presence",
           "name": "Overwhelming Presence",
-          "level": 16,
+          "level": 24,
           "cost": 192,
           "damage_type": null,
           "amount": 0,
@@ -1160,7 +1160,7 @@
         {
           "id": "stonewall_rise",
           "name": "Stonewall Rise",
-          "level": 5,
+          "level": 7,
           "cost": 54,
           "damage_type": null,
           "amount": 0,
@@ -1169,7 +1169,7 @@
         {
           "id": "quake_pulse",
           "name": "Quake Pulse",
-          "level": 9,
+          "level": 13,
           "cost": 104,
           "damage_type": "Physical (AoE)",
           "amount": 120,
@@ -1178,7 +1178,7 @@
         {
           "id": "cataclysm_break",
           "name": "Cataclysm Break",
-          "level": 17,
+          "level": 24,
           "cost": 202,
           "damage_type": "Physical",
           "amount": 264,
@@ -1213,7 +1213,7 @@
         {
           "id": "crashing_wave",
           "name": "Crashing Wave",
-          "level": 5,
+          "level": 7,
           "cost": 54,
           "damage_type": "Cold (AoE)",
           "amount": 72,
@@ -1222,7 +1222,7 @@
         {
           "id": "tidal_grasp",
           "name": "Tidal Grasp",
-          "level": 9,
+          "level": 13,
           "cost": 104,
           "damage_type": "Cold",
           "amount": 128,
@@ -1231,7 +1231,7 @@
         {
           "id": "abyssal_surge",
           "name": "Abyssal Surge",
-          "level": 16,
+          "level": 24,
           "cost": 192,
           "damage_type": "Cold",
           "amount": 240,
@@ -1266,7 +1266,7 @@
         {
           "id": "searing_arc",
           "name": "Searing Arc",
-          "level": 5,
+          "level": 7,
           "cost": 54,
           "damage_type": "Fire (AoE)",
           "amount": 84,
@@ -1275,7 +1275,7 @@
         {
           "id": "heat_surge",
           "name": "Heat Surge",
-          "level": 9,
+          "level": 13,
           "cost": 104,
           "damage_type": "Fire",
           "amount": 160,
@@ -1284,7 +1284,7 @@
         {
           "id": "infernal_bloom",
           "name": "Infernal Bloom",
-          "level": 17,
+          "level": 24,
           "cost": 202,
           "damage_type": "Fire",
           "amount": 288,
@@ -1319,7 +1319,7 @@
         {
           "id": "cyclone_step",
           "name": "Cyclone Step",
-          "level": 5,
+          "level": 7,
           "cost": 54,
           "damage_type": null,
           "amount": 0,
@@ -1328,7 +1328,7 @@
         {
           "id": "tempest_ring",
           "name": "Tempest Ring",
-          "level": 9,
+          "level": 13,
           "cost": 104,
           "damage_type": "Physical (AoE)",
           "amount": 112,
@@ -1337,7 +1337,7 @@
         {
           "id": "storm_vortex",
           "name": "Storm Vortex",
-          "level": 16,
+          "level": 24,
           "cost": 192,
           "damage_type": "Physical",
           "amount": 240,
@@ -1372,7 +1372,7 @@
         {
           "id": "spatial_warp",
           "name": "Spatial Warp",
-          "level": 5,
+          "level": 6,
           "cost": 54,
           "damage_type": null,
           "amount": 0,
@@ -1381,7 +1381,7 @@
         {
           "id": "crush_field",
           "name": "Crush Field",
-          "level": 10,
+          "level": 13,
           "cost": 112,
           "damage_type": "Physical (AoE)",
           "amount": 120,
@@ -1390,7 +1390,7 @@
         {
           "id": "singularity_collapse",
           "name": "Singularity Collapse",
-          "level": 18,
+          "level": 24,
           "cost": 216,
           "damage_type": "Physical",
           "amount": 312,
@@ -1425,7 +1425,7 @@
         {
           "id": "force_grip",
           "name": "Force Grip",
-          "level": 5,
+          "level": 7,
           "cost": 54,
           "damage_type": "Physical",
           "amount": 90,
@@ -1434,7 +1434,7 @@
         {
           "id": "impact_wave",
           "name": "Impact Wave",
-          "level": 9,
+          "level": 13,
           "cost": 104,
           "damage_type": "Physical (AoE)",
           "amount": 128,
@@ -1443,7 +1443,7 @@
         {
           "id": "kinetic_rupture",
           "name": "Kinetic Rupture",
-          "level": 16,
+          "level": 24,
           "cost": 192,
           "damage_type": "Physical",
           "amount": 264,
@@ -1478,7 +1478,7 @@
         {
           "id": "arcane_fracture",
           "name": "Arcane Fracture",
-          "level": 5,
+          "level": 6,
           "cost": 54,
           "damage_type": "Arcane",
           "amount": 96,
@@ -1487,7 +1487,7 @@
         {
           "id": "reshape_field",
           "name": "Reshape Field",
-          "level": 10,
+          "level": 13,
           "cost": 112,
           "damage_type": "Arcane (AoE)",
           "amount": 120,
@@ -1496,7 +1496,7 @@
         {
           "id": "prime_reconfiguration",
           "name": "Prime Reconfiguration",
-          "level": 18,
+          "level": 24,
           "cost": 216,
           "damage_type": "Arcane",
           "amount": 288,
@@ -1531,7 +1531,7 @@
         {
           "id": "life_siphon",
           "name": "Life Siphon",
-          "level": 5,
+          "level": 6,
           "cost": 54,
           "damage_type": "Shadow",
           "amount": 90,
@@ -1540,7 +1540,7 @@
         {
           "id": "gravebind",
           "name": "Gravebind",
-          "level": 10,
+          "level": 13,
           "cost": 112,
           "damage_type": "Shadow",
           "amount": 140,
@@ -1549,7 +1549,7 @@
         {
           "id": "legion_of_dead",
           "name": "Legion of the Dead",
-          "level": 18,
+          "level": 24,
           "cost": 216,
           "damage_type": "Shadow",
           "amount": 216,
@@ -1584,7 +1584,7 @@
         {
           "id": "umbral_strike",
           "name": "Umbral Strike",
-          "level": 5,
+          "level": 7,
           "cost": 54,
           "damage_type": "Shadow",
           "amount": 96,
@@ -1593,7 +1593,7 @@
         {
           "id": "blackout_field",
           "name": "Blackout Field",
-          "level": 9,
+          "level": 13,
           "cost": 104,
           "damage_type": "Shadow (AoE)",
           "amount": 112,
@@ -1602,7 +1602,7 @@
         {
           "id": "abyss_shroud",
           "name": "Abyss Shroud",
-          "level": 16,
+          "level": 24,
           "cost": 192,
           "damage_type": "Shadow",
           "amount": 240,
@@ -1637,7 +1637,7 @@
         {
           "id": "lingering_hex",
           "name": "Lingering Hex",
-          "level": 5,
+          "level": 7,
           "cost": 54,
           "damage_type": "Shadow",
           "amount": 84,
@@ -1646,7 +1646,7 @@
         {
           "id": "crippling_malice",
           "name": "Crippling Malice",
-          "level": 10,
+          "level": 13,
           "cost": 112,
           "damage_type": "Shadow",
           "amount": 140,
@@ -1655,7 +1655,7 @@
         {
           "id": "doom_sigil",
           "name": "Doom Sigil",
-          "level": 17,
+          "level": 24,
           "cost": 202,
           "damage_type": "Shadow",
           "amount": 264,
@@ -1693,7 +1693,7 @@
         {
           "id": "crimson_pact",
           "name": "Crimson Pact",
-          "level": 5,
+          "level": 7,
           "cost": 54,
           "vitality_cost": 10,
           "damage_type": null,
@@ -1703,7 +1703,7 @@
         {
           "id": "hemorrhage_curse",
           "name": "Hemorrhage Curse",
-          "level": 9,
+          "level": 13,
           "cost": 104,
           "vitality_cost": 12,
           "damage_type": "Shadow",
@@ -1713,7 +1713,7 @@
         {
           "id": "blood_cataclysm",
           "name": "Blood Cataclysm",
-          "level": 16,
+          "level": 24,
           "cost": 192,
           "vitality_cost": 20,
           "damage_type": "Shadow (AoE)",
@@ -1749,7 +1749,7 @@
         {
           "id": "will_break",
           "name": "Will Break",
-          "level": 6,
+          "level": 7,
           "cost": 66,
           "damage_type": "Shadow",
           "amount": 90,
@@ -1758,7 +1758,7 @@
         {
           "id": "puppet_strings",
           "name": "Puppet Strings",
-          "level": 10,
+          "level": 13,
           "cost": 120,
           "damage_type": null,
           "amount": 0,
@@ -1767,7 +1767,7 @@
         {
           "id": "absolute_dominion",
           "name": "Absolute Dominion",
-          "level": 19,
+          "level": 24,
           "cost": 230,
           "damage_type": "Shadow",
           "amount": 216,
@@ -1802,7 +1802,7 @@
         {
           "id": "corrupt_flesh",
           "name": "Corrupt Flesh",
-          "level": 5,
+          "level": 7,
           "cost": 60,
           "damage_type": "Blight",
           "amount": 90,
@@ -1811,7 +1811,7 @@
         {
           "id": "plague_field",
           "name": "Plague Field",
-          "level": 10,
+          "level": 13,
           "cost": 112,
           "damage_type": "Blight (AoE)",
           "amount": 104,
@@ -1820,7 +1820,7 @@
         {
           "id": "carrion_bloom",
           "name": "Carrion Bloom",
-          "level": 18,
+          "level": 24,
           "cost": 216,
           "damage_type": "Blight",
           "amount": 264,
@@ -1847,7 +1847,7 @@
         {
           "id": "fel_hound",
           "name": "Fel Hound",
-          "level": 4,
+          "level": 3,
           "cost": 36,
           "damage_type": "Shadow",
           "amount": 36,
@@ -1876,7 +1876,7 @@
         {
           "id": "abyssal_overlord",
           "name": "Abyssal Overlord",
-          "level": 22,
+          "level": 24,
           "cost": 264,
           "damage_type": "Shadow",
           "amount": 240,
@@ -1913,7 +1913,7 @@
         {
           "id": "dread_object",
           "name": "Dread Object",
-          "level": 6,
+          "level": 7,
           "cost": 72,
           "damage_type": "Shadow",
           "amount": 75,
@@ -1922,7 +1922,7 @@
         {
           "id": "soul_anchor",
           "name": "Soul Anchor",
-          "level": 11,
+          "level": 13,
           "cost": 128,
           "damage_type": null,
           "amount": 0,
@@ -1931,7 +1931,7 @@
         {
           "id": "nightforged_relic",
           "name": "Nightforged Relic",
-          "level": 20,
+          "level": 24,
           "cost": 240,
           "damage_type": "Shadow",
           "amount": 216,
@@ -1966,7 +1966,7 @@
         {
           "id": "aging_touch",
           "name": "Aging Touch",
-          "level": 6,
+          "level": 7,
           "cost": 72,
           "damage_type": "Shadow",
           "amount": 90,
@@ -1975,7 +1975,7 @@
         {
           "id": "temporal_reversal",
           "name": "Temporal Reversal",
-          "level": 11,
+          "level": 12,
           "cost": 128,
           "damage_type": null,
           "amount": 0,
@@ -1984,7 +1984,7 @@
         {
           "id": "chrono_collapse",
           "name": "Chrono Collapse",
-          "level": 22,
+          "level": 24,
           "cost": 264,
           "damage_type": "Shadow",
           "amount": 312,
