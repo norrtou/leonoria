@@ -388,12 +388,12 @@ function calculateAbilityLevel(ab, isWeakestSpell = false) {
     const cost = ab.cost || 0;
     const power = dmg + (cost * 0.5); // Combine damage and cost into power score
 
-    if (power <= 0) return 3; // No damage = level 3 (control/utility)
-    if (power <= 18) return 3; // Weak abilities = level 3
-    if (power <= 28) return 5; // Light abilities = level 5
-    if (power <= 38) return 8; // Medium abilities = level 8
-    if (power <= 50) return 11; // Strong abilities = level 11
-    return 14; // Top tier = level 14 (70% of max 20)
+    if (power <= 0) return 5; // No damage = level 5 (control/utility)
+    if (power <= 18) return 5; // Weak abilities = level 5
+    if (power <= 28) return 9; // Light abilities = level 9
+    if (power <= 38) return 14; // Medium abilities = level 14
+    if (power <= 50) return 19; // Strong abilities = level 19
+    return 24; // Top tier = level 24 (80% of max 30)
 }
 
 function abilityChip(ab, iconHtml, costType, charLevel) {
