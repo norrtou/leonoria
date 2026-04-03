@@ -324,7 +324,7 @@
         "voidweaver"
       ],
       "cost": 0,
-      "cost_type": "shadow",
+      "cost_type": "materium",
       "damage_type": "Shadow",
       "amount": 5,
       "effect": "Dark projectile",
@@ -338,7 +338,7 @@
         "bloodsinger"
       ],
       "cost": 0,
-      "cost_type": "shadow",
+      "cost_type": "materium",
       "damage_type": "Bleed",
       "amount": 4,
       "effect": "Blood wound",
@@ -366,7 +366,7 @@
         "malefactor"
       ],
       "cost": 0,
-      "cost_type": "shadow",
+      "cost_type": "materium",
       "damage_type": "Physical",
       "amount": 3,
       "effect": "Weak curse strike; weakens target 10%",
@@ -395,7 +395,7 @@
         "rotforged"
       ],
       "cost": 0,
-      "cost_type": "shadow",
+      "cost_type": "materium",
       "damage_type": "Physical",
       "amount": 5,
       "effect": "Bone projectile",
