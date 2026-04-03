@@ -488,7 +488,7 @@ function renderAbilitiesHTML(classId, charLevel = 1) {
     // Base attacks
     const baseAttacks = (data.base_attacks || []).filter(a => a.class_ids?.includes(classId));
     baseAttacks.forEach(a => {
-        allAbilities.push({ ...a, type: 'attack', icon: BASE_CLASS_ICON[classId] || '⚔', costType: 'stamina' });
+        allAbilities.push({ ...a, type: 'attack', icon: BASE_CLASS_ICON[classId] || '⚔', costType: a.cost_type });
     });
 
     // Martial abilities
