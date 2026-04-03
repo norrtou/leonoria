@@ -4,6 +4,33 @@
 
 'use strict';
 
+/* ╔════════════════════════════════════════════════════════════════════════════
+   ║ CRITICAL: SPELL LEVELING SYSTEM - DO NOT MODIFY WITHOUT USER PERMISSION
+   ╚════════════════════════════════════════════════════════════════════════════
+
+   SPELL LEVEL DISTRIBUTION (for character level cap of 30):
+
+   1. Each spell school in attacks_and_spells.json has its own min/max cost range
+   2. Within each school, spells are rescaled so:
+      - Weakest spell = level 1
+      - Strongest spell = level 24 (80% of max character level 30)
+      - All spells distributed proportionally between based on cost
+
+   3. The character sheet reads ab.level directly from the JSON
+      (see renderAbilitiesHTML, line ~517-525)
+
+   4. Ability unlock levels in character sheet are determined by:
+      - abilityChip() uses ab.level from JSON (line 400)
+      - calculateAbilityLevel() is ONLY fallback for abilities without level field
+
+   WHY THIS MATTERS:
+   - If you destroy the spell level field in JSON, spells will collapse to 5 buckets
+   - If you hardcode ability calculations, every school gets same max level
+   - Both waste enormous tokens rescaling and debugging
+
+   TO CHANGE THIS: Ask the user first. Document what you're changing and why.
+   ════════════════════════════════════════════════════════════════════════════ */
+
 // ─── Aptitude system ──────────────────────────────────────────────────────────
 const APTITUDES = ['conviction', 'physiology', 'cognition', 'materium_affinity', 'martial_experience', 'presence'];
 
