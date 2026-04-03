@@ -376,7 +376,28 @@ function escTip(s) {
     return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/\n/g,'&#10;');
 }
 
-function abilityChip(ab, iconHtml, costType) {
+function calculateAbilityLevel(ab, isWeakestSpell = false) {
+    // Base attacks are always level 1
+    if (ab.role === 'base_attack') return 1;
+
+    // Weakest spell for a spellcaster is level 1
+    if (isWeakestSpell) return 1;
+
+    const dmg = ab.amount || 0;
+    const cost = ab.cost || 0;
+    const power = dmg + (cost * 0.5); // Combine damage and cost into power score
+
+    if (power <= 0) return 3; // No damage = level 3 (control/utility)
+    if (power <= 18) return 3; // Weak abilities = level 3
+    if (power <= 28) return 5; // Light abilities = level 5
+    if (power <= 38) return 8; // Medium abilities = level 8
+    if (power <= 50) return 11; // Strong abilities = level 11
+    return 14; // Top tier = level 14 (70% of max 20)
+}
+
+function abilityChip(ab, iconHtml, costType, charLevel) {
+    const abilityLevel = calculateAbilityLevel(ab);
+    const isLocked = charLevel < abilityLevel;
     const costLabel = costType === 'stamina' ? 'Stamina' : costType === 'shadow' ? 'Materium (Shadow)' : 'Materium';
     const lines = [
         ab.name,
@@ -385,7 +406,8 @@ function abilityChip(ab, iconHtml, costType) {
     if (ab.damage_type && ab.damage_type !== 'null') lines.push(`Damage: ${ab.damage_type}${ab.amount ? ' — ' + ab.amount : ''}`);
     if (ab.effect) lines.push('', ab.effect);
     const tip = escTip(lines.join('\n'));
-    return `<span class="vs-abl-chip" data-tooltip="${tip}">${iconHtml}${ab.name}</span>`;
+    const lockedClass = isLocked ? ' locked' : '';
+    return `<span class="vs-abl-chip${lockedClass}" data-tooltip="${tip}">${iconHtml}${ab.name}</span>`;
 }
 
 function abilityCard(ab, costType) {
@@ -425,45 +447,51 @@ function sheetAbilityCard(ab, costType) { // kept for abilities tab
     </div>`;
 }
 
-function renderAbilitiesHTML(classId) {
+function renderAbilitiesHTML(classId, charLevel = 1) {
     const cls = findClass(classId);
     if (!cls) return '<p class="skill-info">Select a class to see available abilities.</p>';
 
     const data = DB.spells;
     if (!data) return '<p class="skill-info">Ability data not loaded.</p>';
 
-    const groups = [];
+    // Collect all abilities with their level requirements
+    const allAbilities = [];
 
-    // ── Base attack ──────────────────────────────────────────
+    // Base attacks
     const baseAttacks = (data.base_attacks || []).filter(a => a.class_ids?.includes(classId));
-    if (baseAttacks.length) {
-        const icon = `<span class="vs-abl-icon">${BASE_CLASS_ICON[classId] || '⚔'}</span>`;
-        let chips = baseAttacks.map(a => abilityChip(a, icon, 'stamina')).join('');
-        groups.push(`<div class="vs-abl-group">
-            <div class="vs-abl-group-title">Base Attack</div>
-            <div class="vs-abl-chips">${chips}</div>
-        </div>`);
-    }
+    baseAttacks.forEach(a => {
+        allAbilities.push({ ...a, type: 'attack', icon: BASE_CLASS_ICON[classId] || '⚔', costType: 'stamina' });
+    });
 
-    // ── Martial abilities ─────────────────────────────────────
+    // Martial abilities
     const setId = CLASS_MARTIAL_SET[classId];
     if (setId && data.martial_ability_sets) {
         const set = data.martial_ability_sets.find(s => s.id === setId);
         if (set) {
-            const icon = `<span class="vs-abl-icon">${MARTIAL_SET_ICON[setId] || '⚔'}</span>`;
-            let inner = '';
             (set.subsets || []).forEach(sub => {
-                const chips = (sub.abilities || []).map(a => abilityChip(a, icon, 'stamina')).join('');
-                inner += `<span class="vs-abl-subset-label">${sub.name}</span><div class="vs-abl-chips">${chips}</div>`;
+                (sub.abilities || []).forEach(a => {
+                    allAbilities.push({ ...a, type: 'martial', icon: MARTIAL_SET_ICON[setId] || '⚔', costType: 'stamina' });
+                });
             });
-            groups.push(`<div class="vs-abl-group">
-                <div class="vs-abl-group-title">Martial Abilities — ${set.name}</div>
-                ${inner}
-            </div>`);
         }
     }
 
-    // ── Spell schools ─────────────────────────────────────────
+    // Find weakest ability overall (base attacks + martial + spells)
+    let weakestAbilityPower = Infinity;
+
+    // Check base attacks
+    allAbilities.filter(a => a.type === 'attack').forEach(a => {
+        const power = (a.amount || 0) + ((a.cost || 0) * 0.5);
+        if (power < weakestAbilityPower) weakestAbilityPower = power;
+    });
+
+    // Check martial abilities
+    allAbilities.filter(a => a.type === 'martial').forEach(a => {
+        const power = (a.amount || 0) + ((a.cost || 0) * 0.5);
+        if (power < weakestAbilityPower) weakestAbilityPower = power;
+    });
+
+    // Spells
     if (cls.materium_access && cls.materium_schools_available?.length && data.spell_schools) {
         const seen = new Set();
         cls.materium_schools_available.forEach(schoolName => {
@@ -472,16 +500,40 @@ function renderAbilitiesHTML(classId) {
             seen.add(schoolId);
             const school = data.spell_schools.find(s => s.id === schoolId);
             if (!school) return;
+
+            // Calculate power and add spells
             const costType = school.magic_type === 'shadow' ? 'shadow' : 'materium';
             const dotColor = MAGIC_DOT_COLOR[school.magic_type] || '#aaa';
-            const icon = `<span class="vs-abl-dot" style="color:${dotColor}">●</span>`;
-            const chips = (school.spells || []).map(sp => abilityChip(sp, icon, costType)).join('');
-            groups.push(`<div class="vs-abl-group">
-                <div class="vs-abl-group-title">${school.name}</div>
-                <div class="vs-abl-chips">${chips}</div>
-            </div>`);
+            (school.spells || []).forEach(sp => {
+                const power = (sp.amount || 0) + ((sp.cost || 0) * 0.5);
+                if (power < weakestAbilityPower) weakestAbilityPower = power;
+                allAbilities.push({ ...sp, type: 'spell', icon: `<span style="color:${dotColor}">●</span>`, costType: costType });
+            });
         });
     }
+
+    // Group by level requirement
+    const byLevel = {};
+    allAbilities.forEach(ab => {
+        // Any ability within a small range of the weakest power is level 1
+        const abilityPower = (ab.amount || 0) + ((ab.cost || 0) * 0.5);
+        const isWeakestAbility = weakestAbilityPower !== Infinity && abilityPower <= (weakestAbilityPower + 2);
+        const lvl = calculateAbilityLevel(ab, isWeakestAbility);
+        if (!byLevel[lvl]) byLevel[lvl] = [];
+        byLevel[lvl].push(ab);
+    });
+
+    // Sort levels and create groups
+    const groups = [];
+    Object.keys(byLevel).map(Number).sort((a, b) => a - b).forEach(lvl => {
+        const abilities = byLevel[lvl];
+        const chips = abilities.map(a => abilityChip(a, `<span class="vs-abl-icon">${a.icon}</span>`, a.costType, charLevel)).join('');
+        const titleText = charLevel >= lvl ? `Level ${lvl}` : `Unlocks at Level ${lvl}`;
+        groups.push(`<div class="vs-abl-group">
+            <div class="vs-abl-group-title">${titleText}</div>
+            <div class="vs-abl-chips">${chips}</div>
+        </div>`);
+    });
 
     if (!groups.length) return '<p class="skill-info">No ability data found for this class.</p>';
     return `<div class="vs-abl-columns">${groups.join('')}</div>`;
@@ -490,7 +542,7 @@ function renderAbilitiesHTML(classId) {
 function buildAbilitiesTab() {
     const el = $('abilities-content');
     if (!el) return;
-    el.innerHTML = renderAbilitiesHTML(S.cls);
+    el.innerHTML = renderAbilitiesHTML(S.cls, S.level || 1);
 }
 
 // ─── Class select ─────────────────────────────────────────────────────────────
@@ -641,6 +693,7 @@ function wireLevel() {
         S.level = +slider.value;
         disp.textContent = S.level;
         updateDerivedStats();
+        buildAbilitiesTab();
     });
 }
 
@@ -1426,7 +1479,7 @@ function showViewSheet(char, origin = 'create') {
 
     // Abilities & Spells section
     const ablContent = $('vs-abilities-content');
-    if (ablContent) ablContent.innerHTML = renderAbilitiesHTML(char.cls);
+    if (ablContent) ablContent.innerHTML = renderAbilitiesHTML(char.cls, char.level || 1);
 
     const savesRow = $('saves-row');
     savesRow.innerHTML = '';

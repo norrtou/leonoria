@@ -706,9 +706,9 @@
         }
         .vs-abl-group { min-width: 180px; }
         .vs-abl-group-title {
-            font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase;
-            color: var(--text-muted); margin-bottom: 0.45rem;
-            border-bottom: 1px solid var(--green-dim); padding-bottom: 0.2rem;
+            font-size: 0.76rem; letter-spacing: 0; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 0.45rem;
+            border-bottom: 1px solid var(--gold-dim); padding-bottom: 0.2rem;
         }
         .vs-abl-subset-label {
             display: block; font-size: 0.7rem; letter-spacing: 0.07em;
@@ -726,6 +726,13 @@
             transition: border-color 0.12s, color 0.12s;
         }
         .vs-abl-chip:hover { border-color: var(--gold); color: var(--text-bright); }
+        .vs-abl-chip.locked {
+            border-color: #6a5a4a;
+            color: var(--text-muted);
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .vs-abl-chip.locked:hover { border-color: #6a5a4a; color: var(--text-muted); }
         .vs-abl-icon { font-size: 0.82em; }
         .vs-abl-dot  { font-size: 0.6em; line-height: 1; }
 
