@@ -662,6 +662,10 @@ class FantasyMap {
         let biomeMult = { forest:1, river:1, settlement:1, ruin:1, mountain:1 };
         const _jBiome = _mapData?.biomes?.find(b => b.id === biomeId);
         if (_jBiome?.featureMult) biomeMult = { ...biomeMult, ..._jBiome.featureMult };
+        // Special case: inland maps on Dark Forests get Sanctuary-level forest coverage
+        if (this.params.mapType === 'inland' && biomeId === 'the_dark_forests') {
+            biomeMult.forest = 6.0; // Match Sanctuary forest coverage
+        }
         this.biomeMult = biomeMult;
 
         // Tree style — driven by biome JSON; fallback hardcoded map
@@ -2138,11 +2142,20 @@ class FantasyMap {
         const SL = this.SL;
 
         // Per-biome overrides for elevation range, patch radius, seed spacing, attempt budget
-        const heightMax      = this.biomeData?.forestHeightMax  ?? 0.30;
-        const radiusMin      = this.biomeData?.forestRadiusMin  ?? 3.5;
-        const radiusMax      = this.biomeData?.forestRadiusMax  ?? 6.0;
-        const seedSpacing    = this.biomeData?.forestSeedSpacing ?? 3;
-        const maxAttempts    = (this.biomeData?.forestAttempts  ?? 600) * this.scale;
+        let heightMax      = this.biomeData?.forestHeightMax  ?? 0.30;
+        let radiusMin      = this.biomeData?.forestRadiusMin  ?? 3.5;
+        let radiusMax      = this.biomeData?.forestRadiusMax  ?? 6.0;
+        let seedSpacing    = this.biomeData?.forestSeedSpacing ?? 3;
+        let maxAttempts    = (this.biomeData?.forestAttempts  ?? 600) * this.scale;
+
+        // Special case: inland Dark Forests maps get Sanctuary-scale forest generation
+        if (this.params.mapType === 'inland' && this.biomeId === 'the_dark_forests') {
+            heightMax = 0.52;
+            radiusMin = 5.0;
+            radiusMax = 9.0;
+            seedSpacing = 1;
+            maxAttempts = 2000 * this.scale;
+        }
 
         for (let attempt = 0; attempt < maxAttempts && forests.length < SEEDS; attempt++) {
             const c = this.ri(3, cols - 4), r = this.ri(3, rows - 4);
@@ -2245,8 +2258,13 @@ class FantasyMap {
             }
         }
 
-        const _BIOME_TREE_DENSITY = { the_sanctuary_lands: 0.25, the_dark_forests: 0.5, the_outer_steppes: 1.6 };
-        const treeDensityMult = (this.scale === 1 ? 2.44 : 1.0) * (_BIOME_TREE_DENSITY[this.biomeId] ?? 1.0);
+        const _BIOME_TREE_DENSITY = { the_sanctuary_lands: 0.125, the_dark_forests: 0.5, the_outer_steppes: 1.6 };
+        let treeDensity = _BIOME_TREE_DENSITY[this.biomeId] ?? 1.0;
+        // For inland Dark Forests, match Sanctuary's tree symbol density
+        if (this.params.mapType === 'inland' && this.biomeId === 'the_dark_forests') {
+            treeDensity = 0.125;
+        }
+        const treeDensityMult = (this.scale === 1 ? 2.44 : 1.0) * treeDensity;
 
         // ── Pass 1: collect valid tree positions ──────────────────────────────
         const treeList = [];
@@ -4030,15 +4048,47 @@ class FantasyMap {
             (c, r) => hm.isMountain(c, r) || (flat(c, r) && !nearRiver(c, r)),
             rn(this.ri(2 * sc, 3 * sc)), 110, ruinNames);
 
-        // ── Secondary cultures — rank-based proportional distribution ────────────
-        // Cultures are listed in rank order in BIOME_CULTURES (rank 1 = dominant,
-        // already handled above). For biomes with > 2 cultures, counts scale
-        // Secondary cultures: each rank halves the previous.
-        // Rank 2 = 50% of dominant village count, rank 3 = 25%, rank 4 = 12%, etc.
-        // Minimum 1 settlement per culture always guaranteed.
-        const allBiomeCultures = (this.params?.allCultures ?? []).filter(c => c.value !== culture);
-        const totalCultures    = (this.params?.allCultures ?? []).length;
-        const useProportional  = totalCultures > 2;
+        // ── Secondary cultures — race-grouped, rank-based proportional distribution ──
+        // BIOME_CULTURES may list multiple culture tokens from the same race (e.g.
+        // wildmen_foresters + wildmen_ravagers both belong to race 'wildmen'). We
+        // group by race, pick ONE culture randomly per race per map, then apply the
+        // halving rule to races rather than individual culture tokens.
+        // Rank 1 = dominant (already placed). Rank 2 = 50%, rank 3 = 25%, etc.
+        // Minimum 1 settlement per secondary race always guaranteed.
+        const CULTURE_TO_RACE = {
+            midlander:          'midlander',
+            northerner:         'northerner',
+            wildmen_foresters:  'wildmen',
+            wildmen_ravagers:   'wildmen',
+            oakpeople:          'oakpeople',
+            stone_folk:         'stone_folk',
+            swampbrood:         'swampbrood',
+            step_folk:          'step_folk',
+            ashen_halfbreeds:   'ashen_halfbreeds',
+            ice_ancients:       'ice_ancients',
+            ancients_greys:     'ancients_greys',
+            ancients_secluded:  'ancients_secluded',
+            ancients_dark_ones: 'ancients_dark_ones',
+        };
+        const dominantRace = CULTURE_TO_RACE[culture] ?? culture;
+
+        // Build ordered race groups from allCultures, skipping dominant race
+        const _raceGroupMap = new Map();
+        for (const mc of (this.params?.allCultures ?? [])) {
+            if (mc.value === culture) continue;
+            const race = CULTURE_TO_RACE[mc.value] ?? mc.value;
+            if (race === dominantRace) continue;
+            if (!_raceGroupMap.has(race)) _raceGroupMap.set(race, []);
+            _raceGroupMap.get(race).push(mc);
+        }
+
+        // Randomly pick one culture per race for this map
+        const allBiomeCultures = [..._raceGroupMap.values()].map(group =>
+            group[this.ri(0, group.length - 1)]
+        );
+
+        const totalCultures   = allBiomeCultures.length + 1; // +1 for dominant
+        const useProportional = totalCultures > 2;
 
         // HALVING_MULTS: rank 2 = idx 0, rank 3 = idx 1, etc.
         const HALVING_MULTS = [0.50, 0.25, 0.125, 0.0625, 0.03125, 0.015625];
@@ -4052,7 +4102,7 @@ class FantasyMap {
             const secVillageType   = isRavagerCulture || isCampCulture ? 'camp' : 'village';
 
             let terrainFilter;
-            if      (mv === 'wildmen_foresters' || mv === 'oakpeople') terrainFilter = (c, r) => flat(c, r) && inForest(c, r);
+            if      (mv === 'wildmen_foresters' || mv === 'wildmen_ravagers' || mv === 'oakpeople') terrainFilter = (c, r) => flat(c, r) && inForest(c, r);
             else if (mv === 'swampbrood')                              terrainFilter = (c, r) => flat(c, r) && inSwamp(c, r);
             else if (mv === 'stone_folk')                              terrainFilter = (c, r) => mtn(c, r);
             else                                                       terrainFilter = (c, r) => placeable(c, r);
@@ -4068,7 +4118,7 @@ class FantasyMap {
                     const secCityType = isRavagerCulture ? 'stronghold' : 'city';
                     const scp     = cityPools[mv] ?? cityPools.midlander;
                     const cityNms = this._pool([...scp], ['Valdris', 'Sorvane', 'Thelindra', 'Kethara']);
-                    const cityTest2 = (c, r) => (mv === 'stone_folk' ? mtn(c, r) : placeable(c, r) && nearRiver(c, r));
+                    const cityTest2 = (c, r) => (mv === 'stone_folk' ? mtn(c, r) : terrainFilter(c, r) && nearRiver(c, r));
                     tryPlace(secCityType, cityTest2, sn(this.ri(0, 1 * sc)), 200, cityNms);
                 }
 
