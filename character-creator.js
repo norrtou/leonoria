@@ -397,7 +397,7 @@ function calculateAbilityLevel(ab, isWeakestSpell = false) {
 }
 
 function abilityChip(ab, iconHtml, costType, charLevel) {
-    const abilityLevel = calculateAbilityLevel(ab);
+    const abilityLevel = ab.level || calculateAbilityLevel(ab);
     const isLocked = charLevel < abilityLevel;
     const costLabel = costType === 'stamina' ? 'Stamina' : costType === 'shadow' ? 'Materium (Shadow)' : 'Materium';
     const lines = [
@@ -516,10 +516,13 @@ function renderAbilitiesHTML(classId, charLevel = 1) {
     // Group by level requirement
     const byLevel = {};
     allAbilities.forEach(ab => {
-        // Any ability within a small range of the weakest power is level 1
-        const abilityPower = (ab.amount || 0) + ((ab.cost || 0) * 0.5);
-        const isWeakestAbility = weakestAbilityPower !== Infinity && abilityPower <= (weakestAbilityPower + 2);
-        const lvl = calculateAbilityLevel(ab, isWeakestAbility);
+        // Use level from JSON if available, otherwise calculate
+        let lvl = ab.level;
+        if (!lvl) {
+            const abilityPower = (ab.amount || 0) + ((ab.cost || 0) * 0.5);
+            const isWeakestAbility = weakestAbilityPower !== Infinity && abilityPower <= (weakestAbilityPower + 2);
+            lvl = calculateAbilityLevel(ab, isWeakestAbility);
+        }
         if (!byLevel[lvl]) byLevel[lvl] = [];
         byLevel[lvl].push(ab);
     });
