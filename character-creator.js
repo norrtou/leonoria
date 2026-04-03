@@ -207,7 +207,7 @@ function initTooltip() {
         color: 'var(--text)', fontSize: '0.92rem', lineHeight: '1.65',
         padding: '0.65em 0.9em', pointerEvents: 'none',
         opacity: '0', transition: 'opacity 0.12s', zIndex: '1001',
-        fontStyle: 'italic', fontFamily: 'inherit',
+        fontStyle: 'normal', fontFamily: 'inherit',
     });
     document.body.appendChild(t);
     TTip.el = t;
@@ -1287,10 +1287,19 @@ function showViewSheet(char, origin = 'create') {
 
     // Tooltips for identity rows
     const setRowTip = (spanId, text) => {
-        const row = $(spanId)?.parentElement;
+        const span = $(spanId);
+        const row = span?.parentElement;
         if (!row) return;
-        if (text) { row.dataset.tooltip = text; row.style.cursor = 'help'; }
-        else      { delete row.dataset.tooltip; row.style.cursor = ''; }
+        if (text) {
+            row.dataset.tooltip = text;
+            row.style.cursor = 'help';
+            span.setAttribute('data-tooltip', text);
+        }
+        else      {
+            delete row.dataset.tooltip;
+            row.style.cursor = '';
+            span.removeAttribute('data-tooltip');
+        }
     };
     setRowTip('vs-race',       raceData ? `${raceData.name}\n${raceData.description || ''}` : null);
     setRowTip('vs-gender',     null);
@@ -1309,7 +1318,10 @@ function showViewSheet(char, origin = 'create') {
     abGrid.innerHTML = '';
     APTITUDES.forEach(apt => {
         const score = (char.aptitudes && char.aptitudes[apt]) || BASE_APTITUDE;
+        const aptData = DB.aptitudes?.aptitudes?.find(a => a.id === apt);
+        const tooltip = aptData ? `${aptData.name}: ${aptData.function}` : aptName(apt);
         const cell  = el('div', 'vs-apt-cell');
+        cell.setAttribute('data-tooltip', tooltip);
         const abbr  = el('span', 'vs-apt-abbr');  abbr.textContent  = aptName(apt);
         const sc    = el('span', 'vs-apt-score');  sc.textContent    = score;
         const tier  = score >= 80 ? 'Legendary' : score >= 60 ? 'Expert' : score >= 40 ? 'Seasoned' : score >= 20 ? 'Novice' : 'Untrained';
@@ -1320,27 +1332,40 @@ function showViewSheet(char, origin = 'create') {
 
     const allSk = getAllSkills();
     const skillsEl = $('vs-skills');
+    skillsEl.innerHTML = '';
     if (char.skills && char.skills.length) {
-        skillsEl.innerHTML = char.skills
-            .map(id => {
-                const name = allSk.find(s => s.id === id)?.name || id;
-                return `<span class="vs-skill-item">${name}</span>`;
-            }).join('');
+        char.skills.forEach(id => {
+            const skill = allSk.find(s => s.id === id);
+            const name = skill?.name || id;
+            const desc = skill?.description || '';
+            const span = el('span', 'vs-skill-item');
+            span.textContent = name;
+            if (desc) span.setAttribute('data-tooltip', desc);
+            skillsEl.appendChild(span);
+        });
     } else {
         skillsEl.textContent = '—';
     }
 
-    $('vs-equip').textContent  = char.equipment === 'gold' ? 'Starting Gold' : 'Starting Pack';
+    const equipEl = $('vs-equip');
+    if (equipEl) {
+        equipEl.textContent = char.equipment === 'gold' ? 'Starting Gold' : 'Starting Pack';
+        equipEl.setAttribute('data-tooltip', 'Items and gear your character carries, starting equipment from class and background.');
+    }
     const kitEl = $('vs-starter-kit');
     if (kitEl && clsData?.starter_kit?.length && char.equipment !== 'gold') {
         kitEl.textContent = clsData.starter_kit.join(' · ');
+        kitEl.setAttribute('data-tooltip', 'Starting equipment from class and background.');
     } else if (kitEl) {
         kitEl.textContent = '';
+        kitEl.removeAttribute('data-tooltip');
     }
 
     // Update left panel derived stats
     const physVal = ((char.aptitudes || {}).physiology) || BASE_APTITUDE;
+    const convictionVal = ((char.aptitudes || {}).conviction) || BASE_APTITUDE;
     const vitality = Math.round(40 + physVal * 0.6);
+    const conviction = convictionVal;
     const materiumPool = clsData?.materium_access ? `${clsData.materium_pool_start || 0}` : '—';
     const shadowConn   = clsData?.shadow_connection_start > 0 ? `${clsData.shadow_connection_start}` : '0';
     const staminaPool  = clsData?.stamina_pool_start != null ? `${clsData.stamina_pool_start}` : '—';
@@ -1356,21 +1381,43 @@ function showViewSheet(char, origin = 'create') {
     $('d-prof').textContent  = `Level ${char.level}`;
     $('d-speed').textContent = classTrait;
     $('identity-line').textContent = [raceName, char.subclass || clsName].filter(Boolean).join(' · ') || 'Choose race & class';
-    if ($('vs-vitality')) $('vs-vitality').textContent = vitality;
-    if ($('vs-mpool'))    $('vs-mpool').textContent    = materiumPool;
+    if ($('vs-vitality')) {
+        $('vs-vitality').textContent = vitality;
+        $('vs-vitality').setAttribute('data-tooltip', 'Your health pool. When this reaches 0, you are defeated.');
+    }
+    if ($('vs-conviction')) {
+        $('vs-conviction').textContent = conviction;
+        $('vs-conviction').setAttribute('data-tooltip', 'Your willpower and mental strength. Controls initiative order, maximum dice roll outcomes, and resistance to fear and psychological effects.');
+    }
+    if ($('vs-stamina')) {
+        $('vs-stamina').textContent = staminaPool;
+        $('vs-stamina').setAttribute('data-tooltip', 'Your physical endurance pool. Powers attacks, dodge rolls, movement, and other physical exertion.');
+    }
+    if ($('vs-mpool')) {
+        $('vs-mpool').textContent = materiumPool;
+        $('vs-mpool').setAttribute('data-tooltip', 'Your pool of elemental magic energy. Powers spells from the five schools of Materium.');
+    }
+    if ($('vs-shadow')) {
+        $('vs-shadow').textContent = shadowConn;
+        $('vs-shadow').setAttribute('data-tooltip', 'Your connection to dark arts and shadow magic. Required to cast spells from shadow schools (Darkvoid, Chill, Darkmind, etc).');
+    }
     if ($('vs-focus')) {
         $('vs-focus').textContent = focusText;
+        $('vs-focus').setAttribute('data-tooltip', 'Your class\'s core strengths. These are the aptitudes where your class excels. Build your character by improving these for maximum effectiveness.');
         const focusRow = $('vs-focus').closest('.vs-focus-row');
         if (focusRow) {
-            focusRow.dataset.tooltip = 'The aptitudes this class relies on most.\nInvest points here when building this character for best results.';
+            focusRow.dataset.tooltip = 'Your class\'s core strengths.\nThese are the aptitudes where your class excels. Build your character by improving these for maximum effectiveness.';
             focusRow.addEventListener('mouseenter', e => showTip(e, focusRow.dataset.tooltip));
             focusRow.addEventListener('mouseleave', hideTip);
         }
     }
-    if ($('vs-shadow'))   $('vs-shadow').textContent   = shadowConn;
-    if ($('vs-stamina'))  $('vs-stamina').textContent  = staminaPool;
-    if ($('vs-trait'))    $('vs-trait').textContent    = classTrait;
-    if ($('vs-trait-desc')) $('vs-trait-desc').textContent = classTraitDesc;
+    if ($('vs-trait')) {
+        $('vs-trait').textContent = classTrait;
+        if (classTrait !== '—') $('vs-trait').setAttribute('data-tooltip', classTraitDesc);
+    }
+    if ($('vs-trait-desc')) {
+        $('vs-trait-desc').textContent = classTraitDesc;
+    }
 
     // Abilities & Spells section
     const ablContent = $('vs-abilities-content');

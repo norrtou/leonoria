@@ -556,9 +556,9 @@
         /* ── Three-column body ── */
         .vs-body {
             display: grid;
-            grid-template-columns: 220px 1fr 1fr;
+            grid-template-columns: 240px 1fr 1fr;
             gap: 0;
-            align-items: start;
+            align-items: stretch;
             border-bottom: 1px solid var(--gold-dim);
         }
 
@@ -566,18 +566,30 @@
         .vs-portrait-col {
             border-right: 1px solid var(--gold-dim);
             display: flex; flex-direction: column;
+            width: 240px;
         }
         .vs-portrait-frame {
-            width: 100%; aspect-ratio: 3/4;
+            width: 240px;
+            height: 320px;
             overflow: hidden;
             background: radial-gradient(circle at top, rgba(78,110,50,0.14), rgba(12,16,8,0.98));
+            flex-shrink: 0;
         }
         .vs-portrait-frame img {
             width: 100%; height: 100%;
-            object-fit: cover; object-position: center top; display: block;
+            object-fit: contain; object-position: center top; display: block;
+        }
+        .vs-portrait-col > .vs-heading {
+            padding: 0.7rem 0.8rem 0.3rem;
+            margin: 0;
+            font-size: 0.72rem;
+            flex-shrink: 0;
         }
         .vs-vitals-block {
-            padding: 0.9rem 0.8rem; display: flex; flex-direction: column; gap: 0.55rem;
+            padding: 0.6rem 0.8rem 0.9rem; display: flex; flex-direction: column; gap: 0.45rem;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
         }
         .vs-vital-row {
             display: flex; align-items: baseline;
@@ -685,10 +697,6 @@
             color: var(--text-muted); line-height: 1.7; font-style: italic;
         }
 
-        /* ── Abilities section (full width) ── */
-        .vs-abilities-section {
-            padding: 1.1rem 1.2rem;
-        }
         /* ── Abilities — compact chip layout ── */
         .vs-abl-columns {
             display: flex; flex-wrap: wrap;
@@ -1011,25 +1019,30 @@
                         <div class="vs-portrait-frame">
                             <img id="vs-portrait-img" src="assets/images/characterportraits/ashenfemale.jpg" alt="Character portrait">
                         </div>
+                        <div class="vs-heading">Combat Resources</div>
                         <div class="vs-vitals-block">
                             <div class="vs-vital-row">
-                                <span class="vs-vital-lbl">Vitality</span>
+                                <span class="vs-vital-lbl" title="Your health pool. When this reaches 0, you are defeated.">Vitality</span>
                                 <span class="vs-vital-val big" id="vs-vitality">—</span>
                             </div>
                             <div class="vs-vital-row">
-                                <span class="vs-vital-lbl">Materium</span>
+                                <span class="vs-vital-lbl" title="Your willpower and mental strength. Controls initiative order, maximum dice roll outcomes, and resistance to fear and psychological effects.">Conviction</span>
+                                <span class="vs-vital-val" id="vs-conviction">—</span>
+                            </div>
+                            <div class="vs-vital-row">
+                                <span class="vs-vital-lbl" title="Your physical endurance pool. Powers attacks, dodge rolls, movement, and other physical exertion.">Stamina</span>
+                                <span class="vs-vital-val st" id="vs-stamina">—</span>
+                            </div>
+                            <div class="vs-vital-row">
+                                <span class="vs-vital-lbl" title="Your pool of elemental magic energy. Powers spells from the five schools of Materium.">Materium</span>
                                 <span class="vs-vital-val mp" id="vs-mpool">—</span>
                             </div>
                             <div class="vs-vital-row">
-                                <span class="vs-vital-lbl">Shadow</span>
+                                <span class="vs-vital-lbl" title="Your connection to dark arts and shadow magic. Required to cast spells from shadow schools (Darkvoid, Chill, Darkmind, etc).">Shadow Connection</span>
                                 <span class="vs-vital-val sc" id="vs-shadow">—</span>
                             </div>
-                            <div class="vs-vital-row">
-                                <span class="vs-vital-lbl">Stamina</span>
-                                <span class="vs-vital-val st" id="vs-stamina">—</span>
-                            </div>
                             <div class="vs-vital-row vs-focus-row">
-                                <span class="vs-vital-lbl">Class Priorities</span>
+                                <span class="vs-vital-lbl" title="Your class's core strengths. These are the aptitudes where your class excels. Build your character by improving these for maximum effectiveness.">Class Strengths</span>
                                 <span class="vs-vital-val vs-focus-val" id="vs-focus">—</span>
                             </div>
                         </div>
@@ -1040,37 +1053,42 @@
 
                         <div>
                             <div class="vs-heading">Identity</div>
-                            <div class="vs-id-row"><span class="vs-id-lbl">Race</span><span class="vs-id-val" id="vs-race">—</span></div>
-                            <div class="vs-id-row"><span class="vs-id-lbl">Gender</span><span class="vs-id-val" id="vs-gender">—</span></div>
-                            <div class="vs-id-row"><span class="vs-id-lbl">Class</span><span class="vs-id-val" id="vs-class">—</span></div>
-                            <div class="vs-id-row"><span class="vs-id-lbl">Background</span><span class="vs-id-val" id="vs-background">—</span></div>
-                            <div class="vs-id-row"><span class="vs-id-lbl">Birth Sign</span><span class="vs-id-val" id="vs-alignment">—</span></div>
-                            <div class="vs-id-row"><span class="vs-id-lbl">Level</span><span class="vs-id-val" id="vs-level">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl" title="Your ancestral lineage. Grants unique magical affinities, physical traits, and cultural abilities.">Race</span><span class="vs-id-val" id="vs-race" title="">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl" title="Your gender presentation and identity.">Gender</span><span class="vs-id-val" id="vs-gender" title="">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl" title="Your professional role and combat specialty. Determines your abilities, starting pools, and skills.">Class</span><span class="vs-id-val" id="vs-class" title="">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl" title="Your history and origin story. Provides cultural skills and narrative flavor.">Background</span><span class="vs-id-val" id="vs-background" title="">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl" title="The celestial sign under which you were born. Influences personality, luck, and mystical affinity.">Birth Sign</span><span class="vs-id-val" id="vs-alignment" title="">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl" title="Your experience rank. Higher levels grant increased pools and stronger abilities.">Level</span><span class="vs-id-val" id="vs-level" title="">—</span></div>
                         </div>
 
                         <div>
-                            <div class="vs-heading">Aptitudes</div>
+                            <div class="vs-heading" title="Natural abilities and talents that define your character's strengths and limitations">Aptitudes</div>
                             <div class="vs-apt-grid" id="vs-ab-grid"></div>
                         </div>
 
                         <div id="vs-trait-panel">
-                            <div class="vs-heading">Class Trait</div>
+                            <div class="vs-heading" title="A unique class ability that reflects your professional specialty and grants a special combat or exploration advantage">Class Trait</div>
                             <div class="vs-trait-name" id="vs-trait">—</div>
                             <div class="vs-trait-desc" id="vs-trait-desc">—</div>
                         </div>
 
                     </div>
 
-                    <!-- RIGHT: Skills + Equipment -->
+                    <!-- RIGHT: Skills + Abilities & Spells + Equipment -->
                     <div class="vs-right-col">
 
                         <div>
-                            <div class="vs-heading">Skills</div>
+                            <div class="vs-heading" title="Trained competencies that you excel at. Bonuses are added when using these skills in tests.">Skills</div>
                             <div id="vs-skills">—</div>
                         </div>
 
                         <div>
-                            <div class="vs-heading">Equipment</div>
+                            <div class="vs-heading" title="Special abilities you can use in combat and exploration. Each ability costs resources (Stamina, Materium, or Shadow Connection) to use.">Abilities &amp; Spells</div>
+                            <div id="vs-abilities-content"></div>
+                        </div>
+
+                        <div>
+                            <div class="vs-heading" title="Items and gear your character carries, starting equipment from class and background.">Equipment</div>
                             <div class="vs-equip-val" id="vs-equip">—</div>
                             <div class="vs-starter-kit" id="vs-starter-kit"></div>
                         </div>
@@ -1078,12 +1096,6 @@
                     </div>
 
                 </div><!-- /.vs-body -->
-
-                <!-- Abilities & Spells — full width -->
-                <div class="vs-abilities-section">
-                    <div class="vs-heading">Abilities &amp; Spells</div>
-                    <div id="vs-abilities-content"></div>
-                </div>
 
                 <button class="view-new-btn" id="btn-view-new">✦ Create New Character</button>
             </div>
