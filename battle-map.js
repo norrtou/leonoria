@@ -2715,28 +2715,41 @@ const COMBAT = {
 
 // ── Sound file mapping ────────────────────────────────────────────────────────
 const SOUND_FILES = {
-    'sword': 'assets/sounds/sword.wav',
-    'bow':   'assets/sounds/arrowfire.mp3',
-    'claw':  'assets/sounds/claw.wav',
-    'stab':  'assets/sounds/stab.wav',
-    'hit':   'assets/sounds/hit.wav',
-    'miss':  'assets/sounds/miss.wav',
+    'sword':    'assets/sounds/swordswing2.mp3',
+    'bow':      'assets/sounds/arrowfire.mp3',
+    'claw':     'assets/sounds/claw.wav',
+    'stab':     'assets/sounds/stab.wav',
+    'hit':      'assets/sounds/hit.wav',
+    'miss':     'assets/sounds/miss.wav',
     'arrowhit': 'assets/sounds/arrowhit.mp3',
-    'fire':  'assets/sounds/spells/fireballlaunch.mp3',
+    'fire':     'assets/sounds/spells/fireballlaunch.mp3',
+    'firehit':  'assets/sounds/spells/firespellhit.mp3',
 };
 
-function playSound(type) {
-    const soundFile = SOUND_FILES[type];
-    if (!soundFile) {
-        console.warn('Unknown sound type:', type);
-        return;
-    }
+const _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const _audioBuffers = {};
 
-    const audio = new Audio(soundFile);
-    audio.volume = 0.75;
-    audio.play().catch(err => {
-        console.warn('Failed to play sound:', type, err);
-    });
+(async () => {
+    for (const [key, src] of Object.entries(SOUND_FILES)) {
+        try {
+            const res = await fetch(src);
+            const buf = await res.arrayBuffer();
+            _audioBuffers[key] = await _audioCtx.decodeAudioData(buf);
+        } catch(e) { console.warn('Failed to load sound:', key, e); }
+    }
+})();
+
+function playSound(type) {
+    const buf = _audioBuffers[type];
+    if (!buf) return;
+    if (_audioCtx.state === 'suspended') _audioCtx.resume();
+    const src = _audioCtx.createBufferSource();
+    src.buffer = buf;
+    const gain = _audioCtx.createGain();
+    gain.gain.value = 0.75;
+    src.connect(gain);
+    gain.connect(_audioCtx.destination);
+    src.start();
 }
 
 // ── Line of sight ─────────────────────────────────────────────────────────────
@@ -3486,7 +3499,6 @@ function resolveAttack(attacker, target, onDone) {
     COMBAT.attackMode     = false;
     COMBAT.selectedAttack = null;
     STATE.attackRange     = [];
-    updateCombatPanel();
 
     const hitRoll = rollD100();
 
@@ -3521,10 +3533,8 @@ function resolveAttack(attacker, target, onDone) {
         const fh     = atk.type === 'spell' ? 68 : 30;
         startProjectile(atk.type === 'spell' ? 'fireball' : 'arrow',
             fromC.sx, fromBy - fh, toC.sx, toBy - 30);
-        // Schedule arrow impact sound only if it hits (~160ms)
-        if (atk.type === 'ranged' && !isMiss) {
-            setTimeout(() => playSound('arrowhit'), 160);
-        }
+        if (atk.type === 'ranged' && !isMiss) setTimeout(() => playSound('arrowhit'), 160);
+        if (atk.type === 'spell'  && !isMiss) setTimeout(() => playSound('firehit'),  160);
     }
     // Launch swing/stab for melee attacks
     if (atk.type === 'melee') {
@@ -3542,12 +3552,14 @@ function resolveAttack(attacker, target, onDone) {
     // Play attack sound at the moment animation starts.
     // Ranged/spell sounds are launch sounds (bow twang, fire whoosh) — play now.
     // Melee sounds start with swing animation (synced at 400ms duration).
-    if (atk.type === 'ranged' || atk.type === 'spell') {
-        playSound(atk.snd);
+    if (atk.type === 'melee') {
+        if (!isMiss) playSound(atk.snd);
+        else playSound('miss');
     } else {
         playSound(atk.snd);
     }
 
+    updateCombatPanel();
     startDiceAnim(attacker.col, attacker.row, hitRoll, () => {
         // Log hit chance modifiers
         if (atk.type === 'melee' && (attacker.movedHexes || 0) > 0) {
@@ -3565,13 +3577,12 @@ function resolveAttack(attacker, target, onDone) {
         const isCrit = !isMiss && hitRoll >= atk.critMin;
 
         if (isMiss) {
-            playSound('miss');
+            if (atk.type !== 'melee') playSound('miss');
             combatLog(attacker.name + ' misses ' + target.name +
                 ' (rolled ' + hitRoll + ', needed ≤' + hitChance + ')');
             showFloatDmg(target.col, target.row, 0, false, true);
         } else {
-            // Arrow impact sound already played at 180ms when projectile hit
-            if (atk.type !== 'ranged') playSound('hit');
+            // Impact sounds are scheduled by animation timing, not here
             let dmg = rollDamage(atk.damageDice, atk.damageMod);
             if (isCrit) dmg = Math.round(dmg * 1.5);
             if (los === 'partial') dmg = Math.max(1, Math.round(dmg * (0.60 + Math.random() * 0.25)));
