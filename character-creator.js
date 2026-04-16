@@ -874,7 +874,7 @@ function buildBirthSignSelect() {
     // Build a dropdown-style selector from the birth mother signs
     const label = el('div');
     label.style.cssText = 'font-size:0.78rem;color:var(--text-muted);font-style:italic;margin-bottom:0.5rem;';
-    label.textContent = 'The sign of the month you were born under. 80% of people bear no sign (Childless).';
+    label.textContent = 'Which of the 10 months where the hero born? It further sets the tone of the characters gifts.';
     grid.appendChild(label);
 
     const sel = document.createElement('select');
