@@ -1,16 +1,16 @@
 {
   "system": "Leonoria Classes",
-  "description": "The playable class archetypes of Leonoria, organized into class groups. Classes determine starting aptitude bonuses, available skills, starting wealth, starter equipment, and Materium school access. No class is locked by race — but some combinations are mechanically weak or strong.",
+  "description": "The playable class archetypes of Leonoria, organized into class groups. Classes determine starting aptitude bonuses, available skills, starting wealth, starter equipment, and Materium school access. No class is locked by race \u2014 but some combinations are mechanically weak or strong.",
   "aptitude_priority_note": "Each class lists aptitude priorities from primary to tertiary. These inform the character creation auto-fill and point-buy recommendations.",
   "materium_pool_note": "Classes with Materium access begin with a larger Materium pool. Classes without access still have a pool (it supports magical resistance), but a much smaller one.",
-  "stamina_pool_note": "Stamina is the physical exertion resource for martial and hybrid classes. It is drained when using named martial abilities from attacks_and_spells.json (costs 8–22 per ability). Base attacks never cost Stamina. Recovery: full on Long Rest, half on Short Rest. Pure casters have no stamina_pool_start field. Hybrid classes (Shadowblade, Warden, Aegisbearer, Verdant Warden) have both a Stamina pool and a Materium pool, balanced towards their primary role.",
+  "stamina_pool_note": "Stamina is the physical exertion resource for martial and hybrid classes. It is drained when using named martial abilities from attacks_and_spells.json (costs 8\u201322 per ability). Base attacks never cost Stamina. Recovery: full on Long Rest, half on Short Rest. Pure casters have no stamina_pool_start field. Hybrid classes (Shadowblade, Warden, Aegisbearer, Verdant Warden) have both a Stamina pool and a Materium pool, balanced towards their primary role.",
   "classes": [
     {
       "id": "ironguard",
       "name": "Ironguard",
       "class_group": "Warrior",
       "archetype": "Heavy Warrior",
-      "description": "The backbone of any fighting force. The Ironguard is a disciplined heavy fighter who specializes in endurance, shield work, and heavy armor. They do not rush in — they hold the line until their enemies break.",
+      "description": "The backbone of any fighting force. The Ironguard is a disciplined heavy fighter who specializes in endurance, shield work, and heavy armor. They do not rush in \u2014 they hold the line until their enemies break.",
       "aptitude_priorities": [
         "Physiology",
         "Martial Experience",
@@ -179,7 +179,7 @@
       ],
       "special_class_trait": {
         "name": "Blood Rage",
-        "description": "Below 50% Vitality, all physical damage dealt increases by 20%. Below 25%, increases by 35%. No defensive bonus — pure offense."
+        "description": "Below 50% Vitality, all physical damage dealt increases by 20%. Below 25%, increases by 35%. No defensive bonus \u2014 pure offense."
       },
       "typical_races": [
         "Wildmen Ravagers",
@@ -197,7 +197,7 @@
       "name": "Vanguard",
       "class_group": "Warrior",
       "archetype": "Formation Tank",
-      "description": "A disciplined frontline fighter built around protecting allies. The Vanguard does not kill fastest — they keep others alive long enough to. Their presence on a battlefield is felt most by those standing behind them.",
+      "description": "A disciplined frontline fighter built around protecting allies. The Vanguard does not kill fastest \u2014 they keep others alive long enough to. Their presence on a battlefield is felt most by those standing behind them.",
       "aptitude_priorities": [
         "Physiology",
         "Conviction",
@@ -320,7 +320,7 @@
       "name": "Warmaster",
       "class_group": "Warrior",
       "archetype": "Battlefield Commander",
-      "description": "A seasoned commander who fights from the front and leads by example. The Warmaster does not just win — they make everyone around them better. Discipline and tactical instinct define the class as much as martial skill.",
+      "description": "A seasoned commander who fights from the front and leads by example. The Warmaster does not just win \u2014 they make everyone around them better. Discipline and tactical instinct define the class as much as martial skill.",
       "aptitude_priorities": [
         "Discipline",
         "Martial Experience",
@@ -370,7 +370,7 @@
         "Midlander",
         "Northerner"
       ],
-      "lore": "The Warmaster has learned that the best weapon is the soldier standing next to you — if they know what you need from them.",
+      "lore": "The Warmaster has learned that the best weapon is the soldier standing next to you \u2014 if they know what you need from them.",
       "morality_range": [
         45,
         70
@@ -506,7 +506,7 @@
       "name": "Beastwarden",
       "class_group": "Ranger",
       "archetype": "Companion Ranger",
-      "description": "A ranger who fights alongside a bonded animal companion. The Beastwarden is less about personal combat ability and more about the combined effectiveness of handler and beast — a partnership built over years.",
+      "description": "A ranger who fights alongside a bonded animal companion. The Beastwarden is less about personal combat ability and more about the combined effectiveness of handler and beast \u2014 a partnership built over years.",
       "aptitude_priorities": [
         "Cognition",
         "Conviction",
@@ -554,7 +554,7 @@
         "Wildmen Foresters",
         "Oakpeople"
       ],
-      "lore": "The Beastwarden did not tame their companion. They earned them — and there is a difference.",
+      "lore": "The Beastwarden did not tame their companion. They earned them \u2014 and there is a difference.",
       "morality_range": [
         38,
         65
@@ -565,7 +565,7 @@
       "name": "Skirmisher",
       "class_group": "Ranger",
       "archetype": "Hit-and-Run Fighter",
-      "description": "A fast, mobile combatant who fires and retreats before the enemy can respond. The Skirmisher never stands still — their tactics are constant pressure, constant movement, and never giving the enemy a fixed target.",
+      "description": "A fast, mobile combatant who fires and retreats before the enemy can respond. The Skirmisher never stands still \u2014 their tactics are constant pressure, constant movement, and never giving the enemy a fixed target.",
       "aptitude_priorities": [
         "Martial Experience",
         "Physiology",
@@ -624,7 +624,7 @@
       "name": "Shadowblade",
       "class_group": "Rogue",
       "archetype": "Shadow Warrior / Assassin",
-      "description": "A martial combatant who integrates shadow arts into physical fighting. Not a mage — a fighter who has learned to move through darkness and strike before being seen.",
+      "description": "A martial combatant who integrates shadow arts into physical fighting. Not a mage \u2014 a fighter who has learned to move through darkness and strike before being seen.",
       "aptitude_priorities": [
         "Martial Experience",
         "Cognition",
@@ -679,7 +679,7 @@
         "Step Folk",
         "Midlander"
       ],
-      "lore": "The Shadowblade uses the darkness as a tool, not a home. They chose shadow arts practically — not philosophically.",
+      "lore": "The Shadowblade uses the darkness as a tool, not a home. They chose shadow arts practically \u2014 not philosophically.",
       "morality_range": [
         25,
         60
@@ -690,7 +690,7 @@
       "name": "Assassin",
       "class_group": "Rogue",
       "archetype": "Execution Killer",
-      "description": "A cold, methodical killer built around eliminating single targets. The Assassin does not brawl — they wait, identify the moment, and end the fight before it begins. They are specialists in closing the last gap.",
+      "description": "A cold, methodical killer built around eliminating single targets. The Assassin does not brawl \u2014 they wait, identify the moment, and end the fight before it begins. They are specialists in closing the last gap.",
       "aptitude_priorities": [
         "Martial Experience",
         "Cognition",
@@ -749,7 +749,7 @@
       "name": "Thief",
       "class_group": "Rogue",
       "archetype": "Utility Rogue",
-      "description": "A quick-fingered opportunist who thrives in chaos and preparation. The Thief is the most socially versatile Rogue — equally at home picking pockets, breaking and entering, or reading a room for the fastest exit.",
+      "description": "A quick-fingered opportunist who thrives in chaos and preparation. The Thief is the most socially versatile Rogue \u2014 equally at home picking pockets, breaking and entering, or reading a room for the fastest exit.",
       "aptitude_priorities": [
         "Cognition",
         "Discipline",
@@ -868,7 +868,7 @@
       "name": "Warden",
       "class_group": "Cleric",
       "archetype": "Holy Warrior",
-      "description": "A martial champion of the Light. Not a healer — a fighter who uses conviction and divine light as weapons. Wardens are often associated with specific faiths, but any strong conviction can fuel the class.",
+      "description": "A martial champion of the Light. Not a healer \u2014 a fighter who uses conviction and divine light as weapons. Wardens are often associated with specific faiths, but any strong conviction can fuel the class.",
       "aptitude_priorities": [
         "Conviction",
         "Physiology",
@@ -937,7 +937,7 @@
       "name": "Soulkindler",
       "class_group": "Cleric",
       "archetype": "Healer / Cleric",
-      "description": "A practitioner of healing, restoration, and divine support. The Soulkindler specializes in Vitalism and Soulkindling magic — repairing what is broken, including Temporal damage. The rarest reliable healer in Leonoria.",
+      "description": "A practitioner of healing, restoration, and divine support. The Soulkindler specializes in Vitalism and Soulkindling magic \u2014 repairing what is broken, including Temporal damage. The rarest reliable healer in Leonoria.",
       "aptitude_priorities": [
         "Conviction",
         "Materium Affinity",
@@ -1008,7 +1008,7 @@
       "name": "Dawncaller",
       "class_group": "Cleric",
       "archetype": "Anti-Shadow Cleric",
-      "description": "A Cleric who has dedicated themselves specifically to fighting the shadow — undead, void-touched creatures, and those corrupted by dark arts. The Dawncaller's light is not gentle. It burns.",
+      "description": "A Cleric who has dedicated themselves specifically to fighting the shadow \u2014 undead, void-touched creatures, and those corrupted by dark arts. The Dawncaller's light is not gentle. It burns.",
       "aptitude_priorities": [
         "Conviction",
         "Materium Affinity",
@@ -1073,7 +1073,7 @@
       "name": "Aegisbearer",
       "class_group": "Cleric",
       "archetype": "Shield Cleric",
-      "description": "A Cleric of fortification and sacred protection. The Aegisbearer channels divine light into physical barriers — shields that glow, wards that hold, and armor that turns blades. They exist to make the faithful impossible to break.",
+      "description": "A Cleric of fortification and sacred protection. The Aegisbearer channels divine light into physical barriers \u2014 shields that glow, wards that hold, and armor that turns blades. They exist to make the faithful impossible to break.",
       "aptitude_priorities": [
         "Conviction",
         "Physiology",
@@ -1139,11 +1139,11 @@
       "name": "Scholar",
       "class_group": "Mage",
       "archetype": "Academic Mage",
-      "description": "A mage who prioritizes understanding over power. The Scholar has access to more Materium schools than anyone except the Elementalist, but at lower potency. What they lack in raw damage they compensate with perfect knowledge — tactical analysis, monster identification, and extraordinary learning speed.",
+      "description": "A mage who prioritizes understanding over power. The Scholar has access to more Materium schools than anyone except the Elementalist, but at lower potency. What they lack in raw damage they compensate with perfect knowledge \u2014 tactical analysis, monster identification, and extraordinary learning speed.",
       "aptitude_priorities": [
         "Cognition",
         "Materium Affinity",
-        "Discipline"
+        "Conviction"
       ],
       "aptitude_bonuses": {
         "cognition": 30,
@@ -1200,7 +1200,7 @@
         "Midlander",
         "Stone Folk"
       ],
-      "lore": "The Scholar spent years studying what others only use. That gap — between theory and practice — is their home.",
+      "lore": "The Scholar spent years studying what others only use. That gap \u2014 between theory and practice \u2014 is their home.",
       "morality_range": [
         40,
         65
@@ -1211,11 +1211,11 @@
       "name": "Elementalist",
       "class_group": "Mage",
       "archetype": "Broad Mage",
-      "description": "The most balanced magical class — broad access to the Focused Triad with high Materium affinity. Not specialized enough to be the best at any one element, but versatile enough to handle anything.",
+      "description": "The most balanced magical class \u2014 broad access to the Focused Triad with high Materium affinity. Not specialized enough to be the best at any one element, but versatile enough to handle anything.",
       "aptitude_priorities": [
         "Materium Affinity",
         "Cognition",
-        "Physiology"
+        "Conviction"
       ],
       "aptitude_bonuses": {
         "cognition": 32,
@@ -1264,7 +1264,7 @@
       ],
       "special_class_trait": {
         "name": "Synergy Instinct",
-        "description": "Elemental synergy bonuses (e.g. Aquas+Tempest) are automatically calculated and triggered — the Elementalist never misses a synergy."
+        "description": "Elemental synergy bonuses (e.g. Aquas+Tempest) are automatically calculated and triggered \u2014 the Elementalist never misses a synergy."
       },
       "typical_races": [
         "The Secluded",
@@ -1283,11 +1283,11 @@
       "name": "Arcanist",
       "class_group": "Mage",
       "archetype": "Raw Arcane Mage",
-      "description": "A mage who channels raw arcane force without the theoretical scaffolding of the Scholar or the elemental discipline of the Elementalist. The Arcanist improvises and overwhelms — sometimes both at once.",
+      "description": "A mage who channels raw arcane force without the theoretical scaffolding of the Scholar or the elemental discipline of the Elementalist. The Arcanist improvises and overwhelms \u2014 sometimes both at once.",
       "aptitude_priorities": [
-        "Materium Affinity",
         "Cognition",
-        "Physiology"
+        "Materium Affinity",
+        "Conviction"
       ],
       "aptitude_bonuses": {
         "cognition": 25
@@ -1328,7 +1328,7 @@
       ],
       "special_class_trait": {
         "name": "Arcane Surge",
-        "description": "Each spell cast has a 20% chance to trigger Arcane Surge — the spell is cast a second time at no additional Materium cost."
+        "description": "Each spell cast has a 20% chance to trigger Arcane Surge \u2014 the spell is cast a second time at no additional Materium cost."
       },
       "typical_races": [
         "The Greys"
@@ -1344,11 +1344,11 @@
       "name": "Runescribe",
       "class_group": "Mage",
       "archetype": "Prepared Mage",
-      "description": "A mage who inscribes spells in advance and releases them at will. The Runescribe cannot improvise the way an Arcanist can — but they can unleash devastating prepared effects with instant precision that no other mage can match.",
+      "description": "A mage who inscribes spells in advance and releases them at will. The Runescribe cannot improvise the way an Arcanist can \u2014 but they can unleash devastating prepared effects with instant precision that no other mage can match.",
       "aptitude_priorities": [
         "Cognition",
-        "Materium Affinity",
-        "Discipline"
+        "Conviction",
+        "Materium Affinity"
       ],
       "aptitude_bonuses": {
         "cognition": 15,
@@ -1398,7 +1398,7 @@
         "Stone Folk",
         "The Greys"
       ],
-      "lore": "The Runescribe believes that the most powerful spell is the one you already cast — you just haven't released it yet.",
+      "lore": "The Runescribe believes that the most powerful spell is the one you already cast \u2014 you just haven't released it yet.",
       "morality_range": [
         40,
         65
@@ -1474,7 +1474,7 @@
       "name": "Stormcaller",
       "class_group": "Sorcerer",
       "archetype": "Tempest Specialist",
-      "description": "A Materium mage attuned to wind, atmospheric pressure, and electricity. The Stormcaller is the most mobile magical class — they are always in motion, and they make the air itself a weapon.",
+      "description": "A Materium mage attuned to wind, atmospheric pressure, and electricity. The Stormcaller is the most mobile magical class \u2014 they are always in motion, and they make the air itself a weapon.",
       "aptitude_priorities": [
         "Materium Affinity",
         "Cognition",
@@ -1539,7 +1539,7 @@
       "name": "Geomancer",
       "class_group": "Sorcerer",
       "archetype": "Earth Specialist",
-      "description": "A Sorcerer attuned to earth, stone, and the deep places of the world. The Geomancer fights slowly but devastatingly — shaping terrain, raising barriers, and making the ground itself a weapon.",
+      "description": "A Sorcerer attuned to earth, stone, and the deep places of the world. The Geomancer fights slowly but devastatingly \u2014 shaping terrain, raising barriers, and making the ground itself a weapon.",
       "aptitude_priorities": [
         "Materium Affinity",
         "Physiology",
@@ -1603,7 +1603,7 @@
       "name": "Aquorist",
       "class_group": "Sorcerer",
       "archetype": "Water Specialist",
-      "description": "A Sorcerer attuned to water, ice, and fluid dynamics. The Aquorist controls battlefield movement through environmental manipulation — slowing, flooding, freezing. They are the most defensively creative of the elemental specialists.",
+      "description": "A Sorcerer attuned to water, ice, and fluid dynamics. The Aquorist controls battlefield movement through environmental manipulation \u2014 slowing, flooding, freezing. They are the most defensively creative of the elemental specialists.",
       "aptitude_priorities": [
         "Materium Affinity",
         "Cognition",
@@ -1664,7 +1664,7 @@
       "name": "Lifewhisperer",
       "class_group": "Druid",
       "archetype": "Nature Mage",
-      "description": "A practitioner of Athropium, nature magic, and life-force manipulation. Different from the Soulkindler — the Lifewhisperer works with the natural world as a force, not as a faith. They can harm as easily as heal.",
+      "description": "A practitioner of Athropium, nature magic, and life-force manipulation. Different from the Soulkindler \u2014 the Lifewhisperer works with the natural world as a force, not as a faith. They can harm as easily as heal.",
       "aptitude_priorities": [
         "Materium Affinity",
         "Conviction",
@@ -1734,7 +1734,7 @@
       "name": "Beastcaller",
       "class_group": "Druid",
       "archetype": "Animal Druid",
-      "description": "A Druid who specializes in summoning and bonding with animals. The Beastcaller does not control beasts — they invite them into a shared purpose. The distinction matters more to the beasts than anyone else.",
+      "description": "A Druid who specializes in summoning and bonding with animals. The Beastcaller does not control beasts \u2014 they invite them into a shared purpose. The distinction matters more to the beasts than anyone else.",
       "aptitude_priorities": [
         "Conviction",
         "Cognition",
@@ -1785,7 +1785,7 @@
       "typical_races": [
         "Wildmen Foresters"
       ],
-      "lore": "The Beastcaller's strength is borrowed — from the wolf, the hawk, the boar. They spend their whole life repaying it.",
+      "lore": "The Beastcaller's strength is borrowed \u2014 from the wolf, the hawk, the boar. They spend their whole life repaying it.",
       "morality_range": [
         48,
         70
@@ -1796,7 +1796,7 @@
       "name": "Verdant Warden",
       "class_group": "Druid",
       "archetype": "Defensive Nature Druid",
-      "description": "A Druid who defends rather than attacks — reinforcing the living, rooting out corruption, and turning nature itself into armor. The Verdant Warden is a bulwark of green, slow-burning and impossible to dislodge.",
+      "description": "A Druid who defends rather than attacks \u2014 reinforcing the living, rooting out corruption, and turning nature itself into armor. The Verdant Warden is a bulwark of green, slow-burning and impossible to dislodge.",
       "aptitude_priorities": [
         "Physiology",
         "Materium Affinity",
@@ -1859,11 +1859,11 @@
       "name": "Voidweaver",
       "class_group": "Warlock",
       "archetype": "Dark / Void Mage",
-      "description": "A practitioner of the Malevolent Triad. They deal in entropy, darkness, and void energy. Difficult to play — the instability of Darkvoid requires constant management, and Shadow Arts are politically dangerous in Leonoria.",
+      "description": "A practitioner of the Malevolent Triad. They deal in entropy, darkness, and void energy. Difficult to play \u2014 the instability of Darkvoid requires constant management, and Shadow Arts are politically dangerous in Leonoria.",
       "aptitude_priorities": [
         "Materium Affinity (Shadow)",
         "Cognition",
-        "Discipline"
+        "Conviction"
       ],
       "aptitude_bonuses": {
         "cognition": 25,
@@ -1909,7 +1909,7 @@
       ],
       "special_class_trait": {
         "name": "Void Mastery",
-        "description": "The Voidweaver reduces Darkvoid's damage variance from ±20% to ±10%. At Expert shadow_weaving level, variance is removed entirely."
+        "description": "The Voidweaver reduces Darkvoid's damage variance from \u00b120% to \u00b110%. At Expert shadow_weaving level, variance is removed entirely."
       },
       "typical_races": [
         "The Dark Ones",
@@ -1932,7 +1932,7 @@
       "aptitude_priorities": [
         "Materium Affinity (Shadow)",
         "Physiology",
-        "Discipline"
+        "Conviction"
       ],
       "aptitude_bonuses": {
         "physiology": 8,
@@ -1994,10 +1994,10 @@
       "name": "Dreadbinder",
       "class_group": "Warlock",
       "archetype": "Demon Warlock",
-      "description": "A Warlock who has bargained with, bound, or partially merged with a demonic entity. The Dreadbinder's power is real — but it belongs to two of them, and only one is entirely in control at any given moment.",
+      "description": "A Warlock who has bargained with, bound, or partially merged with a demonic entity. The Dreadbinder's power is real \u2014 but it belongs to two of them, and only one is entirely in control at any given moment.",
       "aptitude_priorities": [
         "Materium Affinity",
-        "Discipline",
+        "Conviction",
         "Cognition"
       ],
       "aptitude_bonuses": {
@@ -2058,7 +2058,7 @@
       "name": "Dominionist",
       "class_group": "Warlock",
       "archetype": "Mind Control Warlock",
-      "description": "A Warlock who specializes in dominating the minds of others. The Dominionist does not fight enemies — they redirect them. A skilled Dominionist can walk into a hostile camp and leave with an army.",
+      "description": "A Warlock who specializes in dominating the minds of others. The Dominionist does not fight enemies \u2014 they redirect them. A skilled Dominionist can walk into a hostile camp and leave with an army.",
       "aptitude_priorities": [
         "Cognition",
         "Materium Affinity",
@@ -2120,11 +2120,11 @@
       "name": "Malefactor",
       "class_group": "Witch",
       "archetype": "Curse Witch",
-      "description": "A Witch specializing in curses, hexes, and lingering afflictions. The Malefactor does not win in a single blow — they poison the well, plant the seed of ruin, and wait for it to grow. Patience is their primary weapon.",
+      "description": "A Witch specializing in curses, hexes, and lingering afflictions. The Malefactor does not win in a single blow \u2014 they poison the well, plant the seed of ruin, and wait for it to grow. Patience is their primary weapon.",
       "aptitude_priorities": [
         "Cognition",
         "Materium Affinity (Shadow)",
-        "Discipline"
+        "Conviction"
       ],
       "aptitude_bonuses": {
         "cognition": 25
@@ -2182,11 +2182,11 @@
       "name": "Blightweaver",
       "class_group": "Witch",
       "archetype": "Rot Witch",
-      "description": "A Witch attuned to decay, infection, and spreading corruption. The Blightweaver does not curse individuals — they contaminate groups. One touch can spread through an entire battlefield if left unchecked.",
+      "description": "A Witch attuned to decay, infection, and spreading corruption. The Blightweaver does not curse individuals \u2014 they contaminate groups. One touch can spread through an entire battlefield if left unchecked.",
       "aptitude_priorities": [
         "Materium Affinity",
         "Physiology",
-        "Cognition"
+        "Conviction"
       ],
       "aptitude_bonuses": {
         "physiology": 10,
@@ -2233,7 +2233,7 @@
       "typical_races": [
         "Swampbrood"
       ],
-      "lore": "The Blightweaver does not see rot as destruction. They see it as transformation — the world returning to a simpler state.",
+      "lore": "The Blightweaver does not see rot as destruction. They see it as transformation \u2014 the world returning to a simpler state.",
       "social_warning": "Blight magic is considered plague-craft by most settled cultures. Blight practitioners are killed on sight in populated areas.",
       "morality_range": [
         20,
@@ -2245,11 +2245,11 @@
       "name": "Bloodwitch",
       "class_group": "Witch",
       "archetype": "Hybrid Blood Witch",
-      "description": "A Witch who uses blood as both a medium of power and a tool of manipulation — not through direct violence, but through influence, passion, and the strange pull that living blood exerts on those who share it.",
+      "description": "A Witch who uses blood as both a medium of power and a tool of manipulation \u2014 not through direct violence, but through influence, passion, and the strange pull that living blood exerts on those who share it.",
       "aptitude_priorities": [
-        "Materium Affinity (Shadow)",
+        "Materium Affinity",
         "Discipline",
-        "Cognition"
+        "Conviction"
       ],
       "aptitude_bonuses": {
         "discipline": 12,
@@ -2297,7 +2297,7 @@
       "typical_races": [
         "Ashen Halfbreeds"
       ],
-      "lore": "The Bloodwitch does not spill blood carelessly. Every drop spent is an investment — in fear, in debt, in power over those who share a wound.",
+      "lore": "The Bloodwitch does not spill blood carelessly. Every drop spent is an investment \u2014 in fear, in debt, in power over those who share a wound.",
       "morality_range": [
         20,
         55
@@ -2308,11 +2308,11 @@
       "name": "Gravecaller",
       "class_group": "Necromancer",
       "archetype": "Summoner Necromancer",
-      "description": "A Necromancer who specializes in raising and commanding the dead in numbers. The Gravecaller does not fight — their army does. Management of undead forces and careful positioning define the class.",
+      "description": "A Necromancer who specializes in raising and commanding the dead in numbers. The Gravecaller does not fight \u2014 their army does. Management of undead forces and careful positioning define the class.",
       "aptitude_priorities": [
         "Materium Affinity (Shadow)",
         "Cognition",
-        "Discipline"
+        "Conviction"
       ],
       "aptitude_bonuses": {
         "cognition": 25
@@ -2371,10 +2371,10 @@
       "name": "Soulreaper",
       "class_group": "Necromancer",
       "archetype": "Drain Necromancer",
-      "description": "A Necromancer who drains life force from living targets and converts it into Materium or vitality for themselves. The Soulreaper gets stronger as enemies weaken — a self-sustaining predator in combat.",
+      "description": "A Necromancer who drains life force from living targets and converts it into Materium or vitality for themselves. The Soulreaper gets stronger as enemies weaken \u2014 a self-sustaining predator in combat.",
       "aptitude_priorities": [
-        "Materium Affinity (Shadow)",
-        "Discipline",
+        "Materium Affinity",
+        "Conviction",
         "Cognition"
       ],
       "aptitude_bonuses": {
@@ -2436,11 +2436,11 @@
       "name": "Rotforged",
       "class_group": "Necromancer",
       "archetype": "Blight-Necro Hybrid",
-      "description": "A Necromancer who combines death magic with blight and decay — raising diseased, infectious undead that spread corruption as they fight. The Rotforged turns the battlefield itself into a contamination zone.",
+      "description": "A Necromancer who combines death magic with blight and decay \u2014 raising diseased, infectious undead that spread corruption as they fight. The Rotforged turns the battlefield itself into a contamination zone.",
       "aptitude_priorities": [
         "Materium Affinity",
         "Physiology",
-        "Cognition"
+        "Conviction"
       ],
       "aptitude_bonuses": {
         "physiology": 10,
@@ -2491,7 +2491,7 @@
         "Wildmen Ravagers"
       ],
       "lore": "The Rotforged found that death and decay are not opposites. Decay is just death doing the work slowly, the way it prefers.",
-      "social_warning": "Rotforged are considered plague-bearers on top of necromancers — they face the most extreme persecution of any dark arts practitioner.",
+      "social_warning": "Rotforged are considered plague-bearers on top of necromancers \u2014 they face the most extreme persecution of any dark arts practitioner.",
       "morality_range": [
         10,
         35
