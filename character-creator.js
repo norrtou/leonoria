@@ -2466,7 +2466,11 @@ function buildMemberCard(char) {
     const clsName  = clsData ? clsData.name : char.cls;
 
     const physVal = ((char.aptitudes || {}).physiology) || BASE_APTITUDE;
+    const cogVal = ((char.aptitudes || {}).cognition) || BASE_APTITUDE;
+    const age = char.age || 35;
+    const raceMat = raceData?.materium_pool_bonus || 0;
     const hp = Math.round(40 + physVal * 0.6);
+    const materium = Math.round(cogVal * 1.2 + ageMateriumBonus(age) + raceMat);
 
     const card = el('div', 'ps-card');
     const port = el('div', 'ps-card-port');
