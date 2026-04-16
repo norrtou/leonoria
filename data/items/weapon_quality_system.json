@@ -1,0 +1,156 @@
+{
+  "version": "1.0",
+  "system": "Leonoria Weapon Quality System",
+  "note": "Defines quality classes, display rules, cost multipliers, battle stamina formulas, and starter weapon rules.",
+
+  "display_name_format": {
+    "simple":   "{quality} {material} {weapon_name}",
+    "normal":   "{material} {weapon_name}",
+    "fine":     "Fine {material} {weapon_name}",
+    "rare":     "Rare {material} {weapon_name}",
+    "magical":  "{material} {weapon_name} of {effect_name}",
+    "unique":   "{unique_name}",
+    "cursed":   "Cursed {material} {weapon_name} (curse only revealed when equipped)"
+  },
+
+  "quality_classes": [
+    {
+      "id": "simple",
+      "name": "Simple",
+      "tooltip_label": "Simple",
+      "damage_roll_multiplier": { "min": 0.80, "max": 0.95 },
+      "secondary_effect_roll_chance": 0.00,
+      "cost_multiplier": 0.5,
+      "curse_chance": 0.00,
+      "starter_eligible": true,
+      "description": "Crudely made or worn down. Damage output is 80–95% of the weapon archetype baseline.",
+      "display_color": "#999999"
+    },
+    {
+      "id": "normal",
+      "name": "Normal",
+      "tooltip_label": "Normal",
+      "damage_roll_multiplier": { "min": 1.00, "max": 1.00 },
+      "secondary_effect_roll_chance": 0.00,
+      "cost_multiplier": 1.0,
+      "curse_chance": 0.01,
+      "starter_eligible": true,
+      "description": "Standard craftsmanship. Baseline damage for its archetype and material.",
+      "display_color": "#cccccc"
+    },
+    {
+      "id": "fine",
+      "name": "Fine",
+      "tooltip_label": "Fine",
+      "damage_roll_multiplier": { "min": 1.05, "max": 1.20 },
+      "secondary_effect_roll_chance": 0.05,
+      "cost_multiplier": 3.0,
+      "curse_chance": 0.01,
+      "starter_eligible": false,
+      "description": "Expertly crafted. Damage is 105–120% of baseline. 5% chance of a secondary effect.",
+      "display_color": "#88dd88"
+    },
+    {
+      "id": "rare",
+      "name": "Rare",
+      "tooltip_label": "Rare",
+      "damage_roll_multiplier": { "min": 1.25, "max": 2.00 },
+      "secondary_effect_roll_chance": 0.05,
+      "cost_multiplier": 15.0,
+      "curse_chance": 0.01,
+      "starter_eligible": false,
+      "description": "Exceptional make. Max damage is 25–100% above baseline. 5% rolled chance of a secondary damage effect.",
+      "display_color": "#88aaff"
+    },
+    {
+      "id": "magical",
+      "name": "Magical",
+      "tooltip_label": "Magical",
+      "damage_roll_multiplier": { "min": 1.00, "max": 2.00 },
+      "secondary_effect_roll_chance": 1.00,
+      "cost_multiplier": 50.0,
+      "curse_chance": 0.01,
+      "starter_eligible": false,
+      "description": "Imbued with magical energy. Always has a non-standard secondary damage type or special effect. Damage output ranges from Normal to Unique tier.",
+      "display_color": "#cc88ff"
+    },
+    {
+      "id": "unique",
+      "name": "Unique",
+      "tooltip_label": "Unique",
+      "damage_roll_multiplier": { "min": 2.00, "max": 2.00 },
+      "secondary_effect_roll_chance": 1.00,
+      "secondary_effect_count": 2,
+      "cost_multiplier": 200.0,
+      "curse_chance": 0.00,
+      "starter_eligible": false,
+      "description": "Always named. Always at Rare max damage tier. Always carries exactly two magical effects or secondary damage types.",
+      "display_color": "#ffdd44"
+    },
+    {
+      "id": "cursed",
+      "name": "Cursed",
+      "tooltip_label": "??? (revealed on equip)",
+      "damage_roll_multiplier": { "min": 1.25, "max": 2.00 },
+      "secondary_effect_roll_chance": 0.05,
+      "cost_multiplier": 0.10,
+      "curse_chance": 1.00,
+      "curse_count": 1,
+      "starter_eligible": false,
+      "description": "Carries a hidden negative effect revealed only on equipping. Damage equivalent to Rare quality. Some curses can be situationally useful.",
+      "display_color": "#ff5533"
+    }
+  ],
+
+  "global_curse_roll_chance": 0.01,
+  "note_curses": "All non-Simple, non-Starter weapons have a 1% base chance to be cursed regardless of quality. See weapon_curses.json for full curse list.",
+
+  "cost_calculation": {
+    "formula": "floor(base_cost_copper * material_cost_multiplier * quality_cost_multiplier)",
+    "note": "base_cost_copper is stored per weapon archetype as Normal Iron cost. Apply material_cost_multiplier from weapon_materials.json, then quality_cost_multiplier from this file.",
+    "display_thresholds": {
+      "copper_max": 99,
+      "silver_conversion": 100,
+      "gold_conversion": 10000,
+      "example": "450 copper = 4 silver 50 copper; 12000 copper = 1 gold 2 silver"
+    }
+  },
+
+  "battle_stamina": {
+    "description": "Battle Stamina is a sub-aptitude of Physiology. It starts at 100% at the start of each battle and drains each turn based on weapon type. At 0% it reduces damage output by 50%.",
+    "start_value_percent": 100,
+    "zero_effect": "Damage output reduced by 50% for remainder of battle",
+    "drain_formulas": {
+      "one_handed": {
+        "turns_at_100_percent": "floor(7 + (Physiology - 10) * 0.3)",
+        "example_phys_10": 7,
+        "example_phys_20": 10,
+        "example_phys_30": 13,
+        "example_phys_40": 16,
+        "example_phys_50": 19,
+        "minimum_turns": 3
+      },
+      "two_handed": {
+        "minimum_physiology_required": 20,
+        "turns_at_100_percent": "floor((Physiology - 10) / 2)",
+        "example_phys_20": 5,
+        "example_phys_30": 10,
+        "example_phys_40": 15,
+        "example_phys_50": 20,
+        "note": "Cannot be wielded at all below Physiology 20"
+      }
+    },
+    "per_turn_drain_percent": {
+      "one_handed": "100 / turns_at_100_percent",
+      "two_handed": "100 / turns_at_100_percent"
+    }
+  },
+
+  "starter_weapon_rules": {
+    "allowed_qualities": ["simple", "normal"],
+    "allowed_materials": ["wooden", "iron", "steel"],
+    "disallowed_effects": ["secondary_damage", "curse", "magical_properties"],
+    "roll_guidance": "Starter weapons are rolled to best suit the character class at creation.",
+    "note": "Starter weapons are never Fine, Rare, Magical, Unique, or Cursed."
+  }
+}

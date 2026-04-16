@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Battle Map Simulator — Leonoria</title>
+
+    <!-- Google Fonts: IM Fell English -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-deep:        #111a0a;
+            --border-gold:    #c9a84c;
+            --text-parchment: #ede0c4;
+            --accent-gold:    #c9a84c;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-deep);
+        }
+
+        body {
+            font-family: 'IM Fell English', Georgia, 'Times New Roman', serif;
+            color: var(--text-parchment);
+        }
+
+        /* ── Battle map container ── */
+        .battle-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* ── Header bar ── */
+        .battle-header {
+            background: linear-gradient(180deg, rgba(30, 50, 16, 0.8) 0%, rgba(20, 35, 10, 0.6) 100%);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .battle-title {
+            font-size: 1.6rem;
+            letter-spacing: 0.12em;
+            color: var(--accent-gold);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .battle-info {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.95rem;
+            color: var(--text-parchment);
+        }
+
+        .turn-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .turn-number {
+            background: rgba(201, 168, 76, 0.2);
+            border: 1px solid rgba(201, 168, 76, 0.4);
+            padding: 0.3em 0.8em;
+            border-radius: 3px;
+            font-weight: bold;
+            color: var(--accent-gold);
+        }
+
+        .battle-back-btn {
+            background: linear-gradient(170deg, #402810 0%, #221508 100%);
+            border: 1px solid #7a5a2a;
+            color: var(--text-parchment);
+            padding: 0.6em 1.4em;
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 2px;
+        }
+
+        .battle-back-btn:hover {
+            background: linear-gradient(170deg, #523a20 0%, #2d1f10 100%);
+            border-color: #9a7a4a;
+        }
+
+        /* ── Canvas area ── */
+        .battle-canvas-area {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(96, 154, 42, 0.15) 0%, rgba(138, 186, 78, 0.1) 100%);
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+        }
+
+
+        /* ── Tooltip ── */
+        .tooltip {
+            position: fixed;
+            background: rgba(20, 30, 10, 0.95);
+            border: 1px solid rgba(201, 168, 76, 0.5);
+            padding: 0.6rem 0.9rem;
+            font-size: 0.75rem;
+            border-radius: 3px;
+            pointer-events: none;
+            z-index: 10000;
+            color: var(--text-parchment);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+            display: none;
+        }
+
+        .tooltip.visible {
+            display: block;
+        }
+
+        /* ── Combat UI ── */
+        .combat-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(10,16,6,0.90);
+            border: 1px solid rgba(201,168,76,0.55);
+            padding: 0.7rem 0.9rem;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            z-index: 100;
+            min-width: 230px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.65);
+        }
+        #cp-attacks {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+        .cp-title {
+            font-size: 0.84rem;
+            color: #70d0ff;
+            text-align: center;
+            border-bottom: 1px solid rgba(201,168,76,0.28);
+            padding-bottom: 0.35rem;
+        }
+        .cp-btn {
+            font-family: 'IM Fell English', serif;
+            font-size: 0.88rem;
+            padding: 0.4em 0.75em;
+            border-radius: 3px;
+            border: 1px solid rgba(201,168,76,0.45);
+            cursor: pointer;
+            transition: all 0.15s;
+            text-align: center;
+        }
+        .cp-attack-btn {
+            background: linear-gradient(170deg,#3a2010,#1c1008);
+            color: #e8c080;
+        }
+        .cp-attack-btn:hover { background: linear-gradient(170deg,#503018,#281810); border-color:#c9a84c; }
+        .cp-attack-btn.active { background: linear-gradient(170deg,#602a10,#401808); border-color:#ff8040; color:#ff9a60; }
+        .cp-end-btn {
+            background: linear-gradient(170deg,#1a2830,#0c1418);
+            color: #80a8b0;
+            border-color: rgba(80,140,160,0.45);
+        }
+        .cp-end-btn:hover { background: linear-gradient(170deg,#243840,#141c22); border-color:#60a8c0; }
+
+        /* ── Initiative bar ── */
+        .initiative-bar {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 100;
+            pointer-events: none;   /* bar background passes clicks through */
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 90%;
+        }
+        .init-slot {
+            background: rgba(10,16,6,0.88);
+            border: 1px solid rgba(100,140,80,0.35);
+            border-radius: 4px;
+            font-size: 0.70rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            opacity: 0.68;
+            padding: 3px 4px 4px;
+            pointer-events: auto;   /* slots ARE interactive */
+            cursor: pointer;
+            transition: border-color 0.15s, opacity 0.15s, box-shadow 0.15s;
+            user-select: none;
+        }
+        .init-slot:hover {
+            opacity: 1;
+            border-color: rgba(201,168,76,0.65);
+            box-shadow: 0 0 8px rgba(201,168,76,0.22);
+        }
+        .init-slot.init-active {
+            border-color: rgba(201,168,76,0.88);
+            background: rgba(30,40,15,0.95);
+            opacity: 1;
+            box-shadow: 0 0 10px rgba(201,168,76,0.40);
+        }
+        .init-slot.init-acted { opacity: 0.28; pointer-events: none; }
+        .init-slot-name { font-size: 0.68rem; color: rgba(237,224,196,0.90); max-width: 52px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .init-roll { font-size: 0.60rem; color: rgba(237,224,196,0.45); }
+
+        /* ── Combat log ── */
+        .combat-log {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 255px;
+            max-height: 155px;
+            overflow-y: auto;
+            background: rgba(6,10,3,0.84);
+            border: 1px solid rgba(100,140,80,0.30);
+            padding: 0.45rem 0.65rem;
+            border-radius: 3px;
+            font-size: 0.70rem;
+            color: rgba(237,224,196,0.82);
+            z-index: 100;
+            pointer-events: none;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100,140,80,0.25) transparent;
+        }
+        .log-line { padding: 1px 0; border-bottom: 1px solid rgba(100,140,80,0.08); }
+
+        /* ── Round banner ── */
+        @keyframes bannerFade {
+            0%   { opacity:0; transform:translate(-50%,-50%) scale(0.75); }
+            18%  { opacity:1; transform:translate(-50%,-50%) scale(1.06); }
+            65%  { opacity:1; transform:translate(-50%,-50%) scale(1.0); }
+            100% { opacity:0; transform:translate(-50%,-50%) scale(1.0); }
+        }
+        .turn-banner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            font-size: 2.8rem;
+            color: var(--accent-gold);
+            text-shadow: 0 0 22px rgba(201,168,76,0.8), 0 4px 12px rgba(0,0,0,0.95);
+            letter-spacing: 0.14em;
+            z-index: 200;
+            pointer-events: none;
+            opacity: 0;
+        }
+        .turn-banner.visible { animation: bannerFade 2.0s ease-in-out forwards; }
+
+        /* ── Range warning toast ── */
+        @keyframes toastFade {
+            0%   { opacity:0; transform:translate(-50%,-50%) scale(0.85); }
+            15%  { opacity:1; transform:translate(-50%,-50%) scale(1.0); }
+            70%  { opacity:1; transform:translate(-50%,-50%) scale(1.0); }
+            100% { opacity:0; transform:translate(-50%,-50%) scale(1.0); }
+        }
+        .range-warning {
+            position: absolute;
+            top: 38%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background: rgba(10,6,6,0.92);
+            border: 1px solid rgba(220,80,40,0.65);
+            color: #ff9060;
+            font-size: 1.05rem;
+            letter-spacing: 0.07em;
+            padding: 0.6em 1.4em;
+            border-radius: 4px;
+            z-index: 250;
+            pointer-events: none;
+            opacity: 0;
+            box-shadow: 0 0 18px rgba(220,60,20,0.35);
+        }
+        .range-warning.visible { animation: toastFade 2.0s ease-in-out forwards; }
+
+        /* ── Battle result ── */
+        .battle-result {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            font-size: 3.5rem;
+            font-weight: bold;
+            letter-spacing: 0.12em;
+            z-index: 300;
+            pointer-events: none;
+        }
+        .result-victory { color:#ffd040; text-shadow:0 0 32px rgba(255,200,0,0.7), 0 4px 20px rgba(0,0,0,0.9); }
+        .result-defeat  { color:#ff4040; text-shadow:0 0 32px rgba(255,60,0,0.7),  0 4px 20px rgba(0,0,0,0.9); }
+
+        /* ── Character sheet overlay ── */
+        .cs-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 8, 2, 0.82);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 600;
+        }
+        .cs-panel {
+            background: linear-gradient(170deg, #1a2e0e 0%, #0e1a07 100%);
+            border: 1px solid rgba(201, 168, 76, 0.55);
+            border-radius: 6px;
+            padding: 1.6rem 1.8rem 1.6rem;
+            max-width: 480px;
+            width: 92%;
+            max-height: 86vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.9);
+            position: relative;
+        }
+        .cs-close {
+            position: absolute;
+            top: 0.7rem; right: 0.9rem;
+            background: none;
+            border: none;
+            color: rgba(237, 224, 196, 0.55);
+            font-size: 1.3rem;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.15s;
+        }
+        .cs-close:hover { color: var(--text-parchment); }
+        .cs-top {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+            align-items: flex-start;
+        }
+        .cs-portrait-wrap { flex-shrink: 0; }
+        .cs-header { flex: 1; }
+        .cs-name {
+            font-size: 1.4rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.07em;
+            margin-bottom: 0.2rem;
+        }
+        .cs-identity {
+            font-size: 0.82rem;
+            color: #aac880;
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+        .cs-level {
+            font-size: 0.76rem;
+            color: rgba(237, 224, 196, 0.50);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .cs-stats {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 0.7rem;
+        }
+        .cs-stat {
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(201, 168, 76, 0.22);
+            border-radius: 3px;
+            padding: 0.3em 0.75em;
+            text-align: center;
+            min-width: 58px;
+        }
+        .cs-stat-label {
+            font-size: 0.64rem;
+            color: rgba(237, 224, 196, 0.45);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            display: block;
+        }
+        .cs-stat-value {
+            font-size: 1.05rem;
+            color: var(--accent-gold);
+            display: block;
+        }
+        .cs-section {
+            margin-top: 1rem;
+            border-top: 1px solid rgba(201, 168, 76, 0.15);
+            padding-top: 0.75rem;
+        }
+        .cs-section-title {
+            font-size: 0.72rem;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            color: rgba(237, 224, 196, 0.45);
+            margin-bottom: 0.45rem;
+        }
+        .cs-list {
+            list-style: none;
+            padding: 0; margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem 0.6rem;
+        }
+        .cs-list li {
+            font-size: 0.82rem;
+            color: var(--text-parchment);
+            background: rgba(0,0,0,0.28);
+            border: 1px solid rgba(100, 160, 60, 0.28);
+            border-radius: 2px;
+            padding: 0.15em 0.55em;
+        }
+        .cs-atk-list {
+            list-style: none;
+            padding: 0; margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+        .cs-atk-list li {
+            font-size: 0.82rem;
+            color: var(--text-parchment);
+            background: rgba(0,0,0,0.28);
+            border: 1px solid rgba(201, 168, 76, 0.18);
+            border-radius: 2px;
+            padding: 0.3em 0.7em;
+        }
+        .cs-background {
+            font-size: 0.78rem;
+            color: rgba(237, 224, 196, 0.60);
+            font-style: italic;
+            margin-top: 0.6rem;
+        }
+
+        /* ── Team select overlay ── */
+        .team-select-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 10, 3, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+        }
+
+        .tso-panel {
+            background: linear-gradient(175deg, #1a2e0e 0%, #0e1a07 100%);
+            border: 1px solid rgba(201, 168, 76, 0.55);
+            border-radius: 6px;
+            padding: 2rem 2.4rem 2rem;
+            max-width: 520px;
+            width: 92%;
+            max-height: 82vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+        }
+
+        .tso-title {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            text-align: center;
+            letter-spacing: 0.12em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+            padding-bottom: 0.8rem;
+        }
+
+        .tso-section-title {
+            font-size: 0.82rem;
+            letter-spacing: 0.10em;
+            color: rgba(237, 224, 196, 0.55);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .tso-default-btn {
+            width: 100%;
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: 1.0rem;
+            padding: 0.75em 1.2em;
+            background: linear-gradient(170deg, #3a2010 0%, #221508 100%);
+            border: 1px solid rgba(201, 168, 76, 0.55);
+            color: var(--text-parchment);
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+        .tso-default-btn:hover {
+            background: linear-gradient(170deg, #523a20 0%, #2d1f10 100%);
+            border-color: var(--accent-gold);
+        }
+
+        .tso-party-btn {
+            width: 100%;
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: 0.92rem;
+            padding: 0.65em 1em;
+            background: linear-gradient(170deg, #182e0a 0%, #0e1a07 100%);
+            border: 1px solid rgba(100, 160, 60, 0.45);
+            color: var(--text-parchment);
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2em;
+            margin-bottom: 0.45rem;
+        }
+        .tso-party-btn:hover {
+            background: linear-gradient(170deg, #243a14 0%, #162210 100%);
+            border-color: rgba(140, 200, 80, 0.7);
+        }
+        .tso-party-name {
+            font-size: 1.0rem;
+            color: #c8e090;
+        }
+        .tso-party-members {
+            font-size: 0.74rem;
+            color: rgba(237, 224, 196, 0.55);
+            font-style: italic;
+        }
+
+        .battle-change-btn {
+            background: linear-gradient(170deg, #18280a 0%, #0e1a07 100%);
+            border: 1px solid rgba(100, 160, 60, 0.45);
+            color: var(--text-parchment);
+            padding: 0.6em 1.2em;
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 2px;
+        }
+        .battle-change-btn:hover {
+            background: linear-gradient(170deg, #243a14 0%, #162210 100%);
+            border-color: rgba(140, 200, 80, 0.7);
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 768px) {
+            .battle-header {
+                padding: 0.8rem 1rem;
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .battle-title {
+                font-size: 1.3rem;
+            }
+
+            .battle-info {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="battle-container">
+        <!-- Header -->
+        <div class="battle-header">
+            <h1 class="battle-title">⚔ Battle Map Simulator</h1>
+            <div class="battle-info">
+                <div class="turn-display">
+                    <span>Turn:</span>
+                    <div class="turn-number" id="turn-counter">1</div>
+                </div>
+            </div>
+            <div style="display:flex;gap:0.6rem;align-items:center;">
+                <button class="battle-change-btn" id="btn-change-party">⚑ Change Party</button>
+                <a href="index.html" class="battle-back-btn">← Return to Home</a>
+            </div>
+        </div>
+
+        <!-- Battle canvas -->
+        <div class="battle-canvas-area">
+            <canvas id="hex-background-canvas"></canvas>
+            <canvas id="hex-overlay-canvas"></canvas>
+            <canvas id="unit-canvas"></canvas>
+            <!-- Combat overlays -->
+            <div class="combat-panel" id="combat-panel" style="display:none">
+                <div class="cp-title" id="cp-name">—</div>
+                <div id="cp-attacks"></div>
+                <button class="cp-btn cp-end-btn" id="cp-end-btn">⏭ End Turn</button>
+            </div>
+            <div class="initiative-bar" id="initiative-bar"></div>
+            <div class="combat-log"     id="combat-log"></div>
+            <div class="turn-banner"    id="turn-banner">Round 1</div>
+            <div class="range-warning"  id="range-warning"></div>
+            <div class="battle-result"  id="battle-result"></div>
+        </div>
+
+        </div>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip"></div>
+
+    <!-- Character Sheet Overlay -->
+    <div class="cs-overlay" id="cs-overlay" style="display:none">
+        <div class="cs-panel">
+            <button class="cs-close" id="cs-close-btn" title="Close">✕</button>
+            <div class="cs-top">
+                <div class="cs-portrait-wrap" id="cs-portrait"></div>
+                <div class="cs-header">
+                    <div class="cs-name"    id="cs-name">—</div>
+                    <div class="cs-identity" id="cs-identity"></div>
+                    <div class="cs-level"   id="cs-level">Level 1</div>
+                    <div class="cs-stats">
+                        <div class="cs-stat">
+                            <span class="cs-stat-label">HP</span>
+                            <span class="cs-stat-value" id="cs-hp">—</span>
+                        </div>
+                        <div class="cs-stat">
+                            <span class="cs-stat-label">Speed</span>
+                            <span class="cs-stat-value" id="cs-speed">—</span>
+                        </div>
+                        <div class="cs-stat">
+                            <span class="cs-stat-label">Dodge</span>
+                            <span class="cs-stat-value" id="cs-dodge">—</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cs-section">
+                <div class="cs-section-title">Skills</div>
+                <ul class="cs-list" id="cs-skills"></ul>
+            </div>
+            <div class="cs-section">
+                <div class="cs-section-title">Attacks &amp; Spells</div>
+                <ul class="cs-atk-list" id="cs-attacks"></ul>
+            </div>
+            <div class="cs-background" id="cs-background" style="display:none"></div>
+        </div>
+    </div>
+
+    <!-- Team Select Overlay -->
+    <div class="team-select-overlay" id="team-select-overlay" style="display:none">
+        <div class="tso-panel">
+            <h2 class="tso-title">Choose Your Party</h2>
+
+            <div>
+                <div class="tso-section-title">Default Adventurers</div>
+                <button class="tso-default-btn" id="btn-default-team">
+                    ⚔ Warrior · Wizard · Rogue (Placeholder Team)
+                </button>
+            </div>
+
+            <div id="tso-parties-section">
+                <div class="tso-section-title">Saved Parties</div>
+                <div id="tso-parties-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/combat/ai_tactics.js"></script>
+    <script src="battle-map.js"></script>
+</body>
+</html>

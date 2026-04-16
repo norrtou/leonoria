@@ -4076,9 +4076,9 @@ class FantasyMap {
         tryPlace('fishing_village', (c, r) => isOceanCoast(c, r) || (flat(c, r) && isAdjacentToLake(c, r)),
             fishingCount, 65, fishingNames);
 
-        // Village count: 30% reduction in midlands = multiply by 0.7
+        // Village count: flat 20% reduction across all biomes = multiply by 0.8
         let villageCount = sn(this.ri(12 * sc, 16 * sc));
-        if (biomeId === 'the_midlands') villageCount = Math.max(1, Math.round(villageCount * 0.7));
+        villageCount = Math.max(1, Math.round(villageCount * 0.8));
         // Villages must never be inside a lake or adjacent to one.
         tryPlace(villageType,   (c, r) => placeable(c, r) && !lakeExclSet.has(`${c},${r}`) && !isAdjacentToLake(c, r),
             villageCount, 55, villageNames);

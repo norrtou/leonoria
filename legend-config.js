@@ -3,7 +3,8 @@
 // map legend. Each entry mirrors what is drawn on the map — if you add a new
 // settlement type or landmark category in map.js, add a matching entry here.
 //
-// Settlement types:  city · town · port · village · stronghold · camp · ruin
+// Settlement types:  capital · city · fortress · port city · market town · town · fishing village · village · port
+// Landmark types:    ruin · stronghold
 // Landmark cats:     dungeon · shrine · nature · magical · military · dark · coastal
 //
 // icon  — inline SVG that visually matches the map icon (≈18 × 18 px rendered)
@@ -107,8 +108,8 @@ const LEGEND_SETTLEMENTS = {
         </svg>`,
     },
 
-    stronghold: {
-        label: 'Stronghold',
+    fortress: {
+        label: 'Fortress',
         desc:  'Fortified orcish or warlord fortress',
         icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-16 -22 32 26" width="18" height="18">
             <rect x="-14" y="-14" width="28" height="16" fill="#d8c8a8" stroke="#1a1410" stroke-width="1.2"/>
@@ -121,9 +122,15 @@ const LEGEND_SETTLEMENTS = {
         </svg>`,
     },
 
+};
+
+
+const LEGEND_LANDMARKS = {
+
     ruin: {
         label: 'Ruin',
         desc:  'Ancient remains',
+        color: '#555555',
         icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -20 28 26" width="18" height="18">
             <rect x="-9"  y="-15" width="5" height="15" fill="#cec8b4" stroke="#555" stroke-width="0.9"/>
             <rect x="4"   y="-9"  width="5" height="9"  fill="#cec8b4" stroke="#555" stroke-width="0.9"/>
@@ -135,37 +142,13 @@ const LEGEND_SETTLEMENTS = {
         </svg>`,
     },
 
-};
-
-
-const LEGEND_LANDMARKS = {
-
-    camp: {
-        label: 'Camp',
-        desc:  'Warband encampment',
+    stronghold: {
+        label: 'Stronghold',
+        desc:  'Warband stronghold',
         color: '#443020',
         icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -9 16 17" width="18" height="18">
             <path d="M -6 3 L 0 -7 L 6 3 Z" fill="#c4a870" stroke="#443020" stroke-width="0.7"/>
             <circle cx="0" cy="6" r="1.6" fill="#c04020" opacity="0.85"/>
-        </svg>`,
-    },
-
-    fortified_camp: {
-        label: 'Fortified Camp',
-        desc:  'Palisaded military camp — not yet in use',
-        color: '#555',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-11 -13 22 17" width="18" height="18">
-            <line x1="-8" y1="-10" x2="-8" y2="2"  stroke="#777" stroke-width="1"/>
-            <line x1="-4" y1="-10" x2="-4" y2="2"  stroke="#777" stroke-width="1"/>
-            <line x1="0"  y1="-10" x2="0"  y2="2"  stroke="#777" stroke-width="1"/>
-            <line x1="4"  y1="-10" x2="4"  y2="2"  stroke="#777" stroke-width="1"/>
-            <line x1="8"  y1="-10" x2="8"  y2="2"  stroke="#777" stroke-width="1"/>
-            <path d="M -9,-10 L -8,-12 L -7,-10" fill="#777" stroke="none"/>
-            <path d="M -5,-10 L -4,-12 L -3,-10" fill="#777" stroke="none"/>
-            <path d="M -1,-10 L  0,-12 L  1,-10" fill="#777" stroke="none"/>
-            <path d="M  3,-10 L  4,-12 L  5,-10" fill="#777" stroke="none"/>
-            <path d="M  7,-10 L  8,-12 L  9,-10" fill="#777" stroke="none"/>
-            <line x1="-9" y1="-7" x2="9" y2="-7" stroke="#777" stroke-width="0.7"/>
         </svg>`,
     },
 

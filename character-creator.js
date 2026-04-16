@@ -32,7 +32,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 
 // ─── Aptitude system ──────────────────────────────────────────────────────────
-const APTITUDES = ['physiology', 'cognition'];
+const APTITUDES = ['physiology', 'cognition', 'discipline'];
 
 const APTITUDE_NAMES = {
     physiology:         'Physiology',
@@ -40,6 +40,23 @@ const APTITUDE_NAMES = {
     discipline:         'Discipline',
     martial_experience: 'Martial Experience',
     materium_affinity:  'Materium Affinity',
+    intelligence:       'Intelligence',
+    scarring:           'Scarring',
+    shadow_connection:  'Shadow Connection',
+    tenacity:           'Tenacity',
+    resonance:          'Resonance',
+    openness:           'Openness',
+    erudition:          'Erudition',
+    ingenuity:          'Ingenuity',
+    worldliness:        'Worldliness',
+    perception:         'Perception',
+    conduit_grade:      'Conduit Grade',
+    magical_insulation: 'Magical Insulation',
+    vitality:           'Vitality',
+    hardening:          'Hardening',
+    vigor:              'Vigor',
+    metabolism:         'Metabolism',
+    conviction:         'Conviction',
 };
 
 const APTITUDE_SHORT = {
@@ -54,7 +71,7 @@ const ALLOC_MIN      = 10;
 const ALLOC_MAX      = 75;
 const MAX_LEVEL      = 30;   // maximum character level
 
-const TAB_ORDER = ['identity', 'attributes', 'skills', 'equipment', 'abilities'];
+const TAB_ORDER = ['identity', 'aptitudes', 'skills', 'equipment', 'abilities', 'inventory'];
 
 // ─── Aptitude descriptions (tooltip) ──────────────────────────────────────────
 const APTITUDE_DESC = {
@@ -62,44 +79,11 @@ const APTITUDE_DESC = {
         'PHYSIOLOGY — Physical Body & Durability\nYour health, strength, endurance, and resistance.\n\n▸ CONTROLS:\n  • Vitality (HP) = 40 + (Physiology × 0.6)\n  • Hardening resistances (Physical, Magical, Poison)\n  • Vigor: Carry capacity & melee damage (peaks at 50)\n  • Metabolism: Movement & action stamina pool\n\n▸ RESISTANCES:\n  Max hardening per type: 50%\n  Gain ~5% resistance per 100 hits of that type\n\n▸ BREAKING POINTS:\n  At 30: Equip medium armor\n  At 50: Heavy armor available, +3 hardening\n  At 70: Vigor cap 80, heavy weapons free\n  At 100: Stone Body—reduce all physical by 10%\n\n▸ STARTING RANGE: 20–60 | MAX: 100',
     cognition:
         'COGNITION — Mental Acuity, Experience & Magical Attunement\nYour knowledge, creativity, perception, street smarts, and capacity to channel magical energy.\n\n▸ CONTROLS:\n  • Erudition: Learn spells, absorb knowledge faster\n  • Ingenuity: Crafting & magical item creation\n  • Worldliness: Lockpicking, reading people, survival\n  • Perception: Detect danger, notice hidden details\n  • Conduit Grade: Max spell power & Materium pool size\n  • Shadow Connection: Dark arts school access\n  • Insulation: Magic resistance vs all schools\n\n▸ CREATION-FIXED:\n  Does not grow through leveling\n  Set at character creation by race + class + age\n  Only items, curses, and spells can alter it\n\n▸ RESOURCE SCALING:\n  Materium pool = Cognition × 1.2 + age bonus + race bonus\n  Age increases pool until 80, then flat\n\n▸ BREAKING POINTS:\n  At 20: Access second Materium school\n  At 30: Read advanced Materium texts alone\n  At 40: Pool +15%, school mastery available\n  At 50: +5 to new skill starting values, Erudition +10%\n  At 60: Shadow & Materium regen together\n  At 70: +10% danger detection, Elemental synergies at 50%\n  At 80: Materium regen +2% per combat turn\n  At 100: All Cognition learning +20%, +5% combat regen\n\n▸ STARTING RANGE: 15–55 | MAX: 100\n▸ NOTE: Replaces former Materium Affinity aptitude',
+    discipline:
+        'DISCIPLINE — Willpower, Focus & Combat Readiness\nYour mental fortitude, focus under pressure, and ability to act quickly in combat.\n\n▸ CONTROLS:\n  • Initiative: Turn order modifier in combat (primary stat)\n  • Composure: Resistance to crowd control and mental effects\n  • Attentiveness: Detection of traps and ambushes\n  • Reaction Speed: Act sooner when surprised\n\n▸ BREAKING POINTS:\n  At 30: +5 to initiative\n  At 50: Crowd control durations reduced 20%\n  At 70: +10 to initiative, detect nearby traps\n  At 100: Act twice per turn on surprise, full initiative bonus\n\n▸ STARTING RANGE: 20–60 | MAX: 100',
 };
 
-// ─── Skill descriptions (tooltip) ────────────────────────────────────────────
-const SKILL_DESC = {
-    swordsmanship:      'Mastery of bladed swords — slash, thrust, and parry. The quintessential weapon art of the Midlanders.',
-    archery:            'Skilled use of bows, aimed fire, and movement shooting. Common among Wayfarers and Ancients.',
-    axewielding:        'Combat use of axes and hatchets — powerful cleaving strikes and throwing techniques.',
-    blunt_force:        'Mace, hammer, and club fighting. Effective against armoured targets. Core to Ironguard doctrine.',
-    small_arms:         'Knives, daggers, and short blades. Essential for close-quarters and backup combat.',
-    polearms:           'Spear, halberd, and pike — controlling range and fighting in formation.',
-    shield_fighting:    'Active shield use in combat: blocking, shoving, and shield-bashing.',
-    crossbow:           'Mechanical ranged weapon. High power, slow reload. Favoured in fortifications.',
-    blowgun_and_sling:  'Primitive ranged weapons. Favoured by Oakpeople and jungle hunters.',
-    thievery:           'Picking pockets, sleight of hand, and theft. Core skill of Shadowblades.',
-    stealth:            'Moving silently and avoiding detection. Essential for scouts and assassins.',
-    lockpicking:        'Opening locks, bypassing mechanisms, and accessing secured spaces.',
-    arcane_theory:      'Knowledge of magical principles, Materium schools, and channeling theory.',
-    herbalism:          'Identifying plants, brewing poultices, and understanding natural healing.',
-    alchemy:            'Combining materials into potions, acids, and explosive compounds.',
-    monster_lore:       'Knowledge of Leonorian creatures — weaknesses, habitats, and behaviours.',
-    survival:           'Finding food, water, and shelter in the wilderness. Hazard recognition.',
-    navigation:         'Charting routes, reading maps and stars, and pathfinding.',
-    tracking:           'Following the trail of creatures or people across varied terrain.',
-    animal_handling:    'Calming, training, and working with animals — including mounts.',
-    persuasion:         'Convincing others through charm, reason, and diplomacy.',
-    intimidation:       'Influencing others through threat, force, or menacing presence.',
-    deception:          'Lying, bluffing, and misleading others convincingly.',
-    leadership:         'Commanding others in coordinated action — rallying troops, organizing groups.',
-    weaponsmithing:     'Forging and repairing bladed weapons. A Stone Folk and Ironguard tradition.',
-    armorsmithing:      'Crafting and repairing armour — leather to full plate.',
-    potion_brewing:     'Advanced alchemy focused on magical consumables and restorative compounds.',
-    enchanting:         'Imbuing objects with magical properties through ritual and Materium focus.',
-    athletics:          'Climbing, jumping, swimming, and physical endurance feats.',
-    acrobatics:         'Balance, tumbling, and precise movement in precarious situations.',
-    lightwielding_skill:'Channeling and shaping Lightwielding (Benevolent Triad) magic.',
-    materium_channeling:'Directing and focusing Materium (Focused Triad) magical energies.',
-    shadow_weaving:     'Weaving and controlling Shadow Arts (Malevolent Triad) magic.',
-};
+// SKILL_DESC removed — tooltips are now built dynamically from skills.json data in buildSkillTooltip()
 
 // ─── Flavor blurbs ────────────────────────────────────────────────────────────
 const RACE_BLURBS = {
@@ -158,9 +142,11 @@ const S = {
     aptitudes:      makeAptObj(BASE_APTITUDE),
     allocAptitudes: makeAptObj(BASE_APTITUDE),
     rollAptitudes:  makeNullAptObj(),
+    intelligence:   null,
     rolledPool:  [],
     pendingRoll: null,
     birthSign:   null,
+    personality: null,
     skills:      new Set(),
     background:  null,
     equipment:   'pack',
@@ -204,8 +190,167 @@ function getAllRaces() {
 
 function findRace(id) { return getAllRaces().find(r => r.id === id) || null; }
 function findClass(id) { return (DB.classes?.classes || []).find(c => c.id === id) || null; }
+
+// ─── Class colour by group ────────────────────────────────────────────────────
+// Alignment anchors: Despair #c42020 · Neutral #4aaa38 · Conviction #e8c820
+// Each class sits at its morality midpoint on that spectrum.
+function classColor(classGroup) {
+    switch (classGroup) {
+        case 'Necromancer': return '#a81818'; // mid 22 — deep Despair, dark maroon-red
+        case 'Warlock':     return '#c42020'; // mid 32 — full Despair red
+        case 'Witch':       return '#c83838'; // mid 37 — Despair edge, lighter red
+        case 'Rogue':       return '#4a8030'; // mid 42 — low Neutral, shadow green
+        case 'Ranger':      return '#4aa040'; // mid 51 — mid Neutral, leafy green
+        case 'Mage':        return '#3aaa60'; // mid 52 — mid Neutral, teal-green
+        case 'Warrior':     return '#78a830'; // mid 57 — upper Neutral, warm yellow-green
+        case 'Sorcerer':    return '#90a020'; // mid 57 — upper Neutral, amber-green
+        case 'Druid':       return '#5ab840'; // mid 59 — high Neutral, bright nature green
+        case 'Cleric':      return '#e8c820'; // mid 75 — full Conviction yellow
+        default:            return 'var(--text)';
+    }
+}
+
+// Returns a <span> coloured by class group containing the class name
+function clsSpan(name, classGroup) {
+    const s = el('span');
+    s.textContent = name;
+    s.style.color = classColor(classGroup);
+    return s;
+}
 function findBackground(id) { return (DB.backgrounds?.profession_backgrounds || []).find(b => b.id === id) || null; }
 function findSign(id)       { return (DB.birthmothersigns?.signs || []).find(s => s.id === id) || null; }
+
+// ─── Personality helpers ──────────────────────────────────────────────────────
+function getAllPersonalities() {
+    return {
+        standard: DB.personalities?.standard || [],
+        combos:   DB.personalities?.combos   || [],
+    };
+}
+function findPersonality(id) {
+    if (!id) return null;
+    const p = getAllPersonalities();
+    return p.standard.find(x => x.id === id) || p.combos.find(x => x.id === id) || null;
+}
+
+// Parse race alignment_tendency string into a lean: 'good' | 'bad' | 'neutral'
+function raceAlignLean(tendency) {
+    if (!tendency) return 'neutral';
+    const t = tendency.toLowerCase();
+    if (/\bgood\b|\blawful\b/.test(t)) return 'good';
+    if (/\bdark\b|\bevil\b/.test(t))   return 'bad';
+    return 'neutral';
+}
+
+// ─── Resource usage ───────────────────────────────────────────────────────────
+// Returns which resources a class actively spends in play.
+function classResourceUsage(clsData) {
+    if (!clsData) return { hp: false, stamina: false, materium: false };
+
+    const martialGroups = ['Warrior', 'Ranger', 'Rogue'];
+    const hybridIds     = ['shadowblade', 'warden', 'aegisbearer', 'verdant_warden'];
+    const bloodKeywords = ['Blood Magic', 'Darkblood', 'Bloodpassion', 'Siphoning'];
+
+    const schools = clsData.materium_schools_available || [];
+    return {
+        stamina:  martialGroups.includes(clsData.class_group) || hybridIds.includes(clsData.id),
+        materium: clsData.materium_access === true,
+        hp:       schools.some(s => bloodKeywords.some(k => s.includes(k))),
+    };
+}
+
+// Build a small embossed badge element for a resource
+function makeResBadge(cssClass, symbol, tooltip) {
+    const b = el('span', `res-badge ${cssClass}`);
+    b.textContent = symbol;
+    b.setAttribute('data-tooltip', tooltip);
+    return b;
+}
+
+// Inject or remove a resource badge after a vs-vital-val span.
+// Existing badge is always replaced so re-renders stay clean.
+function _setResBadge(valId, active, cssClass, symbol, tooltip) {
+    const valEl = $(valId);
+    if (!valEl) return;
+    // Remove any previous badge that is a direct next sibling
+    const next = valEl.nextElementSibling;
+    if (next?.classList.contains('res-badge')) next.remove();
+    if (!active) return;
+    const badge = makeResBadge(cssClass, symbol, tooltip);
+    valEl.insertAdjacentElement('afterend', badge);
+}
+
+// Alignment colour for personality display
+function personalityAlignColor(alignment) {
+    if (alignment === 'good')    return '#e8c820'; // Conviction gold
+    if (alignment === 'bad')     return '#c42020'; // Despair red
+    return '#4aaa38';                               // Neutral green
+}
+
+// Roll a random personality based on current morality + race alignment
+function rollPersonality() {
+    const p = getAllPersonalities();
+    if (!p.standard.length) return;
+
+    const morality    = S.morality ?? 50;
+    const raceData    = findRace(S.race);
+    const raceLean    = raceAlignLean(raceData?.alignment_tendency);
+    const moralZone   = getMoralityZone(morality); // 'Conviction' | 'Neutral' | 'Despair'
+
+    // Combine morality zone + race lean into overall lean
+    let lean;
+    if (moralZone === 'Conviction' && raceLean !== 'bad')        lean = 'good';
+    else if (moralZone === 'Despair' && raceLean !== 'good')     lean = 'bad';
+    else if (moralZone === 'Conviction' && raceLean === 'bad')   lean = 'neutral'; // conflict
+    else if (moralZone === 'Despair'    && raceLean === 'good')  lean = 'neutral'; // conflict
+    else lean = raceLean; // morality is neutral — defer to race
+
+    // 10% chance: combo personality
+    const isCombo = Math.random() < 0.10;
+
+    let chosen;
+    if (isCombo && p.combos.length) {
+        const good    = p.combos.filter(x => x.alignment === 'good');
+        const bad     = p.combos.filter(x => x.alignment === 'bad');
+        const neutral = p.combos.filter(x => x.alignment === 'neutral');
+        chosen = _pickByLean(lean, good, bad, neutral, p.combos);
+    } else {
+        const good = p.standard.filter(x => x.alignment === 'good');
+        const bad  = p.standard.filter(x => x.alignment === 'bad');
+        chosen = _pickByLean(lean, good, bad, [], p.standard);
+    }
+
+    if (!chosen) return;
+    S.personality = chosen.id;
+
+    // Apply morality nudge from personality (re-applied fresh each roll since
+    // rollMoralityForClass always resets from class range first)
+    const adj = chosen.morality_adjust || 0;
+    if (adj !== 0) {
+        S.morality = Math.max(0, Math.min(100, (S.morality ?? 50) + adj));
+        updateMoralityDisplay();
+    }
+}
+
+function _pickByLean(lean, good, bad, neutral, fallback) {
+    const r = Math.random();
+    let pool;
+    if (lean === 'good') {
+        // 80% good, 10% neutral/any, 10% bad (contrary)
+        if      (r < 0.80) pool = good.length    ? good    : fallback;
+        else if (r < 0.90) pool = neutral.length ? neutral : fallback;
+        else               pool = bad.length     ? bad     : fallback;
+    } else if (lean === 'bad') {
+        // 80% bad, 10% neutral/any, 10% good (contrary)
+        if      (r < 0.80) pool = bad.length     ? bad     : fallback;
+        else if (r < 0.90) pool = neutral.length ? neutral : fallback;
+        else               pool = good.length    ? good    : fallback;
+    } else {
+        // Neutral: equal weight across all
+        pool = fallback;
+    }
+    return pool[Math.floor(Math.random() * pool.length)] || null;
+}
 function getAllSkills() {
     const out = [];
     (DB.skills?.categories || []).forEach(cat => {
@@ -220,7 +365,7 @@ const TTip = { el: null, visible: false };
 function initTooltip() {
     const t = document.createElement('div');
     Object.assign(t.style, {
-        position: 'fixed', maxWidth: '300px',
+        position: 'fixed', maxWidth: '380px',
         background: 'var(--bg-card)', border: '1px solid var(--gold-dim)',
         color: 'var(--text)', fontSize: '0.92rem', lineHeight: '1.65',
         padding: '0.65em 0.9em', pointerEvents: 'none',
@@ -231,7 +376,7 @@ function initTooltip() {
     TTip.el = t;
     document.addEventListener('mousemove', e => {
         if (!TTip.visible) return;
-        const x = Math.min(e.clientX + 16, window.innerWidth  - 280);
+        const x = Math.min(e.clientX + 16, window.innerWidth  - 400);
         const y = Math.min(e.clientY + 16, window.innerHeight - 80);
         TTip.el.style.left = x + 'px';
         TTip.el.style.top  = y + 'px';
@@ -252,7 +397,7 @@ function showTip(e, text) {
     TTip.el.textContent = text;
     TTip.visible = true;
     TTip.el.style.opacity = '1';
-    const x = Math.min(e.clientX + 16, window.innerWidth  - 280);
+    const x = Math.min(e.clientX + 16, window.innerWidth  - 400);
     const y = Math.min(e.clientY + 16, window.innerHeight - 80);
     TTip.el.style.left = x + 'px';
     TTip.el.style.top  = y + 'px';
@@ -265,16 +410,8 @@ function hideTip() {
 
 // ─── Auto-fill defaults ───────────────────────────────────────────────────────
 function applyDefaultAptitudes() {
-    const cls = findClass(S.cls);
-    if (!cls) return;
-    const bonuses = cls.aptitude_bonuses || {};
-    APTITUDES.forEach(a => {
-        const val = Math.min(ALLOC_MAX, Math.max(ALLOC_MIN, BASE_APTITUDE + (bonuses[a] || 0)));
-        S.aptitudes[a]      = val;
-        S.allocAptitudes[a] = val;
-    });
-    updateAptitudeDisplays();
     syncAptitudesToState();
+    updateAptitudeSection();
 }
 
 function applyDefaultSkills() {
@@ -324,6 +461,7 @@ function buildRaceSelect() {
         S.subrace = null;
         const chk = $('chk-all-classes'); if (chk) chk.checked = false;
         populateClassSelect();
+        rollPersonality();
         updateDerivedStats();
         updateFlavorText();
     });
@@ -385,9 +523,9 @@ const BASE_CLASS_ICON = {
     warden:'✦', aegisbearer:'✦', dawncaller:'✦', soulkindler:'✦',
 };
 const MAGIC_DOT_COLOR = {
-    lightwielding: '#e8cc30',
+    lightwielding: '#e8c820', // Conviction yellow
     materium:      '#5fbcff',
-    shadow:        '#9060d0',
+    shadow:        '#c42020', // Despair dark red
 };
 
 function escTip(s) {
@@ -657,10 +795,12 @@ function buildClassSelect() {
     populateClassSelect();
     $('sel-class').addEventListener('change', e => {
         const id = e.target.value;
-        S.cls      = id || null;
-        S.subclass = null;
+        S.cls       = id || null;
+        S.subclass  = null;
+        S.background = null;
         applyDefaultAptitudes();
         rollMoralityForClass(id);
+        rollPersonality();
         buildSkillRows();
         applyDefaultSkills();
         updateDerivedStats();
@@ -668,6 +808,7 @@ function buildClassSelect() {
         updateInventory();
         updateEquipGoldHint();
         buildAbilitiesTab();
+        buildBackgroundSelect();
     });
     $('chk-all-classes')?.addEventListener('change', populateClassSelect);
 }
@@ -676,7 +817,11 @@ function buildClassSelect() {
 function buildBackgroundSelect() {
     const sel = $('sel-background');
     sel.innerHTML = '<option value="">— Choose Background —</option>';
-    (DB.backgrounds?.profession_backgrounds || []).forEach(bg => {
+    const all = DB.backgrounds?.profession_backgrounds || [];
+    const filtered = S.cls
+        ? all.filter(bg => Array.isArray(bg.for_classes) && bg.for_classes.includes(S.cls))
+        : all;
+    filtered.forEach(bg => {
         const opt = document.createElement('option');
         opt.value = bg.id;
         opt.textContent = bg.name;
@@ -710,10 +855,11 @@ function wireGender() {
 
 function wireLevel() {
     const slider = $('level-slider');
-    const disp   = $('level-disp');
+    if (!slider) return;
+    const disp = $('level-disp');
     slider.addEventListener('input', () => {
         S.level = +slider.value;
-        disp.textContent = S.level;
+        if (disp) disp.textContent = S.level;
         updateDerivedStats();
         buildAbilitiesTab();
     });
@@ -774,254 +920,372 @@ function buildBirthSignSelect() {
     grid.appendChild(sel);
 }
 
-// ─── Aptitude scores ──────────────────────────────────────────────────────────
-function rollAge() {
-    // Default range 15–100; races may override
-    const race = findRace(S.race);
-    const min = race?.age_roll_range?.[0] || 15;
-    const max = race?.age_roll_range?.[1] || 100;
-    S.age = Math.floor(Math.random() * (max - min + 1)) + min;
-    updateAgeDisplay();
-    updateDerivedStats();
+// ─── Age & Aptitudes ──────────────────────────────────────────────────────────
+function getAptTier(val) {
+    if (val >= 80) return 'Legendary';
+    if (val >= 60) return 'Expert';
+    if (val >= 40) return 'Seasoned';
+    if (val >= 20) return 'Novice';
+    return 'Untrained';
 }
 
-function updateAgeDisplay() {
-    const el = $('age-roll-display');
-    if (el) el.textContent = S.age ?? '—';
-}
-
-function buildAptitudeScores() {
-    buildStdAptRows();
-    buildAllocRows();
-    buildRollAptRows();
-    buildAgeRow();
-
-    document.querySelectorAll('.mth-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.mth-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.ab-panel').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
-            S.aptitudeMethod = btn.dataset.method;
-            $(`ab-${S.aptitudeMethod}`).classList.add('active');
-            syncAptitudesToState();
-            updateDerivedStats();
-        });
-    });
-}
-
-function buildAgeRow() {
-    const cont = $('age-row-cont');
-    if (!cont) return;
-    cont.innerHTML = '';
-    const row = el('div', 'age-row-inner');
-    const label = el('span', 'age-label');
-    label.textContent = 'Age';
-    const display = el('span', 'age-roll-display');
-    display.textContent = S.age ?? '—';
-    display.id = 'age-roll-display';
-    const rollBtn = el('button', 'age-roll-btn');
-    rollBtn.textContent = 'Roll';
-    rollBtn.addEventListener('click', rollAge);
-    const ageTip = 'Natural Age (15–100): Affects stamina pool (peaks 50), materium pool (peaks 80), HP regen, and affliction susceptibility.';
-    label.setAttribute('data-tooltip', ageTip);
-    row.append(label, display, rollBtn);
-    cont.appendChild(row);
-}
-
-function makeAptRow(apt) {
-    const row    = el('div', 'ab-row');
-    const abbrEl = el('span', 'ab-abbr'); abbrEl.textContent = aptShort(apt);
-    const nameEl = el('span', 'ab-name'); nameEl.textContent = aptName(apt);
-    const desc = APTITUDE_DESC[apt];
-    if (desc) {
-        nameEl.style.cursor = 'help';
-        nameEl.addEventListener('mouseenter', e => showTip(e, desc));
-        nameEl.addEventListener('mouseleave', hideTip);
-    }
-    row.append(abbrEl, nameEl);
-    return row;
-}
-
-function buildStdAptRows() {
-    const cont = $('std-rows');
-    cont.innerHTML = '';
-    APTITUDES.forEach(apt => {
-        const row   = makeAptRow(apt);
-        const valEl = el('span', 'ab-score'); valEl.id = `std-${apt}-val`; valEl.textContent = S.aptitudes[apt];
-        const noteEl = el('span', 'ab-mod'); noteEl.id = `std-${apt}-note`; noteEl.style.fontSize = '0.7rem'; noteEl.style.color = 'var(--text-muted)';
-        row.append(valEl, noteEl);
-        cont.appendChild(row);
-    });
-    updateAptitudeDisplays();
-}
-
-function updateAptitudeDisplays() {
-    // Standard rows: just show current value with class bonus note
-    const cls = findClass(S.cls);
-    const bonuses = cls?.aptitude_bonuses || {};
-    APTITUDES.forEach(apt => {
-        const v = $(`std-${apt}-val`);
-        if (v) v.textContent = S.aptitudes[apt] ?? BASE_APTITUDE;
-        const n = $(`std-${apt}-note`);
-        if (n) {
-            const b = bonuses[apt] || 0;
-            n.textContent = b !== 0 ? (b > 0 ? `+${b}` : `${b}`) : '';
-        }
-    });
-    // Alloc rows: show current value
-    APTITUDES.forEach(apt => {
-        const v = $(`alloc-${apt}-val`);
-        if (v) v.textContent = S.allocAptitudes[apt] ?? BASE_APTITUDE;
-        const m = $(`alloc-${apt}-mod`);
-        if (m) {
-            const val = S.allocAptitudes[apt] ?? BASE_APTITUDE;
-            const tier = val >= 80 ? 'Legendary' : val >= 60 ? 'Expert' : val >= 40 ? 'Seasoned' : val >= 20 ? 'Novice' : 'Untrained';
-            m.textContent = tier;
-        }
-    });
-    const spent = APTITUDES.reduce((s, a) => s + Math.max(0, (S.allocAptitudes[a] ?? BASE_APTITUDE) - BASE_APTITUDE), 0);
-    const remain = $('pb-remain');
-    if (remain) remain.textContent = ALLOC_BUDGET - spent;
-}
-
-function buildAllocRows() {
-    const cont = $('pb-rows');
-    cont.innerHTML = '';
-    APTITUDES.forEach(apt => {
-        const row   = makeAptRow(apt);
-        const ctrl  = el('div', 'ab-pb-ctrl');
-        const minus = el('button', 'pb-adj'); minus.textContent = '−';
-        const valEl = el('span', 'ab-score'); valEl.id = `alloc-${apt}-val`; valEl.textContent = S.allocAptitudes[apt];
-        const plus  = el('button', 'pb-adj'); plus.textContent  = '+';
-        minus.addEventListener('click', () => adjustAlloc(apt, -1));
-        plus.addEventListener('click',  () => adjustAlloc(apt, +1));
-        ctrl.append(minus, valEl, plus);
-        const modEl = el('span', 'ab-mod'); modEl.id = `alloc-${apt}-mod`; modEl.textContent = '';
-        row.append(ctrl, modEl);
-        cont.appendChild(row);
-    });
-}
-
-function adjustAlloc(apt, delta) {
-    const cur  = S.allocAptitudes[apt];
-    const next = Math.min(ALLOC_MAX, Math.max(ALLOC_MIN, cur + delta));
-    if (next === cur) return;
-    const spent = APTITUDES.reduce((s, a) => s + Math.max(0, S.allocAptitudes[a] - BASE_APTITUDE), 0)
-                - Math.max(0, cur - BASE_APTITUDE) + Math.max(0, next - BASE_APTITUDE);
-    if (spent > ALLOC_BUDGET) { toast('Not enough allocation points.'); return; }
-    S.allocAptitudes[apt] = next;
-    syncAptitudesToState();
-    updateAptitudeDisplays();
-    updateDerivedStats();
-}
-
-function buildRollAptRows() {
-    const cont = $('roll-rows');
-    cont.innerHTML = '';
-
-    let pool = $('roll-pool');
-    if (!pool) {
-        pool = el('div'); pool.id = 'roll-pool';
-        pool.style.cssText = 'display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.8rem;min-height:2rem;align-items:center;';
-        cont.parentElement.insertBefore(pool, cont);
-    }
-
-    APTITUDES.forEach(apt => {
-        const row     = makeAptRow(apt);
-        row.style.cursor = 'pointer';
-        row.title = 'Click a rolled value above, then click here to assign it';
-        const scoreEl = el('span', 'ab-score'); scoreEl.id = `roll-${apt}-val`; scoreEl.textContent = '—';
-        const modEl   = el('span', 'ab-mod');   modEl.id   = `roll-${apt}-mod`; modEl.textContent   = '';
-        row.append(scoreEl, modEl);
-        row.addEventListener('click', () => {
-            if (S.pendingRoll !== null && S.rollAptitudes[apt] === null) {
-                assignRoll(apt, S.pendingRoll);
-            } else if (S.rollAptitudes[apt] !== null) {
-                S.rolledPool.push(S.rollAptitudes[apt]);
-                S.rollAptitudes[apt] = null;
-                scoreEl.textContent = '—';
-                modEl.textContent   = '';
-                S.pendingRoll = null;
-                refreshRollPool();
-                syncAptitudesToState();
-                updateDerivedStats();
-            }
-        });
-        cont.appendChild(row);
-    });
-
-    const rollBtn = $('btn-roll');
-    if (rollBtn) {
-        rollBtn.replaceWith(rollBtn.cloneNode(true)); // remove old listener
-        const newBtn = $('btn-roll');
-        newBtn.addEventListener('click', () => {
-            S.rolledPool     = [];
-            S.pendingRoll    = null;
-            S.rollAptitudes  = makeNullAptObj();
-            APTITUDES.forEach(apt => {
-                const v = $(`roll-${apt}-val`); if (v) v.textContent = '—';
-                const m = $(`roll-${apt}-mod`); if (m) m.textContent = '';
-            });
-            // Roll 6 values in range 25–55
-            for (let i = 0; i < 6; i++) {
-                S.rolledPool.push(25 + Math.floor(Math.random() * 31));
-            }
-            refreshRollPool();
-            syncAptitudesToState();
-            updateDerivedStats();
-        });
-    }
-}
-
-function refreshRollPool() {
-    const pool = $('roll-pool');
-    if (!pool) return;
-    pool.innerHTML = '';
-    if (!S.rolledPool.length && APTITUDES.every(a => S.rollAptitudes[a] === null)) {
-        pool.innerHTML = '<span style="font-size:0.68rem;color:var(--text-muted);font-style:italic;">Click Roll to generate values, then assign each to an aptitude.</span>';
-        return;
-    }
-    S.rolledPool.forEach(v => {
-        const chip = el('span');
-        chip.textContent = v;
-        chip.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:2.2rem;height:2rem;border:1px solid var(--green-dim);background:var(--bg-card);color:var(--gold);font-size:0.88rem;cursor:pointer;transition:border-color 0.15s,background 0.15s;';
-        chip.addEventListener('click', () => {
-            pool.querySelectorAll('span').forEach(c => { c.style.borderColor='var(--green-dim)'; c.style.background='var(--bg-card)'; });
-            S.pendingRoll = v;
-            chip.style.borderColor = 'var(--gold)';
-            chip.style.background  = 'rgba(201,168,76,0.12)';
-        });
-        pool.appendChild(chip);
-    });
-}
-
-function assignRoll(apt, val) {
-    const idx = S.rolledPool.indexOf(val);
-    if (idx !== -1) S.rolledPool.splice(idx, 1);
-    S.rollAptitudes[apt] = val;
-    S.pendingRoll = null;
-    const scoreEl = $(`roll-${apt}-val`); if (scoreEl) scoreEl.textContent = val;
-    const modEl   = $(`roll-${apt}-mod`);
-    if (modEl) {
-        const tier = val >= 80 ? 'Legendary' : val >= 60 ? 'Expert' : val >= 40 ? 'Seasoned' : val >= 20 ? 'Novice' : 'Untrained';
-        modEl.textContent = tier;
-    }
-    refreshRollPool();
-    syncAptitudesToState();
-    updateDerivedStats();
+function getAgeNote(age) {
+    if (age < 20)  return 'Very young — stamina and Materium pools both reduced';
+    if (age <= 30) return 'Young — stamina building, Materium pool growing';
+    if (age <= 45) return 'Prime — stamina near peak, Materium still growing';
+    if (age <= 55) return 'Peak — stamina at maximum, Materium pool at its strongest';
+    if (age <= 70) return 'Mature — stamina declining, Materium still strong';
+    if (age <= 85) return 'Elder — stamina reduced, increased affliction risk';
+    return 'Ancient — age penalties apply to stamina and affliction resistance';
 }
 
 function syncAptitudesToState() {
-    if (S.aptitudeMethod === 'standard') {
-        APTITUDES.forEach(a => { S.aptitudes[a] = S.aptitudes[a] ?? BASE_APTITUDE; });
-    } else if (S.aptitudeMethod === 'pointbuy') {
-        APTITUDES.forEach(a => { S.aptitudes[a] = S.allocAptitudes[a]; });
+    const cls = findClass(S.cls);
+    const bonuses = cls?.aptitude_bonuses || {};
+    APTITUDES.forEach(a => {
+        const base = S.rollAptitudes[a] ?? BASE_APTITUDE;
+        S.aptitudes[a] = Math.min(ALLOC_MAX, Math.max(ALLOC_MIN, base + (bonuses[a] || 0)));
+    });
+}
+
+function buildAptitudeSection() {
+    const btn = $('btn-roll-all');
+    if (btn) btn.addEventListener('click', rollAllAndAge);
+    updateAptitudeSection();
+}
+
+function rollAllAndAge() {
+    const race = findRace(S.race);
+    const ageMin = race?.age_roll_range?.[0] || 15;
+    const ageMax = race?.age_roll_range?.[1] || 100;
+    S.age = Math.floor(Math.random() * (ageMax - ageMin + 1)) + ageMin;
+
+    APTITUDES.forEach(a => {
+        S.rollAptitudes[a] = 20 + Math.floor(Math.random() * 36); // 20–55
+    });
+    S.intelligence = Math.floor(Math.random() * 20) + 1; // 1–20, fixed at creation
+
+    syncAptitudesToState();
+    if (S.cls) rollMoralityForClass(S.cls);
+    if (S.cls || S.race) rollPersonality();
+    updateAptitudeSection();
+    updateDerivedStats();
+}
+
+function updateAptitudeSection() {
+    const cont = $('apt-section');
+    if (!cont) return;
+    cont.innerHTML = '';
+
+    const cls = findClass(S.cls);
+    const bonuses = cls?.aptitude_bonuses || {};
+    const hasRolled = APTITUDES.some(a => S.rollAptitudes[a] !== null);
+
+    // Age row
+    const ageRolled = S.age !== 35 || hasRolled; // treat default 35 as unrolled until explicitly rolled
+    const ageRow = el('div', `apt-display-row${hasRolled ? '' : ' apt-unrolled'}`);
+    const ageLbl  = el('span', 'apt-disp-lbl'); ageLbl.textContent = 'Age';
+    const ageVal  = el('span', 'apt-disp-val'); ageVal.textContent = S.age ?? '—';
+    const ageTier = el('span', 'apt-disp-tier'); ageTier.textContent = '';
+    const ageNote = el('span', 'apt-disp-note');
+    ageNote.textContent = hasRolled ? getAgeNote(S.age) : 'not yet rolled';
+    ageRow.setAttribute('data-tooltip',
+        'AGE\nYour character\'s age at the start of play.\n\n' +
+        'Effects:\n' +
+        '  Stamina pool — peaks around age 50\n' +
+        '  Materium pool — peaks around age 80\n' +
+        '  HP regeneration — reduced in old age\n' +
+        '  Affliction susceptibility — increases past age 60\n\n' +
+        'Race affects the possible age range.'
+    );
+    ageRow.append(ageLbl, ageVal, ageTier, ageNote);
+    cont.appendChild(ageRow);
+
+    // Aptitude rows
+    APTITUDES.forEach(a => {
+        const rolled = S.rollAptitudes[a];
+        const bonus  = bonuses[a] || 0;
+        const final  = S.aptitudes[a] ?? BASE_APTITUDE;
+        const tier   = getAptTier(final);
+
+        const row     = el('div', `apt-display-row${rolled === null ? ' apt-unrolled' : ''}`);
+        const lbl     = el('span', 'apt-disp-lbl'); lbl.textContent = aptName(a);
+        const val     = el('span', 'apt-disp-val'); val.textContent = rolled !== null ? final : '—';
+        const tierEl  = el('span', 'apt-disp-tier'); tierEl.textContent = rolled !== null ? tier : '';
+        const noteEl  = el('span', 'apt-disp-note');
+
+        if (rolled !== null) {
+            noteEl.textContent = bonus !== 0
+                ? `base ${rolled} ${bonus > 0 ? '+' : ''}${bonus} from class`
+                : '';
+        } else {
+            noteEl.textContent = 'not yet rolled';
+        }
+
+        const desc = APTITUDE_DESC[a];
+        if (desc) row.setAttribute('data-tooltip', desc);
+        row.append(lbl, val, tierEl, noteEl);
+        cont.appendChild(row);
+    });
+
+    if (!hasRolled) {
+        const hint = el('p', 'apt-reroll-hint');
+        hint.textContent = 'Click the button above to roll your age and aptitude scores.';
+        cont.appendChild(hint);
     } else {
-        APTITUDES.forEach(a => { S.aptitudes[a] = S.rollAptitudes[a] ?? BASE_APTITUDE; });
+        const hint = el('p', 'apt-reroll-hint');
+        hint.textContent = 'You can re-roll at any time before saving.';
+        cont.appendChild(hint);
     }
+
+    buildDerivedStatsDisplay();
+}
+
+// ─── Derived Stats Display ────────────────────────────────────────────────────
+function buildDerivedStatsDisplay() {
+    const cont = $('derived-stats-display');
+    if (!cont) return;
+    cont.innerHTML = '';
+
+    const hasRolled = APTITUDES.some(a => S.rollAptitudes[a] !== null);
+    if (!hasRolled) return;
+
+    const cls  = findClass(S.cls);
+    const race = findRace(S.race);
+    const physVal = S.aptitudes.physiology || BASE_APTITUDE;
+    const cogVal  = S.aptitudes.cognition  || BASE_APTITUDE;
+    const dispVal = S.aptitudes.discipline || BASE_APTITUDE;
+    const age     = S.age || 35;
+    const raceMat = race?.materium_pool_bonus || 0;
+    const morality = S.morality ?? 50;
+
+    const vitality   = Math.round(physVal * 1.3 + 8);
+    const stamina    = Math.round(physVal * 1.5 + ageStaminaBonus(age));
+    const materium   = Math.round(cogVal * 1.2 + ageMateriumBonus(age) + raceMat);
+    const hpRegen    = calcHpRegenPerTurn(physVal, age);
+    const affliction = ageAfflictionModifier(age);
+    const initiative = calcInitiative(dispVal, morality);
+    const stamBonus  = ageStaminaBonus(age);
+    const matBonus   = ageMateriumBonus(age);
+
+    // Armor access threshold
+    const armorAccess = physVal >= 70 ? 'All armour & heavy weapons' :
+                        physVal >= 50 ? 'Heavy armour' :
+                        physVal >= 30 ? 'Medium armour' : 'Light armour only';
+
+    // Vigor tier (melee damage & carry capacity; peaks at physiology 50)
+    const vigorScore = Math.min(physVal, 50);
+    const vigor = getAptTier(vigorScore * 2); // scale 0–50 → 0–100 for tier
+
+    // Insulation: magic resistance derived from cognition
+    const insulation = Math.round(cogVal * 0.2) + '%';
+
+    // Conduit grade: spell power capacity
+    const conduitGrade = getAptTier(cogVal);
+
+    // Composure: CC resistance (20% reduction unlocks at 50)
+    const composure = dispVal >= 100 ? 'Full immunity (brief)' :
+                      dispVal >= 70  ? 'Strong (−30% CC duration)' :
+                      dispVal >= 50  ? 'Moderate (−20% CC duration)' :
+                      dispVal >= 30  ? 'Low (+5 initiative)' : 'Baseline';
+
+    // Reaction speed: surprise initiative bonus
+    const reactionBonus = dispVal >= 100 ? 'Act twice on surprise' :
+                          dispVal >= 70  ? '+10 initiative on surprise' :
+                          dispVal >= 30  ? '+5 initiative on surprise' : 'No bonus';
+
+    const section = el('div');
+    section.style.cssText = 'margin-top: 1.5rem; padding: 1rem; background: var(--bg-card); border-left: 3px solid var(--green-dim);';
+
+    const title = el('div');
+    title.style.cssText = 'font-size: 1.08rem; color: var(--text); letter-spacing: 0.14em; margin-bottom: 1rem; text-transform: uppercase; border-bottom: 1px solid var(--green-dim); padding-bottom: 0.35rem;';
+    title.textContent = 'Derived Attributes';
+    section.appendChild(title);
+
+    section.appendChild(createDerivedSection('Physiology', [
+        { label: 'Vitality (HP)',            value: vitality,     tooltip: 'Health pool. Reaches 0 = defeated. Formula: Physiology × 1.3 + 8' },
+        { label: 'Stamina Pool',             value: stamina,      tooltip: `Physical endurance pool. Powers attacks, dodge rolls, and movement. Formula: Physiology × 1.5 + Age bonus (${stamBonus >= 0 ? '+' : ''}${stamBonus})` },
+        { label: 'HP Regen / Turn',          value: hpRegen,      tooltip: 'Health regenerated per turn on the world map. Slows with age after 50. Formula: Physiology × 0.03 − Age penalty' },
+        { label: 'Vigor',                    value: vigor,        tooltip: 'Carry capacity and melee damage bonus. Peaks at Physiology 50; heavier weapons unlock at 70.' },
+        { label: 'Armour Access',            value: armorAccess,  tooltip: 'Unlocked armour and weapon categories based on Physiology. At 30: medium; at 50: heavy; at 70: all heavy weapons.' },
+    ]));
+
+    const personalityData = findPersonality(S.personality);
+    const personalityLabel = personalityData
+        ? (personalityData.components
+            ? `${personalityData.name} (${personalityData.components.map(c => c.charAt(0).toUpperCase() + c.slice(1)).join(' + ')})`
+            : personalityData.name)
+        : '—';
+    const personalityTip = personalityData
+        ? `${personalityData.name}\n${personalityData.description}\n\n` +
+          personalityData.effects.map(e => `• ${e}`).join('\n') +
+          (personalityData.morality_adjust
+              ? `\n\nMorality: ${personalityData.morality_adjust > 0 ? '+' : ''}${personalityData.morality_adjust} (${personalityData.morality_adjust > 0 ? 'towards Conviction' : 'towards Despair'})`
+              : '')
+        : 'Personality is rolled when class and race are chosen.';
+
+    const shadowConn = race?.shadow_connection ?? 0;
+    const intVal = S.intelligence !== null ? S.intelligence : '—';
+
+    section.appendChild(createDerivedSection('Cognition', [
+        { label: 'Materium Pool',            value: materium + ' MP', tooltip: `Elemental spell energy. Formula: Cognition × 1.2 + Age bonus (${matBonus >= 0 ? '+' : ''}${matBonus}) + Race bonus (${raceMat})` },
+        { label: 'Conduit Grade',            value: conduitGrade, tooltip: 'Maximum spell power capacity. Determines which spell tiers you can channel. Scales directly with Cognition.' },
+        { label: 'Insulation',               value: insulation,   tooltip: 'Passive magic resistance against all schools. Formula: Cognition × 0.2%' },
+        { label: 'Intelligence',             value: intVal,       tooltip: 'Fixed at character creation (1–20). Raw cognitive capacity. Each point adds +0.5% to all non-physical skill rolls. Cannot be trained.' },
+        { label: 'Erudition',                value: getAptTier(cogVal),  tooltip: 'Speed at which you learn spells and absorb knowledge. Improves at cognition 50 (+10% learning) and 100 (+20%).' },
+        { label: 'Perception',               value: getAptTier(cogVal),  tooltip: 'Ability to detect danger, hidden details, and threats. Improves at cognition 70 (+10% detection).' },
+        { label: 'Worldliness',              value: getAptTier(cogVal),  tooltip: 'Lockpicking, reading people, survival instincts. Improves at cognition 30 (read advanced texts) and 50.' },
+        { label: 'Ingenuity',                value: getAptTier(cogVal),  tooltip: 'Crafting and magical item creation skill. Scales with Cognition.' },
+        { label: 'Shadow Connection',        value: shadowConn,   tooltip: 'Innate link to the Shadow Realm and Dark Arts. Race and class determined. 0 = no access to Shadow Arts schools.' },
+        { label: 'Scarring',                 value: 0,            tooltip: 'Accumulated trauma from battle failures, horror, and betrayal. Starts at 0. Every 10 Scarring reduces max Conviction by 2. Above 50: +5% resistance to Darkmind and Verdicium.' },
+        { label: 'Personality',              value: personalityLabel, tooltip: personalityTip, valueColor: personalityData ? personalityAlignColor(personalityData.alignment) : undefined },
+    ]));
+
+    section.appendChild(createDerivedSection('Discipline', [
+        { label: 'Initiative',               value: initiative,   tooltip: 'Turn order in combat. Higher = act sooner. Includes morality alignment bonus for Conviction and Despair zones.' },
+        { label: 'Composure',                value: composure,    tooltip: 'Resistance to crowd control and mental effects. Unlocks at discipline 30 (+5 initiative), 50 (−20% CC), 70 (−30% CC), 100 (brief immunity).' },
+        { label: 'Attentiveness',            value: getAptTier(dispVal), tooltip: 'Detection of traps and ambushes. At discipline 70 you detect nearby traps automatically.' },
+        { label: 'Reaction Speed',           value: reactionBonus, tooltip: 'Initiative bonus when surprised. Unlocks at discipline 30 (+5) and 70 (+10). At 100: act twice on a surprise round.' },
+    ]));
+
+    section.appendChild(createDerivedSection('Age', [
+        { label: 'Stamina Modifier',         value: (stamBonus >= 0 ? '+' : '') + stamBonus,   tooltip: 'Age-based bonus to stamina pool. Peaks at age 50, declines after 60.' },
+        { label: 'Materium Modifier',        value: (matBonus >= 0 ? '+' : '') + matBonus,     tooltip: 'Age-based bonus to materium pool. Grows until age 80, then plateaus.' },
+        { label: 'Affliction Susceptibility', value: (affliction > 0 ? '+' : '') + affliction + '%', tooltip: 'Modifier to susceptibility to afflictions, poisons, and venoms. Young characters have slight resistance (−5%), increases sharply past 70.' },
+        { label: 'HP Regen Penalty',         value: age > 50 ? '−' + parseFloat(((age - 50) * 0.01).toFixed(2)) : 'None', tooltip: 'Regen penalty applied in old age. Begins after age 50.' },
+    ]));
+
+    // ── Resistances ──────────────────────────────────────────────────────────
+    const RESIST_LABELS = {
+        physical_hardening: 'Physical Hardening',
+        magical_insulation: 'Magical Insulation',
+        poisonous:          'Poison',
+        venomous:           'Venom',
+        moral_affliction:   'Moral Affliction',
+        blight:             'Blight',
+        fire:               'Fire',
+        cold:               'Cold',
+        chill:              'Chill',
+        hot:                'Heat',
+        earthen:            'Earthen',
+        arcane:             'Arcane',
+        darkvoid:           'Darkvoid',
+        purelight:          'Purelight',
+        darkblood:          'Darkblood',
+        athropium:          'Athropium',
+        slashing:           'Slashing',
+        piercing:           'Piercing',
+        blunt:              'Blunt',
+        humidity:           'Humidity',
+        weathering:         'Weathering',
+    };
+    const RESIST_TIPS = {
+        physical_hardening: 'Reduces all incoming physical damage. Race starting value stacks with hardening earned in combat (max 50% per type).',
+        magical_insulation: 'Reduces all incoming magical damage. Race starting value stacks with hardening earned in combat (max 50% per type).',
+        poisonous:          'Reduces duration and potency of poison effects.',
+        venomous:           'Reduces duration and potency of venom effects.',
+        moral_affliction:   'Reduces susceptibility to fear, charm, and morale-breaking effects.',
+        blight:             'Reduces damage from Blight school spells and rot effects.',
+        fire:               'Reduces damage from fire and heat-based attacks.',
+        cold:               'Reduces damage from cold and ice-based attacks.',
+        chill:              'Reduces damage from chill-type Shadow Arts spells.',
+        hot:                'Resistance to heat and arid environment effects.',
+        earthen:            'Reduces damage from Earthen school spells and physical impacts.',
+        arcane:             'Reduces damage from raw arcane energy attacks.',
+        darkvoid:           'Reduces damage from Darkvoid school Shadow Arts spells.',
+        purelight:          'Reduces damage from Lightwielding spells.',
+        darkblood:          'Reduces damage from darkblood-type afflictions and spells.',
+        athropium:          'Reduces damage from Athropium school spells.',
+        slashing:           'Reduces incoming slashing weapon damage.',
+        piercing:           'Reduces incoming piercing weapon damage.',
+        blunt:              'Reduces incoming blunt weapon damage.',
+        humidity:           'Resistance to humidity and wetness-related environment effects.',
+        weathering:         'Resistance to weather and environmental wear effects.',
+    };
+
+    const startRes = race?.starting_resistances || {};
+    // Always show physical and magical; show others only if non-zero
+    const resRows = [];
+    Object.entries(RESIST_LABELS).forEach(([key, label]) => {
+        const val = startRes[key] ?? 0;
+        if (key === 'physical_hardening' || key === 'magical_insulation' || val > 0) {
+            resRows.push({ label, value: val + '%', tooltip: RESIST_TIPS[key] || '' });
+        }
+    });
+
+    const resSection = createDerivedSection('Starting Resistances', resRows);
+
+    // Add a small note about earned hardening
+    const hardenNote = el('div');
+    hardenNote.style.cssText = 'font-size: 0.78rem; color: var(--text-muted); font-style: italic; margin-top: 0.4rem; padding-top: 0.4rem; border-top: 1px solid rgba(255,255,255,0.04);';
+    hardenNote.textContent = 'Physical and magical hardening grow through combat exposure — up to 50% per type.';
+    resSection.appendChild(hardenNote);
+
+    section.appendChild(resSection);
+
+    cont.appendChild(section);
+}
+
+function createDerivedSection(title, stats) {
+    const section = el('div');
+    section.style.cssText = 'margin-bottom: 0.9rem; padding: 0.65rem 0.75rem; background: rgba(0,0,0,0.2);';
+
+    const header = el('div');
+    header.style.cssText = 'display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;';
+    const titleEl = el('span');
+    titleEl.style.cssText = 'font-size: 1.05rem; letter-spacing: 0.1em; color: var(--green); text-transform: uppercase;';
+    titleEl.textContent = title;
+    header.append(titleEl);
+    section.appendChild(header);
+
+    stats.forEach(stat => {
+        const row = el('div');
+        row.style.cssText = 'display: flex; justify-content: space-between; align-items: baseline; padding: 0.32rem 0; font-size: 0.98rem; border-bottom: 1px solid rgba(255,255,255,0.04);';
+        row.setAttribute('data-tooltip', stat.tooltip);
+
+        const lbl = el('span');
+        lbl.style.cssText = 'color: var(--text-muted);';
+        lbl.textContent = stat.label;
+
+        const val = el('span');
+        val.style.cssText = `color: ${stat.valueColor || 'var(--green)'};`;
+        val.textContent = stat.value;
+
+        row.append(lbl, val);
+        section.appendChild(row);
+    });
+
+    return section;
 }
 
 // ─── Skills ───────────────────────────────────────────────────────────────────
+function buildSkillTooltip(sk, aptFullName) {
+    const lines = [];
+    lines.push(sk.name.toUpperCase());
+    if (sk.description) lines.push(sk.description);
+    if (sk.primary_damage_types?.length) lines.push(`Damage types: ${sk.primary_damage_types.join(', ')}`);
+    lines.push(`Linked to: ${aptFullName}`);
+    const prereq = sk.prerequisite || (sk.prerequisites ? sk.prerequisites.join(', ') : null);
+    if (prereq) lines.push(`Requires: ${prereq}`);
+    if (sk.level_effects) {
+        lines.push('');
+        lines.push('── Level effects ──');
+        const tiers = [
+            ['Novice (1–10)',        sk.level_effects['Novice']],
+            ['Seasoned (11–50)',     sk.level_effects['Seasoned']],
+            ['Expert (51–80)',       sk.level_effects['Expert']],
+            ['Master (81–99)',       sk.level_effects['Master']],
+            ['Legendary Master (100)', sk.level_effects['Legendary Master']],
+        ];
+        tiers.forEach(([label, effect]) => {
+            if (effect) lines.push(`${label}: ${effect}`);
+        });
+    }
+    lines.push('');
+    lines.push('Skills level through use. Maximum: 100.');
+    return lines.join('\n');
+}
+
 function buildSkillRows() {
     const grid = $('skills-grid');
     grid.innerHTML = '';
@@ -1036,41 +1300,40 @@ function buildSkillRows() {
     const infoEl = $('skill-info');
     if (cls) {
         const fixedNames = getAllSkills().filter(sk => fixed.has(sk.id)).map(sk => sk.name).join(', ');
-        infoEl.textContent = `Fixed: ${fixedNames || '—'} · Choose ${choiceCount} additional skill${choiceCount > 1 ? 's' : ''} from class list.`;
+        infoEl.textContent = `Included: ${fixedNames || '—'} · Choose ${choiceCount} additional skill${choiceCount > 1 ? 's' : ''} from the list below.`;
     } else {
         infoEl.textContent = 'Select a class to see available skills.';
     }
 
-    // Group skills by category — when a class is selected, skip skills not available to it
     (DB.skills?.categories || []).forEach(cat => {
         const catSkills = cat.skills || [];
         if (!catSkills.length) return;
 
-        // Pre-filter: only show skills the class can use (fixed or in choices)
         const visibleSkills = cls
             ? catSkills.filter(sk => fixed.has(sk.id) || !choiceSet || choiceSet.has(sk.id))
             : catSkills;
         if (!visibleSkills.length) return;
 
+        const aptFullName = aptName(cat.aptitude_link);
         const header = el('div', 'sk-category-header');
-        header.textContent = `${cat.category} [${aptShort(cat.aptitude_link)}]`;
+        header.textContent = `${cat.category}`;
+        const aptLabel = el('span', 'sk-cat-apt'); aptLabel.textContent = aptFullName;
+        header.appendChild(aptLabel);
         grid.appendChild(header);
 
         visibleSkills.forEach(sk => {
-            const isFixed    = fixed.has(sk.id);
+            const isFixed = fixed.has(sk.id);
 
             const row = el('div', `skill-row${isFixed ? ' sk-fixed' : ''}`);
             row.dataset.name = sk.id;
 
             const check = el('span', 'sk-check'); row.appendChild(check);
             const name  = el('span', 'sk-name');  name.textContent = sk.name; row.appendChild(name);
-            const ab    = el('span', 'sk-ab');    ab.textContent   = aptShort(cat.aptitude_link); row.appendChild(ab);
-
-            const desc = SKILL_DESC[sk.id] || sk.description;
-            if (desc) {
-                row.addEventListener('mouseenter', e => showTip(e, desc));
-                row.addEventListener('mouseleave', hideTip);
+            if (isFixed) {
+                const tag = el('span', 'sk-fixed-tag'); tag.textContent = 'included'; row.appendChild(tag);
             }
+
+            row.dataset.tooltip = buildSkillTooltip(sk, aptFullName);
 
             row.addEventListener('click', () => {
                 if (isFixed) return;
@@ -1240,28 +1503,30 @@ function updateDerivedStats() {
     const materium = Math.round(cogVal * 1.2 + ageMateriumBonus(age) + raceMat);
 
     // Display derived stats
-    $('d-hp').textContent = hp;
-    $('d-hd').textContent = cls?.materium_access ? `${materium} MP` : '—';
+    if ($('d-hp'))    $('d-hp').textContent = hp;
+    if ($('d-hd'))    $('d-hd').textContent = `${materium} MP`;
 
     // Level display
-    $('d-prof').textContent = `Lv ${S.level}`;
+    if ($('d-prof'))  $('d-prof').textContent = `Lv ${S.level}`;
 
     // Class trait name
-    $('d-speed').textContent = cls?.special_class_trait?.name || '—';
+    if ($('d-speed')) $('d-speed').textContent = cls?.special_class_trait?.name || '—';
 
     // Aptitude focus (replaces saves-row): show class aptitude priorities
     const savesRow = $('saves-row');
-    savesRow.innerHTML = '';
-    const priorities = cls?.aptitude_priorities || [];
-    if (!priorities.length) {
-        const p = el('span', 'save-pill'); p.textContent = '—'; savesRow.appendChild(p);
-    } else {
-        priorities.slice(0, 3).forEach(ap => {
-            const id = ap.toLowerCase().replace(/ /g, '_');
-            const p = el('span', 'save-pill');
-            p.textContent = aptName(id);
-            savesRow.appendChild(p);
-        });
+    if (savesRow) {
+        savesRow.innerHTML = '';
+        const priorities = cls?.aptitude_priorities || [];
+        if (!priorities.length) {
+            const p = el('span', 'save-pill'); p.textContent = '—'; savesRow.appendChild(p);
+        } else {
+            priorities.slice(0, 3).forEach(ap => {
+                const id = ap.toLowerCase().replace(/ /g, '_');
+                const p = el('span', 'save-pill');
+                p.textContent = aptName(id);
+                savesRow.appendChild(p);
+            });
+        }
     }
 
     // Identity line
@@ -1272,7 +1537,9 @@ function updateDerivedStats() {
     if (raceName) parts.push(raceName);
     if (clsName)  parts.push(clsName);
     if (S.level > 1) parts.push(`Level ${S.level}`);
-    $('identity-line').textContent = parts.length ? parts.join(' · ') : 'Choose race & class';
+    if ($('identity-line')) $('identity-line').textContent = parts.length ? parts.join(' · ') : 'Choose race & class';
+
+    buildDerivedStatsDisplay();
 }
 
 // ─── Flavor text ─────────────────────────────────────────────────────────────
@@ -1293,10 +1560,11 @@ function updateFlavorText() {
     const raceBlurb  = S.race ? (RACE_BLURBS[S.race]  || (raceData?.description) || `The ${raceName} are a proud and storied people.`) : '';
     const classBlurb = S.cls  ? (CLASS_BLURBS[S.cls]  || (clsData?.description)  || `The ${clsName} follows a path of power and purpose.`) : '';
 
+    const clsCol = classColor(clsData?.class_group);
     let html = '';
     if (S.race) html += `<strong>${raceName}.</strong> ${raceBlurb}${ownPrefix}`;
     if (S.race && S.cls) html += '<br><br>';
-    if (S.cls)  html += `<strong>${clsName}.</strong> ${classBlurb}`;
+    if (S.cls)  html += `<strong style="color:${clsCol}">${clsName}.</strong> ${classBlurb}`;
     ft.innerHTML = html;
 }
 
@@ -1355,7 +1623,15 @@ function updateBgDetail(bg) {
             entries.forEach(([id, v]) => {
                 const sk = allSk.find(s => s.id === id);
                 const sign = v > 0 ? '+' : '';
-                d.appendChild(makeBgBullet(sk ? sk.name : id, `${sign}${v}`, v > 0 ? 'pos' : 'neg'));
+                const bullet = makeBgBullet(sk ? sk.name : id, `${sign}${v}`, v > 0 ? 'pos' : 'neg');
+                const tier = v <= 0 ? 'Untrained' : v <= 10 ? 'Novice' : v <= 50 ? 'Seasoned' : v <= 80 ? 'Expert' : v <= 99 ? 'Master' : 'Legendary Master';
+                const skName = sk ? sk.name : id;
+                bullet.setAttribute('data-tooltip',
+                    `${sign}${v} to your starting ${skName} level (${tier} tier).\n` +
+                    `Skills scale from 0 to 100 and level through use in relevant situations.\n` +
+                    `Backgrounds can grant up to +15 to a skill — the head start matters most early on.`
+                );
+                d.appendChild(bullet);
             });
         }
     }
@@ -1392,6 +1668,193 @@ function updateInventory() {
         row.append(bullet, document.createTextNode(item));
         list.appendChild(row);
     });
+}
+
+// ─── Inventory paperdoll (shared by creator tab and character sheet) ──────────
+
+const QUALITY_COLORS = {
+    simple:  '#999999',
+    normal:  '#d4c89a',
+    fine:    '#88dd88',
+    rare:    '#88aaff',
+    magical: '#cc88ff',
+    unique:  '#ffdd44',
+    cursed:  '#ff5533',
+};
+
+function classifyKitItem(text) {
+    const t = text.toLowerCase();
+    if (/\b(helmet|helm|cap|hood|coif|crown|headband)\b/.test(t))                                       return 'helm';
+    if (/\b(shield)\b/.test(t))                                                                          return 'offhand';
+    if (/\b(hauberk|armou?r|robe|gambeson|coat|cuirass|chainmail|chain mail|plate|leather vest|tunic|jerkin|mail|breastplate)\b/.test(t)) return 'armor';
+    if (/\b(amulet|necklace|pendant|talisman|medallion)\b/.test(t))                                     return 'amulet';
+    if (/\b(ring)\b/.test(t))                                                                            return 'ring';
+    if (/\b(sword|dagger|stiletto|axe|mace|spear|bow|hammer|staff|knife|blade|flail|quarterstaff|glaive|halberd|pike|lance|club|saber|cutlass|rapier|scythe|trident|crossbow|shortbow|longbow|arbalest|javelin|warhammer|waraxe)\b/.test(t)) return 'weapon';
+    return 'bag';
+}
+
+function isTwoHandedItem(text) {
+    const t = text.toLowerCase();
+    return /\b(two.?handed|2h|greatsword|greataxe|great sword|great axe|halberd|pike|polearm|longbow|arbalest|longspear|quarterstaff)\b/.test(t);
+}
+
+function lookupWeaponData(text) {
+    const all = [
+        ...(DB.weapons_1h?.weapons  || []),
+        ...(DB.weapons_2h?.weapons  || []),
+        ...(DB.weapons_ranged?.weapons || []),
+    ];
+    const t = text.toLowerCase();
+    return all.find(w => t.includes(w.name.toLowerCase())) || null;
+}
+
+function buildItemTooltip(text) {
+    const wpn = lookupWeaponData(text);
+    if (!wpn) return text;
+    const parts = [text];
+    if (wpn.base_dmg_range) {
+        const dmg  = `${wpn.base_dmg_range[0]}–${wpn.base_dmg_range[1]} dmg`;
+        const dist = (wpn.damage_distribution || []).map(d => `${d.type} ${d.percent}%`).join(', ');
+        parts.push(dist ? `${dmg}  (${dist})` : dmg);
+    }
+    if (wpn.primary_stat) parts.push(`Scales: ${wpn.primary_stat}`);
+    if (wpn.reach_hex)    parts.push(`Reach: ${wpn.reach_hex} hex`);
+    if (wpn.flavor)       { parts.push(''); parts.push(wpn.flavor); }
+    return parts.join('\n');
+}
+
+// Generic paperdoll renderer.  prefix = 'inv' (creator tab) | 'invs' (sheet).
+function renderInventoryPaperdoll(prefix, items) {
+    const SLOT_IDS = ['helm', 'mainhand', 'offhand', 'armor', 'ring1', 'ring2', 'amulet'];
+
+    SLOT_IDS.forEach(sid => {
+        const slotEl = $(`${prefix}-slot-${sid}`);
+        if (!slotEl) return;
+        const itemEl    = slotEl.querySelector('.inv-slot-item');
+        const tooltipEl = slotEl.querySelector('.inv-tooltip');
+        itemEl.textContent = '— empty —';
+        itemEl.style.color = '';
+        slotEl.classList.remove('filled', 'twohanded-grip');
+        if (tooltipEl) tooltipEl.textContent = '';
+    });
+
+    const bagGrid = $(`${prefix}-bag-grid`);
+    if (bagGrid) bagGrid.innerHTML = '';
+
+    if (!items.length) {
+        if (bagGrid) { const s = el('span', 'inv-empty'); s.textContent = 'No equipment data.'; bagGrid.appendChild(s); }
+        return;
+    }
+
+    const slots = { helm: null, armor: null, mainhand: null, offhand: null, amulet: null, ring1: null, ring2: null };
+    const bagItems = [];
+    let twoHanded = false;
+
+    items.forEach(item => {
+        const type = classifyKitItem(item);
+        switch (type) {
+            case 'helm':    if (!slots.helm)   { slots.helm   = item; } else bagItems.push(item); break;
+            case 'armor':   if (!slots.armor)  { slots.armor  = item; } else bagItems.push(item); break;
+            case 'offhand': if (!slots.offhand && !twoHanded) { slots.offhand = item; } else bagItems.push(item); break;
+            case 'amulet':  if (!slots.amulet) { slots.amulet = item; } else bagItems.push(item); break;
+            case 'ring':
+                if (!slots.ring1)      slots.ring1 = item;
+                else if (!slots.ring2) slots.ring2 = item;
+                else bagItems.push(item);
+                break;
+            case 'weapon':
+                if (isTwoHandedItem(item)) {
+                    slots.mainhand = item; twoHanded = true;
+                } else if (!slots.mainhand) {
+                    slots.mainhand = item;
+                } else if (!slots.offhand && !twoHanded) {
+                    slots.offhand = item;
+                } else {
+                    bagItems.push(item);
+                }
+                break;
+            default: bagItems.push(item);
+        }
+    });
+
+    // Fill equipped slots
+    SLOT_IDS.forEach(sid => {
+        const text = slots[sid];
+        if (!text) return;
+        const slotEl = $(`${prefix}-slot-${sid}`);
+        if (!slotEl) return;
+        const itemEl    = slotEl.querySelector('.inv-slot-item');
+        const tooltipEl = slotEl.querySelector('.inv-tooltip');
+        itemEl.textContent = text;
+        itemEl.style.color = QUALITY_COLORS.normal;
+        slotEl.classList.add('filled');
+        if (tooltipEl) tooltipEl.textContent = buildItemTooltip(text);
+    });
+
+    // 2H grip marker
+    if (twoHanded && !slots.offhand) {
+        const offEl = $(`${prefix}-slot-offhand`);
+        if (offEl) {
+            offEl.querySelector('.inv-slot-item').textContent = '⟵ 2H grip';
+            offEl.querySelector('.inv-slot-item').style.color = 'var(--text-muted)';
+            offEl.classList.add('twohanded-grip');
+        }
+    }
+
+    // Fill bag
+    if (!bagGrid) return;
+    if (bagItems.length === 0) {
+        const s = el('span', 'inv-empty'); s.textContent = '— none —'; bagGrid.appendChild(s);
+    } else {
+        bagItems.forEach(item => {
+            const div  = el('div', 'inv-bag-item');
+            const span = el('span');
+            span.textContent = item;
+            span.style.color = QUALITY_COLORS.normal;
+            div.appendChild(span);
+            const tip = buildItemTooltip(item);
+            if (tip !== item) {
+                const tt = el('div', 'inv-tooltip');
+                tt.textContent = tip;
+                div.appendChild(tt);
+            }
+            bagGrid.appendChild(div);
+        });
+    }
+}
+
+function gatherKitItems(char) {
+    const cls = findClass(char.cls);
+    const items = [...(cls?.starter_kit || [])];
+    const bg = findBackground(char.background);
+    if (bg?.equipment_bonus?.length) bg.equipment_bonus.forEach(i => items.push(i));
+    return items;
+}
+
+function renderInventoryTab() {
+    const items = gatherKitItems({ cls: S.cls, background: S.background });
+    if (!items.length) {
+        const bagGrid = $('inv-bag-grid');
+        if (bagGrid) { bagGrid.innerHTML = ''; const s = el('span', 'inv-empty'); s.textContent = 'Select a class to see equipment.'; bagGrid.appendChild(s); }
+        return;
+    }
+    renderInventoryPaperdoll('inv', items);
+}
+
+// ─── Inventory sheet (character sheet sub-page) ───────────────────────────────
+function showInvSheet() {
+    const char = S.viewSheetChar;
+    if (!char) return;
+    const titleEl = $('inv-sheet-title');
+    if (titleEl) titleEl.textContent = `${char.name || 'Hero'} — Inventory`;
+    renderInventoryPaperdoll('invs', gatherKitItems(char));
+    $('view-sheet').classList.remove('active');
+    $('inv-sheet').classList.add('active');
+}
+
+function hideInvSheet() {
+    $('inv-sheet').classList.remove('active');
+    $('view-sheet').classList.add('active');
 }
 
 // ─── Party bar ────────────────────────────────────────────────────────────────
@@ -1434,19 +1897,27 @@ function wirePartyBar() {
         if (!S.party.members.length) { toast('No members in the current party.'); return; }
         showPartySheet(S.party);
     });
-    $('btn-add-party').addEventListener('click', () => {
-        if (!S.race && !S.cls && !S.name.trim()) { toast('Build a character first.'); return; }
-        if (S.party.members.length >= S.party.size) { toast(`Party is full (${S.party.size} members).`); return; }
-        const char = buildCharObj();
-        S.party.members.push(char);
-        renderPartySlots();
-        toast(`${char.name || 'Character'} added to party.`);
-    });
+    const addPartyBtn = $('btn-add-party');
+    if (addPartyBtn) {
+        addPartyBtn.addEventListener('click', () => {
+            if (!S.race && !S.cls && !S.name.trim()) { toast('Build a character first.'); return; }
+            if (S.party.members.length >= S.party.size) { toast(`Party is full (${S.party.size} members).`); return; }
+            const char = buildCharObj();
+            S.party.members.push(char);
+            renderPartySlots();
+            toast(`${char.name || 'Character'} added to party.`);
+        });
+    }
     $('btn-save-party').addEventListener('click', saveParty);
     $('btn-load-party').addEventListener('click', () => toast('Select a saved party from the right panel.'));
 }
 
 // ─── Tab switching ────────────────────────────────────────────────────────────
+function showTab(tabName) {
+    const idx = TAB_ORDER.indexOf(tabName);
+    if (idx >= 0) goToTabIdx(idx);
+}
+
 function wireTabs() {
     document.querySelectorAll('.cc-tab').forEach(tab => {
         tab.addEventListener('click', () => {
@@ -1455,6 +1926,7 @@ function wireTabs() {
             tab.classList.add('active');
             $(`tab-${tab.dataset.tab}`).classList.add('active');
             updateTabNav();
+            if (tab.dataset.tab === 'inventory') renderInventoryTab();
         });
     });
 }
@@ -1474,6 +1946,7 @@ function goToTabIdx(idx) {
     document.querySelector(`.cc-tab[data-tab="${name}"]`).classList.add('active');
     $(`tab-${name}`).classList.add('active');
     updateTabNav(idx);
+    if (name === 'inventory') renderInventoryTab();
 }
 
 function updateTabNav(idx) {
@@ -1481,11 +1954,9 @@ function updateTabNav(idx) {
     if (idx < 0) idx = 0;
     const prev = $('btn-tab-prev');
     const next = $('btn-tab-next');
-    const step = $('tab-step-ind');
     if (!prev) return;
     prev.disabled = idx <= 0;
     next.disabled = idx >= TAB_ORDER.length - 1;
-    step.textContent = `${idx + 1} / ${TAB_ORDER.length}`;
 }
 
 function wireTabNav() {
@@ -1493,12 +1964,31 @@ function wireTabNav() {
     const next = $('btn-tab-next');
     if (!prev || !next) return;
     prev.addEventListener('click', () => { const idx = currentTabIdx(); if (idx > 0) goToTabIdx(idx - 1); });
-    next.addEventListener('click', () => { const idx = currentTabIdx(); if (idx < TAB_ORDER.length - 1) goToTabIdx(idx + 1); });
+    next.addEventListener('click', () => {
+        const idx = currentTabIdx();
+        // Block leaving identity tab without a name
+        if (idx === 0 && !S.name.trim()) {
+            const warn  = $('name-required-warning');
+            const input = $('char-name');
+            if (warn)  { warn.classList.add('visible'); }
+            if (input) {
+                input.classList.remove('shake');
+                // Force reflow so the animation restarts if already shaking
+                void input.offsetWidth;
+                input.classList.add('shake');
+                input.focus();
+                input.addEventListener('animationend', () => input.classList.remove('shake'), { once: true });
+            }
+            return;
+        }
+        if (idx < TAB_ORDER.length - 1) goToTabIdx(idx + 1);
+    });
     updateTabNav(0);
 }
 
 // ─── View sheet ───────────────────────────────────────────────────────────────
 function showViewSheet(char, origin = 'create') {
+    S.viewSheetChar   = char;
     S.viewSheetOrigin = origin;
     const raceData = findRace(char.race);
     const raceName = raceData ? raceData.name : (char.race ? char.race.replace(/_/g, ' ') : null);
@@ -1512,10 +2002,19 @@ function showViewSheet(char, origin = 'create') {
     const signName  = signData?.name || (char.birthSign    ? char.birthSign.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())   : 'No Sign (Childless)');
 
     $('vs-name').textContent       = char.name || 'Unnamed Hero';
-    $('vs-sub').textContent        = [`Level ${char.level}`, raceName, clsName, signName !== 'No Sign (Childless)' ? signName : null].filter(Boolean).join(' · ');
+    // vs-sub: colour the class name segment
+    const vsSub = $('vs-sub');
+    vsSub.innerHTML = '';
+    [`Level ${char.level}`, raceName, signName !== 'No Sign (Childless)' ? signName : null].filter(Boolean).forEach((part, i, arr) => {
+        vsSub.appendChild(document.createTextNode((i === 0 ? '' : ' · ') + part));
+    });
+    if (clsName) { vsSub.appendChild(document.createTextNode(' · ')); vsSub.appendChild(clsSpan(clsName, clsData?.class_group)); }
     $('vs-race').textContent       = raceName  || '—';
     $('vs-gender').textContent     = char.gender || '—';
-    $('vs-class').textContent      = clsName   || '—';
+    // vs-class with colour
+    const vsClassEl = $('vs-class');
+    vsClassEl.textContent = '';
+    vsClassEl.appendChild(clsSpan(clsName || '—', clsData?.class_group));
     $('vs-background').textContent = bgName;
     $('vs-alignment').textContent  = signName;
     if ($('vs-age')) {
@@ -1554,6 +2053,27 @@ function showViewSheet(char, origin = 'create') {
         vsPortrait.alt = `${char.name || 'Character'} portrait`;
     }
 
+    // Personality
+    const pData = findPersonality(char.personality);
+    if ($('vs-personality')) {
+        if (pData) {
+            const pLabel = pData.components
+                ? `${pData.name} (${pData.components.map(c => c.charAt(0).toUpperCase() + c.slice(1)).join(' + ')})`
+                : pData.name;
+            $('vs-personality').textContent = pLabel;
+            $('vs-personality').style.color = personalityAlignColor(pData.alignment);
+            const pTip = `${pData.name}\n${pData.description}\n\n` +
+                pData.effects.map(e => `• ${e}`).join('\n') +
+                (pData.morality_adjust
+                    ? `\n\nMorality: ${pData.morality_adjust > 0 ? '+' : ''}${pData.morality_adjust} (${pData.morality_adjust > 0 ? 'towards Conviction' : 'towards Despair'})`
+                    : '');
+            $('vs-personality').setAttribute('data-tooltip', pTip);
+        } else {
+            $('vs-personality').textContent = '—';
+            $('vs-personality').style.color = '';
+            $('vs-personality').removeAttribute('data-tooltip');
+        }
+    }
 
     const allSk = getAllSkills();
     const skillsEl = $('vs-skills');
@@ -1572,20 +2092,6 @@ function showViewSheet(char, origin = 'create') {
         skillsEl.textContent = '—';
     }
 
-    const equipEl = $('vs-equip');
-    if (equipEl) {
-        equipEl.textContent = char.equipment === 'gold' ? 'Starting Gold' : 'Starting Pack';
-        equipEl.setAttribute('data-tooltip', 'Items and gear your character carries, starting equipment from class and background.');
-    }
-    const kitEl = $('vs-starter-kit');
-    if (kitEl && clsData?.starter_kit?.length && char.equipment !== 'gold') {
-        kitEl.textContent = clsData.starter_kit.join(' · ');
-        kitEl.setAttribute('data-tooltip', 'Starting equipment from class and background.');
-    } else if (kitEl) {
-        kitEl.textContent = '';
-        kitEl.removeAttribute('data-tooltip');
-    }
-
     // Update left panel derived stats
     const physVal = ((char.aptitudes || {}).physiology) || BASE_APTITUDE;
     const cogVal = ((char.aptitudes || {}).cognition) || BASE_APTITUDE;
@@ -1602,7 +2108,7 @@ function showViewSheet(char, origin = 'create') {
     const afflictionMod = ageAfflictionModifier(age);
     const afflictionStr = afflictionMod === 0 ? 'Baseline' : (afflictionMod > 0 ? `+${afflictionMod}%` : `${afflictionMod}%`);
 
-    const materiumPool = clsData?.materium_access ? String(materium) : '—';
+    const materiumPool = String(materium);
     const staminaPool = String(stamina);
     const classTrait   = clsData?.special_class_trait?.name || '—';
     const classTraitDesc = clsData?.special_class_trait?.description || '';
@@ -1611,11 +2117,11 @@ function showViewSheet(char, origin = 'create') {
         .map(ap => aptName(ap.toLowerCase().replace(/ /g, '_')))
         .join('\n') || '—';
 
-    $('d-hp').textContent    = vitality;
-    $('d-hd').textContent    = materiumPool;
-    $('d-prof').textContent  = `Level ${char.level}`;
-    $('d-speed').textContent = classTrait;
-    $('identity-line').textContent = [raceName, char.subclass || clsName].filter(Boolean).join(' · ') || 'Choose race & class';
+    if ($('d-hp'))           $('d-hp').textContent    = vitality;
+    if ($('d-hd'))           $('d-hd').textContent    = materiumPool;
+    if ($('d-prof'))         $('d-prof').textContent  = `Level ${char.level}`;
+    if ($('d-speed'))        $('d-speed').textContent = classTrait;
+    if ($('identity-line'))  $('identity-line').textContent = [raceName, char.subclass || clsName].filter(Boolean).join(' · ') || 'Choose race & class';
     if ($('vs-vitality')) {
         $('vs-vitality').textContent = vitality;
         $('vs-vitality').setAttribute('data-tooltip', 'Your health pool. When this reaches 0, you are defeated. Can be drained from using Blood Magic.');
@@ -1630,6 +2136,20 @@ function showViewSheet(char, origin = 'create') {
         const matTip = `Materium Pool: ${materium}\nDerived from: Cognition (${cogVal}) × 1.2 + Age (${age}) modifier + Race bonus (${raceMat})\nPowers spells from the schools of Materium.`;
         $('vs-mpool').setAttribute('data-tooltip', matTip);
     }
+
+    // Resource-use badges — inject/replace after each value span
+    const usage = classResourceUsage(clsData);
+    const schoolList = (clsData?.materium_schools_available || []).join(', ') || 'various schools';
+    _setResBadge('vs-vitality', usage.hp,
+        'res-hp', '⬥ HP',
+        `${clsData?.name || 'This class'} expends Vitality as fuel for blood magic.\nCasting certain spells drains your own life force directly.\nSchools: ${(clsData?.materium_schools_available || []).filter(s => ['Blood Magic','Darkblood','Bloodpassion','Siphoning'].some(k => s.includes(k))).join(', ')}`);
+    _setResBadge('vs-stamina', usage.stamina,
+        'res-st', '⚔ STA',
+        `${clsData?.name || 'This class'} spends Stamina on martial abilities and combat manoeuvres.\nRecovers fully on Long Rest, partially on Short Rest.`);
+    _setResBadge('vs-mpool', usage.materium,
+        'res-mp', '✦ MP',
+        `${clsData?.name || 'This class'} casts spells by spending Materium.\nSchools: ${schoolList}\nRecovers over time and on rest.`);
+
     if ($('vs-hp-regen')) {
         $('vs-hp-regen').textContent = hpRegen.toFixed(2) + '/turn';
         $('vs-hp-regen').setAttribute('data-tooltip', 'HP regenerated per turn on world map (not in combat). Reduced by age penalty after age 50.');
@@ -1846,11 +2366,13 @@ function showViewSheet(char, origin = 'create') {
     }
 
     const savesRow = $('saves-row');
-    savesRow.innerHTML = '';
-    (clsData?.aptitude_priorities || []).slice(0, 3).forEach(ap => {
-        const id = ap.toLowerCase().replace(/ /g, '_');
-        const p = el('span', 'save-pill'); p.textContent = aptName(id); savesRow.appendChild(p);
-    });
+    if (savesRow) {
+        savesRow.innerHTML = '';
+        (clsData?.aptitude_priorities || []).slice(0, 3).forEach(ap => {
+            const id = ap.toLowerCase().replace(/ /g, '_');
+            const p = el('span', 'save-pill'); p.textContent = aptName(id); savesRow.appendChild(p);
+        });
+    }
 
     const vsBack = $('btn-vs-back');
     if (vsBack) vsBack.textContent = origin === 'party' ? '← Back to Party' : '← Back';
@@ -1861,6 +2383,7 @@ function showViewSheet(char, origin = 'create') {
     const footerNav = $('tab-footer-nav');
     if (footerNav) footerNav.classList.add('hidden');
     $('party-sheet').classList.remove('active');
+    $('inv-sheet').classList.remove('active');
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     $('view-sheet').classList.add('active');
     $('cc-main').classList.add('sheet-mode');
@@ -1935,12 +2458,15 @@ function buildMemberCard(char) {
 
     const name = el('div', 'ps-card-name'); name.textContent = char.name || 'Unnamed';
     const sub  = el('div', 'ps-card-sub');
-    sub.textContent = [`Lv${char.level}`, raceName, clsName].filter(Boolean).join(' · ');
+    [`Lv${char.level}`, raceName].filter(Boolean).forEach((part, i) => {
+        sub.appendChild(document.createTextNode((i === 0 ? '' : ' · ') + part));
+    });
+    if (clsName) { sub.appendChild(document.createTextNode(' · ')); sub.appendChild(clsSpan(clsName, clsData?.class_group)); }
 
     const stats = el('div', 'ps-card-stats');
     const rows = [
         ['Vitality',   hp],
-        ['Materium Pool', clsData?.materium_access ? `${clsData.materium_pool_start || 0}` : '—'],
+        ['Materium Pool', String(materium)],
         ['Sign',       findSign(char.birthSign)?.name || (char.birthSign ? char.birthSign.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase()) : 'No Sign')],
         ['Background', findBackground(char.background)?.name || char.background || '—'],
     ];
@@ -1971,11 +2497,12 @@ function buildCharObj() {
         cls:        S.cls,        subclass:   S.subclass,
         level:      S.level,
         age:        S.age || 35,
-        morality:   S.morality ?? 50,
-        aptitudes:  { ...S.aptitudes },
-        birthSign:  S.birthSign,
-        skills:     [...S.skills],
-        background: S.background,
+        morality:    S.morality ?? 50,
+        personality: S.personality || null,
+        aptitudes:   { ...S.aptitudes },
+        birthSign:   S.birthSign,
+        skills:      [...S.skills],
+        background:  S.background,
         equipment:  S.equipment,
         portrait:   $('char-portrait-img')?.getAttribute('src') || 'assets/images/characterportraits/ashenfemale.jpg',
     };
@@ -1994,6 +2521,8 @@ function saveChar() {
     }
     persist();
     renderSavedChars();
+    const newBtn = $('btn-new-after-save');
+    if (newBtn) newBtn.style.display = '';
 }
 
 function loadChar(char) {
@@ -2004,6 +2533,7 @@ function loadChar(char) {
     S.level      = char.level;
     S.age        = char.age || 35;
     S.morality   = char.morality ?? 50;
+    S.personality = char.personality || null;
     S.aptitudes  = { ...makeAptObj(BASE_APTITUDE), ...(char.aptitudes || char.scores || {}) };
     S.birthSign  = char.birthSign || char.alignment || null;
     S.skills     = new Set(char.skills || []);
@@ -2011,7 +2541,7 @@ function loadChar(char) {
     S.equipment  = char.equipment || 'pack';
     const portrait = char.portrait || 'assets/images/characterportraits/ashenfemale.jpg';
     if ($('char-portrait-img')) $('char-portrait-img').src = portrait;
-    showViewSheet({ ...char, portrait, age: S.age, morality: S.morality });
+    showViewSheet({ ...char, portrait, age: S.age, morality: S.morality, personality: S.personality });
     toast(`Loaded: ${char.name || 'character'}`);
 }
 
@@ -2029,17 +2559,40 @@ function renderSavedChars() {
     }
     S.savedChars.forEach(char => {
         const row  = el('div', 'saved-item');
+
         const info = el('div', 'saved-item-info');
         const nm   = el('div', 'saved-item-name'); nm.textContent = char.name || 'Unnamed';
         const raceData = findRace(char.race);
         const clsData  = findClass(char.cls);
         const sub  = el('div', 'saved-item-sub');
-        sub.textContent = `Lv${char.level} ${raceData?.name || char.race || ''} ${clsData?.name || char.cls || ''}`.trim();
+        const subParts = [`Lv${char.level}`, raceData?.name || char.race || ''].filter(Boolean);
+        sub.textContent = subParts.join(' ') + (subParts.length ? ' ' : '');
+        if (clsData || char.cls) sub.appendChild(clsSpan(clsData?.name || char.cls, clsData?.class_group));
         info.append(nm, sub);
-        const del = el('button', 'del-btn'); del.textContent = '✕'; del.title = 'Delete';
-        del.addEventListener('click', e => { e.stopPropagation(); deleteChar(char.id); });
+
+        // Action buttons
+        const actions = el('div', 'saved-item-actions');
+
+        const addPartyBtn = el('button', 'saved-item-btn');
+        addPartyBtn.textContent = 'Add to Party';
+        addPartyBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (S.party.members.length >= S.party.size) { toast(`Party is full (${S.party.size} members).`); return; }
+            S.party.members.push(char);
+            toast(`${char.name || 'Character'} added to party.`);
+            renderPartySlots();
+        });
+
+        const delBtn = el('button', 'saved-item-btn delete-btn');
+        delBtn.textContent = 'Delete';
+        delBtn.addEventListener('click', (e) => { e.stopPropagation(); deleteChar(char.id); });
+
+        actions.append(addPartyBtn, delBtn);
+        row.append(info, actions);
+
+        // Click on row to load character
         row.addEventListener('click', () => loadChar(char));
-        row.append(info, del);
+
         list.appendChild(row);
     });
 }
@@ -2096,34 +2649,20 @@ function renderSavedParties() {
 function clearCreator() {
     S.race = null; S.subrace = null; S.gender = null;
     S.cls  = null; S.subclass = null; S.level = 1;
-    S.aptitudeMethod = 'standard';
+    S.age  = 35;
     S.aptitudes      = makeAptObj(BASE_APTITUDE);
     S.allocAptitudes = makeAptObj(BASE_APTITUDE);
     S.rollAptitudes  = makeNullAptObj();
-    S.rolledPool = []; S.pendingRoll = null;
+    S.intelligence   = null;
     S.birthSign  = null; S.skills = new Set();
     S.background = null; S.equipment = 'pack'; S.name = '';
 
     ['sel-race','sel-class','sel-background','sel-gender'].forEach(id => { const e = $(id); if (e) e.value = ''; });
     const signSel = $('sel-birth-sign'); if (signSel) signSel.value = '';
 
-    $('char-name').value        = '';
-    $('level-disp').textContent = 1;
-    $('level-slider').value     = 1;
+    $('char-name').value = '';
 
-    document.querySelectorAll('.mth-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.ab-panel').forEach(p => p.classList.remove('active'));
-    const stdBtn = document.querySelector('.mth-btn[data-method="standard"]');
-    if (stdBtn) stdBtn.classList.add('active');
-    const stdPanel = $('ab-standard');
-    if (stdPanel) stdPanel.classList.add('active');
-
-    updateAptitudeDisplays();
-    const pool = $('roll-pool'); if (pool) pool.innerHTML = '';
-    APTITUDES.forEach(apt => {
-        const v = $(`roll-${apt}-val`); if (v) v.textContent = '—';
-        const m = $(`roll-${apt}-mod`); if (m) m.textContent = '';
-    });
+    updateAptitudeSection();
 
     document.querySelectorAll('.equip-opt').forEach(o => o.classList.remove('sel'));
     const packOpt = document.querySelector('.equip-opt[data-val="pack"]');
@@ -2138,6 +2677,8 @@ function clearCreator() {
     updateFlavorText();
     updateInventory();
     updateBgDetail(null);
+    const newAfterSave = $('btn-new-after-save');
+    if (newAfterSave) newAfterSave.style.display = 'none';
 }
 
 // ─── Persistence ─────────────────────────────────────────────────────────────
@@ -2158,18 +2699,55 @@ function loadPersisted() {
 
 // ─── Wire buttons ─────────────────────────────────────────────────────────────
 function wireButtons() {
-    $('char-name').addEventListener('input',  e => { S.name = e.target.value; });
+    $('char-name').addEventListener('input',  e => {
+        S.name = e.target.value;
+        if (S.name.trim()) {
+            const warn = $('name-required-warning');
+            if (warn) warn.classList.remove('visible');
+        }
+    });
+    $('btn-name-save').addEventListener('click', () => {
+        if (!S.name.trim()) {
+            toast('Please enter a character name.');
+            return;
+        }
+        toast(`Name set: ${S.name}`);
+        $('btn-name-save').style.display = 'none';
+    });
+    $('btn-view-rename').addEventListener('click', () => {
+        showTab('identity');
+        $('btn-name-save').style.display = '';
+        $('char-name').focus();
+    });
     $('btn-save-char').addEventListener('click', saveChar);
     $('btn-new-char').addEventListener('click',  clearCreator);
+    $('btn-new-after-save').addEventListener('click', clearCreator);
     $('btn-view-new').addEventListener('click',  clearCreator);
     $('btn-vs-back').addEventListener('click', hideViewSheet);
+    $('btn-vs-inventory').addEventListener('click', showInvSheet);
+    $('btn-inv-back').addEventListener('click', hideInvSheet);
     $('btn-ps-back').addEventListener('click', hidePartySheet);
+    $('btn-vs-add-party').addEventListener('click', () => {
+        const char = S.viewSheetChar;
+        if (!char) return;
+        if (S.party.members.length >= S.party.size) { toast(`Party is full (${S.party.size} members).`); return; }
+        S.party.members.push(char);
+        toast(`${char.name || 'Character'} added to party.`);
+        renderPartySlots();
+    });
+    $('btn-vs-delete').addEventListener('click', () => {
+        const char = S.viewSheetChar;
+        if (!char?.id) return;
+        deleteChar(char.id);
+        hideViewSheet();
+    });
 }
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
 async function init() {
     try {
-        const [races, classes, skills, backgrounds, birthmothersigns, aptitudes, spells] = await Promise.all([
+        const [races, classes, skills, backgrounds, birthmothersigns, aptitudes, spells,
+               weapons_1h, weapons_2h, weapons_ranged, personalities] = await Promise.all([
             loadJSON('data/heroes/races.json'),
             loadJSON('data/heroes/classes.json'),
             loadJSON('data/heroes/skills.json'),
@@ -2177,8 +2755,13 @@ async function init() {
             loadJSON('data/mechanics/birthmothersigns.json'),
             loadJSON('data/heroes/aptitudes.json'),
             loadJSON('data/combat/attacks_and_spells.json'),
+            loadJSON('data/items/weapons_melee_1h.json'),
+            loadJSON('data/items/weapons_melee_2h.json'),
+            loadJSON('data/items/weapons_ranged.json'),
+            loadJSON('data/heroes/personalities.json'),
         ]);
-        DB = { races, classes, skills, backgrounds, birthmothersigns, aptitudes, spells };
+        DB = { races, classes, skills, backgrounds, birthmothersigns, aptitudes, spells,
+               weapons_1h, weapons_2h, weapons_ranged, personalities };
 
         initTooltip();
         buildRaceSelect();
@@ -2187,7 +2770,7 @@ async function init() {
         wireGender();
         wireLevel();
         buildBirthSignSelect();
-        buildAptitudeScores();
+        buildAptitudeSection();
         buildSkillRows();
         wireEquipment();
         wirePartyBar();

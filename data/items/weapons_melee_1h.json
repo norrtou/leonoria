@@ -1,0 +1,952 @@
+{
+  "version": "1.0",
+  "system": "Leonoria 1H Melee Weapons",
+  "note": "All one-handed melee weapons. base_dmg_range is [min, max] for Normal Iron quality. Quality and material multipliers from weapon_quality_system.json and weapon_materials.json are applied by the engine. base_cost_copper is the Normal Iron price in copper coins.",
+  "damage_split_note": "damage_distribution describes how total damage is divided between types. Engine applies the split after total damage is calculated.",
+  "throwable_note": "Throwable weapons thrown in melee are one-time use per battle but always critical strike. They are retrieved automatically after battle ends.",
+
+  "weapons": [
+    {
+      "id": "W1H_001",
+      "name": "Dagger",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": true,
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "base_dmg_range": [2, 6],
+      "primary_stat": "Vigor",
+      "min_physiology": 4,
+      "material_group": "all_metals",
+      "base_cost_copper": 20,
+      "tooltip_category": "Blade",
+      "flavor": "Light and concealable. Favored by scouts, assassins, and those who prefer not to be seen coming."
+    },
+    {
+      "id": "W1H_002",
+      "name": "Stiletto",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": true,
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "base_dmg_range": [2, 5],
+      "primary_stat": "Vigor",
+      "min_physiology": 4,
+      "material_group": "all_metals",
+      "base_cost_copper": 18,
+      "tooltip_category": "Blade",
+      "flavor": "A narrow, rigid spike optimised for finding gaps in armour. No edge to speak of — only point."
+    },
+    {
+      "id": "W1H_003",
+      "name": "Dirk",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 80 },
+        { "type": "Slashing", "percent": 20 }
+      ],
+      "base_dmg_range": [2, 6],
+      "primary_stat": "Vigor",
+      "min_physiology": 4,
+      "material_group": "all_metals",
+      "base_cost_copper": 22,
+      "tooltip_category": "Blade",
+      "flavor": "Longer than a dagger, shorter than a sword. Common as a sidearm in the Northern Kingdoms."
+    },
+    {
+      "id": "W1H_004",
+      "name": "Knife",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": true,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 50 },
+        { "type": "Piercing", "percent": 50 }
+      ],
+      "base_dmg_range": [2, 5],
+      "primary_stat": "Vigor",
+      "min_physiology": 3,
+      "material_group": "all_metals",
+      "base_cost_copper": 12,
+      "tooltip_category": "Blade",
+      "flavor": "Universal tool turned weapon. Found in every belt, pack, and boot across Leonoria."
+    },
+    {
+      "id": "W1H_005",
+      "name": "Hunter's Knife",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": true,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 60 },
+        { "type": "Piercing", "percent": 40 }
+      ],
+      "base_dmg_range": [2, 6],
+      "primary_stat": "Vigor",
+      "min_physiology": 4,
+      "material_group": "all_metals",
+      "base_cost_copper": 16,
+      "tooltip_category": "Blade",
+      "special_rule": "Deals 10% bonus damage against Beast-type creatures.",
+      "flavor": "Shaped for fieldwork — skinning, gutting, finishing. Equally effective against anything alive."
+    },
+    {
+      "id": "W1H_006",
+      "name": "Curved Knife",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 70 },
+        { "type": "Piercing", "percent": 30 }
+      ],
+      "base_dmg_range": [2, 5],
+      "primary_stat": "Vigor",
+      "min_physiology": 4,
+      "material_group": "all_metals",
+      "base_cost_copper": 14,
+      "tooltip_category": "Blade",
+      "flavor": "The curved edge draws along the target as it cuts, maximising blood loss."
+    },
+    {
+      "id": "W1H_007",
+      "name": "Hook Blade",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 60 },
+        { "type": "Piercing", "percent": 40 }
+      ],
+      "base_dmg_range": [2, 6],
+      "primary_stat": "Vigor",
+      "min_physiology": 5,
+      "material_group": "all_metals",
+      "base_cost_copper": 18,
+      "tooltip_category": "Blade",
+      "special_rule": "On a successful hit, 20% chance to Disarm the target or pull their shield arm.",
+      "flavor": "The hook catches. What it catches rarely escapes cleanly."
+    },
+    {
+      "id": "W1H_008",
+      "name": "Shortsword",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 60 },
+        { "type": "Piercing", "percent": 40 }
+      ],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Physiology",
+      "min_physiology": 6,
+      "material_group": "all_metals",
+      "base_cost_copper": 45,
+      "tooltip_category": "Sword",
+      "flavor": "Compact and versatile. Standard infantry sidearm across a dozen cultures."
+    },
+    {
+      "id": "W1H_009",
+      "name": "Arming Sword",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 70 },
+        { "type": "Piercing", "percent": 30 }
+      ],
+      "base_dmg_range": [4, 9],
+      "primary_stat": "Physiology",
+      "min_physiology": 8,
+      "material_group": "all_metals",
+      "base_cost_copper": 80,
+      "tooltip_category": "Sword",
+      "flavor": "The defining weapon of a trained soldier. Balanced for both cutting and thrusting."
+    },
+    {
+      "id": "W1H_010",
+      "name": "Falchion",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 85 },
+        { "type": "Piercing", "percent": 15 }
+      ],
+      "base_dmg_range": [4, 10],
+      "primary_stat": "Physiology",
+      "min_physiology": 10,
+      "material_group": "all_metals",
+      "base_cost_copper": 90,
+      "tooltip_category": "Sword",
+      "flavor": "Heavy spine, single thick edge. Designed to hack rather than finesse. Favoured by infantry who want results."
+    },
+    {
+      "id": "W1H_011",
+      "name": "Sabre",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 80 },
+        { "type": "Piercing", "percent": 20 }
+      ],
+      "base_dmg_range": [3, 8],
+      "primary_stat": "Vigor",
+      "min_physiology": 7,
+      "material_group": "all_metals",
+      "base_cost_copper": 70,
+      "tooltip_category": "Sword",
+      "flavor": "Curved, light, and fast. Common among cavalry and mobile fighters."
+    },
+    {
+      "id": "W1H_012",
+      "name": "Cutlass",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 75 },
+        { "type": "Piercing", "percent": 25 }
+      ],
+      "base_dmg_range": [3, 8],
+      "primary_stat": "Vigor",
+      "min_physiology": 7,
+      "material_group": "all_metals",
+      "base_cost_copper": 65,
+      "tooltip_category": "Sword",
+      "flavor": "Short, heavy blade favoured by sailors and coastal fighters. Reliable in tight quarters."
+    },
+    {
+      "id": "W1H_013",
+      "name": "Leafblade Sword",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 65 },
+        { "type": "Piercing", "percent": 35 }
+      ],
+      "base_dmg_range": [3, 8],
+      "primary_stat": "Physiology",
+      "min_physiology": 7,
+      "material_group": "all_metals",
+      "base_cost_copper": 75,
+      "tooltip_category": "Sword",
+      "flavor": "Wide at the centre, tapering to a point. The leaf shape distributes cutting and thrusting force evenly."
+    },
+    {
+      "id": "W1H_014",
+      "name": "Broad Sword",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 70 },
+        { "type": "Piercing", "percent": 30 }
+      ],
+      "base_dmg_range": [4, 9],
+      "primary_stat": "Physiology",
+      "min_physiology": 9,
+      "material_group": "all_metals",
+      "base_cost_copper": 85,
+      "tooltip_category": "Sword",
+      "flavor": "Heavy, wide blade. Less nimble than an arming sword, but each hit carries real authority."
+    },
+    {
+      "id": "W1H_015",
+      "name": "War Pick",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 70 },
+        { "type": "Blunt", "percent": 30 }
+      ],
+      "base_dmg_range": [4, 10],
+      "primary_stat": "Physiology",
+      "min_physiology": 10,
+      "material_group": "all_metals",
+      "base_cost_copper": 70,
+      "tooltip_category": "Pick",
+      "special_rule": "Treats target armour class as 2 lower when target wears plate.",
+      "flavor": "The spike ignores surface protection, driving into the gap between plates."
+    },
+    {
+      "id": "W1H_016",
+      "name": "Hand Axe",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": true,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 70 },
+        { "type": "Blunt", "percent": 30 }
+      ],
+      "base_dmg_range": [3, 8],
+      "primary_stat": "Physiology",
+      "min_physiology": 6,
+      "material_group": "all_metals",
+      "base_cost_copper": 35,
+      "tooltip_category": "Axe",
+      "flavor": "Short-hafted and useful. The first tool most Common Folk learn to swing."
+    },
+    {
+      "id": "W1H_017",
+      "name": "Bearded Axe",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 75 },
+        { "type": "Blunt", "percent": 25 }
+      ],
+      "base_dmg_range": [3, 9],
+      "primary_stat": "Physiology",
+      "min_physiology": 8,
+      "material_group": "all_metals",
+      "base_cost_copper": 55,
+      "tooltip_category": "Axe",
+      "special_rule": "The beard can hook shields or limbs — 15% chance to reduce target shield bonus by half for 1 turn.",
+      "flavor": "The elongated lower blade hooks, catches, and pulls as much as it cuts."
+    },
+    {
+      "id": "W1H_018",
+      "name": "Throwing Axe",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": true,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 70 },
+        { "type": "Blunt", "percent": 30 }
+      ],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Physiology",
+      "min_physiology": 6,
+      "material_group": "all_metals",
+      "base_cost_copper": 30,
+      "tooltip_category": "Axe",
+      "flavor": "Balanced for throwing as much as chopping. A favourite of skirmishers who like to start a fight from range."
+    },
+    {
+      "id": "W1H_019",
+      "name": "Club",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [2, 5],
+      "primary_stat": "Physiology",
+      "min_physiology": 4,
+      "material_group": "clubs_and_staves",
+      "base_cost_copper": 5,
+      "tooltip_category": "Club",
+      "flavor": "The oldest weapon in existence. Requires no training, no forging, and no explanation."
+    },
+    {
+      "id": "W1H_020",
+      "name": "Spiked Club",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 70 },
+        { "type": "Piercing", "percent": 30 }
+      ],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Physiology",
+      "min_physiology": 5,
+      "material_group": "clubs_and_staves",
+      "base_cost_copper": 10,
+      "tooltip_category": "Club",
+      "flavor": "Somebody hammered nails or stones into a club. Simple upgrade. Effective one."
+    },
+    {
+      "id": "W1H_021",
+      "name": "Mace",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 90 },
+        { "type": "Piercing", "percent": 10 }
+      ],
+      "base_dmg_range": [4, 9],
+      "primary_stat": "Conviction",
+      "min_physiology": 8,
+      "material_group": "all_metals",
+      "base_cost_copper": 65,
+      "tooltip_category": "Mace",
+      "flavor": "Standard armament of holy orders. The flanges focus force rather than spread it."
+    },
+    {
+      "id": "W1H_022",
+      "name": "Flanged Mace",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 80 },
+        { "type": "Piercing", "percent": 20 }
+      ],
+      "base_dmg_range": [4, 10],
+      "primary_stat": "Conviction",
+      "min_physiology": 9,
+      "material_group": "all_metals",
+      "base_cost_copper": 80,
+      "tooltip_category": "Mace",
+      "flavor": "More pronounced flanges dig deeper into armour with each strike."
+    },
+    {
+      "id": "W1H_023",
+      "name": "Morning Star",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 60 },
+        { "type": "Piercing", "percent": 40 }
+      ],
+      "base_dmg_range": [4, 10],
+      "primary_stat": "Vigor",
+      "min_physiology": 10,
+      "material_group": "all_metals",
+      "base_cost_copper": 90,
+      "tooltip_category": "Mace",
+      "special_rule": "Ignores natural armour of beast-type creatures (thick hides).",
+      "flavor": "The radial spikes were designed to look as terrible as they are lethal. They succeed on both counts."
+    },
+    {
+      "id": "W1H_024",
+      "name": "War Hammer",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 85 },
+        { "type": "Piercing", "percent": 15 }
+      ],
+      "base_dmg_range": [4, 10],
+      "primary_stat": "Physiology",
+      "min_physiology": 10,
+      "material_group": "all_metals",
+      "base_cost_copper": 85,
+      "tooltip_category": "Hammer",
+      "special_rule": "Deals 15% bonus damage to Undead and constructs.",
+      "flavor": "One face for hammering, one spike for penetrating. A tool for breaking things apart."
+    },
+    {
+      "id": "W1H_025",
+      "name": "Light Hammer",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": true,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Physiology",
+      "min_physiology": 5,
+      "material_group": "all_metals",
+      "base_cost_copper": 25,
+      "tooltip_category": "Hammer",
+      "flavor": "The craftsman's sidearm. Often the first weapon grabbed when a project turns dangerous."
+    },
+    {
+      "id": "W1H_026",
+      "name": "Pick Hammer",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 60 },
+        { "type": "Blunt", "percent": 40 }
+      ],
+      "base_dmg_range": [4, 9],
+      "primary_stat": "Physiology",
+      "min_physiology": 9,
+      "material_group": "all_metals",
+      "base_cost_copper": 70,
+      "tooltip_category": "Hammer",
+      "special_rule": "Treats target armour class as 1 lower when target wears plate.",
+      "flavor": "The hammered pick concentrates all force into a single point. It does not cut. It drives through."
+    },
+    {
+      "id": "W1H_027",
+      "name": "Cudgel",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [2, 5],
+      "primary_stat": "Physiology",
+      "min_physiology": 4,
+      "material_group": "clubs_and_staves",
+      "base_cost_copper": 5,
+      "tooltip_category": "Club",
+      "flavor": "A heavy stick with intent. Functionally identical to a club, though its wielder probably considers it more dignified."
+    },
+    {
+      "id": "W1H_028",
+      "name": "Scepter",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 80 },
+        { "type": "Piercing", "percent": 20 }
+      ],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Conviction",
+      "min_physiology": 5,
+      "material_group": "all_metals",
+      "base_cost_copper": 50,
+      "tooltip_category": "Mace",
+      "flavor": "Symbol of authority repurposed as a weapon. Effective, and delivers a statement."
+    },
+    {
+      "id": "W1H_029",
+      "name": "Spiked Scepter",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 60 },
+        { "type": "Piercing", "percent": 40 }
+      ],
+      "base_dmg_range": [3, 8],
+      "primary_stat": "Conviction",
+      "min_physiology": 6,
+      "material_group": "all_metals",
+      "base_cost_copper": 60,
+      "tooltip_category": "Mace",
+      "flavor": "The spikes make its intentions unmistakable. Authority delivered at a point."
+    },
+    {
+      "id": "W1H_030",
+      "name": "Short Spear",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 80 },
+        { "type": "Slashing", "percent": 20 }
+      ],
+      "base_dmg_range": [3, 8],
+      "primary_stat": "Physiology",
+      "min_physiology": 6,
+      "material_group": "all_metals",
+      "base_cost_copper": 30,
+      "tooltip_category": "Spear",
+      "secondary_strike_eligible": true,
+      "flavor": "Short enough to use in one hand. Long enough to keep enemies at distance."
+    },
+    {
+      "id": "W1H_031",
+      "name": "Javelin",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": true,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 90 },
+        { "type": "Slashing", "percent": 10 }
+      ],
+      "base_dmg_range": [3, 8],
+      "primary_stat": "Physiology",
+      "min_physiology": 6,
+      "material_group": "all_metals",
+      "base_cost_copper": 15,
+      "tooltip_category": "Thrown",
+      "secondary_strike_eligible": true,
+      "flavor": "Balanced for throwing. The standard skirmishing weapon across most of Leonoria's military traditions."
+    },
+    {
+      "id": "W1H_032",
+      "name": "Trident",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 80 },
+        { "type": "Slashing", "percent": 20 }
+      ],
+      "base_dmg_range": [4, 9],
+      "primary_stat": "Physiology",
+      "min_physiology": 9,
+      "material_group": "all_metals",
+      "base_cost_copper": 55,
+      "tooltip_category": "Spear",
+      "special_rule": "Three prongs: 20% chance to pin a Medium target's foot to the ground on a critical hit (target cannot move that turn).",
+      "flavor": "Three prongs spread the wound. Stopping power rarely matched by a simple spear."
+    },
+    {
+      "id": "W1H_033",
+      "name": "Forked Spear",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 85 },
+        { "type": "Slashing", "percent": 15 }
+      ],
+      "base_dmg_range": [4, 9],
+      "primary_stat": "Physiology",
+      "min_physiology": 8,
+      "material_group": "all_metals",
+      "base_cost_copper": 50,
+      "tooltip_category": "Spear",
+      "flavor": "Twin-pronged head creates a wider wound channel. Popular among hunters who need to pin targets."
+    },
+    {
+      "id": "W1H_034",
+      "name": "Whip",
+      "hands": 1,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 70 },
+        { "type": "Blunt", "percent": 30 }
+      ],
+      "base_dmg_range": [2, 5],
+      "primary_stat": "Vigor",
+      "min_physiology": 4,
+      "material_group": "all_metals",
+      "base_cost_copper": 18,
+      "tooltip_category": "Whip",
+      "special_rule": "Can hit targets 2 hexes away. 15% chance to reduce target movement speed by 1 hex for 1 turn.",
+      "flavor": "Reach far beyond what any blade could manage. Wraps, stings, and controls distance."
+    },
+    {
+      "id": "W1H_035",
+      "name": "Barbed Whip",
+      "hands": 1,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 60 },
+        { "type": "Piercing", "percent": 40 }
+      ],
+      "base_dmg_range": [2, 6],
+      "primary_stat": "Vigor",
+      "min_physiology": 5,
+      "material_group": "all_metals",
+      "base_cost_copper": 28,
+      "tooltip_category": "Whip",
+      "special_rule": "Barbs catch on armour and flesh. 20% chance to apply Bleeding secondary effect on hit.",
+      "flavor": "The barbs do not just sting — they grip and tear as the whip withdraws."
+    },
+    {
+      "id": "W1H_036",
+      "name": "Chain Whip",
+      "hands": 1,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 60 },
+        { "type": "Slashing", "percent": 40 }
+      ],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Vigor",
+      "min_physiology": 6,
+      "material_group": "all_metals",
+      "base_cost_copper": 35,
+      "tooltip_category": "Whip",
+      "special_rule": "The chain wraps: 15% chance to entangle target's weapon arm, imposing -20% attack accuracy for 1 turn.",
+      "flavor": "Each link adds mass. Less finesse, more force — and it wraps around shields."
+    },
+    {
+      "id": "W1H_037",
+      "name": "Hook Sword",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 65 },
+        { "type": "Piercing", "percent": 35 }
+      ],
+      "base_dmg_range": [3, 8],
+      "primary_stat": "Vigor",
+      "min_physiology": 7,
+      "material_group": "all_metals",
+      "base_cost_copper": 60,
+      "tooltip_category": "Sword",
+      "special_rule": "Hook tip: 20% chance to disarm or pull target's weapon from their grip.",
+      "flavor": "The curved hook at the tip is for trapping blades, pulling weapons, and making openings."
+    },
+    {
+      "id": "W1H_038",
+      "name": "Punch Dagger",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 90 },
+        { "type": "Slashing", "percent": 10 }
+      ],
+      "base_dmg_range": [2, 5],
+      "primary_stat": "Vigor",
+      "min_physiology": 4,
+      "material_group": "all_metals",
+      "base_cost_copper": 22,
+      "tooltip_category": "Blade",
+      "secondary_strike_eligible": true,
+      "flavor": "The H-grip puts the blade in line with a punch. Drives forward with the full force of the arm."
+    },
+    {
+      "id": "W1H_039",
+      "name": "Claw Gauntlet",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 70 },
+        { "type": "Piercing", "percent": 30 }
+      ],
+      "base_dmg_range": [2, 6],
+      "primary_stat": "Vigor",
+      "min_physiology": 5,
+      "material_group": "all_metals",
+      "base_cost_copper": 40,
+      "tooltip_category": "Fist Weapon",
+      "flavor": "The claws are extensions of the hand. Fast, close, and leaves marks."
+    },
+    {
+      "id": "W1H_040",
+      "name": "Spiked Gauntlet",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 60 },
+        { "type": "Piercing", "percent": 40 }
+      ],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Physiology",
+      "min_physiology": 6,
+      "material_group": "all_metals",
+      "base_cost_copper": 45,
+      "tooltip_category": "Fist Weapon",
+      "flavor": "Each punch drives spikes into the target. The knuckles hit; the spikes do the rest."
+    },
+    {
+      "id": "W1H_041",
+      "name": "Knuckle Dusters",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 90 },
+        { "type": "Piercing", "percent": 10 }
+      ],
+      "base_dmg_range": [2, 5],
+      "primary_stat": "Physiology",
+      "min_physiology": 4,
+      "material_group": "all_metals",
+      "base_cost_copper": 15,
+      "tooltip_category": "Fist Weapon",
+      "flavor": "Concentrates the impact of a bare fist onto a much smaller surface. Bones break."
+    },
+    {
+      "id": "W1H_042",
+      "name": "Blade Knuckles",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 60 },
+        { "type": "Piercing", "percent": 40 }
+      ],
+      "base_dmg_range": [2, 5],
+      "primary_stat": "Vigor",
+      "min_physiology": 4,
+      "material_group": "all_metals",
+      "base_cost_copper": 20,
+      "tooltip_category": "Fist Weapon",
+      "secondary_strike_eligible": true,
+      "flavor": "Small blades mounted over the knuckles. Each punch cuts as much as it bruises."
+    },
+    {
+      "id": "W1H_043",
+      "name": "Hatchet",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": true,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 70 },
+        { "type": "Blunt", "percent": 30 }
+      ],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Physiology",
+      "min_physiology": 5,
+      "material_group": "all_metals",
+      "base_cost_copper": 20,
+      "tooltip_category": "Axe",
+      "flavor": "Forester's tool. Chops wood, splits kindling, cleaves skulls — roughly in that order of intention."
+    },
+    {
+      "id": "W1H_044",
+      "name": "Cleaver",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 80 },
+        { "type": "Blunt", "percent": 20 }
+      ],
+      "base_dmg_range": [4, 8],
+      "primary_stat": "Physiology",
+      "min_physiology": 8,
+      "material_group": "all_metals",
+      "base_cost_copper": 35,
+      "tooltip_category": "Axe",
+      "special_rule": "On a killing blow, deals 50% splash damage to one adjacent enemy target.",
+      "flavor": "Wide, heavy blade designed to chop through mass. It does not discriminate."
+    },
+    {
+      "id": "W1H_045",
+      "name": "Stone Club",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Physiology",
+      "min_physiology": 20,
+      "material_group": "stone_only",
+      "material_locked": "stone",
+      "base_cost_copper": 6,
+      "tooltip_category": "Club",
+      "special_rule": "Always Stone material. Deals 30% more damage than an ordinary club. Requires Physiology 20 to wield.",
+      "flavor": "Brutally heavy. A primitive weapon requiring raw strength, but capable of devastating force."
+    },
+    {
+      "id": "W1H_046",
+      "name": "Jagged Blade",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 75 },
+        { "type": "Piercing", "percent": 25 }
+      ],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Vigor",
+      "min_physiology": 6,
+      "material_group": "all_metals",
+      "base_cost_copper": 25,
+      "tooltip_category": "Blade",
+      "special_rule": "Serrated edge: 15% chance to apply Bleeding secondary effect on hit.",
+      "flavor": "The irregular edge tears rather than cuts cleanly. Wounds from this are difficult to close."
+    },
+    {
+      "id": "W1H_047",
+      "name": "Short Flail",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 80 },
+        { "type": "Piercing", "percent": 20 }
+      ],
+      "base_dmg_range": [3, 8],
+      "primary_stat": "Vigor",
+      "min_physiology": 8,
+      "material_group": "all_metals",
+      "base_cost_copper": 45,
+      "tooltip_category": "Flail",
+      "special_rule": "The loose head bypasses shield AC bonus — ignore +AC from standard shields.",
+      "flavor": "The chained head swings around guard and shield alike. Difficult to parry, worse to block."
+    },
+    {
+      "id": "W1H_048",
+      "name": "Weighted Chain",
+      "hands": 1,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [3, 8],
+      "primary_stat": "Vigor",
+      "min_physiology": 7,
+      "material_group": "all_metals",
+      "base_cost_copper": 30,
+      "tooltip_category": "Chain",
+      "special_rule": "Reach 2 hexes. 20% chance to wrap target limb and reduce their movement by 1 hex next turn.",
+      "flavor": "The weight carries the force; the chain carries the distance. Difficult to read, harder to counter."
+    },
+    {
+      "id": "W1H_049",
+      "name": "Spiked Chain",
+      "hands": 1,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 60 },
+        { "type": "Piercing", "percent": 40 }
+      ],
+      "base_dmg_range": [3, 8],
+      "primary_stat": "Vigor",
+      "min_physiology": 8,
+      "material_group": "all_metals",
+      "base_cost_copper": 40,
+      "tooltip_category": "Chain",
+      "special_rule": "Reach 2 hexes. Spikes catch on armour — 15% chance to reduce target's armour bonus by 1 for 2 turns.",
+      "flavor": "The spikes dig in where links cannot. A terrible sound, a worse feeling."
+    },
+    {
+      "id": "W1H_050",
+      "name": "Hand Scythe",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 80 },
+        { "type": "Piercing", "percent": 20 }
+      ],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Vigor",
+      "min_physiology": 6,
+      "material_group": "all_metals",
+      "base_cost_copper": 22,
+      "tooltip_category": "Blade",
+      "flavor": "Agricultural tool repurposed for combat. The inward hook draws back across the target on the return stroke."
+    },
+    {
+      "id": "W1H_051",
+      "name": "Spike Rod",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 70 },
+        { "type": "Blunt", "percent": 30 }
+      ],
+      "base_dmg_range": [3, 8],
+      "primary_stat": "Physiology",
+      "min_physiology": 6,
+      "material_group": "all_metals",
+      "base_cost_copper": 28,
+      "tooltip_category": "Mace",
+      "flavor": "A short rod capped with a sharpened spike. Straightforward in function and intention."
+    },
+    {
+      "id": "W1H_052",
+      "name": "Torch",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 70 },
+        { "type": "Fire", "percent": 30 }
+      ],
+      "base_dmg_range": [2, 5],
+      "primary_stat": "Physiology",
+      "min_physiology": 3,
+      "material_group": "wooden_only",
+      "material_locked": "wooden",
+      "base_cost_copper": 3,
+      "tooltip_category": "Improvised",
+      "is_improvised": true,
+      "quality_locked": "normal",
+      "special_rule": "Improvised weapon. Damage equivalent to a Club. The Fire component can apply Ignited status (5% chance). Cannot be Fine, Rare, Magical, or Unique. Extinguishes if submerged.",
+      "flavor": "Not a weapon. Except right now it is."
+    }
+  ]
+}

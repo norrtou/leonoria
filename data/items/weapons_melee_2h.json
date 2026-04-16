@@ -1,0 +1,910 @@
+{
+  "version": "1.0",
+  "system": "Leonoria 2H Melee Weapons",
+  "note": "All two-handed melee weapons. Minimum Physiology 20 for all entries. base_dmg_range is [min, max] for Normal Iron quality. Quality and material multipliers applied by engine. base_cost_copper is Normal Iron price.",
+  "battle_stamina_note": "2H weapons drain Battle Stamina faster than 1H. At Physiology 20, wielder lasts 5 turns before stamina hits 0. At Physiology 30, 10 turns. Formula: floor((Phys - 10) / 2). At 0 stamina, damage drops 50%.",
+  "meteor_hammer_ranged_note": "The Meteor Hammer can be thrown to strike a target 2 hexes away (ranged arc throw). Still a one-time use per battle with guaranteed crit when thrown, then retrieved.",
+
+  "weapons": [
+    {
+      "id": "W2H_001",
+      "name": "Greatsword",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 90 },
+        { "type": "Piercing", "percent": 10 }
+      ],
+      "base_dmg_range": [8, 16],
+      "primary_stat": "Physiology",
+      "min_physiology": 22,
+      "material_group": "all_metals",
+      "base_cost_copper": 280,
+      "tooltip_category": "Sword",
+      "flavor": "The standard for professional soldiers who want every strike to count. Heavy, decisive, unforgiving."
+    },
+    {
+      "id": "W2H_002",
+      "name": "Claymore",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 85 },
+        { "type": "Piercing", "percent": 15 }
+      ],
+      "base_dmg_range": [7, 15],
+      "primary_stat": "Physiology",
+      "min_physiology": 22,
+      "material_group": "all_metals",
+      "base_cost_copper": 260,
+      "tooltip_category": "Sword",
+      "flavor": "Longer than most, with a crossguard angled forward. Cuts with the full arc of the arm."
+    },
+    {
+      "id": "W2H_003",
+      "name": "Zweihander",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 85 },
+        { "type": "Piercing", "percent": 15 }
+      ],
+      "base_dmg_range": [8, 17],
+      "primary_stat": "Physiology",
+      "min_physiology": 25,
+      "material_group": "all_metals",
+      "base_cost_copper": 320,
+      "tooltip_category": "Sword",
+      "special_rule": "On a hit, 15% chance to apply Staggering effect — target pushed back 1 hex and loses initiative this turn.",
+      "flavor": "Almost as tall as the person wielding it. Designed to break polearm formations and sweep entire files."
+    },
+    {
+      "id": "W2H_004",
+      "name": "Executioner Sword",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 95 },
+        { "type": "Blunt", "percent": 5 }
+      ],
+      "base_dmg_range": [8, 16],
+      "primary_stat": "Physiology",
+      "min_physiology": 24,
+      "material_group": "all_metals",
+      "base_cost_copper": 300,
+      "tooltip_category": "Sword",
+      "special_rule": "On a killing blow against an unarmoured or lightly armoured target, has 25% chance to instantly decapitate — applying immediate death regardless of remaining HP.",
+      "flavor": "Not built for battle. Built to end it cleanly, in one stroke. The weight is concentrated at the tip."
+    },
+    {
+      "id": "W2H_005",
+      "name": "Warblade",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 80 },
+        { "type": "Piercing", "percent": 20 }
+      ],
+      "base_dmg_range": [7, 14],
+      "primary_stat": "Physiology",
+      "min_physiology": 21,
+      "material_group": "all_metals",
+      "base_cost_copper": 240,
+      "tooltip_category": "Sword",
+      "flavor": "Broad, heavy, and practical. No ceremony — just an instrument of controlled destruction."
+    },
+    {
+      "id": "W2H_006",
+      "name": "Great Axe",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 80 },
+        { "type": "Blunt", "percent": 20 }
+      ],
+      "base_dmg_range": [8, 16],
+      "primary_stat": "Physiology",
+      "min_physiology": 24,
+      "material_group": "all_metals",
+      "base_cost_copper": 270,
+      "tooltip_category": "Axe",
+      "flavor": "Enormous single head. Each swing carries enough mass to split plate apart if it finds the right angle."
+    },
+    {
+      "id": "W2H_007",
+      "name": "Double Axe",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 85 },
+        { "type": "Blunt", "percent": 15 }
+      ],
+      "base_dmg_range": [7, 15],
+      "primary_stat": "Physiology",
+      "min_physiology": 23,
+      "material_group": "all_metals",
+      "base_cost_copper": 290,
+      "tooltip_category": "Axe",
+      "special_rule": "Twin heads: on a miss, the back-swing counts as a 50% damage secondary attack.",
+      "flavor": "Two heads — forward and reverse. One swing has two bites."
+    },
+    {
+      "id": "W2H_008",
+      "name": "Battle Axe",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 75 },
+        { "type": "Blunt", "percent": 25 }
+      ],
+      "base_dmg_range": [7, 14],
+      "primary_stat": "Physiology",
+      "min_physiology": 21,
+      "material_group": "all_metals",
+      "base_cost_copper": 250,
+      "tooltip_category": "Axe",
+      "flavor": "Heavy, reliable, and honest about what it does. The standard heavy axe for those who need results."
+    },
+    {
+      "id": "W2H_009",
+      "name": "Greataxe",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 85 },
+        { "type": "Blunt", "percent": 15 }
+      ],
+      "base_dmg_range": [8, 16],
+      "primary_stat": "Physiology",
+      "min_physiology": 24,
+      "material_group": "all_metals",
+      "base_cost_copper": 270,
+      "tooltip_category": "Axe",
+      "special_rule": "On a killing blow, deal 50% of excess damage as splash to an adjacent target.",
+      "flavor": "Maximum head, maximum shaft, maximum damage. The weapon of chieftains who want the field to notice."
+    },
+    {
+      "id": "W2H_010",
+      "name": "Poleaxe",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 33 },
+        { "type": "Slashing", "percent": 33 },
+        { "type": "Piercing", "percent": 34 }
+      ],
+      "base_dmg_range": [7, 14],
+      "primary_stat": "Physiology",
+      "min_physiology": 22,
+      "material_group": "all_metals",
+      "base_cost_copper": 260,
+      "tooltip_category": "Polearm",
+      "special_rule": "Three damage modes active on a single weapon. Each hit rolls which face connects first — damage split reflects the result.",
+      "flavor": "Axe head, spike, and hammer poll in one. Every angle of a battle has an answer on this shaft."
+    },
+    {
+      "id": "W2H_011",
+      "name": "Halberd",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 50 },
+        { "type": "Piercing", "percent": 30 },
+        { "type": "Blunt", "percent": 20 }
+      ],
+      "base_dmg_range": [7, 14],
+      "primary_stat": "Physiology",
+      "min_physiology": 22,
+      "material_group": "all_metals",
+      "base_cost_copper": 260,
+      "tooltip_category": "Polearm",
+      "special_rule": "Hook: 20% chance to pull a rider from their mount. Can strike targets 2 hexes away.",
+      "flavor": "The answer to cavalry, pike formations, and armoured infantry. A versatile weapon that has no equal on a battlefield line."
+    },
+    {
+      "id": "W2H_012",
+      "name": "Glaive",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 80 },
+        { "type": "Piercing", "percent": 20 }
+      ],
+      "base_dmg_range": [7, 13],
+      "primary_stat": "Vigor",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 240,
+      "tooltip_category": "Polearm",
+      "special_rule": "Can strike all targets in a 180° arc (reach 2) for half damage as a special attack, costing extra Battle Stamina.",
+      "flavor": "The long blade at the end of a pole converts momentum into a sweeping cut. Graceful, deadly, and unforgiving of tight spaces."
+    },
+    {
+      "id": "W2H_013",
+      "name": "Long Spear",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 90 },
+        { "type": "Slashing", "percent": 10 }
+      ],
+      "base_dmg_range": [6, 12],
+      "primary_stat": "Physiology",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 180,
+      "tooltip_category": "Spear",
+      "special_rule": "Brace: if the wielder has not moved this turn, they can ready the spear — any charging enemy takes double damage.",
+      "flavor": "Reach is the spear's oldest advantage. Two hexes of safe distance, directed to a point."
+    },
+    {
+      "id": "W2H_014",
+      "name": "Pike",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 95 },
+        { "type": "Blunt", "percent": 5 }
+      ],
+      "base_dmg_range": [6, 12],
+      "primary_stat": "Physiology",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 160,
+      "tooltip_category": "Spear",
+      "special_rule": "Line weapon: in formation with adjacent ally also using a pike, both gain +15% accuracy.",
+      "flavor": "Almost useless alone. In a line of ten, it is one of the most lethal weapons on any battlefield."
+    },
+    {
+      "id": "W2H_015",
+      "name": "Lance",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 90 },
+        { "type": "Blunt", "percent": 10 }
+      ],
+      "base_dmg_range": [8, 16],
+      "primary_stat": "Physiology",
+      "min_physiology": 24,
+      "material_group": "all_metals",
+      "base_cost_copper": 200,
+      "tooltip_category": "Mounted",
+      "special_rule": "Mounted charge: on horseback, if the wielder moves 2+ hexes in a straight line before hitting, damage is doubled. Without a mount: -30% accuracy.",
+      "flavor": "Built for the charge. On horseback it is devastating. On foot it is awkward and heavy."
+    },
+    {
+      "id": "W2H_016",
+      "name": "Great Hammer",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [9, 18],
+      "primary_stat": "Physiology",
+      "min_physiology": 26,
+      "material_group": "all_metals",
+      "base_cost_copper": 300,
+      "tooltip_category": "Hammer",
+      "special_rule": "Deals 20% bonus damage to Undead. On a crit, applies Concussion.",
+      "flavor": "Pure mass applied at the end of a long lever. Nothing about it is subtle."
+    },
+    {
+      "id": "W2H_017",
+      "name": "Maul",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 95 },
+        { "type": "Piercing", "percent": 5 }
+      ],
+      "base_dmg_range": [9, 18],
+      "primary_stat": "Physiology",
+      "min_physiology": 26,
+      "material_group": "all_metals",
+      "base_cost_copper": 290,
+      "tooltip_category": "Hammer",
+      "special_rule": "Destroys non-magical wooden shields on a critical hit. Deals 20% bonus damage to Undead.",
+      "flavor": "A demolition tool. Breaks things apart — doors, shields, ribs. It does not care which."
+    },
+    {
+      "id": "W2H_018",
+      "name": "War Maul",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [10, 20],
+      "primary_stat": "Physiology",
+      "min_physiology": 28,
+      "material_group": "all_metals",
+      "base_cost_copper": 350,
+      "tooltip_category": "Hammer",
+      "special_rule": "On a hit: 20% chance of Concussion. Destroys non-magical shields on a crit. Deals 20% bonus damage to Undead.",
+      "flavor": "When a Maul is not enough, someone builds this. Maximum mass. Minimum mercy."
+    },
+    {
+      "id": "W2H_019",
+      "name": "Spiked Maul",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 70 },
+        { "type": "Piercing", "percent": 30 }
+      ],
+      "base_dmg_range": [8, 16],
+      "primary_stat": "Physiology",
+      "min_physiology": 26,
+      "material_group": "all_metals",
+      "base_cost_copper": 310,
+      "tooltip_category": "Hammer",
+      "special_rule": "Spikes: 15% chance of Rupturing secondary on a successful hit.",
+      "flavor": "The spikes are not decorative. They punch through where the flat face cannot."
+    },
+    {
+      "id": "W2H_020",
+      "name": "Great Mace",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 90 },
+        { "type": "Piercing", "percent": 10 }
+      ],
+      "base_dmg_range": [8, 15],
+      "primary_stat": "Conviction",
+      "min_physiology": 24,
+      "material_group": "all_metals",
+      "base_cost_copper": 280,
+      "tooltip_category": "Mace",
+      "special_rule": "On crit: applies Staggering. Deals 15% bonus damage to Undead.",
+      "flavor": "Holy orders issue these to the largest and most committed of their warriors. It preaches in blows."
+    },
+    {
+      "id": "W2H_021",
+      "name": "Grand Flail",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 80 },
+        { "type": "Piercing", "percent": 20 }
+      ],
+      "base_dmg_range": [7, 14],
+      "primary_stat": "Vigor",
+      "min_physiology": 22,
+      "material_group": "all_metals",
+      "base_cost_copper": 260,
+      "tooltip_category": "Flail",
+      "special_rule": "Bypasses shield AC bonus entirely. On a crit, applies Concussion.",
+      "flavor": "The chained head orbits wide and arrives from angles that shields cannot follow."
+    },
+    {
+      "id": "W2H_022",
+      "name": "Chain Flail",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 70 },
+        { "type": "Piercing", "percent": 30 }
+      ],
+      "base_dmg_range": [7, 14],
+      "primary_stat": "Vigor",
+      "min_physiology": 21,
+      "material_group": "all_metals",
+      "base_cost_copper": 250,
+      "tooltip_category": "Flail",
+      "special_rule": "Bypass shield AC. 15% chance to entangle target's weapon arm — -20% accuracy next turn.",
+      "flavor": "Chain instead of rod — it wraps. What it wraps around rarely comes free cleanly."
+    },
+    {
+      "id": "W2H_023",
+      "name": "Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [4, 8],
+      "primary_stat": "Cognition",
+      "min_physiology": 20,
+      "material_group": "clubs_and_staves",
+      "base_cost_copper": 25,
+      "tooltip_category": "Staff",
+      "also_usable_as_magic_focus": true,
+      "flavor": "The oldest multi-purpose tool. Reach, balance, and enough mass to be genuinely dangerous."
+    },
+    {
+      "id": "W2H_024",
+      "name": "Iron Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [5, 10],
+      "primary_stat": "Physiology",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 65,
+      "tooltip_category": "Staff",
+      "flavor": "A wooden staff reinforced or fully replaced with iron. Heavier, harder, and very unpleasant to receive."
+    },
+    {
+      "id": "W2H_025",
+      "name": "Weighted Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [5, 10],
+      "primary_stat": "Physiology",
+      "min_physiology": 20,
+      "material_group": "clubs_and_staves",
+      "base_cost_copper": 45,
+      "tooltip_category": "Staff",
+      "special_rule": "On a hit: 10% chance of Concussion from the concentrated mass at the tip.",
+      "flavor": "The weighted end concentrates force. One end for blocking, one end for hitting."
+    },
+    {
+      "id": "W2H_026",
+      "name": "Bladed Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 60 },
+        { "type": "Piercing", "percent": 40 }
+      ],
+      "base_dmg_range": [5, 10],
+      "primary_stat": "Vigor",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 80,
+      "tooltip_category": "Staff",
+      "flavor": "A blade affixed to a long shaft. Reach of a staff, cutting power of a sword."
+    },
+    {
+      "id": "W2H_027",
+      "name": "Twinblade Staff",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 70 },
+        { "type": "Piercing", "percent": 30 }
+      ],
+      "base_dmg_range": [6, 12],
+      "primary_stat": "Vigor",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 120,
+      "tooltip_category": "Staff",
+      "special_rule": "Both ends are bladed. On a hit, 20% chance to follow up with a bonus 50% damage backswing from the second blade.",
+      "flavor": "Two blades on a single shaft. Each swing ends with another beginning. Hard to defend against and harder to predict."
+    },
+    {
+      "id": "W2H_028",
+      "name": "Scythe",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 80 },
+        { "type": "Piercing", "percent": 20 }
+      ],
+      "base_dmg_range": [7, 13],
+      "primary_stat": "Vigor",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 140,
+      "tooltip_category": "Polearm",
+      "flavor": "Harvesting tool. The curved blade on a long shaft draws back through the target on the return stroke."
+    },
+    {
+      "id": "W2H_029",
+      "name": "War Scythe",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 75 },
+        { "type": "Piercing", "percent": 25 }
+      ],
+      "base_dmg_range": [8, 14],
+      "primary_stat": "Vigor",
+      "min_physiology": 21,
+      "material_group": "all_metals",
+      "base_cost_copper": 180,
+      "tooltip_category": "Polearm",
+      "special_rule": "Sweep attack: can hit all targets in a 2-hex arc for 60% damage (costs Battle Stamina).",
+      "flavor": "The farming scythe reoriented to kill efficiently rather than efficiently harvest. The difference is surprisingly minor."
+    },
+    {
+      "id": "W2H_030",
+      "name": "Reaper Blade",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 85 },
+        { "type": "Piercing", "percent": 15 }
+      ],
+      "base_dmg_range": [8, 15],
+      "primary_stat": "Vigor",
+      "min_physiology": 22,
+      "material_group": "all_metals",
+      "base_cost_copper": 220,
+      "tooltip_category": "Polearm",
+      "special_rule": "On kill: regain 10% Battle Stamina.",
+      "flavor": "Named what it does. The oversized blade on the extended haft reaps through targets without slowing."
+    },
+    {
+      "id": "W2H_031",
+      "name": "Heavy Trident",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 80 },
+        { "type": "Slashing", "percent": 20 }
+      ],
+      "base_dmg_range": [7, 14],
+      "primary_stat": "Physiology",
+      "min_physiology": 22,
+      "material_group": "all_metals",
+      "base_cost_copper": 200,
+      "tooltip_category": "Spear",
+      "special_rule": "Three prongs: 25% chance to pin a Large or smaller target on a critical hit (cannot move that turn).",
+      "flavor": "The three prongs spread wide enough to catch, trap, and hold. Used where control matters as much as damage."
+    },
+    {
+      "id": "W2H_032",
+      "name": "Pole Pick",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 70 },
+        { "type": "Blunt", "percent": 30 }
+      ],
+      "base_dmg_range": [7, 13],
+      "primary_stat": "Physiology",
+      "min_physiology": 22,
+      "material_group": "all_metals",
+      "base_cost_copper": 210,
+      "tooltip_category": "Pick",
+      "special_rule": "Treats target armour class as 3 lower when target wears plate.",
+      "flavor": "The extended pick leverages body weight. Even plate armour bends under a properly driven strike."
+    },
+    {
+      "id": "W2H_033",
+      "name": "Heavy Cleaver",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 85 },
+        { "type": "Blunt", "percent": 15 }
+      ],
+      "base_dmg_range": [7, 15],
+      "primary_stat": "Physiology",
+      "min_physiology": 24,
+      "material_group": "all_metals",
+      "base_cost_copper": 250,
+      "tooltip_category": "Axe",
+      "special_rule": "On a killing blow, 60% splash damage to one adjacent enemy.",
+      "flavor": "The width of the blade is the point. It does not penetrate — it divides."
+    },
+    {
+      "id": "W2H_034",
+      "name": "Crusher Pole",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [7, 14],
+      "primary_stat": "Physiology",
+      "min_physiology": 22,
+      "material_group": "clubs_and_staves",
+      "base_cost_copper": 100,
+      "tooltip_category": "Staff",
+      "special_rule": "On crit: 25% chance of Concussion. Deals 15% bonus damage to Undead.",
+      "flavor": "A weighted pole built for one purpose. Everything it hits it tries to break."
+    },
+    {
+      "id": "W2H_035",
+      "name": "Spine Blade",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 70 },
+        { "type": "Piercing", "percent": 30 }
+      ],
+      "base_dmg_range": [6, 13],
+      "primary_stat": "Vigor",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 190,
+      "tooltip_category": "Sword",
+      "special_rule": "Serrated edges: 15% chance to apply Bleeding secondary on hit.",
+      "flavor": "The blade is ridged and serrated along its length. Entry is bad. Removal is worse."
+    },
+    {
+      "id": "W2H_036",
+      "name": "Bone Greatclub",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [7, 14],
+      "primary_stat": "Physiology",
+      "min_physiology": 22,
+      "material_group": "bone_only",
+      "material_locked": "bone",
+      "base_cost_copper": 30,
+      "tooltip_category": "Club",
+      "racial_origin": "Swampbrood",
+      "flavor": "Crafted from the largest bones of bog creatures. Heavy, crude, and surprisingly effective. A Swampbrood signature."
+    },
+    {
+      "id": "W2H_037",
+      "name": "Jagged Greatblade",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 80 },
+        { "type": "Piercing", "percent": 20 }
+      ],
+      "base_dmg_range": [7, 14],
+      "primary_stat": "Physiology",
+      "min_physiology": 22,
+      "material_group": "all_metals",
+      "base_cost_copper": 230,
+      "tooltip_category": "Sword",
+      "special_rule": "Serrated: 15% chance to apply Bleeding secondary on hit.",
+      "flavor": "A blade deliberately worked to be cruel. The teeth catch and tear. No surgeon enjoys treating these."
+    },
+    {
+      "id": "W2H_038",
+      "name": "Twin Axes",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 80 },
+        { "type": "Blunt", "percent": 20 }
+      ],
+      "base_dmg_range": [6, 13],
+      "primary_stat": "Vigor",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 180,
+      "tooltip_category": "Axe",
+      "special_rule": "Paired weapons. Each turn, 25% chance to attack twice — once with each axe — at 70% damage each.",
+      "flavor": "Two axes, one warrior. The left hand answers what the right starts. Fast, chaotic, and extremely hard to track."
+    },
+    {
+      "id": "W2H_039",
+      "name": "Chain Blade",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 70 },
+        { "type": "Blunt", "percent": 30 }
+      ],
+      "base_dmg_range": [6, 13],
+      "primary_stat": "Vigor",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 200,
+      "tooltip_category": "Chain",
+      "special_rule": "The chain section can entangle: 15% chance to reduce target movement to 0 for 1 turn.",
+      "flavor": "Blade at one end, chain at the other. Confusing to defend, exhausting to wield."
+    },
+    {
+      "id": "W2H_040",
+      "name": "Meteor Hammer",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": true,
+      "thrown_range_hex": 2,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 80 },
+        { "type": "Piercing", "percent": 20 }
+      ],
+      "base_dmg_range": [7, 15],
+      "primary_stat": "Vigor",
+      "min_physiology": 22,
+      "material_group": "all_metals",
+      "base_cost_copper": 240,
+      "tooltip_category": "Hammer",
+      "special_rule": "Can be swung on a chain to strike at 2-hex range (as a ranged arc throw, one use per battle, guaranteed crit, retrieved after). In melee: 15% chance of Staggering.",
+      "flavor": "A weighted hammer at the end of a chain. In melee it is devastating. Thrown in an arc, it is a problem for someone two steps away."
+    },
+    {
+      "id": "W2H_041",
+      "name": "Great Pick",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 70 },
+        { "type": "Blunt", "percent": 30 }
+      ],
+      "base_dmg_range": [7, 13],
+      "primary_stat": "Physiology",
+      "min_physiology": 24,
+      "material_group": "all_metals",
+      "base_cost_copper": 220,
+      "tooltip_category": "Pick",
+      "special_rule": "Treats target armour class as 4 lower when target wears plate or heavy armour.",
+      "flavor": "Scaled up from a war pick. The full-body leverage punches through almost any surface."
+    },
+    {
+      "id": "W2H_042",
+      "name": "Siege Hammer",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [12, 22],
+      "primary_stat": "Physiology",
+      "min_physiology": 35,
+      "material_group": "all_metals",
+      "base_cost_copper": 450,
+      "tooltip_category": "Hammer",
+      "special_rule": "Deals double damage to structures, doors, and constructs. On hit: 30% chance of Concussion against living targets. On crit: guaranteed Stagger + Concussion.",
+      "flavor": "This was not built to fight people. It was built to break siege gates. That it kills people is secondary — almost."
+    },
+    {
+      "id": "W2H_043",
+      "name": "Hooked Polearm",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 60 },
+        { "type": "Piercing", "percent": 40 }
+      ],
+      "base_dmg_range": [6, 12],
+      "primary_stat": "Physiology",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 190,
+      "tooltip_category": "Polearm",
+      "special_rule": "Hook: 25% chance to pull a rider from a mount, or drag a target 1 hex toward you.",
+      "flavor": "The hook exists to catch, drag, and expose. A soldier pulled off their horse is in serious trouble."
+    },
+    {
+      "id": "W2H_044",
+      "name": "Barbed Polearm",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 60 },
+        { "type": "Slashing", "percent": 40 }
+      ],
+      "base_dmg_range": [6, 12],
+      "primary_stat": "Physiology",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 195,
+      "tooltip_category": "Polearm",
+      "special_rule": "Barbs: 20% chance of Bleeding secondary on hit. Targets hit must pass a Physiology check or suffer -10% movement next turn.",
+      "flavor": "The barbs prevent withdrawal of the weapon — and what the weapon pierces. Intended to be permanent."
+    },
+    {
+      "id": "W2H_045",
+      "name": "War Fork",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 80 },
+        { "type": "Slashing", "percent": 20 }
+      ],
+      "base_dmg_range": [6, 12],
+      "primary_stat": "Physiology",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 185,
+      "tooltip_category": "Spear",
+      "special_rule": "Two prongs: 20% chance to trap an enemy weapon between the tines on a hit, disarming for 1 turn.",
+      "flavor": "The fork pins and catches. Shields can be pushed aside, weapons trapped. A trapping weapon as much as a stabbing one."
+    },
+    {
+      "id": "W2H_046",
+      "name": "Heavy Lance",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 90 },
+        { "type": "Blunt", "percent": 10 }
+      ],
+      "base_dmg_range": [9, 18],
+      "primary_stat": "Physiology",
+      "min_physiology": 26,
+      "material_group": "all_metals",
+      "base_cost_copper": 280,
+      "tooltip_category": "Mounted",
+      "special_rule": "Mounted charge: moving 2+ hexes in a straight line before hit triples damage (not doubles). Without a mount: -40% accuracy and -20% damage.",
+      "flavor": "The heaviest lance made for warfare. On horseback at full gallop it has ended battles before they began."
+    },
+    {
+      "id": "W2H_047",
+      "name": "Twinblade Sword",
+      "hands": 2,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Slashing", "percent": 75 },
+        { "type": "Piercing", "percent": 25 }
+      ],
+      "base_dmg_range": [7, 14],
+      "primary_stat": "Vigor",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 220,
+      "tooltip_category": "Sword",
+      "special_rule": "Both ends carry a blade. Each hit has 20% chance of a bonus 50% damage reverse strike.",
+      "flavor": "Two blades along a single shaft. Quick hands find twice as many openings."
+    },
+    {
+      "id": "W2H_048",
+      "name": "Great Chain",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [6, 12],
+      "primary_stat": "Vigor",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 150,
+      "tooltip_category": "Chain",
+      "special_rule": "Reach 2 hexes. On hit: 25% chance to entangle the target — they cannot move or use reach weapons for 1 turn.",
+      "flavor": "Nothing but heavy chain, wielded with whole-body rotation. Builds momentum and spreads impact across the full swing."
+    },
+    {
+      "id": "W2H_049",
+      "name": "Spiked Great Chain",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [
+        { "type": "Blunt", "percent": 70 },
+        { "type": "Piercing", "percent": 30 }
+      ],
+      "base_dmg_range": [6, 12],
+      "primary_stat": "Vigor",
+      "min_physiology": 21,
+      "material_group": "all_metals",
+      "base_cost_copper": 175,
+      "tooltip_category": "Chain",
+      "special_rule": "Reach 2 hexes. On hit: 20% entangle chance. Spikes: 10% chance of Rupturing secondary on hit.",
+      "flavor": "The spikes make the entangle worse and the blunt impact a secondary concern. Dreadful in every sense."
+    }
+  ]
+}

@@ -158,6 +158,7 @@
             background: var(--bg-panel);
             padding: 1.1rem 0.9rem 1.5rem;
             display: flex; flex-direction: column; gap: 0.75rem;
+            height: 100%;
         }
 
         .portrait-frame {
@@ -191,16 +192,46 @@
             display: block;
         }
 
-        .nameplate-wrap { text-align: center; }
-        .nameplate-input {
-            font-family: inherit; font-size: 1.05rem;
-            letter-spacing: 0.08em; text-align: center;
-            background: transparent; border: none;
-            border-bottom: 1px solid var(--gold-dim);
-            color: var(--gold); width: 100%; padding: 0.2em 0;
+        .nameplate-wrap {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%;
         }
-        .nameplate-input:focus { outline: none; border-bottom-color: var(--gold); }
-        .nameplate-input::placeholder { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+        .nameplate-input {
+            width: 100%; font-family: inherit; font-size: 2.4rem;
+            letter-spacing: 0.18em; font-style: italic; text-align: center;
+            background: transparent; border: none; outline: none;
+            color: var(--gold);
+            text-shadow: 0 2px 18px rgba(201,168,76,0.22);
+            padding: 0;
+        }
+        .nameplate-input::placeholder { color: rgba(201,168,76,0.35); font-style: italic; }
+        .nameplate-save-btn {
+            font-family: inherit; font-size: 0.78rem; letter-spacing: 0.12em;
+            padding: 0.3em 1.1em; border: 1px solid var(--gold-dim);
+            background: transparent; color: var(--text-muted);
+            cursor: pointer; transition: border-color 0.15s, color 0.15s;
+        }
+        .nameplate-save-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .name-required-warning {
+            display: none;
+            margin-top: 0.55rem;
+            padding: 0.45em 0.85em;
+            font-size: 0.82rem; letter-spacing: 0.09em;
+            color: #e8c820;
+            border: 1px solid rgba(232,200,32,0.55);
+            border-left: 3px solid #e8c820;
+            background: rgba(232,200,32,0.07);
+            box-shadow: 0 0 10px rgba(232,200,32,0.12);
+        }
+        .name-required-warning.visible { display: block; }
+        @keyframes nameplate-shake {
+            0%,100% { transform: translateX(0); }
+            20%      { transform: translateX(-6px); }
+            40%      { transform: translateX(5px); }
+            60%      { transform: translateX(-4px); }
+            80%      { transform: translateX(3px); }
+        }
+        .nameplate-input.shake { animation: nameplate-shake 0.35s ease; }
 
         .identity-line {
             text-align: center; font-size: 0.95rem;
@@ -249,12 +280,12 @@
         .rpg-btn.gold-btn:hover { background: rgba(201,168,76,0.14); }
 
         .saved-label { font-size: 0.92rem; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
-        .saved-list { display: flex; flex-direction: column; gap: 0.25rem; max-height: 180px; overflow-y: auto; flex-shrink: 0; }
+        .saved-list { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; overflow-y: auto; }
         .saved-list::-webkit-scrollbar { width: 3px; }
         .saved-list::-webkit-scrollbar-thumb { background: var(--green-dim); }
         .saved-item {
-            display: flex; align-items: center; gap: 0.4rem;
-            font-size: 0.93rem; padding: 0.35rem 0.5rem;
+            display: flex; flex-direction: column; gap: 0.4rem;
+            font-size: 0.93rem; padding: 0.5rem;
             border: 1px solid var(--green-dim); background: var(--bg-card);
             cursor: pointer; transition: border-color 0.15s;
             flex-shrink: 0;
@@ -263,6 +294,19 @@
         .saved-item-info { flex: 1; min-width: 0; }
         .saved-item-name { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .saved-item-sub { font-size: 0.88rem; color: var(--text-muted); font-style: normal; }
+        .saved-item-actions {
+            display: flex; gap: 0.4rem;
+            padding-top: 0.3rem; border-top: 1px solid rgba(78,110,50,0.3);
+        }
+        .saved-item-btn {
+            flex: 1; font-family: inherit; font-size: 0.75rem;
+            padding: 0.35em 0.4em; border: 1px solid var(--green-dim);
+            background: var(--bg-panel); color: var(--text-muted);
+            cursor: pointer; transition: border-color 0.15s, color 0.15s;
+        }
+        .saved-item-btn:hover { border-color: var(--green); color: var(--text); }
+        .saved-item-btn.delete-btn { border-color: #994444; color: #aa5555; }
+        .saved-item-btn.delete-btn:hover { border-color: #cc6666; color: #ff8888; }
         .del-btn { font-family: inherit; font-size: 0.9rem; background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.1em; }
         .del-btn:hover { color: #c04040; }
         .empty-msg { font-size: 0.92rem; color: var(--text-muted); font-style: normal; }
@@ -298,6 +342,43 @@
 
         .tab-panel { display: none; }
         .tab-panel.active { display: block; }
+
+        /* Identity tab header with portrait and name */
+        .identity-header {
+            display: flex; gap: 1.2rem; align-items: stretch;
+            margin-bottom: 1.8rem; padding-bottom: 1.2rem;
+            border-bottom: 1px solid var(--gold-dim);
+        }
+        .identity-portrait-frame {
+            position: relative;
+            width: 140px; height: 180px;
+            flex-shrink: 0;
+            border: 1px solid var(--gold-dim);
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(28,26,14,0.98), rgba(15,18,8,0.98));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .identity-portrait-frame::before, .identity-portrait-frame::after {
+            content: ''; display: block;
+            position: absolute; width: 8px; height: 8px;
+            border-color: var(--gold); border-style: solid; opacity: 0.6;
+            z-index: 1;
+        }
+        .identity-portrait-frame::before { top: 2px; left: 2px; border-width: 1px 0 0 1px; }
+        .identity-portrait-frame::after  { bottom: 2px; right: 2px; border-width: 0 1px 1px 0; }
+        .identity-portrait-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+        }
+        .identity-name-section {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 0.9rem;
+        }
 
         /* form rows */
         .form-block { margin-bottom: 1.4rem; }
@@ -362,69 +443,41 @@
         /* birth mother sign select */
         #sel-birth-sign { width: 100%; }
 
-        /* ability scores - attributes tab */
-        .method-row {
-            display: flex; gap: 2px; margin-bottom: 0.9rem;
-        }
-        .mth-btn {
+        /* age & aptitudes inline section */
+        .apt-roll-btn {
             font-family: inherit; font-size: 0.95rem;
-            letter-spacing: 0.08em; padding: 0.4em 1em;
-            border: 1px solid var(--green-dim);
-            background: transparent; color: var(--text-muted);
-            cursor: pointer; transition: color 0.15s, background 0.15s;
-        }
-        .mth-btn:not(:last-child) { border-right: none; }
-        .mth-btn.active { background: var(--bg-card); color: var(--gold); border-color: var(--gold-dim); }
-
-        .ab-panel { display: none; }
-        .ab-panel.active { display: block; }
-
-        .ab-row {
-            display: flex; align-items: center;
-            gap: 0.5rem; padding: 0.45rem 0;
-            border-bottom: 1px solid rgba(78,110,50,0.1);
-        }
-        .ab-abbr {
-            font-size: 0.92rem; letter-spacing: 0.1em;
-            color: var(--text-muted); min-width: 38px; text-align: center;
-        }
-        .ab-name { font-size: 0.95rem; color: var(--text-muted); flex: 1; font-style: normal; }
-        .ab-score {
-            font-size: 1.15rem; color: var(--gold);
-            min-width: 2.2rem; text-align: center;
-        }
-        .ab-mod { font-size: 0.88rem; color: var(--text); min-width: 2.4rem; text-align: center; }
-
-        .ab-pb-ctrl { display: flex; align-items: center; gap: 4px; }
-        .pb-adj {
-            font-family: inherit; font-size: 0.9rem; width: 22px; height: 22px;
-            background: var(--bg-card); border: 1px solid var(--green-dim);
-            color: var(--text-muted); cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: border-color 0.15s; line-height: 1;
-        }
-        .pb-adj:hover { border-color: var(--green); color: var(--text); }
-        .pb-pts { font-size: 0.95rem; color: var(--text-muted); margin-top: 0.4rem; }
-        .pb-pts span { color: var(--gold); }
-
-        .roll-btn {
-            font-family: inherit; font-size: 0.95rem;
-            letter-spacing: 0.08em; padding: 0.4em 1.2em;
+            letter-spacing: 0.1em; padding: 0.5em 1.4em;
             border: 1px solid var(--green); background: var(--bg-card);
-            color: var(--text); cursor: pointer; margin-bottom: 0.6rem;
-            transition: border-color 0.15s;
+            color: var(--text); cursor: pointer;
+            transition: border-color 0.15s, background 0.15s, color 0.15s;
+            display: block; width: 100%; text-align: center;
+            margin-bottom: 0.9rem;
         }
-        .roll-btn:hover { border-color: var(--gold); }
-        .roll-hint { font-size: 0.93rem; color: var(--text-muted); font-style: normal; margin-bottom: 0.5rem; }
-
-        .ab-roll-sel {
-            font-family: inherit; font-size: 0.95rem;
-            background: var(--bg-input); color: var(--text);
-            border: 1px solid var(--green-dim); padding: 0.3em 1.6em 0.3em 0.5em;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5'%3E%3Cpath d='M0 0l4.5 5L9 0z' fill='%238a7850'/%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 0.5em center;
-            cursor: pointer; min-width: 60px;
+        .apt-roll-btn:hover { border-color: var(--gold); background: var(--gold-faint); color: var(--gold); }
+        .apt-display-row {
+            display: flex; align-items: baseline; gap: 0.6rem;
+            padding: 0.5rem 0.7rem;
+            border: 1px solid var(--green-dim); background: var(--bg-card);
+            margin-bottom: 0.3rem;
+        }
+        .apt-display-row[data-tooltip] { cursor: help; }
+        .apt-display-row[data-tooltip]:hover { border-color: var(--green); }
+        .apt-disp-lbl {
+            min-width: 116px; font-size: 1.08rem; color: var(--text-muted); flex-shrink: 0;
+        }
+        .apt-disp-val {
+            font-size: 1.28rem; color: var(--gold); min-width: 2.6rem; text-align: right; flex-shrink: 0;
+        }
+        .apt-unrolled .apt-disp-val { color: var(--text-muted); font-size: 1.08rem; }
+        .apt-disp-tier {
+            font-size: 1.02rem; color: var(--text); flex-shrink: 0; min-width: 80px;
+        }
+        .apt-disp-note {
+            font-size: 0.95rem; color: var(--text-muted); font-style: italic; flex: 1;
+        }
+        .apt-reroll-hint {
+            font-size: 0.95rem; color: var(--text-muted); font-style: italic;
+            text-align: center; margin-top: 0.4rem;
         }
 
         /* skills tab */
@@ -435,10 +488,15 @@
         }
         .sk-category-header {
             grid-column: 1 / -1;
-            font-size: 0.92rem; letter-spacing: 0.12em;
+            display: flex; align-items: baseline; justify-content: space-between;
+            font-size: 0.92rem; letter-spacing: 0.1em;
             color: var(--gold); text-transform: uppercase;
             border-bottom: 1px solid var(--gold-dim);
             padding: 0.6rem 0 0.25rem; margin-top: 0.5rem;
+        }
+        .sk-cat-apt {
+            font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase;
+            color: var(--text-muted); font-style: italic;
         }
         .skill-row {
             display: flex; align-items: center; gap: 0.4rem;
@@ -450,10 +508,16 @@
         }
         .skill-row:hover { border-color: var(--green); }
         .skill-row.sk-on { border-color: var(--gold); background: var(--gold-faint); }
+        .skill-row.sk-fixed { border-color: var(--green); background: rgba(78,110,50,0.08); cursor: default; }
+        .skill-row.sk-fixed:hover { border-color: var(--green); }
         .sk-check { width: 13px; height: 13px; border: 1px solid var(--gold-dim); flex-shrink: 0; }
         .sk-on .sk-check { background: var(--gold); }
+        .sk-fixed .sk-check { background: var(--green); border-color: var(--green); }
         .sk-name { flex: 1; color: var(--text); }
-        .sk-ab { font-size: 0.9rem; color: var(--text-muted); }
+        .sk-fixed-tag {
+            font-size: 0.78rem; font-style: italic;
+            color: var(--green); letter-spacing: 0.04em;
+        }
         .sk-tag { font-size: 0.84rem; padding: 0.12em 0.4em; }
         .sk-tag.core     { background: var(--core-bg); color: var(--core-txt); }
         .sk-tag.expanded { background: var(--exp-bg);  color: var(--exp-txt); }
@@ -469,6 +533,84 @@
         .equip-opt:hover { border-color: var(--green); }
         .equip-opt.sel { border-color: var(--gold); background: var(--gold-faint); color: var(--gold); }
         .equip-opt small { display: block; font-size: 0.88rem; color: var(--text-muted); font-style: normal; margin-top: 0.2rem; }
+
+        /* ── Inventory tab ─────────────────────────────────────── */
+        .inv-tab-layout { display: flex; flex-direction: column; gap: 1rem; }
+
+        .inv-paperdoll {
+            display: grid;
+            grid-template-columns: minmax(90px,1fr) 60px minmax(90px,1fr);
+            grid-template-rows: auto auto auto auto;
+            gap: 0.4rem;
+            align-items: center;
+            justify-items: stretch;
+            max-width: 440px;
+            margin: 0 auto;
+        }
+        .inv-slot-spacer { /* empty grid cell */ }
+        .inv-slot {
+            border: 1px solid var(--green-dim);
+            background: var(--bg-card);
+            padding: 0.35rem 0.55rem;
+            text-align: center;
+            font-size: 0.82rem;
+            position: relative;
+            transition: border-color 0.15s;
+            min-height: 42px;
+        }
+        .inv-slot:hover { border-color: var(--gold-dim); }
+        .inv-slot.filled { border-color: rgba(78,110,50,0.55); }
+        .inv-slot.twohanded-grip { border-color: rgba(201,168,76,0.2); background: var(--bg-input); }
+        .inv-slot-label {
+            display: block;
+            font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--text-muted); margin-bottom: 0.18rem;
+        }
+        .inv-slot-item { display: block; color: var(--text-muted); font-style: italic; font-size: 0.84rem; }
+        .inv-slot.filled .inv-slot-item { font-style: normal; }
+        .inv-figure {
+            display: flex; align-items: center; justify-content: center;
+            padding: 0.2rem 0;
+        }
+
+        /* Bag / carried section */
+        .inv-bag-section { max-width: 440px; margin: 0 auto; width: 100%; }
+        .inv-bag-title {
+            font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--text-muted); border-bottom: 1px solid var(--green-dim);
+            padding-bottom: 0.25rem; margin-bottom: 0.45rem;
+        }
+        .inv-bag-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .inv-bag-item {
+            border: 1px solid var(--green-dim); background: var(--bg-card);
+            padding: 0.28rem 0.55rem; font-size: 0.82rem; color: var(--text);
+            position: relative; cursor: default;
+            transition: border-color 0.15s;
+        }
+        .inv-bag-item:hover { border-color: var(--gold-dim); }
+
+        /* Tooltip */
+        .inv-tooltip {
+            position: absolute; z-index: 200;
+            background: var(--bg-panel); border: 1px solid var(--gold-dim);
+            padding: 0.45rem 0.6rem; font-size: 0.8rem;
+            min-width: 160px; max-width: 240px; width: max-content;
+            pointer-events: none;
+            bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%);
+            color: var(--text); white-space: pre-wrap;
+            display: none; text-align: left; line-height: 1.45;
+        }
+        .inv-slot:hover .inv-tooltip,
+        .inv-bag-item:hover .inv-tooltip { display: block; }
+
+        /* Quality colours (mirrors weapon_quality_system.json display_color) */
+        .q-simple  { color: #999999; }
+        .q-normal  { color: #d4c89a; }
+        .q-fine    { color: #88dd88; }
+        .q-rare    { color: #88aaff; }
+        .q-magical { color: #cc88ff; }
+        .q-unique  { color: #ffdd44; }
+        .q-cursed  { color: #ff5533; }
 
         /* ── Abilities tab ──────────────────────────────────────── */
         .abl-section { margin-bottom: 1.4rem; }
@@ -591,10 +733,9 @@
             flex-shrink: 0;
         }
         .vs-vitals-block {
-            padding: 0.6rem 0.8rem 0.9rem; display: flex; flex-direction: column; gap: 0.45rem;
-            flex: 1;
-            min-height: 0;
-            overflow-y: auto;
+            padding: 0.6rem 0.8rem 1.1rem; display: flex; flex-direction: column; gap: 0.45rem;
+            flex-shrink: 0;
+            overflow-y: visible;
         }
         .vs-vital-row {
             display: flex; align-items: baseline;
@@ -608,6 +749,10 @@
             text-transform: uppercase; color: var(--text-muted);
             min-width: 105px; flex-shrink: 0;
         }
+        .morality-row .vs-vital-lbl,
+        .vs-focus-row .vs-vital-lbl {
+            color: var(--gold);
+        }
         .vs-vital-val {
             font-size: 1.2rem; color: var(--gold);
         }
@@ -618,6 +763,26 @@
         .vs-vital-val.phy { color: #7acc50; }
         .vs-vital-val.cog { color: #5fbcff; }
         .vs-vital-val.dis { color: #d4a574; }
+        /* Resource-use badge (shown after combat resource numbers) */
+        .res-badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 0.68rem; line-height: 1;
+            padding: 0.18em 0.42em;
+            border-radius: 3px;
+            border: 1px solid currentColor;
+            opacity: 0.82;
+            cursor: help;
+            vertical-align: middle;
+            letter-spacing: 0.06em;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.7), 0 0 6px currentColor;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 1px 4px rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.35);
+            transition: opacity 0.15s;
+        }
+        .res-badge:hover { opacity: 1; }
+        .res-badge.res-hp  { color: #c84040; }
+        .res-badge.res-st  { color: #e0a040; }
+        .res-badge.res-mp  { color: #5fbcff; }
         .vs-id-row[data-tooltip]:hover .vs-id-val { color: var(--gold); text-decoration: underline dotted; }
         .vs-focus-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; cursor: help; }
         .vs-focus-val { font-size: 0.9rem !important; color: var(--text) !important; line-height: 1.7; white-space: pre-line; }
@@ -627,7 +792,7 @@
         .morality-slider-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.3rem; }
         .morality-track-outer {
             position: relative; width: 100%; height: 8px; border-radius: 4px;
-            background: linear-gradient(to right, #050505, #200030, #5a1080, #808098, #c0c0d8, #e8e8f0, #ffffff);
+            background: linear-gradient(to right, #1a0000, #6a0808, #c42020, #4aaa38, #88b030, #d8c020, #e8d820);
         }
         .morality-bp { position: absolute; top: -3px; width: 2px; height: 14px;
             background: var(--gold); opacity: 0.9; }
@@ -637,15 +802,15 @@
             border-radius: 2px; transform: translateX(-50%); pointer-events: none; z-index: 10; left: 50%; }
         .morality-zone-labels { position: relative; display: flex; justify-content: space-between; font-size: 0.62rem; }
         .morality-zone-labels .mz.balanced { position: absolute; left: 50%; transform: translateX(-50%); }
-        .mz.despair    { color: #9060d0; }
+        .mz.despair    { color: #c42020; }
         .mz.balanced   { color: var(--text-muted); }
-        .mz.neutral    { color: #b8a060; }
-        .mz.conviction { color: #e0e0ff; }
+        .mz.neutral    { color: #4aaa38; }
+        .mz.conviction { color: #e8c820; }
         .morality-val-row { display: flex; gap: 0.5rem; font-size: 0.85rem; }
-        .morality-zone.conviction { color: #e0e0ff; }
-        .morality-zone.neutral    { color: #b8a060; }
+        .morality-zone.conviction { color: #e8c820; }
+        .morality-zone.neutral    { color: #4aaa38; }
         .morality-zone.balanced   { color: var(--text-muted); }
-        .morality-zone.despair    { color: #9060d0; }
+        .morality-zone.despair    { color: #c42020; }
 
         /* Wisdom block */
         .wisdom-row { display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: 0.5rem; }
@@ -906,25 +1071,33 @@
         .tab-footer-nav {
             flex-shrink: 0;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0.6rem 1.4rem;
+            padding: 0.75rem 1.4rem;
             border-top: 1px solid var(--gold-dim);
             background: var(--bg-panel);
             gap: 1rem;
         }
         .tab-footer-nav.hidden { display: none; }
         .tab-nav-btn {
-            font-family: inherit; font-size: 0.88rem;
-            letter-spacing: 0.1em; padding: 0.42em 1.4em;
-            border: 1px solid var(--green-dim);
-            background: var(--bg-card); color: var(--text-muted);
-            cursor: pointer; transition: border-color 0.15s, color 0.15s;
+            font-family: inherit; font-size: 0.95rem;
+            letter-spacing: 0.12em; padding: 0.55em 1.8em;
+            border: 1px solid var(--green);
+            background: var(--bg-card); color: var(--text);
+            cursor: pointer; transition: border-color 0.15s, background 0.15s, color 0.15s;
         }
-        .tab-nav-btn:hover:not(:disabled) { border-color: var(--green); color: var(--text); }
-        .tab-nav-btn:disabled { opacity: 0.28; cursor: default; }
-        .tab-step-ind {
-            font-size: 0.86rem; color: var(--text-muted);
-            letter-spacing: 0.12em; text-align: center; flex: 1;
+        .tab-nav-btn:hover:not(:disabled) { border-color: var(--gold); background: rgba(201,168,76,0.07); color: var(--gold); }
+        .tab-nav-btn:disabled { opacity: 0.25; cursor: default; }
+        .tab-nav-save {
+            border-color: var(--gold-dim);
+            color: var(--gold);
+            letter-spacing: 0.15em;
         }
+        .tab-nav-save:hover:not(:disabled) { border-color: var(--gold); background: rgba(201,168,76,0.12); color: var(--gold); }
+        .tab-nav-new-after-save {
+            border-color: var(--green);
+            color: var(--green);
+            letter-spacing: 0.13em;
+        }
+        .tab-nav-new-after-save:hover { border-color: #88dd44; background: rgba(100,200,50,0.08); color: #88dd44; }
 
         /* ── Sheet back button (used in view-sheet & party-sheet) ── */
         .sheet-back-btn {
@@ -947,6 +1120,16 @@
             letter-spacing: 0.14em; color: var(--text-muted);
             text-transform: uppercase;
         }
+
+        /* ── Inventory sheet ────────────────────────────────────── */
+        #inv-sheet { display: none; padding: 0 0 2rem; }
+        #inv-sheet.active { display: block; }
+        .inv-sheet-body {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 1.4rem; padding: 1.2rem 1.4rem;
+        }
+        .inv-sheet-body .inv-paperdoll { max-width: 520px; width: 100%; }
+        .inv-sheet-body .inv-bag-section { max-width: 520px; width: 100%; }
 
         /* ── Party sheet ─────────────────────────────────────────── */
         #party-sheet { display: none; }
@@ -1041,41 +1224,11 @@
 <!-- ── Main ────────────────────────────────────────────────────────── -->
 <div class="cc-main" id="cc-main">
 
-    <!-- Left: portrait + stats + actions -->
+    <!-- Left: saved characters list -->
     <div class="panel-left">
-        <div class="portrait-frame">
-            <img id="char-portrait-img" src="assets/images/characterportraits/ashenfemale.jpg" alt="Character Portrait">
-        </div>
-
-        <div class="nameplate-wrap">
-            <input class="nameplate-input" id="char-name" type="text" placeholder="Name your hero…" maxlength="44">
-        </div>
-        <div class="identity-line" id="identity-line">Choose race &amp; class</div>
-
-        <div class="derived-grid">
-            <div class="dbox"><div class="dbox-val" id="d-hp">—</div><div class="dbox-lbl">Vitality</div></div>
-            <div class="dbox"><div class="dbox-val" id="d-hd">—</div><div class="dbox-lbl">Materium Pool</div></div>
-            <div class="dbox"><div class="dbox-val" id="d-prof">1</div><div class="dbox-lbl">Level</div></div>
-            <div class="dbox"><div class="dbox-val" id="d-speed">—</div><div class="dbox-lbl">Class Trait</div></div>
-        </div>
-
-        <div>
-            <div class="saved-label" style="margin-bottom:0.3rem;">Aptitude Focus</div>
-            <div class="saves-row" id="saves-row">
-                <span class="save-pill">—</span>
-            </div>
-        </div>
-
-        <div class="left-actions">
-            <button class="rpg-btn gold-btn" id="btn-save-char">Save Character</button>
-            <button class="rpg-btn" id="btn-add-party">Add to Party</button>
-        </div>
-
-        <div>
-            <div class="saved-label">Saved Characters</div>
-            <div class="saved-list" id="saved-char-list">
-                <p class="empty-msg">No saved characters.</p>
-            </div>
+        <div class="saved-label">Saved Characters</div>
+        <div class="saved-list" id="saved-char-list">
+            <p class="empty-msg">No saved characters.</p>
         </div>
     </div>
 
@@ -1083,10 +1236,11 @@
     <div class="panel-center">
         <nav class="cc-tabs" id="cc-tabs">
             <button class="cc-tab active" data-tab="identity">Identity</button>
-            <button class="cc-tab" data-tab="attributes">Attributes</button>
+            <button class="cc-tab" data-tab="aptitudes">Age & Aptitudes</button>
             <button class="cc-tab" data-tab="skills">Skills</button>
             <button class="cc-tab" data-tab="equipment">Equipment</button>
             <button class="cc-tab" data-tab="abilities">Abilities</button>
+            <button class="cc-tab" data-tab="inventory">Inventory</button>
         </nav>
 
         <div class="tab-area">
@@ -1094,11 +1248,6 @@
             <!-- VIEW SHEET (read-only) -->
             <div id="view-sheet">
 
-                <div class="sheet-header">
-                    <button class="sheet-back-btn" id="btn-vs-back">&#8592; Back</button>
-                    <span class="sheet-header-title">Character Sheet</span>
-                    <span style="min-width:4rem;"></span>
-                </div>
 
                 <!-- Name banner -->
                 <div class="vs-banner">
@@ -1156,6 +1305,7 @@
                             <div class="vs-id-row"><span class="vs-id-lbl" title="Your professional role and combat specialty. Determines your abilities, starting pools, and skills.">Class</span><span class="vs-id-val" id="vs-class" title="">—</span></div>
                             <div class="vs-id-row"><span class="vs-id-lbl" title="Your history and origin story. Provides cultural skills and narrative flavor.">Background</span><span class="vs-id-val" id="vs-background" title="">—</span></div>
                             <div class="vs-id-row"><span class="vs-id-lbl" title="The celestial sign under which you were born. Influences personality, luck, and mystical affinity.">Birth Sign</span><span class="vs-id-val" id="vs-alignment" title="">—</span></div>
+                            <div class="vs-id-row"><span class="vs-id-lbl" title="Your psychological temperament. Rolled from race and class alignment. Shapes your behaviour on the battlefield.">Personality</span><span class="vs-id-val" id="vs-personality" title="" style="cursor:help;">—</span></div>
                             <div class="vs-id-row"><span class="vs-id-lbl" title="Your experience rank. Higher levels grant increased pools and stronger abilities.">Level</span><span class="vs-id-val" id="vs-level" title="">—</span></div>
                             <div class="vs-id-row"><span class="vs-id-lbl" title="Your natural age. Affects stamina pool (peaks age 50), materium pool (peaks 80), HP regeneration, and affliction susceptibility.">Age</span><span class="vs-id-val" id="vs-age" title="">—</span></div>
                         </div>
@@ -1212,17 +1362,92 @@
                             <div id="vs-abilities-content"></div>
                         </div>
 
-                        <div>
-                            <div class="vs-heading" title="Items and gear your character carries, starting equipment from class and background.">Equipment</div>
-                            <div class="vs-equip-val" id="vs-equip">—</div>
-                            <div class="vs-starter-kit" id="vs-starter-kit"></div>
-                        </div>
-
                     </div>
 
                 </div><!-- /.vs-body -->
 
-                <button class="view-new-btn" id="btn-view-new">✦ Create New Character</button>
+                <div style="display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap;">
+                    <button class="view-new-btn" id="btn-vs-back">&#8592; Back</button>
+                    <button class="view-new-btn" id="btn-view-rename">✎ Rename</button>
+                    <button class="view-new-btn" id="btn-vs-inventory">⚔ Inventory</button>
+                    <button class="view-new-btn" id="btn-vs-add-party">+ Add to Party</button>
+                    <button class="view-new-btn" id="btn-view-new">✦ Create New Character</button>
+                    <button class="view-new-btn" id="btn-vs-delete" style="border-color:#994444;color:#cc6666;">✕ Delete</button>
+                </div>
+            </div>
+
+            <!-- INVENTORY SHEET -->
+            <div id="inv-sheet">
+                <div class="sheet-header">
+                    <button class="sheet-back-btn" id="btn-inv-back">&#8592; Back</button>
+                    <span class="sheet-header-title" id="inv-sheet-title">Inventory</span>
+                    <span></span>
+                </div>
+                <div class="inv-sheet-body">
+                    <div class="inv-paperdoll">
+                        <div class="inv-slot-spacer"></div>
+                        <div class="inv-slot" id="invs-slot-helm">
+                            <span class="inv-slot-label">Helm</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+                        <div class="inv-slot-spacer"></div>
+
+                        <div class="inv-slot inv-slot-weapon" id="invs-slot-mainhand">
+                            <span class="inv-slot-label">Main Hand</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+                        <div class="inv-figure">
+                            <svg width="52" height="96" viewBox="0 0 52 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="26" cy="10" r="8" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <rect x="14" y="20" width="24" height="30" rx="2" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <line x1="14" y1="23" x2="3" y2="46" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <line x1="38" y1="23" x2="49" y2="46" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <line x1="19" y1="50" x2="14" y2="82" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <line x1="33" y1="50" x2="38" y2="82" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <line x1="14" y1="82" x2="10" y2="92" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <line x1="38" y1="82" x2="42" y2="92" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                            </svg>
+                        </div>
+                        <div class="inv-slot inv-slot-weapon" id="invs-slot-offhand">
+                            <span class="inv-slot-label">Off Hand</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+
+                        <div class="inv-slot inv-slot-ring" id="invs-slot-ring1">
+                            <span class="inv-slot-label">Ring</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+                        <div class="inv-slot" id="invs-slot-armor">
+                            <span class="inv-slot-label">Armour</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+                        <div class="inv-slot inv-slot-ring" id="invs-slot-ring2">
+                            <span class="inv-slot-label">Ring</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+
+                        <div class="inv-slot-spacer"></div>
+                        <div class="inv-slot" id="invs-slot-amulet">
+                            <span class="inv-slot-label">Amulet</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+                        <div class="inv-slot-spacer"></div>
+                    </div>
+
+                    <div class="inv-bag-section">
+                        <div class="inv-bag-title">✦ Carried / Bag</div>
+                        <div class="inv-bag-grid" id="invs-bag-grid">
+                            <span class="inv-empty">—</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- PARTY SHEET (read-only party overview) -->
@@ -1238,6 +1463,21 @@
 
             <!-- IDENTITY TAB -->
             <div class="tab-panel active" id="tab-identity">
+                <div class="identity-header">
+                    <div class="identity-portrait-frame">
+                        <img id="char-portrait-img" src="assets/images/characterportraits/ashenfemale.jpg" alt="Character Portrait">
+                    </div>
+                    <div class="identity-name-section">
+                        <div class="nameplate-wrap">
+                            <input class="nameplate-input" id="char-name" type="text" placeholder="Name your hero…" maxlength="44" autocomplete="off">
+                        </div>
+                        <button class="nameplate-save-btn" id="btn-name-save">Save Name</button>
+                        <div class="name-required-warning" id="name-required-warning">
+                            ✦ A hero must have a name before they can venture further.
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-block">
                     <div class="form-block-title">Race &amp; Origin</div>
                     <div class="form-row">
@@ -1287,14 +1527,6 @@
                             <span id="bg-badge" class="src-badge"></span>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <span class="form-lbl">Level</span>
-                        <div class="form-ctrl level-ctrl">
-                            <span class="level-disp" id="level-disp">1</span>
-                            <input type="range" id="level-slider" class="rpg-range" min="1" max="20" value="1">
-                            <span class="form-hint">Max 20</span>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="form-block">
@@ -1303,36 +1535,17 @@
                 </div>
             </div>
 
-            <!-- ATTRIBUTES TAB -->
-            <div class="tab-panel" id="tab-attributes">
-                <div class="form-block-title" style="margin-bottom:0.7rem;">Age</div>
-                <div id="age-row-cont" style="margin-bottom:1rem;"></div>
-
-                <div class="form-block-title" style="margin-bottom:0.7rem;">Aptitude Method</div>
-                <div class="method-row">
-                    <button class="mth-btn active" data-method="standard">Standard</button>
-                    <button class="mth-btn" data-method="pointbuy">Allocate</button>
-                    <button class="mth-btn" data-method="roll">Roll</button>
+            <!-- AGE & APTITUDES TAB -->
+            <div class="tab-panel" id="tab-aptitudes">
+                <div class="form-block">
+                    <button class="apt-roll-btn" id="btn-roll-all">Roll Age &amp; Aptitudes</button>
+                    <p style="font-size:0.88rem;color:var(--text-muted);font-style:normal;margin-bottom:0.8rem;line-height:1.55;">
+                        Rolled at creation — your character's natural endowments and life stage. Hover each row for details.
+                    </p>
+                    <div id="apt-section"></div>
                 </div>
 
-                <!-- Standard -->
-                <div class="ab-panel active" id="ab-standard">
-                    <p class="form-hint" style="margin-bottom:0.6rem;">All aptitudes start at 30. Class bonuses are applied on top.</p>
-                    <div id="std-rows"></div>
-                </div>
-
-                <!-- Allocate -->
-                <div class="ab-panel" id="ab-pointbuy">
-                    <p class="pb-pts">Points remaining: <span id="pb-remain">20</span> / 20</p>
-                    <div id="pb-rows" style="margin-top:0.4rem;"></div>
-                </div>
-
-                <!-- Roll -->
-                <div class="ab-panel" id="ab-roll">
-                    <p class="roll-hint">Roll 6 aptitude values (range 25–55), then assign each to an aptitude.</p>
-                    <button class="roll-btn" id="btn-roll">Roll Aptitudes ×6</button>
-                    <div id="roll-rows"></div>
-                </div>
+                <div id="derived-stats-display"></div>
             </div>
 
             <!-- SKILLS TAB -->
@@ -1362,13 +1575,86 @@
                 <div id="abilities-content">
                     <p class="skill-info">Select a class to see available abilities.</p>
                 </div>
+
+            </div>
+
+            <!-- INVENTORY TAB -->
+            <div class="tab-panel" id="tab-inventory">
+                <div class="inv-tab-layout">
+                    <div class="inv-paperdoll">
+                        <!-- Row 1: Helm -->
+                        <div class="inv-slot-spacer"></div>
+                        <div class="inv-slot" id="inv-slot-helm">
+                            <span class="inv-slot-label">Helm</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+                        <div class="inv-slot-spacer"></div>
+                        <!-- Row 2: Main hand | Figure | Off hand -->
+                        <div class="inv-slot inv-slot-weapon" id="inv-slot-mainhand">
+                            <span class="inv-slot-label">Main Hand</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+                        <div class="inv-figure">
+                            <svg width="52" height="96" viewBox="0 0 52 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="26" cy="10" r="8" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <rect x="14" y="20" width="24" height="30" rx="2" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <line x1="14" y1="23" x2="3" y2="46" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <line x1="38" y1="23" x2="49" y2="46" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <line x1="19" y1="50" x2="14" y2="82" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <line x1="33" y1="50" x2="38" y2="82" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <line x1="14" y1="82" x2="10" y2="92" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                                <line x1="38" y1="82" x2="42" y2="92" stroke="#4e6e32" stroke-width="1.5" opacity="0.7"/>
+                            </svg>
+                        </div>
+                        <div class="inv-slot inv-slot-weapon" id="inv-slot-offhand">
+                            <span class="inv-slot-label">Off Hand</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+                        <!-- Row 3: Ring L | Armour | Ring R -->
+                        <div class="inv-slot inv-slot-ring" id="inv-slot-ring1">
+                            <span class="inv-slot-label">Ring</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+                        <div class="inv-slot" id="inv-slot-armor">
+                            <span class="inv-slot-label">Armour</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+                        <div class="inv-slot inv-slot-ring" id="inv-slot-ring2">
+                            <span class="inv-slot-label">Ring</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+                        <!-- Row 4: Amulet -->
+                        <div class="inv-slot-spacer"></div>
+                        <div class="inv-slot" id="inv-slot-amulet">
+                            <span class="inv-slot-label">Amulet</span>
+                            <span class="inv-slot-item">— empty —</span>
+                            <div class="inv-tooltip"></div>
+                        </div>
+                        <div class="inv-slot-spacer"></div>
+                    </div>
+
+                    <div class="inv-bag-section">
+                        <div class="inv-bag-title">✦ Carried / Bag</div>
+                        <div class="inv-bag-grid" id="inv-bag-grid">
+                            <span class="inv-empty">Select a class to see equipment.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div><!-- /.tab-area -->
 
         <div class="tab-footer-nav" id="tab-footer-nav">
             <button class="tab-nav-btn" id="btn-tab-prev">&#8592; Back</button>
-            <span class="tab-step-ind" id="tab-step-ind">1 / 4</span>
+            <button class="tab-nav-btn tab-nav-save" id="btn-save-char">Save Character</button>
+            <button class="tab-nav-btn tab-nav-new-after-save" id="btn-new-after-save" style="display:none;">&#10022; New Character</button>
+            <button class="tab-nav-btn" id="btn-new-char" style="border-color:#994444;color:#cc6666;">Reset</button>
             <button class="tab-nav-btn" id="btn-tab-next">Next &#8594;</button>
         </div>
     </div><!-- /.panel-center -->

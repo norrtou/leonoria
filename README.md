@@ -1,1 +1,1 @@
-This is in pre alpha development and for testing purposes only. Nothing here is finished at all and nothing is playable yet. I hope first playable test version arrives in April 2026.
+This is in pre alpha development and for testing purposes only. Nothing here is finished at all and nothing is really playable yet. I hope first playable test version arrives in May 2026.

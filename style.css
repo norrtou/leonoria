@@ -117,6 +117,12 @@ html, body {
 }
 #bottom-buttons button:hover  { background: #f0f0f0; }
 #bottom-buttons button:active { background: #e0e0e0; }
+#bottom-buttons button.btn-active {
+    background: #e8f0d8;
+    border-color: #5a8040;
+    color: #2a4a20;
+    font-weight: bold;
+}
 
 /* ── Hero movement info bar ──────────────────────────────────────────────────── */
 #hero-info {

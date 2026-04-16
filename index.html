@@ -9,7 +9,7 @@
     <!-- Primary SEO -->
     <title>Leonoria — A Living World of Fantasy &amp; Adventure</title>
     <meta name="description" content="Leonoria — a sanctuary for bold adventurers. Explore procedurally generated table top role playing game worlds, create maps, build characters, and weave your own legends.">
-    <meta name="keywords" content="table top role playing game, TTRPG, world generator, map generator, RPG, procedural generation, fantasy, Leonoria">
+    <meta name="keywords" content="table top role playing game, TTRPG, RPG, free-to-play, grid-based, turn-based, hexagonal, dice game, d20, 3d6, web browser game, saving throw, character sheet, procedural map generator, RPG, dungeon crawler, rouge-like, high fantasy, fantasy, Heroes of might and magic, Dungeons & Dragons, procedural generation, fantasy, Leonoria">
     <meta name="robots" content="index, follow">
     <meta name="author" content="Leonoria">
     <link rel="canonical" href="https://norrtou.github.io/leonoria/">
@@ -29,7 +29,7 @@
     <meta name="twitter:image" content="https://norrtou.github.io/leonoria/webpageassets/leonoria1.jpg">
 
     <!-- Mobile / PWA -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="y
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Leonoria">
     <meta name="theme-color" content="#141d0e">
@@ -42,7 +42,7 @@
       "name": "Leonoria",
       "url": "https://norrtou.github.io/leonoria/",
       "description": "A procedurally generated table top role playing game world builder and adventure platform.",
-      "potentialAction": {
+      "potentialAction": {/
         "@type": "SearchAction",
         "target": "https://norrtou.github.io/leonoria/map.html"
       }
@@ -269,6 +269,24 @@
             opacity: 0.45;
             cursor: not-allowed;
             pointer-events: none;
+        }
+
+        .battle-btn {
+            background: linear-gradient(170deg, #1e4a2c 0%, #0f3a1c 100%) !important;
+            border-color: #3a7a4a !important;
+        }
+        .battle-btn:hover, .battle-btn:focus-visible {
+            background: linear-gradient(170deg, #2a5e38 0%, #165a28 100%) !important;
+            border-color: #5aaa6a !important;
+        }
+
+        .races-btn {
+            background: linear-gradient(170deg, #402018 0%, #281008 100%) !important;
+            border-color: #7a4a2a !important;
+        }
+        .races-btn:hover, .races-btn:focus-visible {
+            background: linear-gradient(170deg, #542a20 0%, #361810 100%) !important;
+            border-color: #a06840 !important;
         }
 
         .btn-icon {
@@ -519,18 +537,24 @@
                     <span class="btn-icon" aria-hidden="true">✦</span>
                     Create Characters
                 </a>
-                <a href="#" class="nav-btn" aria-disabled="true" tabindex="-1">
-                    <span class="btn-icon" aria-hidden="true">📖</span>
-                    Create a Campaign
+                <a href="battlemap.html" class="nav-btn battle-btn">
+                    <span class="btn-icon" aria-hidden="true">🎭</span>
+                    Battle Map Simulator
                 </a>
             </div>
             <div class="path-divider" role="separator" aria-hidden="true">
                 <span class="path-divider-glyph">✦ ✦ ✦</span>
             </div>
-            <a href="about.html" class="nav-btn about-btn">
-                <span class="btn-icon" aria-hidden="true">📜</span>
-                About Leonoria
-            </a>
+            <div class="nav-row">
+                <a href="webdata/races.html" class="nav-btn races-btn">
+                    <span class="btn-icon" aria-hidden="true">⚑</span>
+                    Races of Leonoria
+                </a>
+                <a href="about.html" class="nav-btn about-btn">
+                    <span class="btn-icon" aria-hidden="true">📜</span>
+                    About Leonoria
+                </a>
+            </div>
         </nav>
 
         <!-- Ornamental divider -->

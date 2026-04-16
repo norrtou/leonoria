@@ -1,0 +1,172 @@
+{
+  "version": "1.0",
+  "system": "Leonoria Weapon Curses",
+  "note": "Curses are hidden until the weapon is equipped. Global roll chance is 1% for any non-starter weapon. See weapon_quality_system.json for probability rules. Cursed quality weapons have 100% curse chance.",
+
+  "reveal_mechanic": "Curse is unknown until item is equipped. Tooltip shows '???' until equipped. On equip, curse is revealed and added to item tooltip permanently.",
+  "removal": "Most curses can only be removed by an Enchanter NPC. The Bound curse must be removed first if present alongside other curses.",
+
+  "curses": [
+    {
+      "id": "curse_bound",
+      "name": "Bound",
+      "severity": "High",
+      "mechanical_effect": "The weapon cannot be unequipped or replaced without visiting an Enchanter. All other equipped curses on this weapon remain active until an Enchanter removes the Bound curse first.",
+      "can_stack_with_other_curses": true,
+      "tooltip_text": "Bound — Cannot unequip without an Enchanter.",
+      "flavor": "Something has anchored it to your grip. You cannot let go."
+    },
+    {
+      "id": "curse_heavy_grip",
+      "name": "Heavy Grip",
+      "severity": "Low",
+      "mechanical_effect": "Reduces attack speed. Weapon initiative order is reduced by 1 position each combat turn.",
+      "tooltip_text": "Heavy Grip — Reduced attack speed.",
+      "flavor": "It feels heavier than it looks. Each swing costs more than it should."
+    },
+    {
+      "id": "curse_dull_edge",
+      "name": "Dull Edge",
+      "severity": "Medium",
+      "mechanical_effect": "Weapon damage decreases by 5% per combat turn (cumulative, to a minimum of 50% base damage). Can be resharpened after battle at a smithing bench; resets to full for next battle.",
+      "tooltip_text": "Dull Edge — Loses sharpness in combat. Resharpenable after battle.",
+      "flavor": "The edge dulls faster than any metal should. Something is working against you."
+    },
+    {
+      "id": "curse_slippery_haft",
+      "name": "Slippery Haft",
+      "severity": "Medium",
+      "mechanical_effect": "Each attack has a 15% chance to fumble (drop the weapon for 1 turn; costs an action to retrieve). Accuracy also reduced by 10%.",
+      "tooltip_text": "Slippery Haft — 15% fumble chance per attack.",
+      "flavor": "The grip seems slick regardless of what you do. One day it will slip at the worst moment."
+    },
+    {
+      "id": "curse_hunger",
+      "name": "Hunger",
+      "severity": "Medium",
+      "mechanical_effect": "Each strike drains 3% of the wielder's current Battle Stamina pool.",
+      "tooltip_text": "Hunger — Drains 3% Battle Stamina per strike.",
+      "flavor": "It feeds on your effort. The more you use it, the heavier it gets."
+    },
+    {
+      "id": "curse_bloodthirst",
+      "name": "Bloodthirst",
+      "severity": "High",
+      "mechanical_effect": "Each attack drains 2% of the wielder's current HP as the weapon draws life energy.",
+      "tooltip_text": "Bloodthirst — Drains 2% wielder HP per attack.",
+      "flavor": "It needs blood — yours, if you do not provide it another's quickly enough."
+    },
+    {
+      "id": "curse_misaligned",
+      "name": "Misaligned",
+      "severity": "Medium",
+      "mechanical_effect": "Weapon's attack rolls are heavily weighted toward the minimum damage range. Effective damage output is approximately 70% of the rolled range's midpoint.",
+      "tooltip_text": "Misaligned — Consistently rolls low damage.",
+      "flavor": "The balance is just slightly off. No matter how well you aim, something is wrong."
+    },
+    {
+      "id": "curse_jagged_grip",
+      "name": "Jagged Grip",
+      "severity": "Medium",
+      "mechanical_effect": "10% of all damage dealt is reflected back to the wielder as Slashing (Thorns) damage.",
+      "tooltip_text": "Jagged Grip — Reflects 10% of dealt damage to wielder.",
+      "flavor": "The hilt cuts into your palm. You feel every hit."
+    },
+    {
+      "id": "curse_fragile_spirit",
+      "name": "Fragile Spirit",
+      "severity": "Low",
+      "mechanical_effect": "Item durability degrades at 3× the normal rate. Each battle, the weapon has a 20% chance to lose one durability tier.",
+      "tooltip_text": "Fragile Spirit — Degrades rapidly. Requires frequent repair.",
+      "flavor": "It resists being maintained. As if it wants to fall apart."
+    },
+    {
+      "id": "curse_whispering",
+      "name": "Whispering",
+      "severity": "Low",
+      "mechanical_effect": "Constantly emits faint whispers only the wielder can hear. Reduces Cognition-based rolls by 10% during combat. Worsens with time in combat.",
+      "tooltip_text": "Whispering — Reduces Cognition rolls by 10% in combat.",
+      "flavor": "It never stops. The words are almost understandable, which is the worst part."
+    },
+    {
+      "id": "curse_cold_touch",
+      "name": "Cold Touch",
+      "severity": "Low",
+      "mechanical_effect": "The wielder takes 1 point of Chill damage per attack made, regardless of hit or miss.",
+      "tooltip_text": "Cold Touch — Deals 1 Chill damage to wielder per attack.",
+      "flavor": "It is always cold. Not cool — cold. The kind that reaches into bone."
+    },
+    {
+      "id": "curse_heat_bleed",
+      "name": "Heat Bleed",
+      "severity": "Medium",
+      "mechanical_effect": "Builds heat in the wielder over combat. Every 3 turns of attacking, the wielder suffers a stack of Heat status (each stack deals 2 Fire damage at end of turn). Maximum 5 stacks.",
+      "tooltip_text": "Heat Bleed — Builds heat stacks on wielder each turn. 2 Fire dmg/stack at turn end.",
+      "flavor": "The grip grows warm. Then hot. Then it becomes a problem."
+    },
+    {
+      "id": "curse_phased",
+      "name": "Phased",
+      "severity": "Low",
+      "mechanical_effect": "Damage variance is doubled. The weapon rolls on a much wider range — may hit very high or very low with equal probability. Unpredictable in extended fights.",
+      "tooltip_text": "Phased — Inconsistent. Wide damage variance on every hit.",
+      "flavor": "Sometimes it bites deep. Sometimes it passes through like it isn't really there."
+    },
+    {
+      "id": "curse_marked",
+      "name": "Marked",
+      "severity": "Medium",
+      "mechanical_effect": "The wielder becomes significantly easier to detect and track. Stealth reduced by 25%. Enemies with tracking abilities find the wielder automatically.",
+      "tooltip_text": "Marked — Stealth -25%. Enemies with tracking find wielder automatically.",
+      "flavor": "Carrying it feels like holding a torch in the dark. Something always knows where you are."
+    },
+    {
+      "id": "curse_leeching_edge",
+      "name": "Leeching Edge",
+      "severity": "Medium",
+      "mechanical_effect": "Natural HP regeneration is reduced by 50% while the weapon is equipped (both in and out of combat).",
+      "tooltip_text": "Leeching Edge — Natural HP regeneration -50% while equipped.",
+      "flavor": "Your wounds close slower. The weapon takes something from you, even when sheathed."
+    },
+    {
+      "id": "curse_simpleton",
+      "name": "Simpleton",
+      "severity": "Medium",
+      "mechanical_effect": "Weapon damage is reduced by 30% when the wielder uses any advanced martial skill (skill tier 2 or higher). Bonus from combat skills and abilities is ignored.",
+      "tooltip_text": "Simpleton — Penalises advanced martial skills. -30% damage on skilled strikes.",
+      "flavor": "The weapon resists being used well. It prefers brute force over technique."
+    },
+    {
+      "id": "curse_clumsy_weight",
+      "name": "Clumsy Weight",
+      "severity": "Medium",
+      "mechanical_effect": "Attack recovery time between swings is increased. Weapon initiative penalty of -2 positions each turn. The wielder always acts last in a tie.",
+      "tooltip_text": "Clumsy Weight — Initiative -2 each turn. Always last in ties.",
+      "flavor": "Each swing leaves you off-balance. Recovering takes longer than it should."
+    },
+    {
+      "id": "curse_chaotical",
+      "name": "Chaotical",
+      "severity": "High",
+      "mechanical_effect": "5% chance per attack that the weapon targets a random entity on the battlefield instead of the intended target — friend or foe. This cannot be controlled.",
+      "tooltip_text": "Chaotical — 5% chance to strike a random target instead of intended.",
+      "flavor": "The weapon has opinions. They do not always align with yours."
+    },
+    {
+      "id": "curse_rotting_aura",
+      "name": "Rotting Aura",
+      "severity": "Medium",
+      "mechanical_effect": "The wielder takes 2 points of Blight damage at the end of each combat turn while the weapon is equipped.",
+      "tooltip_text": "Rotting Aura — Wielder takes 2 Blight damage per combat turn.",
+      "flavor": "The air around the blade smells of decay. It is working on you as much as anything you face."
+    },
+    {
+      "id": "curse_soul_tax",
+      "name": "Soul Tax",
+      "severity": "Medium",
+      "mechanical_effect": "Each successful strike temporarily drains 3 Conviction from the wielder for the remainder of the current battle. Resets after battle ends.",
+      "tooltip_text": "Soul Tax — Each successful hit drains 3 Conviction (battle only). Resets after battle.",
+      "flavor": "You win, but it costs something that isn't stamina. After every fight, it is harder to remember why."
+    }
+  ]
+}

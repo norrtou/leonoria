@@ -527,6 +527,9 @@ class MapScreen {
         this.map.generate();
         this.currentSeed = this.map.seed;
 
+        // Reset kingdoms toggle button — new map always starts with overlay hidden
+        document.getElementById('kingdoms-toggle')?.classList.remove('btn-active');
+
         // Init grid and hero using the data auto-populated by generate()
         const svgEl     = this.container.querySelector('svg');
         const hexGrid   = new HexGridManager(MapSaveStore.lastSaved.jsonData, svgEl);
@@ -556,6 +559,16 @@ class Game {
             document.getElementById('map-viewport'),
             document.getElementById('map-container')
         );
+
+        const kingdomsBtn = document.getElementById('kingdoms-toggle');
+        if (kingdomsBtn) {
+            kingdomsBtn.addEventListener('click', () => {
+                const map = this.mapScreen?.map;
+                if (!map) return;
+                const visible = map.toggleKingdoms();
+                kingdomsBtn.classList.toggle('btn-active', !!visible);
+            });
+        }
 
         document.getElementById('export-map-btn').addEventListener('click', async () => {
             const btn = document.getElementById('export-map-btn');
@@ -1002,6 +1015,7 @@ class Game {
 
         // Unique settlement types and landmark categories actually present on this map
         const presentSettlementTypes = [...new Set((map.settlements ?? []).map(s => s.type))];
+        const presentLandmarkTypes   = [...new Set((map.landmarks ?? []).filter(l => l.type).map(l => l.type))];
         const presentLandmarkCats    = [...new Set((map.landmarks   ?? []).map(l => l.category ?? 'nature'))];
 
         let h = '';
@@ -1147,8 +1161,8 @@ class Game {
             });
         }
 
-        // ── Settlements — only types present on this map, ruins excluded ─────
-        const SETTLEMENT_ORDER = ['capital', 'city', 'stronghold', 'port_city', 'market_town', 'town', 'fishing_village', 'village'];
+        // ── Settlements — only types present on this map ───────────────────────
+        const SETTLEMENT_ORDER = ['capital', 'city', 'fortress', 'port_city', 'market_town', 'town', 'fishing_village', 'village', 'port'];
         const presentSettlements = SETTLEMENT_ORDER.filter(t => presentSettlementTypes.includes(t));
         if (presentSettlements.length) {
             h += `<div class="legend-section">Settlements</div>`;
@@ -1162,24 +1176,23 @@ class Game {
             });
         }
 
-        // ── Ruins & camps — separate section ──────────────────────────────────
-        const pointsOfInterest = ['ruin', 'camp', 'fortified_camp'].filter(t => presentSettlementTypes.includes(t));
-        if (pointsOfInterest.length) {
-            h += `<div class="legend-section">Points of Interest</div>`;
-            pointsOfInterest.forEach(type => {
-                const cfg = type === 'ruin' ? LEGEND_SETTLEMENTS['ruin'] : LEGEND_LANDMARKS[type];
+        // ── Landmarks — placed types (ruin, stronghold) and generated categories ────
+        // NOTE: Landmarks are NEVER settlements. They are archaeological sites and points of interest.
+        const allLandmarksToShow = new Set([...presentLandmarkTypes, ...presentLandmarkCats]);
+        if (allLandmarksToShow.size) {
+            h += `<div class="legend-section">Landmarks</div>`;
+            // Show landmark types first (ruin, stronghold)
+            presentLandmarkTypes.forEach(type => {
+                const cfg = LEGEND_LANDMARKS[type];
                 if (!cfg) return;
                 h += `<div class="legend-row">
                     <span class="legend-icon-svg">${cfg.icon}</span>
                     <span><strong>${cfg.label}</strong> — <em style="color:#666;font-size:10px">${cfg.desc}</em></span>
                 </div>`;
             });
-        }
-
-        // ── Landmarks — only categories present on this map ────────────────────
-        if (presentLandmarkCats.length) {
-            h += `<div class="legend-section">Landmarks</div>`;
-            presentLandmarkCats.forEach(cat => {
+            // Then show landmark categories (dungeon, shrine, military, etc.)
+            Array.from(allLandmarksToShow).forEach(cat => {
+                if (presentLandmarkTypes.includes(cat)) return;  // Skip if already shown as a type
                 const cfg = LEGEND_LANDMARKS[cat];
                 if (!cfg) return;
                 h += `<div class="legend-row">
@@ -1330,7 +1343,7 @@ function _ruinImage(name) {
 }
 
 // ─── Settlement popup (towns & cities — temperate forest & plains) ────────────
-window.showTownPopup = function(settlementName, biomeId, settlementType, settlementCultureId) {
+window.showTownPopup = function(settlementName, biomeId, settlementType, settlementCultureId, settlementKingdomId) {
     const popup  = document.getElementById('town-popup');
     const imgEl  = document.getElementById('town-popup-img');
     const nameEl = document.getElementById('town-popup-name');
@@ -1381,7 +1394,14 @@ window.showTownPopup = function(settlementName, biomeId, settlementType, settlem
         imgEl.dataset.placeholder = 'biome-graphics-not-implemented';
     }
 
-    nameEl.textContent = settlementName;
+    const _typeLabels = {
+        capital: 'Capital', city: 'City', stronghold: 'Stronghold',
+        port_city: 'Port City', market_town: 'Market Town', town: 'Town',
+        fishing_village: 'Fishing Village', village: 'Village',
+        camp: 'Camp', stronghold: 'Fortified Camp', port: 'Port', ruin: 'Ruin',
+    };
+    const _typeLabel = _typeLabels[settlementType] ?? '';
+    nameEl.textContent = _typeLabel ? `${settlementName} — ${_typeLabel}` : settlementName;
 
     // Prepare a short, human-friendly culture token for the settlement.
     // The `settlementCultureId` often comes from name-pool sources like
@@ -1526,7 +1546,7 @@ window.showTownPopup = function(settlementName, biomeId, settlementType, settlem
 
         if (displayCultureName) {
             const kind = isVillage ? 'village' : isFishing ? 'fishing village' : isTown ? 'town' : isMarketTown ? 'market town' : isCity ? 'city' : settlementType;
-            const sizeWord = (isVillage || isFishing || settlementType === 'camp') ? 'small' : '';
+            const sizeWord = (isVillage || isFishing) ? 'small' : '';
             const size = sizeWord ? `${sizeWord} ` : '';
             const articleBase = (sizeWord ? sizeWord : displayCultureName).toLowerCase();
             const article = (/^[aeiou]/i.test(articleBase)) ? 'An' : 'A';
@@ -1534,19 +1554,67 @@ window.showTownPopup = function(settlementName, biomeId, settlementType, settlem
         }
     } catch (e) { cultureDescriptorHtml = ''; }
 
+    // Resolve kingdom object from the passed kingdom id.
+    // Independent of the overlay toggle — kingdom data shows whenever a
+    // settlement has been assigned to a kingdom, regardless of map state.
+    let kd = null;
+    try {
+        if (settlementKingdomId) {
+            kd = (window._leonoriaKingdoms ?? []).find(k => k.id === settlementKingdomId) ?? null;
+        }
+    } catch (e) { kd = null; }
+
+    // Stable region pick: same settlement always maps to the same region
+    const kdRegion = (() => {
+        if (!kd || !Array.isArray(kd.known_regions) || !kd.known_regions.length) return null;
+        let h = 0;
+        for (let i = 0; i < settlementName.length; i++)
+            h = Math.imul(h ^ settlementName.charCodeAt(i), 0x9e3779b9) >>> 0;
+        return kd.known_regions[h % kd.known_regions.length];
+    })();
+
+    // Build kingdom header block — inserted right at the top of the popup body
+    const kingdomHtml = (() => {
+        if (!kd) return '';
+        const colorSwatch = `<span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:${kd.color_hex ?? '#888'};margin-right:5px;vertical-align:middle;border:1px solid rgba(0,0,0,0.25)"></span>`;
+        let h = `<div class="popup-section-label">Nation / Kingdom</div>`;
+        h += `<div class="popup-fact">${colorSwatch}<strong>${kd.name}</strong>`;
+        if (kdRegion) h += ` &mdash; <em>${kdRegion}</em>`;
+        h += `</div>`;
+        if (kd.description) h += `<div class="popup-fact">${kd.description}</div>`;
+        if (kd.stance)      h += `<div class="popup-fact"><em>${kd.stance}.</em></div>`;
+        return h;
+    })();
+
+    // People block derived from kingdom rather than old culture data
+    const kingdomPeopleHtml = (() => {
+        if (!kd) return '';
+        const traits = Array.isArray(kd.traits) ? kd.traits.slice(0, 4).join(' · ') : '';
+        const classes = Array.isArray(kd.typical_classes) ? kd.typical_classes.join(', ') : '';
+        let h = '';
+        if (cultureRaceHtml) h += cultureRaceHtml;
+        if (traits) h += `<div class="popup-fact">${traits}.</div>`;
+        if (classes) h += `<div class="popup-fact"><strong>Common callings:</strong> ${classes}.</div>`;
+        return h;
+    })();
+
+    // Architecture / governance block from kingdom
+    const kingdomArchHtml = kd?.architecture
+        ? `<div class="popup-fact"><strong>Architecture:</strong> ${kd.architecture}</div>`
+        : '';
+
     let html = '';
-    // Insert the simple culture descriptor first so it's clearly visible
-    if (cultureDescriptorHtml) html += cultureDescriptorHtml;
+    // Kingdom section is the first thing in the body for Midlands settlements
+    if (kingdomHtml) html += kingdomHtml;
 
     if (isFishing) {
         html += `<div class="popup-section-label">Settlement</div>`;
         html += `<div class="popup-fact">A fishing village — a small coastal settlement sustained by fishing, boatwrights, and fish-processing. Boats, drying racks, and nets dominate daily life on the shore.</div>`;
-        if (culture) {
-            html += `<div class="popup-section-label">Economy</div>`;
-            html += `<div class="popup-fact">Fishing and small-scale processing form the backbone of the local economy; a few traders ply salted fish and bait along nearby routes.</div>`;
+        html += `<div class="popup-section-label">Economy</div>`;
+        html += `<div class="popup-fact">Fishing and small-scale processing form the backbone of the local economy; traders ply salted fish and bait along nearby routes.</div>`;
+        if (kingdomPeopleHtml || cultureRaceHtml) {
             html += `<div class="popup-section-label">People</div>`;
-            html += cultureRaceHtml;
-            html += `<div class="popup-fact">${cultureSummary || (culture.traits ? culture.traits.join(' · ') : '')}</div>`;
+            html += kingdomPeopleHtml || (cultureRaceHtml + `<div class="popup-fact">${cultureSummary}</div>`);
         }
     } else if (isCity) {
         const cityList = settlements?.cities ?? [];
@@ -1564,16 +1632,13 @@ window.showTownPopup = function(settlementName, biomeId, settlementType, settlem
         }
         if (cityEntry) html += ` Cities of this stature include such places as <em>${cityEntry}</em>.`;
         html += `</div>`;
-
-        if (culture) {
+        if (kingdomArchHtml) {
+            html += `<div class="popup-section-label">Governance &amp; Architecture</div>`;
+            html += kingdomArchHtml;
+        }
+        if (kingdomPeopleHtml || cultureRaceHtml) {
             html += `<div class="popup-section-label">People</div>`;
-            html += cultureRaceHtml;
-            html += `<div class="popup-fact">${cultureSummary || (culture.traits ? culture.traits.join(' · ') : '')}</div>`;
-
-            if (culture.regions?.length) {
-                html += `<div class="popup-section-label">Known Regions</div>`;
-                html += `<div class="popup-fact">${culture.regions.join(' · ')}</div>`;
-            }
+            html += kingdomPeopleHtml || (cultureRaceHtml + `<div class="popup-fact">${cultureSummary}</div>`);
         }
     } else if (isMarketTown) {
         const tradeList = settlements?.trade_and_industry ?? [];
@@ -1585,19 +1650,24 @@ window.showTownPopup = function(settlementName, biomeId, settlementType, settlem
         html += `<div class="popup-fact">A prosperous market town — a centre of trade, law, and governance amid the ${terrain}.`;
         if (tradeFact) html += ` Notable institutions include <em>${tradeFact}</em>.`;
         html += `</div>`;
-
-        if (culture) {
+        if (kingdomArchHtml) {
+            html += `<div class="popup-section-label">Governance &amp; Architecture</div>`;
+            html += kingdomArchHtml;
+        }
+        if (kingdomPeopleHtml || cultureRaceHtml) {
             html += `<div class="popup-section-label">People</div>`;
-            html += cultureRaceHtml;
-            html += `<div class="popup-fact">${cultureSummary || (culture.traits ? culture.traits.join(' · ') : '')}</div>`;
+            html += kingdomPeopleHtml || (cultureRaceHtml + `<div class="popup-fact">${cultureSummary}</div>`);
         }
     } else if (isTown) {
         html += `<div class="popup-section-label">Settlement</div>`;
         html += `<div class="popup-fact">A town — a local centre of services, markets, and minor governance serving surrounding villages in the ${terrain}.</div>`;
-        if (culture) {
+        if (kingdomArchHtml) {
+            html += `<div class="popup-section-label">Governance &amp; Architecture</div>`;
+            html += kingdomArchHtml;
+        }
+        if (kingdomPeopleHtml || cultureRaceHtml) {
             html += `<div class="popup-section-label">People</div>`;
-            html += cultureRaceHtml;
-            html += `<div class="popup-fact">${cultureSummary || (culture.traits ? culture.traits.join(' · ') : '')}</div>`;
+            html += kingdomPeopleHtml || (cultureRaceHtml + `<div class="popup-fact">${cultureSummary}</div>`);
         }
     } else if (isVillage) {
         const villageList = settlements?.villages ?? [];
@@ -1609,12 +1679,9 @@ window.showTownPopup = function(settlementName, biomeId, settlementType, settlem
         html += `<div class="popup-fact">A small rural village — a tight-knit community of farmers, hunters, and craftspeople scratching a living from the ${terrain}.`;
         if (villageEntry) html += ` Humble settlements of this kind bear names such as <em>${villageEntry}</em>.`;
         html += `</div>`;
-
-        if (culture) {
+        if (kingdomPeopleHtml || cultureRaceHtml) {
             html += `<div class="popup-section-label">People</div>`;
-            html += cultureRaceHtml;
-            html += `<div class="popup-fact">${cultureSummary || (culture.traits ? culture.traits.join(' · ') : '')}</div>`;
-
+            html += kingdomPeopleHtml || (cultureRaceHtml + `<div class="popup-fact">${cultureSummary}</div>`);
         }
     } else if (isRuin) {
         const nameL = settlementName.toLowerCase();
@@ -1692,14 +1759,16 @@ window.showTownPopup = function(settlementName, biomeId, settlementType, settlem
             : null;
 
         html += `<div class="popup-section-label">Settlement</div>`;
-        html += `<div class="popup-fact">A prosperous market town — a centre of trade, law, and governance amid the ${terrain}.`;
+        html += `<div class="popup-fact">A settlement of the ${terrain}.`;
         if (tradeFact) html += ` Notable institutions include <em>${tradeFact}</em>.`;
         html += `</div>`;
-
-        if (culture) {
+        if (kingdomArchHtml) {
+            html += `<div class="popup-section-label">Governance &amp; Architecture</div>`;
+            html += kingdomArchHtml;
+        }
+        if (kingdomPeopleHtml || cultureRaceHtml) {
             html += `<div class="popup-section-label">People</div>`;
-            html += cultureRaceHtml;
-            html += `<div class="popup-fact">${cultureSummary || (culture.traits ? culture.traits.join(' · ') : '')}</div>`;
+            html += kingdomPeopleHtml || (cultureRaceHtml + `<div class="popup-fact">${cultureSummary}</div>`);
         }
     }
     // Amenities summary (all biomes) — use FantasyMap static helper when present
@@ -1710,9 +1779,9 @@ window.showTownPopup = function(settlementName, biomeId, settlementType, settlem
         const amen = amenFactory(settlementType) ?? {};
 
         const displayNames = {
-            capital: 'capital', city: 'city', stronghold: 'stronghold', port_city: 'port city',
+            capital: 'capital', city: 'city', fortress: 'fortress', port_city: 'port city',
             market_town: 'market town', town: 'town', fishing_village: 'fishing village',
-            village: 'village', camp: 'camp', fortified_camp: 'fortified camp', port: 'port', ruin: 'ruin'
+            village: 'village', stronghold: 'fortified camp', port: 'port', ruin: 'ruin'
         };
         const disp = displayNames[settlementType] || settlementType;
 
@@ -1782,6 +1851,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         'data/map/swampbrood_settlements.json',         // 19
         'data/map/ashen_halfbreeds_settlements.json',   // 20
         'data/map/step_folk_settlements.json',          // 21
+        'data/cultures/kingdoms.json',                  // 22
     ];
     try {
         const loaded = await Promise.all(jsonFiles.map(p => fetch(p).then(r => r.json())));
@@ -1818,6 +1888,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         window._leonoriaRuinsData        = loaded[4].ruins ?? null;
         window._leonoriaLocationsData    = loaded[10]?.locations ?? [];
         window._leonoriaErasData         = Array.isArray(loaded[11]) ? loaded[11] : [];
+        window._leonoriaKingdoms         = loaded[22]?.kingdoms ?? [];
     } catch (e) {
         console.warn('[Leonoria] JSON data unavailable, using built-in defaults', e);
     }

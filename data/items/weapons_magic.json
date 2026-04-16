@@ -1,0 +1,598 @@
+{
+  "version": "1.0",
+  "system": "Leonoria Magic Weapons — Wands, Staves, and Foci",
+  "note": "Magic weapons prioritise spell amplification over physical damage. Physical damage output is intentionally low. The real differentiation is: Control vs Power, Stability vs Volatility, Single-target vs Area casting. Magical properties only activate for the relevant spellcaster class — other classes can use the physical damage but gain no magical benefits.",
+
+  "magic_weapon_types": ["wand", "rod", "scepter_focus", "orb", "dagger_ritual", "baton", "totem", "spellbook", "staff_magic"],
+  "note_staff_overlap": "Magic staves (WM2_xxx) are distinct from combat staves (W2H_023-026). Both deal similar physical blunt damage but magic staves carry spell amplification properties that combat staves do not.",
+
+  "one_handed_magic_weapons": [
+    {
+      "id": "WM1_001",
+      "name": "Wand",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [1, 2],
+      "primary_stat": "Cognition",
+      "min_physiology": 2,
+      "material_group": "all_metals",
+      "base_cost_copper": 100,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Control",
+      "spell_amplification": {
+        "type": "Materium Pool Bonus",
+        "description": "Grants +10–15 extra Materium Connection points for the duration of combat."
+      },
+      "flavor": "The basic conduit. Focused spellcasting at minimal weight. What it lacks in raw power it makes up for in precision."
+    },
+    {
+      "id": "WM1_002",
+      "name": "Rod",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [1, 3],
+      "primary_stat": "Cognition",
+      "min_physiology": 3,
+      "material_group": "all_metals",
+      "base_cost_copper": 80,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Stability",
+      "spell_amplification": {
+        "type": "Channeling Stability",
+        "description": "Reduces the chance of spell miscast or overload by 15%. Stronger than a wand in melee, more stable for sustained casting."
+      },
+      "flavor": "Sturdier and shorter than a wand. Less precise, but more resilient to the punishment of a full battle."
+    },
+    {
+      "id": "WM1_003",
+      "name": "Magic Scepter",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [2, 4],
+      "primary_stat": "Conviction",
+      "min_physiology": 4,
+      "material_group": "all_metals",
+      "base_cost_copper": 200,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Lightwielding",
+      "spell_amplification": {
+        "type": "Lightwielding Perks",
+        "description": "On equip, grants one random Lightwielding perk (rolled at item generation). Examples: bonus Purelight damage, Solacium range increase, Verdicium scaling improvement.",
+        "perk_count": 1,
+        "perk_source": "Lightwielding school only"
+      },
+      "flavor": "Ornate and symbolic. The magical properties only express themselves through Lightwielding school casting."
+    },
+    {
+      "id": "WM1_004",
+      "name": "Focus Orb",
+      "hands": 1,
+      "reach_hex": 0,
+      "throwable": false,
+      "damage_distribution": [],
+      "base_dmg_range": [0, 0],
+      "primary_stat": "Cognition",
+      "min_physiology": 2,
+      "material_group": "all_metals",
+      "base_cost_copper": 150,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Precision",
+      "no_melee_use": true,
+      "spell_amplification": {
+        "type": "Spell Precision",
+        "description": "Enhances spell accuracy and targeting radius. Single-target spells gain +10% hit chance. Area spells gain tighter radius control."
+      },
+      "flavor": "Held or floating at palm level. No weapon — entirely a focusing lens for the mind. Useless if someone walks up close."
+    },
+    {
+      "id": "WM1_005",
+      "name": "Spell Dagger",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "base_dmg_range": [1, 3],
+      "primary_stat": "Cognition",
+      "min_physiology": 3,
+      "material_group": "all_metals",
+      "base_cost_copper": 120,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Volatile",
+      "spell_amplification": {
+        "type": "Affliction Delivery",
+        "description": "Any successful melee hit with this weapon applies a random affliction or minor Venomous damage effect on the target in addition to physical damage."
+      },
+      "flavor": "A ritual blade used as much to direct intent as to cut. The edge carries magic the same way a wick carries fire."
+    },
+    {
+      "id": "WM1_006",
+      "name": "Rune Wand",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [1, 2],
+      "primary_stat": "Cognition",
+      "min_physiology": 2,
+      "material_group": "all_metals",
+      "base_cost_copper": 180,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Structured",
+      "spell_amplification": {
+        "type": "Materium School Boost",
+        "description": "Inscribed with runes attuned to one specific Materium school (determined at generation). Spells of that school deal 10–20% bonus damage.",
+        "school_restriction": "Materium only"
+      },
+      "flavor": "The runes are not decoration. Each one is a narrow channel that focuses one specific school very precisely."
+    },
+    {
+      "id": "WM1_007",
+      "name": "Crystal Wand",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [1, 2],
+      "primary_stat": "Cognition",
+      "min_physiology": 2,
+      "material_group": "all_metals",
+      "base_cost_copper": 200,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Power",
+      "spell_amplification": {
+        "type": "Spell Damage Amplifier",
+        "description": "Embedded resonant crystal improves all spell damage output by 5–15%.",
+        "damage_bonus_range_percent": [5, 15]
+      },
+      "flavor": "The crystal amplifies. What school of magic is irrelevant — it simply makes everything hit harder."
+    },
+    {
+      "id": "WM1_008",
+      "name": "Bone Wand",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [1, 2],
+      "primary_stat": "Cognition",
+      "min_physiology": 2,
+      "material_group": "bone_only",
+      "material_locked": "bone",
+      "base_cost_copper": 100,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Dark/Primal",
+      "spell_amplification": {
+        "type": "Dark and Primal Amplification",
+        "description": "Enhances Shadow Arts and primal Materium school spells. Does not interact with Lightwielding spells at all.",
+        "incompatible_with": "Lightwielding"
+      },
+      "flavor": "Made from the bones of something magical. It still carries that energy, now directed rather than wild."
+    },
+    {
+      "id": "WM1_009",
+      "name": "Branch Focus",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [1, 2],
+      "primary_stat": "Cognition",
+      "min_physiology": 2,
+      "material_group": "wooden_only",
+      "material_locked": "wooden",
+      "base_cost_copper": 80,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Nature",
+      "spell_amplification": {
+        "type": "Nature and Life Amplification",
+        "description": "Living wood synergises with nature-based and life-school magic. Athropium, Organia, and Lifewhispering spells deal 5–15% bonus damage.",
+        "bonus_range_percent": [5, 15]
+      },
+      "flavor": "A living branch, cut and shaped while still green. The life in it responds to nature magic as iron responds to a magnet."
+    },
+    {
+      "id": "WM1_010",
+      "name": "Chain Focus",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [1, 3],
+      "primary_stat": "Cognition",
+      "min_physiology": 3,
+      "material_group": "all_metals",
+      "base_cost_copper": 120,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Volatile",
+      "spell_amplification": {
+        "type": "Critical Spell Chance",
+        "description": "Rhythmic casting with this focus increases the critical hit chance of spells by 10%."
+      },
+      "flavor": "The rattling rhythm of the chain marks cast time. Practitioners develop a cadence. The magic follows the beat."
+    },
+    {
+      "id": "WM1_011",
+      "name": "Glyph Baton",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [1, 2],
+      "primary_stat": "Cognition",
+      "min_physiology": 2,
+      "material_group": "all_metals",
+      "base_cost_copper": 140,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Economy",
+      "spell_amplification": {
+        "type": "Materium Cost Reduction",
+        "description": "Drawing spells in the air through this baton reduces the Materium Connection pool cost of all spells by 10%. Improves casting control and shaping."
+      },
+      "flavor": "The glyphs drawn with this direct the spell's shape before it is released. Efficient in a way raw casting never is."
+    },
+    {
+      "id": "WM1_012",
+      "name": "Spirit Totem",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [1, 2],
+      "primary_stat": "Conviction",
+      "min_physiology": 2,
+      "material_group": "all_metals",
+      "base_cost_copper": 160,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Defence/Spirit",
+      "spell_amplification": {
+        "type": "Magical Resistance Boost",
+        "description": "Channelling ancestral spirits through this totem improves the wielder's magical resistances by 5–25% (rolled at generation).",
+        "resistance_bonus_range_percent": [5, 25]
+      },
+      "flavor": "More fetish than weapon. The spirits invoked through it do not fight so much as protect."
+    },
+    {
+      "id": "WM1_013",
+      "name": "Charmblade",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "base_dmg_range": [2, 4],
+      "primary_stat": "Conviction",
+      "min_physiology": 3,
+      "material_group": "all_metals",
+      "base_cost_copper": 180,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Hybrid Melee-Caster",
+      "spell_amplification": {
+        "type": "Miss Inducement + Conviction Boost",
+        "description": "On a successful hit, 20% chance to cause the target to miss their next attack. Also grants +5 Conviction to the wielder in combat."
+      },
+      "flavor": "Short blade threaded with magic. Designed for a caster who cannot always keep their distance. The charm is a deterrent. The blade is a last resort."
+    },
+    {
+      "id": "WM1_014",
+      "name": "Spellbook (Grimoire)",
+      "hands": 1,
+      "reach_hex": 0,
+      "throwable": false,
+      "damage_distribution": [],
+      "base_dmg_range": [0, 0],
+      "primary_stat": "Cognition",
+      "min_physiology": 2,
+      "no_melee_use": true,
+      "material_group": "paper_leather",
+      "base_cost_copper": 300,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Power",
+      "spell_amplification": {
+        "type": "Spell Power Amplification",
+        "description": "Casting spells through the written incantations in this grimoire amplifies all spell damage output by 20%."
+      },
+      "flavor": "Held open, one hand occupied. Every spell in it was written once and is now read on command. The words know what they are."
+    },
+    {
+      "id": "WM1_015",
+      "name": "Lantern Focus",
+      "hands": 1,
+      "reach_hex": 1,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [1, 2],
+      "primary_stat": "Cognition",
+      "min_physiology": 2,
+      "material_group": "all_metals",
+      "base_cost_copper": 150,
+      "tooltip_category": "Magic Focus",
+      "magic_role": "Detection/Illumination",
+      "spell_amplification": {
+        "type": "Detection Enhancement",
+        "description": "The magical light it emits enhances detection and illumination spells. Also improves the wielder's ability to spot stealthed or hidden enemies by 50%."
+      },
+      "flavor": "It does not just light the room. It lights what the room is hiding."
+    }
+  ],
+
+  "two_handed_magic_weapons": [
+    {
+      "id": "WM2_001",
+      "name": "Staff (Magic)",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [4, 8],
+      "primary_stat": "Cognition",
+      "min_physiology": 20,
+      "material_group": "clubs_and_staves",
+      "base_cost_copper": 200,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Power",
+      "spell_amplification": {
+        "type": "Critical Spell Chance",
+        "description": "Classic long focus. Increases the critical hit chance of all spells by 5–15%.",
+        "crit_bonus_range_percent": [5, 15]
+      },
+      "flavor": "The long staff. Two hands, full leverage, full range. What it lacks in subtlety it supplies in reach and weight."
+    },
+    {
+      "id": "WM2_002",
+      "name": "Greatstaff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [5, 10],
+      "primary_stat": "Physiology",
+      "min_physiology": 20,
+      "material_group": "clubs_and_staves",
+      "base_cost_copper": 300,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Power",
+      "spell_amplification": {
+        "type": "Critical Spell Chance (High)",
+        "description": "Larger and heavier. Higher amplification than a standard staff but slower handling. Increases critical spell chance by 10–20%.",
+        "crit_bonus_range_percent": [10, 20]
+      },
+      "flavor": "Heavy enough to use as a weapon in earnest. The size amplifies both the physical and magical output."
+    },
+    {
+      "id": "WM2_003",
+      "name": "War Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [5, 10],
+      "primary_stat": "Physiology",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 350,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Defence/Stability",
+      "spell_amplification": {
+        "type": "Physical Resistance via Blocking",
+        "description": "Reinforced for melee use. Blocking with this staff amplifies physical resistance by 10% for the wielder."
+      },
+      "flavor": "A caster's staff that can actually take a hit. Reinforced where others would splinter. For those who expect to end up in reach."
+    },
+    {
+      "id": "WM2_004",
+      "name": "Crystal Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Cognition",
+      "min_physiology": 20,
+      "material_group": "clubs_and_staves",
+      "base_cost_copper": 400,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Power",
+      "spell_amplification": {
+        "type": "Spell Damage Amplifier",
+        "description": "Core crystal acts as a powerful amplifier for all spell output. Improves all spell damage by 5–15%.",
+        "damage_bonus_range_percent": [5, 15]
+      },
+      "flavor": "The crystal at its core catches and magnifies. Magic through it hits harder than through iron or wood."
+    },
+    {
+      "id": "WM2_005",
+      "name": "Totem Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Conviction",
+      "min_physiology": 20,
+      "material_group": "clubs_and_staves",
+      "base_cost_copper": 350,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Defence/Spirit",
+      "spell_amplification": {
+        "type": "All-Resistance Boost",
+        "description": "Decorated with relics and spirit anchors. Improves all the wielder's magical and physical resistances by 5–15%.",
+        "resistance_bonus_range_percent": [5, 15]
+      },
+      "flavor": "The relics on it are not trophies. They are anchors for the spirits that now protect the wielder."
+    },
+    {
+      "id": "WM2_006",
+      "name": "Runic Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Cognition",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 350,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Structured/Materium",
+      "spell_amplification": {
+        "type": "Materium School Boost",
+        "description": "Covered in structured runes. Enhances one specific Materium school (determined at generation) by 10–20% damage.",
+        "school_restriction": "Materium only"
+      },
+      "flavor": "Every glyph on the shaft narrows the channel. Less flexible, far more powerful in its chosen direction."
+    },
+    {
+      "id": "WM2_007",
+      "name": "Living Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Cognition",
+      "min_physiology": 20,
+      "material_group": "wooden_only",
+      "material_locked": "wooden",
+      "base_cost_copper": 500,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Nature/Growth",
+      "spell_amplification": {
+        "type": "Life and Nature Damage Boost",
+        "description": "Grown rather than crafted. Adapts to the wielder over time. Improves all damage from life- and nature-related schools by 10–30%.",
+        "bonus_range_percent": [10, 30],
+        "schools_affected": ["Athropium", "Organia", "Lifewhispering", "Harmony Weaving"]
+      },
+      "flavor": "It is still alive. The leaves that grow from its joints change with the wielder's mood. Over time, it becomes something personal."
+    },
+    {
+      "id": "WM2_008",
+      "name": "Bone Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [4, 8],
+      "primary_stat": "Cognition",
+      "min_physiology": 20,
+      "material_group": "bone_only",
+      "material_locked": "bone",
+      "base_cost_copper": 300,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Dark/Primal",
+      "spell_amplification": {
+        "type": "Shadow and Primal Boost",
+        "description": "Built from the bones of large magical creatures. Amplifies Shadow Arts and primal Materium school magic. Completely incompatible with Lightwielding.",
+        "incompatible_with": "Lightwielding"
+      },
+      "flavor": "The bones know what they were. The magic in them never entirely left."
+    },
+    {
+      "id": "WM2_009",
+      "name": "Elemental Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Cognition",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 600,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Power/Elemental",
+      "spell_amplification": {
+        "type": "Elemental Damage and Crit Boost",
+        "description": "Attuned to a single element (determined at generation). Boosts that element's damage from spells by 10%. Increases critical strike chance for that element's damage from spells by 10%.",
+        "element_at_generation": true
+      },
+      "flavor": "Narrow and volatile. It amplifies one element extremely well. Everything else is irrelevant to it."
+    },
+    {
+      "id": "WM2_010",
+      "name": "Dragon Totem",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Conviction",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 800,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Control",
+      "spell_amplification": {
+        "type": "Zone of Control Casting",
+        "description": "Allows the wielder to cast spells even when they are inside an enemy's Zone of Control — normally this would impose severe penalties or prevent casting."
+      },
+      "flavor": "The totem carries the presence of something vast and unconcerned. Enemies in reach still give it space."
+    },
+    {
+      "id": "WM2_011",
+      "name": "Banner Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Conviction",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 400,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Support",
+      "spell_amplification": {
+        "type": "Ally Conviction Buff",
+        "description": "The magical sigils or banners on this staff bolster allies within 3 hexes against Conviction-based attacks and effects."
+      },
+      "flavor": "Raised in battle, it changes the air around it. Allies near it find it harder to be frightened."
+    },
+    {
+      "id": "WM2_012",
+      "name": "Relic Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [4, 8],
+      "primary_stat": "Cognition",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 600,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Area",
+      "spell_amplification": {
+        "type": "Spell Radius Expansion",
+        "description": "Ancient artifact as focus. 10% chance on any single-target spell to expand its effect radius by 1 hex, hitting all targets in range.",
+        "aoe_upgrade_chance": 0.10
+      },
+      "flavor": "Old. The magic it contains does not know it should be diminished by time. It isn't."
+    },
+    {
+      "id": "WM2_013",
+      "name": "Dual-Core Staff",
+      "hands": 2,
+      "reach_hex": 2,
+      "throwable": false,
+      "damage_distribution": [{ "type": "Blunt", "percent": 100 }],
+      "base_dmg_range": [3, 7],
+      "primary_stat": "Cognition",
+      "min_physiology": 20,
+      "material_group": "all_metals",
+      "base_cost_copper": 1200,
+      "tooltip_category": "Magic Staff",
+      "magic_role": "Action Economy",
+      "spell_amplification": {
+        "type": "Bonus Action Grant",
+        "description": "Contains two active magical cores. 10% of all turns, the wielder gains a second action — this may be a move, a spell, or a physical attack.",
+        "bonus_action_chance": 0.10
+      },
+      "flavor": "Two cores, each containing a spell's worth of energy. On rare turns the two fire in synchrony, and the wielder gets a moment that should not exist."
+    }
+  ]
+}

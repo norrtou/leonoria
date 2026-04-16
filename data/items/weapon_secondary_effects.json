@@ -1,0 +1,234 @@
+{
+  "version": "1.0",
+  "system": "Leonoria Weapon Secondary Effects",
+  "note": "Secondary damage effects that can roll on Fine or better quality weapons (5% base chance unless otherwise stated). Also includes always-on effects from specific materials and weapon types.",
+
+  "ui_color_coding": {
+    "physical": { "color": "#AAAAAA", "icon": "weapon_grey", "category": "Physical" },
+    "biological": { "color": "#44BB44", "icon": "fang_green", "category": "Biological" },
+    "lightwielding": { "color": "#FFDD44", "icon": "sun_yellow", "category": "Lightwielding" },
+    "materium": { "color": "#CC8844", "icon": "earth_brown", "category": "Materium" },
+    "shadow": { "color": "#8833AA", "icon": "void_purple", "category": "Shadow Arts" },
+    "climate": { "color": "#66AACC", "icon": "wind_blue", "category": "Climate" }
+  },
+
+  "roll_rules": {
+    "base_chance": 0.05,
+    "minimum_quality": "fine",
+    "note": "Secondary effects roll at 5% for Fine and above. Some materials and weapon archetypes always carry specific effects regardless of quality (see always_on_effects in weapon_materials.json).",
+    "cascade_chance": 0.05,
+    "critical_strike_chance": "Max dice roll on attacker's attack roll. Doubles all damage for that hit."
+  },
+
+  "secondary_effects": [
+    {
+      "id": "eff_rupturing",
+      "name": "Rupturing",
+      "damage_type_ref": "rupturing",
+      "ui_color": "#AAAAAA",
+      "ui_icon": "weapon_grey",
+      "trigger": "Rolled secondary on successful Blunt hit (especially large blunt force impacts). 5% roll on Fine+ weapons.",
+      "effect": "Internal tearing damage. Incurable during battle. Has a 10% chance of causing death at the end of the battle if still active.",
+      "duration": "Remainder of battle",
+      "common_source": "2H blunt force weapons and large monster strikes",
+      "tooltip_text": "Rupturing — Internal damage; 10% death chance at battle end if untreated."
+    },
+    {
+      "id": "eff_bleeding",
+      "name": "Bleeding",
+      "damage_type_ref": "slashing",
+      "ui_color": "#CC3333",
+      "ui_icon": "blood_red",
+      "trigger": "Can trigger from any Slashing damage. 5% roll on Fine+ weapons. Northern Iron always triggers on slash/pierce.",
+      "effect": "Lingering HP damage per turn for the remainder of the battle. Also reduces the bleeding target's initiative by 10%.",
+      "damage_per_turn": "Scaled to 5–15% of the hit that caused it",
+      "duration": "Remainder of battle",
+      "common_source": "Slashing weapons, Northern Iron material",
+      "tooltip_text": "Bleeding — Lingering damage over time. Target initiative -10%."
+    },
+    {
+      "id": "eff_concussion",
+      "name": "Concussion",
+      "damage_type_ref": "blunt",
+      "ui_color": "#AAAAAA",
+      "ui_icon": "weapon_grey",
+      "trigger": "Common from 2H blunt force weapons. 5% roll on Fine+ weapons. Ilithium material triggers at 50% chance.",
+      "effect": "Target loses all initiative for two full turns.",
+      "duration": "2 turns",
+      "common_source": "2H Blunt weapons, Ilithium material",
+      "tooltip_text": "Concussion — Target loses all initiative for 2 turns."
+    },
+    {
+      "id": "eff_staggering",
+      "name": "Staggering",
+      "damage_type_ref": "blunt",
+      "ui_color": "#AAAAAA",
+      "ui_icon": "weapon_grey",
+      "trigger": "Common from any 2H weapon. 5% roll on Fine+ 2H weapons.",
+      "effect": "Target is pushed back 1 hex on the battle map and loses all initiative for the current turn.",
+      "duration": "1 turn (initiative loss)",
+      "common_source": "2H weapons of all types",
+      "tooltip_text": "Staggering — Target pushed back 1 hex, loses initiative this turn."
+    },
+    {
+      "id": "eff_secondary_strike",
+      "name": "Secondary Strike",
+      "ui_color": "#88CCFF",
+      "ui_icon": "blade_blue",
+      "trigger": "5% roll on Fine+ small slashing or piercing weapons (knives, daggers, smaller blades, 1H spears). Heartwood Ironwood bow at 10%.",
+      "effect": "Double damage on that hit. The wielder found a gap in the enemy's guard.",
+      "duration": "Instant (single hit)",
+      "common_source": "Small daggers, knives, short spears, Heartwood Ironwood bows",
+      "tooltip_text": "Secondary Strike — Double damage this hit."
+    },
+    {
+      "id": "eff_extra_painful",
+      "name": "Extra Painful Strike",
+      "ui_color": "#FFAA44",
+      "ui_icon": "pain_orange",
+      "trigger": "Can happen to any weapon on any hit. 5% roll on Fine+. Arcanium material triggers at 50%.",
+      "effect": "Target loses 25% of their initiative pool for the next turn.",
+      "duration": "Next turn",
+      "common_source": "Any weapon (rare), Arcanium material",
+      "tooltip_text": "Extra Painful Strike — Target loses 25% initiative next turn."
+    },
+    {
+      "id": "eff_cascade",
+      "name": "Cascade Effect",
+      "ui_color": "#FFDD44",
+      "ui_icon": "sun_yellow",
+      "trigger": "5% chance on any spell. Not a weapon secondary effect — applies to magical/spell attacks only.",
+      "effect": "Effect jumps to a random additional target on the battlefield (friend or foe), dealing 25% of the original damage to that target.",
+      "duration": "Instant",
+      "common_source": "Spells only",
+      "tooltip_text": "Cascade — Jumps to random secondary target for 25% damage."
+    },
+    {
+      "id": "eff_critical_strike",
+      "name": "Critical Strike",
+      "ui_color": "#FFFF44",
+      "ui_icon": "crit_yellow",
+      "trigger": "Attacker rolls maximum on their attack dice. Applies to any attack, physical or magical.",
+      "effect": "Double damage on that hit.",
+      "duration": "Instant",
+      "common_source": "Any attack. Thrown weapons always crit when thrown.",
+      "tooltip_text": "Critical Strike — Double damage."
+    },
+    {
+      "id": "eff_thorns",
+      "name": "Thorns",
+      "ui_color": "#44BB44",
+      "ui_icon": "thorn_green",
+      "trigger": "Rare Wooden weapons (5% roll). Common on Oakspeople-crafted items.",
+      "effect_on_weapon": "Successful hits cause minor Bleed AND minor Extra Painful Strike on the target.",
+      "effect_on_armor": "Successful hits against the wearer cause a 25% chance to apply a 1-turn Stagger to the attacker.",
+      "duration": "Per hit",
+      "racial_origin": "Oakspeople craftsmanship",
+      "tooltip_text": "Thorns — Hits cause minor Bleed + Extra Painful Strike (weapon) / Stagger attacker 25% (armor)."
+    },
+    {
+      "id": "eff_venomous",
+      "name": "Venomous",
+      "damage_type_ref": "venomous",
+      "ui_color": "#44BB44",
+      "ui_icon": "fang_green",
+      "trigger": "5% roll on Fine+ weapons. Dark Steel always carries this. Rare Bone weapons may carry Poisonous instead.",
+      "effect": "Injected toxin delivered on a piercing or slashing hit. Degrades Metabolism and Vigor over time. No effect on undead or constructs.",
+      "damage_per_turn": "3–8% Metabolism/Vigor reduction per turn for 3 turns",
+      "duration": "3 turns, stacks up to 3 times",
+      "common_source": "Dark Steel material, envenomed weapons",
+      "tooltip_text": "Venomous — Degrades Metabolism and Vigor for 3 turns. Stacks x3."
+    },
+    {
+      "id": "eff_poisonous",
+      "name": "Poisonous",
+      "damage_type_ref": "poisonous",
+      "ui_color": "#44BB44",
+      "ui_icon": "fang_green",
+      "trigger": "5% roll on Fine+ weapons. Rare Bone weapons may carry this.",
+      "effect": "Ingested or contact-delivered toxin. Penalises Cognition rolls and causes slow Vitality degradation.",
+      "duration": "5 turns",
+      "common_source": "Rare Bone weapons, poisoned blades",
+      "tooltip_text": "Poisonous — Cognition penalty + slow Vitality drain over 5 turns."
+    },
+    {
+      "id": "eff_organia",
+      "name": "Organia",
+      "damage_type_ref": "organia",
+      "ui_color": "#AA7733",
+      "ui_icon": "earth_brown",
+      "trigger": "Rare Wooden weapons always carry this as secondary damage alongside base Blunt physical.",
+      "effect": "Nature damage that hurts all living things directly and strongly. Chaotic life force energy.",
+      "common_source": "Rare Wooden weapons",
+      "tooltip_text": "Organia — Nature/life damage. Hurts all living targets."
+    },
+    {
+      "id": "eff_blessed_materium",
+      "name": "Blessed Materium",
+      "damage_type_ref": "blessed_materium",
+      "ui_color": "#FFDD44",
+      "ui_icon": "sun_yellow",
+      "trigger": "Ancient Steel material always carries this. Very rarely found on other magical weapons.",
+      "effect": "Holy-infused physical damage. Bypasses all physical resistance. Cannot be regenerated by dark arts healing for 2 turns.",
+      "common_source": "Ancient Steel material",
+      "tooltip_text": "Blessed Materium — Bypasses physical resistance. Blocks dark arts healing 2 turns."
+    },
+    {
+      "id": "eff_impact",
+      "name": "Impact",
+      "damage_type_ref": "impact",
+      "ui_color": "#CC8844",
+      "ui_icon": "earth_brown",
+      "trigger": "5% roll on Fine+ rare magical 2H blunt force weapons.",
+      "effect": "Pure invisible force damage. Works on incorporeal beings unlike mundane blunt. No immunity exceptions.",
+      "common_source": "Rare magical 2H blunt weapons",
+      "tooltip_text": "Impact — Force damage. Affects incorporeal beings."
+    },
+    {
+      "id": "eff_fire",
+      "name": "Fire",
+      "damage_type_ref": "fire",
+      "ui_color": "#FF6622",
+      "ui_icon": "fire_orange",
+      "trigger": "5% roll on Fine+ magical weapons. Fire Arrows always carry this.",
+      "effect": "Burning heat. Applies Ignited status: 1d4 + caster level fire damage per turn for 3 turns or until extinguished.",
+      "duration": "3 turns (Ignited)",
+      "common_source": "Fire Arrows, magical fire weapons",
+      "tooltip_text": "Fire — Ignites target for 3 turns."
+    },
+    {
+      "id": "eff_ice",
+      "name": "Ice",
+      "damage_type_ref": "ice",
+      "ui_color": "#88DDFF",
+      "ui_icon": "ice_blue",
+      "trigger": "5% roll on Fine+ rare magical weapons.",
+      "effect": "Ice damage that pierces through creature resistances from warmer climates. Can freeze targets.",
+      "common_source": "Rare magical weapons",
+      "tooltip_text": "Ice — Pierces warm-climate resistances. Chance to Freeze."
+    },
+    {
+      "id": "eff_darkvoid",
+      "name": "Darkvoid",
+      "damage_type_ref": "darkvoid",
+      "ui_color": "#8833AA",
+      "ui_icon": "void_purple",
+      "trigger": "Voidsteel material always deals this as primary damage type. 5% roll on Shadow Arts magical weapons.",
+      "effect": "Unstable void energy. ±20% damage variance on every hit. Bonus damage to Materium-attuned targets.",
+      "common_source": "Voidsteel material, Dark One weapons",
+      "tooltip_text": "Darkvoid — Unstable void energy. ±20% variance. Bonus vs Materium users."
+    },
+    {
+      "id": "eff_blight",
+      "name": "Blight",
+      "damage_type_ref": "blight",
+      "ui_color": "#8833AA",
+      "ui_icon": "void_purple",
+      "trigger": "5% roll on Fine+ Shadow Arts magical weapons.",
+      "effect": "Supernatural rot. Physiology -5 per turn for 3 turns. Can spread to adjacent living targets on crit. Not resisted by magical Insulation — resisted only by Physiology Immunity.",
+      "duration": "3 turns, spreads on crit",
+      "common_source": "Rare Shadow Arts magical weapons",
+      "tooltip_text": "Blight — Physiology -5/turn for 3 turns. Spreads on crit."
+    }
+  ]
+}

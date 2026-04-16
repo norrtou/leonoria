@@ -1,0 +1,234 @@
+{
+  "version": "1.0",
+  "system": "Leonoria Weapon Materials",
+  "note": "Defines all weapon materials: their damage multiplier, cost multiplier, allowed weapon categories, racial origins, and special passive effects.",
+
+  "material_groups": {
+    "all_metals": ["iron", "steel", "master_steel", "northern_iron", "dark_steel", "arcanium", "ancient_steel", "ilithium", "voidsteel"],
+    "standard_metals": ["iron", "steel", "master_steel"],
+    "common_metals": ["iron", "steel"],
+    "rare_metals": ["northern_iron", "dark_steel", "arcanium", "ancient_steel", "ilithium", "voidsteel"],
+    "organic": ["wooden", "bone"],
+    "all_standard": ["iron", "steel", "master_steel", "northern_iron", "dark_steel", "arcanium", "ancient_steel", "ilithium", "voidsteel"],
+    "clubs_and_staves": ["wooden", "bone", "iron", "steel", "master_steel", "northern_iron", "dark_steel", "arcanium", "ancient_steel", "ilithium", "voidsteel"],
+    "stone_only": ["stone"],
+    "bone_only": ["bone"]
+  },
+
+  "materials": [
+    {
+      "id": "wooden",
+      "name": "Wooden",
+      "display_color": "#8B6343",
+      "damage_multiplier": 0.70,
+      "cost_multiplier": 0.30,
+      "rarity": "Common",
+      "allowed_weapon_categories": ["staff_combat", "club", "wand", "bow"],
+      "availability": "Everywhere; cheap and plentiful",
+      "description": "Light, flexible, and easy to work. Lacks power and durability compared to metal weapons.",
+      "special_passive": null,
+      "rare_quality_bonus": {
+        "secondary_damage_type": "Organia",
+        "description": "Rare Wooden weapons carry secondary nature/Organia damage alongside their base Blunt physical damage."
+      },
+      "tooltip_note": "Wooden",
+      "flavor": "Sturdy enough to serve but not built to last."
+    },
+    {
+      "id": "bone",
+      "name": "Bone",
+      "display_color": "#E8DCC0",
+      "damage_multiplier": 1.00,
+      "cost_multiplier": 0.50,
+      "rarity": "Uncommon outside Boglands",
+      "allowed_weapon_categories": ["club", "dagger_swampbrood"],
+      "availability": "Common in Boglands biome. Rare elsewhere.",
+      "description": "Sharpened and dried creature bones. Quality on par with Iron but brittle under sustained force. Found primarily in Swampbrood craftsmanship.",
+      "racial_origin": "Swampbrood",
+      "special_passive": null,
+      "rare_quality_bonus": {
+        "secondary_damage_type": "Venomous",
+        "chance": 0.20,
+        "description": "Rare Bone weapons sometimes carry a secondary poisonous effect from residual creature toxins in the bone."
+      },
+      "tooltip_note": "Bone",
+      "flavor": "Fashioned from the remains of the bog. Light and fast, but prone to cracking."
+    },
+    {
+      "id": "stone",
+      "name": "Stone",
+      "display_color": "#888888",
+      "damage_multiplier": 1.00,
+      "cost_multiplier": 0.30,
+      "rarity": "Common (limited to Stone Club only)",
+      "allowed_weapon_categories": ["stone_club_only"],
+      "availability": "Gathered rather than forged. Near-worthless as currency.",
+      "description": "Crude but effective. Heavier than iron for the same volume. Only practical for simple bludgeoning shapes.",
+      "special_passive": {
+        "description": "Stone weapons deal 30% more damage than ordinary Iron clubs of the same type.",
+        "min_physiology_override": 20
+      },
+      "tooltip_note": "Stone",
+      "flavor": "Primitive but heavy. Requires real strength to swing effectively."
+    },
+    {
+      "id": "iron",
+      "name": "Iron",
+      "display_color": "#AAAAAA",
+      "damage_multiplier": 1.00,
+      "cost_multiplier": 1.00,
+      "rarity": "Common",
+      "allowed_weapon_categories": ["all_metals"],
+      "availability": "Everywhere across Leonoria",
+      "description": "The baseline metal of Leonoria. Reliable and affordable. No special properties.",
+      "special_passive": null,
+      "tooltip_note": "Iron",
+      "flavor": "The workhorse of the forge. Nothing special — just dependable."
+    },
+    {
+      "id": "steel",
+      "name": "Steel",
+      "display_color": "#CCCCDD",
+      "damage_multiplier": 1.20,
+      "cost_multiplier": 2.50,
+      "rarity": "Common (secondary tier)",
+      "allowed_weapon_categories": ["all_metals"],
+      "availability": "Common in settled regions and trade cities",
+      "description": "Refined from iron. Harder, sharper edge retention, and more resilient. The standard for professional fighters.",
+      "special_passive": null,
+      "tooltip_note": "Steel",
+      "flavor": "A step above iron. Holds its edge longer and strikes harder."
+    },
+    {
+      "id": "master_steel",
+      "name": "Master Blacksmith Steel",
+      "name_alt": "Damascus Steel",
+      "display_color": "#DDDDEE",
+      "damage_multiplier": 1.40,
+      "cost_multiplier": 5.00,
+      "rarity": "Uncommon (tertiary common)",
+      "allowed_weapon_categories": ["all_metals"],
+      "availability": "Specialist smiths in major cities and guild towns",
+      "description": "Folded and worked by master craftsmen. Superior edge, balance, and durability. The hallmark of a professional weapon.",
+      "special_passive": null,
+      "tooltip_note": "Master Blacksmith Steel",
+      "flavor": "Only a true master of the forge can work this metal. The difference is felt in every strike."
+    },
+    {
+      "id": "northern_iron",
+      "name": "Northern Iron",
+      "display_color": "#AACCDD",
+      "damage_multiplier": 1.30,
+      "cost_multiplier": 6.00,
+      "rarity": "Uncommon",
+      "allowed_weapon_categories": ["all_metals"],
+      "availability": "Only made by Northerner blacksmiths. Rare outside the Dark Forest biome.",
+      "racial_origin": "Northerner",
+      "description": "A cold-worked iron alloy developed by Northerner smiths in the harsh conditions of the Dark Forest. Slightly superior to Steel in quality.",
+      "special_passive": {
+        "always_bleeds": true,
+        "condition": "Any Slashing or Piercing attack with a Northern Iron weapon always applies a Bleed effect.",
+        "description": "Northern Iron always causes a Bleed secondary effect on any successful Slash or Pierce hit."
+      },
+      "tooltip_note": "Northern Iron — always causes Bleed on slash or pierce",
+      "flavor": "Forged in the cold of the Northern Kingdoms. The metal carries the bite of the Dark Forest winter."
+    },
+    {
+      "id": "dark_steel",
+      "name": "Dark Steel",
+      "display_color": "#556644",
+      "display_description": "Dark olive color with a dull, muted shine",
+      "damage_multiplier": 1.30,
+      "cost_multiplier": 8.00,
+      "rarity": "Uncommon",
+      "allowed_weapon_categories": ["all_metals"],
+      "availability": "From the Forgotten Kingdom. Rare outside its ruins.",
+      "racial_origin": "Forgotten Kingdom (Dark Ones)",
+      "description": "A dark olive-colored metal with a dullish shine, mined in the depths of the Forgotten Kingdom. Known for a persistent venomous quality even in unenchanted form.",
+      "special_passive": {
+        "always_venomous": true,
+        "description": "All Dark Steel weapons always carry a secondary Venomous damage effect."
+      },
+      "tooltip_note": "Dark Steel — always causes Venomous secondary damage",
+      "flavor": "From the depths of the Forgotten Kingdom. Even unenchanted, it carries something foul."
+    },
+    {
+      "id": "arcanium",
+      "name": "Arcanium",
+      "display_color": "#AA88FF",
+      "display_description": "Purple-hued metal with a faint inner glow",
+      "damage_multiplier": 1.40,
+      "cost_multiplier": 12.00,
+      "rarity": "Uncommon",
+      "allowed_weapon_categories": ["all_metals"],
+      "availability": "Traded in Ancient settlements and rare arcane markets",
+      "racial_origin": "Ancients",
+      "description": "A rare metal with a distinctive purple hue. Quality matches Ancient Steel. Resonates with the pain response of living targets.",
+      "special_passive": {
+        "extra_painful_chance": 0.50,
+        "description": "50% chance of causing an Extra Painful Strike on any successful hit."
+      },
+      "tooltip_note": "Arcanium — 50% chance of Extra Painful Strike",
+      "flavor": "Humming with a low resonance. Its victims describe the pain as impossible to ignore."
+    },
+    {
+      "id": "ancient_steel",
+      "name": "Ancient Steel",
+      "display_color": "#EEEEFF",
+      "display_description": "Silver-toned metal of exceptional clarity",
+      "damage_multiplier": 1.40,
+      "cost_multiplier": 15.00,
+      "rarity": "Uncommon",
+      "allowed_weapon_categories": ["all_metals"],
+      "availability": "Only in objects of Ancient race origin",
+      "racial_origin": "Ancients",
+      "description": "Silver-toned metal worked only by the Ancients. Maximum quality of conventional weapons. Carries a trace of holy light in its forging.",
+      "special_passive": {
+        "secondary_damage_type": "Blessed Materium",
+        "description": "Always carries a secondary Blessed Materium damage effect."
+      },
+      "tooltip_note": "Ancient Steel — secondary Blessed Materium damage",
+      "flavor": "Crafted with techniques lost to all but the Ancients. The blade seems to carry light within it."
+    },
+    {
+      "id": "ilithium",
+      "name": "Ilithium",
+      "display_color": "#D4A850",
+      "display_description": "Bronze-colored dull metal of unusual density",
+      "damage_multiplier": 1.40,
+      "cost_multiplier": 15.00,
+      "rarity": "Uncommon",
+      "allowed_weapon_categories": ["all_metals"],
+      "availability": "Only in objects of Stone Folk origin",
+      "racial_origin": "Stone Folk",
+      "description": "A dense bronze-colored metal exclusive to Stone Folk smiths. Maximum quality. Delivers exceptional concussive force, especially in heavy blunt weapons.",
+      "special_passive": {
+        "concussion_chance_standard": 0.50,
+        "description_standard": "1H and non-blunt-2H: 50% chance of causing a Concussion effect on hit.",
+        "impact_damage_2h_blunt": true,
+        "description_2h_blunt": "2H Blunt weapons: instead of Concussion, 25% chance to deal secondary Impact damage equal to the raw Blunt physical damage output."
+      },
+      "tooltip_note": "Ilithium — 50% Concussion chance (2H blunt: 25% Impact secondary instead)",
+      "flavor": "Worked only by Stone Folk. Strikes with this metal resonate through bone and stone alike."
+    },
+    {
+      "id": "voidsteel",
+      "name": "Voidsteel",
+      "display_color": "#110022",
+      "display_description": "Black, obsidian-like metal with a cold shine",
+      "damage_multiplier": 1.40,
+      "cost_multiplier": 20.00,
+      "rarity": "Rare",
+      "allowed_weapon_categories": ["all_metals"],
+      "availability": "Only in objects of Dark One origin",
+      "racial_origin": "Dark Ones",
+      "description": "Black as void and unnervingly cold. Exclusive to the Dark Ones. Maximum quality. Void damage replaces its primary damage type.",
+      "special_passive": {
+        "primary_damage_override": "Darkvoid",
+        "description": "Voidsteel weapons deal Darkvoid as their primary damage type rather than physical damage."
+      },
+      "tooltip_note": "Voidsteel — primary damage type is Darkvoid (Shadow Arts)",
+      "flavor": "Cold to the touch even in summer. The Dark Ones do not forge steel — they summon it from somewhere else."
+    }
+  ]
+}

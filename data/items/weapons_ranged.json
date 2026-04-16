@@ -1,0 +1,258 @@
+{
+  "version": "1.0",
+  "system": "Leonoria Ranged Weapons — Bows and Arrows",
+  "note": "Bows provide a damage bonus added on top of the arrow's base damage. Total ranged damage = Bow bonus + Arrow base + Archer skill modifier. Archers may change arrow type from inventory before each battle begins.",
+
+  "bow_quality_note": "Bows follow standard quality classes (Simple/Normal/Fine/Rare/Magical/Unique/Cursed). Bow quality multiplier applies to the bow's damage bonus range only.",
+  "arrows_note": "Arrows are consumed in sets. Sets do not require restocking between battles as a rule — they are assumed to be recovered or replenished. Arrow quality does not follow the standard weapon quality system; each arrow type is its own fixed tier.",
+
+  "bows": [
+    {
+      "id": "WRB_001",
+      "name": "Ash Bow",
+      "hands": 2,
+      "reach_hex": "Ranged",
+      "damage_bonus_range": [0, 2],
+      "bow_tier": "Simple",
+      "primary_stat": "Vigor",
+      "min_physiology": 6,
+      "material": "ash",
+      "base_cost_copper": 80,
+      "tooltip_category": "Bow",
+      "description": "Light and flexible. Easy to work and widely available but lacking in power and draw weight.",
+      "secondary_effect_eligible": false,
+      "flavor": "Good enough to learn on. Not good enough to rely on."
+    },
+    {
+      "id": "WRB_002",
+      "name": "Elm Bow",
+      "hands": 2,
+      "reach_hex": "Ranged",
+      "damage_bonus_range": [1, 3],
+      "bow_tier": "Common",
+      "primary_stat": "Vigor",
+      "min_physiology": 7,
+      "material": "elm",
+      "base_cost_copper": 150,
+      "tooltip_category": "Bow",
+      "description": "More durable than ash with decent draw consistency. A reliable bow for hunters and scouts.",
+      "secondary_effect_eligible": false,
+      "flavor": "Steady in the hand. Reliable in the field."
+    },
+    {
+      "id": "WRB_003",
+      "name": "Maple Bow",
+      "hands": 2,
+      "reach_hex": "Ranged",
+      "damage_bonus_range": [2, 5],
+      "bow_tier": "Refined",
+      "primary_stat": "Vigor",
+      "min_physiology": 9,
+      "material": "maple",
+      "base_cost_copper": 300,
+      "tooltip_category": "Bow",
+      "description": "Denser grain and stronger limbs. Better draw weight and more consistent arrow flight.",
+      "secondary_effect_eligible": true,
+      "flavor": "A serious archer's bow. It rewards training."
+    },
+    {
+      "id": "WRB_004",
+      "name": "Yew Bow",
+      "hands": 2,
+      "reach_hex": "Ranged",
+      "damage_bonus_range": [3, 7],
+      "bow_tier": "Superior",
+      "primary_stat": "Vigor",
+      "min_physiology": 12,
+      "material": "yew",
+      "base_cost_copper": 600,
+      "tooltip_category": "Bow",
+      "description": "Naturally combines heartwood compression strength and sapwood flexibility. Historically the material of choice for war bows.",
+      "secondary_effect_eligible": true,
+      "flavor": "Yew has been shaped into bows since the earliest wars. There is a reason it never stopped."
+    },
+    {
+      "id": "WRB_005",
+      "name": "Heartwood Ironwood Bow",
+      "hands": 2,
+      "reach_hex": "Ranged",
+      "damage_bonus_range": [5, 10],
+      "bow_tier": "Finest",
+      "primary_stat": "Vigor",
+      "min_physiology": 16,
+      "material": "heartwood_ironwood",
+      "base_cost_copper": 1500,
+      "tooltip_category": "Bow",
+      "description": "Exceptionally dense and rare. Unmatched draw strength and durability. Used only in master-crafted bows by the best bowyers.",
+      "secondary_effect_eligible": true,
+      "special_passive": {
+        "secondary_strike_chance": 0.10,
+        "description": "10% chance of a Secondary Strike on every attack — the arrow finds a perfect line."
+      },
+      "flavor": "A single bowyer might craft three of these in a lifetime. Each one is considered a work of art."
+    }
+  ],
+
+  "arrows": [
+    {
+      "id": "ARW_001",
+      "name": "Crude Shaft Arrows",
+      "base_dmg_range": [1, 3],
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "rarity": "Common",
+      "base_cost_copper": 5,
+      "tooltip_category": "Arrow",
+      "armor_penetration_modifier": 0,
+      "secondary_effect": null,
+      "description": "Rough wooden shafts with fire-hardened or crudely lashed tips. Poor accuracy and minimal impact.",
+      "flavor": "It flies. Mostly. Where it goes is another matter."
+    },
+    {
+      "id": "ARW_002",
+      "name": "Stone-Tip Arrows",
+      "base_dmg_range": [2, 4],
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "rarity": "Uncommon",
+      "base_cost_copper": 8,
+      "tooltip_category": "Arrow",
+      "armor_penetration_modifier": 0,
+      "secondary_effect": null,
+      "description": "Knapped stone heads lashed to wooden shafts. Better penetration than crude arrows. Heavier and slower in flight.",
+      "flavor": "Primitive, but the point is real enough."
+    },
+    {
+      "id": "ARW_003",
+      "name": "Bone Arrows",
+      "base_dmg_range": [2, 4],
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "rarity": "Common in Boglands",
+      "base_cost_copper": 10,
+      "tooltip_category": "Arrow",
+      "armor_penetration_modifier": 0,
+      "secondary_effect": {
+        "type": "Venomous",
+        "description": "Residual toxins in the bone tips have a 15% chance to apply a Venomous secondary effect on hit.",
+        "chance": 0.15
+      },
+      "racial_origin": "Swampbrood",
+      "description": "Sharpened bone tips, light and fast. Brittle under impact but carried by Swampbrood hunters for generations.",
+      "flavor": "They collect the bones of everything that dies in the bog. Nothing goes to waste."
+    },
+    {
+      "id": "ARW_004",
+      "name": "Flint Arrows",
+      "base_dmg_range": [2, 5],
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "rarity": "Uncommon",
+      "base_cost_copper": 12,
+      "tooltip_category": "Arrow",
+      "armor_penetration_modifier": 0,
+      "secondary_effect": null,
+      "description": "Knapped flint heads with sharper cutting edges. Better wound channels than stone tips.",
+      "flavor": "Flint holds an edge that stone cannot. The wounds it leaves are wider."
+    },
+    {
+      "id": "ARW_005",
+      "name": "Iron Broadhead Arrows",
+      "base_dmg_range": [3, 6],
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "rarity": "Very Common",
+      "base_cost_copper": 15,
+      "tooltip_category": "Arrow",
+      "armor_penetration_modifier": 0,
+      "secondary_effect": null,
+      "is_baseline_arrow": true,
+      "description": "Standard military arrows. Balanced between stopping power, reliability, and cost. The default arrow type.",
+      "flavor": "The arrow that has won more battles than any other. Plain, dependable, everywhere."
+    },
+    {
+      "id": "ARW_006",
+      "name": "Steel Bodkin Arrows",
+      "base_dmg_range": [3, 6],
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "rarity": "Common",
+      "base_cost_copper": 25,
+      "tooltip_category": "Arrow",
+      "armor_penetration_modifier": 0,
+      "secondary_effect": {
+        "type": "Armor Pierce",
+        "description": "Deals 25% bonus damage against armoured targets (any armour tier).",
+        "bonus_vs_armored": 0.25
+      },
+      "description": "Narrow, hardened steel tips ground to a point. Built specifically to defeat armoured infantry.",
+      "flavor": "Armour is not the obstacle it used to be. These exist to prove that."
+    },
+    {
+      "id": "ARW_007",
+      "name": "Barbed Hunting Arrows",
+      "base_dmg_range": [3, 6],
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "rarity": "Common",
+      "base_cost_copper": 20,
+      "tooltip_category": "Arrow",
+      "armor_penetration_modifier": 0,
+      "secondary_effect": {
+        "type": "Bleeding",
+        "description": "Hooked heads tear on withdrawal. 25% chance to apply severe Bleeding secondary on hit. Especially effective against unarmoured targets and beasts.",
+        "chance": 0.25
+      },
+      "description": "The barbed heads are designed for hunting — they hook into flesh and do not release cleanly.",
+      "flavor": "Removing the arrow does more damage than the hit. Hunters know this."
+    },
+    {
+      "id": "ARW_008",
+      "name": "Fire Arrows",
+      "base_dmg_range": [2, 4],
+      "damage_distribution": [
+        { "type": "Piercing", "percent": 50 },
+        { "type": "Fire", "percent": 50 }
+      ],
+      "rarity": "Uncommon",
+      "base_cost_copper": 40,
+      "tooltip_category": "Arrow",
+      "armor_penetration_modifier": 0,
+      "secondary_effect": {
+        "type": "Fire (Ignited)",
+        "description": "The fire component can apply the Ignited status to living targets (20% chance), structures, or plant life. Especially effective against wooden structures and organic enemies.",
+        "ignite_chance_living": 0.20,
+        "ignite_chance_plant_or_structure": 0.80
+      },
+      "description": "Treated heads that ignite in flight. Devastating against structures, vegetation, and unarmoured organic targets.",
+      "flavor": "Setting fire to something from forty metres away. Elegant in its simplicity."
+    },
+    {
+      "id": "ARW_009",
+      "name": "Weighted War Arrows",
+      "base_dmg_range": [4, 8],
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "rarity": "Uncommon",
+      "base_cost_copper": 35,
+      "tooltip_category": "Arrow",
+      "armor_penetration_modifier": 0,
+      "secondary_effect": {
+        "type": "Pierce Resistance",
+        "description": "10% of all attacks with this arrow penetrate piercing resistance entirely.",
+        "pierce_resistance_bypass_chance": 0.10
+      },
+      "description": "Heavier shafts with reinforced heads. Exceptional stopping power. Loses some range but hits harder at distance.",
+      "flavor": "Weight does what speed cannot always manage."
+    },
+    {
+      "id": "ARW_010",
+      "name": "Masterwork Balanced Arrows",
+      "base_dmg_range": [4, 8],
+      "damage_distribution": [{ "type": "Piercing", "percent": 100 }],
+      "rarity": "Uncommon",
+      "base_cost_copper": 80,
+      "tooltip_category": "Arrow",
+      "armor_penetration_modifier": 0,
+      "secondary_effect": {
+        "type": "Pierce Resistance",
+        "description": "25% of all attacks with this arrow penetrate piercing resistance entirely. Perfect weight, flight, and impact alignment.",
+        "pierce_resistance_bypass_chance": 0.25
+      },
+      "description": "Individually crafted arrows with optimal weight distribution, shaft straightness, and head geometry. The ceiling of conventional arrow craft.",
+      "flavor": "Made by a fletcher who considers each arrow a separate problem to be solved perfectly."
+    }
+  ]
+}

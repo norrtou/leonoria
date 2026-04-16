@@ -1,0 +1,432 @@
+{
+  "standard": [
+    {
+      "id": "charismatic",
+      "name": "Charismatic",
+      "alignment": "good",
+      "morality_adjust": 5,
+      "description": "A natural leader whose presence steadies and uplifts those around them.",
+      "effects": [
+        "+Morale resistance bonus to allies on battle map",
+        "Improved persuasion rolls",
+        "Cognitive Aptitude reduced by 5%"
+      ]
+    },
+    {
+      "id": "loyal",
+      "name": "Loyal",
+      "alignment": "good",
+      "morality_adjust": 5,
+      "description": "Unshakeable devotion to companions — fights harder when allies stand close.",
+      "effects": [
+        "+5% bonus damage when adjacent to allied heroes on battle map",
+        "Immune to betrayal, conversion spells, curses, and effects"
+      ]
+    },
+    {
+      "id": "honorable",
+      "name": "Honorable",
+      "alignment": "good",
+      "morality_adjust": 5,
+      "description": "Bound by a personal code of fair conduct, fighting with dignity even against dark odds.",
+      "effects": [
+        "+5% temporary Conviction bonus in fair combat (no ambush or Shadow Art used by hero or any team member)",
+        "-10% Conviction penalty whenever any team member uses ambush or Shadow Arts"
+      ]
+    },
+    {
+      "id": "stoic",
+      "name": "Stoic",
+      "alignment": "good",
+      "morality_adjust": 5,
+      "description": "Unmoved by fear or euphoria, maintaining iron composure in any situation.",
+      "effects": [
+        "Immune to fear and morale loss",
+        "Reduced effect from positive morale buffs"
+      ]
+    },
+    {
+      "id": "disciplined",
+      "name": "Disciplined",
+      "alignment": "good",
+      "morality_adjust": 5,
+      "description": "Methodical and precise — sacrifices unpredictability for reliable, consistent performance.",
+      "effects": [
+        "+5% overall damage and +5% to all defences/resistances",
+        "-5% chance to land critical strikes"
+      ]
+    },
+    {
+      "id": "psychopathic",
+      "name": "Psychopathic",
+      "alignment": "bad",
+      "morality_adjust": -5,
+      "description": "Emotionally hollow, deriving a dark satisfaction from eliminating foes.",
+      "effects": [
+        "Immune to morale penalties",
+        "Cannot gain morale bonuses from spells, items, or buffs",
+        "Permanent morality shift toward Despair each time an enemy is killed in battle"
+      ]
+    },
+    {
+      "id": "unpredictable",
+      "name": "Unpredictable",
+      "alignment": "bad",
+      "morality_adjust": -5,
+      "description": "Erratic and dangerous — friend and foe alike can never be sure what comes next.",
+      "effects": [
+        "Does not always follow player-chosen actions",
+        "Harder to target or counter by enemies"
+      ]
+    },
+    {
+      "id": "paranoid",
+      "name": "Paranoid",
+      "alignment": "bad",
+      "morality_adjust": -5,
+      "description": "Trusts no one — a crippling social flaw that is, ironically, tactically invaluable.",
+      "effects": [
+        "Detects ambushes and hidden enemy units",
+        "Reduced trust and diplomacy effectiveness"
+      ]
+    },
+    {
+      "id": "sadistic",
+      "name": "Sadistic",
+      "alignment": "bad",
+      "morality_adjust": -5,
+      "description": "Thrives on the suffering of enemies, growing more dangerous as foes weaken.",
+      "effects": [
+        "Bloodlust: Bonus damage against weakened enemies",
+        "Penalty to diplomacy rolls"
+      ]
+    },
+    {
+      "id": "impulsive",
+      "name": "Impulsive",
+      "alignment": "bad",
+      "morality_adjust": -5,
+      "description": "Acts first and thinks later — unpredictably fast but occasionally disastrous.",
+      "effects": [
+        "+10% Initiative",
+        "10% chance to ignore player action and choose a different random action instead"
+      ]
+    }
+  ],
+  "combos": [
+    {
+      "id": "cult_leader",
+      "name": "Cult Leader",
+      "components": ["charismatic", "psychopathic"],
+      "alignment": "bad",
+      "morality_adjust": -3,
+      "description": "A magnetic, terrifying figurehead who inspires fanatical devotion — at a cost.",
+      "effects": [
+        "Allies gain +10 Conviction morale on battle map",
+        "Stress Cascade: each battle turn enemies deal +1% more damage to all allies (stacks to +50%)",
+        "Spell — 'For the Greater Good': sacrifice 50% of an ally's HP to restore 20% HP to all team members"
+      ]
+    },
+    {
+      "id": "wild_inspirer",
+      "name": "Wild Inspirer",
+      "components": ["charismatic", "unpredictable"],
+      "alignment": "neutral",
+      "morality_adjust": 0,
+      "description": "Charisma run wild — every battle is a gamble on whether their energy uplifts or unravels the team.",
+      "effects": [
+        "Random morale spikes or drops each battle turn for all allies",
+        "Chance to trigger team-wide random positive buffs each battle turn"
+      ]
+    },
+    {
+      "id": "demagogue",
+      "name": "Demagogue",
+      "components": ["charismatic", "paranoid"],
+      "alignment": "bad",
+      "morality_adjust": -3,
+      "description": "Brilliantly persuasive yet seen through by everyone — a charismatic liar everyone resents.",
+      "effects": [
+        "Smart-Ass Curse: Hero's Perception permanently reduced by -10% with all factions",
+        "Spell — 'Your Mother Was a Hamster': reduces all enemy initiative by 30% once per battle"
+      ]
+    },
+    {
+      "id": "cruel_commander",
+      "name": "Cruel Commander",
+      "components": ["charismatic", "sadistic"],
+      "alignment": "bad",
+      "morality_adjust": -3,
+      "description": "Commands loyalty through fear and cruelty, turning the battlefield into a slaughterhouse.",
+      "effects": [
+        "Allies deal +10% bonus damage to weakened enemies",
+        "Shadow Arts hits cause team-wide +5% Despair shift (stackable) during battle",
+        "All allied heroes with Conviction or Neutral alignment suffer -10 permanent Conviction loss"
+      ]
+    },
+    {
+      "id": "fervent_agitator",
+      "name": "Fervent Agitator",
+      "components": ["charismatic", "impulsive"],
+      "alignment": "neutral",
+      "morality_adjust": 0,
+      "description": "Infectious recklessness that fires up the whole team — and sometimes gets everyone killed.",
+      "effects": [
+        "Aura of the Fervent: All allies lose -10% initiative but gain +20% critical strike chance"
+      ]
+    },
+    {
+      "id": "cold_enforcer",
+      "name": "Cold Enforcer",
+      "components": ["loyal", "psychopathic"],
+      "alignment": "bad",
+      "morality_adjust": -3,
+      "description": "An unyielding sentinel with no emotion — protects allies without warmth or hesitation.",
+      "effects": [
+        "Strong defensive bonuses within 1 hex of allies on battle map",
+        "Receives no morale effects whatsoever",
+        "Terrifying Presence: Allied heroes who retreat lose -5% initiative per battle turn for the rest of the battle"
+      ]
+    },
+    {
+      "id": "erratic_guardian",
+      "name": "Erratic Guardian",
+      "components": ["loyal", "unpredictable"],
+      "alignment": "neutral",
+      "morality_adjust": 0,
+      "description": "Will protect you — just not necessarily in the way you planned.",
+      "effects": [
+        "Passive random defensive boost to a random ally each turn (before player action): Iron Skin (+5% physical resistance), Shadow Ward (+5% magic resistance), Reflex Shield (+5% dodge), or Stone Footing (+5% stability)",
+        "5% chance the effect is negative instead of positive"
+      ]
+    },
+    {
+      "id": "suspicious_guardian",
+      "name": "Suspicious Guardian",
+      "components": ["loyal", "paranoid"],
+      "alignment": "bad",
+      "morality_adjust": -3,
+      "description": "Protects zealously but poisons team morale with distrust.",
+      "effects": [
+        "Auto-detects ambushes on the world map",
+        "Large defense bonus when positioned to protect allies",
+        "Unsettling Presence: All allied heroes suffer -10 permanent Despair shift to morality"
+      ]
+    },
+    {
+      "id": "vengeful_protector",
+      "name": "Vengeful Protector",
+      "components": ["loyal", "sadistic"],
+      "alignment": "bad",
+      "morality_adjust": -3,
+      "description": "Retaliates savagely when allies are hurt — inspiring and disturbing in equal measure.",
+      "effects": [
+        "+25% bonus damage against any enemy who attacked an ally on the previous battle turn",
+        "Unsettling Presence: All allied heroes suffer -10 permanent Despair shift to morality"
+      ]
+    },
+    {
+      "id": "reckless_defender",
+      "name": "Reckless Defender",
+      "components": ["loyal", "impulsive"],
+      "alignment": "neutral",
+      "morality_adjust": 0,
+      "description": "Throws themselves in front of danger without a second thought.",
+      "effects": [
+        "Auto-intercepts attacks targeting allies, occasionally absorbing the damage instead",
+        "May act uncontrollably on battle map, moving without player input"
+      ]
+    },
+    {
+      "id": "void_knight",
+      "name": "Void Knight",
+      "components": ["honorable", "psychopathic"],
+      "alignment": "bad",
+      "morality_adjust": -3,
+      "description": "A hollow duelist who fights by a personal code of honour that holds no mercy.",
+      "effects": [
+        "Duel Mastery: Bonus combat stats when fighting alone vs a single melee enemy (no allied hero within 1 hex of target)",
+        "Immune to all morale buffs and debuffs",
+        "Aura of Dread: All allied heroes suffer -5% initiative"
+      ]
+    },
+    {
+      "id": "chaotic_duelist",
+      "name": "Chaotic Duelist",
+      "components": ["honorable", "unpredictable"],
+      "alignment": "neutral",
+      "morality_adjust": 0,
+      "description": "Fights honourably — but the universe disagrees, rewiring their stats every round.",
+      "effects": [
+        "Strong in all melee duels (alone within 1 hex of enemy)",
+        "Random combat modifier applied each battle turn, resetting each turn (e.g. -5 damage, +5% crit, +4 fire damage)"
+      ]
+    },
+    {
+      "id": "watchful_arbiter",
+      "name": "Watchful Arbiter",
+      "components": ["honorable", "paranoid"],
+      "alignment": "good",
+      "morality_adjust": 3,
+      "description": "A vigilant enforcer of fair combat who makes ambushers pay dearly.",
+      "effects": [
+        "+25% bonus damage against ambush attackers for 5 battle turns",
+        "+25% detection bonus vs bandit-type enemies on world map",
+        "Receives debuffs when attacked unfairly or ambushed"
+      ]
+    },
+    {
+      "id": "execution_duelist",
+      "name": "Execution Duelist",
+      "components": ["honorable", "sadistic"],
+      "alignment": "bad",
+      "morality_adjust": -3,
+      "description": "Honourable in method, monstrous in pleasure — finishes wounded foes with savage joy.",
+      "effects": [
+        "Bonus damage in duels vs weakened enemies (alone within 1 hex of enemy)",
+        "+50% critical strike chance against enemies below 10% HP",
+        "Disturbing Presence: 5% chance per turn that all allies lose -10% initiative that turn"
+      ]
+    },
+    {
+      "id": "reckless_knight",
+      "name": "Reckless Knight",
+      "components": ["honorable", "impulsive"],
+      "alignment": "good",
+      "morality_adjust": 3,
+      "description": "Charges in first, asks questions never — a glorious and dangerous first-striker.",
+      "effects": [
+        "+25% critical strike chance and bonus crit damage when first to attack an enemy unit",
+        "5% chance per turn to auto-initiate an attack regardless of player input"
+      ]
+    },
+    {
+      "id": "empty_vessel",
+      "name": "Empty Vessel",
+      "components": ["stoic", "psychopathic"],
+      "alignment": "bad",
+      "morality_adjust": -3,
+      "description": "Entirely hollowed out — a weapon, not a person.",
+      "effects": [
+        "Fully immune to all morale effects",
+        "Cannot gain any emotional buffs",
+        "Extremely stable combat statistics"
+      ]
+    },
+    {
+      "id": "unstable_anchor",
+      "name": "Unstable Anchor",
+      "components": ["stoic", "unpredictable"],
+      "alignment": "neutral",
+      "morality_adjust": 0,
+      "description": "Emotionally blank but physically volatile — a strange combination of nothing and chaos.",
+      "effects": [
+        "Ignores all morale effects in game",
+        "Random stat shifts applied each battle turn"
+      ]
+    },
+    {
+      "id": "silent_sentinel",
+      "name": "Silent Sentinel",
+      "components": ["stoic", "paranoid"],
+      "alignment": "neutral",
+      "morality_adjust": 0,
+      "description": "Watchful, silent, and deeply alienating — invaluable in defence, unsettling to stand beside.",
+      "effects": [
+        "Ignores all morale effects in game",
+        "Detects hidden enemies on battle map",
+        "+25% defence when surrounded by enemies",
+        "Isolating Presence: Allies skip this hero's action 10% of turns"
+      ]
+    },
+    {
+      "id": "cold_executioner",
+      "name": "Cold Executioner",
+      "components": ["stoic", "sadistic"],
+      "alignment": "bad",
+      "morality_adjust": -3,
+      "description": "Kills without hesitation, without remorse, and without ceremony.",
+      "effects": [
+        "Bonus damage against low HP enemies",
+        "No morale penalties whatsoever",
+        "Aura of the Sociopath: All allies experience random ±1–5 morality shifts each battle turn"
+      ]
+    },
+    {
+      "id": "rigid_berserker",
+      "name": "Rigid Berserker",
+      "components": ["stoic", "impulsive"],
+      "alignment": "neutral",
+      "morality_adjust": 0,
+      "description": "Disciplined rage — once locked onto a target, no magic can stop them.",
+      "effects": [
+        "+10% initiative",
+        "Cannot be controlled by mental or charm spells once engaged in combat",
+        "Aura of Rabid Focus: All allies experience random ±1–5% damage output shifts each battle turn"
+      ]
+    },
+    {
+      "id": "calculated_tyrant",
+      "name": "Calculated Tyrant",
+      "components": ["disciplined", "psychopathic"],
+      "alignment": "bad",
+      "morality_adjust": -3,
+      "description": "Wins at any cost — even if that cost is paid in allied blood.",
+      "effects": [
+        "High accuracy on all dice rolls",
+        "Cannot be affected by morale effects on battle map",
+        "By Any Means: 5% of hero attacks drain 10% HP from a random allied team member"
+      ]
+    },
+    {
+      "id": "controlled_chaos",
+      "name": "Controlled Chaos",
+      "components": ["disciplined", "unpredictable"],
+      "alignment": "neutral",
+      "morality_adjust": 0,
+      "description": "A brilliantly unstable strategist — their madness is somehow methodical.",
+      "effects": [
+        "Stats and morality cannot be affected by battle map effects",
+        "10% chance each allied attack causes AoE damage to all enemies",
+        "10% of hero's own attacks (physical and spell) cause 10% AoE splash damage to allies"
+      ]
+    },
+    {
+      "id": "prepared_strategist",
+      "name": "Prepared Strategist",
+      "components": ["disciplined", "paranoid"],
+      "alignment": "good",
+      "morality_adjust": 3,
+      "description": "Obsessively prepared — always assumes the worst and is almost always right.",
+      "effects": [
+        "Strong bonuses vs all battles triggered by ambush on world map",
+        "Increased defensive bonus for all allies within 2 hexes of hero",
+        "-10% initiative due to 'Thinking Too Long' effect"
+      ]
+    },
+    {
+      "id": "ruthless_tactician",
+      "name": "Ruthless Tactician",
+      "components": ["disciplined", "sadistic"],
+      "alignment": "bad",
+      "morality_adjust": -3,
+      "description": "A cold strategic mind that views suffering as a tool of war.",
+      "effects": [
+        "Aura of the Warlord: All allies deal +25% damage to weakened enemies",
+        "When hero drops below 10% HP: all allies take +25% increased damage"
+      ]
+    },
+    {
+      "id": "overdriven_commander",
+      "name": "Overdriven Commander",
+      "components": ["disciplined", "impulsive"],
+      "alignment": "good",
+      "morality_adjust": 3,
+      "description": "Pushes every ally past their limit — a high-octane leader who never stops pressing the advantage.",
+      "effects": [
+        "+25% initiative and attack precision for hero and all allies on battle map",
+        "5% chance per turn: a random allied hero makes a forced aggressive action (losing their other action that turn)"
+      ]
+    }
+  ]
+}
