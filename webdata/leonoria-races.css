@@ -321,7 +321,7 @@ body {
     position       : relative;
     display        : inline-block;
     padding        : 0.18em 0.6em;
-    font-size      : 1.05em;
+    font-size      : 0.82em;
     font-style     : normal;
     font-weight    : normal;
     letter-spacing : 0.07em;
@@ -362,7 +362,7 @@ body {
     color         : var(--text-parchment);
     font-family   : 'IM Fell English', Georgia, serif;
     font-size     : 1.0em;
-    font-style    : italic;
+    font-style    : normal;
     line-height   : 1.55;
     letter-spacing: 0.02em;
     padding       : 0.5em 0.75em;
