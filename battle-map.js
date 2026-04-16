@@ -1972,7 +1972,8 @@ function drawHexHighlight(ctx, c, r, fillStyle, strokeStyle, lw) {
 function drawLOSIndicator(ctx, attacker, targetCol, targetRow) {
     const fromC = hexScreenCenter(attacker.col, attacker.row);
     const toC = hexScreenCenter(targetCol, targetRow);
-    const los = checkLOS(attacker, { col: targetCol, row: targetRow });
+    const losResult = checkLOS(attacker, { col: targetCol, row: targetRow });
+    const los = losResult.los;
 
     const lineColor = los === 'clear' ? 'rgba(100,255,100,0.6)' : 'rgba(255,100,100,0.6)';
     const glowColor = los === 'clear' ? 'rgba(100,255,100,0.3)' : 'rgba(255,100,100,0.3)';
@@ -2755,11 +2756,13 @@ function playSound(type) {
 // ── Line of sight ─────────────────────────────────────────────────────────────
 function checkLOS(atk, tgt) {
     const dist = hexDist(atk.col, atk.row, tgt.col, tgt.row);
-    if (dist <= 1) return 'clear';
+    if (dist <= 1) return { los: 'clear', obstacleCount: 0, hasUnit: false };
 
     // Use fine-grained line-of-sight: sample every 0.1 hex distance
     const steps = Math.max(dist * 10, 20);
     const visited = new Set();
+    let obstacleCount = 0;
+    let hasUnit = false;
 
     for (let i = 1; i < steps; i++) {
         const p  = i / steps;
@@ -2780,13 +2783,20 @@ function checkLOS(atk, tgt) {
                 if (nc === tgt.col && nr === tgt.row) continue;
                 if (nc < 0 || nc >= COLS || nr < 0 || nr >= ROWS) continue;
 
-                if (isBlocked(nc, nr)) return 'obstacle';
-                if (STATE.units.some(u => u.hp > 0 && u.id !== atk.id && u.id !== tgt.id && u.col === nc && u.row === nr))
-                    return 'partial';
+                if (isBlocked(nc, nr)) {
+                    obstacleCount++;
+                } else if (STATE.units.some(u => u.hp > 0 && u.id !== atk.id && u.id !== tgt.id && u.col === nc && u.row === nr)) {
+                    hasUnit = true;
+                }
             }
         }
     }
-    return 'clear';
+
+    let los = 'clear';
+    if (obstacleCount > 0) los = 'obstacle';
+    else if (hasUnit) los = 'partial';
+
+    return { los, obstacleCount, hasUnit };
 }
 
 // Zone of control: ranged attacker inside 1-hex radius of an enemy is penalised
@@ -3262,7 +3272,7 @@ function _aiCountExposed(unit, c, r, list) {
     const origC = unit.col, origR = unit.row;
     unit.col = c; unit.row = r;
     let n = 0;
-    for (const h of list) if (checkLOS(h, unit) === 'clear') n++;
+    for (const h of list) if (checkLOS(h, unit).los === 'clear') n++;
     unit.col = origC; unit.row = origR;
     return n;
 }
@@ -3360,9 +3370,9 @@ function aiRangedRepositionOrAdvance(unit, target, tactics) {
             // Must have at least partial LOS (obstacle-blocked counts as partial)
             const origC = unit.col, origR = unit.row;
             unit.col = c; unit.row = r;
-            const los = checkLOS(unit, target);
+            const losResult = checkLOS(unit, target);
             unit.col = origC; unit.row = origR;
-            if (los === 'clear' || los === 'partial' || los === 'obstacle') {
+            if (losResult.los === 'clear' || losResult.los === 'partial' || losResult.los === 'obstacle') {
                 // Score: prefer covered hexes (fewer ranged heroes can see us)
                 const exposed    = _aiCountExposed(unit, c, r, rangedHeros);
                 const coverBonus = (maxR - exposed) / maxR;
@@ -3532,7 +3542,9 @@ function resolveAttack(attacker, target, onDone) {
         if (inEnemyZoC(attacker)) {
             hitChance -= 20;
         }
-        los = checkLOS(attacker, target);
+        const losResult = checkLOS(attacker, target);
+        los = losResult.los;
+        COMBAT.obstacleCount = losResult.obstacleCount;
         if (los === 'partial') {
             hitChance = Math.round(hitChance * 0.75);
         } else if (los === 'obstacle') {
@@ -3589,7 +3601,7 @@ function resolveAttack(attacker, target, onDone) {
         if (atk.type !== 'melee' && los === 'partial') {
             combatLog('  (LOS obscured: −25% hit)');
         } else if (atk.type !== 'melee' && los === 'obstacle') {
-            combatLog('  (obstacle in the way: −20% hit)');
+            combatLog('  (' + COMBAT.obstacleCount + ' obstacle' + (COMBAT.obstacleCount > 1 ? 's' : '') + ' in the way: −20% hit)');
         }
 
         const isCrit = !isMiss && hitRoll >= atk.critMin;
@@ -3604,12 +3616,22 @@ function resolveAttack(attacker, target, onDone) {
             let dmg = rollDamage(atk.damageDice, atk.damageMod);
             if (isCrit) dmg = Math.round(dmg * 1.5);
             if (los === 'partial') dmg = Math.max(1, Math.round(dmg * (0.60 + Math.random() * 0.25)));
+            // Each obstacle in the path reduces damage further (cumulative)
+            if (COMBAT.obstacleCount > 0) {
+                for (let i = 0; i < COMBAT.obstacleCount; i++) {
+                    dmg = Math.max(1, Math.round(dmg * 0.80));
+                }
+            }
             target.hp = Math.max(0, target.hp - dmg);
             showBloodSplatter(target.col, target.row, isCrit);
 
             const verb = isCrit ? 'CRITS' : 'hits';
             combatLog(attacker.name + ' ' + verb + ' ' + target.name +
                 ' for ' + dmg + ' dmg (rolled ' + hitRoll + ')');
+            if (COMBAT.obstacleCount > 0) {
+                combatLog('  (obstacle' + (COMBAT.obstacleCount > 1 ? 's' : '') + ' in path: −' +
+                    (20 * COMBAT.obstacleCount) + '% dmg)');
+            }
             showFloatDmg(target.col, target.row, dmg, isCrit, false);
 
             if (target.hp <= 0) combatLog('  ✝ ' + target.name + ' is slain!');
