@@ -87,42 +87,42 @@ const HERO_POSITIONS = [
 
 // Physical skill name → melee/ranged attack definition
 const SKILL_ATTACK_MAP = {
-    'Swordsmanship': { name:'Sword Strike',    type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:84, critMin:92, snd:'sword' },
-    'Archery':       { name:'Arrow Shot',      type:'ranged', range:12, damageDice:[2,6],  damageMod:3,  hitBase:88, critMin:94, snd:'bow'   },
-    'Axewielding':   { name:'Axe Strike',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:4,  hitBase:80, critMin:90, snd:'sword' },
-    'Blunt Force':   { name:'Mace Smash',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:2,  hitBase:82, critMin:93, snd:'sword' },
-    'Small Arms':    { name:'Knife Strike',    type:'melee',  range:1,  damageDice:[2,6],  damageMod:2,  hitBase:86, critMin:91, snd:'stab'  },
-    'Polearms':      { name:'Spear Jab',       type:'melee',  range:2,  damageDice:[1,10], damageMod:3,  hitBase:82, critMin:93, snd:'sword' },
-    'Shield Fighting':{ name:'Shield Bash',   type:'melee',  range:1,  damageDice:[1,8],  damageMod:2,  hitBase:83, critMin:94, snd:'sword' },
-    'Crossbow':      { name:'Crossbow Bolt',   type:'ranged', range:10, damageDice:[2,8],  damageMod:2,  hitBase:86, critMin:93, snd:'bow'   },
-    'Blowgun & Sling':{ name:'Sling Shot',    type:'ranged', range:8,  damageDice:[1,6],  damageMod:1,  hitBase:80, critMin:95, snd:'bow'   },
-    'Stealth':       { name:'Shadow Jab',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:88, critMin:88, snd:'stab'  },
-    'Thievery':      { name:'Quick Stab',      type:'melee',  range:1,  damageDice:[2,6],  damageMod:2,  hitBase:87, critMin:90, snd:'stab'  },
+    'Swordsmanship': { name:'Sword Strike',    type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:92, snd:'sword' },
+    'Archery':       { name:'Arrow Shot',      type:'ranged', range:12, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:94, snd:'bow'   },
+    'Axewielding':   { name:'Axe Strike',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:90, snd:'sword' },
+    'Blunt Force':   { name:'Mace Smash',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:2,  hitBase:98, critMin:93, snd:'sword' },
+    'Small Arms':    { name:'Knife Strike',    type:'melee',  range:1,  damageDice:[2,6],  damageMod:2,  hitBase:98, critMin:91, snd:'stab'  },
+    'Polearms':      { name:'Spear Jab',       type:'melee',  range:2,  damageDice:[1,10], damageMod:3,  hitBase:98, critMin:93, snd:'sword' },
+    'Shield Fighting':{ name:'Shield Bash',   type:'melee',  range:1,  damageDice:[1,8],  damageMod:2,  hitBase:98, critMin:94, snd:'sword' },
+    'Crossbow':      { name:'Crossbow Bolt',   type:'ranged', range:10, damageDice:[2,8],  damageMod:2,  hitBase:98, critMin:93, snd:'bow'   },
+    'Blowgun & Sling':{ name:'Sling Shot',    type:'ranged', range:8,  damageDice:[1,6],  damageMod:1,  hitBase:98, critMin:95, snd:'bow'   },
+    'Stealth':       { name:'Shadow Jab',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:88, snd:'stab'  },
+    'Thievery':      { name:'Quick Stab',      type:'melee',  range:1,  damageDice:[2,6],  damageMod:2,  hitBase:98, critMin:90, snd:'stab'  },
 };
 
 // Materium skill → spell attack definition
 const MATERIUM_ATTACK_MAP = {
-    'Lightwielding':        { name:'Holy Bolt',    type:'spell', range:12, damageDice:[2,6],  damageMod:3,  hitBase:90, critMin:96, snd:'fire' },
-    'Materium Channeling':  { name:'Arcane Bolt',  type:'spell', range:14, damageDice:[2,8],  damageMod:4,  hitBase:92, critMin:96, snd:'fire' },
-    'Shadow Weaving':       { name:'Shadow Bolt',  type:'spell', range:13, damageDice:[2,8],  damageMod:3,  hitBase:88, critMin:95, snd:'fire' },
+    'Lightwielding':        { name:'Holy Bolt',    type:'spell', range:12, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:96, snd:'fire' },
+    'Materium Channeling':  { name:'Arcane Bolt',  type:'spell', range:14, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire' },
+    'Shadow Weaving':       { name:'Shadow Bolt',  type:'spell', range:13, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'fire' },
 };
 
 // Caster class group → default spell when no materium skills
 const CASTER_DEFAULT_SPELL = {
-    Cleric:      { name:'Holy Bolt',      type:'spell', range:12, damageDice:[2,6],  damageMod:3,  hitBase:90, critMin:96, snd:'fire' },
-    Mage:        { name:'Arcane Bolt',    type:'spell', range:14, damageDice:[2,8],  damageMod:4,  hitBase:92, critMin:96, snd:'fire' },
-    Sorcerer:    { name:'Flame Burst',    type:'spell', range:13, damageDice:[3,6],  damageMod:4,  hitBase:91, critMin:96, snd:'fire' },
-    Druid:       { name:'Nature Bolt',    type:'spell', range:11, damageDice:[2,6],  damageMod:3,  hitBase:88, critMin:96, snd:'fire' },
-    Warlock:     { name:'Void Bolt',      type:'spell', range:13, damageDice:[2,8],  damageMod:3,  hitBase:86, critMin:95, snd:'fire' },
-    Witch:       { name:'Hex Bolt',       type:'spell', range:11, damageDice:[2,6],  damageMod:3,  hitBase:87, critMin:95, snd:'fire' },
-    Necromancer: { name:'Grave Touch',    type:'spell', range:12, damageDice:[2,8],  damageMod:3,  hitBase:87, critMin:95, snd:'fire' },
+    Cleric:      { name:'Holy Bolt',      type:'spell', range:12, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:96, snd:'fire' },
+    Mage:        { name:'Arcane Bolt',    type:'spell', range:14, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire' },
+    Sorcerer:    { name:'Flame Burst',    type:'spell', range:13, damageDice:[3,6],  damageMod:4,  hitBase:98, critMin:96, snd:'fire' },
+    Druid:       { name:'Nature Bolt',    type:'spell', range:11, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:96, snd:'fire' },
+    Warlock:     { name:'Void Bolt',      type:'spell', range:13, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'fire' },
+    Witch:       { name:'Hex Bolt',       type:'spell', range:11, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:95, snd:'fire' },
+    Necromancer: { name:'Grave Touch',    type:'spell', range:12, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'fire' },
 };
 
 // Martial class group → default attack when no weapon skills
 const MARTIAL_DEFAULT_ATTACK = {
-    Warrior: { name:'Sword Strike',   type:'melee',  range:1,  damageDice:[2,10], damageMod:5,  hitBase:85, critMin:90, snd:'sword' },
-    Ranger:  { name:'Arrow Shot',     type:'ranged', range:14, damageDice:[2,8],  damageMod:3,  hitBase:90, critMin:95, snd:'bow'   },
-    Rogue:   { name:'Steel Knives',   type:'melee',  range:1,  damageDice:[2,9],  damageMod:4,  hitBase:82, critMin:92, snd:'stab'  },
+    Warrior: { name:'Sword Strike',   type:'melee',  range:1,  damageDice:[2,10], damageMod:5,  hitBase:98, critMin:90, snd:'sword' },
+    Ranger:  { name:'Arrow Shot',     type:'ranged', range:14, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'bow'   },
+    Rogue:   { name:'Steel Knives',   type:'melee',  range:1,  damageDice:[2,9],  damageMod:4,  hitBase:98, critMin:92, snd:'stab'  },
 };
 
 // Sprite type from class group
@@ -185,7 +185,7 @@ function charToAttacks(char) {
 
     // Absolute fallback
     if (attacks.length === 0) {
-        attacks.push({ name:'Strike', type:'melee', range:1, damageDice:[1,6], damageMod:1, hitBase:80, critMin:93, snd:'sword' });
+        attacks.push({ name:'Strike', type:'melee', range:1, damageDice:[1,6], damageMod:1, hitBase:98, critMin:93, snd:'sword' });
     }
 
     return attacks;
@@ -557,9 +557,7 @@ function drawFullTerrain(ctx, W, H) {
 function drawHexBiomeTint(ctx, c, r) {
     const T = TMAP[c][r];
     let tint = null;
-    if (T.type === T_FOREST) tint = 'rgba(10,48,4,0.20)';
-    if (T.type === T_ROCKS)  tint = 'rgba(78,68,38,0.16)';
-    if (T.type === T_SHRUBS) tint = 'rgba(28,58,10,0.10)';
+    // No biome tints — terrain type is shown by drawn features only
     if (!tint) return;
 
     const verts = hexScreenVerts(c, r);
@@ -1971,6 +1969,39 @@ function drawHexHighlight(ctx, c, r, fillStyle, strokeStyle, lw) {
     if (strokeStyle) { ctx.strokeStyle = strokeStyle; ctx.lineWidth = lw||2;  ctx.stroke(); }
 }
 
+function drawLOSIndicator(ctx, attacker, targetCol, targetRow) {
+    const fromC = hexScreenCenter(attacker.col, attacker.row);
+    const toC = hexScreenCenter(targetCol, targetRow);
+    const los = checkLOS(attacker, { col: targetCol, row: targetRow });
+
+    const lineColor = los === 'clear' ? 'rgba(100,255,100,0.6)' : 'rgba(255,100,100,0.6)';
+    const glowColor = los === 'clear' ? 'rgba(100,255,100,0.3)' : 'rgba(255,100,100,0.3)';
+
+    ctx.save();
+
+    // Glow effect
+    ctx.strokeStyle = glowColor;
+    ctx.lineWidth = 8;
+    ctx.globalAlpha = 0.4;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(fromC.sx, fromC.sy);
+    ctx.lineTo(toC.sx, toC.sy);
+    ctx.stroke();
+
+    // Main line
+    ctx.strokeStyle = lineColor;
+    ctx.lineWidth = 2.5;
+    ctx.globalAlpha = 0.8;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(fromC.sx, fromC.sy);
+    ctx.lineTo(toC.sx, toC.sy);
+    ctx.stroke();
+
+    ctx.restore();
+}
+
 function redrawOverlay() {
     const cv  = document.getElementById('hex-overlay-canvas');
     const ctx = cv.getContext('2d');
@@ -1992,6 +2023,19 @@ function redrawOverlay() {
         const [c, r] = STATE.hovered;
         drawHexHighlight(ctx, c, r, P.hoverFill, 'rgba(255,255,255,0.50)', 1.5);
         highlightedHexes.add(`${c},${r}`);
+
+        // Draw LOS indicator when the active hero has a ranged or spell attack
+        const cur = getCurrentUnit();
+        if (cur && cur.team === 'heroes') {
+            let showLOS = false;
+            if (COMBAT.selectedAttack && ATTACKS[COMBAT.selectedAttack]) {
+                const selAtk = ATTACKS[COMBAT.selectedAttack];
+                showLOS = selAtk.type === 'ranged' || selAtk.type === 'spell';
+            } else {
+                showLOS = getUnitAttacks(cur).some(a => a.type === 'ranged' || a.type === 'spell');
+            }
+            if (showLOS) drawLOSIndicator(ctx, cur, c, r);
+        }
     }
 
     if (STATE.selected) {
@@ -2614,14 +2658,14 @@ const UNIT_STATS = {
 // ── Attack definitions ────────────────────────────────────────────────────────
 const ATTACKS = {
     // Heroes
-    warrior_melee  : { name:'Sword Strike',  type:'melee',  range:1,  damageDice:[2,10], damageMod:5,  hitBase:85, critMin:90, snd:'sword' },
-    rogue_bow      : { name:'Arrow Shot',    type:'ranged', range:14, damageDice:[2,8],  damageMod:3,  hitBase:90, critMin:95, snd:'bow'   },
-    rogue_knives   : { name:'Steel Knives',  type:'melee',  range:1,  damageDice:[2,9],  damageMod:4,  hitBase:82, critMin:92, snd:'sword' },
-    wizard_spell   : { name:'Fireball',      type:'spell',  range:15, damageDice:[3,8],  damageMod:5,  hitBase:95, critMin:97, snd:'fire'  },
+    warrior_melee  : { name:'Sword Strike',  type:'melee',  range:1,  damageDice:[2,10], damageMod:5,  hitBase:98, critMin:90, snd:'sword' },
+    rogue_bow      : { name:'Arrow Shot',    type:'ranged', range:14, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'bow'   },
+    rogue_knives   : { name:'Steel Knives',  type:'melee',  range:1,  damageDice:[2,9],  damageMod:4,  hitBase:98, critMin:92, snd:'sword' },
+    wizard_spell   : { name:'Fireball',      type:'spell',  range:15, damageDice:[3,8],  damageMod:5,  hitBase:98, critMin:97, snd:'fire'  },
     // Monsters
-    goblin_melee   : { name:'Claw',          type:'melee',  range:1,  damageDice:[1,12], damageMod:4,  hitBase:75, critMin:90, snd:'claw'  },
-    goblin_arc_bow : { name:'Goblin Arrow',  type:'ranged', range:10, damageDice:[1,6],  damageMod:1,  hitBase:72, critMin:93, snd:'bow'   },
-    goblin_arc_claw: { name:'Weak Claw',     type:'melee',  range:1,  damageDice:[1,6],  damageMod:1,  hitBase:65, critMin:92, snd:'claw'  },
+    goblin_melee   : { name:'Claw',          type:'melee',  range:1,  damageDice:[1,12], damageMod:4,  hitBase:95, critMin:90, snd:'claw'  },
+    goblin_arc_bow : { name:'Goblin Arrow',  type:'ranged', range:10, damageDice:[1,6],  damageMod:1,  hitBase:92, critMin:93, snd:'bow'   },
+    goblin_arc_claw: { name:'Weak Claw',     type:'melee',  range:1,  damageDice:[1,6],  damageMod:1,  hitBase:85, critMin:92, snd:'claw'  },
 };
 
 // Returns all attacks a unit can use, ordered primary first.
@@ -2672,11 +2716,12 @@ const COMBAT = {
 // ── Sound file mapping ────────────────────────────────────────────────────────
 const SOUND_FILES = {
     'sword': 'assets/sounds/sword.wav',
-    'bow':   'assets/sounds/bow.wav',
+    'bow':   'assets/sounds/arrowfire.mp3',
     'claw':  'assets/sounds/claw.wav',
     'stab':  'assets/sounds/stab.wav',
     'hit':   'assets/sounds/hit.wav',
     'miss':  'assets/sounds/miss.wav',
+    'arrowhit': 'assets/sounds/arrowhit.mp3',
     'fire':  'assets/sounds/spells/fireballlaunch.mp3',
 };
 
@@ -2706,10 +2751,7 @@ function checkLOS(atk, tgt) {
         if (nc === atk.col && nr === atk.row) continue;
         if (nc === tgt.col && nr === tgt.row) continue;
         if (nc < 0 || nc >= COLS || nr < 0 || nr >= ROWS) continue;
-        // Impassable obstacles partially obstruct LOS (penalty, not full block)
         if (isBlocked(nc, nr)) return 'obstacle';
-        const T = TMAP[nc][nr];
-        if (T.type === T_ROCKS || T.type === T_FOREST) return 'partial';
         if (STATE.units.some(u => u.hp > 0 && u.id !== atk.id && u.id !== tgt.id && u.col === nc && u.row === nr))
             return 'partial';
     }
@@ -3448,6 +3490,28 @@ function resolveAttack(attacker, target, onDone) {
 
     const hitRoll = rollD100();
 
+    // Pre-calculate hit chance to know if ranged attack hits (for impact sound)
+    let hitChance = atk.hitBase;
+    let los = 'clear';
+
+    if (atk.type === 'melee' && (attacker.movedHexes || 0) > 0) {
+        hitChance -= attacker.movedHexes * 10;
+    }
+
+    if (atk.type !== 'melee') {
+        if (inEnemyZoC(attacker)) {
+            hitChance -= 20;
+        }
+        los = checkLOS(attacker, target);
+        if (los === 'partial') {
+            hitChance = Math.round(hitChance * 0.75);
+        } else if (los === 'obstacle') {
+            hitChance = Math.round(hitChance * 0.80);
+        }
+    }
+    hitChance = Math.max(5, hitChance - (target.dodge || 0));
+    const isMiss = hitRoll > hitChance;
+
     // Launch visual for ranged / spell attacks
     if (atk.type === 'ranged' || atk.type === 'spell') {
         const fromC  = hexScreenCenter(attacker.col, attacker.row);
@@ -3457,6 +3521,10 @@ function resolveAttack(attacker, target, onDone) {
         const fh     = atk.type === 'spell' ? 68 : 30;
         startProjectile(atk.type === 'spell' ? 'fireball' : 'arrow',
             fromC.sx, fromBy - fh, toC.sx, toBy - 30);
+        // Schedule arrow impact sound only if it hits (~160ms)
+        if (atk.type === 'ranged' && !isMiss) {
+            setTimeout(() => playSound('arrowhit'), 160);
+        }
     }
     // Launch swing/stab for melee attacks
     if (atk.type === 'melee') {
@@ -3471,45 +3539,29 @@ function resolveAttack(attacker, target, onDone) {
         startSwing(swingType, fromC.sx, fromBy, ang);
     }
 
-    // Play attack sound at the moment it visually lands, not in the callback.
+    // Play attack sound at the moment animation starts.
     // Ranged/spell sounds are launch sounds (bow twang, fire whoosh) — play now.
-    // Melee sounds are impact sounds — play at swing peak (~250 ms).
+    // Melee sounds start with swing animation (synced at 400ms duration).
     if (atk.type === 'ranged' || atk.type === 'spell') {
         playSound(atk.snd);
     } else {
-        setTimeout(() => playSound(atk.snd), 250);
+        playSound(atk.snd);
     }
 
     startDiceAnim(attacker.col, attacker.row, hitRoll, () => {
-        // Compute effective hit chance
-        let hitChance = atk.hitBase;
-
+        // Log hit chance modifiers
+        if (atk.type === 'melee' && (attacker.movedHexes || 0) > 0) {
+            combatLog('  (moved ' + attacker.movedHexes + ' hex(es): −' + (attacker.movedHexes * 10) + ' hit)');
+        }
         if (atk.type !== 'melee' && inEnemyZoC(attacker)) {
-            hitChance -= 20;
             combatLog('  (in ZoC while ranged: −20 hit)');
         }
-
-        if (atk.type === 'melee' && (attacker.movedHexes || 0) > 0) {
-            const pen = attacker.movedHexes * 10;
-            hitChance -= pen;
-            combatLog('  (moved ' + attacker.movedHexes + ' hex(es): −' + pen + ' hit)');
+        if (atk.type !== 'melee' && los === 'partial') {
+            combatLog('  (LOS obscured: −25% hit)');
+        } else if (atk.type !== 'melee' && los === 'obstacle') {
+            combatLog('  (obstacle in the way: −20% hit)');
         }
 
-        let los = 'clear';
-        if (atk.type !== 'melee') {
-            los = checkLOS(attacker, target);
-            if (los === 'partial') {
-                hitChance = Math.round(hitChance * 0.75);
-                combatLog('  (LOS obscured: −25% hit)');
-            } else if (los === 'obstacle') {
-                hitChance = Math.round(hitChance * 0.80);
-                combatLog('  (obstacle in the way: −20% hit)');
-            }
-        }
-
-        hitChance = Math.max(5, hitChance - (target.dodge || 0));
-
-        const isMiss = hitRoll > hitChance;
         const isCrit = !isMiss && hitRoll >= atk.critMin;
 
         if (isMiss) {
@@ -3518,7 +3570,8 @@ function resolveAttack(attacker, target, onDone) {
                 ' (rolled ' + hitRoll + ', needed ≤' + hitChance + ')');
             showFloatDmg(target.col, target.row, 0, false, true);
         } else {
-            playSound('hit');
+            // Arrow impact sound already played at 180ms when projectile hit
+            if (atk.type !== 'ranged') playSound('hit');
             let dmg = rollDamage(atk.damageDice, atk.damageMod);
             if (isCrit) dmg = Math.round(dmg * 1.5);
             if (los === 'partial') dmg = Math.max(1, Math.round(dmg * (0.60 + Math.random() * 0.25)));
@@ -3830,7 +3883,7 @@ function startSwing(type, cx, by, angle) {
     SWING.y      = (by - 38) + Math.sin(angle) * 8;
     SWING.angle  = angle;
     SWING.start  = performance.now();
-    SWING.dur    = 255;
+    SWING.dur    = 400;  // Match sword sound duration
 }
 
 function drawSwing(ctx) {
