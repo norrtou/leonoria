@@ -1894,7 +1894,7 @@ function wirePartyBar() {
     });
     $('party-name').addEventListener('input', e => { S.party.name = e.target.value; });
     $('btn-view-party').addEventListener('click', () => {
-        if (!S.party.members.length) { toast('No members in the current party.'); return; }
+        if (!S.party || !S.party.members.length) { toast('No members in the current party.'); return; }
         showPartySheet(S.party);
     });
     const addPartyBtn = $('btn-add-party');
@@ -2679,6 +2679,7 @@ function clearCreator() {
     updateBgDetail(null);
     const newAfterSave = $('btn-new-after-save');
     if (newAfterSave) newAfterSave.style.display = 'none';
+    goToTabIdx(0);
 }
 
 // ─── Persistence ─────────────────────────────────────────────────────────────
