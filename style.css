@@ -818,4 +818,16 @@ html, body {
 .popup-amenities li {
     margin: 0 0 4px 0;
 }
+
+/* Class Strengths with tooltips */
+.focus-strength {
+    padding: 2px 4px;
+    border-radius: 3px;
+    cursor: help;
+    transition: background-color 0.2s ease;
+    display: inline-block;
+}
+.focus-strength:hover {
+    background-color: rgba(218, 165, 32, 0.2);
+}
 .popup-fact strong { color: #5a4010; }

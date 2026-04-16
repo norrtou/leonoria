@@ -81,6 +81,16 @@ const APTITUDE_DESC = {
         'COGNITION — Mental Acuity, Experience & Magical Attunement\nYour knowledge, creativity, perception, street smarts, and capacity to channel magical energy.\n\n▸ CONTROLS:\n  • Erudition: Learn spells, absorb knowledge faster\n  • Ingenuity: Crafting & magical item creation\n  • Worldliness: Lockpicking, reading people, survival\n  • Perception: Detect danger, notice hidden details\n  • Conduit Grade: Max spell power & Materium pool size\n  • Shadow Connection: Dark arts school access\n  • Insulation: Magic resistance vs all schools\n\n▸ CREATION-FIXED:\n  Does not grow through leveling\n  Set at character creation by race + class + age\n  Only items, curses, and spells can alter it\n\n▸ RESOURCE SCALING:\n  Materium pool = Cognition × 1.2 + age bonus + race bonus\n  Age increases pool until 80, then flat\n\n▸ BREAKING POINTS:\n  At 20: Access second Materium school\n  At 30: Read advanced Materium texts alone\n  At 40: Pool +15%, school mastery available\n  At 50: +5 to new skill starting values, Erudition +10%\n  At 60: Shadow & Materium regen together\n  At 70: +10% danger detection, Elemental synergies at 50%\n  At 80: Materium regen +2% per combat turn\n  At 100: All Cognition learning +20%, +5% combat regen\n\n▸ STARTING RANGE: 15–55 | MAX: 100\n▸ NOTE: Replaces former Materium Affinity aptitude',
     discipline:
         'DISCIPLINE — Willpower, Focus & Combat Readiness\nYour mental fortitude, focus under pressure, and ability to act quickly in combat.\n\n▸ CONTROLS:\n  • Initiative: Turn order modifier in combat (primary stat)\n  • Composure: Resistance to crowd control and mental effects\n  • Attentiveness: Detection of traps and ambushes\n  • Reaction Speed: Act sooner when surprised\n\n▸ BREAKING POINTS:\n  At 30: +5 to initiative\n  At 50: Crowd control durations reduced 20%\n  At 70: +10 to initiative, detect nearby traps\n  At 100: Act twice per turn on surprise, full initiative bonus\n\n▸ STARTING RANGE: 20–60 | MAX: 100',
+    'Martial Experience':
+        'MARTIAL EXPERIENCE — Combat Skill & Weaponry\nYour training with weapons, battlefield tactics, and physical combat techniques.\n\n▸ CONTROLS:\n  • Weapon mastery: Proficiency with martial weapons\n  • Combat maneuvers: Riposte, parry, defensive stances\n  • Armor effectiveness: Better use of protective gear\n  • Physical damage scaling: Melee and ranged attack power\n\n▸ CLASS FOCUS:\n  Warriors, Rogues, and Hybrid classes prioritize this strength.',
+    'Conviction':
+        'CONVICTION — Moral Fortitude & Divine Favor\nYour alignment with cosmic forces of light, redemption, and righteous purpose.\n\n▸ CONTROLS:\n  • Lightwielding access: Divine magic schools (requires morality 66+)\n  • Holy power scaling: Light magic damage and healing potency\n  • Blessing resonance: Protection from corruption and shadow\n  • Redemption resistance: Armor against curses and dark influence\n\n▸ CLASS FOCUS:\n  Wardens, Soulkindlers, and holy warriors prioritize this strength.',
+    'Materium Affinity':
+        'MATERIUM AFFINITY — Raw Magical Potential\nYour natural attunement to the raw substance of magic itself.\n\n▸ CONTROLS:\n  • School versatility: Access to multiple Materium schools\n  • Spell scaling: Base effectiveness of elemental and utility spells\n  • Rune carving: Enchantment and artifact creation power\n  • Conduit resonance: Stability when using magical channels\n\n▸ CLASS FOCUS:\n  Casters, Scholars, and magical hybrids prioritize this strength.',
+    'Materium Affinity (Light)':
+        'MATERIUM AFFINITY (LIGHT) — Divine Elemental Magic\nYour attunement to the luminous schools of Lightwielding and holy magic.\n\n▸ SCHOOLS UNLOCKED:\n  • Lightwielding: Holy smites, divine barriers, purification\n  • Solar Magic: Heat, radiance, and stellar forces\n\n▸ CLASS FOCUS:\n  Holy casters and divine-touched warriors prioritize this strength.',
+    'Materium Affinity (Shadow)':
+        'MATERIUM AFFINITY (SHADOW) — Dark Arts & Corruption\nYour attunement to the shadowed schools of dark magic and forbidden knowledge.\n\n▸ SCHOOLS UNLOCKED:\n  • Shadow Arts: Curses, hexes, shadow manipulation, and life drain\n  • Darkblood: Blood magic and forbidden rituals\n\n▸ CLASS FOCUS:\n  Dark casters, Voidweavers, and shadow-touched classes prioritize this strength.',
 };
 
 // SKILL_DESC removed — tooltips are now built dynamically from skills.json data in buildSkillTooltip()
@@ -2113,9 +2123,11 @@ function showViewSheet(char, origin = 'create') {
     const classTrait   = clsData?.special_class_trait?.name || '—';
     const classTraitDesc = clsData?.special_class_trait?.description || '';
     const focusPriorities = (clsData?.aptitude_priorities || []).slice(0, 3);
-    const focusText = focusPriorities
-        .map(ap => aptName(ap.toLowerCase().replace(/ /g, '_')))
-        .join('\n') || '—';
+    const focusText = focusPriorities.join('\n') || '—';
+    const focusTooltips = {};
+    focusPriorities.forEach(strength => {
+        focusTooltips[strength] = APTITUDE_DESC[strength] || APTITUDE_DESC[strength.toLowerCase().replace(/ /g, '_')] || '';
+    });
 
     if ($('d-hp'))           $('d-hp').textContent    = vitality;
     if ($('d-hd'))           $('d-hd').textContent    = materiumPool;
@@ -2300,14 +2312,21 @@ function showViewSheet(char, origin = 'create') {
         moralityLbl.addEventListener('mouseleave', hideTip);
     }
     if ($('vs-focus')) {
-        $('vs-focus').textContent = focusText;
-        $('vs-focus').setAttribute('data-tooltip', 'Your class\'s core strengths. These are the aptitudes where your class excels. Build your character by improving these for maximum effectiveness.');
-        const focusRow = $('vs-focus').closest('.vs-focus-row');
-        if (focusRow) {
-            focusRow.dataset.tooltip = 'Your class\'s core strengths.\nThese are the aptitudes where your class excels. Build your character by improving these for maximum effectiveness.';
-            focusRow.addEventListener('mouseenter', e => showTip(e, focusRow.dataset.tooltip));
-            focusRow.addEventListener('mouseleave', hideTip);
-        }
+        $('vs-focus').innerHTML = '';
+        focusPriorities.forEach((strength, idx) => {
+            const strengthSpan = el('span', 'focus-strength');
+            strengthSpan.textContent = strength;
+            const desc = focusTooltips[strength];
+            if (desc) {
+                strengthSpan.setAttribute('data-tooltip', desc);
+                strengthSpan.addEventListener('mouseenter', e => showTip(e, desc));
+                strengthSpan.addEventListener('mouseleave', hideTip);
+            }
+            $('vs-focus').appendChild(strengthSpan);
+            if (idx < focusPriorities.length - 1) {
+                $('vs-focus').appendChild(document.createTextNode(', '));
+            }
+        });
     }
     if ($('vs-trait')) {
         $('vs-trait').textContent = classTrait;
