@@ -2756,17 +2756,35 @@ function playSound(type) {
 function checkLOS(atk, tgt) {
     const dist = hexDist(atk.col, atk.row, tgt.col, tgt.row);
     if (dist <= 1) return 'clear';
-    const steps = dist * 4;
+
+    // Use fine-grained line-of-sight: sample every 0.1 hex distance
+    const steps = Math.max(dist * 10, 20);
+    const visited = new Set();
+
     for (let i = 1; i < steps; i++) {
         const p  = i / steps;
-        const nc = Math.round(atk.col + (tgt.col - atk.col) * p);
-        const nr = Math.round(atk.row + (tgt.row - atk.row) * p);
-        if (nc === atk.col && nr === atk.row) continue;
-        if (nc === tgt.col && nr === tgt.row) continue;
-        if (nc < 0 || nc >= COLS || nr < 0 || nr >= ROWS) continue;
-        if (isBlocked(nc, nr)) return 'obstacle';
-        if (STATE.units.some(u => u.hp > 0 && u.id !== atk.id && u.id !== tgt.id && u.col === nc && u.row === nr))
-            return 'partial';
+        const x = atk.col + (tgt.col - atk.col) * p;
+        const y = atk.row + (tgt.row - atk.row) * p;
+
+        // Check all nearby hexes for the ray position
+        for (let dc = -1; dc <= 1; dc++) {
+            for (let dr = -1; dr <= 1; dr++) {
+                const nc = Math.round(x) + dc;
+                const nr = Math.round(y) + dr;
+                const key = `${nc},${nr}`;
+
+                if (visited.has(key)) continue;
+                visited.add(key);
+
+                if (nc === atk.col && nr === atk.row) continue;
+                if (nc === tgt.col && nr === tgt.row) continue;
+                if (nc < 0 || nc >= COLS || nr < 0 || nr >= ROWS) continue;
+
+                if (isBlocked(nc, nr)) return 'obstacle';
+                if (STATE.units.some(u => u.hp > 0 && u.id !== atk.id && u.id !== tgt.id && u.col === nc && u.row === nr))
+                    return 'partial';
+            }
+        }
     }
     return 'clear';
 }
