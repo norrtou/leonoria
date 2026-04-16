@@ -243,6 +243,7 @@ body {
     font-style  : normal;
     font-weight : normal;
     opacity     : 0.9;
+    white-space : nowrap;
 }
 
 /* ── Navigation button ── */
