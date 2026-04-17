@@ -86,7 +86,7 @@ const APTITUDE_DESC = {
     'Conviction':
         'CONVICTION — Moral Fortitude & Divine Favor\nYour alignment with cosmic forces of light, redemption, and righteous purpose.\n\n▸ CONTROLS:\n  • Lightwielding access: Divine magic schools (requires morality 66+)\n  • Holy power scaling: Light magic damage and healing potency\n  • Blessing resonance: Protection from corruption and shadow\n  • Redemption resistance: Armor against curses and dark influence\n\n▸ CLASS FOCUS:\n  Wardens, Soulkindlers, and holy warriors prioritize this strength.',
     'Materium Affinity':
-        'MATERIUM AFFINITY — Raw Magical Potential\nYour natural attunement to the raw substance of magic itself.\n\n▸ CONTROLS:\n  • School versatility: Access to multiple Materium schools\n  • Spell scaling: Base effectiveness of elemental and utility spells\n  • Rune carving: Enchantment and artifact creation power\n  • Conduit resonance: Stability when using magical channels\n\n▸ CLASS FOCUS:\n  Casters, Scholars, and magical hybrids prioritize this strength.',
+        'MATERIUM AFFINITY — Raw Magical Potential\nYour natural attunement to the raw substance of magic itself.\n\n▸ CONTROLS:\n  • School versatility: Access to multiple Materium schools\n  • Spell scaling: Base effectiveness of elemental and utility spells\n  • Rune carving: Enchantment and artifact creation power\n  • Conduit resonance: Stability when using magical channels\n\n▸ CLASS FOCUS:\n  Casters, Archmages, and magical hybrids prioritize this strength.',
     'Materium Affinity (Light)':
         'MATERIUM AFFINITY (LIGHT) — Divine Elemental Magic\nYour attunement to the luminous schools of Lightwielding and holy magic.\n\n▸ SCHOOLS UNLOCKED:\n  • Lightwielding: Holy smites, divine barriers, purification\n  • Solar Magic: Heat, radiance, and stellar forces\n\n▸ CLASS FOCUS:\n  Holy casters and divine-touched warriors prioritize this strength.',
     'Materium Affinity (Shadow)':
@@ -116,7 +116,7 @@ const CLASS_BLURBS = {
     ironguard:          'The shield that does not break. Ironguards are the wall between civilization and the dark. Pure physical warriors, utterly dedicated to durability and protection.',
     battlebrave:        'The tip of the spear. Where Ironguards hold the line, Battlebraves shatter it. Aggressive, mobile, and built for direct offensive combat.',
     reaver:              'Overwhelm. Destroy. Move on. The Reaver does not defend — they overwhelm before defense is needed.',
-    wayfarer:           'Scouting the road ahead, hunting from shadow, surviving where others perish. Wayfarers are the eyes and blades of the wilderness.',
+    hunter:             'Scouting the road ahead, hunting from shadow, surviving where others perish. Hunters are the eyes and blades of the wilderness.',
     shadowblade:        'Precision over power. The Shadowblade vanishes, strikes once with lethal intent, and is gone before the body falls.',
     warden:             'Bound by faith and duty to protect the innocent. Wardens are divine warriors — champions of a people, not servants of a god.',
     soulkindler:        'Healers, speakers, and spiritual fire. Soulkindlers work where medicine fails and morale breaks — they carry the light that cannot be put out.',
@@ -126,7 +126,14 @@ const CLASS_BLURBS = {
     lifewhisperer:      'The great healers of Leonoria. Where the Soulkindler brings spiritual fire, the Lifewhisperer brings biological restoration.',
     voidweaver:         'Practitioners of the dark not through malice but mastery. Voidweavers understand shadow deeply enough to shape it without being consumed.',
     bloodsinger:        'Body as conduit. Blood as power. Bloodsingers burn their own vitality to fuel devastating magical effects. High risk. Absolute power.',
-    scholar:            'No weapon sharper than a prepared mind. Scholars gather, analyze, and apply knowledge — often more dangerous than the warrior beside them.',
+    archmage:           'No weapon sharper than a prepared mind. Archmages gather, analyze, and apply knowledge — often more dangerous than the warrior beside them.',
+    bladedancer:        'Speed is the only armor worth wearing. The Bladedancer strikes before the enemy can raise a defense, using blade and knife with lethal precision.',
+    subjugator:         'Break the will, then break the body. The Subjugator weaves mind magic into close-quarters blade work — every cut is preceded by a crack in the psyche.',
+    paladin:            'Faith made manifest in steel. The Paladin is a warrior first, channeling simple light magic to protect allies, mend wounds, and consecrate their blade.',
+    shaman:             'The shaman speaks to what others refuse to hear: fire spirits, beast totems, blood memory. Their magic is borrowed from the unseen — and they always repay the debt.',
+    demonologist:       'The Demonologist does not fear demons. They catalogue them. Knowledge is control, and control is absolute power over the things that unmake lesser mages.',
+    dreameater:         'By the time you wake, it will already be too late. The Dreameater invades dreams, sculpts dread, and breaks enemies before the first sword is drawn.',
+    windwalker:         'Cold. Silent. Moving like the wind between the living and the dead. The Windwalker carries old death magic through the frozen sky.',
     envoy:              'The Envoy wins the battle before it starts. Through charisma, reputation, and social mastery, they reshape the field without drawing a sword.',
 };
 
@@ -258,7 +265,7 @@ function classResourceUsage(clsData) {
     if (!clsData) return { hp: false, stamina: false, materium: false };
 
     const martialGroups = ['Warrior', 'Ranger', 'Rogue'];
-    const hybridIds     = ['shadowblade', 'warden', 'aegisbearer', 'verdant_warden'];
+    const hybridIds     = ['shadowblade', 'warden', 'aegisbearer', 'verdant_warden', 'beastwarden', 'subjugator', 'paladin', 'shaman'];
     const bloodKeywords = ['Blood Magic', 'Darkblood', 'Bloodpassion', 'Siphoning'];
 
     const schools = clsData.materium_schools_available || [];
@@ -480,11 +487,11 @@ function buildRaceSelect() {
 // ─── Abilities tab ────────────────────────────────────────────────────────────
 // Maps class IDs to their martial ability set ID in attacks_and_spells.json
 const CLASS_MARTIAL_SET = {
-    ironguard: 'vanguard_type', vanguard: 'vanguard_type',
-    battlebrave: 'skirmisher_type', duelist: 'skirmisher_type',
+    ironguard: 'vanguard_type', vanguard: 'vanguard_type', paladin: 'vanguard_type',
+    battlebrave: 'skirmisher_type', bladedancer: 'skirmisher_type',
     reaver: 'skirmisher_type', skirmisher: 'skirmisher_type',
-    wayfarer: 'marksman_type', marksman: 'marksman_type', beastwarden: 'marksman_type',
-    shadowblade: 'rogue_type', assassin: 'rogue_type', thief: 'rogue_type', saboteur: 'rogue_type',
+    hunter: 'marksman_type', marksman: 'marksman_type', beastwarden: 'marksman_type',
+    shadowblade: 'rogue_type', assassin: 'rogue_type', thief: 'rogue_type', saboteur: 'rogue_type', subjugator: 'rogue_type',
     warmaster: 'commander_type',
 };
 
@@ -527,10 +534,10 @@ const MARTIAL_SET_ICON = {
     marksman_type: '🏹', rogue_type: '🗡', commander_type: '✦',
 };
 const BASE_CLASS_ICON = {
-    ironguard:'⚔', vanguard:'⚔', battlebrave:'⚔', reaver:'⚔', duelist:'⚔',
-    warmaster:'✦', wayfarer:'🏹', marksman:'🏹', skirmisher:'🏹', beastwarden:'🏹',
-    shadowblade:'🗡', assassin:'🗡', thief:'🗡', saboteur:'🗡',
-    warden:'✦', aegisbearer:'✦', dawncaller:'✦', soulkindler:'✦',
+    ironguard:'⚔', vanguard:'⚔', battlebrave:'⚔', reaver:'⚔', bladedancer:'⚔',
+    warmaster:'✦', hunter:'🏹', marksman:'🏹', skirmisher:'🏹', beastwarden:'🏹',
+    shadowblade:'🗡', assassin:'🗡', thief:'🗡', saboteur:'🗡', subjugator:'🗡',
+    warden:'✦', aegisbearer:'✦', dawncaller:'✦', soulkindler:'✦', paladin:'✦',
 };
 const MAGIC_DOT_COLOR = {
     lightwielding: '#e8c820', // Conviction yellow

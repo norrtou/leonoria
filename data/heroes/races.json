@@ -479,9 +479,7 @@
           "typical_classes": [
             "Ironguard",
             "Scholar",
-            "Wayfarer",
-            "Artisan",
-            "Envoy"
+            "Wayfarer"
           ],
           "typical_backgrounds": [
             "Merchant",
@@ -667,7 +665,6 @@
           "typical_classes": [
             "Wayfarer",
             "Battlebrave",
-            "Envoy",
             "Shadowblade"
           ],
           "typical_backgrounds": [
@@ -1078,7 +1075,6 @@
           "alignment_tendency": "Neutral / Lawful",
           "typical_classes": [
             "Ironguard",
-            "Artisan",
             "Scholar",
             "Elementalist"
           ],
@@ -1175,7 +1171,6 @@
           ],
           "alignment_tendency": "Neutral / Dark",
           "typical_classes": [
-            "Artisan",
             "Lifewhisperer",
             "Scholar",
             "Voidweaver"

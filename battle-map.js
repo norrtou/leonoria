@@ -53,6 +53,20 @@ const DEFAULT_HERO_DEFS = [
     { id:'rogue',   name:'Rogue',   type:'rogue',   spriteType:'rogue',   team:'heroes', col:8, row:13 },
 ];
 
+// Placeholder team 2: holy order
+const TEAM_HOLY_DEFS = [
+    { id:'cleric',  name:'Cleric',  type:'cleric',  spriteType:'cleric',  team:'heroes', col:2, row:13 },
+    { id:'ranger',  name:'Ranger',  type:'ranger',  spriteType:'ranger',  team:'heroes', col:5, row:14 },
+    { id:'warlock', name:'Warlock', type:'warlock', spriteType:'warlock', team:'heroes', col:8, row:13 },
+];
+
+// Placeholder team 3: dark casters
+const TEAM_DARK_DEFS = [
+    { id:'sorcerer',   name:'Sorcerer',   type:'sorcerer',   spriteType:'sorcerer',   team:'heroes', col:2, row:13 },
+    { id:'necromancer',name:'Necromancer',type:'necromancer',spriteType:'necromancer',team:'heroes', col:5, row:14 },
+    { id:'witch',      name:'Witch',      type:'witch',      spriteType:'witch',      team:'heroes', col:8, row:13 },
+];
+
 // Active unit definitions — rebuilt each time a team is loaded
 let UNIT_DEFS = [...DEFAULT_HERO_DEFS, ...ENEMY_DEFS];
 
@@ -62,16 +76,16 @@ let UNIT_DEFS = [...DEFAULT_HERO_DEFS, ...ENEMY_DEFS];
 
 // Maps class id → class group (matches character-creator.js class groups)
 const CLASS_GROUP_MAP = {
-    ironguard:'Warrior', battlebrave:'Warrior', reaver:'Warrior', vanguard:'Warrior', duelist:'Warrior', warmaster:'Warrior',
-    wayfarer:'Ranger',   marksman:'Ranger',     beastwarden:'Ranger', skirmisher:'Ranger',
-    shadowblade:'Rogue', assassin:'Rogue',      thief:'Rogue',    saboteur:'Rogue',
-    warden:'Cleric',     soulkindler:'Cleric',  dawncaller:'Cleric',  aegisbearer:'Cleric',
-    scholar:'Mage',      elementalist:'Mage',   arcanist:'Mage',  runescribe:'Mage',
+    ironguard:'Warrior',  battlebrave:'Warrior', reaver:'Warrior',     vanguard:'Warrior',   warmaster:'Warrior',   bladedancer:'Warrior',
+    hunter:'Ranger',      marksman:'Ranger',     beastwarden:'Ranger', skirmisher:'Ranger',
+    shadowblade:'Rogue',  assassin:'Rogue',      thief:'Rogue',        saboteur:'Rogue',     subjugator:'Rogue',
+    warden:'Cleric',      soulkindler:'Cleric',  dawncaller:'Cleric',  aegisbearer:'Cleric', paladin:'Cleric',
+    archmage:'Mage',      elementalist:'Mage',   arcanist:'Mage',      runescribe:'Mage',
     pyrecrafter:'Sorcerer', stormcaller:'Sorcerer', geomancer:'Sorcerer', aquorist:'Sorcerer',
-    lifewhisperer:'Druid',  beastcaller:'Druid',    verdant_warden:'Druid',
-    voidweaver:'Warlock',   bloodsinger:'Warlock',  dreadbinder:'Warlock', dominionist:'Warlock',
-    malefactor:'Witch',     blightweaver:'Witch',   bloodwitch:'Witch',
-    gravecaller:'Necromancer', soulreaper:'Necromancer', rotforged:'Necromancer',
+    lifewhisperer:'Druid',  beastcaller:'Druid',    verdant_warden:'Druid', shaman:'Druid',
+    voidweaver:'Warlock',   bloodsinger:'Warlock',  dreadbinder:'Warlock',  dominionist:'Warlock', demonologist:'Warlock',
+    malefactor:'Witch',     blightweaver:'Witch',   bloodwitch:'Witch',     dreameater:'Witch',
+    gravecaller:'Necromancer', soulreaper:'Necromancer', rotforged:'Necromancer', windwalker:'Necromancer',
 };
 
 // Hero starting positions by party size (1–6)
@@ -127,8 +141,15 @@ const MARTIAL_DEFAULT_ATTACK = {
 
 // Sprite type from class group
 function spriteTypeFromGroup(group) {
-    if (group === 'Warrior') return 'warrior';
-    if (group === 'Ranger' || group === 'Rogue') return 'rogue';
+    if (group === 'Warrior')     return 'warrior';
+    if (group === 'Rogue')       return 'rogue';
+    if (group === 'Ranger')      return 'ranger';
+    if (group === 'Cleric')      return 'cleric';
+    if (group === 'Mage')        return 'wizard';
+    if (group === 'Necromancer') return 'necromancer';
+    if (group === 'Witch')       return 'witch';
+    if (group === 'Sorcerer')    return 'sorcerer';
+    if (group === 'Warlock')     return 'warlock';
     return 'wizard';
 }
 
@@ -2182,6 +2203,754 @@ function drawRogue(ctx, cx, by, sel, anim) {
     if (sel) _drawSelectRing(ctx, cx, by);
 }
 
+// ── Cleric ────────────────────────────────────────────────────────────────────
+function drawCleric(ctx, cx, by, sel, anim) {
+    const C = {
+        pl:'#c0ccd8',   plLit:'#e0ecf8', plDk:'#7888a0',  plHi:'#f0f8ff',
+        tab:'#e8e2d4',  tabDk:'#b0a890', cross:'#c8a030',
+        gold:'#c8a030', goldDk:'#907020',
+        hDk:'#687078',  hMid:'#8890a0',  hLit:'#b0b8c4',
+        maceH:'#b0bcc8',maceDk:'#4e606e',
+        boot:'#303840', skin:'#c8a878',
+    };
+    const t = anim?.t ?? 0;
+    let dY = 0, smiteT = 0, spellT = 0, holyPulse = 0;
+    if (anim?.type === 'cleric_smite') {
+        if (t < 0.25)      { dY = -4*(t/0.25); smiteT = t/0.25; }
+        else if (t < 0.60) { const p=(t-0.25)/0.35, e=1-Math.pow(1-p,2); dY=-4+16*e; smiteT=1-e*0.5; holyPulse=e; }
+        else               { const p=(t-0.60)/0.40; dY=12-12*p; holyPulse=1-p; }
+    } else if (anim?.type === 'cleric_spell') {
+        if (t < 0.35)      { spellT=t/0.35; dY=spellT*2; }
+        else if (t < 0.65) { const p=(t-0.35)/0.30; spellT=1; holyPulse=p; dY=2+p; }
+        else if (t < 0.75) { const p=(t-0.65)/0.10; spellT=1; holyPulse=1+p*1.5; dY=3-p*3; }
+        else               { const p=(t-0.75)/0.25; spellT=1-p*0.4; holyPulse=0; }
+    }
+    drawShadow(ctx, cx, by);
+    const shY = by - 36 - dY*0.6;
+    // Boots
+    ctx.fillStyle=C.boot; ctx.fillRect(cx-10,by-5,7,5); ctx.fillRect(cx+3,by-4,7,4);
+    ctx.fillStyle=C.pl; ctx.fillRect(cx-10,by-7,7,2);
+    ctx.fillStyle=C.plDk; ctx.fillRect(cx+3,by-6,7,2);
+    // Greaves
+    ctx.fillStyle=C.pl; ctx.fillRect(cx-9,by-18,7,11);
+    ctx.fillStyle=C.plLit; ctx.fillRect(cx-8,by-17,2,9);
+    ctx.fillStyle=C.plDk; ctx.fillRect(cx+2,by-16,7,10);
+    ctx.fillStyle=C.pl; ctx.fillRect(cx+3,by-15,2,8);
+    ctx.fillStyle=C.gold; ctx.fillRect(cx-9,by-9,7,1.5);
+    ctx.fillStyle=C.plLit; ctx.beginPath(); ctx.ellipse(cx-5,by-18,4,2.5,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.pl; ctx.beginPath(); ctx.ellipse(cx+6,by-16,3,2,0,0,Math.PI*2); ctx.fill();
+    // Cuisses + tabard skirt
+    ctx.fillStyle=C.pl; ctx.fillRect(cx-9,by-26,7,8); ctx.fillRect(cx+2,by-24,7,8);
+    const wY=by-26;
+    ctx.fillStyle=C.tab;
+    ctx.beginPath(); ctx.moveTo(cx-8,wY); ctx.lineTo(cx+8,wY); ctx.lineTo(cx+6,wY-5); ctx.lineTo(cx-6,wY-5); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.gold; ctx.fillRect(cx-8,wY-1,16,1.5);
+    // Backplate
+    const bpB=wY-5-dY*0.45, bpT=bpB-16;
+    ctx.fillStyle=C.plDk;
+    ctx.beginPath(); ctx.moveTo(cx-10,bpB); ctx.lineTo(cx+10,bpB); ctx.lineTo(cx+8,bpT); ctx.lineTo(cx-8,bpT); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.tab;
+    ctx.beginPath(); ctx.moveTo(cx-0,bpB); ctx.lineTo(cx+6,bpB); ctx.lineTo(cx+5,bpT); ctx.lineTo(cx+0,bpT); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.gold; ctx.fillRect(cx-9,bpB-2,18,1.5);
+    // Cross on tabard
+    ctx.save(); ctx.globalAlpha=0.30+holyPulse*0.55;
+    ctx.fillStyle=C.cross;
+    ctx.fillRect(cx+1,bpT+4,2,9); ctx.fillRect(cx-2,bpT+8,8,2);
+    ctx.restore();
+    // Pauldrons
+    ctx.fillStyle=C.plDk; ctx.beginPath(); ctx.ellipse(cx-12,shY,10,5.5,-0.15,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.plLit; ctx.beginPath(); ctx.ellipse(cx-11,shY-1,7,3.5,-0.15,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=C.gold; ctx.lineWidth=0.8; ctx.beginPath(); ctx.ellipse(cx-12,shY,10,5.5,-0.15,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle=C.plDk; ctx.beginPath(); ctx.ellipse(cx+12,shY,9,5,0.15,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.pl; ctx.beginPath(); ctx.ellipse(cx+11,shY-1,6,3.5,0.15,0,Math.PI*2); ctx.fill();
+    // Shield (right side)
+    const sdX=cx+13, sdY=shY+2;
+    ctx.fillStyle='#1e3498';
+    ctx.beginPath(); ctx.moveTo(sdX,sdY); ctx.lineTo(sdX+13,sdY-4); ctx.lineTo(sdX+11,sdY-18); ctx.lineTo(sdX+3,sdY-24); ctx.lineTo(sdX-1,sdY-11); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#2e48c8';
+    ctx.beginPath(); ctx.moveTo(sdX+1,sdY-1); ctx.lineTo(sdX+10,sdY-5); ctx.lineTo(sdX+9,sdY-16); ctx.lineTo(sdX+4,sdY-21); ctx.lineTo(sdX,sdY-11); ctx.closePath(); ctx.fill();
+    ctx.save(); ctx.globalAlpha=0.85; ctx.fillStyle=C.gold;
+    ctx.fillRect(sdX+4,sdY-17,2,9); ctx.fillRect(sdX+1,sdY-13,8,2);
+    ctx.restore();
+    ctx.strokeStyle=C.gold; ctx.lineWidth=0.9;
+    ctx.beginPath(); ctx.moveTo(sdX,sdY); ctx.lineTo(sdX+13,sdY-4); ctx.lineTo(sdX+11,sdY-18); ctx.lineTo(sdX+3,sdY-24); ctx.lineTo(sdX-1,sdY-11); ctx.closePath(); ctx.stroke();
+    // Mace arm (left/attacking side)
+    const aAncX=cx-11, aAncY=shY+1;
+    const aA0=-Math.PI*0.55, aA1=-Math.PI*0.22;
+    const aA2=-Math.PI*0.72;
+    let armAng = aA0 + (aA1-aA0)*(smiteT>0 ? 1-smiteT : 0);
+    if (spellT>0) armAng = aA0 + (aA2-aA0)*spellT;
+    const aLen=15, elbX=aAncX+Math.cos(armAng)*aLen*0.5, elbY=aAncY+Math.sin(armAng)*aLen*0.5;
+    const hndX=aAncX+Math.cos(armAng)*aLen, hndY=aAncY+Math.sin(armAng)*aLen;
+    ctx.strokeStyle=C.plDk; ctx.lineWidth=8; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(aAncX,aAncY); ctx.lineTo(elbX,elbY); ctx.stroke();
+    ctx.strokeStyle=C.pl; ctx.lineWidth=2.5;
+    ctx.beginPath(); ctx.moveTo(aAncX,aAncY); ctx.lineTo(elbX,elbY); ctx.stroke();
+    ctx.fillStyle=C.plLit; ctx.beginPath(); ctx.arc(elbX,elbY,4,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=C.plDk; ctx.lineWidth=7;
+    ctx.beginPath(); ctx.moveTo(elbX,elbY); ctx.lineTo(hndX,hndY); ctx.stroke();
+    ctx.strokeStyle=C.pl; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(elbX,elbY); ctx.lineTo(hndX,hndY); ctx.stroke();
+    // Mace
+    const mAng=armAng-0.10, mLen=26;
+    const mTX=hndX+Math.cos(mAng)*mLen, mTY=hndY+Math.sin(mAng)*mLen;
+    ctx.strokeStyle=C.maceDk; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(hndX,hndY); ctx.lineTo(mTX,mTY); ctx.stroke();
+    ctx.strokeStyle='#8898a8'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(hndX,hndY); ctx.lineTo(mTX,mTY); ctx.stroke();
+    ctx.fillStyle=C.maceH; ctx.beginPath(); ctx.arc(mTX,mTY,6,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=C.gold; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(mTX,mTY,6,0,Math.PI*2); ctx.stroke();
+    for (let f=0;f<6;f++) { const fa=f*Math.PI/3; ctx.fillStyle=C.pl; ctx.beginPath(); ctx.arc(mTX+Math.cos(fa)*5.5,mTY+Math.sin(fa)*5.5,2,0,Math.PI*2); ctx.fill(); }
+    // Holy glow
+    if (holyPulse>0) {
+        ctx.save(); ctx.shadowColor='#ffffc0'; ctx.shadowBlur=18;
+        ctx.globalAlpha=Math.min(1,holyPulse)*0.6;
+        ctx.fillStyle='#fffff4';
+        const gTX=spellT>0?hndX:mTX, gTY=spellT>0?hndY:mTY;
+        ctx.beginPath(); ctx.arc(gTX,gTY,8+holyPulse*6,0,Math.PI*2); ctx.fill();
+        if (holyPulse>1) { ctx.globalAlpha=(holyPulse-1)*0.9; ctx.fillStyle='#ffffff'; ctx.beginPath(); ctx.arc(gTX,gTY,15,0,Math.PI*2); ctx.fill(); }
+        ctx.restore();
+    }
+    // Helmet
+    const hcX=cx, hcY=shY-13-dY;
+    ctx.fillStyle=C.plDk; ctx.fillRect(hcX-4,hcY+2,8,6);
+    ctx.fillStyle=C.pl; ctx.fillRect(hcX-3,hcY+3,5,5);
+    ctx.fillStyle=C.gold; ctx.fillRect(hcX-4,hcY+2,8,1);
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcX,hcY,12,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.hLit; ctx.beginPath(); ctx.arc(hcX-2,hcY-2,8,Math.PI*1.0,Math.PI*2.3); ctx.fill();
+    ctx.fillStyle='#101820'; ctx.beginPath(); ctx.ellipse(hcX+2,hcY,5,2.5,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(hcX+3,hcY,1.5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.gold; ctx.fillRect(hcX-1,hcY-12,3,12);
+    ctx.fillStyle=C.cross; ctx.beginPath(); ctx.arc(hcX,hcY-12,3,Math.PI,0); ctx.fill();
+    ctx.strokeStyle=C.gold; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(hcX,hcY,12,Math.PI*0.5,Math.PI*1.8); ctx.stroke();
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
+// ── Necromancer ───────────────────────────────────────────────────────────────
+function drawNecromancer(ctx, cx, by, sel, anim) {
+    const C = {
+        rDk:'#120820', rMid:'#1e1030', rLit:'#3a1848', rFold:'#2a1040',
+        boneW:'#d8d4c0', boneDk:'#a09870', skullDk:'#8a8470',
+        dGreen:'#28c858', dGlo:'rgba(30,200,70,0.55)',
+        sash:'#601080', sashLt:'#8820b0',
+        stWd:'#281808', stLt:'#402810',
+        eye:'#30f060', eyeGlo:'rgba(40,240,80,0.6)',
+        skin:'#9090a0',
+    };
+    const t = anim?.t ?? 0;
+    let dY=0, staffRaise=0, deathPulse=0;
+    if (anim?.type === 'necromancer_spell') {
+        if (t < 0.28)      { staffRaise=t/0.28; }
+        else if (t < 0.58) { staffRaise=1; deathPulse=(t-0.28)/0.30; dY=deathPulse*3; }
+        else if (t < 0.70) { const p=(t-0.58)/0.12; staffRaise=1; deathPulse=1+p*2; dY=3-p*3; }
+        else               { const p=(t-0.70)/0.30; staffRaise=1-p*0.5; deathPulse=0; }
+    }
+    drawShadow(ctx, cx, by);
+    const shY=by-38-dY*0.70;
+    // Robe skirt (long, tattered hem)
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath();
+    ctx.moveTo(cx-14,by); ctx.lineTo(cx+14,by); ctx.lineTo(cx+10,by-38); ctx.lineTo(cx-11,by-38);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath();
+    ctx.moveTo(cx-2,by); ctx.lineTo(cx+5,by); ctx.lineTo(cx+4,by-38); ctx.lineTo(cx-1,by-38);
+    ctx.closePath(); ctx.fill();
+    // Tattered hem
+    ctx.fillStyle=C.rDk;
+    for (let i=0;i<5;i++) {
+        const hx=cx-12+i*5.5, hy=by;
+        ctx.beginPath(); ctx.moveTo(hx,hy-1); ctx.lineTo(hx+2,hy-1); ctx.lineTo(hx+1,hy+4+Math.sin(i*1.7)*2); ctx.closePath(); ctx.fill();
+    }
+    // Bone trim at hem
+    ctx.strokeStyle=C.boneDk; ctx.lineWidth=1; ctx.setLineDash([2,3]);
+    ctx.beginPath(); ctx.moveTo(cx-13,by-2); ctx.lineTo(cx+13,by-2); ctx.stroke();
+    ctx.setLineDash([]);
+    // Skull decorations on robe
+    ctx.save(); ctx.globalAlpha=0.35+deathPulse*0.2;
+    ctx.fillStyle=C.boneW;
+    for (const [sx,sy] of [[-6,-10],[4,-18],[-2,-28],[6,-8]]) {
+        ctx.beginPath(); ctx.arc(cx+sx,by+sy,1.5,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+    // Sash
+    ctx.fillStyle=C.sash; ctx.fillRect(cx-10,by-32,21,3);
+    ctx.fillStyle=C.sashLt; ctx.fillRect(cx-10,by-33,21,2);
+    // Upper robe
+    const upShY=shY-14;
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath();
+    ctx.moveTo(cx-11,by-38); ctx.lineTo(cx+10,by-38);
+    ctx.lineTo(cx+8,upShY); ctx.lineTo(cx-9,upShY);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath();
+    ctx.moveTo(cx-1,by-38); ctx.lineTo(cx+6,by-38);
+    ctx.lineTo(cx+5,upShY); ctx.lineTo(cx-0,upShY);
+    ctx.closePath(); ctx.fill();
+    // Death rune glow on back
+    ctx.save(); ctx.globalAlpha=0.25+Math.min(1,deathPulse)*0.35;
+    ctx.shadowColor=C.dGreen; ctx.shadowBlur=8;
+    ctx.strokeStyle=C.dGreen; ctx.lineWidth=0.8;
+    ctx.beginPath(); ctx.arc(cx,by-24,5,0,Math.PI*2); ctx.stroke();
+    for (let a=0;a<3;a++) { const ang=a*Math.PI*2/3; ctx.beginPath(); ctx.moveTo(cx+Math.cos(ang)*3,by-24+Math.sin(ang)*3); ctx.lineTo(cx+Math.cos(ang)*8,by-24+Math.sin(ang)*8); ctx.stroke(); }
+    ctx.restore();
+    // Free arm (right)
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(cx+10,upShY); ctx.lineTo(cx+16,upShY+5); ctx.lineTo(cx+17,upShY+13); ctx.lineTo(cx+13,upShY+15); ctx.lineTo(cx+8,upShY+9); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(cx+16,upShY+13,4,0,Math.PI*2); ctx.fill();
+    // Staff arm (left/attacking)
+    const stAncX=cx-10, stAncY=upShY+2;
+    const stA0=-Math.PI*0.50, stA1=-Math.PI*0.70;
+    const stAng=stA0+(stA1-stA0)*staffRaise;
+    const stLen=44;
+    const orbX=stAncX+Math.cos(stAng)*stLen, orbY=stAncY+Math.sin(stAng)*stLen;
+    // Staff pole
+    ctx.strokeStyle=C.stWd; ctx.lineWidth=4; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(stAncX,stAncY); ctx.lineTo(orbX,orbY); ctx.stroke();
+    ctx.strokeStyle=C.stLt; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(stAncX,stAncY); ctx.lineTo(orbX,orbY); ctx.stroke();
+    // Skull head on staff
+    const skY=orbY, skX=orbX;
+    ctx.save();
+    ctx.shadowColor=C.dGreen; ctx.shadowBlur=12+Math.min(1,deathPulse)*18;
+    ctx.globalAlpha=0.8+Math.min(1,deathPulse)*0.15;
+    ctx.fillStyle=C.boneW; ctx.beginPath(); ctx.arc(skX,skY,7,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skullDk; ctx.fillRect(skX-5,skY,10,4);
+    // Eye sockets
+    ctx.fillStyle=C.dGreen;
+    ctx.beginPath(); ctx.arc(skX-2.5,skY-1.5,2,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(skX+2.5,skY-1.5,2,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    // Death charge
+    if (deathPulse>0) {
+        ctx.save();
+        ctx.shadowColor=C.dGreen; ctx.shadowBlur=20;
+        ctx.globalAlpha=Math.min(1,deathPulse)*0.5;
+        ctx.strokeStyle=C.dGreen; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.arc(skX,skY,9+Math.min(1,deathPulse)*8,0,Math.PI*2); ctx.stroke();
+        if (deathPulse>1) {
+            ctx.globalAlpha=(deathPulse-1)*0.85;
+            ctx.fillStyle=C.dGreen;
+            ctx.beginPath(); ctx.arc(skX,skY,14,0,Math.PI*2); ctx.fill();
+        }
+        ctx.restore();
+    }
+    // Staff arm sleeve
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(stAncX,stAncY); ctx.lineTo(stAncX-7,stAncY+7); ctx.lineTo(stAncX-5,stAncY+13); ctx.lineTo(stAncX,stAncY+7); ctx.closePath(); ctx.fill();
+    // Hood/head
+    const hcX=cx, hcY=upShY-10-dY;
+    ctx.fillStyle=C.rDk; ctx.beginPath(); ctx.arc(hcX,hcY,12,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#1c0e2c'; ctx.beginPath(); ctx.arc(hcX+1,hcY+1,9,0,Math.PI*2); ctx.fill();
+    // Shadow under hood hiding face
+    ctx.fillStyle='#0a0614';
+    ctx.beginPath(); ctx.ellipse(hcX+2,hcY+2,7,5,0,0,Math.PI*2); ctx.fill();
+    // Glowing eyes under hood
+    ctx.save();
+    ctx.shadowColor=C.eye; ctx.shadowBlur=8;
+    ctx.globalAlpha=0.7+Math.min(1,deathPulse)*0.25;
+    ctx.fillStyle=C.eye;
+    ctx.beginPath(); ctx.arc(hcX,hcY+1,2,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(hcX+5,hcY+1,2,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    // Hood peak
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(hcX-6,hcY-9); ctx.lineTo(hcX+6,hcY-9); ctx.lineTo(hcX+3,hcY-24); ctx.lineTo(hcX-1,hcY-28); ctx.lineTo(hcX-3,hcY-24); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath(); ctx.moveTo(hcX+2,hcY-9); ctx.lineTo(hcX+6,hcY-9); ctx.lineTo(hcX+3,hcY-24); ctx.lineTo(hcX+1,hcY-22); ctx.closePath(); ctx.fill();
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
+// ── Witch ─────────────────────────────────────────────────────────────────────
+function drawWitch(ctx, cx, by, sel, anim) {
+    const C = {
+        rDk:'#1e0a2e', rMid:'#361450', rLit:'#5a2478', rFold:'#2c0e42',
+        sash:'#c04080', sashDk:'#803060',
+        hex:'#20e890',  hexGlo:'rgba(20,232,130,0.55)',
+        wWd:'#3c2010',  wKnot:'#5a3820',
+        eye:'#e020a0',  eyeGlo:'rgba(220,20,140,0.5)',
+        skin:'#c09878',
+        hDk:'#1a0828',  hMid:'#2e1048', hLit:'#501870',
+        hair:'#1c1018',
+    };
+    const t = anim?.t ?? 0;
+    let dY=0, staffRaise=0, hexPulse=0;
+    if (anim?.type === 'witch_spell') {
+        if (t < 0.30)      { staffRaise=t/0.30; dY=staffRaise*2; }
+        else if (t < 0.60) { staffRaise=1; hexPulse=(t-0.30)/0.30; dY=2+hexPulse*2; }
+        else if (t < 0.72) { const p=(t-0.60)/0.12; staffRaise=1; hexPulse=1+p*2; dY=4-p*4; }
+        else               { const p=(t-0.72)/0.28; staffRaise=1-p*0.4; hexPulse=0; }
+    }
+    drawShadow(ctx, cx, by);
+    const shY=by-38-dY*0.65;
+    // Robe skirt (asymmetric, slightly tattered)
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath();
+    ctx.moveTo(cx-14,by+2); ctx.lineTo(cx+13,by); ctx.lineTo(cx+10,by-38); ctx.lineTo(cx-12,by-38);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rLit;
+    ctx.beginPath();
+    ctx.moveTo(cx-2,by+1); ctx.lineTo(cx+6,by); ctx.lineTo(cx+5,by-38); ctx.lineTo(cx-1,by-38);
+    ctx.closePath(); ctx.fill();
+    // Tattered extra panel (right side)
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath();
+    ctx.moveTo(cx+9,by); ctx.lineTo(cx+16,by-5); ctx.lineTo(cx+12,by-22); ctx.lineTo(cx+10,by-22);
+    ctx.closePath(); ctx.fill();
+    // Hex rune glow on robe
+    ctx.save(); ctx.globalAlpha=0.22+Math.min(1,hexPulse)*0.30;
+    ctx.shadowColor=C.hex; ctx.shadowBlur=6;
+    ctx.strokeStyle=C.hex; ctx.lineWidth=0.8;
+    for (let i=0;i<6;i++) { const ha=i*Math.PI/3; ctx.beginPath(); ctx.moveTo(cx+Math.cos(ha)*3,by-18+Math.sin(ha)*3); ctx.lineTo(cx+Math.cos(ha)*9,by-18+Math.sin(ha)*9); ctx.stroke(); }
+    ctx.beginPath(); ctx.arc(cx,by-18,3,0,Math.PI*2); ctx.stroke();
+    ctx.restore();
+    // Sash
+    ctx.fillStyle=C.sashDk; ctx.fillRect(cx-11,by-33,23,4);
+    ctx.fillStyle=C.sash;   ctx.fillRect(cx-11,by-34,23,3);
+    // Upper robe
+    const upShY=shY-14;
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(cx-12,by-38); ctx.lineTo(cx+10,by-38); ctx.lineTo(cx+8,upShY); ctx.lineTo(cx-10,upShY); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath(); ctx.moveTo(cx-1,by-38); ctx.lineTo(cx+6,by-38); ctx.lineTo(cx+5,upShY); ctx.lineTo(cx-0,upShY); ctx.closePath(); ctx.fill();
+    // Free arm (right) — gesturing outward
+    const fAX=cx+10, fAY=upShY+2;
+    const fAng=-Math.PI*0.25+(hexPulse>0?-0.3*Math.min(1,hexPulse):0);
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(fAX,fAY); ctx.lineTo(fAX+8*Math.cos(fAng),fAY+8*Math.sin(fAng)); ctx.lineTo(fAX+15*Math.cos(fAng-0.3),fAY+15*Math.sin(fAng-0.3)); ctx.lineTo(fAX+13,fAY+14); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.skin;
+    const fHX=fAX+Math.cos(fAng-0.2)*16, fHY=fAY+Math.sin(fAng-0.2)*16;
+    ctx.beginPath(); ctx.arc(fHX,fHY,4,0,Math.PI*2); ctx.fill();
+    // Hex from free hand
+    if (hexPulse>0) {
+        ctx.save(); ctx.shadowColor=C.hex; ctx.shadowBlur=14;
+        ctx.globalAlpha=Math.min(1,hexPulse)*0.55;
+        ctx.fillStyle=C.hex;
+        ctx.beginPath(); ctx.arc(fHX,fHY,5+Math.min(1,hexPulse)*6,0,Math.PI*2); ctx.fill();
+        if (hexPulse>1) { ctx.globalAlpha=(hexPulse-1)*0.9; ctx.fillStyle='#a0ffd8'; ctx.beginPath(); ctx.arc(fHX,fHY,14,0,Math.PI*2); ctx.fill(); }
+        ctx.restore();
+    }
+    // Staff arm (left/attacking)
+    const stAncX=cx-10, stAncY=upShY+2;
+    const stA0=-Math.PI*0.48, stA1=-Math.PI*0.72;
+    const stAng=stA0+(stA1-stA0)*staffRaise;
+    const stLen=40;
+    const stTX=stAncX+Math.cos(stAng)*stLen, stTY=stAncY+Math.sin(stAng)*stLen;
+    // Gnarled staff
+    ctx.strokeStyle=C.wWd; ctx.lineWidth=3; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(stAncX,stAncY); ctx.lineTo(stTX,stTY); ctx.stroke();
+    ctx.strokeStyle=C.wKnot; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(stAncX,stAncY); ctx.lineTo(stTX,stTY); ctx.stroke();
+    // Knots on staff
+    for (const [kf] of [[0.3],[0.55],[0.75]]) {
+        const kX=stAncX+Math.cos(stAng)*stLen*kf, kY=stAncY+Math.sin(stAng)*stLen*kf;
+        ctx.fillStyle=C.wKnot; ctx.beginPath(); ctx.arc(kX,kY,2.5,0,Math.PI*2); ctx.fill();
+    }
+    // Staff tip (twisted fork)
+    ctx.strokeStyle=C.wKnot; ctx.lineWidth=2;
+    const pa=stAng-Math.PI*0.5;
+    ctx.beginPath(); ctx.moveTo(stTX,stTY); ctx.lineTo(stTX+Math.cos(stAng-0.3)*8,stTY+Math.sin(stAng-0.3)*8); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(stTX,stTY); ctx.lineTo(stTX+Math.cos(stAng+0.3)*8,stTY+Math.sin(stAng+0.3)*8); ctx.stroke();
+    // Hex energy at tip
+    ctx.save(); ctx.shadowColor=C.hex; ctx.shadowBlur=10+Math.min(1,hexPulse)*16;
+    ctx.globalAlpha=0.6+Math.min(1,hexPulse)*0.3;
+    ctx.fillStyle=C.hex;
+    ctx.beginPath(); ctx.arc(stTX,stTY,4+Math.min(1,hexPulse)*5,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    // Staff arm sleeve
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(stAncX,stAncY); ctx.lineTo(stAncX-8,stAncY+8); ctx.lineTo(stAncX-6,stAncY+14); ctx.lineTo(stAncX,stAncY+8); ctx.closePath(); ctx.fill();
+    // Head and wild hair
+    const hcX=cx, hcY=upShY-10-dY;
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcX,hcY,11,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(hcX+1,hcY+1,8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.fillRect(hcX-3,hcY+6,6,4);
+    // Wild hair strands
+    ctx.strokeStyle=C.hair; ctx.lineWidth=2; ctx.lineCap='round';
+    const hairStrands=[[-8,-6,-14,-14],[-5,-10,-10,-20],[2,-11,4,-22],[7,-8,14,-16],[9,-3,18,-8]];
+    for (const [x1,y1,x2,y2] of hairStrands) {
+        ctx.beginPath(); ctx.moveTo(hcX+x1,hcY+y1); ctx.quadraticCurveTo(hcX+(x1+x2)/2+2,hcY+(y1+y2)/2,hcX+x2,hcY+y2); ctx.stroke();
+    }
+    // Glowing eye
+    ctx.save(); ctx.shadowColor=C.eyeGlo; ctx.shadowBlur=8;
+    ctx.globalAlpha=0.70+Math.min(1,hexPulse)*0.25;
+    ctx.fillStyle=C.eye; ctx.beginPath(); ctx.arc(hcX+4,hcY,2,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    // Hood/cap edge
+    ctx.fillStyle=C.hDk;
+    ctx.beginPath(); ctx.arc(hcX,hcY,11,Math.PI*1.0,0,false); ctx.fill();
+    ctx.fillStyle=C.hMid;
+    ctx.beginPath(); ctx.arc(hcX,hcY,9,Math.PI*1.1,Math.PI*1.9,false); ctx.fill();
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
+// ── Ranger ────────────────────────────────────────────────────────────────────
+function drawRanger(ctx, cx, by, sel, anim) {
+    const C = {
+        lDk:'#3a2408',  lMid:'#5a3c18', lLit:'#7a5428',
+        gDk:'#1e3008',  gMid:'#304a10', gLit:'#4a6820',
+        bowWd:'#6a3c10', bowLt:'#8a5428', bowStr:'#c8c090',
+        blade:'#c0d0e0', bladeHi:'#f0f8ff', hilt:'#6a3c10',
+        quiv:'#3c2408',  arrow:'#7a4c18', aTip:'#b0c0d0',
+        boot:'#120e06',  skin:'#c0a070',
+        hDk:'#1e2e10',  hMid:'#304818', hair:'#3c2808',
+        eye:'#6aaa40',
+    };
+    const t = anim?.t ?? 0;
+    let dY=0, bowDraw=0, meleeT=0;
+    if (anim?.type === 'ranger_bow') {
+        if (t < 0.45)      { bowDraw=t/0.45; dY=bowDraw*2; }
+        else if (t < 0.58) { bowDraw=1; dY=2; }
+        else               { const p=(t-0.58)/0.42; bowDraw=1-p*0.85; dY=2-2*p; }
+    } else if (anim?.type === 'ranger_melee') {
+        if (t < 0.20)      { dY=-4*(t/0.20); meleeT=t/0.20; }
+        else if (t < 0.55) { const p=(t-0.20)/0.35, e=1-Math.pow(1-p,3); dY=-4+15*e; meleeT=e; }
+        else               { const p=(t-0.55)/0.45; dY=11-11*p; meleeT=1-p*0.5; }
+    }
+    drawShadow(ctx, cx, by);
+    const shY=by-36-dY*0.65;
+    // Boots
+    ctx.fillStyle=C.boot; ctx.fillRect(cx-9,by-5,6,5); ctx.fillRect(cx+3,by-4,6,4);
+    ctx.fillStyle=C.lDk; ctx.fillRect(cx-9,by-7,6,2); ctx.fillRect(cx+3,by-6,6,2);
+    // Leggings (leather)
+    ctx.fillStyle=C.lMid; ctx.fillRect(cx-8,by-20,5,14);
+    ctx.fillStyle=C.lLit; ctx.fillRect(cx-7,by-19,2,12);
+    ctx.fillStyle=C.lDk; ctx.fillRect(cx+3,by-18,5,13);
+    ctx.fillStyle=C.lMid; ctx.fillRect(cx+4,by-17,2,11);
+    // Knee pads
+    ctx.fillStyle=C.lLit; ctx.beginPath(); ctx.ellipse(cx-5,by-20,3.5,2,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.lMid; ctx.beginPath(); ctx.ellipse(cx+5,by-18,3,2,0,0,Math.PI*2); ctx.fill();
+    // Leather vest + cloak back
+    const tbY=by-20-dY*0.40;
+    ctx.fillStyle=C.gDk;
+    ctx.beginPath(); ctx.moveTo(cx-6,tbY); ctx.quadraticCurveTo(cx-16,tbY+15,cx-14,by); ctx.lineTo(cx-3,by); ctx.lineTo(cx-3,tbY+8); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.gMid;
+    ctx.beginPath(); ctx.moveTo(cx+6,tbY); ctx.quadraticCurveTo(cx+14,tbY+15,cx+12,by); ctx.lineTo(cx+1,by); ctx.lineTo(cx+1,tbY+8); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.lDk;
+    ctx.beginPath(); ctx.moveTo(cx-8,tbY); ctx.lineTo(cx+8,tbY); ctx.lineTo(cx+7,tbY-17); ctx.lineTo(cx-7,tbY-17); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.lMid;
+    ctx.beginPath(); ctx.moveTo(cx-0,tbY); ctx.lineTo(cx+5,tbY); ctx.lineTo(cx+4,tbY-17); ctx.lineTo(cx-0,tbY-17); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.hilt; ctx.fillRect(cx-8,tbY-5,16,2);
+    // Quiver (back right)
+    ctx.fillStyle=C.quiv; ctx.fillRect(cx+7,tbY-22,5,13);
+    ctx.fillStyle=C.lDk; ctx.fillRect(cx+6,tbY-22,1,13); ctx.fillRect(cx+12,tbY-22,1,13);
+    for (let i=0;i<4;i++) { ctx.fillStyle=i%2===0?C.arrow:C.aTip; ctx.fillRect(cx+8+i,tbY-26,1,5); }
+    // Belt buckle
+    ctx.fillStyle='#a07828'; ctx.fillRect(cx-2,tbY-6,4,3);
+    // Short sword at hip (extends during melee)
+    const sX=cx-6-meleeT*14, sY=tbY-3-meleeT*12;
+    ctx.strokeStyle=C.hilt; ctx.lineWidth=2.5; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(sX,sY); ctx.lineTo(sX-2,sY-2); ctx.stroke();
+    ctx.strokeStyle=C.blade; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(sX-2,sY-2); ctx.lineTo(sX-10,sY-16); ctx.stroke();
+    ctx.strokeStyle=C.bladeHi; ctx.lineWidth=0.8;
+    ctx.beginPath(); ctx.moveTo(sX-2,sY-2); ctx.lineTo(sX-10,sY-16); ctx.stroke();
+    // Longbow (raised left arm)
+    const bAncX=cx-10, bAncY=tbY-18-dY*0.20;
+    const bA0=-Math.PI*0.50, bA1=-Math.PI*0.25;
+    const bCurA=bA0+(bA1-bA0)*bowDraw;
+    const bR=17;
+    const bTU={x:bAncX+Math.cos(bCurA-0.5)*bR, y:bAncY+Math.sin(bCurA-0.5)*bR};
+    const bTL={x:bAncX+Math.cos(bCurA+0.5)*bR, y:bAncY+Math.sin(bCurA+0.5)*bR};
+    ctx.strokeStyle=C.bowWd; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(bTU.x,bTU.y); ctx.quadraticCurveTo(bAncX+Math.cos(bCurA)*(bR+8),bAncY+Math.sin(bCurA)*(bR+8),bTL.x,bTL.y); ctx.stroke();
+    ctx.strokeStyle=C.bowLt; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(bTU.x,bTU.y); ctx.quadraticCurveTo(bAncX+Math.cos(bCurA)*(bR+5),bAncY+Math.sin(bCurA)*(bR+5),bTL.x,bTL.y); ctx.stroke();
+    const pull=bowDraw*13;
+    const sMX=bAncX-Math.cos(bCurA)*pull, sMY=bAncY-Math.sin(bCurA)*pull;
+    ctx.strokeStyle=C.bowStr; ctx.lineWidth=0.9;
+    ctx.beginPath(); ctx.moveTo(bTU.x,bTU.y); ctx.lineTo(sMX,sMY); ctx.lineTo(bTL.x,bTL.y); ctx.stroke();
+    if (bowDraw>0.05) {
+        ctx.strokeStyle=C.arrow; ctx.lineWidth=1.2;
+        ctx.beginPath(); ctx.moveTo(sMX,sMY); ctx.lineTo(sMX+Math.cos(bCurA+Math.PI)*22,sMY+Math.sin(bCurA+Math.PI)*22); ctx.stroke();
+        ctx.fillStyle=C.aTip; ctx.beginPath(); ctx.arc(sMX+Math.cos(bCurA+Math.PI)*22,sMY+Math.sin(bCurA+Math.PI)*22,1.5,0,Math.PI*2); ctx.fill();
+    }
+    // Shoulders (leather spaulders)
+    ctx.fillStyle=C.lDk; ctx.beginPath(); ctx.ellipse(cx-10,shY,8,4.5,-0.2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.lMid; ctx.beginPath(); ctx.ellipse(cx-9,shY-1,5,3,-0.2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.lDk; ctx.beginPath(); ctx.ellipse(cx+10,shY,7,4,0.2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.lLit; ctx.beginPath(); ctx.ellipse(cx+9,shY-1,4,2.5,0.2,0,Math.PI*2); ctx.fill();
+    // Hood/head
+    const hcX=cx, hcY=shY-13-dY;
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcX,hcY,12,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.gMid; ctx.beginPath(); ctx.arc(hcX-2,hcY-1,8,Math.PI*0.9,Math.PI*2.2); ctx.fill();
+    ctx.fillStyle=C.hMid; ctx.beginPath(); ctx.arc(hcX+2,hcY,8,Math.PI*0.1,Math.PI*1.2); ctx.fill();
+    // Visible hair below hood
+    ctx.fillStyle=C.hair; ctx.fillRect(hcX-6,hcY+5,12,5);
+    ctx.fillStyle=C.hair;
+    ctx.beginPath(); ctx.moveTo(hcX-6,hcY+6); ctx.quadraticCurveTo(hcX-10,hcY+12,hcX-8,hcY+14); ctx.lineTo(hcX-6,hcY+14); ctx.closePath(); ctx.fill();
+    // Eye glint
+    ctx.save(); ctx.globalAlpha=0.65; ctx.shadowColor=C.eye; ctx.shadowBlur=4;
+    ctx.fillStyle=C.eye; ctx.beginPath(); ctx.arc(hcX+4,hcY,2,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    // Hood peak (forward-facing, practical)
+    ctx.fillStyle=C.hDk;
+    ctx.beginPath(); ctx.moveTo(hcX-5,hcY-9); ctx.lineTo(hcX+6,hcY-9); ctx.lineTo(hcX+4,hcY-19); ctx.lineTo(hcX,hcY-22); ctx.lineTo(hcX-2,hcY-19); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.hMid;
+    ctx.beginPath(); ctx.moveTo(hcX+2,hcY-9); ctx.lineTo(hcX+6,hcY-9); ctx.lineTo(hcX+4,hcY-19); ctx.lineTo(hcX+2,hcY-17); ctx.closePath(); ctx.fill();
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
+// ── Sorcerer ──────────────────────────────────────────────────────────────────
+function drawSorcerer(ctx, cx, by, sel, anim) {
+    const C = {
+        rDk:'#280810', rMid:'#481020', rLit:'#781828',
+        sash:'#e05828', sashDk:'#a03c18',
+        fire:'#f08030', fireDk:'#c04010', fireHi:'#fff080',
+        arc:'#4060f8',  arcGlo:'rgba(60,100,248,0.5)',
+        skin:'#c8a070',
+        hDk:'#1e0608',  hMid:'#380c10', hLit:'#601018',
+        tattoo:'#e06020',
+        rune:'#f0a030',
+    };
+    const t = anim?.t ?? 0;
+    let dY=0, burstT=0, chargePulse=0;
+    if (anim?.type === 'sorcerer_spell') {
+        if (t < 0.25)      { burstT=t/0.25; dY=burstT*2; }
+        else if (t < 0.55) { burstT=1; chargePulse=(t-0.25)/0.30; dY=2+chargePulse*2; }
+        else if (t < 0.68) { const p=(t-0.55)/0.13; burstT=1; chargePulse=1+p*2; dY=4-p*4; }
+        else               { const p=(t-0.68)/0.32; burstT=1-p*0.5; chargePulse=0; }
+    }
+    drawShadow(ctx, cx, by);
+    const shY=by-38-dY*0.65;
+    // Robe skirt
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(cx-13,by); ctx.lineTo(cx+14,by); ctx.lineTo(cx+10,by-36); ctx.lineTo(cx-11,by-36); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath(); ctx.moveTo(cx-2,by); ctx.lineTo(cx+6,by); ctx.lineTo(cx+5,by-36); ctx.lineTo(cx-1,by-36); ctx.closePath(); ctx.fill();
+    // Flame-lick robe edge
+    ctx.fillStyle=C.rLit;
+    for (let i=0;i<4;i++) { const fx=cx-10+i*6.5; ctx.beginPath(); ctx.moveTo(fx,by); ctx.lineTo(fx+2,by); ctx.lineTo(fx+1+i%2,by-5-i%3*2); ctx.closePath(); ctx.fill(); }
+    // Sash (fiery orange)
+    ctx.fillStyle=C.sashDk; ctx.fillRect(cx-11,by-31,23,4);
+    ctx.fillStyle=C.sash;   ctx.fillRect(cx-11,by-32,23,3);
+    // Arcane rune on back (glows brighter during cast)
+    ctx.save();
+    ctx.globalAlpha=0.28+Math.min(1,chargePulse)*0.45;
+    ctx.shadowColor=C.rune; ctx.shadowBlur=10;
+    ctx.strokeStyle=C.rune; ctx.lineWidth=0.9;
+    ctx.beginPath(); ctx.arc(cx,by-20,7,0,Math.PI*2); ctx.stroke();
+    for (let a=0;a<3;a++) { const ang=a*Math.PI*2/3+Math.PI/6; ctx.beginPath(); ctx.moveTo(cx+Math.cos(ang)*4,by-20+Math.sin(ang)*4); ctx.lineTo(cx+Math.cos(ang)*9,by-20+Math.sin(ang)*9); ctx.stroke(); }
+    ctx.restore();
+    // Upper robe
+    const upShY=shY-14;
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(cx-11,by-36); ctx.lineTo(cx+10,by-36); ctx.lineTo(cx+8,upShY); ctx.lineTo(cx-9,upShY); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath(); ctx.moveTo(cx-1,by-36); ctx.lineTo(cx+6,by-36); ctx.lineTo(cx+5,upShY); ctx.lineTo(cx-0,upShY); ctx.closePath(); ctx.fill();
+    // Both arms thrust forward — raw arcane burst from palms
+    const aA0R=-Math.PI*0.30, aA1R=-Math.PI*0.55;
+    const aA0L=-Math.PI*0.55, aA1L=-Math.PI*0.72;
+    const rAng=aA0R+(aA1R-aA0R)*burstT;
+    const lAng=aA0L+(aA1L-aA0L)*burstT;
+    const aLen=16;
+    // Right arm
+    const rAncX=cx+10, rAncY=upShY+2;
+    const rElbX=rAncX+Math.cos(rAng)*aLen*0.5, rElbY=rAncY+Math.sin(rAng)*aLen*0.5;
+    const rHndX=rAncX+Math.cos(rAng)*aLen,     rHndY=rAncY+Math.sin(rAng)*aLen;
+    ctx.strokeStyle=C.rDk; ctx.lineWidth=8; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(rAncX,rAncY); ctx.lineTo(rElbX,rElbY); ctx.stroke();
+    ctx.strokeStyle=C.rLit; ctx.lineWidth=2.5;
+    ctx.beginPath(); ctx.moveTo(rAncX,rAncY); ctx.lineTo(rElbX,rElbY); ctx.stroke();
+    ctx.fillStyle=C.rMid; ctx.beginPath(); ctx.arc(rElbX,rElbY,4,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=C.rDk; ctx.lineWidth=7;
+    ctx.beginPath(); ctx.moveTo(rElbX,rElbY); ctx.lineTo(rHndX,rHndY); ctx.stroke();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(rHndX,rHndY,5,0,Math.PI*2); ctx.fill();
+    // Tattoo on visible forearm
+    ctx.save(); ctx.globalAlpha=0.5+Math.min(1,chargePulse)*0.3;
+    ctx.strokeStyle=C.tattoo; ctx.lineWidth=0.8;
+    ctx.beginPath(); ctx.arc(rElbX+1,rElbY+2,3,0.5,Math.PI*1.5); ctx.stroke();
+    ctx.restore();
+    // Left arm
+    const lAncX=cx-10, lAncY=upShY+2;
+    const lElbX=lAncX+Math.cos(lAng)*aLen*0.5, lElbY=lAncY+Math.sin(lAng)*aLen*0.5;
+    const lHndX=lAncX+Math.cos(lAng)*aLen,     lHndY=lAncY+Math.sin(lAng)*aLen;
+    ctx.strokeStyle=C.rDk; ctx.lineWidth=8;
+    ctx.beginPath(); ctx.moveTo(lAncX,lAncY); ctx.lineTo(lElbX,lElbY); ctx.stroke();
+    ctx.strokeStyle=C.rLit; ctx.lineWidth=2.5;
+    ctx.beginPath(); ctx.moveTo(lAncX,lAncY); ctx.lineTo(lElbX,lElbY); ctx.stroke();
+    ctx.fillStyle=C.rMid; ctx.beginPath(); ctx.arc(lElbX,lElbY,4,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=C.rDk; ctx.lineWidth=7;
+    ctx.beginPath(); ctx.moveTo(lElbX,lElbY); ctx.lineTo(lHndX,lHndY); ctx.stroke();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(lHndX,lHndY,5,0,Math.PI*2); ctx.fill();
+    // Fire/arcane burst from hands
+    if (burstT>0) {
+        for (const [hX,hY] of [[rHndX,rHndY],[lHndX,lHndY]]) {
+            ctx.save();
+            ctx.shadowColor=C.fire; ctx.shadowBlur=14+Math.min(1,chargePulse)*18;
+            ctx.globalAlpha=burstT*(0.5+Math.min(1,chargePulse)*0.35);
+            ctx.fillStyle=C.fireDk;
+            ctx.beginPath(); ctx.arc(hX,hY,5+Math.min(1,chargePulse)*7,0,Math.PI*2); ctx.fill();
+            ctx.fillStyle=C.fire;
+            ctx.beginPath(); ctx.arc(hX-1,hY-1,3+Math.min(1,chargePulse)*4,0,Math.PI*2); ctx.fill();
+            if (chargePulse>1) {
+                ctx.globalAlpha=(chargePulse-1)*0.8;
+                ctx.fillStyle=C.fireHi;
+                ctx.beginPath(); ctx.arc(hX,hY,15,0,Math.PI*2); ctx.fill();
+            }
+            ctx.restore();
+        }
+    }
+    // Head (wild, partially hooded)
+    const hcX=cx, hcY=upShY-10-dY;
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcX,hcY,11,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(hcX+1,hcY+1,8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.fillRect(hcX-3,hcY+6,6,4);
+    // Arcane energy glinting around head during cast
+    if (chargePulse>0) {
+        ctx.save();
+        ctx.globalAlpha=Math.min(1,chargePulse)*0.35;
+        ctx.shadowColor=C.fire; ctx.shadowBlur=16;
+        ctx.strokeStyle=C.fire; ctx.lineWidth=1.2;
+        ctx.beginPath(); ctx.arc(hcX,hcY,14,0,Math.PI*2); ctx.stroke();
+        ctx.restore();
+    }
+    // Partial hood/hair
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcX,hcY,11,Math.PI*0.9,0,false); ctx.fill();
+    ctx.fillStyle=C.hMid; ctx.beginPath(); ctx.arc(hcX-1,hcY-1,8,Math.PI*0.95,Math.PI*1.85); ctx.fill();
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(hcX-5,hcY-8); ctx.lineTo(hcX+5,hcY-8); ctx.lineTo(hcX+3,hcY-18); ctx.lineTo(hcX-1,hcY-21); ctx.lineTo(hcX-3,hcY-17); ctx.closePath(); ctx.fill();
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
+// ── Warlock ───────────────────────────────────────────────────────────────────
+function drawWarlock(ctx, cx, by, sel, anim) {
+    const C = {
+        cDk:'#0c0818', cMid:'#1a1030', cLit:'#2c1a4a',
+        lth:'#2a1c38',  lthLt:'#3e2c50',
+        sash:'#601898', sashLt:'#8020cc',
+        orb:'#a040f8',  orbIn:'#d090ff', orbGlo:'rgba(160,60,248,0.55)',
+        blast:'#7020e0',blastHi:'#e0a0ff',
+        eye:'#b040e8',  eyeGlo:'rgba(180,40,240,0.5)',
+        skin:'#b090a0',
+        hDk:'#100a1c',  hMid:'#1e1030', hLit:'#301848',
+        tentDk:'#200830',tentLt:'#3a1458',
+        boot:'#0c0814',
+    };
+    const t = anim?.t ?? 0;
+    let dY=0, orbRaise=0, blastPulse=0;
+    if (anim?.type === 'warlock_blast') {
+        if (t < 0.28)      { orbRaise=t/0.28; }
+        else if (t < 0.58) { orbRaise=1; blastPulse=(t-0.28)/0.30; dY=blastPulse*3; }
+        else if (t < 0.70) { const p=(t-0.58)/0.12; orbRaise=1; blastPulse=1+p*2; dY=3-p*3; }
+        else               { const p=(t-0.70)/0.30; orbRaise=1-p*0.45; blastPulse=0; }
+    }
+    drawShadow(ctx, cx, by);
+    const shY=by-38-dY*0.65;
+    // Long dark coat (tighter than wizard robe)
+    ctx.fillStyle=C.cDk;
+    ctx.beginPath(); ctx.moveTo(cx-11,by); ctx.lineTo(cx+12,by); ctx.lineTo(cx+9,by-36); ctx.lineTo(cx-10,by-36); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.cMid;
+    ctx.beginPath(); ctx.moveTo(cx-1,by); ctx.lineTo(cx+5,by); ctx.lineTo(cx+4,by-36); ctx.lineTo(cx-1,by-36); ctx.closePath(); ctx.fill();
+    // Boots
+    ctx.fillStyle=C.boot; ctx.fillRect(cx-9,by-6,6,6); ctx.fillRect(cx+3,by-5,6,5);
+    ctx.fillStyle=C.lth; ctx.fillRect(cx-9,by-8,6,2); ctx.fillRect(cx+3,by-7,6,2);
+    // Coat splits at legs
+    ctx.fillStyle=C.cDk;
+    ctx.fillRect(cx-9,by-22,5,16); ctx.fillRect(cx+4,by-20,5,15);
+    ctx.fillStyle=C.lth; ctx.fillRect(cx-8,by-21,2,14); ctx.fillRect(cx+5,by-19,2,13);
+    // Eldritch rune on coat back
+    ctx.save(); ctx.globalAlpha=0.22+Math.min(1,blastPulse)*0.38;
+    ctx.shadowColor=C.orb; ctx.shadowBlur=8;
+    ctx.strokeStyle=C.orb; ctx.lineWidth=0.8;
+    for (let v=0;v<5;v++) { const va=v*Math.PI*2/5-Math.PI/2; const vb=((v+2)%5)*Math.PI*2/5-Math.PI/2; ctx.beginPath(); ctx.moveTo(cx+Math.cos(va)*7,by-22+Math.sin(va)*7); ctx.lineTo(cx+Math.cos(vb)*7,by-22+Math.sin(vb)*7); ctx.stroke(); }
+    ctx.restore();
+    // Belt/sash
+    ctx.fillStyle=C.sash; ctx.fillRect(cx-10,by-30,21,3);
+    ctx.fillStyle=C.sashLt; ctx.fillRect(cx-10,by-31,21,2);
+    // Tentacle motifs on coat sides (subtle)
+    ctx.save(); ctx.globalAlpha=0.18+Math.min(1,blastPulse)*0.15;
+    ctx.strokeStyle=C.tentLt; ctx.lineWidth=1;
+    for (const [tx,dir] of [[-9,1],[9,-1]]) {
+        ctx.beginPath(); ctx.moveTo(cx+tx,by-10); ctx.quadraticCurveTo(cx+tx+dir*5,by-16,cx+tx,by-22); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx+tx,by-15); ctx.quadraticCurveTo(cx+tx+dir*4,by-20,cx+tx+dir*3,by-26); ctx.stroke();
+    }
+    ctx.restore();
+    // Upper coat
+    const upShY=shY-14;
+    ctx.fillStyle=C.cDk;
+    ctx.beginPath(); ctx.moveTo(cx-10,by-36); ctx.lineTo(cx+9,by-36); ctx.lineTo(cx+7,upShY); ctx.lineTo(cx-9,upShY); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.cMid;
+    ctx.beginPath(); ctx.moveTo(cx-1,by-36); ctx.lineTo(cx+5,by-36); ctx.lineTo(cx+4,upShY); ctx.lineTo(cx-0,upShY); ctx.closePath(); ctx.fill();
+    // Free arm (right)
+    ctx.fillStyle=C.cDk;
+    ctx.beginPath(); ctx.moveTo(cx+9,upShY); ctx.lineTo(cx+16,upShY+5); ctx.lineTo(cx+17,upShY+14); ctx.lineTo(cx+13,upShY+16); ctx.lineTo(cx+7,upShY+10); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(cx+16,upShY+14,4,0,Math.PI*2); ctx.fill();
+    // Pact focus arm (left/attacking)
+    const pAncX=cx-10, pAncY=upShY+2;
+    const pA0=-Math.PI*0.50, pA1=-Math.PI*0.72;
+    const pAng=pA0+(pA1-pA0)*orbRaise;
+    const pLen=18;
+    const pHX=pAncX+Math.cos(pAng)*pLen, pHY=pAncY+Math.sin(pAng)*pLen;
+    ctx.strokeStyle=C.cDk; ctx.lineWidth=8; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(pAncX,pAncY); ctx.lineTo(pHX-Math.cos(pAng)*pLen*0.5,pHY-Math.sin(pAng)*pLen*0.5); ctx.stroke();
+    ctx.strokeStyle=C.lth; ctx.lineWidth=2.5;
+    ctx.beginPath(); ctx.moveTo(pAncX,pAncY); ctx.lineTo(pHX-Math.cos(pAng)*pLen*0.5,pHY-Math.sin(pAng)*pLen*0.5); ctx.stroke();
+    ctx.fillStyle=C.lth; ctx.beginPath(); ctx.arc(pHX-Math.cos(pAng)*pLen*0.5,pHY-Math.sin(pAng)*pLen*0.5,4,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=C.cDk; ctx.lineWidth=7;
+    ctx.beginPath(); ctx.moveTo(pHX-Math.cos(pAng)*pLen*0.5,pHY-Math.sin(pAng)*pLen*0.5); ctx.lineTo(pHX,pHY); ctx.stroke();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(pHX,pHY,5,0,Math.PI*2); ctx.fill();
+    // Pact crystal (floating eye-orb held in hand)
+    ctx.save();
+    ctx.shadowColor=C.orb; ctx.shadowBlur=10+Math.min(1,blastPulse)*22;
+    ctx.globalAlpha=0.85+Math.min(1,blastPulse)*0.12;
+    // Crystal facets
+    ctx.fillStyle=C.orb;
+    ctx.beginPath(); ctx.moveTo(pHX,pHY-10); ctx.lineTo(pHX+6,pHY); ctx.lineTo(pHX,pHY+6); ctx.lineTo(pHX-6,pHY); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.orbIn;
+    ctx.beginPath(); ctx.moveTo(pHX,pHY-7); ctx.lineTo(pHX+4,pHY); ctx.lineTo(pHX,pHY+3); ctx.lineTo(pHX-4,pHY); ctx.closePath(); ctx.fill();
+    // Eye slit inside crystal
+    ctx.fillStyle='#200840';
+    ctx.beginPath(); ctx.ellipse(pHX,pHY-1,3,1.5,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.orb;
+    ctx.beginPath(); ctx.arc(pHX,pHY-1,1,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    // Charge ring + blast release
+    if (blastPulse>0) {
+        ctx.save();
+        ctx.globalAlpha=Math.min(1,blastPulse)*0.5;
+        ctx.shadowColor=C.orb; ctx.shadowBlur=0;
+        ctx.strokeStyle=C.orb; ctx.lineWidth=1.2;
+        ctx.beginPath(); ctx.arc(pHX,pHY,10+Math.min(1,blastPulse)*8,0,Math.PI*2); ctx.stroke();
+        if (blastPulse>1) {
+            ctx.globalAlpha=(blastPulse-1)*0.85;
+            ctx.shadowColor=C.blastHi; ctx.shadowBlur=24;
+            ctx.fillStyle=C.blastHi;
+            ctx.beginPath(); ctx.arc(pHX,pHY,14,0,Math.PI*2); ctx.fill();
+        }
+        ctx.restore();
+    }
+    // Coat arm sleeve
+    ctx.fillStyle=C.cDk;
+    ctx.beginPath(); ctx.moveTo(pAncX,pAncY); ctx.lineTo(pAncX-8,pAncY+8); ctx.lineTo(pAncX-6,pAncY+14); ctx.lineTo(pAncX,pAncY+8); ctx.closePath(); ctx.fill();
+    // Shoulders
+    ctx.fillStyle=C.cDk; ctx.beginPath(); ctx.ellipse(cx-11,shY,9,5,-0.15,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.cMid; ctx.beginPath(); ctx.ellipse(cx-10,shY-1,6,3.5,-0.15,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=C.sash; ctx.lineWidth=0.8; ctx.beginPath(); ctx.ellipse(cx-11,shY,9,5,-0.15,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle=C.cDk; ctx.beginPath(); ctx.ellipse(cx+11,shY,8,4.5,0.15,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.cMid; ctx.beginPath(); ctx.ellipse(cx+10,shY-1,5,3.5,0.15,0,Math.PI*2); ctx.fill();
+    // Head (dark cowl/hood)
+    const hcX=cx, hcY=shY-13-dY;
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcX,hcY,12,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.hMid; ctx.beginPath(); ctx.arc(hcX-1,hcY-1,9,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#0a0510'; ctx.beginPath(); ctx.ellipse(hcX+2,hcY+2,8,6,0,0,Math.PI*2); ctx.fill();
+    // Glowing eyes under cowl
+    ctx.save();
+    ctx.shadowColor=C.eye; ctx.shadowBlur=10;
+    ctx.globalAlpha=0.65+Math.min(1,blastPulse)*0.30;
+    ctx.fillStyle=C.eye;
+    ctx.beginPath(); ctx.arc(hcX,hcY+1,2,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(hcX+5,hcY+1,2,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    // Cowl peak
+    ctx.fillStyle=C.hDk;
+    ctx.beginPath(); ctx.moveTo(hcX-6,hcY-9); ctx.lineTo(hcX+6,hcY-9); ctx.lineTo(hcX+4,hcY-22); ctx.lineTo(hcX,hcY-26); ctx.lineTo(hcX-2,hcY-21); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.hMid;
+    ctx.beginPath(); ctx.moveTo(hcX+2,hcY-9); ctx.lineTo(hcX+6,hcY-9); ctx.lineTo(hcX+4,hcY-22); ctx.lineTo(hcX+2,hcY-20); ctx.closePath(); ctx.fill();
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
 function drawGoblin(ctx, cx, by, sel) {
     const C = {
         skin:'#4e7828',skinLit:'#6a9e36',skinDk:'#324e18',
@@ -2371,6 +3140,12 @@ function drawUnit(ctx, unit) {
         case 'warrior':       drawWarrior      (ctx, cx, by, sel, anim); break;
         case 'wizard':        drawWizard       (ctx, cx, by, sel, anim); break;
         case 'rogue':         drawRogue        (ctx, cx, by, sel, anim); break;
+        case 'cleric':        drawCleric       (ctx, cx, by, sel, anim); break;
+        case 'necromancer':   drawNecromancer  (ctx, cx, by, sel, anim); break;
+        case 'witch':         drawWitch        (ctx, cx, by, sel, anim); break;
+        case 'ranger':        drawRanger       (ctx, cx, by, sel, anim); break;
+        case 'sorcerer':      drawSorcerer     (ctx, cx, by, sel, anim); break;
+        case 'warlock':       drawWarlock      (ctx, cx, by, sel, anim); break;
         case 'goblin':        drawGoblin       (ctx, cx, by, sel); break;
         case 'goblin_archer': drawGoblinArcher (ctx, cx, by, sel); break;
     }
@@ -2714,6 +3489,12 @@ function buildUnitPanel() {
                 case 'warrior':       drawWarrior      (pctx, W/2, H - 6, false); break;
                 case 'wizard':        drawWizard       (pctx, W/2, H - 6, false); break;
                 case 'rogue':         drawRogue        (pctx, W/2, H - 6, false); break;
+                case 'cleric':        drawCleric       (pctx, W/2, H - 6, false); break;
+                case 'necromancer':   drawNecromancer  (pctx, W/2, H - 6, false); break;
+                case 'witch':         drawWitch        (pctx, W/2, H - 6, false); break;
+                case 'ranger':        drawRanger       (pctx, W/2, H - 6, false); break;
+                case 'sorcerer':      drawSorcerer     (pctx, W/2, H - 6, false); break;
+                case 'warlock':       drawWarlock      (pctx, W/2, H - 6, false); break;
                 case 'goblin':        drawGoblin       (pctx, W/2, H - 6, false); break;
                 case 'goblin_archer': drawGoblinArcher (pctx, W/2, H - 6, false); break;
             }
@@ -2829,9 +3610,15 @@ function openCharSheet(u) {
             img.src = u.portrait;
         } else {
             switch (u.spriteType || u.type) {
-                case 'warrior': drawWarrior(pctx, W/2, H - 8, false); break;
-                case 'wizard':  drawWizard (pctx, W/2, H - 8, false); break;
-                case 'rogue':   drawRogue  (pctx, W/2, H - 8, false); break;
+                case 'warrior':     drawWarrior    (pctx, W/2, H - 8, false); break;
+                case 'wizard':      drawWizard     (pctx, W/2, H - 8, false); break;
+                case 'rogue':       drawRogue      (pctx, W/2, H - 8, false); break;
+                case 'cleric':      drawCleric     (pctx, W/2, H - 8, false); break;
+                case 'necromancer': drawNecromancer(pctx, W/2, H - 8, false); break;
+                case 'witch':       drawWitch      (pctx, W/2, H - 8, false); break;
+                case 'ranger':      drawRanger     (pctx, W/2, H - 8, false); break;
+                case 'sorcerer':    drawSorcerer   (pctx, W/2, H - 8, false); break;
+                case 'warlock':     drawWarlock    (pctx, W/2, H - 8, false); break;
             }
         }
         port.appendChild(cv);
@@ -2881,8 +3668,15 @@ function openCharSheet(u) {
     atksEl.innerHTML = '';
     const atkKeys = u.attackKeys || [];
     const defaultAtks = {
-        warrior: ['warrior_melee'], wizard: ['wizard_spell'],
-        rogue: ['rogue_bow', 'rogue_knives'],
+        warrior:     ['warrior_melee'],
+        wizard:      ['wizard_spell'],
+        rogue:       ['rogue_bow', 'rogue_knives'],
+        cleric:      ['cleric_smite', 'cleric_spell'],
+        necromancer: ['necromancer_spell'],
+        witch:       ['witch_spell'],
+        ranger:      ['ranger_bow', 'ranger_blade'],
+        sorcerer:    ['sorcerer_spell'],
+        warlock:     ['warlock_blast'],
     };
     const keys = atkKeys.length ? atkKeys : (defaultAtks[u.spriteType || u.type] || []);
     const ATK_TYPE_ICON = { melee:'⚔', ranged:'🏹', spell:'✨' };
@@ -3047,6 +3841,24 @@ function init() {
         });
     }
 
+    const holyBtn = document.getElementById('btn-team-holy');
+    if (holyBtn) {
+        holyBtn.addEventListener('click', () => {
+            UNIT_DEFS = [...TEAM_HOLY_DEFS, ...ENEMY_DEFS];
+            hideTeamSelectOverlay();
+            startBattle();
+        });
+    }
+
+    const darkBtn = document.getElementById('btn-team-dark');
+    if (darkBtn) {
+        darkBtn.addEventListener('click', () => {
+            UNIT_DEFS = [...TEAM_DARK_DEFS, ...ENEMY_DEFS];
+            hideTeamSelectOverlay();
+            startBattle();
+        });
+    }
+
     // Wire up Change Party button in header
     const changeBtn = document.getElementById('btn-change-party');
     if (changeBtn) {
@@ -3092,17 +3904,31 @@ const UNIT_STATS = {
     warrior       : { maxHp: 70,  speed: 3, dodge: 20 },
     wizard        : { maxHp: 45,  speed: 3, dodge: 15 },
     rogue         : { maxHp: 55,  speed: 4, dodge: 30 },
+    cleric        : { maxHp: 65,  speed: 3, dodge: 18 },
+    necromancer   : { maxHp: 42,  speed: 3, dodge: 14 },
+    witch         : { maxHp: 40,  speed: 3, dodge: 16 },
+    ranger        : { maxHp: 55,  speed: 4, dodge: 28 },
+    sorcerer      : { maxHp: 44,  speed: 3, dodge: 16 },
+    warlock       : { maxHp: 50,  speed: 3, dodge: 20 },
     goblin        : { maxHp: 140, speed: 2, dodge: 10 },
-    goblin_archer : { maxHp: 42,  speed: 3, dodge: 18 },  // 30% of goblin HP
+    goblin_archer : { maxHp: 42,  speed: 3, dodge: 18 },
 };
 
 // ── Attack definitions ────────────────────────────────────────────────────────
 const ATTACKS = {
     // Heroes
-    warrior_melee  : { name:'Sword Strike',  type:'melee',  range:1,  damageDice:[2,10], damageMod:5,  hitBase:98, critMin:90, snd:'sword' },
-    rogue_bow      : { name:'Arrow Shot',    type:'ranged', range:14, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'bow'   },
-    rogue_knives   : { name:'Steel Knives',  type:'melee',  range:1,  damageDice:[2,9],  damageMod:4,  hitBase:98, critMin:92, snd:'sword' },
-    wizard_spell   : { name:'Fireball',      type:'spell',  range:15, damageDice:[3,8],  damageMod:5,  hitBase:98, critMin:97, snd:'fire'  },
+    warrior_melee      : { name:'Sword Strike',    type:'melee',  range:1,  damageDice:[2,10], damageMod:5,  hitBase:98, critMin:90, snd:'sword' },
+    rogue_bow          : { name:'Arrow Shot',      type:'ranged', range:14, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'bow'   },
+    rogue_knives       : { name:'Steel Knives',    type:'melee',  range:1,  damageDice:[2,9],  damageMod:4,  hitBase:98, critMin:92, snd:'sword' },
+    wizard_spell       : { name:'Fireball',        type:'spell',  range:15, damageDice:[3,8],  damageMod:5,  hitBase:98, critMin:97, snd:'fire'  },
+    cleric_smite       : { name:'Holy Smite',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:5,  hitBase:98, critMin:90, snd:'sword' },
+    cleric_spell       : { name:'Divine Radiance', type:'spell',  range:12, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire'  },
+    necromancer_spell  : { name:'Death Bolt',      type:'spell',  range:14, damageDice:[3,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire'  },
+    witch_spell        : { name:'Hex Curse',       type:'spell',  range:12, damageDice:[2,10], damageMod:4,  hitBase:98, critMin:96, snd:'fire'  },
+    ranger_bow         : { name:'Precise Shot',    type:'ranged', range:16, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:94, snd:'bow'   },
+    ranger_blade       : { name:'Short Blade',     type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:92, snd:'sword' },
+    sorcerer_spell     : { name:'Arcane Burst',    type:'spell',  range:14, damageDice:[3,10], damageMod:5,  hitBase:98, critMin:96, snd:'fire'  },
+    warlock_blast      : { name:'Eldritch Blast',  type:'spell',  range:15, damageDice:[2,10], damageMod:5,  hitBase:98, critMin:96, snd:'fire'  },
     // Monsters
     goblin_melee   : { name:'Claw',          type:'melee',  range:1,  damageDice:[1,12], damageMod:4,  hitBase:95, critMin:90, snd:'claw'  },
     goblin_arc_bow : { name:'Goblin Arrow',  type:'ranged', range:10, damageDice:[1,6],  damageMod:1,  hitBase:92, critMin:93, snd:'bow'   },
@@ -3114,9 +3940,15 @@ function getUnitAttacks(unit) {
     // Custom characters carry their own attack key list
     if (unit.attackKeys?.length) return unit.attackKeys.map(k => ATTACKS[k]).filter(Boolean);
     switch (unit.spriteType || unit.type) {
-        case 'warrior':       return [ATTACKS.warrior_melee];
-        case 'rogue':         return [ATTACKS.rogue_bow, ATTACKS.rogue_knives];
-        case 'wizard':        return [ATTACKS.wizard_spell];
+        case 'warrior':     return [ATTACKS.warrior_melee];
+        case 'rogue':       return [ATTACKS.rogue_bow, ATTACKS.rogue_knives];
+        case 'wizard':      return [ATTACKS.wizard_spell];
+        case 'cleric':      return [ATTACKS.cleric_smite, ATTACKS.cleric_spell];
+        case 'necromancer': return [ATTACKS.necromancer_spell];
+        case 'witch':       return [ATTACKS.witch_spell];
+        case 'ranger':      return [ATTACKS.ranger_bow, ATTACKS.ranger_blade];
+        case 'sorcerer':    return [ATTACKS.sorcerer_spell];
+        case 'warlock':     return [ATTACKS.warlock_blast];
         case 'goblin':        return [ATTACKS.goblin_melee];
         case 'goblin_archer': return [ATTACKS.goblin_arc_bow, ATTACKS.goblin_arc_claw];
         default:              return [ATTACKS.goblin_melee];
@@ -3496,6 +4328,12 @@ function updateInitiativeUI() {
                 case 'warrior':       drawWarrior      (pctx, 30, 90, false); break;
                 case 'wizard':        drawWizard       (pctx, 30, 90, false); break;
                 case 'rogue':         drawRogue        (pctx, 30, 90, false); break;
+                case 'cleric':        drawCleric       (pctx, 30, 90, false); break;
+                case 'necromancer':   drawNecromancer  (pctx, 30, 90, false); break;
+                case 'witch':         drawWitch        (pctx, 30, 90, false); break;
+                case 'ranger':        drawRanger       (pctx, 30, 90, false); break;
+                case 'sorcerer':      drawSorcerer     (pctx, 30, 90, false); break;
+                case 'warlock':       drawWarlock      (pctx, 30, 90, false); break;
                 case 'goblin':        drawGoblin       (pctx, 30, 90, false); break;
                 case 'goblin_archer': drawGoblinArcher (pctx, 30, 90, false); break;
             }
@@ -4023,12 +4861,13 @@ function resolveAttack(attacker, target, onDone) {
     {
         const sp = attacker.spriteType || attacker.type;
         if (atk.type === 'melee') {
-            const animType = sp === 'warrior' ? 'warrior_melee' : 'rogue_stab';
-            startUnitAnim(attacker.id, animType, 480);
+            const meleeAnims = { warrior:'warrior_melee', cleric:'cleric_smite', ranger:'ranger_melee' };
+            startUnitAnim(attacker.id, meleeAnims[sp] || 'rogue_stab', 480);
         } else if (atk.type === 'ranged') {
-            startUnitAnim(attacker.id, 'rogue_bow', 500);
+            startUnitAnim(attacker.id, sp === 'ranger' ? 'ranger_bow' : 'rogue_bow', 500);
         } else if (atk.type === 'spell') {
-            startUnitAnim(attacker.id, 'wizard_spell', 560);
+            const spellAnims = { wizard:'wizard_spell', cleric:'cleric_spell', necromancer:'necromancer_spell', witch:'witch_spell', sorcerer:'sorcerer_spell', warlock:'warlock_blast' };
+            startUnitAnim(attacker.id, spellAnims[sp] || 'wizard_spell', 560);
         }
     }
 
@@ -4373,7 +5212,7 @@ function _drawBlood(ctx, now) {
 const UNIT_ANIM = {
     active: false,
     unitId: null,
-    type  : null,   // 'warrior_melee' | 'rogue_stab' | 'rogue_bow' | 'wizard_spell'
+    type  : null,   // warrior_melee | rogue_stab | rogue_bow | wizard_spell | cleric_smite | cleric_spell | necromancer_spell | witch_spell | ranger_bow | ranger_melee | sorcerer_spell | warlock_blast
     start : 0,
     dur   : 500,
 };
