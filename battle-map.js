@@ -1571,8 +1571,10 @@ function drawBackgroundFeatures(ctx, W, H) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// UNIT SPRITES — isometric figures (drawn upright in screen space)
+// UNIT SPRITES — oblique from-behind view; heroes face toward enemies (top of map)
 // ─────────────────────────────────────────────────────────────────────────────
+// anim = { t: 0..1, type: string } or null/undefined for idle pose.
+// Screen-left = character's right side (sword/weapon arm).
 
 function drawShadow(ctx, cx, by) {
     ctx.beginPath();
@@ -1581,176 +1583,603 @@ function drawShadow(ctx, cx, by) {
     ctx.fill();
 }
 
-function drawWarrior(ctx, cx, by, sel) {
+// ─── WARRIOR ──────────────────────────────────────────────────────────────────
+// Plate knight. Sword arm = screen-left (char's right). Shield = screen-right.
+// Red plumed helm and cape. Faces away; no face visible.
+function drawWarrior(ctx, cx, by, sel, anim) {
     const C = {
-        boot:'#182840',leg:'#2c4870',legLit:'#3a6498',
-        body:'#2a5898',bodyLit:'#4a80c8',bodyDk:'#1a3860',
-        armor:'#8ab0d8',trim:'#c8a030',
-        shield:'#264a8a',shieldLit:'#4878c0',shieldEdge:'#c8a030',
-        sword:'#ccd8e8',swordLit:'#ffffff',hilt:'#b8881e',
-        skin:'#c8a080',skinDk:'#a87a58',
-        helmet:'#1e3e70',helmetLit:'#3a68b0',visor:'#0c1e34',
+        plDk:'#2c4464', plMid:'#435f82', plLit:'#6a90b4', plHi:'#9ac0d8',
+        gold:'#c8a030',
+        cDk:'#3c0606',  cMid:'#601010', cLit:'#841818',
+        hDk:'#1c2e48',  hMid:'#324a6a', hLit:'#5a84aa',
+        blade:'#c0d0e0', bladeHi:'#f0f8ff',
+        hilt:'#b07820',  boot:'#16202e',
     };
+
+    const t = anim?.t ?? 0;
+    let dY = 0, swingT = 0;
+    if (anim?.type === 'warrior_melee') {
+        if (t < 0.22) {
+            dY = -3 * (t / 0.22);
+        } else if (t < 0.62) {
+            const p = (t - 0.22) / 0.40;
+            const e = 1 - Math.pow(1 - p, 3);
+            dY = -3 + 14 * e;  swingT = e;
+        } else {
+            const p = (t - 0.62) / 0.38;
+            dY = 11 - 11 * p;  swingT = 1 - p * 0.6;
+        }
+    }
+
     drawShadow(ctx, cx, by);
 
-    ctx.fillStyle=C.boot; ctx.fillRect(cx-10,by-6,8,6); ctx.fillRect(cx+2,by-6,8,6);
-    ctx.fillStyle=C.leg;  ctx.fillRect(cx-9,by-19,7,14);
-    ctx.fillStyle=C.legLit; ctx.fillRect(cx+2,by-19,7,14);
-    ctx.fillStyle=C.armor; ctx.fillRect(cx-8,by-16,4,3); ctx.fillRect(cx+3,by-16,4,3);
+    // Key Y levels (legs fixed at by; upper body rises by dY toward enemies)
+    const wY  = by - 26;                    // waist
+    const bpB = wY - 4 - dY * 0.55;        // backplate bottom
+    const bpT = bpB - 16;                   // backplate top = shoulder level
+    const shY = bpT;
+    const hcY = shY - 14;                   // helmet centre
 
-    ctx.fillStyle=C.bodyDk; ctx.fillRect(cx-12,by-35,9,16);
-    ctx.fillStyle=C.body;   ctx.fillRect(cx-3,by-35,5,16);
-    ctx.fillStyle=C.bodyLit;ctx.fillRect(cx+2,by-35,6,16);
-    ctx.fillStyle=C.armor;  ctx.fillRect(cx-5,by-33,10,9);
-    ctx.fillStyle=C.trim;   ctx.fillRect(cx-5,by-34,10,2); ctx.fillRect(cx-5,by-25,10,2);
+    // ── Cape (behind body, drawn first) ──────────────────────────────────
+    ctx.fillStyle = C.cDk;
+    ctx.beginPath();
+    ctx.moveTo(cx - 7, shY);
+    ctx.quadraticCurveTo(cx - 18, shY + 22, cx - 15, by);
+    ctx.lineTo(cx - 2, by); ctx.lineTo(cx - 2, shY + 8);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.cMid;
+    ctx.beginPath();
+    ctx.moveTo(cx + 8, shY);
+    ctx.quadraticCurveTo(cx + 18, shY + 22, cx + 14, by);
+    ctx.lineTo(cx, by); ctx.lineTo(cx, shY + 8);
+    ctx.closePath(); ctx.fill();
+    ctx.save();
+    ctx.globalAlpha = 0.38;
+    ctx.strokeStyle = C.cLit; ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(cx + 5, shY + 2);
+    ctx.quadraticCurveTo(cx + 12, shY + 14, cx + 9, by - 4);
+    ctx.stroke();
+    ctx.restore();
 
-    ctx.fillStyle=C.body;
-    ctx.beginPath(); ctx.ellipse(cx-11,by-36,7,5,-0.3,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(cx+10,by-36,7,5,0.3,0,Math.PI*2);  ctx.fill();
-    ctx.fillStyle=C.trim; ctx.fillRect(cx-14,by-39,6,2); ctx.fillRect(cx+8,by-39,6,2);
+    // ── Sabatons (armoured boots) ─────────────────────────────────────────
+    ctx.fillStyle = C.boot;
+    ctx.beginPath();
+    ctx.moveTo(cx-10,by); ctx.lineTo(cx-3,by); ctx.lineTo(cx-2,by-8); ctx.lineTo(cx-9,by-8);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.plMid; ctx.fillRect(cx - 9, by - 9, 7, 2);
+    ctx.fillStyle = C.boot;
+    ctx.beginPath();
+    ctx.moveTo(cx+3,by); ctx.lineTo(cx+10,by); ctx.lineTo(cx+9,by-7); ctx.lineTo(cx+3,by-7);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.plDk; ctx.fillRect(cx + 3, by - 8, 7, 2);
 
-    ctx.fillStyle=C.shield;
-    ctx.beginPath(); ctx.moveTo(cx+12,by-37); ctx.lineTo(cx+25,by-30);
-    ctx.lineTo(cx+23,by-15); ctx.lineTo(cx+13,by-12); ctx.lineTo(cx+9,by-21); ctx.closePath(); ctx.fill();
-    ctx.fillStyle=C.shieldLit;
-    ctx.beginPath(); ctx.moveTo(cx+13,by-36); ctx.lineTo(cx+23,by-30);
-    ctx.lineTo(cx+20,by-18); ctx.lineTo(cx+13,by-18); ctx.closePath(); ctx.fill();
-    ctx.strokeStyle=C.shieldEdge; ctx.lineWidth=1.5;
-    ctx.beginPath(); ctx.moveTo(cx+12,by-37); ctx.lineTo(cx+25,by-30);
-    ctx.lineTo(cx+23,by-15); ctx.lineTo(cx+13,by-12); ctx.lineTo(cx+9,by-21); ctx.closePath(); ctx.stroke();
-    ctx.fillStyle=C.trim; ctx.beginPath(); ctx.arc(cx+17,by-26,4,0,Math.PI*2); ctx.fill();
+    // ── Greaves ───────────────────────────────────────────────────────────
+    ctx.fillStyle = C.plMid; ctx.fillRect(cx - 9, by - 18, 7, 10);
+    ctx.fillStyle = C.plLit; ctx.fillRect(cx - 8, by - 17, 2,  8);
+    ctx.fillStyle = C.gold;  ctx.fillRect(cx - 9, by - 9,  7,  1);
+    ctx.fillStyle = C.plDk;  ctx.fillRect(cx + 2, by - 16, 7,  8);
+    ctx.fillStyle = C.plMid; ctx.fillRect(cx + 3, by - 15, 2,  6);
+    // Knee couters
+    ctx.fillStyle = C.plHi;
+    ctx.beginPath(); ctx.ellipse(cx-5, by-18, 4, 2.5, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.plMid;
+    ctx.beginPath(); ctx.ellipse(cx+6, by-16, 3, 2,   0, 0, Math.PI*2); ctx.fill();
 
-    ctx.fillStyle=C.bodyDk; ctx.fillRect(cx-19,by-37,7,14);
-    ctx.fillStyle=C.hilt;   ctx.fillRect(cx-22,by-47,13,4); ctx.fillRect(cx-17,by-50,3,6);
-    ctx.fillStyle=C.sword;
-    ctx.beginPath(); ctx.moveTo(cx-15,by-47); ctx.lineTo(cx-20,by-76);
-    ctx.lineTo(cx-17,by-76); ctx.lineTo(cx-12,by-47); ctx.closePath(); ctx.fill();
-    ctx.fillStyle=C.swordLit;
-    ctx.beginPath(); ctx.moveTo(cx-15,by-48); ctx.lineTo(cx-19,by-74); ctx.lineTo(cx-17,by-74); ctx.closePath(); ctx.fill();
+    // ── Cuisses (thighs) ──────────────────────────────────────────────────
+    ctx.fillStyle = C.plMid; ctx.fillRect(cx - 9, by - 26, 7, 8);
+    ctx.fillStyle = C.plDk;  ctx.fillRect(cx + 2, by - 24, 7, 8);
 
-    ctx.fillStyle=C.skin;   ctx.fillRect(cx-4,by-41,7,7);
-    ctx.fillStyle=C.skinDk; ctx.fillRect(cx-4,by-41,3,7);
+    // ── Faulds / tassets ──────────────────────────────────────────────────
+    ctx.fillStyle = C.plMid;
+    ctx.beginPath();
+    ctx.moveTo(cx-11,wY); ctx.lineTo(cx+11,wY);
+    ctx.lineTo(cx+9, wY-5); ctx.lineTo(cx-9, wY-5);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.gold; ctx.fillRect(cx - 11, wY - 1, 22, 1.5);
+    for (let i = 0; i < 3; i++) {
+        ctx.fillStyle = i === 1 ? C.plLit : C.plMid;
+        ctx.fillRect(cx - 7 + i * 5, wY, 4, 4);
+        ctx.fillStyle = '#080c10';
+        ctx.fillRect(cx - 7 + i * 5 - 0.5, wY, 0.5, 4);
+    }
 
-    ctx.fillStyle=C.helmet;
-    ctx.beginPath(); ctx.arc(cx,by-50,12,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle=C.helmetLit;
-    ctx.beginPath(); ctx.arc(cx+2,by-51,10,Math.PI*0.7,Math.PI*2.3); ctx.fill();
-    ctx.fillStyle=C.visor;
-    ctx.beginPath(); ctx.rect(cx-7,by-55,14,8); ctx.arc(cx,by-55,7,Math.PI,0); ctx.fill();
-    ctx.fillStyle=C.skin;
-    ctx.beginPath(); ctx.ellipse(cx,by-49,5,3,0,0,Math.PI); ctx.fill();
-    ctx.fillStyle=C.trim;
-    ctx.beginPath(); ctx.moveTo(cx-2,by-61); ctx.lineTo(cx+2,by-61);
-    ctx.lineTo(cx+1,by-70); ctx.lineTo(cx,by-74); ctx.lineTo(cx-1,by-70); ctx.closePath(); ctx.fill();
+    // ── Backplate ─────────────────────────────────────────────────────────
+    ctx.fillStyle = C.plDk;
+    ctx.beginPath();
+    ctx.moveTo(cx-10,bpB); ctx.lineTo(cx+10,bpB); ctx.lineTo(cx+8,bpT); ctx.lineTo(cx-8,bpT);
+    ctx.closePath(); ctx.fill();
+    // Spine highlight
+    ctx.fillStyle = C.plLit;
+    ctx.beginPath();
+    ctx.moveTo(cx-1,bpB); ctx.lineTo(cx+4,bpB); ctx.lineTo(cx+3,bpT); ctx.lineTo(cx+0,bpT);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#080c10'; ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.moveTo(cx+1,bpB); ctx.lineTo(cx+1,bpT); ctx.stroke();
+    ctx.fillStyle = C.gold;
+    ctx.fillRect(cx - 9, bpB - 4, 18, 1.5);
+    ctx.fillRect(cx - 8, bpT + 3, 16, 1.5);
+
+    // ── Pauldrons ─────────────────────────────────────────────────────────
+    ctx.fillStyle = C.plDk;
+    ctx.beginPath(); ctx.ellipse(cx-12, shY, 11, 6, -0.2, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.plHi;
+    ctx.beginPath(); ctx.ellipse(cx-11, shY-1, 7, 4, -0.2, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = C.gold; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.ellipse(cx-12, shY, 11, 6, -0.2, 0, Math.PI*2); ctx.stroke();
+    ctx.fillStyle = C.plDk;
+    ctx.beginPath(); ctx.ellipse(cx+12, shY,  9, 5, 0.2, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.plMid;
+    ctx.beginPath(); ctx.ellipse(cx+11, shY-1, 6, 3.5, 0.2, 0, Math.PI*2); ctx.fill();
+
+    // ── Shield (char's left = screen-right, partially visible) ────────────
+    const sdX = cx + 13, sdY = shY + 2;
+    ctx.fillStyle = '#1a3260';
+    ctx.beginPath();
+    ctx.moveTo(sdX,sdY); ctx.lineTo(sdX+14,sdY-5); ctx.lineTo(sdX+12,sdY-20);
+    ctx.lineTo(sdX+4,sdY-26); ctx.lineTo(sdX-1,sdY-12); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#304e82';
+    ctx.beginPath();
+    ctx.moveTo(sdX+1,sdY-1); ctx.lineTo(sdX+11,sdY-6); ctx.lineTo(sdX+10,sdY-18);
+    ctx.lineTo(sdX+5,sdY-23); ctx.lineTo(sdX,sdY-12); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.gold;
+    ctx.beginPath(); ctx.arc(sdX+6, sdY-12, 3, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = C.gold; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(sdX,sdY); ctx.lineTo(sdX+14,sdY-5); ctx.lineTo(sdX+12,sdY-20);
+    ctx.lineTo(sdX+4,sdY-26); ctx.lineTo(sdX-1,sdY-12); ctx.closePath(); ctx.stroke();
+
+    // ── Sword arm (char's right = screen-left) ────────────────────────────
+    // Rest: sword raised upper-left (guard).  Swing: sweeps toward enemy (upward).
+    const aAncX = cx - 12, aAncY = shY + 1;
+    const aA0   = -Math.PI * 0.60;   // guard pose
+    const aA1   = -Math.PI * 0.35;   // forward swing
+    const aAng  = aA0 + (aA1 - aA0) * swingT;
+    const aLen  = 16;
+    const elbX  = aAncX + Math.cos(aAng) * aLen * 0.52;
+    const elbY  = aAncY + Math.sin(aAng) * aLen * 0.52;
+    const hndX  = aAncX + Math.cos(aAng) * aLen;
+    const hndY  = aAncY + Math.sin(aAng) * aLen;
+
+    ctx.strokeStyle = C.plDk;  ctx.lineWidth = 9; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(aAncX,aAncY); ctx.lineTo(elbX,elbY); ctx.stroke();
+    ctx.strokeStyle = C.plLit; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(aAncX,aAncY); ctx.lineTo(elbX,elbY); ctx.stroke();
+    ctx.fillStyle = C.plHi;
+    ctx.beginPath(); ctx.arc(elbX, elbY, 4, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = C.plMid; ctx.lineWidth = 7;
+    ctx.beginPath(); ctx.moveTo(elbX,elbY); ctx.lineTo(hndX,hndY); ctx.stroke();
+    ctx.strokeStyle = C.plLit; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(elbX,elbY); ctx.lineTo(hndX,hndY); ctx.stroke();
+    ctx.fillStyle = C.plMid;
+    ctx.beginPath(); ctx.arc(hndX, hndY, 5, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = C.gold; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(hndX, hndY, 5, 0, Math.PI*2); ctx.stroke();
+
+    // Sword blade
+    const bAng = aAng - 0.12;
+    const bLen = 30;
+    const btX  = hndX + Math.cos(bAng) * bLen;
+    const btY  = hndY + Math.sin(bAng) * bLen;
+    const pa   = bAng + Math.PI * 0.5;
+    ctx.strokeStyle = C.hilt; ctx.lineWidth = 3; ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(hndX + Math.cos(pa)*8, hndY + Math.sin(pa)*8);
+    ctx.lineTo(hndX - Math.cos(pa)*8, hndY - Math.sin(pa)*8);
+    ctx.stroke();
+    const gX = hndX - Math.cos(bAng)*10, gY = hndY - Math.sin(bAng)*10;
+    ctx.beginPath(); ctx.moveTo(hndX,hndY); ctx.lineTo(gX,gY); ctx.stroke();
+    ctx.fillStyle = C.hilt;
+    ctx.beginPath(); ctx.arc(gX, gY, 2.5, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = C.blade;   ctx.lineWidth = 3.5;
+    ctx.beginPath(); ctx.moveTo(hndX,hndY); ctx.lineTo(btX,btY); ctx.stroke();
+    ctx.strokeStyle = C.bladeHi; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(hndX,hndY); ctx.lineTo(btX,btY); ctx.stroke();
+
+    // ── Gorget + Helmet ───────────────────────────────────────────────────
+    const hcX = cx;
+    ctx.fillStyle = C.plDk;  ctx.fillRect(hcX - 4, hcY + 2, 8, 7);
+    ctx.fillStyle = C.plMid; ctx.fillRect(hcX - 3, hcY + 3, 5, 5);
+    ctx.fillStyle = C.gold;  ctx.fillRect(hcX - 4, hcY + 2, 8, 1);
+    ctx.fillStyle = C.hDk;
+    ctx.beginPath(); ctx.arc(hcX, hcY, 13, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.hLit;
+    ctx.beginPath(); ctx.arc(hcX-2, hcY-2, 9, Math.PI*1.1, Math.PI*2.4); ctx.fill();
+    // Back neck-guard
+    ctx.fillStyle = C.hDk; ctx.fillRect(hcX - 8, hcY + 4, 16, 6);
+    ctx.fillStyle = C.hMid;
+    for (let i = 0; i < 4; i++) ctx.fillRect(hcX - 6 + i * 3.5, hcY + 5, 2, 4);
+    ctx.strokeStyle = C.gold; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(hcX, hcY, 13, Math.PI*0.5, Math.PI*1.75); ctx.stroke();
+
+    // ── Plume ─────────────────────────────────────────────────────────────
+    const pY   = hcY - 10;
+    const sway = swingT * 4;
+    ctx.fillStyle = '#7a0808';
+    ctx.beginPath();
+    ctx.moveTo(hcX-2, pY); ctx.lineTo(hcX+2, pY);
+    ctx.lineTo(hcX+4+sway, pY-17); ctx.lineTo(hcX+2+sway, pY-21);
+    ctx.lineTo(hcX-1+sway*0.5, pY-17); ctx.lineTo(hcX-2, pY-8);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#cc1818';
+    ctx.beginPath();
+    ctx.moveTo(hcX, pY-1); ctx.lineTo(hcX+2, pY-2);
+    ctx.lineTo(hcX+3+sway, pY-15); ctx.lineTo(hcX+1.5+sway, pY-19);
+    ctx.lineTo(hcX+0.5+sway*0.7, pY-15);
+    ctx.closePath(); ctx.fill();
+
+    if (sel) _drawSelectRing(ctx, cx, by);
 }
 
-function drawWizard(ctx, cx, by, sel) {
+// ─── WIZARD ───────────────────────────────────────────────────────────────────
+// Robed mage. Staff arm = screen-left (char's right). Tall pointed hat.
+// Arcane rune visible on robe back. Staff raises and orb charges during cast.
+function drawWizard(ctx, cx, by, sel, anim) {
     const C = {
-        boot:'#1a0c2e',robe:'#5a1878',robeLit:'#8a2aaa',robeDk:'#360c4e',
-        sash:'#c8a030',skin:'#d0a878',skinDk:'#a87848',
-        hat:'#3a0e5a',hatLit:'#6a1e98',hatBrim:'#290a42',
-        staff:'#7a4e18',staffLit:'#a06828',
-        orb:'#60d8ff',orbIn:'#c0f0ff',runes:'#a060e8',
+        rDk:'#2e0a4a', rMid:'#4a1270', rLit:'#6e1e9e', rFold:'#3e0e60',
+        sash:'#c8a030', sashDk:'#907020',
+        hDk:'#1e0638', hMid:'#2e0a50', hBrim:'#160426',
+        star:'#9060d8',
+        stWd:'#7a4a18', stLt:'#a06828',
+        orb:'#50d0ff', orbIn:'#c0f0ff', orbGl:'#40a8ee',
+        skin:'#c8a878',
+        rune:'#9060e0',
     };
+
+    const t = anim?.t ?? 0;
+    let dY = 0, staffRaise = 0, orbPulse = 0;
+    if (anim?.type === 'wizard_spell') {
+        if (t < 0.30) {
+            staffRaise = t / 0.30;
+        } else if (t < 0.60) {
+            staffRaise = 1;
+            orbPulse = (t - 0.30) / 0.30;
+            dY = orbPulse * 3;
+        } else if (t < 0.72) {
+            const p = (t - 0.60) / 0.12;
+            staffRaise = 1;
+            orbPulse = 1 + p * 2;   // flash at release
+            dY = 3 - p * 3;
+        } else {
+            const p = (t - 0.72) / 0.28;
+            staffRaise = 1 - p * 0.5;
+            orbPulse = 0;
+        }
+    }
+
     drawShadow(ctx, cx, by);
 
-    ctx.fillStyle=C.robeDk;
-    ctx.beginPath(); ctx.moveTo(cx-14,by); ctx.lineTo(cx+14,by);
-    ctx.lineTo(cx+10,by-38); ctx.lineTo(cx-9,by-38); ctx.closePath(); ctx.fill();
-    ctx.fillStyle=C.robe;
-    ctx.beginPath(); ctx.moveTo(cx-1,by); ctx.lineTo(cx+14,by);
-    ctx.lineTo(cx+10,by-38); ctx.lineTo(cx-1,by-38); ctx.closePath(); ctx.fill();
-    ctx.fillStyle=C.robeLit;
-    ctx.beginPath(); ctx.moveTo(cx+4,by); ctx.lineTo(cx+13,by);
-    ctx.lineTo(cx+10,by-38); ctx.lineTo(cx+4,by-38); ctx.closePath(); ctx.fill();
+    // ── Robe skirt (wide billow) ──────────────────────────────────────────
+    ctx.fillStyle = C.rDk;
+    ctx.beginPath();
+    ctx.moveTo(cx-15,by); ctx.lineTo(cx+15,by); ctx.lineTo(cx+11,by-38); ctx.lineTo(cx-10,by-38);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.rLit;
+    ctx.beginPath();
+    ctx.moveTo(cx-2,by); ctx.lineTo(cx+6,by); ctx.lineTo(cx+5,by-38); ctx.lineTo(cx-1,by-38);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.rDk;
+    ctx.beginPath();
+    ctx.moveTo(cx+8,by); ctx.lineTo(cx+15,by); ctx.lineTo(cx+11,by-38); ctx.lineTo(cx+8,by-38);
+    ctx.closePath(); ctx.fill();
+    // Fold lines
+    ctx.save();
+    ctx.globalAlpha = 0.25;
+    ctx.strokeStyle = C.rLit; ctx.lineWidth = 0.9;
+    for (let i = 0; i < 3; i++) {
+        const fx = cx - 8 + i * 7;
+        ctx.beginPath(); ctx.moveTo(fx, by); ctx.lineTo(fx - 1, by - 36); ctx.stroke();
+    }
+    ctx.restore();
 
-    ctx.fillStyle=C.sash; ctx.fillRect(cx-8,by-28,20,3);
+    // Sash
+    ctx.fillStyle = C.sashDk; ctx.fillRect(cx - 10, by - 32, 22, 4);
+    ctx.fillStyle = C.sash;   ctx.fillRect(cx - 10, by - 33, 22, 3);
 
-    ctx.fillStyle=C.staff;    ctx.fillRect(cx-22,by-78,5,78);
-    ctx.fillStyle=C.staffLit; ctx.fillRect(cx-22,by-78,2,78);
-    ctx.shadowColor=C.orb; ctx.shadowBlur=14;
-    ctx.beginPath(); ctx.arc(cx-20,by-80,8,0,Math.PI*2);
-    ctx.fillStyle=C.orb; ctx.fill();
-    ctx.shadowBlur=0;
-    ctx.beginPath(); ctx.arc(cx-22,by-83,4,0,Math.PI*2);
-    ctx.fillStyle=C.orbIn; ctx.fill();
+    // Arcane rune on robe back (glows stronger during cast)
+    const runeAlpha = 0.30 + Math.min(1, orbPulse) * 0.30;
+    ctx.save();
+    ctx.globalAlpha = runeAlpha;
+    ctx.strokeStyle = C.rLit; ctx.lineWidth = 0.9;
+    ctx.beginPath(); ctx.arc(cx, by-20, 6, 0, Math.PI*2); ctx.stroke();
+    for (let a = 0; a < 4; a++) {
+        const ang = a * Math.PI * 0.5;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(ang)*3, by-20 + Math.sin(ang)*3);
+        ctx.lineTo(cx + Math.cos(ang)*8, by-20 + Math.sin(ang)*8);
+        ctx.stroke();
+    }
+    ctx.restore();
 
-    ctx.fillStyle=C.robeDk; ctx.fillRect(cx-18,by-36,6,14);
-    ctx.fillStyle=C.robe;   ctx.fillRect(cx+9,by-36,6,14);
-    ctx.fillStyle=C.runes; ctx.globalAlpha=0.55;
-    for (let i=0;i<3;i++) ctx.fillRect(cx-3+i*4,by-34+i*6,3,4);
-    ctx.globalAlpha=1;
+    // ── Upper robe + shoulders ─────────────────────────────────────────────
+    const shY = by - 38 - dY * 0.70;
+    ctx.fillStyle = C.rDk;
+    ctx.beginPath();
+    ctx.moveTo(cx-10, by-38); ctx.lineTo(cx+11, by-38);
+    ctx.lineTo(cx+9, shY-14); ctx.lineTo(cx-8, shY-14);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.rMid;
+    ctx.beginPath();
+    ctx.moveTo(cx-1, by-38); ctx.lineTo(cx+6, by-38);
+    ctx.lineTo(cx+5, shY-14); ctx.lineTo(cx-0, shY-14);
+    ctx.closePath(); ctx.fill();
+    const upShY = shY - 14;
 
-    ctx.fillStyle=C.skin;   ctx.fillRect(cx-3,by-44,7,7);
-    ctx.fillStyle=C.skinDk; ctx.fillRect(cx-3,by-44,2,7);
-    ctx.fillStyle=C.skinDk; ctx.beginPath(); ctx.arc(cx,by-50,9,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle=C.skin;   ctx.beginPath(); ctx.arc(cx+1,by-51,8,0,Math.PI*2); ctx.fill();
+    // ── Free arm (char's left = screen-right) ─────────────────────────────
+    ctx.fillStyle = C.rDk;
+    ctx.beginPath();
+    ctx.moveTo(cx+10, upShY); ctx.lineTo(cx+17, upShY+6); ctx.lineTo(cx+18, upShY+14);
+    ctx.lineTo(cx+14, upShY+16); ctx.lineTo(cx+8, upShY+10);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.skin;
+    ctx.beginPath(); ctx.arc(cx+17, upShY+14, 4, 0, Math.PI*2); ctx.fill();
 
-    ctx.fillStyle='#e8d8b0';
-    ctx.beginPath(); ctx.moveTo(cx-4,by-46); ctx.lineTo(cx+5,by-46);
-    ctx.lineTo(cx+3,by-40); ctx.lineTo(cx-2,by-40); ctx.closePath(); ctx.fill();
+    // ── Staff arm (char's right = screen-left) ────────────────────────────
+    const stAncX = cx - 10, stAncY = upShY + 2;
+    // Rest: staff nearly vertical (pointing up). Cast: tilts toward enemies (upper-left).
+    const stA0  = -Math.PI * 0.50;   // straight up at rest
+    const stA1  = -Math.PI * 0.68;   // angled upper-left during cast
+    const stAng = stA0 + (stA1 - stA0) * staffRaise;
+    const stLen = 42;
+    const orbX  = stAncX + Math.cos(stAng) * stLen;
+    const orbY  = stAncY + Math.sin(stAng) * stLen;
 
-    ctx.fillStyle=C.hatBrim;
-    ctx.beginPath(); ctx.ellipse(cx,by-59,13,5,0,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle=C.hat;
-    ctx.beginPath(); ctx.moveTo(cx-10,by-59); ctx.lineTo(cx+12,by-59);
-    ctx.lineTo(cx+4,by-86); ctx.lineTo(cx-2,by-90); ctx.lineTo(cx-5,by-86); ctx.closePath(); ctx.fill();
-    ctx.fillStyle=C.hatLit;
-    ctx.beginPath(); ctx.moveTo(cx+2,by-60); ctx.lineTo(cx+12,by-59);
-    ctx.lineTo(cx+4,by-86); ctx.closePath(); ctx.fill();
-    ctx.fillStyle=C.sash;
-    ctx.beginPath(); ctx.ellipse(cx+1,by-62,9,3,-0.2,0,Math.PI*2); ctx.fill();
+    // Staff pole
+    ctx.strokeStyle = C.stWd; ctx.lineWidth = 4; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(stAncX, stAncY); ctx.lineTo(orbX, orbY); ctx.stroke();
+    ctx.strokeStyle = C.stLt; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(stAncX, stAncY); ctx.lineTo(orbX, orbY); ctx.stroke();
+
+    // Staff arm sleeve
+    ctx.fillStyle = C.rDk;
+    ctx.beginPath();
+    ctx.moveTo(stAncX, stAncY); ctx.lineTo(stAncX-8, stAncY+8);
+    ctx.lineTo(stAncX-6, stAncY+14); ctx.lineTo(stAncX, stAncY+8);
+    ctx.closePath(); ctx.fill();
+
+    // Orb
+    const glowBlur = 12 + Math.min(1, orbPulse) * 20;
+    ctx.save();
+    ctx.shadowColor = C.orbGl;
+    ctx.shadowBlur  = glowBlur;
+    ctx.globalAlpha = 0.75 + Math.min(1, orbPulse) * 0.20;
+    ctx.fillStyle   = C.orb;
+    ctx.beginPath(); ctx.arc(orbX, orbY, 8, 0, Math.PI*2); ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle  = C.orbIn;
+    ctx.beginPath(); ctx.arc(orbX-2, orbY-2, 5, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+    // Charge ring
+    if (orbPulse > 0 && orbPulse <= 1) {
+        ctx.save();
+        ctx.globalAlpha  = orbPulse * 0.5;
+        ctx.strokeStyle  = C.orb; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(orbX, orbY, 10 + orbPulse * 8, 0, Math.PI*2); ctx.stroke();
+        ctx.restore();
+    }
+    // Release flash
+    if (orbPulse > 1) {
+        ctx.save();
+        ctx.globalAlpha  = Math.min(1, (orbPulse - 1) * 0.9);
+        ctx.shadowColor  = '#ffffff'; ctx.shadowBlur = 28;
+        ctx.fillStyle    = '#d0f0ff';
+        ctx.beginPath(); ctx.arc(orbX, orbY, 12, 0, Math.PI*2); ctx.fill();
+        ctx.restore();
+    }
+
+    // ── Head and hat ──────────────────────────────────────────────────────
+    const hcX = cx;
+    const hcY = upShY - 10 - dY;
+
+    // Back of head / nape
+    ctx.fillStyle = '#1c0830';
+    ctx.beginPath(); ctx.arc(hcX, hcY, 10, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.skin;
+    ctx.beginPath(); ctx.arc(hcX+1, hcY+1, 8, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#1a0a00';
+    ctx.beginPath(); ctx.arc(hcX, hcY-2, 8, Math.PI*1.1, Math.PI*2.2); ctx.fill();
+    ctx.fillStyle = C.skin; ctx.fillRect(hcX - 3, hcY + 6, 6, 4);
+
+    // Hat brim
+    ctx.fillStyle = C.hBrim;
+    ctx.beginPath(); ctx.ellipse(hcX, hcY-8, 15, 6, 0, 0, Math.PI*2); ctx.fill();
+
+    // Hat cone (back face visible)
+    ctx.fillStyle = C.hDk;
+    ctx.beginPath();
+    ctx.moveTo(hcX-12, hcY-8); ctx.lineTo(hcX+14, hcY-8);
+    ctx.lineTo(hcX+5,  hcY-38); ctx.lineTo(hcX+1,  hcY-42);
+    ctx.lineTo(hcX-2,  hcY-38); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.hMid;
+    ctx.beginPath();
+    ctx.moveTo(hcX+2,  hcY-9); ctx.lineTo(hcX+14, hcY-8);
+    ctx.lineTo(hcX+5,  hcY-38); ctx.lineTo(hcX+2,  hcY-36);
+    ctx.closePath(); ctx.fill();
+
+    // Stars on hat
+    ctx.save();
+    ctx.fillStyle  = C.star;
+    ctx.globalAlpha = 0.55 + Math.min(1, orbPulse) * 0.30;
+    for (const [sx, sy] of [[-4,-18],[4,-28],[-2,-32],[6,-22],[1,-14]]) {
+        ctx.beginPath(); ctx.arc(hcX+sx, hcY+sy, 1.2, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+
+    // Hat band
+    ctx.fillStyle = C.sash;
+    ctx.beginPath(); ctx.ellipse(hcX+1, hcY-11, 11, 4, 0, 0, Math.PI*2); ctx.fill();
+
+    if (sel) _drawSelectRing(ctx, cx, by);
 }
 
-function drawRogue(ctx, cx, by, sel) {
+// ─── ROGUE ────────────────────────────────────────────────────────────────────
+// Hooded assassin. Dual daggers at belt. Short bow slung / raised for bow attacks.
+// Left hood eye faintly glowing amber. Quiver on back.
+function drawRogue(ctx, cx, by, sel, anim) {
     const C = {
-        boot:'#1a1008',cloakDk:'#243018',cloak:'#304020',cloakLt:'#445a2a',
-        leather:'#5a3e22',leatherLt:'#7a5630',blade:'#d0d8e0',bladeLit:'#ffffff',
-        hilt:'#8a6020',skin:'#c09070',skinDk:'#966e4a',
-        hood:'#1e2a10',hoodLt:'#3a4e20',eyes:'#c08030',
+        cDk:'#1a2010', cMid:'#2e3a1a', cLit:'#425428',
+        lth:'#4a3018',  lthLt:'#6a4828',
+        blade:'#c0d0e0', bladeHi:'#f0f8ff', hilt:'#885018',
+        boot:'#100c06',
+        sDk:'#906040',  skin:'#b07850',
+        hDk:'#141c0a',  hMid:'#202e10', hLit:'#384a1e',
+        eyes:'#c07828', eyeGl:'rgba(192,120,40,0.5)',
+        bowWd:'#704020', bowStr:'#c8c090',
+        quiv:'#3a2008',  arrow:'#805020',
     };
-    by -= 4;
-    drawShadow(ctx, cx, by+4);
 
-    ctx.fillStyle=C.cloakDk;
-    ctx.beginPath(); ctx.moveTo(cx-16,by); ctx.lineTo(cx+14,by);
-    ctx.lineTo(cx+11,by-36); ctx.lineTo(cx-8,by-36); ctx.closePath(); ctx.fill();
-    ctx.fillStyle=C.cloak;
-    ctx.beginPath(); ctx.moveTo(cx,by); ctx.lineTo(cx+14,by);
-    ctx.lineTo(cx+11,by-36); ctx.lineTo(cx,by-36); ctx.closePath(); ctx.fill();
-    ctx.fillStyle=C.cloakLt;
-    ctx.beginPath(); ctx.moveTo(cx+5,by); ctx.lineTo(cx+14,by);
-    ctx.lineTo(cx+11,by-22); ctx.lineTo(cx+5,by-22); ctx.closePath(); ctx.fill();
+    const t = anim?.t ?? 0;
+    let dY = 0, stabT = 0, bowDraw = 0;
+    if (anim?.type === 'rogue_stab') {
+        if (t < 0.18) {
+            const p = t / 0.18;
+            dY = -4 * p;
+        } else if (t < 0.50) {
+            const p = (t - 0.18) / 0.32;
+            const e = 1 - Math.pow(1 - p, 3);
+            dY = -4 + 16 * e;  stabT = e;
+        } else {
+            const p = (t - 0.50) / 0.50;
+            dY = 12 - 12 * p;  stabT = 1 - p * 0.5;
+        }
+    } else if (anim?.type === 'rogue_bow') {
+        if (t < 0.50) {
+            bowDraw = t / 0.50;  dY = bowDraw * 2;
+        } else if (t < 0.62) {
+            bowDraw = 1;  dY = 2;
+        } else {
+            const p = (t - 0.62) / 0.38;
+            bowDraw = 1 - p * 0.8;  dY = 2 - 2 * p;
+        }
+    }
 
-    ctx.fillStyle=C.boot; ctx.fillRect(cx-9,by-6,7,6); ctx.fillRect(cx+2,by-6,7,6);
-    ctx.fillStyle=C.leather; ctx.fillRect(cx-7,by-28,4,20); ctx.fillRect(cx+4,by-28,4,20);
+    drawShadow(ctx, cx, by);
 
-    ctx.fillStyle=C.hilt; ctx.fillRect(cx-18,by-32,10,3);
-    ctx.fillStyle=C.blade;
-    ctx.beginPath(); ctx.moveTo(cx-17,by-32); ctx.lineTo(cx-21,by-52);
-    ctx.lineTo(cx-18,by-52); ctx.lineTo(cx-14,by-32); ctx.closePath(); ctx.fill();
-    ctx.fillStyle=C.bladeLit;
-    ctx.beginPath(); ctx.moveTo(cx-17,by-33); ctx.lineTo(cx-20,by-50); ctx.lineTo(cx-18.5,by-50); ctx.closePath(); ctx.fill();
+    // ── Cloak tail (behind body) ──────────────────────────────────────────
+    const shY = by - 38 - dY * 0.70;
+    ctx.fillStyle = C.cDk;
+    ctx.beginPath();
+    ctx.moveTo(cx-6, shY); ctx.quadraticCurveTo(cx-16, shY+20, cx-14, by);
+    ctx.lineTo(cx-2, by); ctx.lineTo(cx-2, shY+8); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.cMid;
+    ctx.beginPath();
+    ctx.moveTo(cx+7, shY); ctx.quadraticCurveTo(cx+15, shY+20, cx+12, by);
+    ctx.lineTo(cx+0, by); ctx.lineTo(cx+1, shY+8); ctx.closePath(); ctx.fill();
 
-    ctx.fillStyle=C.hilt; ctx.fillRect(cx+12,by-26,8,3);
-    ctx.fillStyle=C.blade;
-    ctx.beginPath(); ctx.moveTo(cx+13,by-26); ctx.lineTo(cx+20,by-40);
-    ctx.lineTo(cx+18,by-40); ctx.lineTo(cx+11,by-26); ctx.closePath(); ctx.fill();
+    // ── Boots ─────────────────────────────────────────────────────────────
+    ctx.fillStyle = C.boot;
+    ctx.fillRect(cx - 9, by - 5, 6, 5);
+    ctx.fillRect(cx + 3, by - 4, 6, 4);
 
-    ctx.fillStyle=C.skinDk; ctx.beginPath(); ctx.arc(cx,by-46,9,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle=C.skin;   ctx.beginPath(); ctx.arc(cx+2,by-47,7,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle=C.eyes;
-    ctx.beginPath(); ctx.arc(cx-2,by-47,2,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+4,by-47,2,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='#000000';
-    ctx.beginPath(); ctx.arc(cx-1.5,by-47,1,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+4.5,by-47,1,0,Math.PI*2); ctx.fill();
+    // ── Legs (leather) ────────────────────────────────────────────────────
+    ctx.fillStyle = C.lth;  ctx.fillRect(cx - 8, by - 20, 5, 15);
+    ctx.fillStyle = C.cDk;  ctx.fillRect(cx + 3, by - 18, 5, 14);
 
-    ctx.fillStyle=C.hood;
-    ctx.beginPath(); ctx.arc(cx-1,by-49,10,Math.PI*0.9,Math.PI*2.4); ctx.fill();
-    ctx.fillStyle=C.hoodLt;
-    ctx.beginPath(); ctx.moveTo(cx+4,by-55); ctx.lineTo(cx+9,by-52);
-    ctx.lineTo(cx+8,by-45); ctx.lineTo(cx+4,by-45); ctx.closePath(); ctx.fill();
+    // ── Torso (leather armour from behind) ────────────────────────────────
+    const tbY = by - 20 - dY * 0.45;
+    ctx.fillStyle = C.cDk;
+    ctx.beginPath();
+    ctx.moveTo(cx-8,tbY); ctx.lineTo(cx+8,tbY); ctx.lineTo(cx+7,tbY-18); ctx.lineTo(cx-7,tbY-18);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.lth;
+    ctx.beginPath();
+    ctx.moveTo(cx-1,tbY); ctx.lineTo(cx+5,tbY); ctx.lineTo(cx+4,tbY-18); ctx.lineTo(cx-0,tbY-18);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.hilt; ctx.fillRect(cx - 8, tbY - 4, 16, 2);   // belt
+
+    // ── Quiver ────────────────────────────────────────────────────────────
+    ctx.fillStyle = C.quiv; ctx.fillRect(cx + 7, tbY - 22, 5, 14);
+    ctx.fillStyle = C.arrow;
+    for (let i = 0; i < 3; i++) ctx.fillRect(cx + 8 + i, tbY - 26, 1, 5);
+
+    // ── Daggers at belt (extend during stab) ──────────────────────────────
+    const d1X = cx - 6 - stabT * 14, d1Y = tbY - 3 - stabT * 10;
+    ctx.strokeStyle = C.hilt; ctx.lineWidth = 2.5; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(d1X, d1Y); ctx.lineTo(d1X-2, d1Y-2); ctx.stroke();
+    ctx.strokeStyle = C.blade;    ctx.lineWidth = 2.2;
+    ctx.beginPath(); ctx.moveTo(d1X-2, d1Y-2); ctx.lineTo(d1X-9, d1Y-15); ctx.stroke();
+    ctx.strokeStyle = C.bladeHi;  ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.moveTo(d1X-2, d1Y-2); ctx.lineTo(d1X-9, d1Y-15); ctx.stroke();
+
+    const d2X = cx + 6 + stabT * 8,  d2Y = tbY - 3 - stabT * 6;
+    ctx.strokeStyle = C.hilt; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(d2X, d2Y); ctx.lineTo(d2X+2, d2Y-2); ctx.stroke();
+    ctx.strokeStyle = C.cDk; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(d2X+2, d2Y-2); ctx.lineTo(d2X+7, d2Y-11); ctx.stroke();
+
+    // ── Bow (raised during bow attack) ────────────────────────────────────
+    const bAncX = cx - 10, bAncY = tbY - 20 - dY * 0.20;
+    // Rest: vertical. Draw: angled toward enemy (upper-left).
+    const bA0   = -Math.PI * 0.50;
+    const bA1   = -Math.PI * 0.28;
+    const bCurA = bA0 + (bA1 - bA0) * bowDraw;
+    const bR    = 15;
+    const bTU   = { x: bAncX + Math.cos(bCurA - 0.55)*bR, y: bAncY + Math.sin(bCurA - 0.55)*bR };
+    const bTL   = { x: bAncX + Math.cos(bCurA + 0.55)*bR, y: bAncY + Math.sin(bCurA + 0.55)*bR };
+
+    ctx.strokeStyle = C.bowWd; ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(bTU.x, bTU.y);
+    ctx.quadraticCurveTo(bAncX + Math.cos(bCurA)*(bR+6), bAncY + Math.sin(bCurA)*(bR+6), bTL.x, bTL.y);
+    ctx.stroke();
+
+    const pull = bowDraw * 11;
+    const sMX  = bAncX - Math.cos(bCurA) * pull;
+    const sMY  = bAncY - Math.sin(bCurA) * pull;
+    ctx.strokeStyle = C.bowStr; ctx.lineWidth = 0.8;
+    ctx.beginPath();
+    ctx.moveTo(bTU.x, bTU.y); ctx.lineTo(sMX, sMY); ctx.lineTo(bTL.x, bTL.y);
+    ctx.stroke();
+
+    if (bowDraw > 0.08) {
+        ctx.strokeStyle = C.arrow; ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(sMX, sMY);
+        ctx.lineTo(sMX + Math.cos(bCurA + Math.PI)*20, sMY + Math.sin(bCurA + Math.PI)*20);
+        ctx.stroke();
+    }
+
+    // ── Shoulders ─────────────────────────────────────────────────────────
+    ctx.fillStyle = C.cDk;
+    ctx.beginPath(); ctx.ellipse(cx-10, shY, 8, 5, -0.2, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.cMid;
+    ctx.beginPath(); ctx.ellipse(cx-9, shY-1, 5, 3, -0.2, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.cDk;
+    ctx.beginPath(); ctx.ellipse(cx+10, shY, 7, 4,  0.2, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.cMid;
+    ctx.beginPath(); ctx.ellipse(cx+9, shY-1, 4, 3,  0.2, 0, Math.PI*2); ctx.fill();
+
+    // ── Hood / head ───────────────────────────────────────────────────────
+    const hcX = cx, hcY = shY - 13 - dY;
+
+    ctx.fillStyle = C.hDk;
+    ctx.beginPath(); ctx.arc(hcX, hcY, 12, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.hLit;
+    ctx.beginPath(); ctx.arc(hcX-3, hcY-2, 8, Math.PI*0.9, Math.PI*2.3); ctx.fill();
+    ctx.fillStyle = C.hMid;
+    ctx.beginPath(); ctx.arc(hcX+2, hcY, 8, Math.PI*0.1, Math.PI*1.2); ctx.fill();
+
+    // Eye (amber glow visible under hood from the side)
+    ctx.save();
+    ctx.globalAlpha  = 0.65;
+    ctx.shadowColor  = C.eyeGl; ctx.shadowBlur = 6;
+    ctx.fillStyle    = C.eyes;
+    ctx.beginPath(); ctx.arc(hcX+4, hcY, 2, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+
+    // Hood peak
+    ctx.fillStyle = C.hDk;
+    ctx.beginPath();
+    ctx.moveTo(hcX-6, hcY-10); ctx.lineTo(hcX+6, hcY-10);
+    ctx.lineTo(hcX+4, hcY-22); ctx.lineTo(hcX,   hcY-26);
+    ctx.lineTo(hcX-2, hcY-22); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.hMid;
+    ctx.beginPath();
+    ctx.moveTo(hcX+2, hcY-10); ctx.lineTo(hcX+6, hcY-10);
+    ctx.lineTo(hcX+4, hcY-22); ctx.lineTo(hcX+1, hcY-24);
+    ctx.closePath(); ctx.fill();
+
+    if (sel) _drawSelectRing(ctx, cx, by);
 }
 
 function drawGoblin(ctx, cx, by, sel) {
@@ -1927,10 +2356,21 @@ function drawUnit(ctx, unit) {
     const by  = cy;
     const sel = (STATE.selected === unit.id);
 
+    // Compute body animation for this unit (null = idle)
+    let anim = null;
+    if (UNIT_ANIM.active && UNIT_ANIM.unitId === unit.id) {
+        const at = Math.min(1, (performance.now() - UNIT_ANIM.start) / UNIT_ANIM.dur);
+        if (at < 1) {
+            anim = { t: at, type: UNIT_ANIM.type };
+        } else {
+            UNIT_ANIM.active = false;
+        }
+    }
+
     switch (unit.spriteType || unit.type) {
-        case 'warrior':       drawWarrior      (ctx, cx, by, sel); break;
-        case 'wizard':        drawWizard       (ctx, cx, by, sel); break;
-        case 'rogue':         drawRogue        (ctx, cx, by, sel); break;
+        case 'warrior':       drawWarrior      (ctx, cx, by, sel, anim); break;
+        case 'wizard':        drawWizard       (ctx, cx, by, sel, anim); break;
+        case 'rogue':         drawRogue        (ctx, cx, by, sel, anim); break;
         case 'goblin':        drawGoblin       (ctx, cx, by, sel); break;
         case 'goblin_archer': drawGoblinArcher (ctx, cx, by, sel); break;
     }
@@ -2848,7 +3288,7 @@ function _tickDice() {
             const num = prog > 0.76 ? a.finalRoll : (1 + Math.floor(Math.random() * 100));
             _drawDicePop(ctx, a.col, a.row, num, a.color);
         }
-        if (anyActive) _tickDice();
+        if (anyActive || UNIT_ANIM.active || SWING.active || PROJ.active) _tickDice();
         else _diceAnims.length = 0;
     });
 }
@@ -3574,9 +4014,22 @@ function resolveAttack(attacker, target, onDone) {
         const ang    = Math.atan2(toC.sy - fromC.sy, toC.sx - fromC.sx);
         // Rogue knives → stab; warrior → sword; everything else → claw
         let swingType = 'claw';
-        if (attacker.type === 'warrior') swingType = 'sword';
+        if (attacker.type === 'warrior' || attacker.spriteType === 'warrior') swingType = 'sword';
         else if (atk === ATTACKS.rogue_knives) swingType = 'stab';
         startSwing(swingType, fromC.sx, fromBy, ang);
+    }
+
+    // Trigger sprite body animation to match the attack
+    {
+        const sp = attacker.spriteType || attacker.type;
+        if (atk.type === 'melee') {
+            const animType = sp === 'warrior' ? 'warrior_melee' : 'rogue_stab';
+            startUnitAnim(attacker.id, animType, 480);
+        } else if (atk.type === 'ranged') {
+            startUnitAnim(attacker.id, 'rogue_bow', 500);
+        } else if (atk.type === 'spell') {
+            startUnitAnim(attacker.id, 'wizard_spell', 560);
+        }
     }
 
     // Play attack sound at the moment animation starts.
@@ -3914,6 +4367,25 @@ function _drawBlood(ctx, now) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// ─────────────────────────────────────────────────────────────────────────────
+// UNIT BODY ANIMATION — drives per-sprite pose during attacks
+// ─────────────────────────────────────────────────────────────────────────────
+const UNIT_ANIM = {
+    active: false,
+    unitId: null,
+    type  : null,   // 'warrior_melee' | 'rogue_stab' | 'rogue_bow' | 'wizard_spell'
+    start : 0,
+    dur   : 500,
+};
+
+function startUnitAnim(unitId, type, dur) {
+    UNIT_ANIM.active = true;
+    UNIT_ANIM.unitId = unitId;
+    UNIT_ANIM.type   = type;
+    UNIT_ANIM.start  = performance.now();
+    UNIT_ANIM.dur    = dur || 500;
+}
+
 // MELEE SWING SYSTEM
 // ═══════════════════════════════════════════════════════════════════════════════
 
