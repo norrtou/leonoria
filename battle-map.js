@@ -15,6 +15,16 @@ let   S    = 28;    // hex world-radius (flat-top); resized dynamically
 const K    = 0.72;  // isometric vertical squeeze
 let   BATTLE_SEED = Math.floor(Math.random() * 0x7fffffff);
 
+// Lighting state — drives sky, terrain tint, shadow direction, ambient overlays.
+// In 'night' mode the bonfire obstacle at CAMPFIRE is the primary light source;
+// shadows radiate outward from it and terrain/atmosphere go dark.
+const LIGHTING = {
+    mode    : 'day',       // 'day' | 'night'
+    fireX   : 0,           // screen-x of the campfire (set when obstacles are generated)
+    fireY   : 0,           // screen-y of the campfire
+    fireRadius: 240,       // pixel radius of usable firelight
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // PALETTE
 // ─────────────────────────────────────────────────────────────────────────────
@@ -67,6 +77,20 @@ const TEAM_DARK_DEFS = [
     { id:'witch',      name:'Witch',      type:'witch',      spriteType:'witch',      team:'heroes', col:8, row:13 },
 ];
 
+// Placeholder team 4: nature's triad (Cold · Nature · Spirit)
+const TEAM_NATURE_DEFS = [
+    { id:'lifewhisperer', name:'Lifewhisperer', type:'lifewhisperer', spriteType:'lifewhisperer', team:'heroes', col:2, row:13 },
+    { id:'aquorist',      name:'Aquorist',      type:'aquorist',      spriteType:'aquorist',      team:'heroes', col:5, row:14 },
+    { id:'shaman',        name:'Shaman',        type:'shaman',        spriteType:'shaman',        team:'heroes', col:8, row:13 },
+];
+
+// Placeholder team 5: storm & blood (Lightning · Bleed · Water)
+const TEAM_STORM_DEFS = [
+    { id:'stormcaller',  name:'Stormcaller',  type:'stormcaller',  spriteType:'stormcaller',  team:'heroes', col:2, row:13 },
+    { id:'bloodsinger',  name:'Bloodsinger',  type:'bloodsinger',  spriteType:'bloodsinger',  team:'heroes', col:5, row:14 },
+    { id:'beastcaller',  name:'Beastcaller',  type:'beastcaller',  spriteType:'beastcaller',  team:'heroes', col:8, row:13 },
+];
+
 // Active unit definitions — rebuilt each time a team is loaded
 let UNIT_DEFS = [...DEFAULT_HERO_DEFS, ...ENEMY_DEFS];
 
@@ -99,37 +123,64 @@ const HERO_POSITIONS = [
     [{col:1,row:13},{col:3,row:14},{col:5,row:13},{col:6,row:14},{col:8,row:13},{col:10,row:14}],   // 6
 ];
 
+// Damage type → display color. Shadow uses its secondary (purple) as display color since near-black is invisible.
+const DAMAGE_TYPE_COLOR = {
+    Physical : '#b0a090',
+    Bleed    : '#c82020',
+    Fire     : '#e85820',
+    Cold     : '#88d8f0',
+    Lightning: '#e8f0ff',
+    Nature   : '#5ab840',
+    Water    : '#2878c8',
+    Arcane   : '#b060f0',
+    Radiant  : '#f5c840',
+    Shadow   : '#7030a0',
+    Void     : '#3018a0',
+    Blight   : '#88b010',
+    Spirit   : '#60c8c0',
+};
+
+// Spell orb two-color data: core = center of orb, outer = edge/glow.
+// Types not listed default to core=#ffffff (white hot), outer=DAMAGE_TYPE_COLOR value.
+const DAMAGE_TYPE_ORB = {
+    Shadow   : { core: '#ffffff', outer: '#0a0010', glow: '#7030a0' },
+    Void     : { core: '#3018a0', outer: '#000000', glow: '#3018a0' },
+    Fire     : { core: '#ffe040', outer: '#c01000', glow: '#e85820' },
+    Lightning: { core: '#e8f0ff', outer: '#4080e0', glow: '#4080e0' },
+    Arcane   : { core: '#b060f0', outer: '#c02020', glow: '#9030d0' },
+};
+
 // Physical skill name → melee/ranged attack definition
 const SKILL_ATTACK_MAP = {
-    'Swordsmanship': { name:'Sword Strike',    type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:92, snd:'sword' },
-    'Archery':       { name:'Arrow Shot',      type:'ranged', range:12, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:94, snd:'bow'   },
-    'Axewielding':   { name:'Axe Strike',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:90, snd:'sword' },
-    'Blunt Force':   { name:'Mace Smash',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:2,  hitBase:98, critMin:93, snd:'sword' },
-    'Small Arms':    { name:'Knife Strike',    type:'melee',  range:1,  damageDice:[2,6],  damageMod:2,  hitBase:98, critMin:91, snd:'stab'  },
-    'Polearms':      { name:'Spear Jab',       type:'melee',  range:2,  damageDice:[1,10], damageMod:3,  hitBase:98, critMin:93, snd:'sword' },
-    'Shield Fighting':{ name:'Shield Bash',   type:'melee',  range:1,  damageDice:[1,8],  damageMod:2,  hitBase:98, critMin:94, snd:'sword' },
-    'Crossbow':      { name:'Crossbow Bolt',   type:'ranged', range:10, damageDice:[2,8],  damageMod:2,  hitBase:98, critMin:93, snd:'bow'   },
-    'Blowgun & Sling':{ name:'Sling Shot',    type:'ranged', range:8,  damageDice:[1,6],  damageMod:1,  hitBase:98, critMin:95, snd:'bow'   },
-    'Stealth':       { name:'Shadow Jab',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:88, snd:'stab'  },
-    'Thievery':      { name:'Quick Stab',      type:'melee',  range:1,  damageDice:[2,6],  damageMod:2,  hitBase:98, critMin:90, snd:'stab'  },
+    'Swordsmanship':  { name:'Sword Strike',   type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:92, snd:'sword', damage_type:'Physical' },
+    'Archery':        { name:'Arrow Shot',      type:'ranged', range:12, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:94, snd:'bow',   damage_type:'Physical' },
+    'Axewielding':    { name:'Axe Strike',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:90, snd:'sword', damage_type:'Physical' },
+    'Blunt Force':    { name:'Mace Smash',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:2,  hitBase:98, critMin:93, snd:'sword', damage_type:'Physical' },
+    'Small Arms':     { name:'Knife Strike',    type:'melee',  range:1,  damageDice:[2,6],  damageMod:2,  hitBase:98, critMin:91, snd:'stab',  damage_type:'Physical' },
+    'Polearms':       { name:'Spear Jab',       type:'melee',  range:2,  damageDice:[1,10], damageMod:3,  hitBase:98, critMin:93, snd:'sword', damage_type:'Physical' },
+    'Shield Fighting':{ name:'Shield Bash',     type:'melee',  range:1,  damageDice:[1,8],  damageMod:2,  hitBase:98, critMin:94, snd:'sword', damage_type:'Physical' },
+    'Crossbow':       { name:'Crossbow Bolt',   type:'ranged', range:10, damageDice:[2,8],  damageMod:2,  hitBase:98, critMin:93, snd:'bow',   damage_type:'Physical' },
+    'Blowgun & Sling':{ name:'Sling Shot',      type:'ranged', range:8,  damageDice:[1,6],  damageMod:1,  hitBase:98, critMin:95, snd:'bow',   damage_type:'Physical' },
+    'Stealth':        { name:'Shadow Jab',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:88, snd:'stab',  damage_type:'Physical' },
+    'Thievery':       { name:'Quick Stab',      type:'melee',  range:1,  damageDice:[2,6],  damageMod:2,  hitBase:98, critMin:90, snd:'stab',  damage_type:'Physical' },
 };
 
 // Materium skill → spell attack definition
 const MATERIUM_ATTACK_MAP = {
-    'Lightwielding':        { name:'Holy Bolt',    type:'spell', range:12, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:96, snd:'fire' },
-    'Materium Channeling':  { name:'Arcane Bolt',  type:'spell', range:14, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire' },
-    'Shadow Weaving':       { name:'Shadow Bolt',  type:'spell', range:13, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'fire' },
+    'Lightwielding':       { name:'Holy Bolt',   type:'spell', range:12, damageDice:[2,6], damageMod:3, hitBase:98, critMin:96, snd:'fire', damage_type:'Radiant', effect:'Minor blind — 10% accuracy reduction (1 turn)' },
+    'Materium Channeling': { name:'Arcane Bolt', type:'spell', range:14, damageDice:[2,8], damageMod:4, hitBase:98, critMin:96, snd:'fire', damage_type:'Arcane',  effect:'Stable reliable damage — no variance' },
+    'Shadow Weaving':      { name:'Shadow Bolt', type:'spell', range:13, damageDice:[2,8], damageMod:3, hitBase:98, critMin:95, snd:'fire', damage_type:'Shadow',  effect:'Minor evasion boost to caster' },
 };
 
 // Caster class group → default spell when no materium skills
 const CASTER_DEFAULT_SPELL = {
-    Cleric:      { name:'Holy Bolt',      type:'spell', range:12, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:96, snd:'fire' },
-    Mage:        { name:'Arcane Bolt',    type:'spell', range:14, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire' },
-    Sorcerer:    { name:'Flame Burst',    type:'spell', range:13, damageDice:[3,6],  damageMod:4,  hitBase:98, critMin:96, snd:'fire' },
-    Druid:       { name:'Nature Bolt',    type:'spell', range:11, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:96, snd:'fire' },
-    Warlock:     { name:'Void Bolt',      type:'spell', range:13, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'fire' },
-    Witch:       { name:'Hex Bolt',       type:'spell', range:11, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:95, snd:'fire' },
-    Necromancer: { name:'Grave Touch',    type:'spell', range:12, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'fire' },
+    Cleric:      { name:'Glimmer Spark', type:'spell', range:12, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:96, snd:'fire', damage_type:'Radiant', effect:'Minor blind — 10% accuracy reduction (1 turn)' },
+    Mage:        { name:'Arcane Pulse',  type:'spell', range:14, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire', damage_type:'Arcane',  effect:'Stable reliable damage — no variance' },
+    Sorcerer:    { name:'Ember Flick',   type:'spell', range:13, damageDice:[3,6],  damageMod:4,  hitBase:98, critMin:96, snd:'fire', damage_type:'Fire',    effect:'Ignite (5 damage per turn)' },
+    Druid:       { name:'Sprout Bind',   type:'spell', range:11, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:96, snd:'fire', damage_type:'Nature',  effect:'Root target for 1 turn' },
+    Warlock:     { name:'Void Flicker',  type:'spell', range:13, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'fire', damage_type:'Void',    effect:'Minor instability — 20% chance of random secondary effect' },
+    Witch:       { name:'Rot Touch',     type:'spell', range:11, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:95, snd:'fire', damage_type:'Blight',  effect:'Disease (8 damage per turn)' },
+    Necromancer: { name:'Grave Touch',   type:'spell', range:12, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'fire', damage_type:'Shadow',  effect:'Minor heal to caster (50% of damage dealt)' },
 };
 
 // Martial class group → default attack when no weapon skills
@@ -150,6 +201,7 @@ function spriteTypeFromGroup(group) {
     if (group === 'Witch')       return 'witch';
     if (group === 'Sorcerer')    return 'sorcerer';
     if (group === 'Warlock')     return 'warlock';
+    if (group === 'Druid')       return 'lifewhisperer';
     return 'wizard';
 }
 
@@ -308,7 +360,31 @@ let TMAP = [];
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Obstacle types: boulder, log, rubble, bush, tree, fence, ruins
+// ('bonfire' is only placed by night-mode generation, not in random pool)
 const OBS_TYPES = ['boulder','log','rubble','bush','tree','fence','ruins'];
+
+// Shadow direction helper.
+// Day: fixed low-horizon sun in upper-left → shadows cast down-right.
+// Night: the bonfire is the light source → shadows radiate outward from it
+// with length growing with distance and opacity fading beyond the firelight.
+// Returns: { dx, dy, angle, alpha, length } where (dx,dy) is a unit vector
+// pointing AWAY from the light, and (length, alpha) scale the shadow.
+function shadowDir(cx, cy) {
+    if (LIGHTING.mode === 'night') {
+        const vx = cx - LIGHTING.fireX;
+        const vy = cy - LIGHTING.fireY;
+        const dist = Math.hypot(vx, vy) || 1;
+        const ux = vx / dist, uy = vy / dist;
+        // Near fire: short crisp shadow. Mid-range: long oblique shadow.
+        // Beyond firelight: too dark to see — alpha fades to near-zero.
+        const t = Math.min(1, dist / LIGHTING.fireRadius);
+        const length = 1.2 + t * 2.8;
+        const alpha  = t < 0.95 ? (1.6 * (1 - t * 0.55)) : 0.12;
+        return { dx: ux, dy: uy, angle: Math.atan2(uy, ux), alpha, length };
+    }
+    // Day: down-right, small vertical component (low-horizon sun).
+    return { dx: 0.97, dy: 0.22, angle: 0.22, alpha: 1.0, length: 1.0 };
+}
 
 // Holds this battle's obstacles: [{type, hexes:[{col,row},...], seed}]
 let OBSTACLES = [];
@@ -331,6 +407,20 @@ function generateObstacles() {
     // Also reserve the rows nearest each team (rows 0-2 enemies, rows 13-14 heroes)
     for (let c = 0; c < COLS; c++) {
         for (const r of [0,1,2,13,14]) reserved.add(`${c},${r}`);
+    }
+
+    // Night mode: place a bonfire in the centre of the map as the one light source.
+    if (LIGHTING.mode === 'night') {
+        const cCol = (COLS / 2) | 0;
+        const cRow = (ROWS / 2) | 0;
+        const bonfireSeed = (rng() * 0x7fffffff) | 0;
+        OBSTACLES.push({ type: 'bonfire', hexes: [[cCol, cRow]], seed: bonfireSeed });
+        BLOCKED.add(`${cCol},${cRow}`);
+        reserved.add(`${cCol},${cRow}`);
+        // Cache screen position so shadowDir() can read it without re-querying.
+        const { sx, sy } = hexScreenCenter(cCol, cRow);
+        LIGHTING.fireX = sx;
+        LIGHTING.fireY = sy;
     }
 
     const numObstacles = rng() < 0.5 ? 2 : (rng() < 0.6 ? 2 : 1);  // 1 or 2 obstacles
@@ -510,8 +600,18 @@ function screenPolyPath(ctx, verts) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function drawFullTerrain(ctx, W, H) {
-    // Render at 1/5 resolution then upscale — noise smoothed by bilinear filter
-    const SCALE = 5;
+    if (LIGHTING.mode === 'night') {
+        drawFullTerrainNight(ctx, W, H);
+        return;
+    }
+    // Grass ground with atmospheric perspective. The depth gradient (haze,
+    // brightness, saturation, noise frequency) delivers the sense of distance.
+    // Texture is sampled in SCREEN space at fine scales so noise doesn't
+    // streak along radial perspective lines — real grass photographs show
+    // fine uniform grain, not elongated features pointing at the vanishing
+    // point. A very low-amplitude perspective-warped tint adds large-scale
+    // hue breakup without creating visible stripes.
+    const SCALE = 3;
     const pw = Math.ceil(W / SCALE);
     const ph = Math.ceil(H / SCALE);
 
@@ -522,41 +622,227 @@ function drawFullTerrain(ctx, W, H) {
     const img  = oc.createImageData(pw, ph);
     const d    = img.data;
 
-    // Midlands landLow/Mid/High palette (matches world map biome values)
-    // [68,132,42] → [90,158,54] → [108,170,62] → dry [132,158,72]
-    for (let py = 0; py < ph; py++) {
+    // Horizon Y — same reference used by drawBackgroundForest for sky
+    let hexTopSY = Infinity;
+    for (let c = 0; c < COLS; c++) {
+        const { sy } = hexScreenCenter(c, 0);
+        if (sy < hexTopSY) hexTopSY = sy;
+    }
+    hexTopSY = Math.max(10, hexTopSY - S * K * 1.6);
+    const horizonSY = hexTopSY * 0.58;
+    const horizonPY = Math.max(0, Math.floor(horizonSY / SCALE));
+    const belowHorizon = Math.max(1, ph - horizonPY);
+
+    // Above horizon: neutral dark fill — sky overlay will cover this.
+    for (let py = 0; py < horizonPY; py++) {
+        const base = py * pw * 4;
         for (let px = 0; px < pw; px++) {
-            const nx = px / pw * 9.5;
-            const ny = py / ph * 6.5;
+            const idx = base + px * 4;
+            d[idx] = 28; d[idx+1] = 42; d[idx+2] = 48; d[idx+3] = 255;
+        }
+    }
 
-            const n1 = noise2(nx,       ny,       BATTLE_SEED);
-            const n2 = noise2(nx * 2.3, ny * 2.3, BATTLE_SEED + 501);
-            const n3 = noise2(nx * 5.2, ny * 5.2, BATTLE_SEED + 1003);
-            const v  = n1 * 0.55 + n2 * 0.30 + n3 * 0.15;
+    // Colour anchors for the grass palette
+    // Foreground: warm bright grass; Horizon: cool hazy blue-green
+    const FG_R = 108, FG_G = 146, FG_B = 74;
+    const HZ_R = 128, HZ_G = 152, HZ_B = 140;
 
-            let r, g, b;
-            if (v < 0.30) {
-                const t = v / 0.30;
-                r = Math.round(68  + t * (90  - 68 ));
-                g = Math.round(132 + t * (158 - 132));
-                b = Math.round(42  + t * (54  - 42 ));
-            } else if (v < 0.58) {
-                const t = (v - 0.30) / 0.28;
-                r = Math.round(90  + t * (108 - 90 ));
-                g = Math.round(158 + t * (170 - 158));
-                b = Math.round(54  + t * (62  - 54 ));
-            } else if (v < 0.78) {
-                const t = (v - 0.58) / 0.20;
-                r = Math.round(108 + t * (120 - 108));
-                g = Math.round(170 + t * (168 - 170));
-                b = Math.round(62  + t * (66  - 62 ));
+    for (let py = horizonPY; py < ph; py++) {
+        // Depth 0 at foreground, 1 at horizon
+        const depth  = 1 - (py - horizonPY) / belowHorizon;
+        const depthQ = depth * depth;           // stronger haze pileup at horizon
+
+        // As distance grows, texture compresses into fewer screen pixels.
+        // Scale noise frequency so far ground looks smoother (not pixel hash).
+        const freqScale = 1 / (1 + depthQ * 6);
+
+        // Row-wide lerp toward horizon haze
+        const baseR = FG_R * (1 - depthQ) + HZ_R * depthQ;
+        const baseG = FG_G * (1 - depthQ) + HZ_G * depthQ;
+        const baseB = FG_B * (1 - depthQ) + HZ_B * depthQ;
+
+        // Saturation falls off with distance; foreground is crisper
+        const sat = 1 - depthQ * 0.55;
+
+        for (let px = 0; px < pw; px++) {
+            // Screen-space noise (no perspective warp → no streaks).
+            // Frequencies scale with distance so far ground stays soft.
+            const sx = px * freqScale;
+            const sy = py * freqScale;
+
+            const nLo  = noise2(sx * 0.035, sy * 0.035, BATTLE_SEED);
+            const nMid = noise2(sx * 0.130, sy * 0.130, BATTLE_SEED + 501);
+            const nHi  = noise2(sx * 0.520, sy * 0.520, BATTLE_SEED + 1003);
+
+            const hue = nLo * 0.55 + nMid * 0.30 + nHi * 0.15;  // 0..1
+
+            // Secondary fields — still screen-space, different seeds
+            const dirtField = noise2(sx * 0.045, sy * 0.045, BATTLE_SEED + 7113);
+            const mossField = noise2(sx * 0.180, sy * 0.180, BATTLE_SEED + 9341);
+            const warmField = noise2(sx * 0.022, sy * 0.022, BATTLE_SEED + 6501);
+            const micro     = noise2(px * 0.85,  py * 0.85,  BATTLE_SEED + 2007);
+
+            let r = baseR, g = baseG, b = baseB;
+
+            // Green hue variation — shift toward sage / deep / bright greens
+            const hShift = (hue - 0.5) * 2;   // -1..1
+            if (hShift > 0) {
+                r += hShift * 24 * sat;
+                g += hShift * 14 * sat;
+                b -= hShift * 10 * sat;
             } else {
-                // Dry / dirt patches
-                const t = Math.min(1, (v - 0.78) / 0.22);
-                r = Math.round(120 + t * (136 - 120));
-                g = Math.round(168 + t * (148 - 168));
-                b = Math.round(66  + t * (76  - 66 ));
+                r += hShift * 18 * sat;       // darker, cooler
+                g += hShift * 6  * sat;
+                b -= hShift * 6  * sat;
             }
+
+            // Warm golden patches (dry grass) — subtle in foreground only
+            if (warmField > 0.60 && depth > 0.35) {
+                const wt = Math.min(1, (warmField - 0.60) / 0.30) * 0.28 * (1 - depthQ);
+                r += (198 - r) * wt;
+                g += (170 - g) * wt;
+                b += (96  - b) * wt;
+            }
+
+            // Dirt patches — brown breakthrough, suppressed at distance
+            if (dirtField > 0.72) {
+                const dt = Math.min(1, (dirtField - 0.72) / 0.22);
+                const amt = dt * 0.45 * (1 - depthQ * 0.8);
+                r += (126 - r) * amt;
+                g += (88  - g) * amt;
+                b += (54  - b) * amt;
+            }
+
+            // Moss / darker green patches
+            if (mossField > 0.72) {
+                const mt = (mossField - 0.72) / 0.28;
+                const amt = mt * 0.40 * (1 - depthQ * 0.6);
+                r += (52  - r) * amt;
+                g += (108 - g) * amt;
+                b += (48  - b) * amt;
+            }
+
+            // Fine grain texture — grass-blade-level noise, strongest at front
+            const grain = (micro - 0.5) * 22 * (1 - depthQ * 0.85);
+            r += grain * 0.9;
+            g += grain;
+            b += grain * 0.6;
+
+            // Foreground brightness lift (sun hitting close grass)
+            const lift = (1 - depth) * 10;
+            r += lift;
+            g += lift * 0.9;
+            b += lift * 0.4;
+
+            r = r < 0 ? 0 : r > 255 ? 255 : r;
+            g = g < 0 ? 0 : g > 255 ? 255 : g;
+            b = b < 0 ? 0 : b > 255 ? 255 : b;
+
+            const idx = (py * pw + px) * 4;
+            d[idx] = r; d[idx+1] = g; d[idx+2] = b; d[idx+3] = 255;
+        }
+    }
+
+    oc.putImageData(img, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(off, 0, 0, W, H);
+}
+
+// Night terrain: cold dark ground, moonlit from above with a warm radial
+// lift around the bonfire. No sun; firelight is the only warm source.
+function drawFullTerrainNight(ctx, W, H) {
+    const SCALE = 3;
+    const pw = Math.ceil(W / SCALE);
+    const ph = Math.ceil(H / SCALE);
+
+    const off = document.createElement('canvas');
+    off.width = pw; off.height = ph;
+    const oc = off.getContext('2d');
+    const img = oc.createImageData(pw, ph);
+    const d = img.data;
+
+    // Horizon (same reference as background forest)
+    let hexTopSY = Infinity;
+    for (let c = 0; c < COLS; c++) {
+        const { sy } = hexScreenCenter(c, 0);
+        if (sy < hexTopSY) hexTopSY = sy;
+    }
+    hexTopSY = Math.max(10, hexTopSY - S * K * 1.6);
+    const horizonPY = Math.max(0, Math.floor(hexTopSY * 0.58 / SCALE));
+    const belowHorizon = Math.max(1, ph - horizonPY);
+
+    // Fire position in the downsampled image space
+    const fireBX = LIGHTING.fireX / SCALE;
+    const fireBY = LIGHTING.fireY / SCALE;
+    const fireR  = LIGHTING.fireRadius / SCALE;
+
+    // Above horizon: neutral dark fill (sky overlay covers this)
+    for (let py = 0; py < horizonPY; py++) {
+        const base = py * pw * 4;
+        for (let px = 0; px < pw; px++) {
+            const idx = base + px * 4;
+            d[idx] = 6; d[idx+1] = 8; d[idx+2] = 14; d[idx+3] = 255;
+        }
+    }
+
+    // Moonlit grass palette — night greens, but bright enough to survive the
+    // atmosphere multiply pass without crushing to black.
+    const FG_R = 68, FG_G = 96, FG_B = 62;     // foreground grass under moon
+    const HZ_R = 46, HZ_G = 62, HZ_B = 70;     // cool distant mist at horizon
+    const FIRE_R = 255, FIRE_G = 180, FIRE_B = 90;
+
+    for (let py = horizonPY; py < ph; py++) {
+        const depth  = 1 - (py - horizonPY) / belowHorizon;
+        const depthQ = depth * depth;
+
+        const baseR = FG_R * (1 - depthQ) + HZ_R * depthQ;
+        const baseG = FG_G * (1 - depthQ) + HZ_G * depthQ;
+        const baseB = FG_B * (1 - depthQ) + HZ_B * depthQ;
+
+        for (let px = 0; px < pw; px++) {
+            // Screen-space noise at fixed frequencies — no per-row scale, so
+            // noise is continuous between rows (no horizontal banding).
+            const nLo  = noise2(px * 0.035, py * 0.035, BATTLE_SEED);
+            const nMid = noise2(px * 0.130, py * 0.130, BATTLE_SEED + 501);
+            const nHi  = noise2(px * 0.520, py * 0.520, BATTLE_SEED + 1003);
+            const hue   = nLo * 0.55 + nMid * 0.30 + nHi * 0.15;
+            const micro = noise2(px * 0.85, py * 0.85, BATTLE_SEED + 2007);
+
+            let r = baseR, g = baseG, b = baseB;
+
+            // Green/teal hue variation — a bit wider than before to keep the
+            // ground visibly grassy rather than a flat block.
+            const hShift = (hue - 0.5) * 2;
+            r += hShift * 6;
+            g += hShift * 14;
+            b += hShift * 8;
+
+            // Fine grain
+            const grain = (micro - 0.5) * 12;
+            r += grain * 0.5; g += grain * 0.7; b += grain * 0.5;
+
+            // Firelight — gentle warm lift right at the pit only.
+            const dxF = px - fireBX;
+            const dyF = (py - fireBY) * 1.8;
+            const distF = Math.hypot(dxF, dyF);
+            if (distF < fireR * 0.8) {
+                const t = Math.max(0, 1 - distF / (fireR * 0.8));
+                const strength = t * t * 0.85;
+                r += (FIRE_R - r) * strength * 0.28;
+                g += (FIRE_G - g) * strength * 0.18;
+                b += (FIRE_B - b) * strength * 0.05;
+            }
+
+            // Cool moonlight: bluish lift strongest in the foreground.
+            const moonlift = (1 - depthQ) * 10;
+            r += moonlift * 0.5;
+            g += moonlift * 0.8;
+            b += moonlift * 1.2;
+
+            r = r < 0 ? 0 : r > 255 ? 255 : r;
+            g = g < 0 ? 0 : g > 255 ? 255 : g;
+            b = b < 0 ? 0 : b > 255 ? 255 : b;
 
             const idx = (py * pw + px) * 4;
             d[idx] = r; d[idx+1] = g; d[idx+2] = b; d[idx+3] = 255;
@@ -603,41 +889,89 @@ function drawRock(ctx, cx, cy, rng) {
     const F = 0.62;
     const gx = cx + (rng() * 8 - 4) * F, gy = cy;
 
-    ctx.beginPath();
-    ctx.ellipse(gx+4*F, gy+2*F, 13*F, 5*F, 0, 0, Math.PI*2);
-    ctx.fillStyle = P.shadowEllipse; ctx.fill();
+    // Long low-sun shadow — stretched down-right, soft penumbra
+    ctx.fillStyle = 'rgba(0,0,0,0.06)';
+    ctx.beginPath(); ctx.ellipse(gx+22*F, gy+3*F, 34*F, 6.5*F, -0.08, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    ctx.beginPath(); ctx.ellipse(gx+16*F, gy+2*F, 24*F, 5*F, -0.08, 0, Math.PI*2); ctx.fill();
 
+    // Slight hue variation per rock
+    const warm = rng() > 0.5;
+    const dk  = warm ? '#3e3a30' : '#44443c';
+    const md  = warm ? '#706a5c' : '#6e6e68';
+    const mid = warm ? '#8c8676' : '#8c8c86';
+    const lit = warm ? '#c0b8a2' : '#bababa';
+
+    // Dark silhouette (shaded side)
     ctx.beginPath();
     ctx.moveTo(gx-11*F,gy); ctx.lineTo(gx-5*F,gy-13*F);
     ctx.lineTo(gx+2*F,gy-18*F); ctx.lineTo(gx+13*F,gy-10*F);
     ctx.lineTo(gx+15*F,gy); ctx.lineTo(gx+4*F,gy+4*F); ctx.closePath();
-    ctx.fillStyle = P.rockDk; ctx.fill();
+    ctx.fillStyle = dk; ctx.fill();
 
+    // Mid tone body
     ctx.beginPath();
     ctx.moveTo(gx-9*F,gy); ctx.lineTo(gx-4*F,gy-12*F);
     ctx.lineTo(gx+2*F,gy-17*F); ctx.lineTo(gx+11*F,gy-9*F);
     ctx.lineTo(gx+12*F,gy); ctx.lineTo(gx+3*F,gy+3*F); ctx.closePath();
-    ctx.fillStyle = P.rock; ctx.fill();
+    ctx.fillStyle = md; ctx.fill();
 
+    // Right lit plane
     ctx.beginPath();
     ctx.moveTo(gx+2*F,gy-17*F); ctx.lineTo(gx+11*F,gy-9*F);
     ctx.lineTo(gx+12*F,gy); ctx.lineTo(gx+3*F,gy+2*F);
     ctx.lineTo(gx+2*F,gy-2*F); ctx.closePath();
-    ctx.fillStyle = P.rockMid; ctx.fill();
+    ctx.fillStyle = mid; ctx.fill();
 
+    // Top highlight — sun-lit upper facet
     ctx.beginPath();
     ctx.moveTo(gx-3*F,gy-13*F); ctx.lineTo(gx+5*F,gy-16*F);
     ctx.lineTo(gx+2*F,gy-18*F); ctx.lineTo(gx-4*F,gy-15*F); ctx.closePath();
-    ctx.fillStyle = P.rockLit; ctx.fill();
+    ctx.fillStyle = lit; ctx.fill();
+
+    // Specular micro-highlight on the ridge
+    ctx.fillStyle = 'rgba(255,250,230,0.35)';
+    ctx.beginPath(); ctx.ellipse(gx-1*F, gy-15*F, 2.4*F, 0.9*F, -0.4, 0, Math.PI*2); ctx.fill();
+
+    // Crack line
+    if (rng() > 0.45) {
+        ctx.strokeStyle = 'rgba(10,8,6,0.45)';
+        ctx.lineWidth = 0.7;
+        ctx.beginPath();
+        ctx.moveTo(gx-2*F, gy-14*F);
+        ctx.quadraticCurveTo(gx+3*F, gy-10*F, gx+6*F, gy-4*F);
+        ctx.stroke();
+    }
+
+    // Moss patch near base
+    if (rng() > 0.55) {
+        ctx.fillStyle = 'rgba(60,110,40,0.42)';
+        ctx.beginPath();
+        ctx.ellipse(gx-3*F, gy-3*F, 4*F, 2*F, 0.2, 0, Math.PI*2);
+        ctx.fill();
+    }
 }
 
 function drawShrub(ctx, cx, cy, rng) {
     const F = 0.62;
     const gx = cx + (rng()*6-3)*F, gy = cy;
 
-    ctx.beginPath();
-    ctx.ellipse(gx+3*F, gy+3*F, 17*F, 6*F, 0, 0, Math.PI*2);
-    ctx.fillStyle = P.shadowEllipse; ctx.fill();
+    // Long low-sun shadow — elongated down-right
+    ctx.fillStyle = 'rgba(0,0,0,0.06)';
+    ctx.beginPath(); ctx.ellipse(gx+22*F, gy+4*F, 40*F, 7*F, -0.08, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.10)';
+    ctx.beginPath(); ctx.ellipse(gx+16*F, gy+3*F, 28*F, 5*F, -0.08, 0, Math.PI*2); ctx.fill();
+
+    // Hue roll — varies between dusty sage, deep forest, fresh spring green
+    const hueRoll = rng();
+    const dark = hueRoll < 0.33 ? '#203810' :
+                 hueRoll < 0.66 ? '#1c3410' : '#2a4214';
+    const mid  = hueRoll < 0.33 ? '#3a5a1c' :
+                 hueRoll < 0.66 ? '#3c6420' : '#4a7220';
+    const lit  = hueRoll < 0.33 ? '#5a8830' :
+                 hueRoll < 0.66 ? '#5e9030' : '#7aa836';
+    const hi   = hueRoll < 0.33 ? '#7ca840' :
+                 hueRoll < 0.66 ? '#84b444' : '#98c450';
 
     const blobs = [
         {ox:-8*F,oy:-4*F,rx:9*F,ry:7*F},
@@ -645,12 +979,119 @@ function drawShrub(ctx, cx, cy, rng) {
         {ox:-1*F,oy:-9*F,rx:10*F,ry:8*F},
         {ox: 2*F,oy:-14*F,rx:7*F,ry:6*F},
     ];
-    for (let i = 0; i < blobs.length; i++) {
-        const b = blobs[i];
+    // Back-shadow pass
+    for (const b of blobs) {
+        ctx.fillStyle = dark;
+        ctx.beginPath();
+        ctx.ellipse(gx+b.ox+1.2*F, gy+b.oy+1.2*F, b.rx*1.05, b.ry*1.05, 0, 0, Math.PI*2);
+        ctx.fill();
+    }
+    // Mid body
+    for (const b of blobs) {
+        ctx.fillStyle = mid;
         ctx.beginPath();
         ctx.ellipse(gx+b.ox, gy+b.oy, b.rx, b.ry, 0, 0, Math.PI*2);
-        ctx.fillStyle = i===0 ? P.shrubDk : (i%2===0 ? P.shrubLit : P.shrub);
         ctx.fill();
+    }
+    // Sunlit upper-left wedge
+    for (const b of blobs) {
+        ctx.fillStyle = lit;
+        ctx.beginPath();
+        ctx.ellipse(gx+b.ox-b.rx*0.28, gy+b.oy-b.ry*0.32, b.rx*0.62, b.ry*0.55, 0, 0, Math.PI*2);
+        ctx.fill();
+    }
+    // Specular rim highlight
+    ctx.fillStyle = hi;
+    ctx.globalAlpha = 0.75;
+    for (const b of blobs) {
+        ctx.beginPath();
+        ctx.ellipse(gx+b.ox-b.rx*0.40, gy+b.oy-b.ry*0.50, b.rx*0.28, b.ry*0.22, 0, 0, Math.PI*2);
+        ctx.fill();
+    }
+    ctx.globalAlpha = 1.0;
+}
+
+// A denser, rounder bush — distinct from drawShrub. Random berries / flowers.
+function drawBush(ctx, cx, cy, rng) {
+    const F = 0.62 * (0.85 + rng() * 0.45);
+    const gx = cx + (rng()*5-2.5)*F, gy = cy;
+
+    // Long low-sun shadow — stretched down-right
+    ctx.fillStyle = 'rgba(0,0,0,0.06)';
+    ctx.beginPath(); ctx.ellipse(gx+24*F, gy+4*F, 44*F, 7*F, -0.08, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.11)';
+    ctx.beginPath(); ctx.ellipse(gx+18*F, gy+3*F, 30*F, 5.5*F, -0.08, 0, Math.PI*2); ctx.fill();
+
+    // Multi-blob rounded canopy — more compact than shrub
+    const cnt = 6 + (rng()*4|0);
+    const blobs = [];
+    for (let i = 0; i < cnt; i++) {
+        const a = (i / cnt) * Math.PI * 2 + rng() * 0.5;
+        const d = 5 * F + rng() * 6 * F;
+        blobs.push({
+            ox: Math.cos(a) * d,
+            oy: Math.sin(a) * d * 0.55 - (4 + rng()*5) * F,
+            rx: (5 + rng() * 4) * F,
+            ry: (4 + rng() * 3) * F,
+        });
+    }
+    blobs.push({ ox: 0, oy: -10*F, rx: 11*F, ry: 9*F });
+
+    const hueRoll = rng();
+    // Varied bush hues: deep green, sage, golden-autumn, russet-berry
+    let dark, mid, lit, hi, berry;
+    if (hueRoll < 0.40) {
+        dark = '#1a3410'; mid  = '#335820'; lit  = '#60902e'; hi   = '#88b844'; berry = '#c03430';
+    } else if (hueRoll < 0.70) {
+        dark = '#223010'; mid  = '#3a5420'; lit  = '#6c8a32'; hi   = '#9cb444'; berry = '#5c2480';
+    } else if (hueRoll < 0.88) {
+        dark = '#403218'; mid  = '#6a5424'; lit  = '#a88a38'; hi   = '#d8b850'; berry = '#d04020';
+    } else {
+        dark = '#1c2c18'; mid  = '#2e4a20'; lit  = '#4c7828'; hi   = '#7aa030'; berry = '#f8e060';
+    }
+
+    // Back shadow pass
+    for (const b of blobs) {
+        ctx.fillStyle = dark;
+        ctx.beginPath();
+        ctx.ellipse(gx+b.ox+1.2*F, gy+b.oy+1.2*F, b.rx*1.05, b.ry*1.05, 0, 0, Math.PI*2);
+        ctx.fill();
+    }
+    // Mid body
+    for (const b of blobs) {
+        ctx.fillStyle = mid;
+        ctx.beginPath();
+        ctx.ellipse(gx+b.ox, gy+b.oy, b.rx, b.ry, 0, 0, Math.PI*2);
+        ctx.fill();
+    }
+    // Sunlit wedges
+    for (const b of blobs) {
+        ctx.fillStyle = lit;
+        ctx.beginPath();
+        ctx.ellipse(gx+b.ox-b.rx*0.28, gy+b.oy-b.ry*0.32, b.rx*0.62, b.ry*0.55, 0, 0, Math.PI*2);
+        ctx.fill();
+    }
+    // Rim highlights
+    ctx.fillStyle = hi;
+    ctx.globalAlpha = 0.80;
+    for (const b of blobs) {
+        ctx.beginPath();
+        ctx.ellipse(gx+b.ox-b.rx*0.42, gy+b.oy-b.ry*0.52, b.rx*0.28, b.ry*0.20, 0, 0, Math.PI*2);
+        ctx.fill();
+    }
+    ctx.globalAlpha = 1.0;
+
+    // Scattered berries / flowers
+    if (rng() > 0.45) {
+        const bc = 4 + (rng()*6|0);
+        ctx.fillStyle = berry;
+        for (let i = 0; i < bc; i++) {
+            const a = rng() * Math.PI * 2;
+            const d = (2 + rng() * 8) * F;
+            ctx.beginPath();
+            ctx.arc(gx + Math.cos(a)*d, gy + Math.sin(a)*d*0.6 - (5+rng()*6)*F, 1.1*F + rng()*0.9*F, 0, Math.PI*2);
+            ctx.fill();
+        }
     }
 }
 
@@ -759,6 +1200,7 @@ function drawObstacleBoulder(ctx, cx, cy, scale, rng) {
         {ox:-10*F,oy:-4*F,sx:22*F,sy:17*F},{ox:8*F,oy:-8*F,sx:18*F,sy:15*F},
         {ox:-4*F,oy:-14*F,sx:14*F,sy:12*F},{ox:12*F,oy:2*F,sx:12*F,sy:9*F},
     ];
+
     // Shadow
     ctx.fillStyle = 'rgba(0,0,0,0.28)';
     ctx.beginPath(); ctx.ellipse(cx+6*F,cy+3*F,28*F,10*F,0,0,Math.PI*2); ctx.fill();
@@ -774,18 +1216,20 @@ function drawObstacleBoulder(ctx, cx, cy, scale, rng) {
     }
     // Mossy patches
     ctx.fillStyle = 'rgba(40,80,20,0.28)';
-    for (let m=0;m<3;m++) {
-        ctx.beginPath(); ctx.ellipse(cx+(rng()-0.5)*16*F,cy-6*F+(rng()-0.5)*8*F,3*F+rng()*4*F,2*F+rng()*2*F,rng()*Math.PI,0,Math.PI*2); ctx.fill();
+    for (let m=0;m<4;m++) {
+        ctx.beginPath(); ctx.ellipse(cx+(rng()-0.5)*16*F,cy-5*F+(rng()-0.5)*8*F,3*F+rng()*4*F,2*F+rng()*2*F,rng()*Math.PI,0,Math.PI*2); ctx.fill();
     }
 }
 
 function drawObstacleLog(ctx, cx, cy, angle, scale, rng) {
     const L = 38*scale, R = 5.5*scale;
     const ax = Math.cos(angle)*L*0.5, ay = Math.sin(angle)*L*0.5;
-    // Shadow
-    ctx.fillStyle = 'rgba(0,0,0,0.22)';
-    ctx.save(); ctx.translate(cx+3*scale,cy+3*scale); ctx.rotate(angle);
-    ctx.beginPath(); ctx.ellipse(0,0,L*0.52,R*0.45,0,0,Math.PI*2); ctx.fill();
+    // Long low-sun shadow — soft, stretched down-right (ground projection)
+    ctx.fillStyle = 'rgba(0,0,0,0.05)';
+    ctx.beginPath(); ctx.ellipse(cx+12*scale,cy+3*scale,L*0.75,R*0.70,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.10)';
+    ctx.save(); ctx.translate(cx+8*scale,cy+2*scale); ctx.rotate(angle);
+    ctx.beginPath(); ctx.ellipse(0,0,L*0.55,R*0.45,0,0,Math.PI*2); ctx.fill();
     ctx.restore();
     // Bark body
     const bg = ctx.createLinearGradient(cx-ax,cy-ay,cx+ax,cy+ay);
@@ -1002,27 +1446,192 @@ function drawObstacleOnHex(ctx, obs, hexIndex) {
         case 'log':     drawObstacleLog    (ctx, cx, cy, 0.4 + rng()*0.8, scale, rng); break;
         case 'fence':   drawObstacleFence  (ctx, cx, cy, 0.2 + rng()*0.6, scale, rng); break;
         case 'ruins':   drawObstacleRuins  (ctx, cx, cy, scale, rng); break;
+        case 'bonfire': drawObstacleBonfire(ctx, cx, cy, scale, rng); break;
     }
 }
 
-// Layered ground shadow — penumbra → mid → dark core, offset for directional light
+// Bonfire — stacked logs + embers. The animated flame licks are drawn on the
+// overlay canvas each frame by drawBonfireFlames(); this function only lays
+// down the static base (logs, stones, ash, ember bed) so it bakes cleanly
+// into the background layer.
+function drawObstacleBonfire(ctx, cx, cy, scale, rng) {
+    scale *= 0.5;   // halved footprint per request
+    // Soft dark halo under the fire (scorch mark / charred ground)
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.beginPath(); ctx.ellipse(cx, cy + 2*scale, 30*scale, 10*scale, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(40,20,10,0.50)';
+    ctx.beginPath(); ctx.ellipse(cx, cy + 1*scale, 24*scale, 8*scale, 0, 0, Math.PI*2); ctx.fill();
+
+    // Ring of stones around the pit
+    const stoneN = 9;
+    for (let i = 0; i < stoneN; i++) {
+        const a = (i / stoneN) * Math.PI * 2 + rng() * 0.3;
+        const rx = cx + Math.cos(a) * 22 * scale;
+        const ry = cy + Math.sin(a) * 8 * scale + 1;
+        const sw = (3 + rng() * 2) * scale;
+        const sh = (2 + rng() * 1.2) * scale;
+        ctx.fillStyle = '#2a2620';
+        ctx.beginPath(); ctx.ellipse(rx, ry+1.5, sw*1.1, sh*0.8, 0, 0, Math.PI*2); ctx.fill();
+        const g = ctx.createRadialGradient(rx - sw*0.3, ry - sh*0.4, 0, rx, ry, sw);
+        g.addColorStop(0,   '#6a5c50');
+        g.addColorStop(0.6, '#3c342c');
+        g.addColorStop(1,   '#1e1814');
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.ellipse(rx, ry, sw, sh, 0, 0, Math.PI*2); ctx.fill();
+    }
+
+    // Ember bed inside the ring — hot coals glowing
+    const bed = ctx.createRadialGradient(cx, cy, 0, cx, cy, 16 * scale);
+    bed.addColorStop(0.0, '#ffe890');
+    bed.addColorStop(0.25,'#ff8020');
+    bed.addColorStop(0.60,'#902010');
+    bed.addColorStop(1.0, 'rgba(30,10,6,0.9)');
+    ctx.fillStyle = bed;
+    ctx.beginPath(); ctx.ellipse(cx, cy, 16*scale, 6*scale, 0, 0, Math.PI*2); ctx.fill();
+
+    // Crossed charred logs
+    const logs = [
+        { ang:  0.35, len: 30 * scale },
+        { ang: -0.55, len: 26 * scale },
+        { ang:  1.20, len: 24 * scale },
+    ];
+    for (const L of logs) {
+        const hx = Math.cos(L.ang) * L.len * 0.5;
+        const hy = Math.sin(L.ang) * L.len * 0.5;
+        const x0 = cx - hx, y0 = cy - hy * 0.55;
+        const x1 = cx + hx, y1 = cy + hy * 0.55;
+        // Dark underside
+        ctx.strokeStyle = '#140a04';
+        ctx.lineWidth = 4.5 * scale;
+        ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(x0, y0 + 1); ctx.lineTo(x1, y1 + 1); ctx.stroke();
+        // Charred gradient body
+        const lg = ctx.createLinearGradient(x0, y0, x1, y1);
+        lg.addColorStop(0.0, '#3a1e10');
+        lg.addColorStop(0.3, '#1c100a');
+        lg.addColorStop(0.6, '#2c1808');
+        lg.addColorStop(1.0, '#180a04');
+        ctx.strokeStyle = lg;
+        ctx.lineWidth = 3.4 * scale;
+        ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+        // Hot ember cracks running along the log
+        ctx.strokeStyle = 'rgba(255, 120, 30, 0.78)';
+        ctx.lineWidth = 0.9 * scale;
+        const segs = 4;
+        for (let i = 0; i < segs; i++) {
+            const t0 = i / segs + rng() * 0.04;
+            const t1 = Math.min(1, t0 + 0.08 + rng() * 0.07);
+            ctx.beginPath();
+            ctx.moveTo(x0 + (x1 - x0) * t0, y0 + (y1 - y0) * t0);
+            ctx.lineTo(x0 + (x1 - x0) * t1, y0 + (y1 - y0) * t1);
+            ctx.stroke();
+        }
+    }
+
+    // Scattered bright embers on top of the bed
+    for (let i = 0; i < 14; i++) {
+        const a = rng() * Math.PI * 2;
+        const d = rng() * 12 * scale;
+        const ex = cx + Math.cos(a) * d;
+        const ey = cy + Math.sin(a) * d * 0.55;
+        ctx.fillStyle = rng() > 0.5 ? 'rgba(255,220,120,0.9)' : 'rgba(255,120,30,0.85)';
+        ctx.beginPath(); ctx.arc(ex, ey, 0.8 * scale + rng() * 0.8 * scale, 0, Math.PI * 2); ctx.fill();
+    }
+}
+
+// Animated flames + dynamic flicker — drawn on the overlay canvas each frame
+// so the bonfire appears to breathe without re-baking the whole background.
+function drawBonfireFlames(ctx, cx, cy, scale, timeMs) {
+    scale *= 0.5;   // halved flame size to match the shrunk pit
+    const t = timeMs * 0.004;
+    // Low-frequency breath + higher jitter layered on top
+    const breath = Math.sin(t * 1.3) * 0.5 + Math.sin(t * 2.7 + 1.1) * 0.5;
+    const flickerH = 1 + breath * 0.12 + (Math.sin(t * 11.0) * 0.04);
+    const flickerW = 1 + Math.sin(t * 3.1 + 0.7) * 0.08;
+
+    const baseY = cy - 1 * scale;
+    const flameH = 34 * scale * flickerH;
+    const flameW = 14 * scale * flickerW;
+
+    // Outer halo glow
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    const halo = ctx.createRadialGradient(cx, baseY - flameH * 0.35, 0,
+                                           cx, baseY - flameH * 0.35, 110 * scale);
+    halo.addColorStop(0.0, 'rgba(255,200,90,0.55)');
+    halo.addColorStop(0.25,'rgba(255,140,40,0.30)');
+    halo.addColorStop(0.60,'rgba(200,60,10,0.10)');
+    halo.addColorStop(1.0, 'rgba(120,20,0,0)');
+    ctx.fillStyle = halo;
+    ctx.fillRect(cx - 120 * scale, baseY - 120 * scale, 240 * scale, 200 * scale);
+
+    // Main outer flame — deep orange
+    const f1 = ctx.createRadialGradient(cx, baseY - flameH * 0.4, 0,
+                                         cx, baseY - flameH * 0.4, flameW * 2.2);
+    f1.addColorStop(0.0, 'rgba(255,220,120,0.95)');
+    f1.addColorStop(0.45,'rgba(255,110,20,0.70)');
+    f1.addColorStop(1.0, 'rgba(180,40,0,0)');
+    ctx.fillStyle = f1;
+    ctx.beginPath();
+    ctx.ellipse(cx, baseY - flameH * 0.45, flameW * 1.3, flameH * 0.75, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Inner yellow-white tongue, offset by flicker
+    const wob = Math.sin(t * 5.2) * flameW * 0.18;
+    const f2 = ctx.createRadialGradient(cx + wob, baseY - flameH * 0.55, 0,
+                                         cx + wob, baseY - flameH * 0.55, flameW);
+    f2.addColorStop(0.0, 'rgba(255,255,230,0.95)');
+    f2.addColorStop(0.35,'rgba(255,220,120,0.80)');
+    f2.addColorStop(1.0, 'rgba(255,160,40,0)');
+    ctx.fillStyle = f2;
+    ctx.beginPath();
+    ctx.ellipse(cx + wob, baseY - flameH * 0.55, flameW * 0.75, flameH * 0.55, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Hot white core
+    ctx.fillStyle = 'rgba(255,255,240,0.85)';
+    ctx.beginPath();
+    ctx.ellipse(cx + wob * 0.5, baseY - flameH * 0.25, flameW * 0.30, flameH * 0.28, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Rising sparks
+    for (let i = 0; i < 6; i++) {
+        const phase = (t * 0.8 + i * 0.37) % 1;
+        const sx = cx + Math.sin(t * 3 + i * 2.1) * flameW * 0.6;
+        const sy = baseY - flameH * (0.4 + phase * 0.9);
+        const sa = (1 - phase) * 0.8;
+        ctx.fillStyle = `rgba(255,200,120,${sa.toFixed(2)})`;
+        ctx.beginPath();
+        ctx.arc(sx, sy, 0.9 * scale, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    ctx.restore();
+}
+
+// Long tree shadow — stretched away from the light source. Day: low sun in
+// upper-left. Night: radiates out from the bonfire, faded beyond firelight.
 function drawTreeShadow(ctx, cx, cy, w, h, scale) {
-    const ox = 5 * scale;   // light from upper-left → shadow shifts right
-    // Outer penumbra (wide, very faint)
-    ctx.fillStyle = 'rgba(10,25,5,0.14)';
+    const S = shadowDir(cx, cy);
+    if (S.alpha <= 0.05) return;
+    const ox = 22 * scale * S.length;
+    ctx.save();
+    ctx.translate(cx, cy + 1);
+    ctx.rotate(S.angle);
+    ctx.fillStyle = `rgba(10,25,5,${(0.06 * S.alpha).toFixed(3)})`;
     ctx.beginPath();
-    ctx.ellipse(cx + ox * 1.4, cy + 2, w * 1.55, h * 1.55, 0, 0, Math.PI * 2);
+    ctx.ellipse(ox * 1.25, 0, w * 2.20 * S.length, h * 1.55, 0, 0, Math.PI * 2);
     ctx.fill();
-    // Mid shadow
-    ctx.fillStyle = 'rgba(5,15,2,0.28)';
+    ctx.fillStyle = `rgba(5,15,2,${(0.12 * S.alpha).toFixed(3)})`;
     ctx.beginPath();
-    ctx.ellipse(cx + ox, cy + 1, w, h, 0, 0, Math.PI * 2);
+    ctx.ellipse(ox, 0, w * 1.60 * S.length, h * 1.10, 0, 0, Math.PI * 2);
     ctx.fill();
-    // Dark core directly under trunk
-    ctx.fillStyle = 'rgba(0,8,0,0.48)';
+    // Contact core under the trunk (attached shadow — slightly visible even far from fire)
+    ctx.fillStyle = `rgba(0,8,0,${(0.22 * Math.max(0.3, S.alpha)).toFixed(3)})`;
     ctx.beginPath();
-    ctx.ellipse(cx + ox * 0.5, cy, w * 0.50, h * 0.50, 0, 0, Math.PI * 2);
+    ctx.ellipse(ox * 0.25, 0, w * 0.55, h * 0.55, 0, 0, Math.PI * 2);
     ctx.fill();
+    ctx.restore();
 }
 
 // Shared palette — varied forest greens used by both tree types
@@ -1290,8 +1899,9 @@ function drawFeatures(ctx, c, r) {
         else          drawPebbles(ctx, cx, cy, rng);
     } else if (T.type === T_SHRUBS) {
         const v = rng();
-        if      (v < 0.55) drawShrub(ctx, cx, cy, rng);
-        else if (v < 0.80) drawReedTufts(ctx, cx, cy, rng);
+        if      (v < 0.35) drawBush(ctx, cx, cy, rng);
+        else if (v < 0.65) drawShrub(ctx, cx, cy, rng);
+        else if (v < 0.85) drawReedTufts(ctx, cx, cy, rng);
         else               drawMushrooms(ctx, cx, cy, rng);
     } else if (T.type === T_FLOWERS) {
         drawFlowers(ctx, cx, cy, rng);
@@ -1299,12 +1909,13 @@ function drawFeatures(ctx, c, r) {
     } else {
         // Grass hex: varied small details
         const v = rng();
-        if      (v < 0.40) drawGrassTufts(ctx, cx, cy, rng);
-        else if (v < 0.58) drawPebbles   (ctx, cx, cy, rng);
-        else if (v < 0.72) drawReedTufts (ctx, cx, cy, rng);
-        else if (v < 0.82) drawMudPatch  (ctx, cx, cy, rng);
-        else if (v < 0.90) drawMushrooms (ctx, cx, cy, rng);
-        else               drawFlowers   (ctx, cx, cy, rng);
+        if      (v < 0.32) drawGrassTufts(ctx, cx, cy, rng);
+        else if (v < 0.48) drawPebbles   (ctx, cx, cy, rng);
+        else if (v < 0.60) drawReedTufts (ctx, cx, cy, rng);
+        else if (v < 0.72) drawMudPatch  (ctx, cx, cy, rng);
+        else if (v < 0.80) drawMushrooms (ctx, cx, cy, rng);
+        else if (v < 0.88) drawFlowers   (ctx, cx, cy, rng);
+        else               drawBush      (ctx, cx, cy, rng);
     }
 }
 
@@ -1320,21 +1931,122 @@ function drawBackgroundForest(ctx, W, H) {
     hexTopY = Math.max(10, hexTopY - S * K * 1.6);
 
     const rng = makeRng(BATTLE_SEED + 7331);
-
-    // ── Sky gradient — only behind the hills, not below them ─────────────
     const skyStopY = hexTopY * 0.58;   // = treelineY, bottom of front hill
-    const skyGrad = ctx.createLinearGradient(0, 0, 0, skyStopY);
-    skyGrad.addColorStop(0,    '#4a7898');
-    skyGrad.addColorStop(0.50, '#6e9eb8');
-    skyGrad.addColorStop(0.85, '#a8c4b8');
-    skyGrad.addColorStop(1,    '#b4cec0');
-    ctx.fillStyle = skyGrad;
-    ctx.fillRect(0, 0, W, skyStopY);
+    const isNight = LIGHTING.mode === 'night';
+
+    if (isNight) {
+        // Deep night sky: near-black with indigo gradient, moon in upper area.
+        const skyGrad = ctx.createLinearGradient(0, 0, 0, skyStopY);
+        // Moonlit sky — genuinely visible night blue. Atmosphere multiply
+        // no longer touches the sky, so these values display as painted.
+        skyGrad.addColorStop(0,    '#1a2a4e');
+        skyGrad.addColorStop(0.35, '#253962');
+        skyGrad.addColorStop(0.70, '#324978');
+        skyGrad.addColorStop(1.0,  '#42598a');
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, W, skyStopY);
+
+        // Starfield
+        const starRng = makeRng(BATTLE_SEED + 4711);
+        ctx.fillStyle = '#ffffff';
+        for (let i = 0; i < 140; i++) {
+            const sx = starRng() * W;
+            const sy = starRng() * skyStopY * 0.85;
+            const sa = 0.30 + starRng() * 0.70;
+            const sr = starRng() < 0.08 ? 1.2 : 0.5;
+            ctx.globalAlpha = sa;
+            ctx.beginPath(); ctx.arc(sx, sy, sr, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+
+        // Moon — cold bluish white, upper-right
+        const moonX = W * 0.76;
+        const moonY = skyStopY * 0.26;
+        const moonR = Math.min(W, skyStopY) * 0.055;
+        // Soft halo
+        const moonHalo = ctx.createRadialGradient(moonX, moonY, 0, moonX, moonY, moonR * 7);
+        moonHalo.addColorStop(0.0, 'rgba(200,220,255,0.45)');
+        moonHalo.addColorStop(0.25,'rgba(160,190,240,0.18)');
+        moonHalo.addColorStop(0.65,'rgba(100,140,200,0.06)');
+        moonHalo.addColorStop(1.0, 'rgba(60,90,160,0.00)');
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.fillStyle = moonHalo;
+        ctx.fillRect(0, 0, W, skyStopY);
+        ctx.restore();
+        // Moon core
+        ctx.fillStyle = '#e8efff';
+        ctx.beginPath(); ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2); ctx.fill();
+        // Craters
+        ctx.fillStyle = 'rgba(120,140,180,0.35)';
+        ctx.beginPath(); ctx.arc(moonX - moonR * 0.35, moonY - moonR * 0.15, moonR * 0.18, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(moonX + moonR * 0.20, moonY + moonR * 0.30, moonR * 0.12, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(moonX + moonR * 0.40, moonY - moonR * 0.40, moonR * 0.09, 0, Math.PI * 2); ctx.fill();
+
+        // Thin wispy low clouds drifting in front of moon (dark, smoky)
+        ctx.save();
+        ctx.globalAlpha = 0.55;
+        ctx.fillStyle = '#080b18';
+        for (let i = 0; i < 4; i++) {
+            const cx = rng() * W;
+            const cy = skyStopY * (0.15 + rng() * 0.55);
+            ctx.beginPath();
+            ctx.ellipse(cx, cy, 70 + rng() * 90, 6 + rng() * 10, 0, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.restore();
+    } else {
+        // ── Sky: late-afternoon gradient with warm horizon ───────────────────
+        const skyGrad = ctx.createLinearGradient(0, 0, 0, skyStopY);
+        skyGrad.addColorStop(0,    '#3c6890');   // deep zenith
+        skyGrad.addColorStop(0.28, '#5e8cae');   // mid sky
+        skyGrad.addColorStop(0.55, '#a8b8b8');   // transitional haze
+        skyGrad.addColorStop(0.80, '#e0b888');   // warm golden band
+        skyGrad.addColorStop(1.0,  '#d8a880');   // hazy horizon
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, W, skyStopY);
+
+        // Sun position — upper-left, matching ground-lighting direction
+        const sunX = W * 0.20;
+        const sunY = skyStopY * 0.30;
+        const sunR = Math.min(W, skyStopY) * 0.09;
+
+        // Procedural clouds (painted before sun halo so halo blooms over them)
+        drawClouds(ctx, W, skyStopY, sunX, sunY);
+
+        // Sun halo — wide radial glow
+        const haloGrad = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, sunR * 6);
+        haloGrad.addColorStop(0,    'rgba(255, 246, 210, 0.90)');
+        haloGrad.addColorStop(0.15, 'rgba(255, 220, 160, 0.55)');
+        haloGrad.addColorStop(0.35, 'rgba(255, 190, 130, 0.22)');
+        haloGrad.addColorStop(0.70, 'rgba(255, 170, 110, 0.06)');
+        haloGrad.addColorStop(1.0,  'rgba(255, 170, 110, 0.00)');
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.fillStyle = haloGrad;
+        ctx.fillRect(0, 0, W, skyStopY);
+        ctx.restore();
+
+        // Sun core
+        ctx.fillStyle = '#fff8dc';
+        ctx.beginPath();
+        ctx.arc(sunX, sunY, sunR * 0.58, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Soft diagonal light shafts from sun into sky
+        drawSunRays(ctx, W, skyStopY, sunX, sunY);
+    }
 
     // ── Hills: fully opaque, back-to-front, no transparency ──────────────
     // yRatio/hRatio define baseY and bandH relative to hexTopY.
     // treelineY = bottom of the front hill = hexTopY * (0.30 + 0.28) = 0.58.
-    const silLayers = [
+    const silLayers = isNight ? [
+        // Each hill steps darker toward the foreground, all darker than the
+        // now-brighter sky so their silhouettes read against the horizon.
+        { yRatio: 0.06, hRatio: 0.32, color: '#151d34', freq: 0.0055, spkFreq: 0.032 },
+        { yRatio: 0.17, hRatio: 0.30, color: '#0c1222', freq: 0.0090, spkFreq: 0.048 },
+        { yRatio: 0.30, hRatio: 0.28, color: '#060913', freq: 0.014,  spkFreq: 0.070 },
+    ] : [
         { yRatio: 0.06, hRatio: 0.32, color: '#506845', freq: 0.0055, spkFreq: 0.032 },
         { yRatio: 0.17, hRatio: 0.30, color: '#3a5428', freq: 0.0090, spkFreq: 0.048 },
         { yRatio: 0.30, hRatio: 0.28, color: '#2c4018', freq: 0.014,  spkFreq: 0.070 },
@@ -1400,13 +2112,51 @@ function drawBackgroundForest(ctx, W, H) {
     const allTrees = [...midTrees, ...nearTrees, ...sideTrees];
     allTrees.sort((a, b) => a.y - b.y);
 
-    for (const t of allTrees) {
-        const tr = makeRng(t.seed);
-        ctx.globalAlpha = Math.min(1, t.op);
-        if (t.conifer) drawConiferTree(ctx, t.x, t.y, t.scale, tr);
-        else           drawDeciduousTree(ctx, t.x, t.y, t.scale, tr);
+    if (isNight) {
+        for (const t of allTrees) {
+            const tr = makeRng(t.seed);
+            ctx.globalAlpha = Math.min(1, t.op);
+            if (t.conifer) drawConiferTree(ctx, t.x, t.y, t.scale, tr);
+            else           drawDeciduousTree(ctx, t.x, t.y, t.scale, tr);
+        }
+        ctx.globalAlpha = 1.0;
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'source-atop';
+
+        let hexMinY = Infinity, hexMaxY = -Infinity;
+        for (let c = 0; c < COLS; c++) {
+            for (let r = 0; r < ROWS; r++) {
+                const { sy } = hexScreenCenter(c, r);
+                if (sy < hexMinY) hexMinY = sy;
+                if (sy > hexMaxY) hexMaxY = sy;
+            }
+        }
+        const sideHexStartY = Math.max(10, hexMinY - S * K * 1.6);
+        const sideHexRangeH = (hexMaxY + S * K * 2.5) - sideHexStartY;
+        const sideTreesEndY = sideHexStartY + 0.50 * sideHexRangeH;
+
+        const dimBottom = sideTreesEndY + S * K;
+        // Linear depth gradient: peaks at horizon, fades toward camera.
+        const horizFrac = Math.min(0.98, skyStopY / Math.max(1, dimBottom));
+        const dimGrad = ctx.createLinearGradient(0, 0, 0, dimBottom);
+        dimGrad.addColorStop(0,                                    'rgba(4,6,12,0.00)');
+        dimGrad.addColorStop(horizFrac,                            'rgba(4,6,12,0.65)');
+        dimGrad.addColorStop(horizFrac + (1 - horizFrac) * 0.40,  'rgba(4,6,12,0.61)');
+        dimGrad.addColorStop(horizFrac + (1 - horizFrac) * 0.70,  'rgba(4,6,12,0.48)');
+        dimGrad.addColorStop(1.00,                                 'rgba(4,6,12,0.00)');
+        ctx.fillStyle = dimGrad;
+        ctx.fillRect(0, 0, W, dimBottom);
+        ctx.restore();
+    } else {
+        for (const t of allTrees) {
+            const tr = makeRng(t.seed);
+            ctx.globalAlpha = Math.min(1, t.op);
+            if (t.conifer) drawConiferTree(ctx, t.x, t.y, t.scale, tr);
+            else           drawDeciduousTree(ctx, t.x, t.y, t.scale, tr);
+        }
+        ctx.globalAlpha = 1.0;
     }
-    ctx.globalAlpha = 1.0;
 }
 
 // Unified perspective scale: small at top (far), large at bottom (near)
@@ -1584,11 +2334,177 @@ function drawBackgroundFeatures(ctx, W, H) {
             const cy = row * CHUNK_SIZE + ISO_OY;
 
             if (ttype === T_ROCKS)   drawRock      (ctx, cx, cy, rng);
-            else if (ttype === T_SHRUBS)  drawShrub     (ctx, cx, cy, rng);
+            else if (ttype === T_SHRUBS)  (rng() < 0.55 ? drawBush : drawShrub)(ctx, cx, cy, rng);
             else if (ttype === T_FLOWERS) drawFlowers   (ctx, cx, cy, rng);
             else                           drawGrassTufts(ctx, cx, cy, rng);
         }
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ATMOSPHERE — sky clouds, sun rays, warm colour grade, vignette
+// ─────────────────────────────────────────────────────────────────────────────
+
+function drawClouds(ctx, W, skyH, sunX, sunY) {
+    // Render clouds to an offscreen buffer at quarter resolution.
+    const CW = Math.ceil(W / 4);
+    const CH = Math.ceil(skyH / 4);
+    if (CW <= 0 || CH <= 0) return;
+
+    const off = document.createElement('canvas');
+    off.width = CW; off.height = CH;
+    const oc  = off.getContext('2d');
+    const img = oc.createImageData(CW, CH);
+    const d   = img.data;
+
+    // Scale the sun position from full canvas into buffer-space
+    const sxb = sunX / 4, syb = sunY / 4;
+
+    for (let py = 0; py < CH; py++) {
+        // Clouds concentrate in the upper-mid band; taper at zenith + horizon
+        const yt  = py / CH;
+        const band = Math.max(0, 1 - Math.abs(yt - 0.36) * 2.6);
+        if (band <= 0.02) continue;
+
+        for (let px = 0; px < CW; px++) {
+            const nx = px / CW * 7.5;
+            const ny = py / CH * 3.0;
+            const n1 = noise2(nx * 1.2, ny * 1.2, BATTLE_SEED + 8881);
+            const n2 = noise2(nx * 2.8, ny * 2.8, BATTLE_SEED + 8882);
+            const n3 = noise2(nx * 6.2, ny * 6.2, BATTLE_SEED + 8883);
+            const nv = n1 * 0.55 + n2 * 0.30 + n3 * 0.15;
+
+            // Clamp to a density that leaves clear sky between blobs
+            const density = Math.max(0, nv - 0.52) * 4.0 * band;
+            if (density < 0.04) continue;
+
+            // Sun-direction shading: pixels on the "lit side" of a blob get
+            // warmer/brighter, underside gets cooler and darker.
+            const dx = px - sxb, dy = py - syb;
+            const dl = Math.sqrt(dx * dx + dy * dy) + 0.001;
+            const ndx = dx / dl, ndy = dy / dl;
+            // Gradient of cloud density as a proxy for blob normal
+            const gN = noise2((nx) * 1.2 + 0.08, ny * 1.2, BATTLE_SEED + 8881)
+                     - noise2((nx) * 1.2 - 0.08, ny * 1.2, BATTLE_SEED + 8881);
+            const gE = noise2((nx) * 1.2, ny * 1.2 + 0.08, BATTLE_SEED + 8881)
+                     - noise2((nx) * 1.2, ny * 1.2 - 0.08, BATTLE_SEED + 8881);
+            const lit = -(gN * ndx + gE * ndy) * 5.0;     // +lit, -shaded
+
+            let r = 248, g = 244, b = 232;
+            if (lit > 0) {
+                r += lit * 8;
+                g += lit * 2;
+                b -= lit * 10;
+            } else {
+                r += lit * 50;
+                g += lit * 58;
+                b += lit * 52;
+            }
+            r = r < 120 ? 120 : r > 255 ? 255 : r;
+            g = g < 110 ? 110 : g > 255 ? 255 : g;
+            b = b < 110 ? 110 : b > 255 ? 255 : b;
+
+            const a = Math.min(1, density * 0.95) * 255;
+            const idx = (py * CW + px) * 4;
+            d[idx] = r; d[idx+1] = g; d[idx+2] = b; d[idx+3] = a;
+        }
+    }
+    oc.putImageData(img, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(off, 0, 0, W, skyH);
+}
+
+function drawSunRays(ctx, W, skyH, sunX, sunY) {
+    ctx.save();
+    // Clip to sky rectangle so rays don't leak onto the ground
+    ctx.beginPath();
+    ctx.rect(0, 0, W, skyH);
+    ctx.clip();
+
+    ctx.globalCompositeOperation = 'lighter';
+    const reach = Math.hypot(W, skyH) * 1.2;
+    // Several soft wedges fanning downward from the sun
+    const baseAngles = [0.35, 0.55, 0.78, 1.02, 1.28, 1.55, 1.82, 2.10];
+    for (const a of baseAngles) {
+        const width = 0.09 + ((a * 53) % 1) * 0.08;
+        const half  = width * 0.5;
+        const g = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, reach);
+        g.addColorStop(0,   'rgba(255, 238, 200, 0.00)');
+        g.addColorStop(0.05,'rgba(255, 238, 200, 0.16)');
+        g.addColorStop(0.45,'rgba(255, 228, 180, 0.10)');
+        g.addColorStop(1.0, 'rgba(255, 220, 170, 0.00)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.moveTo(sunX, sunY);
+        ctx.lineTo(sunX + Math.cos(a - half) * reach, sunY + Math.sin(a - half) * reach);
+        ctx.lineTo(sunX + Math.cos(a + half) * reach, sunY + Math.sin(a + half) * reach);
+        ctx.closePath();
+        ctx.fill();
+    }
+    ctx.restore();
+}
+
+function drawAtmosphere(ctx, W, H) {
+    if (LIGHTING.mode === 'night') {
+        // No multiply darkening pass — terrain and sky are already painted at
+        // night values, so multiplying created a hard seam at the horizon.
+        // We only ADD light (fire glow, moonlight) and gently vignette corners.
+
+        // Warm firelight glow — additive halo around the bonfire
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        const fireGlow = ctx.createRadialGradient(
+            LIGHTING.fireX, LIGHTING.fireY - 8, 0,
+            LIGHTING.fireX, LIGHTING.fireY - 8, LIGHTING.fireRadius * 1.1
+        );
+        fireGlow.addColorStop(0.00, 'rgba(255,170,80,0.38)');
+        fireGlow.addColorStop(0.25, 'rgba(255,120,40,0.22)');
+        fireGlow.addColorStop(0.65, 'rgba(200,60,20,0.07)');
+        fireGlow.addColorStop(1.00, 'rgba(120,20,0,0)');
+        ctx.fillStyle = fireGlow;
+        ctx.fillRect(0, 0, W, H);
+        ctx.restore();
+
+        // Soft corner vignette — full-canvas continuous gradient so there's
+        // no horizontal seam at the horizon. Alpha is gentle.
+        ctx.save();
+        const vign = ctx.createRadialGradient(
+            LIGHTING.fireX, LIGHTING.fireY, Math.min(W, H) * 0.25,
+            LIGHTING.fireX, LIGHTING.fireY, Math.max(W, H) * 0.90
+        );
+        vign.addColorStop(0.00, 'rgba(0, 0, 0, 0.00)');
+        vign.addColorStop(0.65, 'rgba(0, 0, 0, 0.10)');
+        vign.addColorStop(1.00, 'rgba(0, 0, 0, 0.30)');
+        ctx.fillStyle = vign;
+        ctx.fillRect(0, 0, W, H);
+        ctx.restore();
+        return;
+    }
+
+    // Soft warm glow anchored just above the canvas at sun position — fades
+    // fast so it doesn't brighten the distant ground.
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    const sunGlow = ctx.createRadialGradient(
+        W * 0.20, -H * 0.05, 0,
+        W * 0.20, -H * 0.05, Math.max(W, H) * 0.55
+    );
+    sunGlow.addColorStop(0,    'rgba(255, 220, 160, 0.18)');
+    sunGlow.addColorStop(0.50, 'rgba(255, 210, 150, 0.04)');
+    sunGlow.addColorStop(1.0,  'rgba(255, 210, 150, 0.00)');
+    ctx.fillStyle = sunGlow;
+    ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+
+    // Corner vignette for framing
+    const vign = ctx.createRadialGradient(
+        W * 0.50, H * 0.58, Math.min(W, H) * 0.35,
+        W * 0.50, H * 0.58, Math.max(W, H) * 0.80
+    );
+    vign.addColorStop(0, 'rgba(0, 0, 0, 0.00)');
+    vign.addColorStop(1, 'rgba(6, 12, 20, 0.38)');
+    ctx.fillStyle = vign;
+    ctx.fillRect(0, 0, W, H);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1598,9 +2514,28 @@ function drawBackgroundFeatures(ctx, W, H) {
 // Screen-left = character's right side (sword/weapon arm).
 
 function drawShadow(ctx, cx, by) {
+    const S = shadowDir(cx, by);
+    if (S.alpha <= 0.05) return;
+    // Long shadow stretched away from the light source; the ellipse is
+    // oriented along (dx, dy) so it looks like a ground projection.
+    const ang = S.angle;
+    const off = 18 * S.length;
+    ctx.save();
+    ctx.translate(cx + S.dx * off * 0.6, by + S.dy * off * 0.3);
+    ctx.rotate(ang);
+    ctx.fillStyle = `rgba(0,0,0,${(0.06 * S.alpha).toFixed(3)})`;
     ctx.beginPath();
-    ctx.ellipse(cx + 2, by, 20, 9, 0, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(0,0,0,0.32)';
+    ctx.ellipse(0, 0, 38 * S.length, 9, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = `rgba(0,0,0,${(0.14 * S.alpha).toFixed(3)})`;
+    ctx.beginPath();
+    ctx.ellipse(-6 * S.length, 0, 26 * S.length, 7.5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+    // Tight contact core under the feet (always visible — it's attached)
+    ctx.fillStyle = `rgba(0,0,0,${(0.22 * Math.max(0.4, S.alpha)).toFixed(3)})`;
+    ctx.beginPath();
+    ctx.ellipse(cx + 2, by, 12, 4.5, 0, 0, Math.PI * 2);
     ctx.fill();
 }
 
@@ -2951,6 +3886,563 @@ function drawWarlock(ctx, cx, by, sel, anim) {
     if (sel) _drawSelectRing(ctx, cx, by);
 }
 
+// ── Aquorist (Cold) ───────────────────────────────────────────────────────────
+function drawAquorist(ctx, cx, by, sel, anim) {
+    const C = {
+        rDk:'#0c2038', rMid:'#183868', rLit:'#2a60a0',
+        crys:'#90d4f8', crysIn:'#dff0ff',
+        sash:'#3880c0', sashLt:'#60a0d8',
+        stWd:'#1a3058', stLt:'#2858a0',
+        eye:'#70c8f8', skin:'#bcc8d8',
+        hDk:'#091c2e', hMid:'#162e4a', hair:'#d0e4f0',
+    };
+    const t = anim?.t ?? 0;
+    let dY=0, staffRaise=0, frostPulse=0;
+    if (anim?.type === 'aquorist_spell') {
+        if (t < 0.30)      { staffRaise=t/0.30; dY=staffRaise*2; }
+        else if (t < 0.60) { staffRaise=1; frostPulse=(t-0.30)/0.30; dY=2+frostPulse*2; }
+        else if (t < 0.72) { const p=(t-0.60)/0.12; staffRaise=1; frostPulse=1+p*2; dY=4-p*4; }
+        else               { const p=(t-0.72)/0.28; staffRaise=1-p*0.4; frostPulse=0; }
+    }
+    drawShadow(ctx, cx, by);
+    const shY=by-38-dY*0.65;
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(cx-13,by+1); ctx.lineTo(cx+13,by+1); ctx.lineTo(cx+10,by-38); ctx.lineTo(cx-11,by-38); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath(); ctx.moveTo(cx,by+1); ctx.lineTo(cx+5,by+1); ctx.lineTo(cx+4,by-38); ctx.lineTo(cx,by-38); ctx.closePath(); ctx.fill();
+    // Frost crystal trim at hem
+    ctx.save(); ctx.globalAlpha=0.40+frostPulse*0.25; ctx.strokeStyle=C.crys; ctx.lineWidth=0.8;
+    for (let i=0;i<6;i++) { const hx=cx-12+i*5; ctx.beginPath(); ctx.moveTo(hx,by-1); ctx.lineTo(hx+1.5,by+4); ctx.lineTo(hx+3,by-1); ctx.stroke(); }
+    ctx.restore();
+    // Snowflake rune on robe
+    ctx.save(); ctx.globalAlpha=0.18+Math.min(1,frostPulse)*0.30; ctx.shadowColor=C.crys; ctx.shadowBlur=8;
+    ctx.strokeStyle=C.crys; ctx.lineWidth=0.8;
+    for (let a=0;a<6;a++) { const ang=a*Math.PI/3; ctx.beginPath(); ctx.moveTo(cx+Math.cos(ang)*2,by-18+Math.sin(ang)*2); ctx.lineTo(cx+Math.cos(ang)*8,by-18+Math.sin(ang)*8); ctx.stroke(); }
+    ctx.restore();
+    ctx.fillStyle=C.sash; ctx.fillRect(cx-10,by-33,21,3);
+    ctx.fillStyle=C.sashLt; ctx.fillRect(cx-10,by-34,21,2);
+    const upShY=shY-14;
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(cx-11,by-38); ctx.lineTo(cx+10,by-38); ctx.lineTo(cx+8,upShY); ctx.lineTo(cx-9,upShY); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath(); ctx.moveTo(cx,by-38); ctx.lineTo(cx+6,by-38); ctx.lineTo(cx+5,upShY); ctx.lineTo(cx,upShY); ctx.closePath(); ctx.fill();
+    const fAX=cx+10, fAY=upShY+2;
+    const fAngA=-Math.PI*0.20-(frostPulse>0?0.2*Math.min(1,frostPulse):0);
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(fAX,fAY); ctx.lineTo(fAX+10*Math.cos(fAngA),fAY+10*Math.sin(fAngA)); ctx.lineTo(fAX+16*Math.cos(fAngA-0.25),fAY+16*Math.sin(fAngA-0.25)); ctx.lineTo(fAX+12,fAY+14); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.skin;
+    const fHAX=fAX+Math.cos(fAngA-0.15)*17, fHAY=fAY+Math.sin(fAngA-0.15)*17;
+    ctx.beginPath(); ctx.arc(fHAX,fHAY,4,0,Math.PI*2); ctx.fill();
+    if (frostPulse>0) {
+        ctx.save(); ctx.shadowColor=C.crys; ctx.shadowBlur=14;
+        ctx.globalAlpha=Math.min(1,frostPulse)*0.5; ctx.fillStyle=C.crys;
+        ctx.beginPath(); ctx.arc(fHAX,fHAY,4+Math.min(1,frostPulse)*6,0,Math.PI*2); ctx.fill();
+        if (frostPulse>1) { ctx.globalAlpha=(frostPulse-1)*0.80; ctx.fillStyle=C.crysIn; ctx.beginPath(); ctx.arc(fHAX,fHAY,14,0,Math.PI*2); ctx.fill(); }
+        ctx.restore();
+    }
+    const stAncAX=cx-10, stAncAY=upShY+2;
+    const stA0A=-Math.PI*0.48, stA1A=-Math.PI*0.70;
+    const stAngA=stA0A+(stA1A-stA0A)*staffRaise;
+    const stLenA=40;
+    const stTAX=stAncAX+Math.cos(stAngA)*stLenA, stTAY=stAncAY+Math.sin(stAngA)*stLenA;
+    ctx.strokeStyle=C.stWd; ctx.lineWidth=3; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(stAncAX,stAncAY); ctx.lineTo(stTAX,stTAY); ctx.stroke();
+    ctx.strokeStyle=C.stLt; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(stAncAX,stAncAY); ctx.lineTo(stTAX,stTAY); ctx.stroke();
+    ctx.save(); ctx.shadowColor=C.crys; ctx.shadowBlur=10+Math.min(1,frostPulse)*18;
+    ctx.fillStyle=C.crys; ctx.beginPath(); ctx.arc(stTAX,stTAY,7,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.crysIn; ctx.beginPath(); ctx.arc(stTAX-2,stTAY-2,4,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#d0eeff'; ctx.lineWidth=0.7; ctx.globalAlpha=0.7;
+    ctx.beginPath(); ctx.moveTo(stTAX-6,stTAY); ctx.lineTo(stTAX+6,stTAY); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(stTAX,stTAY-6); ctx.lineTo(stTAX,stTAY+6); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(stAncAX,stAncAY); ctx.lineTo(stAncAX-7,stAncAY+8); ctx.lineTo(stAncAX-5,stAncAY+13); ctx.lineTo(stAncAX,stAncAY+8); ctx.closePath(); ctx.fill();
+    const hcAX=cx, hcAY=upShY-10-dY;
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcAX,hcAY,11,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(hcAX+1,hcAY+1,8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.fillRect(hcAX-3,hcAY+6,6,4);
+    ctx.strokeStyle=C.hair; ctx.lineWidth=2.5; ctx.lineCap='round';
+    for (const [x1,y1,x2,y2] of [[-7,-5,-12,-16],[-3,-9,-7,-21],[4,-10,6,-22],[8,-7,14,-15]]) {
+        ctx.beginPath(); ctx.moveTo(hcAX+x1,hcAY+y1); ctx.quadraticCurveTo(hcAX+(x1+x2)/2,hcAY+(y1+y2)/2-3,hcAX+x2,hcAY+y2); ctx.stroke();
+    }
+    ctx.save(); ctx.shadowColor='rgba(80,200,248,0.45)'; ctx.shadowBlur=7;
+    ctx.globalAlpha=0.70+Math.min(1,frostPulse)*0.25;
+    ctx.fillStyle=C.eye; ctx.beginPath(); ctx.arc(hcAX+4,hcAY,2,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcAX,hcAY,11,Math.PI*1.0,0,false); ctx.fill();
+    ctx.fillStyle=C.hMid; ctx.beginPath(); ctx.arc(hcAX,hcAY,9,Math.PI*1.1,Math.PI*1.9,false); ctx.fill();
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
+// ── Stormcaller (Lightning) ───────────────────────────────────────────────────
+function drawStormcaller(ctx, cx, by, sel, anim) {
+    const C = {
+        cDk:'#18181e', cMid:'#24242e', cLit:'#36364a',
+        bolt:'#c8e8ff', boltHi:'#ffffff',
+        sash:'#2040a0', sashLt:'#3060d0',
+        stWd:'#1e1e28', stLt:'#303048',
+        eye:'#c0d8ff', skin:'#a8a8bc',
+        hDk:'#101018', hMid:'#1e1e28',
+        hair:'#8090b0',
+    };
+    const t = anim?.t ?? 0;
+    let dY=0, staffRaise=0, boltPulse=0;
+    if (anim?.type === 'stormcaller_spell') {
+        if (t < 0.30)      { staffRaise=t/0.30; dY=staffRaise*2; }
+        else if (t < 0.60) { staffRaise=1; boltPulse=(t-0.30)/0.30; dY=2+boltPulse*2; }
+        else if (t < 0.72) { const p=(t-0.60)/0.12; staffRaise=1; boltPulse=1+p*2; dY=4-p*4; }
+        else               { const p=(t-0.72)/0.28; staffRaise=1-p*0.4; boltPulse=0; }
+    }
+    drawShadow(ctx, cx, by);
+    const shY=by-38-dY*0.65;
+    ctx.fillStyle=C.cDk;
+    ctx.beginPath(); ctx.moveTo(cx-11,by); ctx.lineTo(cx+12,by); ctx.lineTo(cx+10,by-38); ctx.lineTo(cx-10,by-38); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.cMid;
+    ctx.beginPath(); ctx.moveTo(cx,by); ctx.lineTo(cx+5,by); ctx.lineTo(cx+4,by-38); ctx.lineTo(cx,by-38); ctx.closePath(); ctx.fill();
+    // Jagged lightning trim at hem
+    ctx.save(); ctx.globalAlpha=0.40+boltPulse*0.30; ctx.strokeStyle=C.bolt; ctx.lineWidth=0.9;
+    ctx.beginPath(); ctx.moveTo(cx-11,by-1);
+    for (let i=0;i<7;i++) { const bx=cx-11+i*3.5; ctx.lineTo(bx+1.5,by-3+(i%2)*4); ctx.lineTo(bx+3.5,by-1); }
+    ctx.stroke(); ctx.restore();
+    // Lightning bolt rune on coat
+    ctx.save(); ctx.globalAlpha=0.20+Math.min(1,boltPulse)*0.32; ctx.shadowColor=C.bolt; ctx.shadowBlur=8;
+    ctx.strokeStyle=C.bolt; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(cx+2,by-27); ctx.lineTo(cx-2,by-21); ctx.lineTo(cx+1,by-21); ctx.lineTo(cx-3,by-15); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle=C.sash; ctx.fillRect(cx-10,by-31,21,3);
+    ctx.fillStyle=C.sashLt; ctx.fillRect(cx-10,by-32,21,2);
+    const upShY=shY-14;
+    ctx.fillStyle=C.cDk;
+    ctx.beginPath(); ctx.moveTo(cx-10,by-38); ctx.lineTo(cx+10,by-38); ctx.lineTo(cx+8,upShY); ctx.lineTo(cx-8,upShY); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.cMid;
+    ctx.beginPath(); ctx.moveTo(cx,by-38); ctx.lineTo(cx+5,by-38); ctx.lineTo(cx+4,upShY); ctx.lineTo(cx,upShY); ctx.closePath(); ctx.fill();
+    const fAX=cx+10, fAY=upShY+2;
+    const fAngS=-Math.PI*0.30-(boltPulse>0?0.25*Math.min(1,boltPulse):0);
+    ctx.fillStyle=C.cDk;
+    ctx.beginPath(); ctx.moveTo(fAX,fAY); ctx.lineTo(fAX+10*Math.cos(fAngS),fAY+10*Math.sin(fAngS)); ctx.lineTo(fAX+16*Math.cos(fAngS-0.2),fAY+16*Math.sin(fAngS-0.2)); ctx.lineTo(fAX+12,fAY+14); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.skin;
+    const fHSX=fAX+Math.cos(fAngS-0.12)*17, fHSY=fAY+Math.sin(fAngS-0.12)*17;
+    ctx.beginPath(); ctx.arc(fHSX,fHSY,4,0,Math.PI*2); ctx.fill();
+    if (boltPulse>0) {
+        ctx.save(); ctx.shadowColor=C.bolt; ctx.shadowBlur=16;
+        ctx.globalAlpha=Math.min(1,boltPulse)*0.55; ctx.fillStyle=C.bolt;
+        ctx.beginPath(); ctx.arc(fHSX,fHSY,4+Math.min(1,boltPulse)*7,0,Math.PI*2); ctx.fill();
+        ctx.strokeStyle=C.bolt; ctx.lineWidth=1.5;
+        ctx.beginPath(); ctx.moveTo(fHSX,fHSY); ctx.lineTo(fHSX+4,fHSY-5); ctx.lineTo(fHSX+2,fHSY-9); ctx.lineTo(fHSX+6,fHSY-14); ctx.stroke();
+        if (boltPulse>1) { ctx.globalAlpha=(boltPulse-1)*0.85; ctx.fillStyle=C.boltHi; ctx.beginPath(); ctx.arc(fHSX,fHSY,14,0,Math.PI*2); ctx.fill(); }
+        ctx.restore();
+    }
+    const stAncSX=cx-10, stAncSY=upShY+2;
+    const stA0S=-Math.PI*0.48, stA1S=-Math.PI*0.72;
+    const stAngS=stA0S+(stA1S-stA0S)*staffRaise;
+    const stLenS=42;
+    const stTSX=stAncSX+Math.cos(stAngS)*stLenS, stTSY=stAncSY+Math.sin(stAngS)*stLenS;
+    ctx.strokeStyle=C.stWd; ctx.lineWidth=3; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(stAncSX,stAncSY); ctx.lineTo(stTSX,stTSY); ctx.stroke();
+    ctx.strokeStyle=C.stLt; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(stAncSX,stAncSY); ctx.lineTo(stTSX,stTSY); ctx.stroke();
+    ctx.save(); ctx.shadowColor=C.bolt; ctx.shadowBlur=12+Math.min(1,boltPulse)*16;
+    ctx.fillStyle=C.bolt; ctx.beginPath(); ctx.arc(stTSX,stTSY,6,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.boltHi; ctx.beginPath(); ctx.arc(stTSX,stTSY,3,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=C.bolt; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(stTSX,stTSY); ctx.lineTo(stTSX-5,stTSY-9); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(stTSX,stTSY); ctx.lineTo(stTSX+5,stTSY-9); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(stTSX,stTSY); ctx.lineTo(stTSX,stTSY-10); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle=C.cDk;
+    ctx.beginPath(); ctx.moveTo(stAncSX,stAncSY); ctx.lineTo(stAncSX-7,stAncSY+7); ctx.lineTo(stAncSX-5,stAncSY+13); ctx.lineTo(stAncSX,stAncSY+8); ctx.closePath(); ctx.fill();
+    const hcSX=cx, hcSY=upShY-10-dY;
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcSX,hcSY,11,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(hcSX+1,hcSY+1,8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.fillRect(hcSX-3,hcSY+6,6,4);
+    // Wild windswept hair
+    ctx.strokeStyle=C.hair; ctx.lineWidth=2; ctx.lineCap='round';
+    for (const [x1,y1,x2,y2] of [[-8,-5,-16,-12],[-5,-9,-14,-18],[1,-11,2,-22],[7,-9,16,-18],[9,-4,18,-9]]) {
+        ctx.beginPath(); ctx.moveTo(hcSX+x1,hcSY+y1); ctx.quadraticCurveTo(hcSX+(x1+x2)/2+3,hcSY+(y1+y2)/2-2,hcSX+x2,hcSY+y2); ctx.stroke();
+    }
+    ctx.save(); ctx.shadowColor='rgba(180,220,255,0.5)'; ctx.shadowBlur=7;
+    ctx.globalAlpha=0.72+Math.min(1,boltPulse)*0.25;
+    ctx.fillStyle=C.eye; ctx.beginPath(); ctx.arc(hcSX+4,hcSY,2,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcSX,hcSY,11,Math.PI*1.0,0,false); ctx.fill();
+    ctx.fillStyle=C.hMid; ctx.beginPath(); ctx.arc(hcSX,hcSY,9,Math.PI*1.1,Math.PI*1.9,false); ctx.fill();
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
+// ── Lifewhisperer (Nature) ────────────────────────────────────────────────────
+function drawLifewhisperer(ctx, cx, by, sel, anim) {
+    const C = {
+        rDk:'#1a3010', rMid:'#284818', rLit:'#3a6022',
+        leaf:'#50b830', leafLt:'#80d850',
+        sash:'#4a7820', sashLt:'#6a9830',
+        stWd:'#3a2010', stLt:'#5a3818',
+        eye:'#60c838', skin:'#c8a878',
+        hDk:'#1a2a10', hMid:'#283a18', hair:'#3a2808',
+    };
+    const t = anim?.t ?? 0;
+    let dY=0, staffRaise=0, naturePulse=0;
+    if (anim?.type === 'lifewhisperer_spell') {
+        if (t < 0.30)      { staffRaise=t/0.30; dY=staffRaise*2; }
+        else if (t < 0.60) { staffRaise=1; naturePulse=(t-0.30)/0.30; dY=2+naturePulse*2; }
+        else if (t < 0.72) { const p=(t-0.60)/0.12; staffRaise=1; naturePulse=1+p*2; dY=4-p*4; }
+        else               { const p=(t-0.72)/0.28; staffRaise=1-p*0.4; naturePulse=0; }
+    }
+    drawShadow(ctx, cx, by);
+    const shY=by-38-dY*0.65;
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(cx-13,by+1); ctx.lineTo(cx+13,by+1); ctx.lineTo(cx+11,by-38); ctx.lineTo(cx-12,by-38); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath(); ctx.moveTo(cx-1,by+1); ctx.lineTo(cx+5,by+1); ctx.lineTo(cx+4,by-38); ctx.lineTo(cx-1,by-38); ctx.closePath(); ctx.fill();
+    // Leaf motifs at hem
+    ctx.save(); ctx.globalAlpha=0.35+naturePulse*0.25; ctx.fillStyle=C.leaf;
+    for (let i=0;i<4;i++) { const hx=cx-9+i*6; ctx.beginPath(); ctx.ellipse(hx,by-1,2,4,0.3+i*0.15,0,Math.PI*2); ctx.fill(); }
+    ctx.restore();
+    // Vine rune on robe
+    ctx.save(); ctx.globalAlpha=0.20+Math.min(1,naturePulse)*0.30; ctx.shadowColor=C.leaf; ctx.shadowBlur=6;
+    ctx.strokeStyle=C.leaf; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(cx-4,by-26); ctx.quadraticCurveTo(cx+4,by-22,cx+2,by-14); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx+3,by-22); ctx.quadraticCurveTo(cx+8,by-20,cx+7,by-16); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle=C.sash; ctx.fillRect(cx-10,by-33,21,3);
+    ctx.fillStyle=C.sashLt; ctx.fillRect(cx-10,by-34,21,2);
+    const upShY=shY-14;
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(cx-12,by-38); ctx.lineTo(cx+11,by-38); ctx.lineTo(cx+9,upShY); ctx.lineTo(cx-10,upShY); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath(); ctx.moveTo(cx-1,by-38); ctx.lineTo(cx+5,by-38); ctx.lineTo(cx+4,upShY); ctx.lineTo(cx-1,upShY); ctx.closePath(); ctx.fill();
+    const fAX=cx+10, fAY=upShY+2;
+    const fAngL=-Math.PI*0.18-(naturePulse>0?0.25*Math.min(1,naturePulse):0);
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(fAX,fAY); ctx.lineTo(fAX+10*Math.cos(fAngL),fAY+10*Math.sin(fAngL)); ctx.lineTo(fAX+16*Math.cos(fAngL-0.25),fAY+16*Math.sin(fAngL-0.25)); ctx.lineTo(fAX+12,fAY+14); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.skin;
+    const fHLX=fAX+Math.cos(fAngL-0.15)*17, fHLY=fAY+Math.sin(fAngL-0.15)*17;
+    ctx.beginPath(); ctx.arc(fHLX,fHLY,4,0,Math.PI*2); ctx.fill();
+    if (naturePulse>0) {
+        ctx.save(); ctx.shadowColor=C.leaf; ctx.shadowBlur=14;
+        ctx.globalAlpha=Math.min(1,naturePulse)*0.50; ctx.fillStyle=C.leaf;
+        ctx.beginPath(); ctx.arc(fHLX,fHLY,5+Math.min(1,naturePulse)*6,0,Math.PI*2); ctx.fill();
+        if (naturePulse>1) { ctx.globalAlpha=(naturePulse-1)*0.85; ctx.fillStyle=C.leafLt; ctx.beginPath(); ctx.arc(fHLX,fHLY,14,0,Math.PI*2); ctx.fill(); }
+        ctx.restore();
+    }
+    const stAncLX=cx-10, stAncLY=upShY+2;
+    const stA0L=-Math.PI*0.48, stA1L=-Math.PI*0.68;
+    const stAngL=stA0L+(stA1L-stA0L)*staffRaise;
+    const stLenL=41;
+    const stTLX=stAncLX+Math.cos(stAngL)*stLenL, stTLY=stAncLY+Math.sin(stAngL)*stLenL;
+    ctx.strokeStyle=C.stWd; ctx.lineWidth=4; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(stAncLX,stAncLY); ctx.lineTo(stTLX,stTLY); ctx.stroke();
+    ctx.strokeStyle=C.stLt; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(stAncLX,stAncLY); ctx.lineTo(stTLX,stTLY); ctx.stroke();
+    for (const kf of [0.3,0.6,0.8]) { const kX=stAncLX+Math.cos(stAngL)*stLenL*kf, kY=stAncLY+Math.sin(stAngL)*stLenL*kf; ctx.fillStyle=C.stLt; ctx.beginPath(); ctx.arc(kX,kY,2.5,0,Math.PI*2); ctx.fill(); }
+    // Leaf at staff tip
+    ctx.save(); ctx.shadowColor=C.leaf; ctx.shadowBlur=10+Math.min(1,naturePulse)*14;
+    ctx.fillStyle=C.leaf; ctx.globalAlpha=0.7+Math.min(1,naturePulse)*0.3;
+    ctx.beginPath(); ctx.ellipse(stTLX,stTLY,5,9,stAngL+Math.PI*0.5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.leafLt; ctx.beginPath(); ctx.ellipse(stTLX-1,stTLY-1,3,6,stAngL+Math.PI*0.5,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(stAncLX,stAncLY); ctx.lineTo(stAncLX-8,stAncLY+8); ctx.lineTo(stAncLX-6,stAncLY+14); ctx.lineTo(stAncLX,stAncLY+8); ctx.closePath(); ctx.fill();
+    const hcLX=cx, hcLY=upShY-10-dY;
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcLX,hcLY,11,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(hcLX+1,hcLY+1,8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.fillRect(hcLX-3,hcLY+6,6,4);
+    ctx.strokeStyle=C.hair; ctx.lineWidth=3; ctx.lineCap='round';
+    for (const [x1,y1,x2,y2] of [[-7,-6,-10,-18],[-2,-10,-4,-22],[5,-10,8,-20],[8,-6,12,-14]]) {
+        ctx.beginPath(); ctx.moveTo(hcLX+x1,hcLY+y1); ctx.quadraticCurveTo(hcLX+(x1+x2)/2,hcLY+(y1+y2)/2-2,hcLX+x2,hcLY+y2); ctx.stroke();
+    }
+    ctx.save(); ctx.shadowColor='rgba(60,200,40,0.4)'; ctx.shadowBlur=7;
+    ctx.globalAlpha=0.70+Math.min(1,naturePulse)*0.25;
+    ctx.fillStyle=C.eye; ctx.beginPath(); ctx.arc(hcLX+4,hcLY,2,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcLX,hcLY,11,Math.PI*1.0,0,false); ctx.fill();
+    ctx.fillStyle=C.hMid; ctx.beginPath(); ctx.arc(hcLX,hcLY,9,Math.PI*1.1,Math.PI*1.9,false); ctx.fill();
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
+// ── Shaman (Spirit) ───────────────────────────────────────────────────────────
+function drawShaman(ctx, cx, by, sel, anim) {
+    const C = {
+        hide:'#5a3c18', hideLt:'#7a5428', hideDk:'#3a2810',
+        bone:'#d0c898', boneDk:'#a09870',
+        sash:'#2858a0', sashLt:'#4078c8',
+        spirit:'#40c8c0', spiritGlo:'rgba(48,200,192,0.55)',
+        stWd:'#3a2810', stLt:'#5a4020',
+        eye:'#50d8d0', skin:'#c0946a',
+        feather:'#2048a0',
+        hHide:'#1e1008', hLt:'#3a2010',
+    };
+    const t = anim?.t ?? 0;
+    let dY=0, staffRaise=0, spiritPulse=0;
+    if (anim?.type === 'shaman_spell') {
+        if (t < 0.30)      { staffRaise=t/0.30; dY=staffRaise*2; }
+        else if (t < 0.60) { staffRaise=1; spiritPulse=(t-0.30)/0.30; dY=2+spiritPulse*2; }
+        else if (t < 0.72) { const p=(t-0.60)/0.12; staffRaise=1; spiritPulse=1+p*2; dY=4-p*4; }
+        else               { const p=(t-0.72)/0.28; staffRaise=1-p*0.4; spiritPulse=0; }
+    }
+    drawShadow(ctx, cx, by);
+    const shY=by-38-dY*0.65;
+    // Leather boots
+    ctx.fillStyle=C.hideDk; ctx.fillRect(cx-9,by-5,7,5); ctx.fillRect(cx+2,by-4,7,4);
+    ctx.fillStyle=C.hide; ctx.fillRect(cx-9,by-8,7,3); ctx.fillRect(cx+2,by-6,7,2);
+    // Leather leggings
+    ctx.fillStyle=C.hideDk; ctx.fillRect(cx-8,by-24,7,16); ctx.fillRect(cx+1,by-22,7,15);
+    ctx.fillStyle=C.hideLt; ctx.fillRect(cx-7,by-20,2,10); ctx.fillRect(cx+2,by-18,2,10);
+    // Leather torso
+    ctx.fillStyle=C.hideDk;
+    ctx.beginPath(); ctx.moveTo(cx-11,by-24); ctx.lineTo(cx+11,by-24); ctx.lineTo(cx+9,by-38); ctx.lineTo(cx-10,by-38); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.hide;
+    ctx.beginPath(); ctx.moveTo(cx,by-24); ctx.lineTo(cx+7,by-24); ctx.lineTo(cx+6,by-38); ctx.lineTo(cx,by-38); ctx.closePath(); ctx.fill();
+    // Bone trim
+    ctx.strokeStyle=C.boneDk; ctx.lineWidth=1; ctx.setLineDash([2,3]);
+    ctx.beginPath(); ctx.moveTo(cx-10,by-24); ctx.lineTo(cx+10,by-24); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle=C.bone;
+    for (const [bx,by2] of [[-6,-29],[0,-27],[6,-29]]) { ctx.beginPath(); ctx.ellipse(cx+bx,by+by2,1.5,3,0,0,Math.PI*2); ctx.fill(); }
+    // Spirit rune on tunic
+    ctx.save(); ctx.globalAlpha=0.22+Math.min(1,spiritPulse)*0.32; ctx.shadowColor=C.spirit; ctx.shadowBlur=8;
+    ctx.strokeStyle=C.spirit; ctx.lineWidth=0.9;
+    ctx.beginPath(); ctx.arc(cx,by-32,5,0,Math.PI*2); ctx.stroke();
+    for (let a=0;a<4;a++) { const ang=a*Math.PI/2; ctx.beginPath(); ctx.moveTo(cx+Math.cos(ang)*5,by-32+Math.sin(ang)*5); ctx.lineTo(cx+Math.cos(ang)*9,by-32+Math.sin(ang)*9); ctx.stroke(); }
+    ctx.restore();
+    ctx.fillStyle=C.sash; ctx.fillRect(cx-10,by-26,21,3);
+    ctx.fillStyle=C.sashLt; ctx.fillRect(cx-10,by-27,21,2);
+    const upShY=shY-14;
+    ctx.fillStyle=C.hideDk;
+    ctx.beginPath(); ctx.moveTo(cx-10,by-38); ctx.lineTo(cx+9,by-38); ctx.lineTo(cx+7,upShY); ctx.lineTo(cx-8,upShY); ctx.closePath(); ctx.fill();
+    const fAX=cx+9, fAY=upShY+2;
+    const fAngH=-Math.PI*0.25-(spiritPulse>0?0.25*Math.min(1,spiritPulse):0);
+    ctx.fillStyle=C.hideDk;
+    ctx.beginPath(); ctx.moveTo(fAX,fAY); ctx.lineTo(fAX+10*Math.cos(fAngH),fAY+10*Math.sin(fAngH)); ctx.lineTo(fAX+15*Math.cos(fAngH-0.22),fAY+15*Math.sin(fAngH-0.22)); ctx.lineTo(fAX+11,fAY+13); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.skin;
+    const fHHX=fAX+Math.cos(fAngH-0.12)*16, fHHY=fAY+Math.sin(fAngH-0.12)*16;
+    ctx.beginPath(); ctx.arc(fHHX,fHHY,4,0,Math.PI*2); ctx.fill();
+    if (spiritPulse>0) {
+        ctx.save(); ctx.shadowColor=C.spirit; ctx.shadowBlur=15;
+        ctx.globalAlpha=Math.min(1,spiritPulse)*0.50; ctx.fillStyle=C.spirit;
+        ctx.beginPath(); ctx.arc(fHHX,fHHY,4+Math.min(1,spiritPulse)*6,0,Math.PI*2); ctx.fill();
+        if (spiritPulse>1) { ctx.globalAlpha=(spiritPulse-1)*0.8; ctx.fillStyle='#c0fff8'; ctx.beginPath(); ctx.arc(fHHX,fHHY,14,0,Math.PI*2); ctx.fill(); }
+        ctx.restore();
+    }
+    const stAncHX=cx-9, stAncHY=upShY+2;
+    const stA0H=-Math.PI*0.50, stA1H=-Math.PI*0.72;
+    const stAngH=stA0H+(stA1H-stA0H)*staffRaise;
+    const stLenH=42;
+    const stTHX=stAncHX+Math.cos(stAngH)*stLenH, stTHY=stAncHY+Math.sin(stAngH)*stLenH;
+    ctx.strokeStyle=C.stWd; ctx.lineWidth=4; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(stAncHX,stAncHY); ctx.lineTo(stTHX,stTHY); ctx.stroke();
+    ctx.strokeStyle=C.stLt; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(stAncHX,stAncHY); ctx.lineTo(stTHX,stTHY); ctx.stroke();
+    // Spirit orb at staff tip
+    ctx.save(); ctx.shadowColor=C.spirit; ctx.shadowBlur=12+Math.min(1,spiritPulse)*18;
+    ctx.fillStyle=C.spirit; ctx.beginPath(); ctx.arc(stTHX,stTHY,7,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#c0fff8'; ctx.beginPath(); ctx.arc(stTHX-2,stTHY-2,4,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    // Feathers on staff
+    ctx.strokeStyle=C.feather; ctx.lineWidth=2; ctx.lineCap='round';
+    for (const kf of [0.4,0.55]) { const kX=stAncHX+Math.cos(stAngH)*stLenH*kf, kY=stAncHY+Math.sin(stAngH)*stLenH*kf; ctx.beginPath(); ctx.moveTo(kX,kY); ctx.lineTo(kX+6,kY-8); ctx.stroke(); ctx.beginPath(); ctx.moveTo(kX,kY); ctx.lineTo(kX+9,kY-4); ctx.stroke(); }
+    ctx.fillStyle=C.hideDk;
+    ctx.beginPath(); ctx.moveTo(stAncHX,stAncHY); ctx.lineTo(stAncHX-7,stAncHY+7); ctx.lineTo(stAncHX-5,stAncHY+13); ctx.lineTo(stAncHX,stAncHY+8); ctx.closePath(); ctx.fill();
+    // Head — open face, tribal headband
+    const hcHX=cx, hcHY=upShY-10-dY;
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(hcHX,hcHY,10,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.fillRect(hcHX-3,hcHY+6,6,4);
+    ctx.fillStyle=C.hHide;
+    ctx.beginPath(); ctx.arc(hcHX,hcHY,10,Math.PI*1.05,0); ctx.lineTo(hcHX,hcHY); ctx.closePath(); ctx.fill();
+    // Headband
+    ctx.fillStyle=C.sash; ctx.fillRect(hcHX-10,hcHY-2,20,4);
+    ctx.fillStyle=C.sashLt; ctx.fillRect(hcHX-10,hcHY-3,20,2);
+    ctx.fillStyle=C.bone; ctx.beginPath(); ctx.arc(hcHX,hcHY-2,3,0,Math.PI*2); ctx.fill();
+    ctx.save(); ctx.shadowColor=C.spirit; ctx.shadowBlur=8;
+    ctx.globalAlpha=0.70+Math.min(1,spiritPulse)*0.25;
+    ctx.fillStyle=C.eye; ctx.beginPath(); ctx.arc(hcHX+4,hcHY+2,2,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
+// ── Bloodsinger (Bleed) ───────────────────────────────────────────────────────
+function drawBloodsinger(ctx, cx, by, sel, anim) {
+    const C = {
+        rDk:'#2e0008', rMid:'#480010', rLit:'#7a0018',
+        blood:'#c82020', bloodLt:'#f04040', bloodDk:'#880010',
+        sash:'#800018', sashLt:'#b82028',
+        stWd:'#2a0808', stLt:'#4a1010',
+        eye:'#f03030', skin:'#c09090',
+        hDk:'#1e0006', hMid:'#360010', hair:'#1a0004',
+    };
+    const t = anim?.t ?? 0;
+    let dY=0, staffRaise=0, bloodPulse=0;
+    if (anim?.type === 'bloodsinger_spell') {
+        if (t < 0.30)      { staffRaise=t/0.30; dY=staffRaise*2; }
+        else if (t < 0.60) { staffRaise=1; bloodPulse=(t-0.30)/0.30; dY=2+bloodPulse*2; }
+        else if (t < 0.72) { const p=(t-0.60)/0.12; staffRaise=1; bloodPulse=1+p*2; dY=4-p*4; }
+        else               { const p=(t-0.72)/0.28; staffRaise=1-p*0.4; bloodPulse=0; }
+    }
+    drawShadow(ctx, cx, by);
+    const shY=by-38-dY*0.65;
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(cx-13,by+1); ctx.lineTo(cx+14,by+1); ctx.lineTo(cx+11,by-38); ctx.lineTo(cx-12,by-38); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath(); ctx.moveTo(cx-1,by+1); ctx.lineTo(cx+5,by+1); ctx.lineTo(cx+4,by-38); ctx.lineTo(cx-1,by-38); ctx.closePath(); ctx.fill();
+    // Blood drip trim at hem
+    ctx.save(); ctx.globalAlpha=0.45+bloodPulse*0.3; ctx.fillStyle=C.blood;
+    for (let i=0;i<5;i++) { const hx=cx-10+i*5; ctx.fillRect(hx,by-3,2,4+i%2*2); ctx.beginPath(); ctx.arc(hx+1,by+2,1.5,0,Math.PI*2); ctx.fill(); }
+    ctx.restore();
+    // Blood sigil on robe
+    ctx.save(); ctx.globalAlpha=0.20+Math.min(1,bloodPulse)*0.35; ctx.shadowColor=C.blood; ctx.shadowBlur=8;
+    ctx.strokeStyle=C.blood; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(cx,by-20,6,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,by-26); ctx.lineTo(cx-5,by-15); ctx.lineTo(cx+5,by-15); ctx.closePath(); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle=C.sash; ctx.fillRect(cx-10,by-33,21,3);
+    ctx.fillStyle=C.sashLt; ctx.fillRect(cx-10,by-34,21,2);
+    const upShY=shY-14;
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(cx-12,by-38); ctx.lineTo(cx+11,by-38); ctx.lineTo(cx+9,upShY); ctx.lineTo(cx-10,upShY); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath(); ctx.moveTo(cx-1,by-38); ctx.lineTo(cx+5,by-38); ctx.lineTo(cx+4,upShY); ctx.lineTo(cx-1,upShY); ctx.closePath(); ctx.fill();
+    const fAX=cx+10, fAY=upShY+2;
+    const fAngB=-Math.PI*0.20-(bloodPulse>0?0.22*Math.min(1,bloodPulse):0);
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(fAX,fAY); ctx.lineTo(fAX+10*Math.cos(fAngB),fAY+10*Math.sin(fAngB)); ctx.lineTo(fAX+16*Math.cos(fAngB-0.25),fAY+16*Math.sin(fAngB-0.25)); ctx.lineTo(fAX+12,fAY+14); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.skin;
+    const fHBX=fAX+Math.cos(fAngB-0.15)*17, fHBY=fAY+Math.sin(fAngB-0.15)*17;
+    ctx.beginPath(); ctx.arc(fHBX,fHBY,4,0,Math.PI*2); ctx.fill();
+    if (bloodPulse>0) {
+        ctx.save(); ctx.shadowColor=C.blood; ctx.shadowBlur=14;
+        ctx.globalAlpha=Math.min(1,bloodPulse)*0.55; ctx.fillStyle=C.blood;
+        ctx.beginPath(); ctx.arc(fHBX,fHBY,5+Math.min(1,bloodPulse)*6,0,Math.PI*2); ctx.fill();
+        if (bloodPulse>1) { ctx.globalAlpha=(bloodPulse-1)*0.85; ctx.fillStyle=C.bloodLt; ctx.beginPath(); ctx.arc(fHBX,fHBY,14,0,Math.PI*2); ctx.fill(); }
+        ctx.restore();
+    }
+    const stAncBX=cx-10, stAncBY=upShY+2;
+    const stA0B=-Math.PI*0.50, stA1B=-Math.PI*0.72;
+    const stAngB=stA0B+(stA1B-stA0B)*staffRaise;
+    const stLenB=40;
+    const stTBX=stAncBX+Math.cos(stAngB)*stLenB, stTBY=stAncBY+Math.sin(stAngB)*stLenB;
+    ctx.strokeStyle=C.stWd; ctx.lineWidth=3; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(stAncBX,stAncBY); ctx.lineTo(stTBX,stTBY); ctx.stroke();
+    ctx.strokeStyle=C.stLt; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(stAncBX,stAncBY); ctx.lineTo(stTBX,stTBY); ctx.stroke();
+    // Blood orb at staff tip — pulsing crimson sphere
+    ctx.save(); ctx.shadowColor=C.blood; ctx.shadowBlur=14+Math.min(1,bloodPulse)*18;
+    ctx.fillStyle=C.bloodDk; ctx.beginPath(); ctx.arc(stTBX,stTBY,8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.blood;   ctx.beginPath(); ctx.arc(stTBX,stTBY,6,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.bloodLt; ctx.beginPath(); ctx.arc(stTBX-2,stTBY-3,3,0,Math.PI*2); ctx.fill();
+    ctx.globalAlpha=0.7+Math.min(1,bloodPulse)*0.25; ctx.fillStyle=C.blood;
+    ctx.beginPath(); ctx.arc(stTBX,stTBY+9,1.5,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(stTBX+3,stTBY+12,1,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(stAncBX,stAncBY); ctx.lineTo(stAncBX-8,stAncBY+8); ctx.lineTo(stAncBX-6,stAncBY+13); ctx.lineTo(stAncBX,stAncBY+8); ctx.closePath(); ctx.fill();
+    const hcBX=cx, hcBY=upShY-10-dY;
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcBX,hcBY,11,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(hcBX+1,hcBY+1,8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.fillRect(hcBX-3,hcBY+6,6,4);
+    ctx.fillStyle=C.hair;
+    ctx.beginPath(); ctx.arc(hcBX,hcBY,10,Math.PI*1.05,0); ctx.lineTo(hcBX,hcBY); ctx.closePath(); ctx.fill();
+    ctx.save(); ctx.shadowColor='rgba(240,40,40,0.6)'; ctx.shadowBlur=8;
+    ctx.globalAlpha=0.80+Math.min(1,bloodPulse)*0.18;
+    ctx.fillStyle=C.eye; ctx.beginPath(); ctx.arc(hcBX+3,hcBY+1,2,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcBX,hcBY,11,Math.PI*1.0,0,false); ctx.fill();
+    ctx.fillStyle=C.hMid; ctx.beginPath(); ctx.arc(hcBX,hcBY,9,Math.PI*1.1,Math.PI*1.9,false); ctx.fill();
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
+// ── Beastcaller (Water) ───────────────────────────────────────────────────────
+function drawBeastcaller(ctx, cx, by, sel, anim) {
+    const C = {
+        lDk:'#2a3c28', lMid:'#3a5036', lLit:'#507048',
+        water:'#2878c8', waterLt:'#60b8e8',
+        scale:'#1e4060', scaleLt:'#2a6090',
+        sash:'#1e4868', sashLt:'#2a6898',
+        stWd:'#3a2808', stLt:'#5a4018',
+        eye:'#2888d8', skin:'#b8966e',
+        hDk:'#182810', hMid:'#243c1a', hair:'#1c1808',
+    };
+    const t = anim?.t ?? 0;
+    let dY=0, staffRaise=0, waterPulse=0;
+    if (anim?.type === 'beastcaller_spell') {
+        if (t < 0.30)      { staffRaise=t/0.30; dY=staffRaise*2; }
+        else if (t < 0.60) { staffRaise=1; waterPulse=(t-0.30)/0.30; dY=2+waterPulse*2; }
+        else if (t < 0.72) { const p=(t-0.60)/0.12; staffRaise=1; waterPulse=1+p*2; dY=4-p*4; }
+        else               { const p=(t-0.72)/0.28; staffRaise=1-p*0.4; waterPulse=0; }
+    }
+    drawShadow(ctx, cx, by);
+    const shY=by-38-dY*0.65;
+    // Boots
+    ctx.fillStyle=C.lDk; ctx.fillRect(cx-9,by-5,7,5); ctx.fillRect(cx+2,by-4,7,4);
+    ctx.fillStyle=C.lMid; ctx.fillRect(cx-9,by-8,7,3); ctx.fillRect(cx+2,by-6,7,2);
+    // Leather leggings
+    ctx.fillStyle=C.lDk; ctx.fillRect(cx-8,by-24,7,16); ctx.fillRect(cx+1,by-22,7,15);
+    // Scale-mail strips on legs
+    ctx.fillStyle=C.scale; ctx.fillRect(cx-7,by-20,5,3); ctx.fillRect(cx+2,by-18,5,3);
+    ctx.fillStyle=C.scaleLt; ctx.fillRect(cx-6,by-20,2,2); ctx.fillRect(cx+3,by-18,2,2);
+    // Leather torso + scale chest
+    ctx.fillStyle=C.lDk;
+    ctx.beginPath(); ctx.moveTo(cx-11,by-24); ctx.lineTo(cx+11,by-24); ctx.lineTo(cx+9,by-38); ctx.lineTo(cx-10,by-38); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.scale;
+    ctx.beginPath(); ctx.moveTo(cx-8,by-26); ctx.lineTo(cx+8,by-26); ctx.lineTo(cx+6,by-36); ctx.lineTo(cx-7,by-36); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.scaleLt;
+    ctx.beginPath(); ctx.moveTo(cx-4,by-27); ctx.lineTo(cx+5,by-27); ctx.lineTo(cx+3,by-35); ctx.lineTo(cx-3,by-35); ctx.closePath(); ctx.fill();
+    // Water rune on chest
+    ctx.save(); ctx.globalAlpha=0.22+Math.min(1,waterPulse)*0.32; ctx.shadowColor=C.water; ctx.shadowBlur=8;
+    ctx.strokeStyle=C.water; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(cx-5,by-31); ctx.quadraticCurveTo(cx-2,by-34,cx+1,by-31); ctx.quadraticCurveTo(cx+4,by-28,cx+6,by-31); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle=C.sash; ctx.fillRect(cx-10,by-26,21,3);
+    ctx.fillStyle=C.sashLt; ctx.fillRect(cx-10,by-27,21,2);
+    const upShY=shY-14;
+    ctx.fillStyle=C.lDk;
+    ctx.beginPath(); ctx.moveTo(cx-10,by-38); ctx.lineTo(cx+9,by-38); ctx.lineTo(cx+7,upShY); ctx.lineTo(cx-8,upShY); ctx.closePath(); ctx.fill();
+    const fAX=cx+9, fAY=upShY+2;
+    const fAngW=-Math.PI*0.28-(waterPulse>0?0.22*Math.min(1,waterPulse):0);
+    ctx.fillStyle=C.lDk;
+    ctx.beginPath(); ctx.moveTo(fAX,fAY); ctx.lineTo(fAX+10*Math.cos(fAngW),fAY+10*Math.sin(fAngW)); ctx.lineTo(fAX+15*Math.cos(fAngW-0.22),fAY+15*Math.sin(fAngW-0.22)); ctx.lineTo(fAX+11,fAY+13); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.skin;
+    const fHWX=fAX+Math.cos(fAngW-0.12)*16, fHWY=fAY+Math.sin(fAngW-0.12)*16;
+    ctx.beginPath(); ctx.arc(fHWX,fHWY,4,0,Math.PI*2); ctx.fill();
+    if (waterPulse>0) {
+        ctx.save(); ctx.shadowColor=C.water; ctx.shadowBlur=14;
+        ctx.globalAlpha=Math.min(1,waterPulse)*0.50; ctx.fillStyle=C.water;
+        ctx.beginPath(); ctx.arc(fHWX,fHWY,4+Math.min(1,waterPulse)*7,0,Math.PI*2); ctx.fill();
+        if (waterPulse>1) { ctx.globalAlpha=(waterPulse-1)*0.85; ctx.fillStyle=C.waterLt; ctx.beginPath(); ctx.arc(fHWX,fHWY,14,0,Math.PI*2); ctx.fill(); }
+        ctx.restore();
+    }
+    const stAncWX=cx-9, stAncWY=upShY+2;
+    const stA0W=-Math.PI*0.50, stA1W=-Math.PI*0.72;
+    const stAngW=stA0W+(stA1W-stA0W)*staffRaise;
+    const stLenW=41;
+    const stTWX=stAncWX+Math.cos(stAngW)*stLenW, stTWY=stAncWY+Math.sin(stAngW)*stLenW;
+    ctx.strokeStyle=C.stWd; ctx.lineWidth=4; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(stAncWX,stAncWY); ctx.lineTo(stTWX,stTWY); ctx.stroke();
+    ctx.strokeStyle=C.stLt; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(stAncWX,stAncWY); ctx.lineTo(stTWX,stTWY); ctx.stroke();
+    // Wave tips on staff
+    ctx.save(); ctx.shadowColor=C.water; ctx.shadowBlur=10+Math.min(1,waterPulse)*16;
+    ctx.strokeStyle=C.water; ctx.lineWidth=2; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(stTWX,stTWY); ctx.quadraticCurveTo(stTWX-5,stTWY-6,stTWX-2,stTWY-11); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(stTWX,stTWY); ctx.quadraticCurveTo(stTWX+5,stTWY-6,stTWX+2,stTWY-11); ctx.stroke();
+    ctx.fillStyle=C.waterLt; ctx.beginPath(); ctx.arc(stTWX,stTWY,4+Math.min(1,waterPulse)*3,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle=C.lDk;
+    ctx.beginPath(); ctx.moveTo(stAncWX,stAncWY); ctx.lineTo(stAncWX-7,stAncWY+7); ctx.lineTo(stAncWX-5,stAncWY+13); ctx.lineTo(stAncWX,stAncWY+8); ctx.closePath(); ctx.fill();
+    const hcWX=cx, hcWY=upShY-10-dY;
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcWX,hcWY,11,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(hcWX+1,hcWY+1,8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.skin; ctx.fillRect(hcWX-3,hcWY+6,6,4);
+    ctx.fillStyle=C.hair;
+    ctx.beginPath(); ctx.arc(hcWX,hcWY,10,Math.PI*1.2,Math.PI*2.0); ctx.fill();
+    ctx.beginPath(); ctx.arc(hcWX,hcWY,10,Math.PI*2.5,Math.PI*3.0); ctx.fill();
+    ctx.save(); ctx.shadowColor='rgba(30,140,220,0.45)'; ctx.shadowBlur=7;
+    ctx.globalAlpha=0.70+Math.min(1,waterPulse)*0.25;
+    ctx.fillStyle=C.eye; ctx.beginPath(); ctx.arc(hcWX+4,hcWY,2,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle=C.hDk; ctx.beginPath(); ctx.arc(hcWX,hcWY,11,Math.PI*1.0,0,false); ctx.fill();
+    ctx.fillStyle=C.hMid; ctx.beginPath(); ctx.arc(hcWX,hcWY,9,Math.PI*1.1,Math.PI*1.9,false); ctx.fill();
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
 function drawGoblin(ctx, cx, by, sel) {
     const C = {
         skin:'#4e7828',skinLit:'#6a9e36',skinDk:'#324e18',
@@ -3146,6 +4638,12 @@ function drawUnit(ctx, unit) {
         case 'ranger':        drawRanger       (ctx, cx, by, sel, anim); break;
         case 'sorcerer':      drawSorcerer     (ctx, cx, by, sel, anim); break;
         case 'warlock':       drawWarlock      (ctx, cx, by, sel, anim); break;
+        case 'aquorist':      drawAquorist     (ctx, cx, by, sel, anim); break;
+        case 'stormcaller':   drawStormcaller  (ctx, cx, by, sel, anim); break;
+        case 'lifewhisperer': drawLifewhisperer(ctx, cx, by, sel, anim); break;
+        case 'shaman':        drawShaman       (ctx, cx, by, sel, anim); break;
+        case 'bloodsinger':   drawBloodsinger  (ctx, cx, by, sel, anim); break;
+        case 'beastcaller':   drawBeastcaller  (ctx, cx, by, sel, anim); break;
         case 'goblin':        drawGoblin       (ctx, cx, by, sel); break;
         case 'goblin_archer': drawGoblinArcher (ctx, cx, by, sel); break;
     }
@@ -3359,12 +4857,20 @@ function renderBackground() {
     // 1. Terrain fills the entire canvas — no floating board, no sky
     drawFullTerrain(ctx, W, H);
 
-    // 1.2. Perspective darkening — top unchanged, bottom 25% darker
-    const perspGrad = ctx.createLinearGradient(0, 0, 0, H);
-    perspGrad.addColorStop(0, 'rgba(0,0,0,0.00)');
-    perspGrad.addColorStop(1, 'rgba(0,0,0,0.25)');
-    ctx.fillStyle = perspGrad;
-    ctx.fillRect(0, 0, W, H);
+    // 1.2. Warm foreground lift — sunlit boost on the near ground.
+    // Skipped in night mode (no sun to lift anything).
+    if (LIGHTING.mode !== 'night') {
+        const perspLift = ctx.createLinearGradient(0, 0, 0, H);
+        perspLift.addColorStop(0.00, 'rgba(255, 232, 180, 0.00)');
+        perspLift.addColorStop(0.65, 'rgba(255, 232, 180, 0.00)');
+        perspLift.addColorStop(0.85, 'rgba(255, 232, 180, 0.08)');
+        perspLift.addColorStop(1.00, 'rgba(255, 232, 180, 0.15)');
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.fillStyle = perspLift;
+        ctx.fillRect(0, 0, W, H);
+        ctx.restore();
+    }
 
     // 1.4. Terrain grass texture — random blade shapes across ground
     drawTerrainGrass(ctx, W, H);
@@ -3401,6 +4907,21 @@ function renderBackground() {
     }
     obsDrawList.sort((a, b) => a.depth - b.depth);
     for (const { obs, hexIndex } of obsDrawList) drawObstacleOnHex(ctx, obs, hexIndex);
+
+    // 6. Atmospheric pass — warm sun glow + cool shadow grade + vignette
+    drawAtmosphere(ctx, W, H);
+}
+
+// Draws the animated bonfire flames on top of the unit-canvas in night mode.
+// Called from every tick loop that clears the unit layer, so the fire never
+// vanishes during projectile / dice / damage animations.
+function drawNightBonfireFlames(ctx) {
+    if (LIGHTING.mode !== 'night') return;
+    const bonfire = OBSTACLES.find(o => o.type === 'bonfire');
+    if (!bonfire) return;
+    const [bc, br] = bonfire.hexes[0];
+    const { sx, sy } = hexScreenCenter(bc, br);
+    drawBonfireFlames(ctx, sx, sy, S / 28, performance.now());
 }
 
 function renderUnits() {
@@ -3412,6 +4933,21 @@ function renderUnits() {
         hexDepth(a.col, a.row) - hexDepth(b.col, b.row)
     );
     for (const u of sorted) drawUnit(ctx, u);
+
+    drawNightBonfireFlames(ctx);
+}
+
+// Continuous flame animation for night mode. Self-terminates when mode flips.
+let _flameTicking = false;
+function startFlameTick() {
+    if (_flameTicking) return;
+    _flameTicking = true;
+    const loop = () => {
+        if (LIGHTING.mode !== 'night') { _flameTicking = false; return; }
+        renderUnits();
+        requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
 }
 
 function redrawAll() {
@@ -3495,6 +5031,12 @@ function buildUnitPanel() {
                 case 'ranger':        drawRanger       (pctx, W/2, H - 6, false); break;
                 case 'sorcerer':      drawSorcerer     (pctx, W/2, H - 6, false); break;
                 case 'warlock':       drawWarlock      (pctx, W/2, H - 6, false); break;
+                case 'aquorist':      drawAquorist     (pctx, W/2, H - 6, false); break;
+                case 'stormcaller':   drawStormcaller  (pctx, W/2, H - 6, false); break;
+                case 'lifewhisperer': drawLifewhisperer(pctx, W/2, H - 6, false); break;
+                case 'shaman':        drawShaman       (pctx, W/2, H - 6, false); break;
+                case 'bloodsinger':   drawBloodsinger  (pctx, W/2, H - 6, false); break;
+                case 'beastcaller':   drawBeastcaller  (pctx, W/2, H - 6, false); break;
                 case 'goblin':        drawGoblin       (pctx, W/2, H - 6, false); break;
                 case 'goblin_archer': drawGoblinArcher (pctx, W/2, H - 6, false); break;
             }
@@ -3527,40 +5069,41 @@ function buildUnitPanel() {
 function showUnitTooltip(u, e) {
     const tip = document.getElementById('tooltip');
     const cd  = u._charData;
-    const atkNames = (u.attackKeys || []).map(k => ATTACKS[k]?.name).filter(Boolean);
-    const defaultAtks = {
-        warrior: ['Sword Strike'], wizard: ['Fireball'],
-        rogue: ['Arrow Shot', 'Steel Knives'],
-        goblin: ['Claw'], goblin_archer: ['Goblin Arrow', 'Weak Claw'],
-    };
-    const attacks = atkNames.length ? atkNames : (defaultAtks[u.spriteType || u.type] || []);
+    const atkObjs = getUnitAttacks(u);
 
-    let html = `<div style="font-size:0.88rem;color:#c9a84c;margin-bottom:4px">${u.name}</div>`;
+    let html = `<div style="font-size:1rem;color:#c9a84c;margin-bottom:4px">${u.name}</div>`;
 
     if (cd) {
         const group = CLASS_GROUP_MAP[cd.cls] || '';
         const cls   = prettyId(cd.cls);
         const race  = prettyId(cd.race);
-        if (cls || race) html += `<div style="font-size:0.76rem;color:#aac880;margin-bottom:4px">${cls}${cls && race ? ' · ' : ''}${race}</div>`;
+        if (cls || race) html += `<div style="font-size:0.88rem;color:#aac880;margin-bottom:4px">${cls}${cls && race ? ' · ' : ''}${race}</div>`;
     } else {
         const sp = u.spriteType || u.type;
-        html += `<div style="font-size:0.76rem;color:#aac880;margin-bottom:4px">${sp.charAt(0).toUpperCase() + sp.slice(1)} (placeholder)</div>`;
+        html += `<div style="font-size:0.88rem;color:#aac880;margin-bottom:4px">${sp.charAt(0).toUpperCase() + sp.slice(1)} (placeholder)</div>`;
     }
 
     const s = UNIT_STATS[u.type] || {};
     const maxHp = u.maxHp || s.maxHp || '?';
     const spd   = s.speed   || '?';
     const dg    = u.dodge != null ? u.dodge : (s.dodge ?? '?');
-    html += `<div style="font-size:0.74rem;color:rgba(237,224,196,0.72);margin-bottom:4px">` +
+    html += `<div style="font-size:0.86rem;color:rgba(237,224,196,0.72);margin-bottom:4px">` +
             `HP: ${maxHp} &nbsp;·&nbsp; Spd: ${spd} &nbsp;·&nbsp; Dodge: ${dg}%</div>`;
 
-    if (attacks.length) {
-        html += `<div style="font-size:0.72rem;color:rgba(237,224,196,0.55);">` +
-                attacks.map(a => `⚔ ${a}`).join('<br>') + `</div>`;
+    if (atkObjs.length) {
+        const ICON = { melee:'⚔', ranged:'🏹', spell:'✨' };
+        html += `<div style="font-size:0.84rem;margin-top:2px">` +
+            atkObjs.map(a => {
+                const icon = ICON[a.type] || '⚔';
+                const dtColor = DAMAGE_TYPE_COLOR[a.damage_type] || 'rgba(237,224,196,0.55)';
+                const dt = a.damage_type ? ` · <span style="color:${dtColor}">${a.damage_type}</span>` : '';
+                const eff = a.effect ? `<br><span style="color:rgba(237,224,196,0.55);padding-left:1.1em">${a.effect}</span>` : '';
+                return `${icon} <span style="color:rgba(237,224,196,0.85)">${a.name}</span>${dt}${eff}`;
+            }).join('<br>') + `</div>`;
     }
 
     if (u.team === 'heroes') {
-        html += `<div style="font-size:0.70rem;color:rgba(201,168,76,0.55);margin-top:5px;font-style:italic">Click for full sheet</div>`;
+        html += `<div style="font-size:0.80rem;color:rgba(201,168,76,0.55);margin-top:5px">Click for full sheet</div>`;
     }
 
     tip.innerHTML = html;
@@ -3581,6 +5124,28 @@ function repositionTooltip(e) {
 
 function hideTooltip() {
     document.getElementById('tooltip').classList.remove('visible');
+}
+
+function showAttackTooltip(atk, e) {
+    const tip = document.getElementById('tooltip');
+    const icon = { melee:'⚔', ranged:'🏹', spell:'✨' }[atk.type] || '⚔';
+    const dtColor = DAMAGE_TYPE_COLOR[atk.damage_type] || 'rgba(237,224,196,0.55)';
+    const avg = Math.round(atk.damageDice[0] * (atk.damageDice[1] + 1) / 2 + atk.damageMod);
+
+    let html = `<div style="font-size:1rem;color:#c9a84c;margin-bottom:4px">${icon} ${atk.name}</div>`;
+    if (atk.damage_type) {
+        html += `<div style="font-size:0.90rem;margin-bottom:3px">` +
+                `<span style="color:${dtColor}">${atk.damage_type}</span> damage</div>`;
+    }
+    html += `<div style="font-size:0.86rem;color:rgba(237,224,196,0.60);margin-bottom:3px">` +
+            `${atk.damageDice[0]}d${atk.damageDice[1]}+${atk.damageMod} &nbsp;·&nbsp; avg ${avg} &nbsp;·&nbsp; range ${atk.range}</div>`;
+    if (atk.effect) {
+        html += `<div style="font-size:0.84rem;color:rgba(237,224,196,0.55)">${atk.effect}</div>`;
+    }
+
+    tip.innerHTML = html;
+    tip.classList.add('visible');
+    repositionTooltip(e);
 }
 
 // ─── Character sheet overlay ──────────────────────────────────────────────────
@@ -3618,7 +5183,13 @@ function openCharSheet(u) {
                 case 'witch':       drawWitch      (pctx, W/2, H - 8, false); break;
                 case 'ranger':      drawRanger     (pctx, W/2, H - 8, false); break;
                 case 'sorcerer':    drawSorcerer   (pctx, W/2, H - 8, false); break;
-                case 'warlock':     drawWarlock    (pctx, W/2, H - 8, false); break;
+                case 'warlock':       drawWarlock      (pctx, W/2, H - 8, false); break;
+                case 'aquorist':      drawAquorist     (pctx, W/2, H - 8, false); break;
+                case 'stormcaller':   drawStormcaller  (pctx, W/2, H - 8, false); break;
+                case 'lifewhisperer': drawLifewhisperer(pctx, W/2, H - 8, false); break;
+                case 'shaman':        drawShaman       (pctx, W/2, H - 8, false); break;
+                case 'bloodsinger':   drawBloodsinger  (pctx, W/2, H - 8, false); break;
+                case 'beastcaller':   drawBeastcaller  (pctx, W/2, H - 8, false); break;
             }
         }
         port.appendChild(cv);
@@ -3677,6 +5248,7 @@ function openCharSheet(u) {
         ranger:      ['ranger_bow', 'ranger_blade'],
         sorcerer:    ['sorcerer_spell'],
         warlock:     ['warlock_blast'],
+        druid:       ['druid_spell'],
     };
     const keys = atkKeys.length ? atkKeys : (defaultAtks[u.spriteType || u.type] || []);
     const ATK_TYPE_ICON = { melee:'⚔', ranged:'🏹', spell:'✨' };
@@ -3686,7 +5258,10 @@ function openCharSheet(u) {
         const li = document.createElement('li');
         const icon = ATK_TYPE_ICON[atk.type] || '⚔';
         const avg = Math.round(atk.damageDice[0] * (atk.damageDice[1] + 1) / 2 + atk.damageMod);
-        li.innerHTML = `${icon} <strong>${atk.name}</strong> <span style="color:rgba(237,224,196,0.55);font-size:0.82em">${atk.damageDice[0]}d${atk.damageDice[1]}+${atk.damageMod} · avg ${avg} · range ${atk.range}</span>`;
+        const dtColor = DAMAGE_TYPE_COLOR[atk.damage_type] || 'rgba(237,224,196,0.55)';
+        const dtSpan = atk.damage_type ? ` · <span style="color:${dtColor}">${atk.damage_type}</span>` : '';
+        const titleAttr = atk.effect ? ` title="${atk.effect.replace(/"/g, '&quot;')}"` : '';
+        li.innerHTML = `${icon} <strong>${atk.name}</strong> <span style="color:rgba(237,224,196,0.55);font-size:0.82em"${titleAttr}>${atk.damageDice[0]}d${atk.damageDice[1]}+${atk.damageMod} · avg ${avg} · range ${atk.range}${dtSpan}</span>`;
         atksEl.appendChild(li);
     });
 
@@ -3714,12 +5289,21 @@ function setupEvents() {
 
     uc.addEventListener('mousemove', e => {
         const r = uc.getBoundingClientRect();
-        STATE.hovered = getHexAtPixel(e.clientX - r.left, e.clientY - r.top);
+        const hex = getHexAtPixel(e.clientX - r.left, e.clientY - r.top);
+        STATE.hovered = hex;
         redrawOverlay();
+        if (hex) {
+            const [c, row] = hex;
+            const unit = STATE.units.find(u => u.col === c && u.row === row && u.hp > 0);
+            if (unit) showUnitTooltip(unit, e);
+            else hideTooltip();
+        } else {
+            hideTooltip();
+        }
     });
 
     uc.addEventListener('mouseleave', () => {
-        STATE.hovered = null; redrawOverlay();
+        STATE.hovered = null; redrawOverlay(); hideTooltip();
     });
 
     uc.addEventListener('click', e => {
@@ -3812,6 +5396,7 @@ function startBattle() {
     STATE.units = UNIT_DEFS.map(d => ({ ...d }));
     renderBackground();
     redrawAll();
+    if (LIGHTING.mode === 'night') startFlameTick();
     startCombat();
 }
 
@@ -3859,11 +5444,43 @@ function init() {
         });
     }
 
+    const natureBtn = document.getElementById('btn-team-nature');
+    if (natureBtn) {
+        natureBtn.addEventListener('click', () => {
+            UNIT_DEFS = [...TEAM_NATURE_DEFS, ...ENEMY_DEFS];
+            hideTeamSelectOverlay();
+            startBattle();
+        });
+    }
+
+    const stormBtn = document.getElementById('btn-team-storm');
+    if (stormBtn) {
+        stormBtn.addEventListener('click', () => {
+            UNIT_DEFS = [...TEAM_STORM_DEFS, ...ENEMY_DEFS];
+            hideTeamSelectOverlay();
+            startBattle();
+        });
+    }
+
     // Wire up Change Party button in header
     const changeBtn = document.getElementById('btn-change-party');
     if (changeBtn) {
         changeBtn.addEventListener('click', () => showTeamSelectOverlay());
     }
+
+    // Wire up day/night lighting selector in the team overlay.
+    // Mode is latched on each click but only applied when a party is chosen,
+    // so selection lives in the overlay rather than the header.
+    const dayBtn   = document.getElementById('btn-lighting-day');
+    const nightBtn = document.getElementById('btn-lighting-night');
+    function setLightingSelection(mode) {
+        LIGHTING.mode = mode;
+        if (dayBtn)   dayBtn  .classList.toggle('active', mode === 'day');
+        if (nightBtn) nightBtn.classList.toggle('active', mode === 'night');
+    }
+    if (dayBtn)   dayBtn  .addEventListener('click', () => setLightingSelection('day'));
+    if (nightBtn) nightBtn.addEventListener('click', () => setLightingSelection('night'));
+    setLightingSelection(LIGHTING.mode);
 
     // Wire up character sheet close button
     const csClose = document.getElementById('cs-close-btn');
@@ -3910,6 +5527,12 @@ const UNIT_STATS = {
     ranger        : { maxHp: 55,  speed: 4, dodge: 28 },
     sorcerer      : { maxHp: 44,  speed: 3, dodge: 16 },
     warlock       : { maxHp: 50,  speed: 3, dodge: 20 },
+    aquorist      : { maxHp: 44,  speed: 3, dodge: 16 },
+    stormcaller   : { maxHp: 44,  speed: 3, dodge: 16 },
+    lifewhisperer : { maxHp: 48,  speed: 3, dodge: 18 },
+    shaman        : { maxHp: 52,  speed: 3, dodge: 18 },
+    bloodsinger   : { maxHp: 46,  speed: 3, dodge: 20 },
+    beastcaller   : { maxHp: 55,  speed: 4, dodge: 24 },
     goblin        : { maxHp: 140, speed: 2, dodge: 10 },
     goblin_archer : { maxHp: 42,  speed: 3, dodge: 18 },
 };
@@ -3917,22 +5540,29 @@ const UNIT_STATS = {
 // ── Attack definitions ────────────────────────────────────────────────────────
 const ATTACKS = {
     // Heroes
-    warrior_melee      : { name:'Sword Strike',    type:'melee',  range:1,  damageDice:[2,10], damageMod:5,  hitBase:98, critMin:90, snd:'sword' },
-    rogue_bow          : { name:'Arrow Shot',      type:'ranged', range:14, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'bow'   },
-    rogue_knives       : { name:'Steel Knives',    type:'melee',  range:1,  damageDice:[2,9],  damageMod:4,  hitBase:98, critMin:92, snd:'sword' },
-    wizard_spell       : { name:'Fireball',        type:'spell',  range:15, damageDice:[3,8],  damageMod:5,  hitBase:98, critMin:97, snd:'fire'  },
-    cleric_smite       : { name:'Holy Smite',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:5,  hitBase:98, critMin:90, snd:'sword' },
-    cleric_spell       : { name:'Divine Radiance', type:'spell',  range:12, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire'  },
-    necromancer_spell  : { name:'Death Bolt',      type:'spell',  range:14, damageDice:[3,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire'  },
-    witch_spell        : { name:'Hex Curse',       type:'spell',  range:12, damageDice:[2,10], damageMod:4,  hitBase:98, critMin:96, snd:'fire'  },
-    ranger_bow         : { name:'Precise Shot',    type:'ranged', range:16, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:94, snd:'bow'   },
-    ranger_blade       : { name:'Short Blade',     type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:92, snd:'sword' },
-    sorcerer_spell     : { name:'Arcane Burst',    type:'spell',  range:14, damageDice:[3,10], damageMod:5,  hitBase:98, critMin:96, snd:'fire'  },
-    warlock_blast      : { name:'Eldritch Blast',  type:'spell',  range:15, damageDice:[2,10], damageMod:5,  hitBase:98, critMin:96, snd:'fire'  },
+    warrior_melee      : { name:'Sword Strike',  type:'melee',  range:1,  damageDice:[2,10], damageMod:5,  hitBase:98, critMin:90, snd:'sword', damage_type:'Physical' },
+    rogue_bow          : { name:'Arrow Shot',    type:'ranged', range:14, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:95, snd:'bow',   damage_type:'Physical' },
+    rogue_knives       : { name:'Steel Knives',  type:'melee',  range:1,  damageDice:[2,9],  damageMod:4,  hitBase:98, critMin:92, snd:'sword', damage_type:'Physical' },
+    wizard_spell       : { name:'Arcane Pulse',  type:'spell',  range:15, damageDice:[3,8],  damageMod:5,  hitBase:98, critMin:97, snd:'fire',  damage_type:'Arcane',  effect:'Stable reliable damage — no variance' },
+    cleric_smite       : { name:'Holy Smite',    type:'melee',  range:1,  damageDice:[2,8],  damageMod:5,  hitBase:98, critMin:90, snd:'sword', damage_type:'Radiant' },
+    cleric_spell       : { name:'Glimmer Spark', type:'spell',  range:12, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Radiant', effect:'Minor blind — 10% accuracy reduction (1 turn)' },
+    necromancer_spell  : { name:'Grave Touch',   type:'spell',  range:14, damageDice:[3,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Shadow',  effect:'Minor heal to caster (50% of damage dealt)' },
+    witch_spell        : { name:'Rot Touch',     type:'spell',  range:12, damageDice:[2,10], damageMod:4,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Blight',  effect:'Disease (8 damage per turn)' },
+    ranger_bow         : { name:'Precise Shot',  type:'ranged', range:16, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:94, snd:'bow',   damage_type:'Physical' },
+    ranger_blade       : { name:'Short Blade',   type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:92, snd:'sword', damage_type:'Physical' },
+    sorcerer_spell     : { name:'Ember Flick',   type:'spell',  range:14, damageDice:[3,10], damageMod:5,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Fire',    effect:'Ignite (5 damage per turn)' },
+    warlock_blast      : { name:'Void Flicker',  type:'spell',  range:15, damageDice:[2,10], damageMod:5,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Void',    effect:'Minor instability — 20% chance of random secondary effect' },
+    druid_spell           : { name:'Sprout Bind',    type:'spell',  range:11, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Nature',    effect:'Root target for 1 turn' },
+    aquorist_spell        : { name:'Frost Lance',    type:'spell',  range:13, damageDice:[3,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Cold',      effect:'Chill — target speed −1 for 1 turn' },
+    stormcaller_spell     : { name:'Chain Bolt',     type:'spell',  range:15, damageDice:[3,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Lightning', effect:'Stun — target skips next action (25% chance)' },
+    lifewhisperer_spell   : { name:'Thorn Bind',     type:'spell',  range:11, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Nature',    effect:'Root target for 1 turn' },
+    shaman_spell          : { name:'Spirit Wail',    type:'spell',  range:12, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Spirit',    effect:'Minor heal to nearest ally (4 HP)' },
+    bloodsinger_spell     : { name:'Crimson Lash',   type:'spell',  range:13, damageDice:[3,8],  damageMod:5,  hitBase:98, critMin:94, snd:'fire',  damage_type:'Bleed',     effect:'Hemorrhage (6 damage per turn for 2 turns)' },
+    beastcaller_spell     : { name:'Tide Surge',     type:'spell',  range:11, damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Water',     effect:'Knockback — pushes target 1 hex' },
     // Monsters
-    goblin_melee   : { name:'Claw',          type:'melee',  range:1,  damageDice:[1,12], damageMod:4,  hitBase:95, critMin:90, snd:'claw'  },
-    goblin_arc_bow : { name:'Goblin Arrow',  type:'ranged', range:10, damageDice:[1,6],  damageMod:1,  hitBase:92, critMin:93, snd:'bow'   },
-    goblin_arc_claw: { name:'Weak Claw',     type:'melee',  range:1,  damageDice:[1,6],  damageMod:1,  hitBase:85, critMin:92, snd:'claw'  },
+    goblin_melee   : { name:'Claw',         type:'melee',  range:1,  damageDice:[1,12], damageMod:4,  hitBase:95, critMin:90, snd:'claw', damage_type:'Physical' },
+    goblin_arc_bow : { name:'Goblin Arrow', type:'ranged', range:10, damageDice:[1,6],  damageMod:1,  hitBase:92, critMin:93, snd:'bow',  damage_type:'Physical' },
+    goblin_arc_claw: { name:'Weak Claw',    type:'melee',  range:1,  damageDice:[1,6],  damageMod:1,  hitBase:85, critMin:92, snd:'claw', damage_type:'Physical' },
 };
 
 // Returns all attacks a unit can use, ordered primary first.
@@ -3948,7 +5578,14 @@ function getUnitAttacks(unit) {
         case 'witch':       return [ATTACKS.witch_spell];
         case 'ranger':      return [ATTACKS.ranger_bow, ATTACKS.ranger_blade];
         case 'sorcerer':    return [ATTACKS.sorcerer_spell];
-        case 'warlock':     return [ATTACKS.warlock_blast];
+        case 'warlock':       return [ATTACKS.warlock_blast];
+        case 'druid':         return [ATTACKS.druid_spell];
+        case 'aquorist':      return [ATTACKS.aquorist_spell];
+        case 'stormcaller':   return [ATTACKS.stormcaller_spell];
+        case 'lifewhisperer': return [ATTACKS.lifewhisperer_spell];
+        case 'shaman':        return [ATTACKS.shaman_spell];
+        case 'bloodsinger':   return [ATTACKS.bloodsinger_spell];
+        case 'beastcaller':   return [ATTACKS.beastcaller_spell];
         case 'goblin':        return [ATTACKS.goblin_melee];
         case 'goblin_archer': return [ATTACKS.goblin_arc_bow, ATTACKS.goblin_arc_claw];
         default:              return [ATTACKS.goblin_melee];
@@ -4103,6 +5740,7 @@ function _tickDice() {
         ctx.clearRect(0, 0, cv.width, cv.height);
         const sorted = [...STATE.units].sort((a,b) => hexDepth(a.col,a.row) - hexDepth(b.col,b.row));
         for (const u of sorted) drawUnit(ctx, u);
+        drawNightBonfireFlames(ctx);
         drawProjectile(ctx);   // projectile layer above units
         drawSwing(ctx);        // melee swing arcs above units
 
@@ -4155,6 +5793,7 @@ function _tickDmg() {
         ctx.clearRect(0, 0, cv.width, cv.height);
         const sorted = [...STATE.units].sort((a,b) => hexDepth(a.col,a.row) - hexDepth(b.col,b.row));
         for (const u of sorted) drawUnit(ctx, u);
+        drawNightBonfireFlames(ctx);
 
         let anyActive = false;
         for (const a of _dmgAnims) {
@@ -4334,6 +5973,12 @@ function updateInitiativeUI() {
                 case 'ranger':        drawRanger       (pctx, 30, 90, false); break;
                 case 'sorcerer':      drawSorcerer     (pctx, 30, 90, false); break;
                 case 'warlock':       drawWarlock      (pctx, 30, 90, false); break;
+                case 'aquorist':      drawAquorist     (pctx, 30, 90, false); break;
+                case 'stormcaller':   drawStormcaller  (pctx, 30, 90, false); break;
+                case 'lifewhisperer': drawLifewhisperer(pctx, 30, 90, false); break;
+                case 'shaman':        drawShaman       (pctx, 30, 90, false); break;
+                case 'bloodsinger':   drawBloodsinger  (pctx, 30, 90, false); break;
+                case 'beastcaller':   drawBeastcaller  (pctx, 30, 90, false); break;
                 case 'goblin':        drawGoblin       (pctx, 30, 90, false); break;
                 case 'goblin_archer': drawGoblinArcher (pctx, 30, 90, false); break;
             }
@@ -4396,6 +6041,9 @@ function updateCombatPanel() {
         btn.className = 'cp-btn cp-attack-btn' + (active ? ' active' : '');
         btn.dataset.atk = key;
         btn.textContent = active ? ('✗ ' + atk.name) : (icon + ' ' + atk.name);
+        btn.addEventListener('mouseenter', e => showAttackTooltip(atk, e));
+        btn.addEventListener('mousemove',  e => repositionTooltip(e));
+        btn.addEventListener('mouseleave', () => hideTooltip());
         container.appendChild(btn);
     });
 }
@@ -4838,9 +6486,13 @@ function resolveAttack(attacker, target, onDone) {
         const toC    = hexScreenCenter(target.col,   target.row);
         const fromBy = fromC.sy;
         const toBy   = toC.sy;
-        const fh     = atk.type === 'spell' ? 68 : 30;
+        const fh       = atk.type === 'spell' ? 68 : 30;
+        const orb      = atk.type === 'spell' ? (DAMAGE_TYPE_ORB[atk.damage_type] || {}) : {};
+        const projOuter = orb.outer || DAMAGE_TYPE_COLOR[atk.damage_type] || '#ff6600';
+        const projCore  = orb.core  || '#ffffff';
+        const projGlow  = orb.glow  || projOuter;
         startProjectile(atk.type === 'spell' ? 'fireball' : 'arrow',
-            fromC.sx, fromBy - fh, toC.sx, toBy - 30);
+            fromC.sx, fromBy - fh, toC.sx, toBy - 30, projOuter, projCore, projGlow);
         if (atk.type === 'ranged' && !isMiss) setTimeout(() => playSound('arrowhit'), 160);
         if (atk.type === 'spell'  && !isMiss) setTimeout(() => playSound('firehit'),  160);
     }
@@ -4866,7 +6518,7 @@ function resolveAttack(attacker, target, onDone) {
         } else if (atk.type === 'ranged') {
             startUnitAnim(attacker.id, sp === 'ranger' ? 'ranger_bow' : 'rogue_bow', 500);
         } else if (atk.type === 'spell') {
-            const spellAnims = { wizard:'wizard_spell', cleric:'cleric_spell', necromancer:'necromancer_spell', witch:'witch_spell', sorcerer:'sorcerer_spell', warlock:'warlock_blast' };
+            const spellAnims = { wizard:'wizard_spell', cleric:'cleric_spell', necromancer:'necromancer_spell', witch:'witch_spell', sorcerer:'sorcerer_spell', warlock:'warlock_blast', aquorist:'aquorist_spell', stormcaller:'stormcaller_spell', lifewhisperer:'lifewhisperer_spell', shaman:'shaman_spell', bloodsinger:'bloodsinger_spell', beastcaller:'beastcaller_spell' };
             startUnitAnim(attacker.id, spellAnims[sp] || 'wizard_spell', 560);
         }
     }
@@ -5532,8 +7184,11 @@ function _drawStab(ctx, t) {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const PROJ = {
-    active: false,
-    type  : null,   // 'arrow' | 'fireball'
+    active   : false,
+    type     : null,   // 'arrow' | 'fireball'
+    color    : '#ff6600',
+    coreColor: '#ffffff',
+    glowColor: '#ff6600',
     fromX : 0, fromY: 0,
     toX   : 0, toY  : 0,
     start : 0,
@@ -5543,11 +7198,14 @@ const PROJ = {
     angle : 0,
 };
 
-function startProjectile(type, fx, fy, tx, ty) {
+function startProjectile(type, fx, fy, tx, ty, outerColor, coreColor, glowColor) {
     const dx = tx - fx, dy = ty - fy;
     const len = Math.hypot(dx, dy) || 1;
-    PROJ.active = true;
-    PROJ.type   = type;
+    PROJ.active    = true;
+    PROJ.type      = type;
+    PROJ.color     = outerColor || '#ff6600';
+    PROJ.coreColor = coreColor  || '#ffffff';
+    PROJ.glowColor = glowColor  || outerColor || '#ff6600';
     PROJ.fromX  = fx;  PROJ.fromY = fy;
     PROJ.toX    = tx;  PROJ.toY   = ty;
     PROJ.start  = performance.now();
@@ -5570,7 +7228,7 @@ function drawProjectile(ctx) {
     const y  = PROJ.fromY + (PROJ.toY - PROJ.fromY) * et;
 
     if (PROJ.type === 'arrow')    _drawArrow(ctx, x, y, t);
-    if (PROJ.type === 'fireball') _drawFireball(ctx, x, y, t);
+    if (PROJ.type === 'fireball') _drawFireball(ctx, x, y, t, PROJ.color, PROJ.coreColor, PROJ.glowColor);
 }
 
 // ── Arrow ─────────────────────────────────────────────────────────────────────
@@ -5649,46 +7307,59 @@ function _drawArrow(ctx, x, y, t) {
     ctx.restore();
 }
 
-// ── Fireball ──────────────────────────────────────────────────────────────────
-function _drawFireball(ctx, x, y, t) {
+// ── Spell orb — two-color parameterized (core + outer + glow) ─────────────────
+function _parseHex(hex) {
+    const h = (hex || '#ff6600').replace('#', '');
+    return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+}
+function _lerpC(a, b, t) {
+    return [Math.round(a[0]+(b[0]-a[0])*t), Math.round(a[1]+(b[1]-a[1])*t), Math.round(a[2]+(b[2]-a[2])*t)];
+}
+function _rgba(c, a) { return `rgba(${c[0]},${c[1]},${c[2]},${a})`; }
+
+function _drawFireball(ctx, x, y, t, outerColor, coreColor, glowColor) {
+    const oc = _parseHex(outerColor);  // outer edge color
+    const cc = _parseHex(coreColor  || '#ffffff');  // center color
+    const gc = _parseHex(glowColor  || outerColor);  // halo/shadow color
+
+    // Lerped stops for body gradient: center → 35% → outer → dark edge
+    const bodyMid  = _lerpC(cc, oc, 0.35);
+    const darkEdge = _lerpC(oc, [0,0,0], 0.55);
+
     const pulse = 1 + Math.sin(t * Math.PI * 9) * 0.10;
     const r     = 11 * pulse;
 
-    // ── Ground glow — light cast on terrain below the fireball ───────────────
-    // Offset down to approximate isometric ground plane
+    // ── Ground glow ──────────────────────────────────────────────────────────
     const gx = x, gy = y + 20;
     const gw = 26 + t * 10, gh = 9 + t * 3;
     const gg = ctx.createRadialGradient(gx, gy, 0, gx, gy, gw);
-    gg.addColorStop(0,   'rgba(255,150,30,0.55)');
-    gg.addColorStop(0.40,'rgba(255,80,0,0.25)');
-    gg.addColorStop(0.75,'rgba(200,40,0,0.10)');
-    gg.addColorStop(1,   'rgba(150,20,0,0)');
+    gg.addColorStop(0,    _rgba(gc, 0.50));
+    gg.addColorStop(0.40, _rgba(gc, 0.22));
+    gg.addColorStop(0.75, _rgba(gc, 0.08));
+    gg.addColorStop(1,    _rgba(gc, 0));
     ctx.fillStyle = gg;
     ctx.beginPath();
     ctx.ellipse(gx, gy, gw, gh, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // ── Smoke / ember trail ───────────────────────────────────────────────────
+    // ── Ember trail ──────────────────────────────────────────────────────────
     for (let i = 5; i >= 1; i--) {
-        const tr  = i / 6;
-        const px  = x - PROJ.nx * i * 8;
-        const py  = y - PROJ.ny * i * 8;
-        const pr  = r * (1 - tr * 0.60);
+        const tr = i / 6;
+        const px = x - PROJ.nx * i * 8;
+        const py = y - PROJ.ny * i * 8;
+        const pr = r * (1 - tr * 0.60);
         ctx.globalAlpha = (1 - tr) * 0.55;
-
         const pg = ctx.createRadialGradient(px, py, 0, px, py, pr);
-        pg.addColorStop(0,  '#ffcc30');
-        pg.addColorStop(0.4,'#ff4400');
-        pg.addColorStop(1,  'rgba(160,20,0,0)');
+        pg.addColorStop(0,   _rgba(bodyMid, 0.90));
+        pg.addColorStop(0.4, _rgba(oc, 1));
+        pg.addColorStop(1,   _rgba(oc, 0));
         ctx.fillStyle = pg;
         ctx.beginPath();
         ctx.arc(px, py, pr, 0, Math.PI * 2);
         ctx.fill();
-
-        // Trailing ground glow for each ember
         const tgg = ctx.createRadialGradient(px, py+16, 0, px, py+16, pr * 1.6);
-        tgg.addColorStop(0, 'rgba(255,100,0,0.20)');
-        tgg.addColorStop(1, 'rgba(200,40,0,0)');
+        tgg.addColorStop(0, _rgba(gc, 0.22));
+        tgg.addColorStop(1, _rgba(gc, 0));
         ctx.fillStyle = tgg;
         ctx.beginPath();
         ctx.ellipse(px, py + 16, pr * 1.6, pr * 0.55, 0, 0, Math.PI * 2);
@@ -5697,43 +7368,43 @@ function _drawFireball(ctx, x, y, t) {
     ctx.globalAlpha = 1.0;
 
     // ── Outer glow halo ───────────────────────────────────────────────────────
-    ctx.shadowColor = '#ff5500';
+    ctx.shadowColor = _rgba(gc, 1);
     ctx.shadowBlur  = 24;
     const og = ctx.createRadialGradient(x, y, 0, x, y, r * 2.6);
-    og.addColorStop(0,    'rgba(255,230,80,0.70)');
-    og.addColorStop(0.30, 'rgba(255,100,0,0.45)');
-    og.addColorStop(0.65, 'rgba(200,40,0,0.15)');
-    og.addColorStop(1,    'rgba(140,15,0,0)');
+    og.addColorStop(0,    _rgba(bodyMid, 0.65));
+    og.addColorStop(0.30, _rgba(gc, 0.40));
+    og.addColorStop(0.65, _rgba(gc, 0.12));
+    og.addColorStop(1,    _rgba(gc, 0));
     ctx.fillStyle = og;
     ctx.beginPath();
     ctx.arc(x, y, r * 2.6, 0, Math.PI * 2);
     ctx.fill();
 
-    // ── Main fireball body ────────────────────────────────────────────────────
+    // ── Main orb body: lerp from core center to outer edge ────────────────────
     const fg = ctx.createRadialGradient(x - r * 0.28, y - r * 0.28, 0, x, y, r);
-    fg.addColorStop(0,    '#ffffff');
-    fg.addColorStop(0.20, '#ffee50');
-    fg.addColorStop(0.55, '#ff6600');
-    fg.addColorStop(1,    'rgba(180,20,0,0.65)');
+    fg.addColorStop(0,    _rgba(cc, 1));
+    fg.addColorStop(0.25, _rgba(bodyMid, 0.95));
+    fg.addColorStop(0.60, _rgba(oc, 1));
+    fg.addColorStop(1,    _rgba(darkEdge, 0.70));
     ctx.fillStyle = fg;
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI * 2);
     ctx.fill();
     ctx.shadowBlur = 0;
 
-    // ── Hot white core ────────────────────────────────────────────────────────
-    ctx.fillStyle = 'rgba(255,255,255,0.90)';
+    // ── Core highlight ────────────────────────────────────────────────────────
+    ctx.fillStyle = _rgba(cc, 0.90);
     ctx.beginPath();
     ctx.arc(x - r * 0.22, y - r * 0.22, r * 0.30, 0, Math.PI * 2);
     ctx.fill();
 
-    // ── Wispy outer edge sparks ───────────────────────────────────────────────
+    // ── Wispy outer sparks ────────────────────────────────────────────────────
     for (let s = 0; s < 5; s++) {
-        const sa  = (s / 5) * Math.PI * 2 + t * 6;
-        const sr  = r * (1.0 + Math.sin(t * 14 + s) * 0.22);
-        const sx  = x + Math.cos(sa) * sr;
-        const sy  = y + Math.sin(sa) * sr * 0.75;
-        ctx.fillStyle = s % 2 === 0 ? 'rgba(255,200,40,0.65)' : 'rgba(255,80,0,0.50)';
+        const sa = (s / 5) * Math.PI * 2 + t * 6;
+        const sr = r * (1.0 + Math.sin(t * 14 + s) * 0.22);
+        const sx = x + Math.cos(sa) * sr;
+        const sy = y + Math.sin(sa) * sr * 0.75;
+        ctx.fillStyle = s % 2 === 0 ? _rgba(bodyMid, 0.65) : _rgba(oc, 0.50);
         ctx.beginPath();
         ctx.arc(sx, sy, 1.8, 0, Math.PI * 2);
         ctx.fill();

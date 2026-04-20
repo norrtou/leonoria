@@ -652,11 +652,12 @@ class FantasyMap {
         const gDeco    = el('g', {}, svg);
 
         const gLandmarks = el('g', {}, svg);
+        const gLandmarkInfo = el('g', { 'pointer-events': 'none' }, svg); // top-most: click-to-show flavor panels
 
         Object.assign(this, {
-            W, H, cw, ch, hm, COLS, ROWS,
+            W, H, cw, ch, hm, COLS, ROWS, svg,
             gSea, gLand, gTexture, gCoast, gHills, gRivers, gLakes, gForests, gFarmland,
-            gMountBase, gMounts, gRoads, gBridges, gIcons, gLabels, gDeco, gLandmarks, gKingdoms,
+            gMountBase, gMounts, gRoads, gBridges, gIcons, gLabels, gDeco, gLandmarks, gLandmarkInfo, gKingdoms,
         });
 
         // Biome feature multipliers — read from JSON biome data if available
@@ -832,6 +833,14 @@ class FantasyMap {
         el('stop', { offset: '0%', 'stop-color': '#1a4d1a', 'stop-opacity': '0' }, rimGrad);
         el('stop', { offset: '70%', 'stop-color': '#1a4d1a', 'stop-opacity': '0.6' }, rimGrad);
         el('stop', { offset: '100%', 'stop-color': '#1a4d1a', 'stop-opacity': '0' }, rimGrad);
+
+        // Stronghold ring fade — solid near center, transparent at outer spike tips
+        const sgGrad = el('radialGradient', {
+            id: 'strongholdRingFade', cx: '50%', cy: '50%', r: '50%'
+        }, defs);
+        el('stop', { offset: '0%',   'stop-color': '#1a1a1a', 'stop-opacity': '1' }, sgGrad);
+        el('stop', { offset: '70%',  'stop-color': '#1a1a1a', 'stop-opacity': '1' }, sgGrad);
+        el('stop', { offset: '100%', 'stop-color': '#1a1a1a', 'stop-opacity': '0' }, sgGrad);
     }
 
     // ── Sea background ────────────────────────────────────────────────────────
@@ -4091,7 +4100,9 @@ class FantasyMap {
         const strongholdCount = Math.max(1, this.ri(1, 3));
         const strongholdNames = ['Stronghold', 'Warband Camp', 'Palisade', 'Outpost', 'Fortified Camp', 'War Camp', 'Raiders Nest', 'Battle Encampment'];
         tryPlace('stronghold',
-            (c, r) => hm.isLand(c, r) && !hm.isCoast(c, r),
+            (c, r) => hm.isLand(c, r) && !hm.isCoast(c, r)
+                   && !lakeExclSet.has(`${c},${r}`) && !isAdjacentToLake(c, r)
+                   && !nearRiver(c, r),
             strongholdCount, 120, strongholdNames);
 
 
@@ -4630,7 +4641,7 @@ class FantasyMap {
             const isMajor    = ['capital','city','fortress','port_city','market_town','town'].includes(loc.type);
             const fontSize   = isCapital ? 13 : ['city','fortress','port_city'].includes(loc.type) ? 11 : isSmall ? 7.5 : 9;
             const bold       = isCapital || ['city','fortress','port_city'].includes(loc.type);
-            const ly         = loc.y + (isCapital ? 22 : ['city','fortress','port_city'].includes(loc.type) ? 16 : ['market_town','town'].includes(loc.type) ? 12 : loc.type === 'fishing_village' ? 10 : isSmall ? 8 : 12);
+            const ly         = loc.y + (isCapital ? 22 : ['city','fortress','port_city'].includes(loc.type) ? 16 : ['market_town','town'].includes(loc.type) ? 12 : loc.type === 'fishing_village' ? 10 : isSmall ? 8 : loc.type === 'stronghold' ? 24 : 12);
 
             // Compute label bounding box first and skip drawing both label and icon
             // if it would overlap — this prevents icons from being added to the DOM
@@ -5236,17 +5247,21 @@ class FantasyMap {
     }
 
     _iconStronghold(g, x, y) {
-        // Stronghold icon with dotted pointy border
+        // Jagged 36-point ring (18 spikes) sized to sit fully outside the 20×20 center icon
+        const N = 36;
         const points = [];
-        for (let i = 0; i < 12; i++) {
-            const angle = (i * 30) * Math.PI / 180;
-            const radius = i % 2 === 0 ? 12 : 8;
+        for (let i = 0; i < N; i++) {
+            const angle = (i * 360 / N) * Math.PI / 180;
+            const radius = i % 2 === 0 ? 15 : 11;
             points.push([x + radius * Math.cos(angle), y + radius * Math.sin(angle)]);
         }
         const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ') + ' Z';
+
+        // Black jagged ring — fades from solid near center to transparent at the spike tips
         el('path', {
             d: pathD,
-            fill: 'none', stroke: '#884430', 'stroke-width': '1.2', 'stroke-dasharray': '2,1.5'
+            fill: 'none', stroke: 'url(#strongholdRingFade)', 'stroke-width': '1.8',
+            'stroke-linejoin': 'round', opacity: '0.4'
         }, g);
         // Stronghold icon image
         el('image', {
@@ -5389,6 +5404,7 @@ class FantasyMap {
             const c = this.ri(3, cols - 4), r = this.ri(3, rows - 4);
             if (!hm.isLand(c, r)) continue;
             const isCoast = hm.isCoast(c, r);
+            const isHighPeak = hm.isHighPeak(c, r);
             // Pick from coast pool if cell is coastal and coast pool non-empty,
             // otherwise pick from normal pool. Never place coast-required on inland,
             // and never place non-coast landmarks on coastal cells (would overhang water).
@@ -5401,6 +5417,7 @@ class FantasyMap {
             }
             if (lm.requiresCoast && !isCoast) continue;
             if (!lm.requiresCoast && isCoast) continue;
+            if (isHighPeak && !lm.allowsHighPeak) continue;
             const {x, y} = this.hexCenter(c, r);
             if (tooClose(x, y)) continue;
             landmarks.push({ x, y, c, r, name: lm.name, description: lm.description ?? '', category: lm.category ?? 'nature', terrain_context: this._terrainContextAt(c, r) });
@@ -5422,7 +5439,7 @@ class FantasyMap {
             }, gLandmarks);
             g.addEventListener('mouseenter', () => { g.style.opacity = '0.65'; });
             g.addEventListener('mouseleave', () => { g.style.opacity = '1'; });
-            g.addEventListener('click', () => console.log('[Leonoria] landmark:', lm.name, '—', lm.description));
+            g.addEventListener('click', (ev) => { ev.stopPropagation(); this._showLandmarkInfo(lm); });
 
             // Render icon
             if (isStronghold) {
@@ -5438,11 +5455,13 @@ class FantasyMap {
                 coastal: '#204050'
             }[lm.category] ?? '#555';
 
-            const lmBBox = this._labelBBox(lm.x, lm.y + 19, lm.name, 7, 0);
+            // Strongholds need extra clearance — their jagged ring extends to ~y+15
+            const labelY = lm.y + (isStronghold ? 26 : 19);
+            const lmBBox = this._labelBBox(lm.x, labelY, lm.name, 7, 0);
             if (!this._labelOverlaps(lmBBox, 3)) {
                 (this._labelRegistry ??= []).push(lmBBox);
                 const labelText = el('text', {
-                    x: lm.x, y: lm.y + 19,
+                    x: lm.x, y: labelY,
                     'text-anchor': 'middle', 'font-family': "'IM Fell English',Georgia,serif",
                     'font-size': '7', 'font-style': 'italic',
                     fill: labelColor, filter: 'url(#sk)',
@@ -5531,6 +5550,81 @@ class FantasyMap {
                 break;
             }
         }
+    }
+
+    // Click-flavor panel: parchment box with name + description, anchored to landmark, clamped to map bounds.
+    _showLandmarkInfo(lm) {
+        const { gLandmarkInfo, svg, W, H } = this;
+        if (this._activeLandmarkPanel === lm) { this._hideLandmarkInfo(); return; }
+        this._hideLandmarkInfo();
+        this._activeLandmarkPanel = lm;
+
+        const panelW = 200;
+        const padX = 8, padY = 7;
+        const titleSize = 9, bodySize = 7, lineH = 9;
+
+        // Word-wrap description into lines that fit panelW - 2*padX
+        const charW = bodySize * 0.55;
+        const maxChars = Math.floor((panelW - 2 * padX) / charW);
+        const words = (lm.description || '').split(/\s+/);
+        const lines = [];
+        let cur = '';
+        for (const w of words) {
+            if (!cur.length) { cur = w; continue; }
+            if ((cur.length + 1 + w.length) <= maxChars) cur += ' ' + w;
+            else { lines.push(cur); cur = w; }
+        }
+        if (cur) lines.push(cur);
+
+        const panelH = padY + titleSize + 4 + lines.length * lineH + padY;
+
+        // Anchor above icon; clamp inside map bounds
+        let px = lm.x - panelW / 2;
+        let py = lm.y - panelH - 14;
+        if (px < 6) px = 6;
+        if (px + panelW > W - 6) px = W - 6 - panelW;
+        if (py < 6) py = lm.y + 16;
+        if (py + panelH > H - 6) py = H - 6 - panelH;
+
+        const g = el('g', { transform: `translate(${px} ${py})`, 'pointer-events': 'auto', style: 'cursor:pointer' }, gLandmarkInfo);
+
+        el('rect', {
+            x: 0, y: 0, width: panelW, height: panelH, rx: 3, ry: 3,
+            fill: '#f4ead2', stroke: '#5a4628', 'stroke-width': '1.1',
+            filter: 'url(#sk)', opacity: '0.96'
+        }, g);
+
+        const title = el('text', {
+            x: panelW / 2, y: padY + titleSize - 1,
+            'text-anchor': 'middle', 'font-family': "'IM Fell English',Georgia,serif",
+            'font-size': titleSize, 'font-weight': 'bold', fill: '#3a2a18'
+        }, g);
+        title.textContent = lm.name;
+
+        lines.forEach((ln, i) => {
+            const t = el('text', {
+                x: padX, y: padY + titleSize + 4 + (i + 1) * lineH - 2,
+                'font-family': "'IM Fell English',Georgia,serif",
+                'font-size': bodySize, 'font-style': 'italic', fill: '#3a2a18'
+            }, g);
+            t.textContent = ln;
+        });
+
+        // Click on panel dismisses it
+        g.addEventListener('click', (ev) => { ev.stopPropagation(); this._hideLandmarkInfo(); });
+
+        // Click anywhere else on the SVG dismisses
+        if (!this._landmarkInfoSvgHandler) {
+            this._landmarkInfoSvgHandler = () => this._hideLandmarkInfo();
+            svg.addEventListener('click', this._landmarkInfoSvgHandler);
+        }
+    }
+
+    _hideLandmarkInfo() {
+        if (this.gLandmarkInfo) {
+            while (this.gLandmarkInfo.firstChild) this.gLandmarkInfo.removeChild(this.gLandmarkInfo.firstChild);
+        }
+        this._activeLandmarkPanel = null;
     }
 
     // ── Region names ──────────────────────────────────────────────────────────

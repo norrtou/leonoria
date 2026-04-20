@@ -496,6 +496,35 @@
             margin-bottom: 0.5rem;
         }
 
+        .tso-lighting-row {
+            display: flex;
+            gap: 0.6rem;
+        }
+        .tso-lighting-btn {
+            flex: 1;
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: 0.98rem;
+            padding: 0.6em 1em;
+            background: linear-gradient(170deg, #2a2418 0%, #18140c 100%);
+            border: 1px solid rgba(201, 168, 76, 0.35);
+            color: var(--text-parchment);
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            text-align: center;
+            letter-spacing: 0.04em;
+        }
+        .tso-lighting-btn:hover {
+            background: linear-gradient(170deg, #3a3220 0%, #241d10 100%);
+            border-color: rgba(201, 168, 76, 0.7);
+        }
+        .tso-lighting-btn.active {
+            background: linear-gradient(170deg, #4a3a14 0%, #2a1f0a 100%);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            box-shadow: inset 0 0 12px rgba(201, 168, 76, 0.25);
+        }
+
         .tso-default-btn {
             width: 100%;
             font-family: 'IM Fell English', Georgia, serif;
@@ -666,6 +695,18 @@
             <h2 class="tso-title">Choose Your Party</h2>
 
             <div>
+                <div class="tso-section-title">Lighting</div>
+                <div class="tso-lighting-row">
+                    <button class="tso-lighting-btn active" id="btn-lighting-day" data-mode="day">
+                        ☀ Daytime
+                    </button>
+                    <button class="tso-lighting-btn" id="btn-lighting-night" data-mode="night">
+                        🌙 Nighttime
+                    </button>
+                </div>
+            </div>
+
+            <div>
                 <div class="tso-section-title">Placeholder Teams</div>
                 <button class="tso-default-btn" id="btn-default-team">
                     ⚔ Warrior · Wizard · Rogue
@@ -675,6 +716,12 @@
                 </button>
                 <button class="tso-default-btn" id="btn-team-dark">
                     ☽ Sorcerer · Necromancer · Witch
+                </button>
+                <button class="tso-default-btn" id="btn-team-nature">
+                    ✦ Lifewhisperer · Aquorist · Shaman
+                </button>
+                <button class="tso-default-btn" id="btn-team-storm">
+                    ⚡ Stormcaller · Bloodsinger · Beastcaller
                 </button>
             </div>
 
