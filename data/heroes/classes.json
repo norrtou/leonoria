@@ -987,26 +987,25 @@
       "id": "soulkindler",
       "name": "Soulkindler",
       "class_group": "Cleric",
-      "archetype": "Healer / Cleric",
-      "description": "A practitioner of healing, restoration, and divine support. The Soulkindler specializes in Vitalism and Soulkindling magic — repairing what is broken, including Temporal damage. The rarest reliable healer in Leonoria.",
+      "archetype": "Offensive Light Mage",
+      "description": "A holy caster who channels divine light not to mend but to burn. The Soulkindler weaponizes luminance — blinding, searing, and purging enemies with concentrated holy radiance. Where the Priest heals and the Dawncaller hunts shadow, the Soulkindler simply incinerates.",
       "aptitude_priorities": [
-        "Conviction",
         "Materium Affinity",
-        "Cognition"
+        "Cognition",
+        "Conviction"
       ],
       "aptitude_bonuses": {
-        "conviction": 10,
-        "cognition": 23,
-        "physiology": -5,
+        "cognition": 20,
+        "conviction": 8,
+        "physiology": -8,
         "martial_experience": -8
       },
       "materium_access": true,
       "materium_schools_available": [
-        "Vitalism",
-        "Soulkindling",
+        "Luminance",
         "Purelight",
-        "Solacium",
-        "Timewhispering (basic)"
+        "Dawncalling (basic)",
+        "Ascendance (basic)"
       ],
       "shadow_connection_start": 0,
       "starting_skills": {
@@ -1016,40 +1015,37 @@
         ],
         "choice_count": 2,
         "choices": [
-          "herbalism",
-          "alchemy",
-          "leadership",
+          "monster_lore",
           "persuasion",
-          "monster_lore"
+          "intimidation",
+          "perception"
         ]
       },
       "default_weapon_affinity": "blunt_force",
       "available_armor": [
-        "light",
-        "medium"
+        "light"
       ],
       "starting_wealth_range": [
-        30,
-        60
+        25,
+        55
       ],
       "starter_kit": [
-        "Staff (Quarterstaff)",
-        "Healer's Satchel (5 basic potions)",
-        "Light Robes",
-        "Holy Symbol",
+        "Light-Etched Staff",
+        "Radiant Robes",
+        "Focus Crystal (Luminance attuned)",
         "Rations x3"
       ],
       "special_class_trait": {
-        "name": "Temporal Mend",
-        "description": "Only the Soulkindler can reverse the permanent Vitality loss from Temporal (Aged) damage. Costs 40% of Materium pool per restoration attempt."
+        "name": "Soul Sear",
+        "description": "Once per battle, the Soulkindler may ignite their Materium for 2 turns. While active, all light damage they deal bypasses magical insulation entirely and inflicts a stacking Radiant Burn status on the target (+8% vulnerability per stack, max 3 stacks)."
       },
       "typical_races": [
         "The Greys"
       ],
-      "lore": "A Soulkindler once said: 'I do not fight death. I argue with it.'",
+      "lore": "They stopped asking what light was for. Now they just use it.",
       "morality_range": [
-        66,
-        85
+        55,
+        80
       ]
     },
     {
@@ -2910,6 +2906,213 @@
       "morality_range": [
         10,
         40
+      ]
+    },
+    {
+      "id": "dark_templar",
+      "name": "Dark Templar",
+      "class_group": "DarkKnight",
+      "archetype": "Void Knight / Despair Warrior",
+      "description": "A forsaken warrior who has surrendered themselves to shadow and void. The Dark Templar moves slowly and deliberately — encased in black iron, wielding immense two-handed blades wreathed in darkness. Their mere presence corrupts the will of those around them. They do not conquer through speed or finesse. They conquer through dread.",
+      "aptitude_priorities": [
+        "Physiology",
+        "Martial Experience",
+        "Materium Affinity (Shadow)"
+      ],
+      "aptitude_bonuses": {
+        "physiology": 12,
+        "martial_experience": 10,
+        "shadow_connection": 8,
+        "conviction": -12,
+        "discipline": -5
+      },
+      "materium_access": true,
+      "materium_schools_available": [
+        "Umbramancy",
+        "Voidreaving (basic)"
+      ],
+      "shadow_connection_start": 20,
+      "starting_skills": {
+        "fixed": [
+          "swordsmanship",
+          "shadow_weaving",
+          "intimidation"
+        ],
+        "choice_count": 1,
+        "choices": [
+          "athletics",
+          "survival",
+          "deception",
+          "monster_lore"
+        ]
+      },
+      "default_weapon_affinity": "swordsmanship",
+      "weapon_restriction": "two_handed_swords_only",
+      "available_armor": [
+        "heavy"
+      ],
+      "starting_wealth_range": [
+        20,
+        50
+      ],
+      "starter_kit": [
+        "Blackened Greatsword",
+        "Black Iron Plate Armor (full set)",
+        "Void-Etched Gauntlets",
+        "Dark Reagent Pouch",
+        "Rations x2"
+      ],
+      "special_class_trait": {
+        "name": "Veil of Despair",
+        "type": "passive_aura",
+        "description": "Passive aura, always active. Every character on the battlefield — ally and enemy alike — has their morality alignment reduced by 5% per turn. Characters already below 30% morality suffer an additional -10% penalty on all morale and will checks while the aura is active."
+      },
+      "typical_races": [
+        "Northerner",
+        "The Dark Ones",
+        "The Ashen Halfbreeds"
+      ],
+      "lore": "No order created the Dark Templar. They are individuals who sought power without light and found something waiting in the dark that was willing to give it. What they received was not a gift — it was an infection. They do not serve shadow. They have become it.",
+      "social_warning": "Dark Templars are feared and reviled in virtually all settled cultures. The Veil of Despair corrupts morality passively — including that of allies. Few parties tolerate one for long.",
+      "morality_range": [
+        5,
+        25
+      ]
+    },
+    {
+      "id": "rascal",
+      "name": "Rascal",
+      "class_group": "Rogue",
+      "archetype": "Nature Trickster / Rogue Mage",
+      "description": "A quick-fingered Oakspeople wanderer who mixes knife-work with bursts of natural and spatial magic. The Rascal is not a serious threat — until they are. Small, fast, and surprisingly difficult to put down, they blend petty thievery with Vitalism self-patching and Geometrics that make them very hard to pin.",
+      "aptitude_priorities": [
+        "Cognition",
+        "Martial Experience",
+        "Materium Affinity"
+      ],
+      "aptitude_bonuses": {
+        "cognition": 12,
+        "martial_experience": 10,
+        "discipline": -8
+      },
+      "materium_access": true,
+      "materium_schools_available": [
+        "Vitalism (basic)",
+        "Geometrics (basic)"
+      ],
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": [
+          "small_arms",
+          "thievery",
+          "arcane_theory"
+        ],
+        "choice_count": 1,
+        "choices": [
+          "lockpicking",
+          "acrobatics",
+          "stealth",
+          "survival"
+        ]
+      },
+      "default_weapon_affinity": "small_arms",
+      "available_armor": [
+        "light"
+      ],
+      "starting_wealth_range": [
+        10,
+        35
+      ],
+      "starter_kit": [
+        "Bone-Handled Knife x2",
+        "Leaf-Stitched Leather Vest",
+        "Herb Pouch (medicinal)",
+        "Lockpicks",
+        "Rations x3"
+      ],
+      "special_class_trait": {
+        "name": "Rascal's Touch",
+        "type": "once_per_battle",
+        "description": "Once per battle, the Rascal may cast Rascal's Touch on a beast-type enemy within melee range. On success, that enemy is charmed for 2 turns — it will not attack and may act as a temporary shield or distraction. The charm breaks if the charmed beast takes damage."
+      },
+      "typical_races": [
+        "Oakpeople"
+      ],
+      "lore": "Most Oakspeople who wander the wider world ended up there by accident — set out as children, lost, or simply unable to go back. The Rascal is what happens when that wanderer decides the world owes them something and starts collecting.",
+      "morality_range": [
+        30,
+        65
+      ]
+    },
+    {
+      "id": "priest",
+      "name": "Priest",
+      "class_group": "Cleric",
+      "archetype": "Institutional Healer / Holy Caster",
+      "description": "A devout servant of an organized faith — trained in healing, divine warding, and the banishment of darkness. The Priest is the most complete healer in Leonoria, combining deep Vitalism with Sanctification's protective purification and Dawncalling's anti-darkness power. In melee they manage only basic staff blows. Their strength is the fight before and after the fight.",
+      "aptitude_priorities": [
+        "Conviction",
+        "Materium Affinity",
+        "Cognition"
+      ],
+      "aptitude_bonuses": {
+        "conviction": 15,
+        "cognition": 15,
+        "physiology": -8,
+        "martial_experience": -10
+      },
+      "materium_access": true,
+      "materium_schools_available": [
+        "Vitalism",
+        "Sanctification",
+        "Dawncalling",
+        "Luminance (basic)"
+      ],
+      "shadow_connection_start": 0,
+      "starting_skills": {
+        "fixed": [
+          "lightwielding_skill",
+          "herbalism",
+          "persuasion"
+        ],
+        "choice_count": 1,
+        "choices": [
+          "arcane_theory",
+          "leadership",
+          "monster_lore",
+          "alchemy"
+        ]
+      },
+      "default_weapon_affinity": "blunt_force",
+      "weapon_restriction": "staff_and_scepter_only",
+      "available_armor": [
+        "light",
+        "robes"
+      ],
+      "starting_wealth_range": [
+        25,
+        55
+      ],
+      "starter_kit": [
+        "Ordained Quarterstaff",
+        "Grey-White Priest's Robes (institutional)",
+        "Holy Symbol (church-issued)",
+        "Healer's Satchel (3 basic potions)",
+        "Rations x3",
+        "Prayer Scroll"
+      ],
+      "special_class_trait": {
+        "name": "Divine Blessing",
+        "type": "once_per_battle",
+        "description": "Once per battle, the Priest may bless up to 3 allies within 4 hexes. Blessed allies gain +20% to all incoming heals, +10% to all resistance checks, and are immune to fear effects for 3 turns."
+      },
+      "typical_races": [
+        "Midlander"
+      ],
+      "lore": "The Priest did not choose faith out of desperation. They chose it out of conviction — and then spent years learning to tell the difference. The church gave them structure. The structure gave them power. What they do with that power is, ultimately, their own business.",
+      "morality_range": [
+        55,
+        88
       ]
     }
   ]

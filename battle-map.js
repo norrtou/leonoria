@@ -56,40 +56,269 @@ const ENEMY_DEFS = [
     { id:'goblin_archer2', name:'Goblin Archer',  type:'goblin_archer', team:'enemies', col:8, row:2  },
 ];
 
+// ── Placeholder hero factory functions ───────────────────────────────────────
+// Each rolls morality and one choice-skill from real class data (classes.json).
+// _charData is display-only; combat stats come from UNIT_STATS per type.
+
+function _rnd(n)   { return Math.floor(Math.random() * n); }
+function _pick(a)  { return a[_rnd(a.length)]; }
+function _apt(base, spread) { return base + _rnd(spread); }
+
+function makeWarriorDef() {
+    const morality = 45 + _rnd(26);
+    const charData = {
+        cls: 'ironguard', race: _pick(['midlander','northerner','stone_folk','wildmen_ravagers']),
+        name: 'Warrior', level: 1, morality,
+        age: 25 + _rnd(16),
+        skills: ['shield_fighting', 'blunt_force', _pick(['swordsmanship','polearms','axewielding','athletics'])],
+        aptitudes: { physiology: _apt(47,6), martial_experience: _apt(42,6), conviction: _apt(28,8), discipline: _apt(24,7), cognition: _apt(20,7) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'warrior', name:'Warrior', type:'warrior', spriteType:'warrior', team:'heroes', col:2, row:13, _charData: charData };
+}
+
+function makeWizardDef() {
+    const morality = 40 + _rnd(26);
+    const charData = {
+        cls: 'elementalist', race: _pick(['ancients_secluded','ancients_greys','oakpeople','ashen_halfbreeds']),
+        name: 'Wizard', level: 1, morality,
+        age: 35 + _rnd(21),
+        skills: ['materium_channeling', 'arcane_theory', _pick(['inscription','alchemy','monster_lore','stealth'])],
+        aptitudes: { cognition: _apt(47,6), discipline: _apt(37,6), conviction: _apt(26,8), physiology: _apt(18,7), martial_experience: _apt(14,7) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'wizard', name:'Wizard', type:'wizard', spriteType:'wizard', team:'heroes', col:5, row:14, _charData: charData };
+}
+
+function makeRogueDef() {
+    const morality = 25 + _rnd(36);
+    const charData = {
+        cls: 'shadowblade', race: _pick(['ancients_dark_ones','step_folk','ashen_halfbreeds','midlander']),
+        name: 'Rogue', level: 1, morality,
+        age: 20 + _rnd(16),
+        skills: ['small_arms', 'stealth', 'shadow_weaving', _pick(['thievery','lockpicking','acrobatics','swordsmanship'])],
+        aptitudes: { martial_experience: _apt(45,6), cognition: _apt(40,6), discipline: _apt(30,8), physiology: _apt(24,7), conviction: _apt(16,7) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'rogue', name:'Rogue', type:'rogue', spriteType:'rogue', team:'heroes', col:8, row:13, _charData: charData };
+}
+
 // Default placeholder hero team
-const DEFAULT_HERO_DEFS = [
-    { id:'warrior', name:'Warrior', type:'warrior', spriteType:'warrior', team:'heroes', col:2, row:13 },
-    { id:'wizard',  name:'Wizard',  type:'wizard',  spriteType:'wizard',  team:'heroes', col:5, row:14 },
-    { id:'rogue',   name:'Rogue',   type:'rogue',   spriteType:'rogue',   team:'heroes', col:8, row:13 },
-];
+const DEFAULT_HERO_DEFS = [makeWarriorDef(), makeWizardDef(), makeRogueDef()];
+
+function makeClericDef() {
+    const morality = 66 + _rnd(20);
+    const charData = {
+        cls: 'warden', race: _pick(['ancients_greys','ice_ancients','northerner','midlander']),
+        name: 'Cleric', level: 1, morality,
+        age: 28 + _rnd(18),
+        skills: ['lightwielding', 'leadership', _pick(['swordsmanship','shield_fighting','blunt_force','intimidation'])],
+        aptitudes: { conviction: _apt(49,6), physiology: _apt(40,6), discipline: _apt(31,7), cognition: _apt(26,7), martial_experience: _apt(28,7) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'cleric', name:'Cleric', type:'cleric', spriteType:'cleric', team:'heroes', col:2, row:13, _charData: charData };
+}
+
+function makeRangerDef() {
+    const morality = 38 + _rnd(28);
+    const charData = {
+        cls: 'hunter', race: _pick(['northerner','step_folk','wildmen_foresters','midlander']),
+        name: 'Ranger', level: 1, morality,
+        age: 20 + _rnd(16),
+        skills: ['archery', 'survival', 'tracking', _pick(['beast_handling','stealth','athletics','navigation'])],
+        aptitudes: { martial_experience: _apt(46,6), cognition: _apt(40,6), discipline: _apt(30,7), physiology: _apt(28,7), conviction: _apt(22,7) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'ranger', name:'Ranger', type:'ranger', spriteType:'ranger', team:'heroes', col:5, row:14, _charData: charData };
+}
+
+function makeWarlockDef() {
+    const morality = 15 + _rnd(36);
+    const c1 = _pick(['monster_lore','deception','intimidation','stealth','thievery']);
+    const c2 = _pick(['monster_lore','deception','intimidation','stealth','thievery'].filter(s => s !== c1));
+    const charData = {
+        cls: 'voidweaver', race: _pick(['ancients_dark_ones','swampbrood','ashen_halfbreeds']),
+        name: 'Warlock', level: 1, morality,
+        age: 25 + _rnd(21),
+        skills: ['shadow_weaving', 'arcane_theory', c1, c2],
+        aptitudes: { cognition: _apt(46,6), discipline: _apt(32,7), physiology: _apt(19,7), martial_experience: _apt(16,7), conviction: _apt(13,6) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'warlock', name:'Warlock', type:'warlock', spriteType:'warlock', team:'heroes', col:8, row:13, _charData: charData };
+}
 
 // Placeholder team 2: holy order
-const TEAM_HOLY_DEFS = [
-    { id:'cleric',  name:'Cleric',  type:'cleric',  spriteType:'cleric',  team:'heroes', col:2, row:13 },
-    { id:'ranger',  name:'Ranger',  type:'ranger',  spriteType:'ranger',  team:'heroes', col:5, row:14 },
-    { id:'warlock', name:'Warlock', type:'warlock', spriteType:'warlock', team:'heroes', col:8, row:13 },
-];
+const TEAM_HOLY_DEFS = [makeClericDef(), makeRangerDef(), makeWarlockDef()];
+
+function makeSorcererDef() {
+    const morality = 45 + _rnd(26);
+    const charData = {
+        cls: 'pyrecrafter', race: _pick(['midlander','step_folk','ancients_dark_ones']),
+        name: 'Sorcerer', level: 1, morality,
+        age: 25 + _rnd(16),
+        skills: ['materium_channeling', 'arcane_theory', _pick(['alchemy','herbalism','survival','monster_lore'])],
+        aptitudes: { cognition: _apt(47,6), discipline: _apt(38,6), conviction: _apt(24,7), physiology: _apt(20,7), martial_experience: _apt(16,6) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'sorcerer', name:'Sorcerer', type:'sorcerer', spriteType:'sorcerer', team:'heroes', col:2, row:13, _charData: charData };
+}
+
+function makeNecromancerDef() {
+    const morality = 10 + _rnd(26);
+    const charData = {
+        cls: 'gravecaller', race: _pick(['swampbrood','ancients_dark_ones','midlander']),
+        name: 'Necromancer', level: 1, morality,
+        age: 30 + _rnd(26),
+        skills: ['shadow_weaving', 'summoning', _pick(['arcane_theory','monster_lore','ritualcraft','deception'])],
+        aptitudes: { cognition: _apt(48,6), discipline: _apt(36,6), physiology: _apt(18,6), martial_experience: _apt(14,6), conviction: _apt(10,6) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'necromancer', name:'Necromancer', type:'necromancer', spriteType:'necromancer', team:'heroes', col:5, row:14, _charData: charData };
+}
+
+function makeWitchDef() {
+    const morality = 20 + _rnd(36);
+    const charData = {
+        cls: 'blightweaver', race: _pick(['wildmen_foresters','swampbrood','midlander']),
+        name: 'Witch', level: 1, morality,
+        age: 25 + _rnd(21),
+        skills: ['shadow_weaving', 'herbalism', _pick(['alchemy','survival','ritualcraft','monster_lore'])],
+        aptitudes: { cognition: _apt(45,6), physiology: _apt(36,6), discipline: _apt(30,7), conviction: _apt(20,7), martial_experience: _apt(16,6) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'witch', name:'Witch', type:'witch', spriteType:'witch', team:'heroes', col:8, row:13, _charData: charData };
+}
 
 // Placeholder team 3: dark casters
-const TEAM_DARK_DEFS = [
-    { id:'sorcerer',   name:'Sorcerer',   type:'sorcerer',   spriteType:'sorcerer',   team:'heroes', col:2, row:13 },
-    { id:'necromancer',name:'Necromancer',type:'necromancer',spriteType:'necromancer',team:'heroes', col:5, row:14 },
-    { id:'witch',      name:'Witch',      type:'witch',      spriteType:'witch',      team:'heroes', col:8, row:13 },
-];
+const TEAM_DARK_DEFS = [makeSorcererDef(), makeNecromancerDef(), makeWitchDef()];
+
+function makeLifewhispererDef() {
+    const morality = 48 + _rnd(23);
+    const choices = ['alchemy','animal_handling','survival','arcane_theory','tracking'];
+    const c1 = _pick(choices); const c2 = _pick(choices.filter(s => s !== c1));
+    const charData = {
+        cls: 'lifewhisperer', race: _pick(['ancients_secluded','wildmen_foresters','oakpeople']),
+        name: 'Lifewhisperer', level: 1, morality,
+        age: 22 + _rnd(19),
+        skills: ['materium_channeling', 'herbalism', c1, c2],
+        aptitudes: { conviction: _apt(46,6), cognition: _apt(38,6), discipline: _apt(30,7), physiology: _apt(24,7), martial_experience: _apt(16,6) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'lifewhisperer', name:'Lifewhisperer', type:'lifewhisperer', spriteType:'lifewhisperer', team:'heroes', col:2, row:13, _charData: charData };
+}
+
+function makeAquoristDef() {
+    const morality = 45 + _rnd(26);
+    const charData = {
+        cls: 'aquorist', race: _pick(['midlander','step_folk','ancients_secluded']),
+        name: 'Aquorist', level: 1, morality,
+        age: 22 + _rnd(19),
+        skills: ['materium_channeling', 'flow_control', _pick(['arcane_theory','survival','navigation','monster_lore'])],
+        aptitudes: { cognition: _apt(47,6), discipline: _apt(38,6), conviction: _apt(27,7), physiology: _apt(20,7), martial_experience: _apt(15,6) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'aquorist', name:'Aquorist', type:'aquorist', spriteType:'aquorist', team:'heroes', col:5, row:14, _charData: charData };
+}
+
+function makeShamanDef() {
+    const morality = 40 + _rnd(26);
+    const charData = {
+        cls: 'shaman', race: _pick(['northerner','stone_folk','wildmen_foresters']),
+        name: 'Shaman', level: 1, morality,
+        age: 25 + _rnd(21),
+        skills: ['materium_channeling', 'ritualcraft', _pick(['monster_lore','beast_handling','herbalism','animal_handling'])],
+        aptitudes: { conviction: _apt(46,6), cognition: _apt(38,6), discipline: _apt(28,7), physiology: _apt(26,7), martial_experience: _apt(18,6) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'shaman', name:'Shaman', type:'shaman', spriteType:'shaman', team:'heroes', col:8, row:13, _charData: charData };
+}
 
 // Placeholder team 4: nature's triad (Cold · Nature · Spirit)
-const TEAM_NATURE_DEFS = [
-    { id:'lifewhisperer', name:'Lifewhisperer', type:'lifewhisperer', spriteType:'lifewhisperer', team:'heroes', col:2, row:13 },
-    { id:'aquorist',      name:'Aquorist',      type:'aquorist',      spriteType:'aquorist',      team:'heroes', col:5, row:14 },
-    { id:'shaman',        name:'Shaman',        type:'shaman',        spriteType:'shaman',        team:'heroes', col:8, row:13 },
-];
+const TEAM_NATURE_DEFS = [makeLifewhispererDef(), makeAquoristDef(), makeShamanDef()];
+
+function makeStormcallerDef() {
+    const morality = 45 + _rnd(26);
+    const charData = {
+        cls: 'stormcaller', race: _pick(['ice_ancients','ancients_greys','midlander']),
+        name: 'Stormcaller', level: 1, morality,
+        age: 25 + _rnd(16),
+        skills: ['materium_channeling', 'arcane_theory', _pick(['navigation','survival','monster_lore','acrobatics'])],
+        aptitudes: { cognition: _apt(48,6), discipline: _apt(37,6), conviction: _apt(25,7), physiology: _apt(20,7), martial_experience: _apt(16,6) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'stormcaller', name:'Stormcaller', type:'stormcaller', spriteType:'stormcaller', team:'heroes', col:2, row:13, _charData: charData };
+}
+
+function makeBloodsingerDef() {
+    const morality = 15 + _rnd(36);
+    const charData = {
+        cls: 'bloodsinger', race: _pick(['ancients_dark_ones','wildmen_ravagers','midlander']),
+        name: 'Bloodsinger', level: 1, morality,
+        age: 22 + _rnd(17),
+        skills: ['shadow_weaving', 'athletics', _pick(['alchemy','herbalism','intimidation','small_arms'])],
+        aptitudes: { cognition: _apt(45,6), physiology: _apt(38,6), discipline: _apt(31,7), martial_experience: _apt(26,7), conviction: _apt(12,6) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'bloodsinger', name:'Bloodsinger', type:'bloodsinger', spriteType:'bloodsinger', team:'heroes', col:5, row:14, _charData: charData };
+}
+
+function makeBeastcallerDef() {
+    const morality = 48 + _rnd(23);
+    const charData = {
+        cls: 'beastcaller', race: _pick(['wildmen_foresters','oakpeople','northerner']),
+        name: 'Beastcaller', level: 1, morality,
+        age: 20 + _rnd(19),
+        skills: ['materium_channeling', 'beastcraft', _pick(['animal_handling','tracking','survival','herbalism'])],
+        aptitudes: { conviction: _apt(46,6), cognition: _apt(40,6), physiology: _apt(28,7), discipline: _apt(26,7), martial_experience: _apt(20,6) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'beastcaller', name:'Beastcaller', type:'beastcaller', spriteType:'beastcaller', team:'heroes', col:8, row:13, _charData: charData };
+}
 
 // Placeholder team 5: storm & blood (Lightning · Bleed · Water)
-const TEAM_STORM_DEFS = [
-    { id:'stormcaller',  name:'Stormcaller',  type:'stormcaller',  spriteType:'stormcaller',  team:'heroes', col:2, row:13 },
-    { id:'bloodsinger',  name:'Bloodsinger',  type:'bloodsinger',  spriteType:'bloodsinger',  team:'heroes', col:5, row:14 },
-    { id:'beastcaller',  name:'Beastcaller',  type:'beastcaller',  spriteType:'beastcaller',  team:'heroes', col:8, row:13 },
-];
+const TEAM_STORM_DEFS = [makeStormcallerDef(), makeBloodsingerDef(), makeBeastcallerDef()];
+
+// Placeholder team 6: new classes (Dark Templar · Priest · Rascal)
+function makeDarkTemplarDef() {
+    const morality = 5 + _rnd(21); // [5, 25] — always Despair
+    const charData = {
+        cls: 'dark_templar', race: _pick(['northerner','wildmen_ravagers','midlander']),
+        name: 'Dark Templar', level: 1, morality,
+        age: 30 + _rnd(20),
+        skills: ['swordsmanship', 'shadow_weaving', 'intimidation', _pick(['athletics','survival','deception','monster_lore'])],
+        aptitudes: { physiology: _apt(47,6), martial_experience: _apt(45,6), discipline: _apt(28,7), conviction: _apt(21,7), cognition: _apt(33,7) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'dark_templar', name:'Dark Templar', type:'dark_templar', spriteType:'dark_templar', team:'heroes', col:2, row:13, _charData: charData };
+}
+
+function makePriestDef() {
+    const morality = 55 + _rnd(34);
+    const charData = {
+        cls: 'priest', race: _pick(['midlander','ancients_greys','northerner']),
+        name: 'Priest', level: 1, morality,
+        age: 25 + _rnd(26),
+        skills: ['lightwielding', 'herbalism', 'persuasion', _pick(['healing','leadership','ritualcraft','monster_lore'])].filter((v,i,a) => a.indexOf(v) === i),
+        aptitudes: { conviction: _apt(49,6), cognition: _apt(37,6), discipline: _apt(30,7), physiology: _apt(24,7), martial_experience: _apt(16,6) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'priest', name:'Priest', type:'priest', spriteType:'priest', team:'heroes', col:5, row:14, _charData: charData };
+}
+
+function makeRascalDef() {
+    const morality = 30 + _rnd(36);
+    const charData = {
+        cls: 'rascal', race: _pick(['midlander','step_folk','ashen_halfbreeds']),
+        name: 'Rascal', level: 1, morality,
+        age: 18 + _rnd(15),
+        skills: ['small_arms', 'thievery', 'arcane_theory', _pick(['stealth','deception','athletics','lockpicking'])],
+        aptitudes: { cognition: _apt(46,6), martial_experience: _apt(40,6), discipline: _apt(34,7), physiology: _apt(25,7), conviction: _apt(19,7) },
+        personality: null, background: null, birthSign: null,
+    };
+    return { id:'rascal', name:'Rascal', type:'rascal', spriteType:'rogue', team:'heroes', col:8, row:13, _charData: charData };
+}
+
+const TEAM_NEW_CLASSES_DEFS = [makeDarkTemplarDef(), makePriestDef(), makeRascalDef()];
 
 // Active unit definitions — rebuilt each time a team is loaded
 let UNIT_DEFS = [...DEFAULT_HERO_DEFS, ...ENEMY_DEFS];
@@ -110,6 +339,9 @@ const CLASS_GROUP_MAP = {
     voidweaver:'Warlock',   bloodsinger:'Warlock',  dreadbinder:'Warlock',  dominionist:'Warlock', demonologist:'Warlock',
     malefactor:'Witch',     blightweaver:'Witch',   bloodwitch:'Witch',     dreameater:'Witch',
     gravecaller:'Necromancer', soulreaper:'Necromancer', rotforged:'Necromancer', windwalker:'Necromancer',
+    dark_templar:'DarkKnight',
+    rascal:'Rogue',
+    priest:'Cleric',
 };
 
 // Hero starting positions by party size (1–6)
@@ -202,6 +434,7 @@ function spriteTypeFromGroup(group) {
     if (group === 'Sorcerer')    return 'sorcerer';
     if (group === 'Warlock')     return 'warlock';
     if (group === 'Druid')       return 'lifewhisperer';
+    if (group === 'DarkKnight')  return 'warrior';
     return 'wizard';
 }
 
@@ -216,6 +449,7 @@ function charToBattleStats(char) {
     let speed = 3;
     if (group === 'Rogue' || group === 'Ranger') speed = 4;
     if (dis >= 60) speed = Math.min(5, speed + 1);
+    if (group === 'DarkKnight') speed = 2; // Dark Templar: half warrior speed, regardless of discipline
 
     let dodge = 20;
     if (group === 'Rogue')                                                      dodge = 30;
@@ -268,7 +502,7 @@ function charToAttacks(char) {
 // Registers the unit's stats in UNIT_STATS and its attacks in ATTACKS.
 function charToUnitDef(char, idx, positions) {
     const group      = CLASS_GROUP_MAP[char.cls] || 'Warrior';
-    const spriteType = spriteTypeFromGroup(group);
+    const spriteType = char.cls === 'priest' ? 'priest' : spriteTypeFromGroup(group);
     const stats      = charToBattleStats(char);
     const attacks    = charToAttacks(char);
     const pos        = positions[idx] || { col: 2 + idx * 3, row: 13 };
@@ -2767,6 +3001,230 @@ function drawWarrior(ctx, cx, by, sel, anim) {
     if (sel) _drawSelectRing(ctx, cx, by);
 }
 
+// ─── DARK TEMPLAR ─────────────────────────────────────────────────────────────
+// Black iron plate. Two-handed greatsword, no shield. Spiked horned helm.
+// Tattered void-shadow cape. Void rune on breastplate glows purple.
+function drawDarkTemplar(ctx, cx, by, sel, anim) {
+    const C = {
+        arDk:'#0a0a0e',   arMid:'#18181e', arLit:'#2a2832', arHi:'#3a3848',
+        trim:'#4a1060',   trimLit:'#7020a0',
+        rune:'#8020c0',   runeGl:'#c060ff',
+        capeDk:'#080810', capeMid:'#100c1a', capeLit:'#1c1430',
+        bladeDk:'#1a0a28', bladeMid:'#2c1448', bladeEdge:'#9040d0',
+        hilt:'#2a1840',   hiltGl:'#7030b0',
+        spike:'#1e1e28',  spikeTip:'#4a4060',
+        boot:'#080808',
+    };
+
+    const t = anim?.t ?? 0;
+    let dY = 0, swingT = 0;
+    if (anim?.type === 'dark_templar_melee') {
+        if (t < 0.20)      { dY = -4*(t/0.20); }
+        else if (t < 0.58) { const p=(t-0.20)/0.38, e=1-Math.pow(1-p,3); dY=-4+18*e; swingT=e; }
+        else               { const p=(t-0.58)/0.42; dY=14-14*p; swingT=1-p*0.5; }
+    }
+
+    drawShadow(ctx, cx, by);
+
+    const wY  = by - 26;
+    const bpB = wY - 4 - dY*0.55;
+    const bpT = bpB - 18;
+    const shY = bpT;
+    const hcY = shY - 15;
+
+    // ── Void-shadow cape (behind body) ────────────────────────────────────
+    ctx.fillStyle = C.capeDk;
+    ctx.beginPath();
+    ctx.moveTo(cx-6, shY); ctx.quadraticCurveTo(cx-22, shY+20, cx-18, by);
+    ctx.lineTo(cx-3, by); ctx.lineTo(cx-2, shY+6); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.capeMid;
+    ctx.beginPath();
+    ctx.moveTo(cx+7, shY); ctx.quadraticCurveTo(cx+20, shY+18, cx+16, by);
+    ctx.lineTo(cx+1, by); ctx.lineTo(cx+1, shY+6); ctx.closePath(); ctx.fill();
+    // Ragged cape hem tears
+    ctx.fillStyle = C.capeDk;
+    for (let i = 0; i < 4; i++) {
+        const tx = cx - 16 + i * 9, th = 6 + (i % 2) * 4;
+        ctx.beginPath(); ctx.moveTo(tx, by); ctx.lineTo(tx+4, by); ctx.lineTo(tx+2, by+th); ctx.closePath(); ctx.fill();
+    }
+    // Shadow wisps along cape edge during swing
+    if (swingT > 0) {
+        ctx.save(); ctx.globalAlpha = swingT * 0.35; ctx.strokeStyle = C.runeGl; ctx.lineWidth = 1;
+        for (let i = 0; i < 3; i++) {
+            const wy = shY + 8 + i * 12, wx = cx - 18 + swingT * 6;
+            ctx.beginPath(); ctx.moveTo(wx, wy); ctx.quadraticCurveTo(wx-6, wy+4, wx-3, wy+9); ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    // ── Sabatons ──────────────────────────────────────────────────────────
+    ctx.fillStyle = C.boot;
+    ctx.beginPath(); ctx.moveTo(cx-11,by); ctx.lineTo(cx-3,by); ctx.lineTo(cx-2,by-8); ctx.lineTo(cx-10,by-8); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.arMid; ctx.fillRect(cx-10, by-9, 8, 2);
+    ctx.fillStyle = C.boot;
+    ctx.beginPath(); ctx.moveTo(cx+3,by); ctx.lineTo(cx+11,by); ctx.lineTo(cx+10,by-7); ctx.lineTo(cx+3,by-7); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.arDk; ctx.fillRect(cx+3, by-8, 8, 2);
+
+    // ── Greaves ───────────────────────────────────────────────────────────
+    ctx.fillStyle = C.arMid; ctx.fillRect(cx-10, by-18, 8, 10);
+    ctx.fillStyle = C.arLit; ctx.fillRect(cx-9,  by-17, 2,  8);
+    ctx.fillStyle = C.trim;  ctx.fillRect(cx-10, by-9,  8,  1);
+    ctx.fillStyle = C.arDk;  ctx.fillRect(cx+2,  by-16, 8,  8);
+    ctx.fillStyle = C.arMid; ctx.fillRect(cx+3,  by-15, 2,  6);
+    ctx.fillStyle = C.arHi;
+    ctx.beginPath(); ctx.ellipse(cx-5, by-18, 4.5, 2.5, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.arMid;
+    ctx.beginPath(); ctx.ellipse(cx+6, by-16, 3.5, 2,   0, 0, Math.PI*2); ctx.fill();
+    // Spike on knee
+    ctx.fillStyle = C.spikeTip;
+    ctx.beginPath(); ctx.moveTo(cx-5, by-20.5); ctx.lineTo(cx-7, by-26); ctx.lineTo(cx-3, by-26); ctx.closePath(); ctx.fill();
+
+    // ── Cuisses ───────────────────────────────────────────────────────────
+    ctx.fillStyle = C.arMid; ctx.fillRect(cx-10, by-26, 8, 8);
+    ctx.fillStyle = C.arDk;  ctx.fillRect(cx+2,  by-24, 8, 8);
+
+    // ── Faulds ────────────────────────────────────────────────────────────
+    ctx.fillStyle = C.arMid;
+    ctx.beginPath(); ctx.moveTo(cx-12,wY); ctx.lineTo(cx+12,wY); ctx.lineTo(cx+10,wY-5); ctx.lineTo(cx-10,wY-5); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.trim; ctx.fillRect(cx-12, wY-1, 24, 1.5);
+    for (let i = 0; i < 3; i++) {
+        ctx.fillStyle = C.arDk; ctx.fillRect(cx-7+i*5, wY, 4, 4);
+        ctx.fillStyle = '#000005'; ctx.fillRect(cx-7+i*5-0.5, wY, 0.5, 4);
+    }
+
+    // ── Backplate ─────────────────────────────────────────────────────────
+    ctx.fillStyle = C.arDk;
+    ctx.beginPath(); ctx.moveTo(cx-11,bpB); ctx.lineTo(cx+11,bpB); ctx.lineTo(cx+9,bpT); ctx.lineTo(cx-9,bpT); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.arMid;
+    ctx.beginPath(); ctx.moveTo(cx-1,bpB); ctx.lineTo(cx+4,bpB); ctx.lineTo(cx+3,bpT); ctx.lineTo(cx,bpT); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.trim; ctx.fillRect(cx-10, bpB-4, 20, 1.5);
+    ctx.fillStyle = C.trim; ctx.fillRect(cx-8,  bpT+3, 16, 1.5);
+
+    // ── Void rune on breastplate ──────────────────────────────────────────
+    const runeA = 0.35 + swingT * 0.50;
+    ctx.save(); ctx.globalAlpha = runeA;
+    if (swingT > 0) { ctx.shadowColor = C.runeGl; ctx.shadowBlur = 8 + swingT * 14; }
+    ctx.strokeStyle = C.rune; ctx.lineWidth = 0.9;
+    const rY = (bpT + bpB) / 2;
+    ctx.beginPath(); ctx.arc(cx+1, rY, 5, 0, Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx+1, rY-5); ctx.lineTo(cx+1, rY+5); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx-4, rY-2); ctx.lineTo(cx+6, rY+2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx-4, rY+2); ctx.lineTo(cx+6, rY-2); ctx.stroke();
+    ctx.restore();
+
+    // ── Pauldrons (spiked) ────────────────────────────────────────────────
+    ctx.fillStyle = C.arDk;
+    ctx.beginPath(); ctx.ellipse(cx-13, shY, 12, 6.5, -0.2, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.arLit;
+    ctx.beginPath(); ctx.ellipse(cx-12, shY-1, 8,  4,  -0.2, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = C.trim; ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.ellipse(cx-13, shY, 12, 6.5, -0.2, 0, Math.PI*2); ctx.stroke();
+    // Left pauldron spike
+    ctx.fillStyle = C.spike;
+    ctx.beginPath(); ctx.moveTo(cx-16, shY-4); ctx.lineTo(cx-10, shY-4); ctx.lineTo(cx-13, shY-15); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.spikeTip;
+    ctx.beginPath(); ctx.moveTo(cx-14.5, shY-10); ctx.lineTo(cx-11.5, shY-10); ctx.lineTo(cx-13, shY-15); ctx.closePath(); ctx.fill();
+
+    ctx.fillStyle = C.arDk;
+    ctx.beginPath(); ctx.ellipse(cx+13, shY, 10, 6,  0.2, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.arMid;
+    ctx.beginPath(); ctx.ellipse(cx+12, shY-1, 7, 4,  0.2, 0, Math.PI*2); ctx.fill();
+    // Right pauldron spike
+    ctx.fillStyle = C.spike;
+    ctx.beginPath(); ctx.moveTo(cx+10, shY-4); ctx.lineTo(cx+16, shY-4); ctx.lineTo(cx+13, shY-14); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.spikeTip;
+    ctx.beginPath(); ctx.moveTo(cx+11.5, shY-9); ctx.lineTo(cx+14.5, shY-9); ctx.lineTo(cx+13, shY-14); ctx.closePath(); ctx.fill();
+
+    // ── Greatsword (two hands, held left-forward high guard) ──────────────
+    const a0 = -Math.PI * 0.72;
+    const a1 = -Math.PI * 0.25;
+    const sA = a0 + (a1 - a0) * swingT;
+    // Upper hand (right arm, screen-left shoulder)
+    const uHX = cx - 10, uHY = shY + 3;
+    // Lower hand (extends below)
+    const lHX = uHX + Math.cos(sA + Math.PI) * 9;
+    const lHY = uHY + Math.sin(sA + Math.PI) * 9;
+    // Blade tip
+    const bLen = 38;
+    const btX  = uHX + Math.cos(sA) * bLen;
+    const btY  = uHY + Math.sin(sA) * bLen;
+
+    // Arms
+    ctx.strokeStyle = C.arDk; ctx.lineWidth = 9; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx-11, shY+2); ctx.lineTo(lHX, lHY); ctx.stroke();
+    ctx.strokeStyle = C.arLit; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(cx-11, shY+2); ctx.lineTo(lHX, lHY); ctx.stroke();
+    ctx.strokeStyle = C.arDk; ctx.lineWidth = 8;
+    ctx.beginPath(); ctx.moveTo(cx+10, shY+3); ctx.lineTo(uHX+4, uHY+5); ctx.stroke();
+    ctx.strokeStyle = C.arMid; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx+10, shY+3); ctx.lineTo(uHX+4, uHY+5); ctx.stroke();
+
+    // Grip
+    ctx.strokeStyle = C.hilt; ctx.lineWidth = 4; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(lHX, lHY); ctx.lineTo(uHX, uHY); ctx.stroke();
+
+    // Crossguard
+    const gA = sA + Math.PI * 0.5;
+    ctx.strokeStyle = C.hilt; ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(uHX + Math.cos(gA)*10, uHY + Math.sin(gA)*10);
+    ctx.lineTo(uHX - Math.cos(gA)*10, uHY - Math.sin(gA)*10);
+    ctx.stroke();
+    ctx.strokeStyle = C.hiltGl; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(uHX + Math.cos(gA)*10, uHY + Math.sin(gA)*10);
+    ctx.lineTo(uHX - Math.cos(gA)*10, uHY - Math.sin(gA)*10);
+    ctx.stroke();
+
+    // Blade body (dark, near-void)
+    ctx.strokeStyle = C.bladeDk; ctx.lineWidth = 5; ctx.lineCap = 'butt';
+    ctx.beginPath(); ctx.moveTo(uHX, uHY); ctx.lineTo(btX, btY); ctx.stroke();
+    ctx.strokeStyle = C.bladeMid; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(uHX, uHY); ctx.lineTo(btX, btY); ctx.stroke();
+    // Void edge glow
+    ctx.save();
+    ctx.globalAlpha = 0.45 + swingT * 0.45;
+    if (swingT > 0) { ctx.shadowColor = C.bladeEdge; ctx.shadowBlur = 6 + swingT * 12; }
+    ctx.strokeStyle = C.bladeEdge; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(uHX, uHY); ctx.lineTo(btX, btY); ctx.stroke();
+    ctx.restore();
+
+    // ── Gorget + Helmet ───────────────────────────────────────────────────
+    const hcX = cx;
+    ctx.fillStyle = C.arDk;  ctx.fillRect(hcX-4, hcY+2, 8, 8);
+    ctx.fillStyle = C.arMid; ctx.fillRect(hcX-3, hcY+3, 5, 6);
+    ctx.fillStyle = C.trim;  ctx.fillRect(hcX-4, hcY+2, 8, 1);
+    // Helm bowl
+    ctx.fillStyle = C.arDk;
+    ctx.beginPath(); ctx.arc(hcX, hcY, 13, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = C.arLit;
+    ctx.beginPath(); ctx.arc(hcX-2, hcY-2, 8, Math.PI*1.1, Math.PI*2.4); ctx.fill();
+    ctx.fillStyle = C.arDk; ctx.fillRect(hcX-8, hcY+4, 16, 7);
+    ctx.fillStyle = C.arMid;
+    for (let i = 0; i < 4; i++) ctx.fillRect(hcX-6+i*3.5, hcY+5, 2, 5);
+    ctx.strokeStyle = C.trim; ctx.lineWidth = 0.9;
+    ctx.beginPath(); ctx.arc(hcX, hcY, 13, Math.PI*0.5, Math.PI*1.75); ctx.stroke();
+    // Visor slit (glowing void-purple)
+    ctx.save();
+    ctx.globalAlpha = 0.70 + swingT * 0.25;
+    ctx.shadowColor = C.runeGl; ctx.shadowBlur = 4 + swingT * 8;
+    ctx.fillStyle = C.runeGl;
+    ctx.fillRect(hcX-6, hcY-1, 5, 1.5);
+    ctx.fillRect(hcX+1, hcY-1, 5, 1.5);
+    ctx.restore();
+    // Central helm spike
+    ctx.fillStyle = C.spike;
+    ctx.beginPath(); ctx.moveTo(hcX-3, hcY-11); ctx.lineTo(hcX+3, hcY-11); ctx.lineTo(hcX, hcY-24); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.spikeTip;
+    ctx.beginPath(); ctx.moveTo(hcX-1.5, hcY-17); ctx.lineTo(hcX+1.5, hcY-17); ctx.lineTo(hcX, hcY-24); ctx.closePath(); ctx.fill();
+    // Two side horns
+    ctx.fillStyle = C.arDk;
+    ctx.beginPath(); ctx.moveTo(hcX-12, hcY-6); ctx.lineTo(hcX-14, hcY-8); ctx.lineTo(hcX-10, hcY-18); ctx.lineTo(hcX-8, hcY-16); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(hcX+12, hcY-6); ctx.lineTo(hcX+14, hcY-8); ctx.lineTo(hcX+10, hcY-18); ctx.lineTo(hcX+8, hcY-16); ctx.closePath(); ctx.fill();
+
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
 // ─── WIZARD ───────────────────────────────────────────────────────────────────
 // Robed mage. Staff arm = screen-left (char's right). Tall pointed hat.
 // Arcane rune visible on robe back. Staff raises and orb charges during cast.
@@ -3749,6 +4207,122 @@ function drawSorcerer(ctx, cx, by, sel, anim) {
     if (sel) _drawSelectRing(ctx, cx, by);
 }
 
+// ── Priest ────────────────────────────────────────────────────────────────────
+function drawPriest(ctx, cx, by, sel, anim) {
+    const C = {
+        robe:'#e8e8ec',   rMid:'#d0d0d8',   rDk:'#b4b4c0',   rFold:'#c8c8d0',
+        sash:'#c0c0cc',   sashDk:'#9090a0',
+        hood:'#d8d8e0',   hoodDk:'#a8a8b8',
+        symbol:'#d4d4f0',
+        stWd:'#8a6840',   stLt:'#b08858',
+        crystal:'#d8eeff', crystGl:'#b0d0f8',
+        skin:'#c8a878',
+        hDk:'#907858',
+        sandal:'#a07848',
+    };
+
+    const t = anim?.t ?? 0;
+    let dY = 0, staffRaise = 0, holyPulse = 0;
+    if (anim?.type === 'priest_strike') {
+        if (t < 0.30)      { dY = -(t/0.30)*3; staffRaise = t/0.30; }
+        else if (t < 0.55) { const p=(t-0.30)/0.25; dY=-3+p*9; staffRaise=1; }
+        else               { const p=(t-0.55)/0.45; dY=6-p*6; staffRaise=1-p; }
+    } else if (anim?.type === 'priest_spell') {
+        if (t < 0.35)      { staffRaise=t/0.35; dY=staffRaise*2; }
+        else if (t < 0.65) { const p=(t-0.35)/0.30; staffRaise=1; holyPulse=p; dY=2+p; }
+        else if (t < 0.75) { const p=(t-0.65)/0.10; staffRaise=1; holyPulse=1+p*1.5; dY=3-p*3; }
+        else               { const p=(t-0.75)/0.25; staffRaise=1-p*0.4; holyPulse=0; }
+    }
+
+    drawShadow(ctx, cx, by);
+
+    // Sandals
+    ctx.fillStyle=C.sandal; ctx.fillRect(cx-9,by-3,8,3); ctx.fillRect(cx+2,by-3,8,3);
+    ctx.fillStyle=C.skin;   ctx.fillRect(cx-8,by-6,6,3); ctx.fillRect(cx+3,by-6,6,3);
+
+    // Robe skirt
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(cx-14,by); ctx.lineTo(cx+14,by); ctx.lineTo(cx+10,by-40); ctx.lineTo(cx-10,by-40); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.robe;
+    ctx.beginPath(); ctx.moveTo(cx-3,by); ctx.lineTo(cx+5,by); ctx.lineTo(cx+4,by-40); ctx.lineTo(cx-2,by-40); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid;
+    ctx.beginPath(); ctx.moveTo(cx+7,by); ctx.lineTo(cx+14,by); ctx.lineTo(cx+10,by-40); ctx.lineTo(cx+7,by-40); ctx.closePath(); ctx.fill();
+    // Fold lines
+    ctx.save(); ctx.globalAlpha=0.18; ctx.strokeStyle=C.robe; ctx.lineWidth=0.8;
+    for (let i=0;i<3;i++) { const fx=cx-7+i*6; ctx.beginPath(); ctx.moveTo(fx,by); ctx.lineTo(fx-1,by-38); ctx.stroke(); }
+    ctx.restore();
+
+    // Sash
+    ctx.fillStyle=C.sashDk; ctx.fillRect(cx-10,by-33,20,4);
+    ctx.fillStyle=C.sash;   ctx.fillRect(cx-10,by-34,20,3);
+
+    // Holy cross symbol on chest
+    const symA = 0.20 + holyPulse*0.55;
+    ctx.save(); ctx.globalAlpha=symA; ctx.strokeStyle=C.symbol; ctx.lineWidth=1.1;
+    ctx.beginPath(); ctx.moveTo(cx,by-26); ctx.lineTo(cx,by-17); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx-4,by-23); ctx.lineTo(cx+4,by-23); ctx.stroke();
+    ctx.restore();
+
+    // Upper robe + shoulders
+    const shY = by-40-dY*0.65;
+    ctx.fillStyle=C.rDk;
+    ctx.beginPath(); ctx.moveTo(cx-12,by-40); ctx.lineTo(cx+12,by-40); ctx.lineTo(cx+9,shY); ctx.lineTo(cx-9,shY); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.robe;
+    ctx.beginPath(); ctx.moveTo(cx-2,by-40); ctx.lineTo(cx+4,by-40); ctx.lineTo(cx+3,shY); ctx.lineTo(cx-2,shY); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.rMid; ctx.beginPath(); ctx.ellipse(cx-10,shY+2,6,4,-0.15,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.robe; ctx.beginPath(); ctx.ellipse(cx-9,shY+1,4,2.5,-0.15,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.rMid; ctx.beginPath(); ctx.ellipse(cx+10,shY+2,6,4,0.15,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.rDk;  ctx.beginPath(); ctx.ellipse(cx+9,shY+1,4,2.5,0.15,0,Math.PI*2); ctx.fill();
+
+    // Staff (left hand)
+    const staffTopY = shY-10-staffRaise*18-dY;
+    const sX = cx-14;
+    ctx.strokeStyle=C.stWd; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(sX,by-5); ctx.lineTo(sX+staffRaise*4,staffTopY+10); ctx.stroke();
+    ctx.strokeStyle=C.stLt; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(sX+1,by-7); ctx.lineTo(sX+staffRaise*4+1,staffTopY+10); ctx.stroke();
+    // Crystal tip
+    const cX=sX+staffRaise*4, cY=staffTopY;
+    ctx.save();
+    ctx.globalAlpha=0.6+holyPulse*0.4;
+    if (holyPulse>0) { ctx.shadowColor='#d8eeff'; ctx.shadowBlur=8+holyPulse*14; }
+    ctx.fillStyle=C.crystal; ctx.beginPath(); ctx.arc(cX,cY,3.5+holyPulse*2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.crystGl; ctx.beginPath(); ctx.arc(cX-1,cY-1,1.8,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+
+    // Left arm
+    ctx.fillStyle=C.rDk; ctx.fillRect(cx-15,shY+4,5,12);
+    ctx.fillStyle=C.skin; ctx.fillRect(cx-15,shY+14,4,5);
+    // Right arm
+    ctx.fillStyle=C.robe; ctx.fillRect(cx+9,shY+4,5,10);
+    ctx.fillStyle=C.skin; ctx.fillRect(cx+10,shY+13,4,5);
+
+    // Head
+    const hcX=cx, hcY=shY-9-dY;
+    ctx.fillStyle=C.skin; ctx.beginPath(); ctx.arc(hcX,hcY,8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=C.hDk;  ctx.beginPath(); ctx.arc(hcX-1,hcY-1,5,Math.PI*1.1,Math.PI*1.9); ctx.fill();
+
+    // Hood
+    ctx.fillStyle=C.hoodDk;
+    ctx.beginPath(); ctx.moveTo(hcX-7,hcY-5); ctx.lineTo(hcX+7,hcY-5); ctx.lineTo(hcX+8,hcY+7); ctx.lineTo(hcX+5,hcY+10); ctx.lineTo(hcX-5,hcY+10); ctx.lineTo(hcX-8,hcY+7); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=C.hood;
+    ctx.beginPath(); ctx.arc(hcX,hcY,9,Math.PI*1.05,Math.PI*1.95,false); ctx.fill();
+    ctx.fillStyle=C.hoodDk;
+    ctx.beginPath(); ctx.moveTo(hcX-6,hcY-4); ctx.lineTo(hcX+6,hcY-4); ctx.lineTo(hcX+5,hcY-15); ctx.lineTo(hcX-1,hcY-17); ctx.lineTo(hcX-5,hcY-15); ctx.closePath(); ctx.fill();
+
+    // Holy radiance during cast
+    if (holyPulse>0) {
+        ctx.save();
+        ctx.globalAlpha=Math.min(1,holyPulse)*0.15;
+        ctx.shadowColor='#e8e8ff'; ctx.shadowBlur=20;
+        ctx.fillStyle='#e8e8ff';
+        ctx.beginPath(); ctx.arc(hcX,hcY,16,0,Math.PI*2); ctx.fill();
+        ctx.restore();
+    }
+
+    if (sel) _drawSelectRing(ctx, cx, by);
+}
+
 // ── Warlock ───────────────────────────────────────────────────────────────────
 function drawWarlock(ctx, cx, by, sel, anim) {
     const C = {
@@ -4630,9 +5204,11 @@ function drawUnit(ctx, unit) {
 
     switch (unit.spriteType || unit.type) {
         case 'warrior':       drawWarrior      (ctx, cx, by, sel, anim); break;
+        case 'dark_templar':  drawDarkTemplar  (ctx, cx, by, sel, anim); break;
         case 'wizard':        drawWizard       (ctx, cx, by, sel, anim); break;
         case 'rogue':         drawRogue        (ctx, cx, by, sel, anim); break;
         case 'cleric':        drawCleric       (ctx, cx, by, sel, anim); break;
+        case 'priest':        drawPriest       (ctx, cx, by, sel, anim); break;
         case 'necromancer':   drawNecromancer  (ctx, cx, by, sel, anim); break;
         case 'witch':         drawWitch        (ctx, cx, by, sel, anim); break;
         case 'ranger':        drawRanger       (ctx, cx, by, sel, anim); break;
@@ -5023,9 +5599,11 @@ function buildUnitPanel() {
         } else {
             switch (u.spriteType || u.type) {
                 case 'warrior':       drawWarrior      (pctx, W/2, H - 6, false); break;
+                case 'dark_templar':  drawDarkTemplar  (pctx, W/2, H - 6, false); break;
                 case 'wizard':        drawWizard       (pctx, W/2, H - 6, false); break;
                 case 'rogue':         drawRogue        (pctx, W/2, H - 6, false); break;
                 case 'cleric':        drawCleric       (pctx, W/2, H - 6, false); break;
+                case 'priest':        drawPriest       (pctx, W/2, H - 6, false); break;
                 case 'necromancer':   drawNecromancer  (pctx, W/2, H - 6, false); break;
                 case 'witch':         drawWitch        (pctx, W/2, H - 6, false); break;
                 case 'ranger':        drawRanger       (pctx, W/2, H - 6, false); break;
@@ -5054,11 +5632,7 @@ function buildUnitPanel() {
         cv.addEventListener('mousemove',  e => repositionTooltip(e));
         cv.addEventListener('mouseleave',  () => hideTooltip());
 
-        // Click → character sheet overlay (heroes only); enemies just select
-        cv.addEventListener('click', () => {
-            if (u.team === 'heroes') openCharSheet(u);
-            else selectUnit(u.id);
-        });
+        cv.addEventListener('click', () => openCharSheet(u));
 
         panel.appendChild(slot);
     }
@@ -5150,129 +5724,232 @@ function showAttackTooltip(atk, e) {
 
 // ─── Character sheet overlay ──────────────────────────────────────────────────
 
+let _classesData = null;
+function loadClassesData() {
+    if (_classesData) return Promise.resolve(_classesData);
+    return fetch('data/heroes/classes.json')
+        .then(r => r.json())
+        .then(d => { _classesData = d; return d; })
+        .catch(() => null);
+}
+
+function buildPortraitCanvas(u) {
+    const W = 90, H = 120;
+    const cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    cv.style.cssText = 'border-radius:4px;border:2px solid rgba(201,168,76,0.5);display:block;position:static;top:auto;left:auto;';
+    const pctx = cv.getContext('2d');
+    const bg = pctx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'#1c2e10'); bg.addColorStop(1,'#0e1808');
+    pctx.fillStyle = bg; pctx.fillRect(0,0,W,H);
+    if (u.portrait) {
+        const img = new Image();
+        img.onload = () => { pctx.fillStyle = bg; pctx.fillRect(0,0,W,H); drawPortraitCover(pctx, img, W, H); };
+        img.src = u.portrait;
+    } else {
+        const drawFn = {
+            warrior: drawWarrior, dark_templar: drawDarkTemplar, wizard: drawWizard,
+            rogue: drawRogue, cleric: drawCleric, priest: drawPriest,
+            necromancer: drawNecromancer, witch: drawWitch, ranger: drawRanger,
+            sorcerer: drawSorcerer, warlock: drawWarlock, aquorist: drawAquorist,
+            stormcaller: drawStormcaller, lifewhisperer: drawLifewhisperer,
+            shaman: drawShaman, bloodsinger: drawBloodsinger, beastcaller: drawBeastcaller,
+        }[u.spriteType || u.type];
+        if (drawFn) drawFn(pctx, W/2, H - 8, false);
+    }
+    return cv;
+}
+
 function openCharSheet(u) {
     hideTooltip();
     const overlay = document.getElementById('cs-overlay');
     if (!overlay) return;
-    const cd = u._charData;
-
-    // Portrait
-    const port = document.getElementById('cs-portrait');
-    if (port) {
-        port.innerHTML = '';
-        const W = 120, H = 160;
-        const cv = document.createElement('canvas');
-        cv.width = W; cv.height = H;
-        cv.style.borderRadius = '4px';
-        cv.style.border = '2px solid rgba(201,168,76,0.5)';
-        const pctx = cv.getContext('2d');
-        const bg = pctx.createLinearGradient(0,0,0,H);
-        bg.addColorStop(0,'#1c2e10'); bg.addColorStop(1,'#0e1808');
-        pctx.fillStyle = bg; pctx.fillRect(0,0,W,H);
-        if (u.portrait) {
-            const img = new Image();
-            img.onload = () => { pctx.fillStyle = bg; pctx.fillRect(0,0,W,H); drawPortraitCover(pctx, img, W, H); };
-            img.src = u.portrait;
-        } else {
-            switch (u.spriteType || u.type) {
-                case 'warrior':     drawWarrior    (pctx, W/2, H - 8, false); break;
-                case 'wizard':      drawWizard     (pctx, W/2, H - 8, false); break;
-                case 'rogue':       drawRogue      (pctx, W/2, H - 8, false); break;
-                case 'cleric':      drawCleric     (pctx, W/2, H - 8, false); break;
-                case 'necromancer': drawNecromancer(pctx, W/2, H - 8, false); break;
-                case 'witch':       drawWitch      (pctx, W/2, H - 8, false); break;
-                case 'ranger':      drawRanger     (pctx, W/2, H - 8, false); break;
-                case 'sorcerer':    drawSorcerer   (pctx, W/2, H - 8, false); break;
-                case 'warlock':       drawWarlock      (pctx, W/2, H - 8, false); break;
-                case 'aquorist':      drawAquorist     (pctx, W/2, H - 8, false); break;
-                case 'stormcaller':   drawStormcaller  (pctx, W/2, H - 8, false); break;
-                case 'lifewhisperer': drawLifewhisperer(pctx, W/2, H - 8, false); break;
-                case 'shaman':        drawShaman       (pctx, W/2, H - 8, false); break;
-                case 'bloodsinger':   drawBloodsinger  (pctx, W/2, H - 8, false); break;
-                case 'beastcaller':   drawBeastcaller  (pctx, W/2, H - 8, false); break;
-            }
-        }
-        port.appendChild(cv);
-    }
-
-    // Name & identity
-    const s    = UNIT_STATS[u.type] || {};
-    const maxHp  = u.maxHp || s.maxHp || '?';
-    const spd    = s.speed  || '?';
-    const dg     = u.dodge  != null ? u.dodge : (s.dodge ?? '?');
-
-    document.getElementById('cs-name').textContent = u.name || 'Unknown';
-
-    const identEl = document.getElementById('cs-identity');
-    if (cd) {
-        const cls   = prettyId(cd.cls);
-        const race  = prettyId(cd.race);
-        const group = CLASS_GROUP_MAP[cd.cls] || '';
-        identEl.textContent = [cls, race].filter(Boolean).join(' · ') + (group ? `  (${group})` : '');
-    } else {
-        const sp = u.spriteType || u.type;
-        identEl.textContent = `${sp.charAt(0).toUpperCase() + sp.slice(1)} — Placeholder`;
-    }
-
-    document.getElementById('cs-level').textContent  = 'Level 1';
-    document.getElementById('cs-hp').textContent     = maxHp;
-    document.getElementById('cs-speed').textContent  = spd;
-    document.getElementById('cs-dodge').textContent  = dg + '%';
-
-    // Skills
-    const skillsEl = document.getElementById('cs-skills');
-    skillsEl.innerHTML = '';
-    const skills = cd?.skills || [];
-    if (skills.length) {
-        skills.forEach(sk => {
-            const li = document.createElement('li');
-            li.textContent = sk;
-            skillsEl.appendChild(li);
-        });
-    } else {
-        const li = document.createElement('li'); li.textContent = 'None';
-        skillsEl.appendChild(li);
-    }
-
-    // Attacks
-    const atksEl = document.getElementById('cs-attacks');
-    atksEl.innerHTML = '';
-    const atkKeys = u.attackKeys || [];
-    const defaultAtks = {
-        warrior:     ['warrior_melee'],
-        wizard:      ['wizard_spell'],
-        rogue:       ['rogue_bow', 'rogue_knives'],
-        cleric:      ['cleric_smite', 'cleric_spell'],
-        necromancer: ['necromancer_spell'],
-        witch:       ['witch_spell'],
-        ranger:      ['ranger_bow', 'ranger_blade'],
-        sorcerer:    ['sorcerer_spell'],
-        warlock:     ['warlock_blast'],
-        druid:       ['druid_spell'],
-    };
-    const keys = atkKeys.length ? atkKeys : (defaultAtks[u.spriteType || u.type] || []);
-    const ATK_TYPE_ICON = { melee:'⚔', ranged:'🏹', spell:'✨' };
-    keys.forEach(k => {
-        const atk = ATTACKS[k];
-        if (!atk) return;
-        const li = document.createElement('li');
-        const icon = ATK_TYPE_ICON[atk.type] || '⚔';
-        const avg = Math.round(atk.damageDice[0] * (atk.damageDice[1] + 1) / 2 + atk.damageMod);
-        const dtColor = DAMAGE_TYPE_COLOR[atk.damage_type] || 'rgba(237,224,196,0.55)';
-        const dtSpan = atk.damage_type ? ` · <span style="color:${dtColor}">${atk.damage_type}</span>` : '';
-        const titleAttr = atk.effect ? ` title="${atk.effect.replace(/"/g, '&quot;')}"` : '';
-        li.innerHTML = `${icon} <strong>${atk.name}</strong> <span style="color:rgba(237,224,196,0.55);font-size:0.82em"${titleAttr}>${atk.damageDice[0]}d${atk.damageDice[1]}+${atk.damageMod} · avg ${avg} · range ${atk.range}${dtSpan}</span>`;
-        atksEl.appendChild(li);
-    });
-
-    // Background (if any)
-    const bgEl = document.getElementById('cs-background');
-    if (bgEl) {
-        bgEl.style.display = (cd?.background) ? '' : 'none';
-        if (cd?.background) bgEl.textContent = 'Background: ' + prettyId(cd.background);
-    }
-
     overlay.style.display = 'flex';
+
+    const content = document.getElementById('cs-content');
+    content.innerHTML = '<div style="color:rgba(237,224,196,0.45);font-size:0.9rem;padding:1rem 0;">Loading…</div>';
+
+    loadClassesData().then(classesJson => {
+        const cd = u._charData;
+        const s  = UNIT_STATS[u.type] || {};
+        const maxHp = u.maxHp || s.maxHp || '?';
+        const spd   = u.speed  != null ? u.speed  : (s.speed  ?? '?');
+        const dg    = u.dodge  != null ? u.dodge  : (s.dodge  ?? '?');
+
+        // Class trait from loaded JSON — use cd.cls for real chars, u.type for placeholders
+        let classTrait = null;
+        if (classesJson) {
+            const clsId = cd?.cls || u.spriteType || u.type;
+            const clsEntry = (classesJson.classes || []).find(c => c.id === clsId);
+            if (clsEntry?.special_class_trait) classTrait = clsEntry.special_class_trait;
+        }
+
+        // Identity strings
+        const isMonster = u.team === 'enemies';
+        let identText, levelText;
+        if (cd) {
+            const cls   = prettyId(cd.cls);
+            const race  = prettyId(cd.race);
+            const group = CLASS_GROUP_MAP[cd.cls] || '';
+            identText = [cls, race].filter(Boolean).join(' · ') + (group ? `  (${group})` : '');
+            levelText = `Level ${cd.level || 1}`;
+        } else if (isMonster) {
+            identText = prettyId(u.type) + ' — Enemy';
+            levelText = '';
+        } else {
+            const sp = u.spriteType || u.type;
+            identText = prettyId(sp) + ' — Placeholder';
+            levelText = 'Level 1';
+        }
+
+        // Build HTML
+        let html = '';
+
+        // ── Top: portrait + header ──
+        html += '<div class="cs-top">';
+        html += '<div class="cs-portrait-wrap" id="cs-portrait-slot"></div>';
+        html += '<div class="cs-header">';
+        html += `<div class="cs-name">${escHtml(u.name || 'Unknown')}</div>`;
+        html += `<div class="cs-identity">${escHtml(identText)}</div>`;
+        html += `<div class="cs-level">${levelText}</div>`;
+        html += '<div class="cs-stats">';
+        const hpDisplay = (u.hp != null && u.hp !== maxHp) ? `${u.hp} / ${maxHp}` : String(maxHp);
+        const hpColor   = (u.hp != null && u.hp < maxHp * 0.3) ? '#e06060' : (u.hp != null && u.hp < maxHp * 0.6) ? 'var(--accent-gold)' : '#80d870';
+        html += `<div class="cs-stat"><span class="cs-stat-label">HP</span><span class="cs-stat-value" style="color:${hpColor}">${hpDisplay}</span></div>`;
+        html += `<div class="cs-stat"><span class="cs-stat-label">Speed</span><span class="cs-stat-value">${spd}</span></div>`;
+        html += `<div class="cs-stat"><span class="cs-stat-label">Dodge</span><span class="cs-stat-value">${dg}%</span></div>`;
+        if (cd?.age) html += `<div class="cs-stat"><span class="cs-stat-label">Age</span><span class="cs-stat-value">${cd.age}</span></div>`;
+        html += '</div>'; // cs-stats
+        if (cd?.morality != null || u.morality != null) {
+            const mor = u.morality ?? cd?.morality ?? 50;
+            const zone = mor >= 66 ? 'Conviction' : mor >= 35 ? 'Neutral' : 'Despair';
+            const zoneColor = mor >= 66 ? '#d8c020' : mor >= 35 ? 'rgba(237,224,196,0.65)' : '#c84040';
+            html += `<div class="cs-morality-wrap">`;
+            html += `<div style="font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(237,224,196,0.45);margin-bottom:0.15rem">Morality — <span style="color:${zoneColor}">${zone} (${mor}%)</span></div>`;
+            html += `<div class="cs-morality-track">`;
+            html += `<div class="cs-morality-bp" style="left:35%"></div>`;
+            html += `<div class="cs-morality-bp" style="left:65%"></div>`;
+            html += `<div class="cs-morality-thumb" style="left:${mor}%"></div>`;
+            html += `</div>`;
+            html += `<div class="cs-morality-labels"><span class="mz-despair">Despair</span><span class="mz-neutral mz-center">Neutral</span><span class="mz-conviction">Conviction</span></div>`;
+            html += `</div>`;
+        }
+        html += '</div>'; // cs-header
+        html += '</div>'; // cs-top
+
+        // ── Class Trait (heroes/characters only, not monsters) ──
+        if (classTrait && !isMonster) {
+            const isAura = (classTrait.type || '').includes('aura');
+            const isPassive = !isAura && (classTrait.type || '').includes('passive');
+            const boxClass = isAura ? 'cs-trait-box cs-trait-aura' : 'cs-trait-box';
+            let badge = '';
+            if (isAura)    badge = '<span class="cs-aura-badge">Active Aura</span>';
+            else if (isPassive) badge = '<span class="cs-passive-badge">Passive</span>';
+            html += '<div class="cs-section">';
+            html += '<div class="cs-section-title">Class Trait</div>';
+            html += `<div class="${boxClass}">`;
+            html += `<div class="cs-trait-header"><span class="cs-trait-name">${escHtml(classTrait.name)}</span>${badge}</div>`;
+            html += `<div class="cs-trait-desc">${escHtml(classTrait.description)}</div>`;
+            html += '</div></div>';
+        }
+
+        // ── Aptitudes (heroes only) ──
+        const APT_LABELS = {
+            physiology: 'Physio', cognition: 'Cogni', discipline: 'Discip',
+            conviction: 'Convict', martial_experience: 'Martial', eloquence: 'Eloqu',
+            intuition: 'Intuit', perception: 'Percep',
+        };
+        if (!isMonster && cd?.aptitudes && Object.keys(cd.aptitudes).length) {
+            html += '<div class="cs-section">';
+            html += '<div class="cs-section-title">Aptitudes</div>';
+            html += '<div class="cs-apt-grid">';
+            for (const [key, val] of Object.entries(cd.aptitudes)) {
+                const label = APT_LABELS[key] || prettyId(key).slice(0,7);
+                html += `<div class="cs-apt-item"><span class="cs-apt-label">${label}</span><span class="cs-apt-val">${val}</span></div>`;
+            }
+            html += '</div></div>';
+        }
+
+        // ── Skills (heroes only) ──
+        if (!isMonster) {
+            html += '<div class="cs-section">';
+            html += '<div class="cs-section-title">Skills</div>';
+            html += '<ul class="cs-list">';
+            const skills = cd?.skills || [];
+            if (skills.length) {
+                skills.forEach(sk => { html += `<li>${escHtml(prettyId(sk))}</li>`; });
+            } else {
+                html += '<li>None</li>';
+            }
+            html += '</ul></div>';
+        }
+
+        // ── Attacks & Spells ──
+        const atkKeys = u.attackKeys || [];
+        const defaultAtks = {
+            warrior:['warrior_melee'], wizard:['wizard_spell'], rogue:['rogue_bow','rogue_knives'],
+            cleric:['cleric_smite','cleric_spell'], priest:['priest_staff','priest_spell'],
+            necromancer:['necromancer_spell'], witch:['witch_spell'],
+            ranger:['ranger_bow','ranger_blade'], sorcerer:['sorcerer_spell'],
+            warlock:['warlock_blast'], druid:['druid_spell'],
+            goblin:['goblin_melee'], goblin_archer:['goblin_arc_bow','goblin_arc_claw'],
+        };
+        const keys = atkKeys.length ? atkKeys : (defaultAtks[u.spriteType || u.type] || []);
+        const ATK_TYPE_ICON = { melee:'⚔', ranged:'🏹', spell:'✨' };
+        const atkItems = keys.map(k => ATTACKS[k]).filter(Boolean);
+        if (atkItems.length) {
+            html += '<div class="cs-section">';
+            html += '<div class="cs-section-title">Attacks &amp; Spells</div>';
+            html += '<ul class="cs-atk-list">';
+            atkItems.forEach(atk => {
+                const icon  = ATK_TYPE_ICON[atk.type] || '⚔';
+                const avg   = Math.round(atk.damageDice[0] * (atk.damageDice[1] + 1) / 2 + atk.damageMod);
+                const dtColor = DAMAGE_TYPE_COLOR[atk.damage_type] || 'rgba(237,224,196,0.55)';
+                const dtPart  = atk.damage_type ? ` · <span style="color:${dtColor}">${escHtml(atk.damage_type)}</span>` : '';
+                const eff     = atk.effect ? `<br><span style="color:rgba(200,230,160,0.60);font-size:0.75em;font-style:italic">${escHtml(atk.effect)}</span>` : '';
+                html += `<li>${icon} <strong>${escHtml(atk.name)}</strong> <span style="color:rgba(237,224,196,0.55);font-size:0.82em">${atk.damageDice[0]}d${atk.damageDice[1]}+${atk.damageMod} · avg ${avg} · range ${atk.range}${dtPart}</span>${eff}</li>`;
+            });
+            html += '</ul></div>';
+        }
+
+        // ── Active Effects (blessings, curses, aura projections) ──
+        const activeEffects = u.activeEffects || [];
+        if (activeEffects.length) {
+            html += '<div class="cs-section">';
+            html += '<div class="cs-section-title">Active Effects</div>';
+            html += '<ul class="cs-atk-list">';
+            activeEffects.forEach(fx => {
+                const isDebuff = fx.debuff || fx.type === 'curse' || fx.type === 'aura_debuff';
+                const col = isDebuff ? '#e08060' : '#80d870';
+                const src = fx.source ? ` <span style="color:rgba(237,224,196,0.40);font-size:0.78em">from ${escHtml(fx.source)}</span>` : '';
+                const dur = fx.duration != null ? ` · ${fx.duration} turn${fx.duration !== 1 ? 's' : ''}` : ' · permanent';
+                html += `<li style="border-color:${isDebuff ? 'rgba(220,80,40,0.35)' : 'rgba(80,200,80,0.28)'}"><span style="color:${col}">${escHtml(fx.name)}</span>${src} <span style="color:rgba(237,224,196,0.45);font-size:0.80em">${dur}</span>`;
+                if (fx.description) html += `<br><span style="color:rgba(237,224,196,0.55);font-size:0.76em;font-style:italic">${escHtml(fx.description)}</span>`;
+                html += '</li>';
+            });
+            html += '</ul></div>';
+        }
+
+        // ── Footer: background, personality, birthSign ──
+        const footerParts = [];
+        if (cd?.background)   footerParts.push(`Background: ${prettyId(cd.background)}`);
+        if (cd?.personality)  footerParts.push(`Personality: ${prettyId(cd.personality)}`);
+        if (cd?.birthSign)    footerParts.push(`Sign: ${prettyId(cd.birthSign)}`);
+        if (footerParts.length) {
+            html += `<div class="cs-footer-row">${footerParts.map(p => `<span>${escHtml(p)}</span>`).join('')}</div>`;
+        }
+
+        content.innerHTML = html;
+
+        // Attach portrait canvas (can't put canvas in innerHTML)
+        const slot = document.getElementById('cs-portrait-slot');
+        if (slot) slot.appendChild(buildPortraitCanvas(u));
+    });
+}
+
+function escHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function closeCharSheet() {
@@ -5462,6 +6139,15 @@ function init() {
         });
     }
 
+    const newClassesBtn = document.getElementById('btn-team-new-classes');
+    if (newClassesBtn) {
+        newClassesBtn.addEventListener('click', () => {
+            UNIT_DEFS = [makeDarkTemplarDef(), TEAM_NEW_CLASSES_DEFS[1], TEAM_NEW_CLASSES_DEFS[2], ...ENEMY_DEFS];
+            hideTeamSelectOverlay();
+            startBattle();
+        });
+    }
+
     // Wire up Change Party button in header
     const changeBtn = document.getElementById('btn-change-party');
     if (changeBtn) {
@@ -5532,6 +6218,9 @@ const UNIT_STATS = {
     lifewhisperer : { maxHp: 48,  speed: 3, dodge: 18 },
     shaman        : { maxHp: 52,  speed: 3, dodge: 18 },
     bloodsinger   : { maxHp: 46,  speed: 3, dodge: 20 },
+    dark_templar  : { maxHp: 80,  speed: 2, dodge: 16 },
+    priest        : { maxHp: 52,  speed: 3, dodge: 16 },
+    rascal        : { maxHp: 48,  speed: 4, dodge: 28 },
     beastcaller   : { maxHp: 55,  speed: 4, dodge: 24 },
     goblin        : { maxHp: 140, speed: 2, dodge: 10 },
     goblin_archer : { maxHp: 42,  speed: 3, dodge: 18 },
@@ -5546,6 +6235,8 @@ const ATTACKS = {
     wizard_spell       : { name:'Arcane Pulse',  type:'spell',  range:15, damageDice:[3,8],  damageMod:5,  hitBase:98, critMin:97, snd:'fire',  damage_type:'Arcane',  effect:'Stable reliable damage — no variance' },
     cleric_smite       : { name:'Holy Smite',    type:'melee',  range:1,  damageDice:[2,8],  damageMod:5,  hitBase:98, critMin:90, snd:'sword', damage_type:'Radiant' },
     cleric_spell       : { name:'Glimmer Spark', type:'spell',  range:12, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Radiant', effect:'Minor blind — 10% accuracy reduction (1 turn)' },
+    priest_staff       : { name:'Staff Blow',    type:'melee',  range:1,  damageDice:[1,8],  damageMod:2,  hitBase:98, critMin:96, snd:'sword', damage_type:'Physical' },
+    priest_spell       : { name:'Luminance Pulse', type:'spell', range:10, damageDice:[1,8], damageMod:3,  hitBase:98, critMin:97, snd:'fire',  damage_type:'Radiant',  effect:'Minor holy daze — 5% accuracy reduction (1 turn)' },
     necromancer_spell  : { name:'Grave Touch',   type:'spell',  range:14, damageDice:[3,8],  damageMod:4,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Shadow',  effect:'Minor heal to caster (50% of damage dealt)' },
     witch_spell        : { name:'Rot Touch',     type:'spell',  range:12, damageDice:[2,10], damageMod:4,  hitBase:98, critMin:96, snd:'fire',  damage_type:'Blight',  effect:'Disease (8 damage per turn)' },
     ranger_bow         : { name:'Precise Shot',  type:'ranged', range:16, damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:94, snd:'bow',   damage_type:'Physical' },
@@ -5574,6 +6265,7 @@ function getUnitAttacks(unit) {
         case 'rogue':       return [ATTACKS.rogue_bow, ATTACKS.rogue_knives];
         case 'wizard':      return [ATTACKS.wizard_spell];
         case 'cleric':      return [ATTACKS.cleric_smite, ATTACKS.cleric_spell];
+        case 'priest':      return [ATTACKS.priest_staff, ATTACKS.priest_spell];
         case 'necromancer': return [ATTACKS.necromancer_spell];
         case 'witch':       return [ATTACKS.witch_spell];
         case 'ranger':      return [ATTACKS.ranger_bow, ATTACKS.ranger_blade];
@@ -5586,6 +6278,8 @@ function getUnitAttacks(unit) {
         case 'shaman':        return [ATTACKS.shaman_spell];
         case 'bloodsinger':   return [ATTACKS.bloodsinger_spell];
         case 'beastcaller':   return [ATTACKS.beastcaller_spell];
+        case 'dark_templar':  return [ATTACKS.warrior_melee];
+        case 'rascal':        return [ATTACKS.rogue_knives, ATTACKS.cleric_spell];
         case 'goblin':        return [ATTACKS.goblin_melee];
         case 'goblin_archer': return [ATTACKS.goblin_arc_bow, ATTACKS.goblin_arc_claw];
         default:              return [ATTACKS.goblin_melee];
@@ -5965,9 +6659,11 @@ function updateInitiativeUI() {
             pctx.scale(PW / 60, PH / 96);
             switch (u.spriteType || u.type) {
                 case 'warrior':       drawWarrior      (pctx, 30, 90, false); break;
+                case 'dark_templar':  drawDarkTemplar  (pctx, 30, 90, false); break;
                 case 'wizard':        drawWizard       (pctx, 30, 90, false); break;
                 case 'rogue':         drawRogue        (pctx, 30, 90, false); break;
                 case 'cleric':        drawCleric       (pctx, 30, 90, false); break;
+                case 'priest':        drawPriest       (pctx, 30, 90, false); break;
                 case 'necromancer':   drawNecromancer  (pctx, 30, 90, false); break;
                 case 'witch':         drawWitch        (pctx, 30, 90, false); break;
                 case 'ranger':        drawRanger       (pctx, 30, 90, false); break;
@@ -6005,11 +6701,7 @@ function updateInitiativeUI() {
         slot.addEventListener('mousemove',  e => repositionTooltip(e));
         slot.addEventListener('mouseleave',  () => hideTooltip());
 
-        // Click → character sheet for heroes; select unit on map for enemies
-        slot.addEventListener('click', () => {
-            if (u.team === 'heroes') openCharSheet(u);
-            else selectUnit(u.id);
-        });
+        slot.addEventListener('click', () => openCharSheet(u));
 
         bar.appendChild(slot);
     }
@@ -6132,6 +6824,61 @@ function advanceTurn() {
     if (!found) setTimeout(startNewRound, 500);
 }
 
+// ── Aura processing ───────────────────────────────────────────────────────────
+// Runs at the start of each round. For every living unit that has a passive_aura
+// class trait, apply its effect to the appropriate targets and record it in
+// target.activeEffects so the character sheet can display it in real time.
+// Aura effect definitions — how each passive_aura trait mutates unit state per round.
+// Keyed by trait name. Each entry is applied once per round to each target.
+const AURA_EFFECTS = {
+    'Veil of Despair': (caster, target, round) => {
+        // -5% morality per round for all units; extra penalty below 30% handled in display
+        if (target.morality == null) target.morality = target._charData?.morality ?? 50;
+        target.morality = Math.max(0, target.morality - 5);
+    },
+};
+
+function processAuras() {
+    if (!_classesData) return;
+    const living = STATE.units.filter(u => u.hp > 0);
+
+    // Clear aura-sourced effects each round so they don't stack in the list
+    for (const u of living) {
+        u.activeEffects = (u.activeEffects || []).filter(fx => fx._source !== 'aura');
+    }
+
+    for (const caster of living) {
+        const clsId = caster._charData?.cls || caster.spriteType || caster.type;
+        const clsEntry = (_classesData.classes || []).find(c => c.id === clsId);
+        const trait = clsEntry?.special_class_trait;
+        if (!trait || !(trait.type || '').includes('aura')) continue;
+
+        const effectFn = AURA_EFFECTS[trait.name];
+        const targets = living;
+
+        for (const target of targets) {
+            // Apply mechanical effect (mutates morality / stats on the unit)
+            if (effectFn) effectFn(caster, target, COMBAT.round);
+
+            // Record the effect for the character sheet
+            target.activeEffects = target.activeEffects || [];
+            const mor = target.morality ?? target._charData?.morality ?? 50;
+            const penalty = mor < 30 ? ' +10% penalty on morale checks' : '';
+            target.activeEffects.push({
+                _source: 'aura',
+                name: trait.name,
+                source: caster.name,
+                type: 'aura_debuff',
+                debuff: true,
+                duration: null,
+                description: `Morality −5% per round (now ${mor}%)${penalty}`,
+            });
+        }
+
+        combatLog(`☁ ${caster.name}: Veil of Despair drains morality across the battlefield.`);
+    }
+}
+
 // ── New round ─────────────────────────────────────────────────────────────────
 function startNewRound() {
     COMBAT.round++;
@@ -6140,6 +6887,7 @@ function startNewRound() {
     for (const u of STATE.units) {
         if (u.hp > 0) { u.hasActed = false; u.movedHexes = 0; }
     }
+    processAuras();
     rollInitiative();
     combatLog('══════ Round ' + COMBAT.round + ' ══════');
     COMBAT.turnIndex = -1;
@@ -6513,12 +7261,12 @@ function resolveAttack(attacker, target, onDone) {
     {
         const sp = attacker.spriteType || attacker.type;
         if (atk.type === 'melee') {
-            const meleeAnims = { warrior:'warrior_melee', cleric:'cleric_smite', ranger:'ranger_melee' };
+            const meleeAnims = { warrior:'warrior_melee', cleric:'cleric_smite', ranger:'ranger_melee', priest:'priest_strike', dark_templar:'dark_templar_melee' };
             startUnitAnim(attacker.id, meleeAnims[sp] || 'rogue_stab', 480);
         } else if (atk.type === 'ranged') {
             startUnitAnim(attacker.id, sp === 'ranger' ? 'ranger_bow' : 'rogue_bow', 500);
         } else if (atk.type === 'spell') {
-            const spellAnims = { wizard:'wizard_spell', cleric:'cleric_spell', necromancer:'necromancer_spell', witch:'witch_spell', sorcerer:'sorcerer_spell', warlock:'warlock_blast', aquorist:'aquorist_spell', stormcaller:'stormcaller_spell', lifewhisperer:'lifewhisperer_spell', shaman:'shaman_spell', bloodsinger:'bloodsinger_spell', beastcaller:'beastcaller_spell' };
+            const spellAnims = { wizard:'wizard_spell', cleric:'cleric_spell', priest:'priest_spell', necromancer:'necromancer_spell', witch:'witch_spell', sorcerer:'sorcerer_spell', warlock:'warlock_blast', aquorist:'aquorist_spell', stormcaller:'stormcaller_spell', lifewhisperer:'lifewhisperer_spell', shaman:'shaman_spell', bloodsinger:'bloodsinger_spell', beastcaller:'beastcaller_spell' };
             startUnitAnim(attacker.id, spellAnims[sp] || 'wizard_spell', 560);
         }
     }
@@ -6719,6 +7467,7 @@ function resetBattle() {
     STATE.moveRange   = [];
     STATE.attackRange = [];
     document.getElementById('turn-counter').textContent = 1;
+    processAuras();
     rollInitiative();
     combatLog('══════ Battle resets ══════');
     redrawAll();
@@ -6736,10 +7485,13 @@ function startCombat() {
         u.hasActed   = false;
         u.movedHexes = 0;
     }
-    rollInitiative();
-    combatLog('══════ Round 1 — Battle begins! ══════');
-    COMBAT.turnIndex = -1;
-    setTimeout(advanceTurn, 900);
+    loadClassesData().then(() => {
+        processAuras();
+        rollInitiative();
+        combatLog('══════ Round 1 — Battle begins! ══════');
+        COMBAT.turnIndex = -1;
+        setTimeout(advanceTurn, 900);
+    });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

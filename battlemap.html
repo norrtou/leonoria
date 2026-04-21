@@ -318,6 +318,20 @@
         .result-victory { color:#ffd040; text-shadow:0 0 32px rgba(255,200,0,0.7), 0 4px 20px rgba(0,0,0,0.9); }
         .result-defeat  { color:#ff4040; text-shadow:0 0 32px rgba(255,60,0,0.7),  0 4px 20px rgba(0,0,0,0.9); }
 
+        /* ── Morality bar (shared between character creator style and cs) ── */
+        .cs-morality-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.55rem; }
+        .cs-morality-track {
+            position: relative; width: 100%; height: 8px; border-radius: 4px;
+            background: linear-gradient(to right, #1a0000, #6a0808, #c42020, #4aaa38, #88b030, #d8c020, #e8d820);
+        }
+        .cs-morality-bp { position: absolute; top: -3px; width: 2px; height: 14px; background: var(--accent-gold); opacity: 0.85; }
+        .cs-morality-thumb { position: absolute; top: -4px; width: 10px; height: 16px; background: var(--accent-gold); border: 1px solid #111; border-radius: 2px; transform: translateX(-50%); pointer-events: none; }
+        .cs-morality-labels { display: flex; justify-content: space-between; font-size: 0.60rem; letter-spacing: 0.05em; position: relative; }
+        .cs-morality-labels .mz-center { position: absolute; left: 50%; transform: translateX(-50%); }
+        .mz-despair    { color: #c84040; }
+        .mz-neutral    { color: rgba(237,224,196,0.55); }
+        .mz-conviction { color: #d8c020; }
+
         /* ── Character sheet overlay ── */
         .cs-overlay {
             position: fixed;
@@ -333,9 +347,9 @@
             border: 1px solid rgba(201, 168, 76, 0.55);
             border-radius: 6px;
             padding: 1.6rem 1.8rem 1.6rem;
-            max-width: 480px;
-            width: 92%;
-            max-height: 86vh;
+            max-width: 560px;
+            width: 94%;
+            max-height: 88vh;
             overflow-y: auto;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.9);
             position: relative;
@@ -355,11 +369,11 @@
         .cs-top {
             display: flex;
             gap: 1.2rem;
-            margin-bottom: 1.2rem;
-            align-items: flex-start;
+            margin-bottom: 1.1rem;
+            align-items: center;
         }
-        .cs-portrait-wrap { flex-shrink: 0; }
-        .cs-header { flex: 1; }
+        .cs-portrait-wrap { flex-shrink: 0; align-self: flex-start; }
+        .cs-header { flex: 1; min-width: 0; }
         .cs-name {
             font-size: 1.4rem;
             color: var(--accent-gold);
@@ -369,7 +383,7 @@
         .cs-identity {
             font-size: 0.82rem;
             color: #aac880;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             font-style: italic;
         }
         .cs-level {
@@ -377,29 +391,30 @@
             color: rgba(237, 224, 196, 0.50);
             letter-spacing: 0.08em;
             text-transform: uppercase;
+            margin-bottom: 0.6rem;
         }
         .cs-stats {
             display: flex;
-            gap: 0.8rem;
-            margin-top: 0.7rem;
+            gap: 0.6rem;
+            flex-wrap: wrap;
         }
         .cs-stat {
             background: rgba(0,0,0,0.35);
             border: 1px solid rgba(201, 168, 76, 0.22);
             border-radius: 3px;
-            padding: 0.3em 0.75em;
+            padding: 0.3em 0.65em;
             text-align: center;
-            min-width: 58px;
+            min-width: 52px;
         }
         .cs-stat-label {
-            font-size: 0.64rem;
+            font-size: 0.60rem;
             color: rgba(237, 224, 196, 0.45);
             letter-spacing: 0.08em;
             text-transform: uppercase;
             display: block;
         }
         .cs-stat-value {
-            font-size: 1.05rem;
+            font-size: 1.0rem;
             color: var(--accent-gold);
             display: block;
         }
@@ -414,6 +429,77 @@
             text-transform: uppercase;
             color: rgba(237, 224, 196, 0.45);
             margin-bottom: 0.45rem;
+        }
+        .cs-trait-box {
+            background: rgba(0,0,0,0.30);
+            border: 1px solid rgba(201,168,76,0.30);
+            border-radius: 4px;
+            padding: 0.55rem 0.8rem;
+        }
+        .cs-trait-box.cs-trait-aura {
+            border-color: rgba(130,200,255,0.45);
+            background: rgba(40,80,120,0.18);
+        }
+        .cs-trait-header {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            margin-bottom: 0.3rem;
+        }
+        .cs-trait-name {
+            font-size: 0.90rem;
+            color: var(--text-parchment);
+            font-weight: bold;
+        }
+        .cs-aura-badge {
+            font-size: 0.60rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: rgba(60,140,220,0.28);
+            border: 1px solid rgba(100,180,255,0.50);
+            color: #90d0ff;
+            padding: 0.1em 0.55em;
+            border-radius: 2px;
+        }
+        .cs-passive-badge {
+            font-size: 0.60rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: rgba(80,160,60,0.22);
+            border: 1px solid rgba(120,200,80,0.40);
+            color: #90d870;
+            padding: 0.1em 0.55em;
+            border-radius: 2px;
+        }
+        .cs-trait-desc {
+            font-size: 0.78rem;
+            color: rgba(237,224,196,0.72);
+            font-style: italic;
+            line-height: 1.4;
+        }
+        .cs-apt-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.3rem 0.5rem;
+        }
+        .cs-apt-item {
+            background: rgba(0,0,0,0.28);
+            border: 1px solid rgba(100,140,60,0.22);
+            border-radius: 2px;
+            padding: 0.25em 0.55em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cs-apt-label {
+            font-size: 0.66rem;
+            color: rgba(237,224,196,0.50);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .cs-apt-val {
+            font-size: 0.80rem;
+            color: var(--accent-gold);
         }
         .cs-list {
             list-style: none;
@@ -445,11 +531,14 @@
             border-radius: 2px;
             padding: 0.3em 0.7em;
         }
-        .cs-background {
-            font-size: 0.78rem;
-            color: rgba(237, 224, 196, 0.60);
-            font-style: italic;
+        .cs-footer-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 1.2rem;
             margin-top: 0.6rem;
+            font-size: 0.76rem;
+            color: rgba(237,224,196,0.55);
+            font-style: italic;
         }
 
         /* ── Team select overlay ── */
@@ -655,37 +744,7 @@
     <div class="cs-overlay" id="cs-overlay" style="display:none">
         <div class="cs-panel">
             <button class="cs-close" id="cs-close-btn" title="Close">✕</button>
-            <div class="cs-top">
-                <div class="cs-portrait-wrap" id="cs-portrait"></div>
-                <div class="cs-header">
-                    <div class="cs-name"    id="cs-name">—</div>
-                    <div class="cs-identity" id="cs-identity"></div>
-                    <div class="cs-level"   id="cs-level">Level 1</div>
-                    <div class="cs-stats">
-                        <div class="cs-stat">
-                            <span class="cs-stat-label">HP</span>
-                            <span class="cs-stat-value" id="cs-hp">—</span>
-                        </div>
-                        <div class="cs-stat">
-                            <span class="cs-stat-label">Speed</span>
-                            <span class="cs-stat-value" id="cs-speed">—</span>
-                        </div>
-                        <div class="cs-stat">
-                            <span class="cs-stat-label">Dodge</span>
-                            <span class="cs-stat-value" id="cs-dodge">—</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cs-section">
-                <div class="cs-section-title">Skills</div>
-                <ul class="cs-list" id="cs-skills"></ul>
-            </div>
-            <div class="cs-section">
-                <div class="cs-section-title">Attacks &amp; Spells</div>
-                <ul class="cs-atk-list" id="cs-attacks"></ul>
-            </div>
-            <div class="cs-background" id="cs-background" style="display:none"></div>
+            <div id="cs-content"></div>
         </div>
     </div>
 
@@ -722,6 +781,9 @@
                 </button>
                 <button class="tso-default-btn" id="btn-team-storm">
                     ⚡ Stormcaller · Bloodsinger · Beastcaller
+                </button>
+                <button class="tso-default-btn" id="btn-team-new-classes">
+                    ✦ Dark Templar · Priest · Rascal
                 </button>
             </div>
 
