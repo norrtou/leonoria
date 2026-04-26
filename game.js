@@ -1511,8 +1511,6 @@ window.showTownPopup = function(settlementName, biomeId, settlementType, settlem
         // Debug helper: expose last inferred culture for dev inspection
         try { window._lastInferredPopupCulture = { biomeId, inferredId: inferred?.id ?? null, inferredName: inferred?.name ?? null } } catch(e){}
     }
-    // Log chosen culture to console to help verify runtime behavior
-    try { console.log('[Leonoria] showTownPopup chosen culture:', { biomeId, settlementType, cultureName: culture?.name, cultureId: culture?.id, settlementCultureId }); } catch(e){}
 
     // Compose a culture summary for the "People" section. Prefer the
     // settlement-specific culture object resolved from name-pool inference;

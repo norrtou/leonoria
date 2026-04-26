@@ -4674,8 +4674,6 @@ class FantasyMap {
                     const popupTypes  = ['capital','city','port_city','port','market_town','town','fishing_village','village','ruin'];
                     if (popupTypes.includes(loc.type) && typeof window.showTownPopup === 'function') {
                         window.showTownPopup(loc.name, this.biomeId, loc.type, loc.culture || null, loc.kingdom || null);
-                    } else {
-                        console.log('[Leonoria]', loc.type, ':', loc.name);
                     }
                 });
 
@@ -4741,8 +4739,6 @@ class FantasyMap {
                     const popupTypes  = ['capital','city','port_city','port','market_town','town','fishing_village','village','ruin'];
                     if (popupTypes.includes(loc.type) && typeof window.showTownPopup === 'function') {
                         window.showTownPopup(loc.name, this.biomeId, loc.type, loc.culture || null, loc.kingdom || null);
-                    } else {
-                        console.log('[Leonoria]', loc.type, ':', loc.name);
                     }
                 });
 
