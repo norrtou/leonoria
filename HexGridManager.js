@@ -57,8 +57,8 @@ class HexGridManager {
         // Legacy alias (was vbH/rows before hex refactor)
         this.cellH   = this.rowH;
 
-        // ── DnD scale ──────────────────────────────────────────────────────────
-        const ds = meta.dnd_scale;
+        // ── Hex scale ──────────────────────────────────────────────────────────
+        const ds = meta.hex_scale;
         this.hexSizeUnits = ds.hex_size;  // 6 miles (WORLD) or 5 feet (DUNGEON)
         this.hexUnit      = ds.unit;      // 'miles' | 'feet'
 
@@ -200,7 +200,7 @@ class HexGridManager {
     // ── A* Pathfinding ─────────────────────────────────────────────────────────
 
     /**
-     * Find the lowest-cost path between two cells using A* with DnD move costs.
+     * Find the lowest-cost path between two cells using A* with Leonoria move costs.
      * Each step's cost is multiplied by the destination cell's move_cost:
      *   - 1.0 = Normal terrain   (plains, coast, settlement …)
      *   - 2.0 = Difficult Terrain (forest, hills, mountain, swamp …)
@@ -291,7 +291,7 @@ class HexGridManager {
      *
      * @param  {number} q
      * @param  {number} r
-     * @param  {number} moveBudget  DnD movement budget in "move cost units"
+     * @param  {number} moveBudget  Movement budget in "move cost units"
      *                              e.g. a character with 30 ft speed passes 6 normal
      *                              hexes (30 / 5 = 6) or 3 difficult hexes (30 / 10 = 3).
      * @returns {Map<string, number>}  "q_r" → accumulated cost for every reachable cell
@@ -317,10 +317,10 @@ class HexGridManager {
         return reachable;
     }
 
-    // ── DnD scale calculations ─────────────────────────────────────────────────
+    // ── Hex scale calculations ─────────────────────────────────────────────────
 
     /**
-     * Calculate the travel cost of a path in DnD-appropriate units.
+     * Calculate the travel cost of a path in Leonoria movement units.
      *
      * WORLD  (1 hex = 6 miles):
      *   - Normal Pace  3 mph  →  time = total_miles / 3

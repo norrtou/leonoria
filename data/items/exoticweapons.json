@@ -1,5 +1,5 @@
 {
   "_deprecated": true,
-  "_note": "This file contained D&D 5e format weapon data and has been superseded by the Leonoria-native weapon system. See: weapons_melee_1h.json, weapons_melee_2h.json, weapons_ranged.json, weapons_magic.json, weapon_materials.json, weapon_quality_system.json",
+  "_note": "This file has been superseded by the Leonoria-native weapon system. See: weapons_melee_1h.json, weapons_melee_2h.json, weapons_ranged.json, weapons_magic.json, weapon_materials.json, weapon_quality_system.json",
   "_replaced_by": ["weapons_melee_1h.json", "weapons_melee_2h.json", "weapons_ranged.json", "weapons_magic.json"]
 }

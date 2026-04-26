@@ -1,6 +1,6 @@
 {
   "meta": {
-    "system": "D&D 5e Combat",
+    "system": "Leonoria Combat",
     "design_goal": "Deterministic, machine-readable combat rules",
     "time_unit": {
       "round": "6 seconds",

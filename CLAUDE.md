@@ -41,7 +41,7 @@ FantasyMap.generate()  →  FantasyMap.saveMapData()
   - Key methods: `pixelToHex`, `hexToPixel`, `getCell`, `findPath`, `getMovementRange`, `calcPathCost`, `highlightCells`, `onClick`
   - Factories: `HexGridManager.fromLastSave(svgEl)` (preferred) or `HexGridManager.load(path, svgEl)`
 
-**DnD movement scale:** WORLD = 6 miles/hex, DUNGEON = 5 ft/hex. `move_cost 1.0` = normal, `2.0` = Difficult Terrain.
+**Movement scale:** WORLD = 6 miles/hex, DUNGEON = 5 ft/hex. `move_cost 1.0` = normal, `2.0` = Difficult Terrain.
 
 ---
 

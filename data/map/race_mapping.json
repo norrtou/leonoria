@@ -1,5 +1,5 @@
 {
-  "description": "Maps legacy DnD race IDs (used in biome preferredCultures and culture definitions) to Leonoria race IDs. Used during character-creator.js and map.js transition.",
+  "description": "Maps legacy race IDs (used in biome preferredCultures and culture definitions) to Leonoria race IDs. Used during character-creator.js and map.js transition.",
   "race_mapping": {
     "human":       "midlander",
     "half_elf":    "step_folk",

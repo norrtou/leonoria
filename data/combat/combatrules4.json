@@ -3,9 +3,9 @@
     "purpose": "Unified status effect system (conditions, buffs, debuffs, ongoing effects)",
     "design": "Event-driven, stack-aware, duration-based",
     "compatible_with": [
-      "dnd_combat_engine_v1",
-      "dnd_ability_spell_system_v1",
-      "dnd_entity_schema_v1"
+      "leonoria_combat_engine_v1",
+      "leonoria_ability_spell_system_v1",
+      "leonoria_entity_schema_v1"
     ]
   },
 

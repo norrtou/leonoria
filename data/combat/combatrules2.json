@@ -3,8 +3,8 @@
     "purpose": "Modular system for abilities, spells, and effects",
     "design": "Data-driven, event-based, reusable definitions",
     "compatible_with": [
-      "dnd_combat_engine_v1",
-      "dnd_entity_schema_v1"
+      "leonoria_combat_engine_v1",
+      "leonoria_entity_schema_v1"
     ]
   },
 

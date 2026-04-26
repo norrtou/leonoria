@@ -1,6 +1,6 @@
 {
   "meta": {
-    "system": "D&D 5e Combat Engine",
+    "system": "Leonoria Combat Engine",
     "architecture": "Event-driven state machine",
     "time_unit": "round (6 seconds)"
   },

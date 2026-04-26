@@ -10,11 +10,11 @@
       "height_cells": 50,
       "_comment": "Antal hexar i bredd/höjd. Motorn räknar ut radien baserat på SVG:ns viewBox."
     },
-    "dnd_scale": {
+    "hex_scale": {
       "hex_size": 6,
       "unit": "miles",
-      "_comment_world": "Standard DnD Kingdom Scale är 6 miles per hex. En grupp går ca 24 miles (4 hexar) per dag vid normalt tempo.",
-      "sq_ft_per_hex": 5, 
+      "_comment_world": "World scale: 6 miles per hex. En grupp går ca 24 miles (4 hexar) per dag vid normalt tempo.",
+      "sq_ft_per_hex": 5,
       "_comment_dungeon": "Om map_type är DUNGEON, ändras hex_size till 5 feet för taktisk strid."
     },
     "svg_config": {
@@ -29,7 +29,7 @@
       "terrain": {
         "type": "Forest",
         "move_cost": 2,
-        "_comment_move": "1 = Normal, 2 = Difficult Terrain (DnD standard). Kostnaden halverar hastigheten.",
+        "_comment_move": "1 = Normal, 2 = Difficult Terrain. Kostnaden halverar hastigheten.",
         "is_passable": true,
         "vision_block": true
       },

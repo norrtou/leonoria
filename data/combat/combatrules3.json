@@ -1,7 +1,7 @@
 {
   "meta": {
     "purpose": "Universal entity schema for players, NPCs, and monsters",
-    "compatible_with": "dnd_combat_system_v1"
+    "compatible_with": "leonoria_combat_system_v1"
   },
 
   "entity_template": {

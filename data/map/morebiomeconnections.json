@@ -1,9 +1,9 @@
 {
-  "official_dnd_ecology": {
+  "biome_ecology": {
     "metadata": {
       "version": "3.0",
-      "standard": "D&D 5e / 2024 Canon",
-      "note": "Replaces generic 'Ashlands' with official Elemental and Material biomes."
+      "standard": "Leonoria biome reference",
+      "note": "Replaces generic 'Ashlands' with Leonoria-native elemental and material biomes."
     },
     "biomes": [
       {
@@ -48,9 +48,9 @@
       }
     ],
     "resource_correction_table": [
-      { "old_term": "Ashlands", "official_dnd_term": "Elemental Plane of Fire / Volcanic Peaks" },
-      { "old_term": "The Barrens", "official_dnd_term": "The Outlands / Deserts of Anauroch" },
-      { "old_term": "Haunted Biomes", "official_dnd_term": "The Shadowfell / Cursed Lands" }
+      { "old_term": "Ashlands", "leonoria_equivalent": "The Badlands (volcanic fringe zones)" },
+      { "old_term": "The Barrens", "leonoria_equivalent": "The Outer Steppes / Blinding Lands" },
+      { "old_term": "Haunted Biomes", "leonoria_equivalent": "The Forgotten Kingdom / Dark Forests" }
     ]
   }
 }

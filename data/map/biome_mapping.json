@@ -1,5 +1,5 @@
 {
-  "description": "Maps legacy DnD biome IDs to Leonoria biome IDs. Used during map.js transition to ensure old saved maps and references resolve to the correct new biome.",
+  "description": "Maps legacy biome IDs to Leonoria biome IDs. Used during map.js transition to ensure old saved maps and references resolve to the correct new biome.",
   "biome_mapping": {
     "temperate_forest": "the_sanctuary_lands",
     "boreal_forest":    "the_dark_forests",

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "system": "Dungeons & Dragons (5e baseline)",
+    "system": "Leonoria RPG",
     "purpose": "Self-contained reference for new players",
     "principle": "All units, terms, and timelines are explicitly defined"
   },
@@ -96,7 +96,7 @@
   },
 
   "currency": {
-    "system_definition": "Universal coin-based economy used across most D&D settings",
+    "system_definition": "Universal coin-based economy used across Leonoria",
     "coins": {
       "cp": "Copper piece (lowest value)",
       "sp": "Silver piece",
@@ -263,7 +263,7 @@
           {
             "name": "Current Age",
             "date_range": "1490+ DR",
-            "description": "Default D&D campaign era"
+            "description": "Default Leonoria campaign era"
           }
         ]
       }

@@ -5893,7 +5893,7 @@ class FantasyMap {
                 map_type:        mapType,
                 biome:           biomeId,
                 grid_dimensions: { cols: COLS, rows: ROWS },
-                dnd_scale:       { hex_size: mapType === 'DUNGEON' ? 5 : 6,
+                hex_scale:       { hex_size: mapType === 'DUNGEON' ? 5 : 6,
                                    unit:     mapType === 'DUNGEON' ? 'feet' : 'miles' },
                 svg_config:      { viewBox: `0 0 ${W} ${H}` },
                 seed:            this.seed,
