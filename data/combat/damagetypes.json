@@ -73,7 +73,7 @@
         "id": "hot",
         "name": "Hot",
         "description": "Extreme heat from desert environments, volcanic regions, or sustained fire exposure.",
-        "interaction_logic": "Primarily degrades Metabolism (Stamina) and Conviction on the world map. Ice Ancients are severely vulnerable; Wildmen and Common Folk have natural weathering tolerance.",
+        "interaction_logic": "Primarily degrades Metabolism (Stamina) and Conviction on the world map. Ice Archons are severely vulnerable; Wildmen and Common Folk have natural weathering tolerance.",
         "status_trigger": "Heatstroke (Metabolism -10%; Conviction -5 per biome turn in unprotected heat)",
         "resisted_by": "Physiology (Weathering)",
         "affected_biomes": ["the_badlands", "the_gleam_havens", "the_blinding_lands"]
@@ -82,11 +82,11 @@
         "id": "cold",
         "name": "Cold",
         "description": "Extreme cold from arctic tundra, frozen mountain passes, or supernatural chill effects.",
-        "interaction_logic": "Degrades Metabolism and Conviction on the world map. Ice Ancients and Wildmen are immune. Most others suffer Conviction penalties in The Eternal Winds unless equipped for cold.",
+        "interaction_logic": "Degrades Metabolism and Conviction on the world map. Ice Archons and Wildmen are immune. Most others suffer Conviction penalties in The Eternal Winds unless equipped for cold.",
         "status_trigger": "Frostbitten (Metabolism -15%; Conviction loss accelerated)",
         "resisted_by": "Physiology (Weathering); Cold Resistance sub-stat",
         "affected_biomes": ["the_eternal_winds", "the_dark_forests"],
-        "special_note": "Ice Ancients are completely immune. Wildmen have high natural resistance."
+        "special_note": "Ice Archons are completely immune. Wildmen have high natural resistance."
       },
       {
         "id": "humidity",
@@ -187,7 +187,7 @@
         "id": "fire",
         "name": "Fire",
         "description": "Thermal heat that melts, burns, and shapes. Simple but devastatingly effective at scale.",
-        "interaction_logic": "Lingering burn effect on living targets. Exceptional against plant life and ice-type creatures. Wildmen resist fire better than most. Ice Ancients are severely vulnerable.",
+        "interaction_logic": "Lingering burn effect on living targets. Exceptional against plant life and ice-type creatures. Wildmen resist fire better than most. Ice Archons are severely vulnerable.",
         "status_trigger": "Ignited (1d4+caster_level fire damage per turn until extinguished or 3 turns pass)",
         "resisted_by": "Physiology (Weathering — Hot); Materium (Insulation)",
         "synergy": "Earthen (melts stone; creates lava hazard tile)"

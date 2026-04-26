@@ -656,36 +656,36 @@ class Game {
             // MAJOR: Midlander
             // MINOR: Wildmen Ravager (forested), Wildmen Forester (rare, forested),
             //        Swampbrood (swamp terrain), Stone Folk (very rare, mountains),
-            //        Secluded Ancients (extremely rare)
+            //        Secluded Archons (extremely rare)
             cultures: [
                 { value: 'midlander',        label: 'Midlander',                          role: 'major' },
                 { value: 'wildmen_ravagers',  label: 'Wildmen Ravagers (forested)',         role: 'minor' },
                 { value: 'wildmen_foresters', label: 'Wildmen Foresters (rare, forested)',  role: 'minor' },
                 { value: 'swampbrood',        label: 'Swampbrood (swamp terrain)',          role: 'minor' },
                 { value: 'stone_folk',        label: 'Stone Folk (very rare, mountains)',   role: 'minor' },
-                { value: 'ancients_secluded', label: 'Secluded Ancients (extremely rare)',  role: 'minor' },
+                { value: 'archons_secluded', label: 'Secluded Archons (extremely rare)',  role: 'minor' },
             ],
         },
         the_dark_forests: {
             dominant: 'northerner',
             // Rank 1: Northerner (dominant), 2: Wildmen Foresters, 3: Stone Folk,
-            // 4: Wildmen Ravagers, 5: Swampbrood, 6: Ice Ancients (rarest)
+            // 4: Wildmen Ravagers, 5: Swampbrood, 6: Ice Archons (rarest)
             cultures: [
                 { value: 'northerner',        label: 'Northerner'                        },
                 { value: 'wildmen_foresters', label: 'Wildmen Foresters'                 },
                 { value: 'stone_folk',        label: 'Stone Folk (mountains)'            },
                 { value: 'wildmen_ravagers',  label: 'Wildmen Ravagers'                  },
                 { value: 'swampbrood',        label: 'Swampbrood (swamp terrain)'        },
-                { value: 'ice_ancients',      label: 'Ice Ancients (rarest)'             },
+                { value: 'ice_archons',      label: 'Ice Archons (rarest)'             },
             ],
         },
         the_sanctuary_lands: {
-            dominant: 'ancients_secluded',
-            // MAJOR: Secluded Ancients
+            dominant: 'archons_secluded',
+            // MAJOR: Secluded Archons
             // MINOR: Oakspeople (forested), Wildmen Forester (rare, forested),
             //        Wildmen Ravager, Swampbrood (swamp terrain)
             cultures: [
-                { value: 'ancients_secluded', label: 'Secluded Ancients',                  role: 'major' },
+                { value: 'archons_secluded', label: 'Secluded Archons',                  role: 'major' },
                 { value: 'oakpeople',         label: 'Oakpeople (forested areas)',          role: 'minor' },
                 { value: 'wildmen_foresters', label: 'Wildmen Foresters (rare, forested)',  role: 'minor' },
                 { value: 'wildmen_ravagers',  label: 'Wildmen Ravagers',                   role: 'minor' },
@@ -693,27 +693,27 @@ class Game {
             ],
         },
         the_forgotten_kingdom: {
-            dominant: 'ancients_dark_ones',
+            dominant: 'archons_dark_ones',
             // MAJOR: Dark Ones — absolute, no other culture permitted
             cultures: [
-                { value: 'ancients_dark_ones', label: 'Dark Ones', role: 'major' },
+                { value: 'archons_dark_ones', label: 'Dark Ones', role: 'major' },
             ],
         },
         the_eternal_winds: {
-            dominant: 'ice_ancients',
-            // MAJOR: Ice Ancients
+            dominant: 'ice_archons',
+            // MAJOR: Ice Archons
             // MINOR: Wildmen Ravager (rare)
             cultures: [
-                { value: 'ice_ancients',     label: 'Ice Ancients',              role: 'major' },
+                { value: 'ice_archons',     label: 'Ice Archons',              role: 'major' },
                 { value: 'wildmen_ravagers', label: 'Wildmen Ravagers (rare)',    role: 'minor' },
             ],
         },
         the_gleam_havens: {
-            dominant: 'ancients_greys',
-            // MAJOR: Grey Ancients (coastal/riverside)
+            dominant: 'archons_greys',
+            // MAJOR: Grey Archons (coastal/riverside)
             // MINOR: Wildmen Foresters (forested areas), Wildmen Ravager (forested)
             cultures: [
-                { value: 'ancients_greys',    label: 'Grey Ancients',                       role: 'major' },
+                { value: 'archons_greys',    label: 'Grey Archons',                       role: 'major' },
                 { value: 'wildmen_foresters', label: 'Wildmen Foresters (forested areas)',   role: 'minor' },
                 { value: 'wildmen_ravagers',  label: 'Wildmen Ravagers (forested areas)',    role: 'minor' },
             ],
@@ -842,18 +842,18 @@ class Game {
             the_midlands:
                 'Fertile heartland — rolling plains and farmland. ' +
                 'MAJOR: Midlander. ' +
-                'MINOR: Wildmen Ravagers (forested areas), Wildmen Foresters (rare, forested), Swampbrood (swamp terrain), Stone Folk (very rare, mountains), Secluded Ancients (extremely rare).',
+                'MINOR: Wildmen Ravagers (forested areas), Wildmen Foresters (rare, forested), Swampbrood (swamp terrain), Stone Folk (very rare, mountains), Secluded Archons (extremely rare).',
             the_dark_forests:
                 'Dense dark wilderness — brutal winters, few settlements, undead present. ' +
                 'MAJOR: Northerner, Wildmen Foresters, Stone Folk (mountains). ' +
-                'MINOR: Wildmen Ravagers, Ice Ancients (rare), Swampbrood (swamp terrain).',
+                'MINOR: Wildmen Ravagers, Ice Archons (rare), Swampbrood (swamp terrain).',
             the_sanctuary_lands:
                 'Lush ancient forests — magical, snow-capped peaks, highly isolated. ' +
-                'MAJOR: Secluded Ancients. ' +
+                'MAJOR: Secluded Archons. ' +
                 'MINOR: Oakspeople (forested areas), Wildmen Foresters (rare, forested), Wildmen Ravagers, Swampbrood (swamp terrain).',
             the_eternal_winds:
                 'Arctic tundra — brutal cold, endless winds, near-uninhabitable. ' +
-                'MAJOR: Ice Ancients. ' +
+                'MAJOR: Ice Archons. ' +
                 'MINOR: Wildmen Ravagers (rare).',
             the_badlands:
                 'Scorched cataclysm zone — ancient ruins, trade routes, undead everywhere. ' +
@@ -869,7 +869,7 @@ class Game {
                 'MINOR: Ashen Halfbreeds, Wildmen Ravagers.',
             the_gleam_havens:
                 'Warm southern coast — Mediterranean climate, coastal cities, calm seas. ' +
-                'MAJOR: Grey Ancients (coastal and riverside). ' +
+                'MAJOR: Grey Archons (coastal and riverside). ' +
                 'MINOR: Wildmen Foresters (forested areas), Wildmen Ravagers (forested areas).',
             the_boglands:
                 'Murky swamplands — rivers everywhere, dense fog, treacherous ground. ' +
@@ -1425,8 +1425,8 @@ window.showTownPopup = function(settlementName, biomeId, settlementType, settlem
             // Explicit token→race aliases for pool names that don't match race strings.
             const TOKEN_RACE_ALIASES = {
                 wildmen:   'forester',    // wildmen_settlements → Foresters race
-                ancient:   'ice ancient', // ancient_settlements → Ice Ancients
-                secluded:  'secluded',    // ancients_secluded covers via id match below
+                ancient:   'ice archon',  // ancient_settlements → Ice Archons
+                secluded:  'secluded',    // archons_secluded covers via id match below
             };
             const raceHint = TOKEN_RACE_ALIASES[token] ?? null;
 
@@ -1845,7 +1845,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         'data/map/geographical_features.json',          // 13
         'data/map/greys_settlements.json',              // 14
         'data/map/dark_ones_settlements.json',          // 15
-        'data/map/ice_ancients_settlements.json',       // 16
+        'data/map/ice_archons_settlements.json',       // 16
         'data/map/oakpeople_settlements.json',          // 17
         'data/map/stone_folk_settlements.json',         // 18
         'data/map/swampbrood_settlements.json',         // 19
@@ -1869,7 +1869,7 @@ window.addEventListener('DOMContentLoaded', async () => {
             geographical_features:      loaded[13]?.terrain ?? {},
             greys_settlements:          loaded[14].greys_settlements,
             dark_ones_settlements:      loaded[15].dark_ones_settlements,
-            ice_ancients_settlements:   loaded[16].ice_ancients_settlements,
+            ice_archons_settlements:   loaded[16].ice_archons_settlements,
             oakpeople_settlements:      loaded[17].oakpeople_settlements,
             stone_folk_settlements:     loaded[18].stone_folk_settlements,
             swampbrood_settlements:     loaded[19].swampbrood_settlements,

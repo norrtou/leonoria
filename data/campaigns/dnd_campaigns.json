@@ -67,7 +67,7 @@
         "tone": "cold, isolated, quietly menacing",
         "encounter_style": "survival and exploration with sudden violent encounters",
         "starting_hook": "A Thyraen Vigil Knight arrived at a Midlands border post, alone, and will only say three words: 'It walks again.' No one knows what 'it' refers to. The Thyraen do not explain. Someone needs to go north and find out.",
-        "key_factions": ["Thyraen Ice Ancients (hostile to outsiders)", "Frozen Undead Migrations", "Vigil Knights (fractured loyalty)"],
+        "key_factions": ["Thyraen Ice Archons (hostile to outsiders)", "Frozen Undead Migrations", "Vigil Knights (fractured loyalty)"],
         "signature_locations": ["The Glacial Plain", "The Vigil Stone Markers", "The Stillness's Territory", "The White Hunger's Hunting Ground"],
         "boss_encounters": [
           { "name": "The Stillness", "type": "Area Denial Boss", "notes": "Fire is the only reliable damage type" },

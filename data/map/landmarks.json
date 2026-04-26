@@ -100,7 +100,7 @@
       "biomes": ["the_boglands", "the_badlands", "the_outer_steppes", "the_sanctuary_lands", "the_blinding_lands", "the_dark_forests", "the_forgotten_kingdom"]
     },
     {
-      "name": "Crypt of Ancients",
+      "name": "Crypt of Archons",
       "description": "A subterranean burial complex predating the current age. Its architects left no written record, but the traps inside are still active and the interred are not entirely at rest.",
       "category": "dungeon",
       "biomes": ["the_midlands", "the_sanctuary_lands", "the_badlands", "the_blinding_lands", "the_outer_steppes", "the_gleam_havens", "the_forgotten_kingdom"]

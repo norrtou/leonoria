@@ -118,7 +118,7 @@
     "name": "The Stillness",
     "title": "Thyraen Ritual Entity",
     "creature_type": "Elemental / Spiritual (Chill-born)",
-    "description": "A Thyraen ritual that succeeded too well. The Ice Ancients attempted to bind the cold itself into a servitor form. What emerged was something that now serves no master. It does not move. It waits. And the temperature drops around it until the area freezes solid.",
+    "description": "A Thyraen ritual that succeeded too well. The Ice Archons attempted to bind the cold itself into a servitor form. What emerged was something that now serves no master. It does not move. It waits. And the temperature drops around it until the area freezes solid.",
     "power_scaling": { "threat": 13, "tier": "Area Denial Boss", "initiative_mod": "-3" },
     "damage_profile": {
       "primary": "Chill (passive area — all in range take Chill stacks each round)",
@@ -132,7 +132,7 @@
       "resistances": ["Cold (immune)", "Chill (immune)", "Tempest (immune)", "Fire (takes 3x — critical vulnerability)"],
       "vulnerabilities": ["Fire (takes 3x)", "Luminance (takes 1.5x)"]
     },
-    "traits": ["Passive Chill Aura (2 Chill stacks per round to all non-Thyraen units within 3 hexes)", "Stillness Field (movement costs +50% in its range)", "Thyraen Immune (Thyraen Ice Ancients are completely ignored by The Stillness — it sees them as an extension of itself)", "Crystalline Form (physical attacks shatter into ice shards, dealing half damage back to attacker)"],
+    "traits": ["Passive Chill Aura (2 Chill stacks per round to all non-Thyraen units within 3 hexes)", "Stillness Field (movement costs +50% in its range)", "Thyraen Immune (Thyraen Ice Archons are completely ignored by The Stillness — it sees them as an extension of itself)", "Crystalline Form (physical attacks shatter into ice shards, dealing half damage back to attacker)"],
     "win_condition": "Fire damage is the only reliable way to damage it. At 0 HP it disperses into harmless cold air.",
     "location": "the_eternal_winds",
     "subtypes_and_minions": ["Frost Stalkers", "Ice Wraiths", "Thyraen Vigil Knights (who follow it, believing it is still a bound servitor)"]

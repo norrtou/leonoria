@@ -41,7 +41,7 @@
   {
     "biome_id": "the_eternal_winds",
     "name": "The Eternal Winds",
-    "description": "The frozen north. Blizzard-scoured tundra and glacial plains. Home to the Thyraen Ice Ancients, who venture out rarely and never explain why. The cold here has a presence of its own.",
+    "description": "The frozen north. Blizzard-scoured tundra and glacial plains. Home to the Thyraen Ice Archons, who venture out rarely and never explain why. The cold here has a presence of its own.",
     "environmental_hazards": ["Blizzard (reduces visibility to 0)", "Frost bite (Conviction drain per round)", "Crevasse collapse"],
     "native_bestiary": {
       "common": ["Frost Stalker", "Glacial Bear", "Ice Wraith", "Thyraen Border Sentinel", "Tundra Warg"],

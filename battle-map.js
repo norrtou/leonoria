@@ -80,7 +80,7 @@ function makeWarriorDef() {
 function makeWizardDef() {
     const morality = 40 + _rnd(26);
     const charData = {
-        cls: 'elementalist', race: _pick(['ancients_secluded','ancients_greys','oakpeople','ashen_halfbreeds']),
+        cls: 'elementalist', race: _pick(['archons_secluded','archons_greys','oakpeople','ashen_halfbreeds']),
         name: 'Wizard', level: 1, morality,
         age: 35 + _rnd(21),
         skills: ['materium_channeling', 'arcane_theory', _pick(['inscription','alchemy','monster_lore','stealth'])],
@@ -93,7 +93,7 @@ function makeWizardDef() {
 function makeRogueDef() {
     const morality = 25 + _rnd(36);
     const charData = {
-        cls: 'shadowblade', race: _pick(['ancients_dark_ones','step_folk','ashen_halfbreeds','midlander']),
+        cls: 'shadowblade', race: _pick(['archons_dark_ones','step_folk','ashen_halfbreeds','midlander']),
         name: 'Rogue', level: 1, morality,
         age: 20 + _rnd(16),
         skills: ['small_arms', 'stealth', 'shadow_weaving', _pick(['thievery','lockpicking','acrobatics','swordsmanship'])],
@@ -109,7 +109,7 @@ const DEFAULT_HERO_DEFS = [makeWarriorDef(), makeWizardDef(), makeRogueDef()];
 function makeClericDef() {
     const morality = 66 + _rnd(20);
     const charData = {
-        cls: 'warden', race: _pick(['ancients_greys','ice_ancients','northerner','midlander']),
+        cls: 'warden', race: _pick(['archons_greys','ice_archons','northerner','midlander']),
         name: 'Cleric', level: 1, morality,
         age: 28 + _rnd(18),
         skills: ['lightwielding', 'leadership', _pick(['swordsmanship','shield_fighting','blunt_force','intimidation'])],
@@ -137,7 +137,7 @@ function makeWarlockDef() {
     const c1 = _pick(['monster_lore','deception','intimidation','stealth','thievery']);
     const c2 = _pick(['monster_lore','deception','intimidation','stealth','thievery'].filter(s => s !== c1));
     const charData = {
-        cls: 'voidweaver', race: _pick(['ancients_dark_ones','swampbrood','ashen_halfbreeds']),
+        cls: 'voidweaver', race: _pick(['archons_dark_ones','swampbrood','ashen_halfbreeds']),
         name: 'Warlock', level: 1, morality,
         age: 25 + _rnd(21),
         skills: ['shadow_weaving', 'arcane_theory', c1, c2],
@@ -153,7 +153,7 @@ const TEAM_HOLY_DEFS = [makeClericDef(), makeRangerDef(), makeWarlockDef()];
 function makeSorcererDef() {
     const morality = 45 + _rnd(26);
     const charData = {
-        cls: 'pyrecrafter', race: _pick(['midlander','step_folk','ancients_dark_ones']),
+        cls: 'pyrecrafter', race: _pick(['midlander','step_folk','archons_dark_ones']),
         name: 'Sorcerer', level: 1, morality,
         age: 25 + _rnd(16),
         skills: ['materium_channeling', 'arcane_theory', _pick(['alchemy','herbalism','survival','monster_lore'])],
@@ -166,7 +166,7 @@ function makeSorcererDef() {
 function makeNecromancerDef() {
     const morality = 10 + _rnd(26);
     const charData = {
-        cls: 'gravecaller', race: _pick(['swampbrood','ancients_dark_ones','midlander']),
+        cls: 'gravecaller', race: _pick(['swampbrood','archons_dark_ones','midlander']),
         name: 'Necromancer', level: 1, morality,
         age: 30 + _rnd(26),
         skills: ['shadow_weaving', 'summoning', _pick(['arcane_theory','monster_lore','ritualcraft','deception'])],
@@ -197,7 +197,7 @@ function makeLifewhispererDef() {
     const choices = ['alchemy','animal_handling','survival','arcane_theory','tracking'];
     const c1 = _pick(choices); const c2 = _pick(choices.filter(s => s !== c1));
     const charData = {
-        cls: 'lifewhisperer', race: _pick(['ancients_secluded','wildmen_foresters','oakpeople']),
+        cls: 'lifewhisperer', race: _pick(['archons_secluded','wildmen_foresters','oakpeople']),
         name: 'Lifewhisperer', level: 1, morality,
         age: 22 + _rnd(19),
         skills: ['materium_channeling', 'herbalism', c1, c2],
@@ -210,7 +210,7 @@ function makeLifewhispererDef() {
 function makeAquoristDef() {
     const morality = 45 + _rnd(26);
     const charData = {
-        cls: 'aquorist', race: _pick(['midlander','step_folk','ancients_secluded']),
+        cls: 'aquorist', race: _pick(['midlander','step_folk','archons_secluded']),
         name: 'Aquorist', level: 1, morality,
         age: 22 + _rnd(19),
         skills: ['materium_channeling', 'flow_control', _pick(['arcane_theory','survival','navigation','monster_lore'])],
@@ -239,7 +239,7 @@ const TEAM_NATURE_DEFS = [makeLifewhispererDef(), makeAquoristDef(), makeShamanD
 function makeStormcallerDef() {
     const morality = 45 + _rnd(26);
     const charData = {
-        cls: 'stormcaller', race: _pick(['ice_ancients','ancients_greys','midlander']),
+        cls: 'stormcaller', race: _pick(['ice_archons','archons_greys','midlander']),
         name: 'Stormcaller', level: 1, morality,
         age: 25 + _rnd(16),
         skills: ['materium_channeling', 'arcane_theory', _pick(['navigation','survival','monster_lore','acrobatics'])],
@@ -252,7 +252,7 @@ function makeStormcallerDef() {
 function makeBloodsingerDef() {
     const morality = 15 + _rnd(36);
     const charData = {
-        cls: 'bloodsinger', race: _pick(['ancients_dark_ones','wildmen_ravagers','midlander']),
+        cls: 'bloodsinger', race: _pick(['archons_dark_ones','wildmen_ravagers','midlander']),
         name: 'Bloodsinger', level: 1, morality,
         age: 22 + _rnd(17),
         skills: ['shadow_weaving', 'athletics', _pick(['alchemy','herbalism','intimidation','small_arms'])],
@@ -295,7 +295,7 @@ function makeDarkTemplarDef() {
 function makePriestDef() {
     const morality = 55 + _rnd(34);
     const charData = {
-        cls: 'priest', race: _pick(['midlander','ancients_greys','northerner']),
+        cls: 'priest', race: _pick(['midlander','archons_greys','northerner']),
         name: 'Priest', level: 1, morality,
         age: 25 + _rnd(26),
         skills: ['lightwielding', 'herbalism', 'persuasion', _pick(['healing','leadership','ritualcraft','monster_lore'])].filter((v,i,a) => a.indexOf(v) === i),

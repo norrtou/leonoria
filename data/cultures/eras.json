@@ -12,7 +12,7 @@
       "description": "A cataclysmic event of unknown origin that struck the central Pangea. The exact cause is disputed by every culture that has studied it. The central continent was scorched, twisted, and warped. The laws of nature were rewritten. The Badlands were born. Many believe it killed or fundamentally changed every race that existed at the time.",
       "consequences": [
         "Creation of The Badlands (central scorched zone)",
-        "Birth or transformation of the Ancients",
+        "Birth or transformation of the Archons",
         "Mutation of the Elementally Afflicted races",
         "Partial corruption and maddening of the Wildmen",
         "The Forgotten Kingdom sealed off from the surface world",
@@ -26,11 +26,11 @@
       "time_range": "8000 – 7000 YBP",
       "duration": "~1000 years",
       "alignment": "Chaos",
-      "description": "A millennium of post-apocalyptic chaos following The Great Death. Survival was the only law. No organized states existed. Races fought for scarce resources in the altered landscape. The Ancients began consolidating their power. The Elementally Afflicted scattered to the margins.",
+      "description": "A millennium of post-apocalyptic chaos following The Great Death. Survival was the only law. No organized states existed. Races fought for scarce resources in the altered landscape. The Archons began consolidating their power. The Elementally Afflicted scattered to the margins.",
       "consequences": [
         "Population collapse across all races",
         "Formation of survival-based tribal structures",
-        "First emergence of the Ancients as a dominant force",
+        "First emergence of the Archons as a dominant force",
         "Wildmen settle in the fringes of the Dark Forests and Steppes"
       ]
     },
@@ -43,7 +43,7 @@
       "description": "The rise of disparate martial powers. A brutal period of constant border shifts and tribal dominance. The Common Folk first emerged as a coherent racial identity during this era, rising from the survivors of the Warworld. The first proto-states formed and collapsed in rapid succession.",
       "consequences": [
         "First Common Folk kingdoms appear and fall",
-        "Ancients build early city-states in The Sanctuary Lands",
+        "Archons build early city-states in The Sanctuary Lands",
         "Stone Folk retreat fully into mountains and the upper Forgotten Kingdom",
         "Oakpeople culture takes root in the deep Sanctuary Lands",
         "First Wildmen chiefdoms emerge in the Dark Forests"
@@ -55,27 +55,27 @@
       "time_range": "4000 – 3500 YBP",
       "duration": "~500 years",
       "alignment": "Neutral / Good",
-      "description": "A brief but historically significant era of partial unification. A figure or lineage known only as 'Canda' unified or dominated large portions of the continent. The nature of Canda is disputed — some cultures venerate Canda as a Common Folk emperor, others as an Ancient scholar-king. The era ended violently.",
+      "description": "A brief but historically significant era of partial unification. A figure or lineage known only as 'Canda' unified or dominated large portions of the continent. The nature of Canda is disputed — some cultures venerate Canda as a Common Folk emperor, others as an Archon scholar-king. The era ended violently.",
       "consequences": [
         "First continent-spanning trade routes established",
         "Shared calendar system adopted (later reformed)",
-        "Cultural exchange between Ancients and Common Folk",
-        "Collapse into the Golden Age of the Ancients after Canda's fall"
+        "Cultural exchange between Archons and Common Folk",
+        "Collapse into the Golden Age of the Archons after Canda's fall"
       ]
     },
     {
-      "id": "golden_age_ancients",
-      "era": "The Golden Age of the Ancients",
+      "id": "golden_age_archons",
+      "era": "The Golden Age of the Archons",
       "time_range": "3500 – 1500 YBP",
       "duration": "~2000 years",
       "alignment": "Lawful / Neutral",
-      "description": "The peak of the elder races. The Secluded, The Greys, The Ice Ancients, and The Dark Ones all flourished during this period. High magic and architectural wonders defined the era. The Greys built their great Spire-Cities. The Secluded expanded their forest territories. The Dark Ones consolidated control of the Forgotten Kingdom. Common Folk civilizations existed under Ancient overlordship or in peripheral regions.",
+      "description": "The peak of the elder races. The Secluded, The Greys, The Ice Archons, and The Dark Ones all flourished during this period. High magic and architectural wonders defined the era. The Greys built their great Spire-Cities. The Secluded expanded their forest territories. The Dark Ones consolidated control of the Forgotten Kingdom. Common Folk civilizations existed under Archon overlordship or in peripheral regions.",
       "consequences": [
         "Great architectural wonders constructed (many now in ruins in the Badlands and Midlands)",
         "The eight major schools of Materium fully codified",
         "The Forgotten Kingdom mapped and zoned (The Light, The Well, The Fallen)",
         "Common Folk cultures grew in the Midlands, slowly gaining independence",
-        "Ice Ancients retreated fully to The Eternal Winds — first complete isolation"
+        "Ice Archons retreated fully to The Eternal Winds — first complete isolation"
       ]
     },
     {
@@ -84,7 +84,7 @@
       "time_range": "1500 – 800 YBP",
       "duration": "~700 years",
       "alignment": "Neutral",
-      "description": "The splintering of Ancient power into eight major mortal-led sovereign entities. Common Folk kingdoms rose to prominence as the Ancients' grip on political power weakened. The Wildmen Hordes pressed from the Dark Forests. Step Folk confederacies formed in the Blinding Lands and Gleam Havens. The 28 cultures of the current era trace their lineages to this period.",
+      "description": "The splintering of Archon power into eight major mortal-led sovereign entities. Common Folk kingdoms rose to prominence as the Archons' grip on political power weakened. The Wildmen Hordes pressed from the Dark Forests. Step Folk confederacies formed in the Blinding Lands and Gleam Havens. The 28 cultures of the current era trace their lineages to this period.",
       "consequences": [
         "Eight dominant kingdoms divide the continent",
         "Common Folk become politically dominant in The Midlands",
@@ -137,7 +137,7 @@
         "Wildmen raids along the Sanctuary Lands borders",
         "Dark Ones' Um-Syndicate expanding influence through trade networks",
         "Increased undead activity in the Badlands fringe (unexplained)",
-        "Ice Ancients sighted further south than recorded history — reason unknown"
+        "Ice Archons sighted further south than recorded history — reason unknown"
       ],
       "player_era": true
     }

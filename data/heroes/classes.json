@@ -596,7 +596,7 @@
       },
       "typical_races": [
         "The Secluded",
-        "Ice Ancients",
+        "Ice Archons",
         "Oakpeople",
         "Wildmen Foresters"
       ],
@@ -974,7 +974,7 @@
       },
       "typical_races": [
         "The Greys",
-        "Ice Ancients",
+        "Ice Archons",
         "Northerner"
       ],
       "lore": "The Warden is the answer to the question: what does light do when darkness walks among us?",
@@ -1310,7 +1310,7 @@
       "typical_races": [
         "The Secluded",
         "The Greys",
-        "Ice Ancients",
+        "Ice Archons",
         "Midlander",
         "Stone Folk",
         "Ashen Halfbreeds"
@@ -1384,7 +1384,7 @@
       "typical_races": [
         "The Secluded",
         "The Greys",
-        "Ice Ancients",
+        "Ice Archons",
         "Stone Folk",
         "Oakpeople",
         "Ashen Halfbreeds"
@@ -1571,7 +1571,7 @@
         "description": "Tempest cascade effects (the electric secondary strike) trigger at 25% chance instead of 15% for the Stormcaller, and deal +10% bonus damage."
       },
       "typical_races": [
-        "Ice Ancients",
+        "Ice Archons",
         "Step Folk",
         "The Greys"
       ],
@@ -1762,7 +1762,7 @@
       },
       "typical_races": [
         "The Greys",
-        "Ice Ancients",
+        "Ice Archons",
         "Swampbrood"
       ],
       "lore": "The Aquorist knows that water does not fight. It simply finds the way through.",
@@ -2899,7 +2899,7 @@
         "description": "The Windwalker is immune to all cold damage. Once per battle, may release a Deathwind — a cone of void-chilled air dealing Voidreaving damage and inflicting the Frozen status on all enemies hit."
       },
       "typical_races": [
-        "Ice Ancients"
+        "Ice Archons"
       ],
       "lore": "The Windwalker learned something from the cold that nobody else wanted to know: the dead do not rest in the far north. They drift.",
       "social_warning": "Necromancy is illegal everywhere. The Windwalker is rarely recognized for what they are until it is too late.",

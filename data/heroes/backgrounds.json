@@ -1772,7 +1772,7 @@
       "flavor_trait": "The cold stopped mattering around week three. By week six, you had stopped noticing the other things that changed." },
 
     { "id": "frozen_barrow_guardian", "name": "Frozen Barrow Guardian", "for_classes": ["windwalker"],
-      "description": "You guarded ancient burial sites of the Ice Ancients — the barrows where the old dead were interred. Years in the cold, years among the dead, and years listening to what the wind carried through those places.",
+      "description": "You guarded ancient burial sites of the Ice Archons — the barrows where the old dead were interred. Years in the cold, years among the dead, and years listening to what the wind carried through those places.",
       "starting_skill_bonuses": { "shadow_weaving": 12, "stealth": 8, "monster_lore": 5 },
       "starting_wealth_modifier": "+10 to class starting wealth",
       "equipment_bonus": ["Barrow Guardian's Seal", "Cold-Iron Warding Blade", "Ancient Burial Site Map"],
@@ -1788,7 +1788,7 @@
       "flavor_trait": "The ice did not kill you. You have spent years trying to understand what that means." },
 
     { "id": "ancestral_death_rite_keeper", "name": "Death Rite Keeper", "for_classes": ["windwalker"],
-      "description": "You maintained the death rituals of an Ice Ancients community — the rites that guided the dead to where they needed to go, and prevented them from remaining where they didn't. You know things about the boundary between living and dead that most people are better off not knowing.",
+      "description": "You maintained the death rituals of an Ice Archons community — the rites that guided the dead to where they needed to go, and prevented them from remaining where they didn't. You know things about the boundary between living and dead that most people are better off not knowing.",
       "starting_skill_bonuses": { "shadow_weaving": 12, "ritualcraft": 8, "monster_lore": 5 },
       "starting_wealth_modifier": "+5 to class starting wealth",
       "equipment_bonus": ["Death Rite Ritual Kit", "Ancestor List (maintained for generations)", "Bone Instruments (ritual)"],

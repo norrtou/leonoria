@@ -66,7 +66,7 @@
       "preferredCultures": [
         "midlander",
         "step_folk",
-        "ancients_greys"
+        "archons_greys"
       ],
       "climate_hazards": [],
       "undead_presence": "rare",
@@ -84,7 +84,7 @@
         "Magical Lands",
         "Broad Leaf Lands"
       ],
-      "description": "Lush broadleaf-covered lands rich in wildlife, game, and magic. Local smaller areas hold pastures and farmland with settlements. Common Folk settle in the pastoral edges; Ancients and Oakpeople inhabit the deep forests. Mountains to the west have snow-capped peaks with Stone Folk settlements. The forests are filled with magic, wonders, and a sense that something ancient watches.",
+      "description": "Lush broadleaf-covered lands rich in wildlife, game, and magic. Local smaller areas hold pastures and farmland with settlements. Common Folk settle in the pastoral edges; Archons and Oakpeople inhabit the deep forests. Mountains to the west have snow-capped peaks with Stone Folk settlements. The forests are filled with magic, wonders, and a sense that something ancient watches.",
       "climate": {
         "precipitation": "moderate to high",
         "precipitationMm": "700–1800 mm/year",
@@ -142,8 +142,8 @@
         "mountain": 1.4
       },
       "preferredCultures": [
-        "ancients_secluded",
-        "ancients_greys",
+        "archons_secluded",
+        "archons_greys",
         "oakpeople",
         "stone_folk",
         "midlander"
@@ -234,7 +234,7 @@
         "The Frozen North",
         "The Ice Reaches"
       ],
-      "description": "The northernmost biome. Icy tundra, glaciers, and wind-scoured plains with no farmland. Rich in furs and Norium — the essential material for remedies against land-condition afflictions. All races except Ice Ancients and Wildmen suffer Conviction penalty in this biome. Undead roam the deeper regions.",
+      "description": "The northernmost biome. Icy tundra, glaciers, and wind-scoured plains with no farmland. Rich in furs and Norium — the essential material for remedies against land-condition afflictions. All races except Ice Archons and Wildmen suffer Conviction penalty in this biome. Undead roam the deeper regions.",
       "climate": {
         "precipitation": "very low",
         "precipitationMm": "50–250 mm/year",
@@ -284,7 +284,7 @@
         "mountain": 1.2
       },
       "preferredCultures": [
-        "ice_ancients",
+        "ice_archons",
         "wildmen_foresters"
       ],
       "climate_hazards": [
@@ -293,7 +293,7 @@
       "conviction_penalty": {
         "races_affected": "all_except",
         "exceptions": [
-          "ice_ancients",
+          "ice_archons",
           "wildmen_foresters",
           "wildmen_ravagers",
           "northerner"
@@ -522,7 +522,7 @@
         "The Gleam",
         "Southern Lush Lands"
       ],
-      "description": "Dryer plains and savannas with a Mediterranean coastal climate to the west. Warmer and drier than the Midlands or Sanctuary Lands, but not harsh. Located in the far southeast. Ancients and Step Folk dominate this biome — a more comfortable climate for both.",
+      "description": "Dryer plains and savannas with a Mediterranean coastal climate to the west. Warmer and drier than the Midlands or Sanctuary Lands, but not harsh. Located in the far southeast. Archons and Step Folk dominate this biome — a more comfortable climate for both.",
       "climate": {
         "precipitation": "moderate",
         "precipitationMm": "350–900 mm/year",
@@ -572,7 +572,7 @@
         "mountain": 0.6
       },
       "preferredCultures": [
-        "ancients_secluded",
+        "archons_secluded",
         "step_folk",
         "midlander"
       ],
@@ -660,7 +660,7 @@
         "The Deep",
         "The Kingdom Beneath"
       ],
-      "description": "An underground cave world characterized by darkness and dark magic. Connected to the surface of Leonoria by small entrances that only Gatekeepers can open. Three distinct zones: The Light (nearest to the surface), The Well (mid-depth), and The Fallen (deepest, most corrupted). Home to Shadow Ancients, Stone Folk, Ashen Halfbreeds, and Fallen Corrupted Ancients.",
+      "description": "An underground cave world characterized by darkness and dark magic. Connected to the surface of Leonoria by small entrances that only Gatekeepers can open. Three distinct zones: The Light (nearest to the surface), The Well (mid-depth), and The Fallen (deepest, most corrupted). Home to Shadow Archons, Stone Folk, Ashen Halfbreeds, and Fallen Corrupted Archons.",
       "climate": {
         "precipitation": "none",
         "precipitationMm": "0 mm/year",
@@ -712,7 +712,7 @@
       "preferredCultures": [
         "stone_folk",
         "ashen_halfbreeds",
-        "ancients_dark_ones"
+        "archons_dark_ones"
       ],
       "climate_hazards": [],
       "undead_presence": "very_high",
@@ -721,7 +721,7 @@
         {
           "id": "the_light",
           "depth": 1,
-          "description": "Nearest surface. Bioluminescent. Home of Stone Folk and Shadow Ancients."
+          "description": "Nearest surface. Bioluminescent. Home of Stone Folk and Shadow Archons."
         },
         {
           "id": "the_well",
@@ -731,7 +731,7 @@
         {
           "id": "the_fallen",
           "depth": 3,
-          "description": "Deepest zone. Absolute corruption. Home of Ashen Halfbreeds and Fallen Ancients."
+          "description": "Deepest zone. Absolute corruption. Home of Ashen Halfbreeds and Fallen Archons."
         }
       ],
       "access_note": "Surface entry requires a Gatekeeper. Without one, the entrances cannot be found or opened.",

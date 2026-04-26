@@ -1700,10 +1700,10 @@ class FantasyMap {
             midlander:          ['waterways.human'],
             northerner:         ['waterways.human'],
             step_folk:          ['waterways.human', 'waterways.elven'],
-            ancients_secluded:  ['waterways.elven'],
-            ancients_greys:     ['waterways.elven'],
-            ancients_dark_ones: ['waterways.dark_haunted'],
-            ice_ancients:       ['waterways.human'],
+            archons_secluded:  ['waterways.elven'],
+            archons_greys:     ['waterways.elven'],
+            archons_dark_ones: ['waterways.dark_haunted'],
+            ice_archons:       ['waterways.human'],
             wildmen_foresters:  ['waterways.dark_haunted', 'waterways.human'],
             wildmen_ravagers:   ['waterways.dark_haunted'],
             oakpeople:          ['waterways.human'],
@@ -3811,7 +3811,7 @@ class FantasyMap {
         const biomeId = this.biomeId ?? 'the_midlands';
 
         // ── Biome hard constraints (absolute rules — block generation on conflict) ─
-        if (culture === 'ancients_dark_ones' && biomeId !== 'the_forgotten_kingdom') {
+        if (culture === 'archons_dark_ones' && biomeId !== 'the_forgotten_kingdom') {
             console.warn('[Leonoria] RULE CONFLICT: Dark Ones settlements may only spawn in the_forgotten_kingdom. No settlements placed. Check your culture/biome selection.');
             return [];
         }
@@ -3827,9 +3827,9 @@ class FantasyMap {
         // ── Soft biome-culture warnings (inform but do not block — user may override) ─
         const _biomeExpected = {
             northerner:              ['the_dark_forests'],
-            ancients_secluded:       ['the_sanctuary_lands', 'the_midlands'],
-            ice_ancients:            ['the_eternal_winds', 'the_dark_forests'],
-            ancients_greys:          ['the_gleam_havens'],
+            archons_secluded:       ['the_sanctuary_lands', 'the_midlands'],
+            ice_archons:            ['the_eternal_winds', 'the_dark_forests'],
+            archons_greys:          ['the_gleam_havens'],
             ashen_halfbreeds:        ['the_badlands', 'the_outer_steppes', 'the_blinding_lands'],
             step_folk:               ['the_outer_steppes', 'the_blinding_lands', 'the_badlands'],
             stone_folk:              ['the_dark_forests'],
@@ -3862,7 +3862,7 @@ class FantasyMap {
                     ? (c, r) => flat(c, r)
                     : (c, r) => flat(c, r) && inSwamp(c, r);
                 break;
-            case 'ancients_greys':
+            case 'archons_greys':
                 // Prefer river-adjacent or near-coast for inland placements (ports handle true coast)
                 placeable = (c, r) => flat(c, r) && nearRiver(c, r);
                 break;
@@ -3879,10 +3879,10 @@ class FantasyMap {
             midlander:               ['midlander_settlements.plain_names', 'midlander_settlements.cities'],
             northerner:              ['northerner_settlements.plain_names', 'northerner_settlements.halls'],
             step_folk:               ['step_folk_settlements.plain_names', 'step_folk_settlements.cities'],
-            ancients_secluded:       ['secluded_settlements.plain_names', 'secluded_settlements.halls_and_cities'],
-            ancients_greys:          ['greys_settlements.plain_names', 'greys_settlements.cities'],
-            ancients_dark_ones:      ['dark_ones_settlements.plain_names', 'dark_ones_settlements.cities'],
-            ice_ancients:            ['ice_ancients_settlements.plain_names'],
+            archons_secluded:       ['secluded_settlements.plain_names', 'secluded_settlements.halls_and_cities'],
+            archons_greys:          ['greys_settlements.plain_names', 'greys_settlements.cities'],
+            archons_dark_ones:      ['dark_ones_settlements.plain_names', 'dark_ones_settlements.cities'],
+            ice_archons:            ['ice_archons_settlements.plain_names'],
             wildmen_foresters:       ['wildmen_settlements.plain_names'],
             wildmen_ravagers:        ['wildmen_settlements.plain_names', 'wildmen_settlements.strongholds'],
             oakpeople:               ['oakpeople_settlements.plain_names'],
@@ -3892,7 +3892,7 @@ class FantasyMap {
             // Mixed cultures
             mixed:                   ['midlander_settlements.plain_names', 'northerner_settlements.plain_names',
                                       'step_folk_settlements.plain_names', 'greys_settlements.plain_names',
-                                      'ice_ancients_settlements.plain_names', 'stone_folk_settlements.halls'],
+                                      'ice_archons_settlements.plain_names', 'stone_folk_settlements.halls'],
             mixed_forgotten_kingdom: ['dark_ones_settlements.plain_names', 'dark_ones_settlements.cities',
                                       'stone_folk_settlements.plain_names', 'stone_folk_settlements.halls'],
             mixed_wildlands:         ['ashen_halfbreeds_settlements.plain_names', 'step_folk_settlements.plain_names',
@@ -3903,10 +3903,10 @@ class FantasyMap {
             midlander:               ['midlander_settlements.plain_names', 'midlander_settlements.towns'],
             northerner:              ['northerner_settlements.plain_names', 'northerner_settlements.towns'],
             step_folk:               ['step_folk_settlements.plain_names', 'step_folk_settlements.towns'],
-            ancients_secluded:       ['secluded_settlements.plain_names', 'secluded_settlements.groves_and_sanctuaries'],
-            ancients_greys:          ['greys_settlements.plain_names', 'greys_settlements.towns'],
-            ancients_dark_ones:      ['dark_ones_settlements.plain_names', 'dark_ones_settlements.towns'],
-            ice_ancients:            ['ice_ancients_settlements.plain_names', 'ice_ancients_settlements.villages'],
+            archons_secluded:       ['secluded_settlements.plain_names', 'secluded_settlements.groves_and_sanctuaries'],
+            archons_greys:          ['greys_settlements.plain_names', 'greys_settlements.towns'],
+            archons_dark_ones:      ['dark_ones_settlements.plain_names', 'dark_ones_settlements.towns'],
+            ice_archons:            ['ice_archons_settlements.plain_names', 'ice_archons_settlements.villages'],
             wildmen_foresters:       ['wildmen_settlements.plain_names', 'wildmen_settlements.camps_and_warbands'],
             wildmen_ravagers:        ['wildmen_settlements.plain_names', 'wildmen_settlements.raids_and_outposts'],
             oakpeople:               ['oakpeople_settlements.plain_names', 'oakpeople_settlements.villages'],
@@ -3926,10 +3926,10 @@ class FantasyMap {
             midlander:               ['midlander_settlements.villages'],
             northerner:              ['northerner_settlements.villages'],
             step_folk:               ['step_folk_settlements.villages'],
-            ancients_secluded:       ['secluded_settlements.villages'],
-            ancients_greys:          ['greys_settlements.villages'],
-            ancients_dark_ones:      ['dark_ones_settlements.villages'],
-            ice_ancients:            ['ice_ancients_settlements.villages'],
+            archons_secluded:       ['secluded_settlements.villages'],
+            archons_greys:          ['greys_settlements.villages'],
+            archons_dark_ones:      ['dark_ones_settlements.villages'],
+            ice_archons:            ['ice_archons_settlements.villages'],
             wildmen_foresters:       ['wildmen_settlements.camps_and_warbands'],
             wildmen_ravagers:        ['wildmen_settlements.camps_and_warbands', 'wildmen_settlements.raids_and_outposts'],
             oakpeople:               ['oakpeople_settlements.villages'],
@@ -3950,10 +3950,10 @@ class FantasyMap {
             midlander:               ['midlander_settlements.plain_names'],
             northerner:              ['northerner_settlements.plain_names'],
             step_folk:               ['step_folk_settlements.plain_names'],
-            ancients_secluded:       ['secluded_settlements.plain_names'],
-            ancients_greys:          ['greys_settlements.plain_names'],
-            ancients_dark_ones:      ['dark_ones_settlements.plain_names'],
-            ice_ancients:            ['ice_ancients_settlements.plain_names'],
+            archons_secluded:       ['secluded_settlements.plain_names'],
+            archons_greys:          ['greys_settlements.plain_names'],
+            archons_dark_ones:      ['dark_ones_settlements.plain_names'],
+            ice_archons:            ['ice_archons_settlements.plain_names'],
             wildmen_foresters:       ['wildmen_settlements.plain_names'],
             wildmen_ravagers:        ['wildmen_settlements.raids_and_outposts', 'wildmen_settlements.plain_names'],
             oakpeople:               ['oakpeople_settlements.plain_names'],
@@ -4013,7 +4013,7 @@ class FantasyMap {
         const nearWater = (c, r) => nearWaterSet.has(`${c},${r}`);
 
         // Ravager/dark races: fortresses replace cities; strongholds replace villages
-        const fortressCultures = new Set(['wildmen_ravagers', 'ancients_dark_ones', 'mixed_forgotten_kingdom', 'mixed_wildlands']);
+        const fortressCultures = new Set(['wildmen_ravagers', 'archons_dark_ones', 'mixed_forgotten_kingdom', 'mixed_wildlands']);
         const cityType    = fortressCultures.has(culture) ? 'fortress' : 'city';
         const villageType = 'village';
 
@@ -4122,10 +4122,10 @@ class FantasyMap {
             swampbrood:         'swampbrood',
             step_folk:          'step_folk',
             ashen_halfbreeds:   'ashen_halfbreeds',
-            ice_ancients:       'ice_ancients',
-            ancients_greys:     'ancients_greys',
-            ancients_secluded:  'ancients_secluded',
-            ancients_dark_ones: 'ancients_dark_ones',
+            ice_archons:       'ice_archons',
+            archons_greys:     'archons_greys',
+            archons_secluded:  'archons_secluded',
+            archons_dark_ones: 'archons_dark_ones',
         };
         const dominantRace = CULTURE_TO_RACE[culture] ?? culture;
 
@@ -5634,10 +5634,10 @@ class FantasyMap {
             midlander:          ['regions.human',         'regions.wilderness'],
             northerner:         ['regions.human',         'regions.wilderness'],
             step_folk:          ['regions.human',         'regions.elven'],
-            ancients_secluded:  ['regions.elven',         'regions.wilderness'],
-            ancients_greys:     ['regions.elven',         'regions.wilderness'],
-            ancients_dark_ones: ['regions.orc_inhabited', 'regions.wilderness'],
-            ice_ancients:       ['regions.human',         'regions.mountains_and_hills'],
+            archons_secluded:  ['regions.elven',         'regions.wilderness'],
+            archons_greys:     ['regions.elven',         'regions.wilderness'],
+            archons_dark_ones: ['regions.orc_inhabited', 'regions.wilderness'],
+            ice_archons:       ['regions.human',         'regions.mountains_and_hills'],
             wildmen_foresters:  ['regions.orc_inhabited', 'regions.wilderness'],
             wildmen_ravagers:   ['regions.orc_inhabited', 'regions.wilderness'],
             oakpeople:          ['regions.human',         'regions.wilderness'],

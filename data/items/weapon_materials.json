@@ -161,8 +161,8 @@
       "cost_multiplier": 12.00,
       "rarity": "Uncommon",
       "allowed_weapon_categories": ["all_metals"],
-      "availability": "Traded in Ancient settlements and rare arcane markets",
-      "racial_origin": "Ancients",
+      "availability": "Traded in Archon settlements and rare arcane markets",
+      "racial_origin": "Archons",
       "description": "A rare metal with a distinctive purple hue. Quality matches Ancient Steel. Resonates with the pain response of living targets.",
       "special_passive": {
         "extra_painful_chance": 0.50,
@@ -180,15 +180,15 @@
       "cost_multiplier": 15.00,
       "rarity": "Uncommon",
       "allowed_weapon_categories": ["all_metals"],
-      "availability": "Only in objects of Ancient race origin",
-      "racial_origin": "Ancients",
-      "description": "Silver-toned metal worked only by the Ancients. Maximum quality of conventional weapons. Carries a trace of holy light in its forging.",
+      "availability": "Only in objects of Archon race origin",
+      "racial_origin": "Archons",
+      "description": "Silver-toned metal worked only by the Archons. Maximum quality of conventional weapons. Carries a trace of holy light in its forging.",
       "special_passive": {
         "secondary_damage_type": "Blessed Materium",
         "description": "Always carries a secondary Blessed Materium damage effect."
       },
       "tooltip_note": "Ancient Steel — secondary Blessed Materium damage",
-      "flavor": "Crafted with techniques lost to all but the Ancients. The blade seems to carry light within it."
+      "flavor": "Crafted with techniques lost to all but the Archons. The blade seems to carry light within it."
     },
     {
       "id": "ilithium",

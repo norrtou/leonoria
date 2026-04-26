@@ -1,7 +1,7 @@
 {
   "system": "Leonoria Races",
   "description": "All playable races of Leonoria. Each race group has sub-races with distinct physical profiles, aptitude modifiers, resistances, and traits. Physical data uses randomized ranges for hero generation.",
-  "size_order_note": "Largest to smallest: Wildmen Ravagers > Wildmen Foresters > Ancients > Ashen Halfbreeds > Common Folk / Step Folk > Swampbrood > Stone Folk > Oakpeople",
+  "size_order_note": "Largest to smallest: Wildmen Ravagers > Wildmen Foresters > Archons > Ashen Halfbreeds > Common Folk / Step Folk > Swampbrood > Stone Folk > Oakpeople",
   "age_generation_range": [
     15,
     95
@@ -9,14 +9,14 @@
   "own_name_note": "Own names are what each sub-race calls themselves. Common Folk names are the widely-used outsider labels.",
   "race_groups": [
     {
-      "id": "ancients",
-      "name": "Ancients",
-      "category": "Ancients",
+      "id": "archons",
+      "name": "Archons",
+      "category": "Archons",
       "general_description": "Tall, slender, and nimble with a natural affinity for norium that runs through their blood, granting exceptional magical capacity. Often regarded as attractive and naturally charismatic. 6\u20137 feet tall with a slender to athletic build \u2014 an elegance reflected in skin tint rather than pointed ears. All sub-groups are elitist and arrogant about their own importance, viewing themselves as custodians of wisdom. Their destinies were shaped by The Great Death. They share the same human origin as Common Folk, though this is not widely known.",
-      "lore": "The oldest living memory of Leonoria. No Ancient alive remembers before The Great Death \u2014 but all believe their current form was caused by it. Each sub-race interprets this differently: the Aelthiryn as a spiritual gift, the Saereth as a philosophical evolution, the Velkaar as a curse to weaponize, and the Thyraen as something too private to discuss.",
+      "lore": "The oldest living memory of Leonoria. No Archon alive remembers before The Great Death \u2014 but all believe their current form was caused by it. Each sub-race interprets this differently: the Aelthiryn as a spiritual gift, the Saereth as a philosophical evolution, the Velkaar as a curse to weaponize, and the Thyraen as something too private to discuss.",
       "sub_races": [
         {
-          "id": "ancients_secluded",
+          "id": "archons_secluded",
           "name": "The Secluded",
           "own_name": "Aelthiryn",
           "own_name_etymology": "ael = light/essence, thiryn = keepers",
@@ -112,7 +112,7 @@
           }
         },
         {
-          "id": "ancients_greys",
+          "id": "archons_greys",
           "name": "The Greys",
           "own_name": "Saereth",
           "own_name_etymology": "sae = bleached/emptied, reth = line/bloodline",
@@ -209,12 +209,12 @@
           }
         },
         {
-          "id": "ancients_dark_ones",
+          "id": "archons_dark_ones",
           "name": "The Dark Ones",
           "own_name": "Velkaar",
           "own_name_etymology": "vel = depth/void, kaar = will/dominion",
           "own_name_meaning": "Those of the deep will",
-          "description": "Secretive, unsocial, and gifted exclusively in dark arts and deceptive fighting. Naturally selfish but with an occasional, surprising compassionate side. Some make great leaders of darker forces \u2014 not through love but through terrifying competence. Generally shorter than other Ancients. They call themselves Velkaar and originate in the Forgotten Kingdom.",
+          "description": "Secretive, unsocial, and gifted exclusively in dark arts and deceptive fighting. Naturally selfish but with an occasional, surprising compassionate side. Some make great leaders of darker forces \u2014 not through love but through terrifying competence. Generally shorter than other Archons. They call themselves Velkaar and originate in the Forgotten Kingdom.",
           "habitat": [
             "the_forgotten_kingdom"
           ],
@@ -304,8 +304,8 @@
           }
         },
         {
-          "id": "ice_ancients",
-          "name": "The Ice Ancients",
+          "id": "ice_archons",
+          "name": "The Ice Archons",
           "own_name": "Thyraen",
           "own_name_etymology": "thyr = stillness/cold silence, aen = state of being",
           "own_name_meaning": "Those who are of stillness",
@@ -687,7 +687,7 @@
       "name": "Wildmen",
       "category": "Wildmen",
       "general_description": "Rugged, hairy, muscular barbarian-like humanoids with some bear-like features. Not plentiful but deeply feared. Partially physically afflicted and maddened by The Great Death. Brutish, tall, and extraordinarily strong \u2014 up to 8 feet tall. All are resistant to cold weather and have strong natural resistance to moral afflictions. Foresters have an affinity for communing with wildlife magic. Ravagers are fearsome warriors with two-handed weapons and shamanism in their culture.",
-      "lore": "The Wildmen were changed by The Great Death in a different way than the Ancients. Where the Ancients were refined and elevated, the Wildmen were enlarged and partially maddened. Their connection to the pre-Death world is visceral and physical \u2014 something in their blood remembers violence, and they are never quite free of it.",
+      "lore": "The Wildmen were changed by The Great Death in a different way than the Archons. Where the Archons were refined and elevated, the Wildmen were enlarged and partially maddened. Their connection to the pre-Death world is visceral and physical \u2014 something in their blood remembers violence, and they are never quite free of it.",
       "sub_races": [
         {
           "id": "wildmen_foresters",
@@ -880,7 +880,7 @@
       "id": "elementally_afflicted",
       "name": "The Elementally Afflicted",
       "category": "The Elementally Afflicted",
-      "general_description": "Various humanoids with scarred or mutated skin due to environment and adaptation. Mutants whose destinies were shaped at The Great Death when the laws of nature were rewritten. Where the Ancients were elevated spiritually, the Afflicted were fused with the physical world itself \u2014 wood, stone, swamp, or void.",
+      "general_description": "Various humanoids with scarred or mutated skin due to environment and adaptation. Mutants whose destinies were shaped at The Great Death when the laws of nature were rewritten. Where the Archons were elevated spiritually, the Afflicted were fused with the physical world itself \u2014 wood, stone, swamp, or void.",
       "lore": "Some scholars argue the Elementally Afflicted are not one group but several unrelated accidents of The Great Death. What they share is an elemental bond to some part of the natural or subnatural world.",
       "sub_races": [
         {
@@ -1194,7 +1194,7 @@
           "own_name": "Ul'Karash",
           "own_name_etymology": "Ul = self/people, kar = ash/cinder, ash = state of becoming",
           "own_name_meaning": "We who became ash and lived",
-          "description": "Tall, physically corrupted former Dark One Ancients with an ashen, twisted look \u2014 no hair, deeply scarred and crusted skin, but hauntingly beautiful glowing red or orange eyes. Exiled from the Forgotten Kingdom, they were left to suffer and change in the isolated central parts of The Badlands \u2014 a transformative, mutating biome. Skilled general warriors, gifted in Earthern, Blight, and Fire magic. Very resilient to all forms of fire damage and venoms. They call themselves the Ul'Karash.",
+          "description": "Tall, physically corrupted former Dark One Archons with an ashen, twisted look \u2014 no hair, deeply scarred and crusted skin, but hauntingly beautiful glowing red or orange eyes. Exiled from the Forgotten Kingdom, they were left to suffer and change in the isolated central parts of The Badlands \u2014 a transformative, mutating biome. Skilled general warriors, gifted in Earthern, Blight, and Fire magic. Very resilient to all forms of fire damage and venoms. They call themselves the Ul'Karash.",
           "habitat": [
             "the_badlands",
             "the_forgotten_kingdom"

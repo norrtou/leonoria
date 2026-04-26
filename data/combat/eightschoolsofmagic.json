@@ -59,7 +59,7 @@
     },
     "strategic_weakness": "Earthen",
     "weakness_logic": "Earthen magic roots, grounds, and stabilizes. It is the natural counter to all movement-based Tempest abilities.",
-    "primary_users": ["Aelthiryn (Secluded)", "Saereth (Greys)", "Thyraen (Ice Ancients)"],
+    "primary_users": ["Aelthiryn (Secluded)", "Saereth (Greys)", "Thyraen (Ice Archons)"],
     "materium_pool_cost": "High",
     "notes": "Exceptional for breaking formation-based enemies. Weak against single heavily-armored targets."
   },
@@ -123,7 +123,7 @@
     },
     "strategic_weakness": "Darkvoid",
     "weakness_logic": "Void energy extinguishes inner light. Darkvoid effects reduce Soulkindling potency by up to 40%.",
-    "primary_users": ["Northerners (Skarn)", "Thyraen (Ice Ancients)", "Clerics/Templars"],
+    "primary_users": ["Northerners (Skarn)", "Thyraen (Ice Archons)", "Clerics/Templars"],
     "materium_pool_cost": "Moderate",
     "notes": "The only school that scales with Conviction. A high-faith Northerner Cleric can reach Very High potency."
   },
@@ -155,7 +155,7 @@
     },
     "strategic_weakness": "Fire",
     "weakness_logic": "Fire is the direct counter. Every Fire hit on a Chilled target removes one stack of Chill and deals bonus damage.",
-    "primary_users": ["Thyraen (Ice Ancients)", "Velkaar (Dark Ones) — secondary"],
+    "primary_users": ["Thyraen (Ice Archons)", "Velkaar (Dark Ones) — secondary"],
     "materium_pool_cost": "Moderate",
     "notes": "Thyraen Chill damage gains +15%. The most powerful initiative-control school in Leonoria."
   },

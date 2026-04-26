@@ -994,7 +994,7 @@
       "typical_races": [
         "The Greys",
         "Midlander",
-        "Ice Ancients",
+        "Ice Archons",
         "Stone Folk"
       ],
       "lore": "A Soulkindler once said: 'I do not fight death. I argue with it.'",
@@ -1270,7 +1270,7 @@
         "The Secluded",
         "The Greys",
         "Oakpeople",
-        "Ice Ancients"
+        "Ice Archons"
       ],
       "lore": "An Elementalist sees the world as forces in conversation. They learned to join the conversation.",
       "morality_range": [
@@ -1524,7 +1524,7 @@
         "description": "Tempest cascade effects (the electric secondary strike) trigger at 25% chance instead of 15% for the Stormcaller, and deal +10% bonus damage."
       },
       "typical_races": [
-        "Ice Ancients",
+        "Ice Archons",
         "The Secluded",
         "Midlander"
       ],
@@ -1651,7 +1651,7 @@
         "description": "The Aquorist is immune to slow effects and gains +15% movement bonus in water or flooded terrain. Aquas and Aquorism spells ignore movement penalties."
       },
       "typical_races": [
-        "Ice Ancients"
+        "Ice Archons"
       ],
       "lore": "The Aquorist knows that water does not fight. It simply finds the way through.",
       "morality_range": [
