@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Dungeon Generator — Leonoria</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-deep:        #080604;
+            --border-gold:    #c9a84c;
+            --text-parchment: #ede0c4;
+            --text-muted:     #a89878;
+            --accent-gold:    #c9a84c;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg-deep);
+            font-family: 'IM Fell English', Georgia, serif;
+            color: var(--text-parchment);
+        }
+
+        /* ── Layout ── */
+        .dungeon-wrap {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Header ── */
+        .dungeon-header {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 0.65rem 1.4rem;
+            background: linear-gradient(180deg, rgba(20,14,8,0.95) 0%, rgba(12,9,5,0.90) 100%);
+            border-bottom: 1px solid rgba(201,168,76,0.25);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.7);
+            flex-wrap: wrap;
+        }
+
+        .dungeon-title {
+            font-size: 1.35rem;
+            letter-spacing: 0.14em;
+            color: var(--accent-gold);
+            text-shadow: 0 1px 6px rgba(201,168,76,0.3);
+            white-space: nowrap;
+        }
+
+        .header-sep {
+            width: 1px;
+            height: 1.4rem;
+            background: rgba(201,168,76,0.22);
+            flex-shrink: 0;
+        }
+
+        .header-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+        }
+
+        .seed-input {
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: 0.88rem;
+            background: rgba(20,15,8,0.85);
+            border: 1px solid rgba(201,168,76,0.30);
+            color: var(--text-parchment);
+            padding: 0.38em 0.7em;
+            width: 110px;
+            letter-spacing: 0.04em;
+        }
+        .seed-input:focus {
+            outline: none;
+            border-color: rgba(201,168,76,0.60);
+        }
+
+        .type-select {
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: 0.88rem;
+            background: rgba(20,15,8,0.85);
+            border: 1px solid rgba(201,168,76,0.30);
+            color: var(--text-parchment);
+            padding: 0.38em 0.55em;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+        }
+        .type-select:focus {
+            outline: none;
+            border-color: rgba(201,168,76,0.60);
+        }
+        .type-select option {
+            background: #1a1008;
+        }
+
+        .gen-btn {
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: 0.88rem;
+            letter-spacing: 0.1em;
+            color: var(--text-parchment);
+            background: linear-gradient(170deg, #2e2010 0%, #1a1008 100%);
+            border: 1px solid rgba(201,168,76,0.38);
+            padding: 0.42em 1.3em;
+            cursor: pointer;
+            transition: background 0.18s, border-color 0.18s;
+            white-space: nowrap;
+        }
+        .gen-btn:hover {
+            background: linear-gradient(170deg, #3e2e18 0%, #251810 100%);
+            border-color: rgba(201,168,76,0.65);
+        }
+
+        .cell-info {
+            font-size: 0.80rem;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+            font-style: italic;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        .back-btn {
+            font-family: 'IM Fell English', Georgia, serif;
+            font-size: 0.80rem;
+            color: var(--text-muted);
+            background: none;
+            border: 1px solid rgba(201,168,76,0.18);
+            padding: 0.35em 0.9em;
+            cursor: pointer;
+            letter-spacing: 0.08em;
+            transition: color 0.18s, border-color 0.18s;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+        .back-btn:hover {
+            color: var(--text-parchment);
+            border-color: rgba(201,168,76,0.42);
+        }
+
+        /* ── Viewport ── */
+        .dungeon-viewport {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: #060402;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .dungeon-zoom {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: 0 0;
+            cursor: grab;
+        }
+        .dungeon-zoom.dragging { cursor: grabbing; }
+
+        #dungeon-svg {
+            display: block;
+            width:  1200px;
+            height: 900px;
+        }
+
+        /* ── Legend ── */
+        .dungeon-legend {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background: rgba(8,6,3,0.82);
+            border: 1px solid rgba(201,168,76,0.20);
+            padding: 0.55rem 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.28rem;
+            pointer-events: none;
+        }
+
+        .legend-row {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        .legend-swatch {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* ── Biome tag ── */
+        .biome-tag {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 0.2em 0.55em;
+            border: 1px solid rgba(201,168,76,0.18);
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dungeon-wrap">
+
+    <header class="dungeon-header">
+        <span class="dungeon-title">Dungeon Generator</span>
+        <div class="header-sep"></div>
+        <span class="biome-tag">Cave</span>
+        <div class="header-sep"></div>
+        <div class="header-group">
+            <label class="header-label" for="type-select">Type</label>
+            <select class="type-select" id="type-select">
+                <option value="small">Small Dungeon</option>
+                <option value="large">Large Dungeon</option>
+            </select>
+        </div>
+        <div class="header-sep"></div>
+        <div class="header-group">
+            <label class="header-label" for="seed-input">Seed</label>
+            <input class="seed-input" id="seed-input" type="number" min="0" max="4294967295" aria-label="Dungeon seed">
+        </div>
+        <button class="gen-btn" id="btn-generate">Generate</button>
+        <div class="header-sep"></div>
+        <span class="cell-info" id="cell-info">Loading…</span>
+        <a class="back-btn" href="index.html">← Back</a>
+    </header>
+
+    <div class="dungeon-viewport" id="dungeon-viewport">
+        <div class="dungeon-zoom" id="dungeon-zoom">
+            <svg id="dungeon-svg"
+                 xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 1200 900"
+                 role="img"
+                 aria-label="Procedurally generated dungeon">
+            </svg>
+        </div>
+
+        <div class="dungeon-legend" aria-hidden="true">
+            <div class="legend-row"><span class="legend-swatch" style="background:#3a2452"></span>Entrance</div>
+            <div class="legend-row"><span class="legend-swatch" style="background:#2e1c44"></span>Chamber</div>
+            <div class="legend-row"><span class="legend-swatch" style="background:#261638"></span>Corridor</div>
+            <div class="legend-row"><span class="legend-swatch" style="background:#18102c"></span>Boss Chamber</div>
+            <div class="legend-row"><span class="legend-swatch" style="background:#0e0818"></span>Wall</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// ── Zoom / pan (matches ZoomController in game.js) ──────────────────────────
+(function () {
+    const MAP_W  = 1200;
+    const MAP_H  = 900;
+    const MIN    = 0.35;
+    const MAX    = 4;
+
+    const vp     = document.getElementById('dungeon-viewport');
+    const zoom   = document.getElementById('dungeon-zoom');
+    let s = 1, x = 0, y = 0;
+
+    function apply() {
+        zoom.style.transform = `translate(${x.toFixed(2)}px,${y.toFixed(2)}px) scale(${s.toFixed(4)})`;
+    }
+
+    function clamp() {
+        const vw = vp.offsetWidth, vh = vp.offsetHeight;
+        const mw = MAP_W * s, mh = MAP_H * s;
+        if (mw <= vw) { x = (vw - mw) / 2; }
+        else          { x = Math.max(vw - mw, Math.min(0, x)); }
+        if (mh <= vh) { y = (vh - mh) / 2; }
+        else          { y = Math.max(vh - mh, Math.min(0, y)); }
+    }
+
+    function zoomTo(ns, cx, cy) {
+        ns = Math.max(MIN, Math.min(MAX, ns));
+        const r = ns / s;
+        x = cx - r * (cx - x);
+        y = cy - r * (cy - y);
+        s = ns;
+        clamp();
+        apply();
+    }
+
+    // Initial scale: fit map to viewport width
+    window.addEventListener('load', () => {
+        s = Math.max(MIN, Math.min(1, vp.offsetWidth / MAP_W));
+        clamp();
+        apply();
+    });
+
+    vp.addEventListener('wheel', e => {
+        e.preventDefault();
+        const r  = vp.getBoundingClientRect();
+        zoomTo(s * (e.deltaY < 0 ? 1.12 : 1 / 1.12), e.clientX - r.left, e.clientY - r.top);
+    }, { passive: false });
+
+    let drag = null;
+    vp.addEventListener('mousedown', e => {
+        drag = { ox: e.clientX - x, oy: e.clientY - y };
+        zoom.classList.add('dragging');
+    });
+    window.addEventListener('mousemove', e => {
+        if (!drag) return;
+        x = e.clientX - drag.ox;
+        y = e.clientY - drag.oy;
+        clamp();
+        apply();
+    });
+    window.addEventListener('mouseup', () => {
+        drag = null;
+        zoom.classList.remove('dragging');
+    });
+
+    // Touch pinch + pan
+    let lt = [];
+    vp.addEventListener('touchstart', e => {
+        lt = Array.from(e.touches).map(t => ({ x: t.clientX, y: t.clientY }));
+    }, { passive: true });
+    vp.addEventListener('touchmove', e => {
+        e.preventDefault();
+        const ct = Array.from(e.touches).map(t => ({ x: t.clientX, y: t.clientY }));
+        if (ct.length === 1 && lt.length === 1) {
+            x += ct[0].x - lt[0].x;
+            y += ct[0].y - lt[0].y;
+            clamp(); apply();
+        } else if (ct.length === 2 && lt.length === 2) {
+            const pd = Math.hypot(lt[1].x - lt[0].x, lt[1].y - lt[0].y);
+            const cd = Math.hypot(ct[1].x - ct[0].x, ct[1].y - ct[0].y);
+            if (pd > 0) {
+                const cx = (ct[0].x + ct[1].x) / 2 - vp.getBoundingClientRect().left;
+                const cy = (ct[0].y + ct[1].y) / 2 - vp.getBoundingClientRect().top;
+                zoomTo(s * (cd / pd), cx, cy);
+            }
+        }
+        lt = ct;
+    }, { passive: false });
+})();
+</script>
+
+<script src="HexGridManager.js"></script>
+<script src="dungeon.js"></script>
+
+</body>
+</html>

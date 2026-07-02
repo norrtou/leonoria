@@ -19,11 +19,16 @@ let   BATTLE_SEED = Math.floor(Math.random() * 0x7fffffff);
 // In 'night' mode the bonfire obstacle at CAMPFIRE is the primary light source;
 // shadows radiate outward from it and terrain/atmosphere go dark.
 const LIGHTING = {
-    mode    : 'day',       // 'day' | 'night'
-    fireX   : 0,           // screen-x of the campfire (set when obstacles are generated)
-    fireY   : 0,           // screen-y of the campfire
-    fireRadius: 240,       // pixel radius of usable firelight
+    mode        : 'day',
+    fireX       : 0,
+    fireY       : 0,
+    fireRadius  : 240,
+    torches     : [],
+    torchRadius : 200,
 };
+let MAP_TYPE     = 'outdoor';    // 'outdoor' | 'dungeon'
+let DUNGEON_TYPE = 'basic_room'; // dungeon subtype; currently only 'basic_room'
+let DUNGEON_WALL_PX = 80;        // wall height in screen pixels; set by placeDungeonTorches
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PALETTE
@@ -814,6 +819,38 @@ function recalcIsoOrigin(W, H) {
     // Centre horizontally; centre vertically
     ISO_OX = (W - (maxSX - minSX)) / 2 - minSX;
     ISO_OY = (H - (maxSY - minSY)) / 2 - minSY;
+}
+
+// Dungeon mode: scale the grid down and push it into the lower portion of the
+// canvas so there is real space above (back wall) and to the sides (side walls).
+function recalcDungeonLayout(W, H) {
+    // Fill ~56% of width and ~50% of height → leaves ~22% margin on each side
+    const sW = (W * 0.56) / (K * 38.3);
+    const sH = (H * 0.50) / (K * 19.15);
+    S = Math.max(14, Math.min(38, Math.floor(Math.min(sW, sH))));
+
+    // Bounding box with ISO_OX/OY zeroed
+    ISO_OX = 0; ISO_OY = 0;
+    let minSX = Infinity, maxSX = -Infinity, minSY = Infinity, maxSY = -Infinity;
+    for (let c = 0; c < COLS; c++) {
+        for (let r = 0; r < ROWS; r++) {
+            const { wx, wy } = worldToHex(c, r);
+            for (let i = 0; i < 6; i++) {
+                const a  = i * Math.PI / 3;
+                const sx = (wx + S * Math.cos(a) - (wy + S * Math.sin(a))) * K;
+                const sy = (wx + S * Math.cos(a) + (wy + S * Math.sin(a))) * K * 0.5;
+                if (sx < minSX) minSX = sx; if (sx > maxSX) maxSX = sx;
+                if (sy < minSY) minSY = sy; if (sy > maxSY) maxSY = sy;
+            }
+        }
+    }
+    const gridW = maxSX - minSX;
+    const gridH = maxSY - minSY;
+
+    // Reserve ~32% of canvas height for back wall above the floor.
+    const wallTopH = Math.round(H * 0.32);
+    ISO_OX = Math.round((W - gridW) / 2 - minSX);
+    ISO_OY = Math.round(wallTopH - minSY + Math.max(0, (H - wallTopH - gridH) * 0.15));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1681,6 +1718,8 @@ function drawObstacleOnHex(ctx, obs, hexIndex) {
         case 'fence':   drawObstacleFence  (ctx, cx, cy, 0.2 + rng()*0.6, scale, rng); break;
         case 'ruins':   drawObstacleRuins  (ctx, cx, cy, scale, rng); break;
         case 'bonfire': drawObstacleBonfire(ctx, cx, cy, scale, rng); break;
+        case 'pillar':  drawObstaclePillar (ctx, cx, cy, scale, rng); break;
+        case 'torch':   drawObstacleTorch  (ctx, cx, cy, scale, rng); break;
     }
 }
 
@@ -5430,6 +5469,32 @@ function renderBackground() {
     const W = cv.width, H = cv.height;
     ctx.clearRect(0, 0, W, H);
 
+    if (MAP_TYPE === 'dungeon') {
+        // Dispatch to the active dungeon subtype's renderer.
+        // Only 'basic_room' exists for now; future types add their own branch.
+        if (DUNGEON_TYPE === 'basic_room') {
+            recalcDungeonLayout(W, H);
+            placeDungeonTorches(W, H);
+            drawFullTerrainDungeon(ctx, W, H);
+            drawDungeonWalls(ctx, W, H);
+            // Pillars are depth-sorted with units in renderUnits; draw everything else here.
+            const dObs = [];
+            for (const obs of OBSTACLES) {
+                if (obs.type === 'pillar') continue;
+                for (let i = 0; i < obs.hexes.length; i++) {
+                    const [col, row] = obs.hexes[i];
+                    dObs.push({ obs, hexIndex: i, depth: hexDepth(col, row) });
+                }
+            }
+            dObs.sort((a, b) => a.depth - b.depth);
+            for (const { obs, hexIndex } of dObs) drawObstacleOnHex(ctx, obs, hexIndex);
+            drawDungeonAtmosphere(ctx, W, H);
+        }
+        return;
+    }
+
+    recalcIsoOrigin(W, H);   // restore full-canvas layout when in outdoor mode
+
     // 1. Terrain fills the entire canvas — no floating board, no sky
     drawFullTerrain(ctx, W, H);
 
@@ -5492,6 +5557,7 @@ function renderBackground() {
 // Called from every tick loop that clears the unit layer, so the fire never
 // vanishes during projectile / dice / damage animations.
 function drawNightBonfireFlames(ctx) {
+    if (MAP_TYPE === 'dungeon') { drawDungeonTorchFlames(ctx); return; }
     if (LIGHTING.mode !== 'night') return;
     const bonfire = OBSTACLES.find(o => o.type === 'bonfire');
     if (!bonfire) return;
@@ -5500,16 +5566,41 @@ function drawNightBonfireFlames(ctx) {
     drawBonfireFlames(ctx, sx, sy, S / 28, performance.now());
 }
 
+// Depth-sorted draw of units, dungeon pillars, and any caller-supplied extra items.
+// extraItems: optional array of { kind, depth, ... } — each kind must be handled below.
+// Does NOT clear the canvas or draw flames — callers do that.
+function _drawUnitsAndPillars(ctx, extraItems) {
+    const items = STATE.units.map(u => ({
+        kind: 'unit', depth: hexDepth(u.col, u.row), u,
+    }));
+
+    if (MAP_TYPE === 'dungeon') {
+        for (const obs of OBSTACLES) {
+            if (obs.type !== 'pillar') continue;
+            for (let i = 0; i < obs.hexes.length; i++) {
+                const [col, row] = obs.hexes[i];
+                // +0.001 so pillars beat units sharing the exact same hex depth.
+                items.push({ kind: 'pillar', depth: hexDepth(col, row) + 0.001, obs, hexIndex: i });
+            }
+        }
+    }
+
+    if (extraItems) for (const it of extraItems) items.push(it);
+    items.sort((a, b) => a.depth - b.depth);
+
+    for (const item of items) {
+        if      (item.kind === 'unit')       drawUnit(ctx, item.u);
+        else if (item.kind === 'pillar')     drawObstacleOnHex(ctx, item.obs, item.hexIndex);
+        else if (item.kind === 'projectile') drawProjectile(ctx);
+        else if (item.kind === 'swing')      drawSwing(ctx);
+    }
+}
+
 function renderUnits() {
     const cv  = document.getElementById('unit-canvas');
     const ctx = cv.getContext('2d');
     ctx.clearRect(0, 0, cv.width, cv.height);
-
-    const sorted = [...STATE.units].sort((a, b) =>
-        hexDepth(a.col, a.row) - hexDepth(b.col, b.row)
-    );
-    for (const u of sorted) drawUnit(ctx, u);
-
+    _drawUnitsAndPillars(ctx);
     drawNightBonfireFlames(ctx);
 }
 
@@ -5519,7 +5610,7 @@ function startFlameTick() {
     if (_flameTicking) return;
     _flameTicking = true;
     const loop = () => {
-        if (LIGHTING.mode !== 'night') { _flameTicking = false; return; }
+        if (LIGHTING.mode !== 'night' && MAP_TYPE !== 'dungeon') { _flameTicking = false; return; }
         renderUnits();
         requestAnimationFrame(loop);
     };
@@ -6067,13 +6158,20 @@ function hideTeamSelectOverlay() {
 
 function startBattle() {
     BATTLE_SEED = Math.floor(Math.random() * 0x7fffffff);
-    generateTerrain();
-    generateObstacles();
+    if (MAP_TYPE === 'dungeon') {
+        if (DUNGEON_TYPE === 'basic_room') {
+            generateDungeonTerrain();
+            generateDungeonObstacles();
+        }
+    } else {
+        generateTerrain();
+        generateObstacles();
+    }
     resizeCanvases();
     STATE.units = UNIT_DEFS.map(d => ({ ...d }));
     renderBackground();
     redrawAll();
-    if (LIGHTING.mode === 'night') startFlameTick();
+    if (LIGHTING.mode === 'night' || MAP_TYPE === 'dungeon') startFlameTick();
     startCombat();
 }
 
@@ -6167,6 +6265,17 @@ function init() {
     if (dayBtn)   dayBtn  .addEventListener('click', () => setLightingSelection('day'));
     if (nightBtn) nightBtn.addEventListener('click', () => setLightingSelection('night'));
     setLightingSelection(LIGHTING.mode);
+
+    const outdoorBtn = document.getElementById('btn-map-outdoor');
+    const dungeonBtn = document.getElementById('btn-map-dungeon');
+    function setMapTypeSelection(type) {
+        MAP_TYPE = type;
+        if (outdoorBtn) outdoorBtn.classList.toggle('active', type === 'outdoor');
+        if (dungeonBtn) dungeonBtn.classList.toggle('active', type === 'dungeon');
+    }
+    if (outdoorBtn) outdoorBtn.addEventListener('click', () => setMapTypeSelection('outdoor'));
+    if (dungeonBtn) dungeonBtn.addEventListener('click', () => setMapTypeSelection('dungeon'));
+    setMapTypeSelection(MAP_TYPE);
 
     // Wire up character sheet close button
     const csClose = document.getElementById('cs-close-btn');
@@ -6432,11 +6541,21 @@ function _tickDice() {
         const ctx = cv.getContext('2d');
         const now = performance.now();
         ctx.clearRect(0, 0, cv.width, cv.height);
-        const sorted = [...STATE.units].sort((a,b) => hexDepth(a.col,a.row) - hexDepth(b.col,b.row));
-        for (const u of sorted) drawUnit(ctx, u);
+
+        // Build extra items for projectile (depth-sorted with pillars/units) and swing (always on top).
+        const extra = [];
+        if (PROJ.active) {
+            const t  = Math.min(1, (now - PROJ.start) / PROJ.dur);
+            const et = 1 - Math.pow(1 - t, 1.6);
+            const groundY = PROJ.fromGroundY + (PROJ.toGroundY - PROJ.fromGroundY) * et;
+            extra.push({ kind: 'projectile', depth: (groundY - ISO_OY) / (K * 0.5) });
+        }
+        if (SWING.active) {
+            extra.push({ kind: 'swing', depth: Infinity });
+        }
+
+        _drawUnitsAndPillars(ctx, extra);
         drawNightBonfireFlames(ctx);
-        drawProjectile(ctx);   // projectile layer above units
-        drawSwing(ctx);        // melee swing arcs above units
 
         let anyActive = false;
         for (const a of _diceAnims) {
@@ -6485,8 +6604,7 @@ function _tickDmg() {
         const ctx = cv.getContext('2d');
         const now = performance.now();
         ctx.clearRect(0, 0, cv.width, cv.height);
-        const sorted = [...STATE.units].sort((a,b) => hexDepth(a.col,a.row) - hexDepth(b.col,b.row));
-        for (const u of sorted) drawUnit(ctx, u);
+        _drawUnitsAndPillars(ctx);
         drawNightBonfireFlames(ctx);
 
         let anyActive = false;
@@ -7240,7 +7358,9 @@ function resolveAttack(attacker, target, onDone) {
         const projCore  = orb.core  || '#ffffff';
         const projGlow  = orb.glow  || projOuter;
         startProjectile(atk.type === 'spell' ? 'fireball' : 'arrow',
-            fromC.sx, fromBy - fh, toC.sx, toBy - 30, projOuter, projCore, projGlow);
+            fromC.sx, fromBy - fh, toC.sx, toBy - 30,
+            fromBy, toBy,
+            projOuter, projCore, projGlow);
         if (atk.type === 'ranged' && !isMiss) setTimeout(() => playSound('arrowhit'), 160);
         if (atk.type === 'spell'  && !isMiss) setTimeout(() => playSound('firehit'),  160);
     }
@@ -7943,6 +8063,8 @@ const PROJ = {
     glowColor: '#ff6600',
     fromX : 0, fromY: 0,
     toX   : 0, toY  : 0,
+    fromGroundY: 0,   // hex-centre screen Y of the attacker (no height offset)
+    toGroundY  : 0,   // hex-centre screen Y of the target   (no height offset)
     start : 0,
     dur   : 460,
     // cached direction unit vector, set on start
@@ -7950,17 +8072,19 @@ const PROJ = {
     angle : 0,
 };
 
-function startProjectile(type, fx, fy, tx, ty, outerColor, coreColor, glowColor) {
+function startProjectile(type, fx, fy, tx, ty, fromGroundY, toGroundY, outerColor, coreColor, glowColor) {
     const dx = tx - fx, dy = ty - fy;
     const len = Math.hypot(dx, dy) || 1;
-    PROJ.active    = true;
-    PROJ.type      = type;
-    PROJ.color     = outerColor || '#ff6600';
-    PROJ.coreColor = coreColor  || '#ffffff';
-    PROJ.glowColor = glowColor  || outerColor || '#ff6600';
-    PROJ.fromX  = fx;  PROJ.fromY = fy;
-    PROJ.toX    = tx;  PROJ.toY   = ty;
-    PROJ.start  = performance.now();
+    PROJ.active      = true;
+    PROJ.type        = type;
+    PROJ.color       = outerColor || '#ff6600';
+    PROJ.coreColor   = coreColor  || '#ffffff';
+    PROJ.glowColor   = glowColor  || outerColor || '#ff6600';
+    PROJ.fromX       = fx;  PROJ.fromY = fy;
+    PROJ.toX         = tx;  PROJ.toY   = ty;
+    PROJ.fromGroundY = fromGroundY;
+    PROJ.toGroundY   = toGroundY;
+    PROJ.start       = performance.now();
     // Both arrive at ~510 ms so the projectile hits just as the dice freezes (520 ms),
     // with the impact callback firing 5 ms later.
     PROJ.dur    = 510;
@@ -8161,6 +8285,496 @@ function _drawFireball(ctx, x, y, t, outerColor, coreColor, glowColor) {
         ctx.arc(sx, sy, 1.8, 0, Math.PI * 2);
         ctx.fill();
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DUNGEON MODE — BASIC ROOM  (DUNGEON_TYPE = 'basic_room')
+// A single enclosed stone chamber: flat floor, two back walls, torchlit.
+// Pillar layout cycles through 4 symmetric patterns based on seed.
+// Future dungeon types (corridors, multi-room, etc.) add their own blocks below
+// and dispatch from startBattle / renderBackground via DUNGEON_TYPE.
+// ─────────────────────────────────────────────────────────────────────────────
+
+function generateDungeonTerrain() {
+    TMAP = [];
+    for (let c = 0; c < COLS; c++) {
+        TMAP[c] = [];
+        for (let r = 0; r < ROWS; r++) TMAP[c][r] = T_ROCKS;
+    }
+}
+
+// Four symmetric pillar layouts, rotated through by seed.
+// cL/cR = flanking columns, cM = centre column.
+// rT/rM/rB = top / middle / bottom anchor rows (all within the playable band).
+function generateDungeonObstacles() {
+    OBSTACLES = [];
+    BLOCKED   = new Set();
+
+    const rng = makeRng(BATTLE_SEED ^ 0xd00560);
+
+    const reserved = new Set(UNIT_DEFS.map(d => `${d.col},${d.row}`));
+    for (let c = 0; c < COLS; c++) {
+        for (const r of [0, 1, 2, 13, 14]) reserved.add(`${c},${r}`);
+    }
+
+    function place(c, r) {
+        if (c < 0 || c >= COLS || r < 0 || r >= ROWS) return;
+        const key = `${c},${r}`;
+        if (reserved.has(key) || BLOCKED.has(key)) return;
+        const seed = (rng() * 0x7fffffff) | 0;
+        OBSTACLES.push({ type: 'pillar', hexes: [[c, r]], seed });
+        BLOCKED.add(key);
+    }
+
+    const cL = 2,                    cR = COLS - 3,     cM = Math.floor(COLS / 2);
+    const rT = 4,  rM = Math.floor(ROWS / 2),           rB = ROWS - 5;
+
+    // Pattern cycles through 4 layouts based on seed bits
+    switch ((BATTLE_SEED >>> 4) % 4) {
+        case 0: // Colonnade — paired side columns, three rows each
+            place(cL, rT); place(cR, rT);
+            place(cL, rM); place(cR, rM);
+            place(cL, rB); place(cR, rB);
+            break;
+        case 1: // Four corners — corner posts of a central rectangle
+            place(cL, rT); place(cR, rT);
+            place(cL, rB); place(cR, rB);
+            break;
+        case 2: // Centre row — three pillars across the midline
+            place(cL, rM); place(cM, rM); place(cR, rM);
+            break;
+        case 3: // Double row — two parallel cross-rows flanking the centre
+            place(cL, rT + 1); place(cM, rT + 1); place(cR, rT + 1);
+            place(cL, rB - 1); place(cM, rB - 1); place(cR, rB - 1);
+            break;
+    }
+}
+
+// Compute wall-face torch positions using the same anchor geometry as drawDungeonWalls.
+// Must be called after recalcDungeonLayout so hexScreenVerts returns correct screen coords.
+function placeDungeonTorches(W, H) {
+    LIGHTING.torches = [];
+    const bL = hexScreenVerts(-1,   -1  ).reduce((m,p)=>p.sy<m.sy?p:m);
+    const bR = hexScreenVerts(COLS, -1  ).reduce((m,p)=>p.sx>m.sx?p:m);
+    const fL = hexScreenVerts(-1,   ROWS).reduce((m,p)=>p.sx<m.sx?p:m);
+    const wallPx = Math.max(40, bL.sy - Math.round(H * 0.04));
+    DUNGEON_WALL_PX = wallPx;
+    const wallH  = wallPx * 0.42;
+
+    // Back wall: 3 torches
+    for (const t of [0.22, 0.50, 0.78]) {
+        LIGHTING.torches.push({
+            x: bL.sx + (bR.sx - bL.sx) * t,
+            y: bL.sy + (bR.sy - bL.sy) * t - wallH,
+        });
+    }
+    // Left wall: 2 torches
+    for (const t of [0.30, 0.68]) {
+        LIGHTING.torches.push({
+            x: bL.sx + (fL.sx - bL.sx) * t,
+            y: bL.sy + (fL.sy - bL.sy) * t - wallH,
+        });
+    }
+}
+
+function drawWallTorchSprite(ctx, x, y, scale) {
+    // Iron wall bracket
+    ctx.strokeStyle = '#4a3824';
+    ctx.lineWidth   = 2 * scale;
+    ctx.lineCap     = 'round';
+    ctx.beginPath();
+    ctx.moveTo(x - 3 * scale, y + 7 * scale);
+    ctx.lineTo(x - 3 * scale, y);
+    ctx.lineTo(x + 3 * scale, y - 3 * scale);
+    ctx.stroke();
+
+    // Torch body
+    ctx.strokeStyle = '#5c3a14';
+    ctx.lineWidth   = 3 * scale;
+    ctx.lineCap     = 'round';
+    ctx.beginPath();
+    ctx.moveTo(x + 3 * scale, y - 3 * scale);
+    ctx.lineTo(x + 3 * scale, y - 11 * scale);
+    ctx.stroke();
+
+    // Bowl
+    ctx.fillStyle = '#7a4c1e';
+    ctx.beginPath();
+    ctx.ellipse(x + 3 * scale, y - 13 * scale, 3 * scale, 4 * scale, 0, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+// Stone masonry blocks — batched to stay within rendering rules.
+// Collects all rects first, then draws in four passes (face / top-highlight /
+// bottom-shadow / cracks) so fill/stroke are never called inside a loop.
+// Fills a region with stone texture: base gradient + batched mortar courses
+// and vertical joints (all in one beginPath/stroke pass).
+// slope: 0 = back wall (horizontal courses), +0.5 = left wall (+wx iso direction), -0.5 = right wall
+// c0/c1/c2: gradient color stops (dark→mid→light, top to bottom)
+function fillStoneRegion(ctx, x, y, w, h, seed, slope, c0, c1, c2) {
+    const grad = ctx.createLinearGradient(x, y, x, y + h);
+    grad.addColorStop(0,    c0);
+    grad.addColorStop(0.45, c1);
+    grad.addColorStop(1,    c2);
+    ctx.fillStyle = grad;
+    ctx.fillRect(x, y, w, h);
+
+    // Stone courses at given slope + staggered vertical joints — one beginPath/stroke
+    const courseH  = Math.max(10, S * 0.72);
+    const numLines = Math.ceil(h / courseH) + 2;
+    ctx.strokeStyle = 'rgba(0,0,0,0.42)';
+    ctx.lineWidth   = 1.3;
+    ctx.beginPath();
+    for (let i = 0; i <= numLines; i++) {
+        const baseY = y + h - i * courseH;
+        // Course line: from left edge to right edge, angled by slope
+        ctx.moveTo(x,     baseY);
+        ctx.lineTo(x + w, baseY + slope * w);
+        // Staggered vertical joints for each block in this course
+        const jSpacing = S * 1.5;
+        const jOff     = (i % 2) * jSpacing * 0.5;
+        for (let jx = x + jOff; jx < x + w; jx += jSpacing) {
+            // Joint bottom is on this course line, top is on the course above
+            const jBot = baseY + slope * (jx - x);
+            const jTop = jBot - courseH;
+            if (jBot < y - 4 || jTop > y + h + 4) continue;
+            ctx.moveTo(jx, Math.min(jBot, y + h + 2));
+            ctx.lineTo(jx, Math.max(jTop, y - 2));
+        }
+    }
+    ctx.stroke();
+}
+
+// Isometric dungeon room walls — three parallelogram faces that rise upward
+// from the floor's back/left/right edges. Each face is clipped to its own
+// parallelogram so it never bleeds onto the floor or adjacent walls.
+// Black space around the room is provided by drawFullTerrainDungeon.
+function drawDungeonWalls(ctx, W, H) {
+    // Four corner anchor points, one per corner hex:
+    //   bL = topmost vertex  of hex(0,      0)       — back-left  corner
+    //   bR = rightmost vertex of hex(COLS-1, 0)       — back-right corner
+    //   fL = leftmost vertex  of hex(0,      ROWS-1)  — front-left corner
+    //   fR = rightmost vertex of hex(COLS-1, ROWS-1)  — front-right corner
+    // Walls sit 1 hex outside the playable area in every direction
+    const bL = hexScreenVerts(-1,     -1    ).reduce((m,p)=>p.sy<m.sy?p:m);
+    const bR = hexScreenVerts(COLS,   -1    ).reduce((m,p)=>p.sx>m.sx?p:m);
+    const fL = hexScreenVerts(-1,     ROWS  ).reduce((m,p)=>p.sx<m.sx?p:m);
+
+    // Wall height: fill the space above the floor up to a small top margin
+    const wallPx = Math.max(40, bL.sy - Math.round(H * 0.04));
+
+    // Draw one wall face as a parallelogram:
+    //   bottom edge  (ax,ay)→(bx,by)  at floor level
+    //   top edge     same points - wallPx   (rising straight up in screen space)
+    // Stone texture is clipped exactly to the parallelogram.
+    function wallFace(ax, ay, bxp, by, seed, slope, c0, c1, c2) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(ax,  ay);
+        ctx.lineTo(bxp, by);
+        ctx.lineTo(bxp, by  - wallPx);
+        ctx.lineTo(ax,  ay  - wallPx);
+        ctx.closePath();
+        ctx.clip();
+        const rx = Math.min(ax, bxp) - 2;
+        const ry = Math.min(ay, by)  - wallPx - 2;
+        const rw = Math.abs(bxp - ax) + 4;
+        const rh = Math.abs(by  - ay) + wallPx + 4;
+        fillStoneRegion(ctx, rx, ry, rw, rh, seed, slope, c0, c1, c2);
+        ctx.restore();
+    }
+
+    // Back wall  bL → bR  — darkest (viewed nearly face-on from below)
+    // Courses run in the +wx world direction → screen slope +0.5
+    wallFace(bL.sx, bL.sy, bR.sx, bR.sy, BATTLE_SEED ^ 0x5701, 0.5,
+        '#141418', '#1e1e24', '#2c2c34');
+
+    // Left wall  bL → fL  — medium (partially facing viewer)
+    // Courses run in the +wy world direction → screen slope −0.5
+    wallFace(bL.sx, bL.sy, fL.sx, fL.sy, BATTLE_SEED ^ 0x5702, -0.5,
+        '#242430', '#383844', '#4e4e5c');
+
+    // ── Wall thickness — top faces visible above the front faces ──────────
+    // In isometric: "northward" (behind back wall) = screen (+thickX, -thickY)
+    //               "westward"  (behind left wall) = screen (-thickX, -thickY)
+    const thickX = Math.round(S * K * 2.2);
+    const thickY = Math.round(thickX * 0.5);
+
+    // Draw a parallelogram top face clipped exactly to its shape.
+    // (ax,ay)→(bxp,by) is the inner top edge; (dx,dy) is the depth direction.
+    function topFace(ax, ay, bxp, by, dx, dy, cInner, cOuter) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(ax,       ay);
+        ctx.lineTo(bxp,      by);
+        ctx.lineTo(bxp + dx, by  + dy);
+        ctx.lineTo(ax  + dx, ay  + dy);
+        ctx.closePath();
+        ctx.clip();
+        const g = ctx.createLinearGradient(ax, ay, ax + dx, ay + dy);
+        g.addColorStop(0, cInner);
+        g.addColorStop(1, cOuter);
+        ctx.fillStyle = g;
+        ctx.fillRect(
+            Math.min(ax, bxp, ax+dx, bxp+dx) - 1,
+            Math.min(ay, by,  ay+dy, by+dy)  - 1,
+            Math.abs(bxp - ax) + Math.abs(dx) + 2,
+            Math.abs(by  - ay) + Math.abs(dy) + 2
+        );
+        ctx.restore();
+    }
+
+    // Back wall top: inner top edge bL→bR, extends north (+thickX, -thickY)
+    topFace(bL.sx, bL.sy - wallPx, bR.sx, bR.sy - wallPx,
+            +thickX, -thickY, '#484854', '#28282e');
+
+    // Left wall top: inner top edge bL→fL, extends west (-thickX, -thickY)
+    topFace(bL.sx, bL.sy - wallPx, fL.sx, fL.sy - wallPx,
+            -thickX, -thickY, '#505060', '#303038');
+
+    // Corner block top at back-left: rhombus connecting both depth directions
+    // Vertices: inner → north-corner → northwest → west-corner
+    {
+        const ix = bL.sx, iy = bL.sy - wallPx;
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(ix,           iy);
+        ctx.lineTo(ix + thickX,  iy - thickY);
+        ctx.lineTo(ix,           iy - 2 * thickY);
+        ctx.lineTo(ix - thickX,  iy - thickY);
+        ctx.closePath();
+        ctx.clip();
+        ctx.fillStyle = '#3c3c48';
+        ctx.fillRect(ix - thickX - 1, iy - 2 * thickY - 1, 2 * thickX + 2, 2 * thickY + 2);
+        ctx.restore();
+    }
+
+    // Thin shadow line where each wall meets the floor
+    ctx.strokeStyle = 'rgba(0,0,0,0.65)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(bL.sx, bL.sy); ctx.lineTo(bR.sx, bR.sy);
+    ctx.moveTo(bL.sx, bL.sy); ctx.lineTo(fL.sx, fL.sy);
+    ctx.stroke();
+
+    // Wall-mounted torch brackets at positions already placed by placeDungeonTorches
+    const torchScale = Math.max(0.55, S * 0.065);
+    for (const tp of LIGHTING.torches) {
+        drawWallTorchSprite(ctx, tp.x, tp.y, torchScale);
+    }
+}
+
+function drawFullTerrainDungeon(ctx, W, H) {
+    // Black void surrounds the dungeon room
+    ctx.fillStyle = '#060404';
+    ctx.fillRect(0, 0, W, H);
+
+    // Find the four extreme hex vertices across the padded area (1 hex border)
+    let topPt, botPt, lPt, rPt;
+    for (let c = -1; c <= COLS; c++) {
+        for (let r = -1; r <= ROWS; r++) {
+            for (const p of hexScreenVerts(c, r)) {
+                if (!topPt || p.sy < topPt.sy) topPt = { sx: p.sx, sy: p.sy };
+                if (!botPt || p.sy > botPt.sy) botPt = { sx: p.sx, sy: p.sy };
+                if (!lPt   || p.sx < lPt.sx)  lPt   = { sx: p.sx, sy: p.sy };
+                if (!rPt   || p.sx > rPt.sx)  rPt   = { sx: p.sx, sy: p.sy };
+            }
+        }
+    }
+
+    // Clip stone floor texture to the diamond footprint of the hex grid
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(topPt.sx, topPt.sy);
+    ctx.lineTo(rPt.sx,   rPt.sy);
+    ctx.lineTo(botPt.sx, botPt.sy);
+    ctx.lineTo(lPt.sx,   lPt.sy);
+    ctx.closePath();
+    ctx.clip();
+
+    // Stone floor texture — warm tan with noise variation and crack lines
+    const SCALE = 3;
+    const pw = Math.ceil(W / SCALE);
+    const ph = Math.ceil(H / SCALE);
+    const off = document.createElement('canvas');
+    off.width = pw; off.height = ph;
+    const oc  = off.getContext('2d');
+    const img = oc.createImageData(pw, ph);
+    const d   = img.data;
+    const BASE_R = 112, BASE_G = 110, BASE_B = 108;
+    const torchR = LIGHTING.torchRadius * 1.5;
+
+    for (let py = 0; py < ph; py++) {
+        for (let px = 0; px < pw; px++) {
+            const sx = px * SCALE, sy = py * SCALE;
+            const n0 = noise2(sx * 0.018, sy * 0.018, BATTLE_SEED);
+            const n1 = noise2(sx * 0.065, sy * 0.065, BATTLE_SEED + 211);
+            const n2 = noise2(sx * 0.240, sy * 0.240, BATTLE_SEED + 533);
+            const n  = n0 * 0.55 + n1 * 0.30 + n2 * 0.15;
+            const crk = noise2(sx * 0.120, sy * 0.380, BATTLE_SEED + 997);
+            const crackDark = crk < 0.14 ? 0.62 : 1.0;
+            let warmR = 0, warmG = 0;
+            for (const t of LIGHTING.torches) {
+                const dist = Math.hypot(sx - t.x, sy - t.y);
+                if (dist < torchR) {
+                    const fac = (1 - dist / torchR) * (1 - dist / torchR) * 0.28;
+                    warmR += fac * 40; warmG += fac * 14;
+                }
+            }
+            const v = (n - 0.5) * 38;
+            d[(py * pw + px) * 4    ] = Math.round(Math.min(255, Math.max(0, (BASE_R + v)        * crackDark + warmR)));
+            d[(py * pw + px) * 4 + 1] = Math.round(Math.min(255, Math.max(0, (BASE_G + v * 0.88) * crackDark + warmG)));
+            d[(py * pw + px) * 4 + 2] = Math.round(Math.min(255, Math.max(0, (BASE_B + v * 0.78) * crackDark)));
+            d[(py * pw + px) * 4 + 3] = 255;
+        }
+    }
+    oc.putImageData(img, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(off, 0, 0, W, H);
+    ctx.restore();
+}
+
+function drawDungeonAtmosphere(ctx, W, H) {
+    // Light vignette darkness — dungeon is dimly lit, not pitch black
+    ctx.fillStyle = 'rgba(0,0,0,0.38)';
+    ctx.fillRect(0, 0, W, H);
+
+    // Additive torch glow pools
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    for (const t of LIGHTING.torches) {
+        const r = LIGHTING.torchRadius;
+        const g = ctx.createRadialGradient(t.x, t.y, 0, t.x, t.y, r);
+        g.addColorStop(0.00, 'rgba(220,140,40,0.55)');
+        g.addColorStop(0.25, 'rgba(180,90,20,0.30)');
+        g.addColorStop(0.60, 'rgba(120,60,10,0.14)');
+        g.addColorStop(1.00, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(t.x - r, t.y - r, r * 2, r * 2);
+    }
+    ctx.restore();
+}
+
+function drawObstaclePillar(ctx, cx, cy, scale, rng) {
+    const w  = 22 * scale;
+    const h  = MAP_TYPE === 'dungeon' ? DUNGEON_WALL_PX : 36 * scale;
+    const bw = 28 * scale;
+    const bh = 6  * scale;
+
+    // Drop shadow at base
+    ctx.fillStyle = 'rgba(0,0,0,0.45)';
+    ctx.beginPath();
+    ctx.ellipse(cx, cy + bh * 0.5, bw * 0.55, bh * 0.6, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Base plinth
+    ctx.fillStyle = '#48484e';
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, bw * 0.52, bh * 0.55, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Shaft — dark left face
+    ctx.fillStyle = '#2a2a30';
+    ctx.beginPath();
+    ctx.rect(cx - w * 0.5, cy - h, w * 0.42, h);
+    ctx.fill();
+
+    // Shaft — lighter right face
+    ctx.fillStyle = '#484858';
+    ctx.beginPath();
+    ctx.rect(cx - w * 0.08, cy - h, w * 0.58, h);
+    ctx.fill();
+
+    // Capital — dark left
+    ctx.fillStyle = '#363640';
+    ctx.beginPath();
+    ctx.rect(cx - bw * 0.5, cy - h - bh * 0.8, bw * 0.5, bh * 0.8);
+    ctx.fill();
+
+    // Capital — light right
+    ctx.fillStyle = '#525260';
+    ctx.beginPath();
+    ctx.rect(cx, cy - h - bh * 0.8, bw * 0.5, bh * 0.8);
+    ctx.fill();
+
+    // Top ellipse highlight
+    ctx.fillStyle = '#606070';
+    ctx.beginPath();
+    ctx.ellipse(cx, cy - h - bh * 0.8, bw * 0.5, bh * 0.5, 0, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function drawObstacleTorch(ctx, cx, cy, scale, rng) {
+    const bx = cx + (rng() - 0.5) * 4 * scale;
+    const by = cy - 8 * scale;
+
+    ctx.strokeStyle = '#3a3028';
+    ctx.lineWidth   = 2.5 * scale;
+    ctx.lineCap     = 'round';
+    ctx.beginPath();
+    ctx.moveTo(bx - 6 * scale, by + 10 * scale);
+    ctx.lineTo(bx, by + 2 * scale);
+    ctx.lineTo(bx + 4 * scale, by - 4 * scale);
+    ctx.stroke();
+
+    ctx.strokeStyle = '#5c3a14';
+    ctx.lineWidth   = 3 * scale;
+    ctx.beginPath();
+    ctx.moveTo(bx + 4 * scale, by - 4 * scale);
+    ctx.lineTo(bx + 4 * scale, by - 14 * scale);
+    ctx.stroke();
+
+    ctx.fillStyle = '#7a4c1e';
+    ctx.beginPath();
+    ctx.ellipse(bx + 4 * scale, by - 16 * scale, 3.5 * scale, 5 * scale, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = 'rgba(255,160,30,0.70)';
+    ctx.beginPath();
+    ctx.arc(bx + 4 * scale, by - 20 * scale, 3 * scale, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function drawDungeonTorchFlames(ctx) {
+    const t = Date.now() / 1000;
+    for (const tp of LIGHTING.torches) {
+        drawTorchFlame(ctx, tp.x, tp.y - 20, t);
+    }
+}
+
+function drawTorchFlame(ctx, x, y, t) {
+    const h = 14 + Math.sin(t * 8.3 + x * 0.4) * 4;
+    const w = 5  + Math.sin(t * 11.7 + y * 0.3) * 1.5;
+
+    const g1 = ctx.createRadialGradient(x, y, 0, x, y - h * 0.4, h);
+    g1.addColorStop(0.00, 'rgba(255,200,60,0.90)');
+    g1.addColorStop(0.40, 'rgba(255,100,10,0.65)');
+    g1.addColorStop(1.00, 'rgba(200,40,0,0)');
+    ctx.fillStyle = g1;
+    ctx.beginPath();
+    ctx.ellipse(x, y - h * 0.4, w, h * 0.6, Math.sin(t * 7) * 0.18, 0, Math.PI * 2);
+    ctx.fill();
+
+    const g2 = ctx.createRadialGradient(x, y - 2, 0, x, y - 4, h * 0.35);
+    g2.addColorStop(0.00, 'rgba(255,240,180,0.95)');
+    g2.addColorStop(0.50, 'rgba(255,160,30,0.50)');
+    g2.addColorStop(1.00, 'rgba(255,80,0,0)');
+    ctx.fillStyle = g2;
+    ctx.beginPath();
+    ctx.ellipse(x, y - h * 0.28, w * 0.5, h * 0.38, Math.sin(t * 9 + 1) * 0.12, 0, Math.PI * 2);
+    ctx.fill();
+
+    const rng = makeRng(((t * 6) | 0) ^ ((x * 31 + y * 17) | 0));
+    ctx.fillStyle = 'rgba(255,180,30,0.80)';
+    ctx.beginPath();
+    for (let s = 0; s < 4; s++) {
+        const sa = rng() * Math.PI * 2;
+        const sr = w * (0.5 + rng() * 0.8);
+        const fy = y - h * (0.5 + rng() * 0.7);
+        ctx.moveTo(x + Math.cos(sa) * sr + 1, fy);
+        ctx.arc(x + Math.cos(sa) * sr, fy, 1.2, 0, Math.PI * 2);
+    }
+    ctx.fill();
 }
 
 })();
