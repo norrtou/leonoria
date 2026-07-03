@@ -33,6 +33,7 @@ window.GameState = (() => {
                 level:     1,
                 inventory: [],
                 hp:        {},      // charId → current hp; absent = unhurt
+                gear:      { armor: 0, oil: 0, charm: 0 },   // trader upgrade levels
 
             },
             world: {
@@ -73,6 +74,10 @@ window.GameState = (() => {
                 return false;
             }
             S = data;
+            // Fields added after a save was written get safe defaults
+            S.party.inventory ??= [];
+            S.party.hp        ??= {};
+            S.party.gear      ??= { armor: 0, oil: 0, charm: 0 };
             return true;
         } catch (e) {
             console.warn('[GameState] failed to load save', e);

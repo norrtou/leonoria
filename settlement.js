@@ -66,6 +66,33 @@ window.Settlement = (() => {
                 s.party.gold >= price.temple && wounded));
         }
 
+        // Trader — sell loot, buy party upgrades
+        if ((amen.traders ?? 0) > 0) {
+            rows.push('<div class="sp-rumor">⚖ At the trader:</div>');
+
+            const lootValue = (s.party.inventory ?? []).reduce((sum, it) => sum + (it.value ?? 0), 0);
+            const lootCount = (s.party.inventory ?? []).length;
+            rows.push(_action('sell',
+                `🎒 Sell loot — earn ${lootValue} gold`,
+                lootCount ? `${lootCount} item${lootCount !== 1 ? 's' : ''} in the pack.` : 'Nothing to sell.',
+                lootCount > 0));
+
+            const g = s.party.gear;
+            const upgrades = [
+                ['armor', `🛡 Reinforced armor (+8 max HP each)`,  60, g.armor, 8],
+                ['oil',   `🗡 Weapon oils (+1 damage)`,            50, g.oil,   5],
+                ['charm', `🧿 Warding charms (+2 dodge)`,          40, g.charm, 5],
+            ];
+            for (const [act, label, base, lvl, cap] of upgrades) {
+                const cost = base * (lvl + 1);
+                const capped = lvl >= cap;
+                rows.push(_action(act,
+                    capped ? `${label} — best available` : `${label} — ${cost} gold`,
+                    `Level ${lvl}${capped ? ' (max)' : ` → ${lvl + 1}`}`,
+                    !capped && s.party.gold >= cost));
+            }
+        }
+
         // Rumors at the inn — quest offers from the procedural generator
         _offers = {};
         const offers = window.Quests ? Quests.offers(name, 2) : [];
@@ -124,6 +151,13 @@ window.Settlement = (() => {
         } else if (act === 'temple') {
             s.party.gold -= price.temple;
             s.party.hp    = {};
+        } else if (act === 'sell') {
+            s.party.gold += (s.party.inventory ?? []).reduce((sum, it) => sum + (it.value ?? 0), 0);
+            s.party.inventory = [];
+        } else if (act === 'armor' || act === 'oil' || act === 'charm') {
+            const base = { armor: 60, oil: 50, charm: 40 }[act];
+            s.party.gold -= base * (s.party.gear[act] + 1);
+            s.party.gear[act] += 1;
         }
 
         GameState.save();

@@ -285,6 +285,7 @@ function triggerBattle(enc, quest = null) {
     $('battle-encounter-title').textContent = `⚔ ${enc.label}`;
     Scenes.show('battle');   // must be visible before start() sizes its canvases
 
+    const g = s.party.gear;
     LeonoriaBattle.start({
         party:       s.party,
         enemyRoster: enc.roster,
@@ -292,6 +293,7 @@ function triggerBattle(enc, quest = null) {
         timeOfDay:   GameState.timeOfDay(),
         isDungeon:   false,
         hpByCharId:  s.party.hp,
+        gearBonus:   { hp: g.armor * 8, dmg: g.oil, dodge: g.charm * 2 },
     }, result => applyBattleResult(result, enc, quest));
 }
 
@@ -311,6 +313,10 @@ function applyBattleResult(result, enc, quest = null) {
         const perKill = enc.tier === 'boss' ? 60 : enc.tier === 'uncommon' ? 35 : 20;
         s.party.xp   += result.slainEnemies * perKill + 10;
         s.party.gold += 5 + Math.floor(Math.random() * 10) * result.slainEnemies;
+        const drops = Loot.roll(enc, result.slainEnemies);
+        s.party.inventory.push(...drops);
+        const weaponDrop = drops.find(d => d.kind === 'weapon');
+        if (weaponDrop) setTimeout(() => showEvent(`⚔ Found: ${weaponDrop.name}`), 5200);
         // Simple curve for now — phase 6 balances this properly
         while (s.party.xp >= s.party.level * 100) {
             s.party.xp -= s.party.level * 100;
@@ -360,6 +366,8 @@ function updateHUD() {
     $('hud-food').textContent  = `🍞 ${s.party.food}`;
     $('hud-level').textContent = `⚜ Lv ${s.party.level}`;
     $('hud-xp').textContent    = `✦ ${s.party.xp} xp`;
+    const inv = s.party.inventory?.length ?? 0;
+    $('hud-loot').textContent  = inv ? `🎒 ${inv}` : '';
 
     const ports = $('hud-portraits');
     ports.innerHTML = '';
@@ -465,7 +473,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     // without it would silently fall back to built-in defaults.
     $('btn-new-journey').disabled = true;
     $('btn-continue').disabled    = true;
-    await Promise.all([LeonoriaData.loadAll(), Encounter.load(), Quests.loadLegendary()]);
+    await Promise.all([LeonoriaData.loadAll(), Encounter.load(), Quests.loadLegendary(), Loot.load()]);
     $('btn-new-journey').disabled = false;
     $('btn-continue').disabled    = !GameState.hasSave();
 });

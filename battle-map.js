@@ -6457,6 +6457,24 @@ window.LeonoriaBattle = {
                 if (Number.isFinite(hp)) h.hpOverride = hp;
             }
         }
+
+        // Trader gear bonuses (game shell): armor → max HP, oils → damage,
+        // charms → dodge. charToUnitDef re-registers UNIT_STATS/ATTACKS on
+        // every start, so these do not stack across battles.
+        if (context.gearBonus) {
+            const g = context.gearBonus;
+            for (const h of heroes) {
+                const st = UNIT_STATS[h.type];
+                if (st) {
+                    st.maxHp += g.hp    ?? 0;
+                    st.dodge  = Math.min(60, st.dodge + (g.dodge ?? 0));
+                }
+                if (h.maxHp) h.maxHp += g.hp ?? 0;
+                for (const key of h.attackKeys ?? []) {
+                    if (ATTACKS[key]) ATTACKS[key].damageMod += g.dmg ?? 0;
+                }
+            }
+        }
         const enemies = context.enemyRoster?.length
             ? _gameEnemyDefs(context.enemyRoster)
             : ENEMY_DEFS;
