@@ -16,7 +16,7 @@ const $ = id => document.getElementById(id);
 
 // ─── Scene manager ────────────────────────────────────────────────────────────
 const Scenes = {
-    names: ['title', 'party', 'world', 'overworld', 'battle'],
+    names: ['title', 'party', 'world', 'overworld', 'battle', 'dungeon'],
     current: null,
     show(name) {
         for (const n of this.names) {
@@ -198,9 +198,12 @@ function buildOverworld(state) {
             // Quest target reached? Its fight replaces any random encounter.
             const quest = Quests.combatQuestAt(q, r);
             if (quest) {
+                if (quest.dungeon) {                       // delve: explore first
+                    setTimeout(() => enterDungeon(quest), 650);
+                    return;
+                }
                 setTimeout(() => triggerBattle(
-                    { label: quest.label, tier: 'uncommon', roster: quest.roster,
-                      dungeon: !!quest.dungeon },
+                    { label: quest.label, tier: 'uncommon', roster: quest.roster },
                     quest), 650);
                 return;
             }
@@ -324,9 +327,36 @@ const Fog = {
     },
 };
 
+// ─── Dungeon bridge (delve quests) ────────────────────────────────────────────
+function enterDungeon(quest) {
+    Scenes.show('dungeon');
+    showEvent(`🕳 ${quest.title}`);
+    DungeonScene.enter(quest, {
+        // Deepest chamber: the quest fight itself
+        onBoss: () => triggerBattle(
+            { label: quest.label, tier: 'uncommon', roster: quest.roster, dungeon: true },
+            quest),
+        // Wandering monsters between chambers — smaller packs of the same foe
+        onEncounter: () => {
+            const foe = quest.label;
+            const n   = 2 + Math.floor(Math.random() * 2);
+            const roster = Array.from({ length: n },
+                (_, i) => ({ name: foe, role: i === 2 ? 'ranged' : 'melee' }));
+            triggerBattle({ label: `${foe} ambush`, tier: 'common', roster, dungeon: true });
+        },
+    });
+}
+
+function leaveDungeon() {
+    DungeonScene.exit();
+    Scenes.show('overworld');
+    updateHUD();
+}
+
 // ─── Battle bridge ────────────────────────────────────────────────────────────
 function triggerBattle(enc, quest = null) {
-    if (LeonoriaBattle.active || Scenes.current !== 'overworld') return;
+    if (LeonoriaBattle.active) return;
+    if (Scenes.current !== 'overworld' && Scenes.current !== 'dungeon') return;
     const s = GameState.get();
 
     $('battle-encounter-title').textContent = `⚔ ${enc.label}`;
@@ -374,10 +404,12 @@ function applyBattleResult(result, enc, quest = null) {
     } else if (result.fled) {
         // Escaped: no rewards, no penalty beyond wounds already taken
     } else {
-        // Defeat: the party wakes at dawn, battered and robbed — no permadeath
+        // Defeat: the party wakes at dawn, battered and robbed — no permadeath.
+        // A defeat below ground also throws the party back out of the dungeon.
         s.party.gold = Math.floor(s.party.gold / 2);
         s.world.day += 1;
         s.world.hour = 7;
+        DungeonScene.exit();
     }
 
     if (result.victory && quest?.kind) {
@@ -393,6 +425,7 @@ function applyBattleResult(result, enc, quest = null) {
             : `✓ ${quest.title} — ${quest.reward.gold} gold, ${quest.reward.xp} xp`);
     } else if (result.victory && quest) {
         Quests.complete(quest);
+        DungeonScene.exit();          // a won delve fight ends the expedition
         showEvent(`✓ ${quest.title} — ${quest.reward.gold} gold, ${quest.reward.xp} xp`);
     } else if (result.victory) {
         showEvent(`⚔ ${enc.label} defeated`);
@@ -403,7 +436,12 @@ function applyBattleResult(result, enc, quest = null) {
     }
 
     GameState.save();
-    Scenes.show('overworld');
+    if (DungeonScene.active) {
+        Scenes.show('dungeon');       // still below ground — keep exploring
+        DungeonScene.refresh();
+    } else {
+        Scenes.show('overworld');
+    }
     updateHUD();
 }
 
@@ -530,6 +568,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         toggleEquip();
     });
     $('sp-close').addEventListener('click', () => Settlement.close());
+    $('ds-leave').addEventListener('click', leaveDungeon);
     $('btn-victory-title').addEventListener('click', () => {
         $('victory-overlay').hidden = true;
         $('btn-continue').disabled = false;

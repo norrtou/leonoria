@@ -839,18 +839,18 @@ function buildHexData(gen) {
     };
 }
 
-// ── Page ───────────────────────────────────────────────────────────────────
+// ── Shared build: render dungeon into an SVG element, return handles ────────
+// Used by dungeon.html below and by the game shell (dungeon-scene.js) through
+// window.LeonoriaDungeon.
 
-let _hgm = null;
-
-function generateDungeon(seed, type = 'small') {
+function buildDungeon(seed, type, svgEl) {
     const gen = new DungeonGen(seed, type).generate();
 
     const canvas = document.createElement('canvas');
     new CaveRenderer(gen).render(canvas);
 
-    const svgEl = document.getElementById('dungeon-svg');
     while (svgEl.lastChild) svgEl.removeChild(svgEl.lastChild);
+    svgEl.setAttribute('viewBox', `0 0 ${W} ${H}`);
 
     const NS  = 'http://www.w3.org/2000/svg';
     const img = document.createElementNS(NS, 'image');
@@ -861,7 +861,27 @@ function generateDungeon(seed, type = 'small') {
     img.setAttribute('height', String(H));
     svgEl.appendChild(img);
 
-    _hgm = new HexGridManager(buildHexData(gen), svgEl);
+    const hgm = new HexGridManager(buildHexData(gen), svgEl);
+    return { gen, hgm };
+}
+
+window.LeonoriaDungeon = {
+    build: buildDungeon,
+    placePartyMarker,
+    typeLabel,
+    MOVE_BUDGET,
+    T,
+};
+
+// ── Page (dungeon.html dev harness only) ───────────────────────────────────
+
+let _hgm = null;
+
+function generateDungeon(seed, type = 'small') {
+    const svgEl = document.getElementById('dungeon-svg');
+    const built = buildDungeon(seed, type, svgEl);
+    const gen   = built.gen;
+    _hgm        = built.hgm;
 
     const party = { q: gen.entrancePos.q, r: gen.entrancePos.r };
 
@@ -902,6 +922,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const seedInput  = document.getElementById('seed-input');
     const typeSelect = document.getElementById('type-select');
     const genBtn     = document.getElementById('btn-generate');
+    if (!seedInput || !genBtn) return;   // game.html loads this file for the API only
 
     let seed = Math.floor(Math.random() * 0xFFFFFFFF);
     seedInput.value = seed;

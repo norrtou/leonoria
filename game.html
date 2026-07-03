@@ -89,6 +89,16 @@
         </div>
     </div>
 
+    <!-- ── DUNGEON (delve quests — layout from dungeon.js) ── -->
+    <div id="screen-dungeon" class="game-screen" hidden>
+        <div id="ds-bar">
+            <span id="ds-title">Dungeon</span>
+            <span id="ds-info"></span>
+            <button id="ds-leave">⬆ Leave the dungeon</button>
+        </div>
+        <div id="ds-map"></div>
+    </div>
+
     <!-- ── BATTLE (DOM mirrors battlemap.html so battle-map.js works as-is) ── -->
     <div id="screen-battle" class="game-screen" hidden>
         <div class="battle-container">
@@ -214,6 +224,8 @@
     <script src="encounter.js"></script>
     <script src="loot.js"></script>
     <script src="equipment.js"></script>
+    <script src="dungeon.js"></script>
+    <script src="dungeon-scene.js"></script>
     <script src="quests.js"></script>
     <script src="settlement.js"></script>
     <script src="audio-director.js"></script>
