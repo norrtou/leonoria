@@ -1,8 +1,8 @@
 {
   "meta": {
     "purpose": "Complete economic system for Leonoria worldbuilding",
-    "scope": "Currencies, trade, resources, wealth, illegal systems",
-    "design": "Simulation-friendly and culture-linked"
+    "scope": "Currencies, trade, resources, wealth, illegal systems, kingdom price profiles",
+    "design": "Simulation-friendly and culture-linked. kingdom_economies is read by settlement.js to modulate service prices in game.html."
   },
 
   "currency_system": {
@@ -34,74 +34,74 @@
 
     "regional_variants": [
       {
-        "region": "Calimshan",
-        "currency_type": "gold-heavy economy",
-        "notes": "Wealth concentrated in trade elites"
+        "region": "Empire of the Sun",
+        "currency_type": "imperial mint, gold-heavy economy",
+        "notes": "The sun-stamped crown is accepted everywhere; imperial market law fixes exchange rates"
       },
       {
-        "region": "Eberron (Khorvaire)",
-        "currency_type": "bank-backed notes",
-        "notes": "Dragonmarked Houses standardize trade"
+        "region": "Gold Traders Guild territories",
+        "currency_type": "guild-backed letters of credit",
+        "notes": "The Guild standardizes trade across borders; their orange seal is as good as coin"
       },
       {
-        "region": "Athas",
-        "currency_type": "ceramic coins",
-        "notes": "Metal is rare; economy resource-driven"
+        "region": "The Outer Steppes",
+        "currency_type": "barter and livestock",
+        "notes": "Coin is rare among the step folk; wealth is counted in herds and hides"
       }
     ]
   },
 
   "trade_routes": [
     {
-      "name": "Sword Coast Trade Way",
-      "regions_connected": ["Waterdeep", "Baldur's Gate", "Neverwinter"],
-      "goods": ["Food", "Weapons", "Luxury goods"],
-      "risk_level": "medium",
-      "controlled_by": ["Merchant guilds", "Lords' Alliance"]
-    },
-    {
-      "name": "Silk Routes of Kara-Tur",
-      "regions_connected": ["Shou Lung", "Faerûn"],
-      "goods": ["Silk", "Spices", "Exotic items"],
+      "name": "The Sunroad",
+      "regions_connected": ["The Imperial Heartlands", "The Gilded Plains", "The Sun Reach"],
+      "goods": ["Grain", "Cloth", "Luxury goods"],
       "risk_level": "low",
-      "controlled_by": ["Empires"]
+      "controlled_by": ["Empire of the Sun", "Gold Traders Guild"]
     },
     {
-      "name": "Lhazaar Sea Routes",
-      "regions_connected": ["Khorvaire coastal cities"],
-      "goods": ["Fish", "Smuggled goods"],
+      "name": "The High Pass Route",
+      "regions_connected": ["Anurian Kingdom", "The Midlands river valleys"],
+      "goods": ["Metal", "Stone", "Furs"],
+      "risk_level": "medium",
+      "controlled_by": ["Anurian Kingdom"]
+    },
+    {
+      "name": "The Free Coast Runs",
+      "regions_connected": ["Rebel City States", "Guild port towns"],
+      "goods": ["Fish", "Smuggled goods", "Information"],
       "risk_level": "high",
-      "controlled_by": ["Pirates", "Merchant fleets"]
+      "controlled_by": ["Rebel City States", "Smuggler fleets"]
     }
   ],
 
   "key_resources": {
     "metals": {
       "iron": {
-        "locations": ["Dwarven holds", "Mountain regions"],
+        "locations": ["Stone Folk holds", "Mountain regions"],
         "importance": "Weapons and tools",
-        "culture_dependency": ["Dwarves", "Military states"]
+        "culture_dependency": ["Stone Folk", "Military states"]
       },
-      "mithral": {
-        "locations": ["Deep mines", "Ancient ruins"],
-        "importance": "Light magical armor",
-        "rarity": "rare"
+      "silver": {
+        "locations": ["Anurian high passes", "Deep mines"],
+        "importance": "Coinage and warding charms",
+        "rarity": "uncommon"
       },
-      "adamantine": {
-        "locations": ["Underdark", "Ancient deposits"],
+      "starmetal": {
+        "locations": ["Ancient ruins", "The Forgotten Kingdom"],
         "importance": "Legendary weapons",
         "rarity": "very rare"
       }
     },
 
     "magical": {
-      "dragonshards": {
-        "setting": "Eberron",
-        "importance": "Fuel magic industry",
-        "controlled_by": ["Dragonmarked Houses"]
+      "materium_relics": {
+        "locations": ["Ancient ruins", "The Clerical State's reliquaries"],
+        "importance": "Fuel ritual magic and temple rites",
+        "controlled_by": ["The Clerical State", "Relic hunters"]
       },
-      "weave_nodes": {
-        "setting": "Forgotten Realms",
+      "ley_springs": {
+        "locations": ["The Sanctuary Lands", "The Dark Forests"],
         "importance": "Enhance spellcasting",
         "rarity": "extremely rare"
       }
@@ -109,11 +109,11 @@
 
     "food": {
       "grain": {
-        "regions": ["Heartlands", "Temperate zones"],
+        "regions": ["The Imperial Heartlands", "The Sanctuary Lands"],
         "importance": "Basic sustenance"
       },
       "livestock": {
-        "regions": ["Plains", "Nomadic cultures"],
+        "regions": ["The Outer Steppes", "Nomadic cultures"],
         "importance": "Food + economy"
       }
     }
@@ -143,25 +143,25 @@
         "class": "Ultra-rich",
         "wealth_range_gp": "10000+",
         "lifestyle": "opulent",
-        "common_in": ["Magocracies", "Empire centers"]
+        "common_in": ["Guild seats", "Empire centers"]
       }
     ],
 
     "cultural_variation": [
       {
-        "culture": "Feudal kingdoms",
+        "culture": "Feudal baronies",
         "distribution": "Highly unequal",
         "power": "Land ownership"
       },
       {
-        "culture": "Trade republics",
+        "culture": "Trade guilds",
         "distribution": "Merchant-dominated",
         "power": "Gold and trade"
       },
       {
-        "culture": "Magocracies",
-        "distribution": "Power-based",
-        "power": "Magic users dominate"
+        "culture": "Theocracies",
+        "distribution": "Temple-centered",
+        "power": "Divine sanction and learning"
       }
     ]
   },
@@ -172,68 +172,127 @@
         "Smuggling rings",
         "Assassin guilds",
         "Illegal magic trade",
-        "Slave markets"
+        "Relic trafficking"
       ]
     },
 
     "common_goods": [
       "Forbidden magic items",
       "Stolen artifacts",
-      "Drugs / alchemical substances",
+      "Alchemical substances",
       "Information"
     ],
 
     "regional_examples": [
       {
-        "region": "Baldur's Gate",
-        "features": ["Crime syndicates", "Corrupt officials"]
+        "region": "Rebel City States",
+        "features": ["Free ports", "Smuggler fleets", "No questions asked"]
       },
       {
-        "region": "Sharn",
-        "features": ["Organized crime", "Underground markets"]
+        "region": "The Barony of Hath-Vek",
+        "features": ["Corrupt officials", "Everything forbidden, everything available"]
       },
       {
-        "region": "Athas",
-        "features": ["Slave trade", "Water smuggling"]
+        "region": "Guild river crossings",
+        "features": ["Information brokering", "Off-ledger deals"]
       }
     ]
   },
 
   "cultural_economic_models": [
     {
-      "culture": "Dwarven Holds",
+      "culture": "Stone Folk Holds",
       "economy_type": "resource extraction",
       "primary_goods": ["Metal", "Crafted goods"],
       "trade_style": "export heavy",
       "values": ["Craftsmanship", "Durability"]
     },
     {
-      "culture": "Elven Societies",
+      "culture": "Oakspeople Groves",
       "economy_type": "sustainable",
-      "primary_goods": ["Art", "Magic items"],
+      "primary_goods": ["Timber craft", "Herblore"],
       "trade_style": "limited",
       "values": ["Balance", "Longevity"]
     },
     {
-      "culture": "Human Kingdoms",
+      "culture": "Midlander Kingdoms",
       "economy_type": "mixed",
       "primary_goods": ["Food", "Labor", "Trade goods"],
       "trade_style": "expansive",
       "values": ["Growth", "Power"]
     },
     {
-      "culture": "Eberron Houses",
+      "culture": "The Gold Traders Guild",
       "economy_type": "corporate",
-      "primary_goods": ["Magical services"],
+      "primary_goods": ["Tolls", "Brokerage", "Credit"],
       "trade_style": "monopolistic",
       "values": ["Control", "Profit"]
     },
     {
-      "culture": "Athasian City-States",
-      "economy_type": "scarcity-based",
-      "primary_goods": ["Water", "Slaves"],
-      "trade_style": "controlled",
-      "values": ["Survival", "Power"]
+      "culture": "Step Folk Hordes",
+      "economy_type": "pastoral",
+      "primary_goods": ["Livestock", "Hides"],
+      "trade_style": "seasonal",
+      "values": ["Survival", "Mobility"]
+    }
+  ],
+
+  "kingdom_economies": [
+    {
+      "kingdom": "empire_of_the_sun",
+      "model": "regulated imperial market",
+      "market_note": "Imperial market law keeps prices fair — and taxed.",
+      "mult": { "inn": 1.0, "goods": 1.0, "temple": 0.9 },
+      "sell_rate": 1.0
+    },
+    {
+      "kingdom": "anurian_kingdom",
+      "model": "isolationist mountain economy",
+      "market_note": "Imported goods are dear this high in the passes.",
+      "mult": { "inn": 0.9, "goods": 1.2, "temple": 1.0 },
+      "sell_rate": 0.9
+    },
+    {
+      "kingdom": "thul_gaur_state",
+      "model": "rationed war economy",
+      "market_note": "Everything is rationed; outsiders pay the garrison levy.",
+      "mult": { "inn": 1.1, "goods": 1.25, "temple": 1.1 },
+      "sell_rate": 1.1
+    },
+    {
+      "kingdom": "barony_of_hath_vek",
+      "model": "feudal command economy",
+      "market_note": "Cheap goods, cowed merchants — the barons skim every sale.",
+      "mult": { "inn": 0.85, "goods": 0.9, "temple": 1.15 },
+      "sell_rate": 0.8
+    },
+    {
+      "kingdom": "gold_traders_guild",
+      "model": "guild monopoly",
+      "market_note": "The Guild buys anything and sells everything — at Guild prices.",
+      "mult": { "inn": 1.1, "goods": 1.15, "temple": 1.2 },
+      "sell_rate": 1.25
+    },
+    {
+      "kingdom": "luncratia",
+      "model": "local cooperative markets",
+      "market_note": "Honest local prices — every town sets its own.",
+      "mult": { "inn": 0.85, "goods": 0.95, "temple": 1.0 },
+      "sell_rate": 0.95
+    },
+    {
+      "kingdom": "clerical_state",
+      "model": "temple-centered economy",
+      "market_note": "The temples heal for a pittance; worldly goods cost more.",
+      "mult": { "inn": 1.0, "goods": 1.1, "temple": 0.5 },
+      "sell_rate": 0.9
+    },
+    {
+      "kingdom": "rebel_city_states",
+      "model": "free port bazaars",
+      "market_note": "Black-market bargains — no questions, no priests.",
+      "mult": { "inn": 0.9, "goods": 0.8, "temple": 1.2 },
+      "sell_rate": 1.05
     }
   ],
 

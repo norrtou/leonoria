@@ -25,6 +25,25 @@ window.Settlement = (() => {
         return 'small';
     }
 
+    // Kingdom price profiles from economy.json (kingdom_economies). Kingdoms
+    // only exist on Midlands maps — everywhere else falls back to neutral 1.0.
+    let _econData = null;
+    fetch('data/cultures/economy.json')
+        .then(r => r.json())
+        .then(d => { _econData = d.kingdom_economies ?? []; })
+        .catch(() => { _econData = []; });
+
+    function _econFor(kingdomId) {
+        const e = (_econData ?? []).find(x => x.kingdom === kingdomId);
+        return {
+            inn:    e?.mult?.inn    ?? 1,
+            goods:  e?.mult?.goods  ?? 1,
+            temple: e?.mult?.temple ?? 1,
+            sell:   e?.sell_rate    ?? 1,
+            note:   e?.market_note  ?? '',
+        };
+    }
+
     function _findSettlement(name) {
         const list = window.MapSaveStore?.lastSaved?.jsonData?.settlements ?? [];
         return list.find(s => s.name === name) ?? null;
@@ -46,11 +65,12 @@ window.Settlement = (() => {
         const kingdom = window.Quests?.kingdomOf?.(name) ?? null;
         const rep     = kingdom ? (s.reputation[kingdom.id] ?? 0) : 0;
         const mult    = 1 - Math.min(0.20, rep * 0.02);
+        const econ    = _econFor(kingdom?.id);
         const base    = PRICES[size];
         const price   = {
-            rest:       Math.max(1, Math.round(base.rest * mult)),
-            foodPerDay: Math.max(1, Math.round(base.foodPerDay * mult)),
-            temple:     base.temple > 0 ? Math.max(1, Math.round(base.temple * mult)) : 0,
+            rest:       Math.max(1, Math.round(base.rest * econ.inn * mult)),
+            foodPerDay: Math.max(1, Math.round(base.foodPerDay * econ.inn * mult)),
+            temple:     base.temple > 0 ? Math.max(1, Math.round(base.temple * econ.temple * mult)) : 0,
             mult,
         };
 
@@ -78,25 +98,30 @@ window.Settlement = (() => {
                 s.party.gold >= price.temple && wounded));
         }
 
-        // Trader — sell loot, buy party upgrades
+        // Trader — sell loot, buy party upgrades. Kingdom economy modulates
+        // buy prices (goods) and what the trader pays for loot (sell_rate).
         if ((amen.traders ?? 0) > 0) {
-            rows.push('<div class="sp-rumor">⚖ At the trader:</div>');
+            rows.push(`<div class="sp-rumor">⚖ At the trader:${econ.note ? ` <em>${econ.note}</em>` : ''}</div>`);
 
-            const lootValue = (s.party.inventory ?? []).reduce((sum, it) => sum + (it.value ?? 0), 0);
+            const lootValue = Math.round(
+                (s.party.inventory ?? []).reduce((sum, it) => sum + (it.value ?? 0), 0) * econ.sell);
             const lootCount = (s.party.inventory ?? []).length;
+            price.sellValue = lootValue;
             rows.push(_action('sell',
                 `🎒 Sell loot — earn ${lootValue} gold`,
                 lootCount ? `${lootCount} item${lootCount !== 1 ? 's' : ''} in the pack.` : 'Nothing to sell.',
                 lootCount > 0));
 
             const g = s.party.gear;
+            price.upgrade = {};
             const upgrades = [
                 ['armor', `🛡 Reinforced armor (+8 max HP each)`,  60, g.armor, 8],
                 ['oil',   `🗡 Weapon oils (+1 damage)`,            50, g.oil,   5],
                 ['charm', `🧿 Warding charms (+2 dodge)`,          40, g.charm, 5],
             ];
             for (const [act, label, base, lvl, cap] of upgrades) {
-                const cost = base * (lvl + 1);
+                const cost = Math.max(1, Math.round(base * (lvl + 1) * econ.goods));
+                price.upgrade[act] = cost;
                 const capped = lvl >= cap;
                 rows.push(_action(act,
                     capped ? `${label} — best available` : `${label} — ${cost} gold`,
@@ -164,11 +189,10 @@ window.Settlement = (() => {
             s.party.gold -= price.temple;
             s.party.hp    = {};
         } else if (act === 'sell') {
-            s.party.gold += (s.party.inventory ?? []).reduce((sum, it) => sum + (it.value ?? 0), 0);
+            s.party.gold += price.sellValue ?? 0;
             s.party.inventory = [];
         } else if (act === 'armor' || act === 'oil' || act === 'charm') {
-            const base = { armor: 60, oil: 50, charm: 40 }[act];
-            s.party.gold -= base * (s.party.gear[act] + 1);
+            s.party.gold -= price.upgrade?.[act] ?? 0;
             s.party.gear[act] += 1;
         }
 
