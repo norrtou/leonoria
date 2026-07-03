@@ -6406,18 +6406,87 @@ function applyBiomePalette(biomeId) {
     Object.assign(P, BIOME_PALETTES.the_midlands.p, pal.p ?? {});
 }
 
-// Spread enemies across the far rows, mirroring the hand-placed ENEMY_DEFS.
-function _gameEnemyDefs(roster) {
-    const cols = [5, 2, 8, 3, 7, 1, 9, 4, 6];
-    return roster.slice(0, cols.length).map((e, i) => ({
-        id:   `gm_enemy_${i}`,
-        name: e.name || 'Enemy',
-        type: UNIT_STATS[e.role] ? e.role
-            : (e.role === 'ranged' ? 'goblin_archer' : 'goblin'),
-        team: 'enemies',
-        col:  cols[i],
-        row:  1 + (i % 2),
-    }));
+// ── Monster archetypes ────────────────────────────────────────────────────────
+// Bestiary names are classified by keyword into stat/attack archetypes so a
+// wolf pack fights differently from a bandit warband. Sprites reuse the two
+// existing enemy drawings (melee → goblin, ranged → goblin_archer) until
+// per-monster art exists (see GAMEPLAN.md).
+const MONSTER_ARCHETYPES = {
+    beast_fast: {
+        match: /wolf|worg|hound|elk|jackal|panther|cat|stag|raptor/i,
+        stats: { maxHp: 48,  speed: 5, dodge: 24 }, sprite: 'goblin',
+        attack: { name:'Savage Bite', type:'melee', range:1, damageDice:[2,8],  damageMod:4, hitBase:96, critMin:92, snd:'claw', damage_type:'Physical' },
+    },
+    beast_heavy: {
+        match: /bear|boar|golem|herd|troll|ogre|mammoth|behemoth|bull/i,
+        stats: { maxHp: 115, speed: 2, dodge: 8 },  sprite: 'goblin',
+        attack: { name:'Crushing Maul', type:'melee', range:1, damageDice:[3,8], damageMod:6, hitBase:94, critMin:93, snd:'hit', damage_type:'Physical' },
+    },
+    serpent: {
+        match: /serpent|snake|wyrm|spider|viper|leech|worm|crawler/i,
+        stats: { maxHp: 55,  speed: 3, dodge: 20 }, sprite: 'goblin',
+        attack: { name:'Venomous Bite', type:'melee', range:1, damageDice:[3,6], damageMod:3, hitBase:96, critMin:92, snd:'claw', damage_type:'Blight' },
+    },
+    undead: {
+        match: /undead|ghoul|skeleton|wight|shade|wraith|forgotten|void|corrupted|plague|specter|thrall|lich/i,
+        stats: { maxHp: 82,  speed: 2, dodge: 10 }, sprite: 'goblin',
+        attack: { name:'Grave Claw', type:'melee', range:1, damageDice:[2,10], damageMod:5, hitBase:95, critMin:93, snd:'claw', damage_type:'Shadow' },
+    },
+    humanoid_ranged: {
+        match: /archer|bow|hunter|stalker|sniper|slinger/i,
+        stats: { maxHp: 45,  speed: 3, dodge: 22 }, sprite: 'goblin_archer',
+        attack: { name:'Bow Shot', type:'ranged', range:12, damageDice:[2,8], damageMod:3, hitBase:96, critMin:94, snd:'bow', damage_type:'Physical' },
+    },
+    humanoid_melee: {   // default: bandits, deserters, cultists, warbands…
+        match: /./,
+        stats: { maxHp: 65,  speed: 3, dodge: 18 }, sprite: 'goblin',
+        attack: { name:'Sword Slash', type:'melee', range:1, damageDice:[2,9], damageMod:4, hitBase:96, critMin:92, snd:'sword', damage_type:'Physical' },
+    },
+};
+
+function _classifyMonster(name, role) {
+    if (role === 'ranged' && !/wolf|bear|serpent/i.test(name)) return MONSTER_ARCHETYPES.humanoid_ranged;
+    for (const key of ['beast_fast', 'beast_heavy', 'serpent', 'undead', 'humanoid_ranged']) {
+        if (MONSTER_ARCHETYPES[key].match.test(name)) return MONSTER_ARCHETYPES[key];
+    }
+    return MONSTER_ARCHETYPES.humanoid_melee;
+}
+
+// Build enemy unit defs from a roster, registering per-monster stats and
+// attacks the same way charToUnitDef does. Gentle scaling with party level;
+// entries flagged `boss: true` get elite stats.
+function _gameEnemyDefs(roster, partyLevel = 1) {
+    const cols    = [5, 2, 8, 3, 7, 1, 9, 4, 6];
+    const hpMult  = 1 + 0.10 * (partyLevel - 1);
+    const dmgAdd  = Math.floor((partyLevel - 1) / 2);
+
+    return roster.slice(0, cols.length).map((e, i) => {
+        const arch    = _classifyMonster(e.name || '', e.role);
+        const typeKey = `gmon_${i}`;
+        const bossMul = e.boss ? 2.2 : 1;
+
+        UNIT_STATS[typeKey] = {
+            maxHp: Math.round(arch.stats.maxHp * hpMult * bossMul),
+            speed: arch.stats.speed,
+            dodge: arch.stats.dodge,
+        };
+        const atkKey = `${typeKey}_atk`;
+        ATTACKS[atkKey] = {
+            ...arch.attack,
+            damageMod: arch.attack.damageMod + dmgAdd + (e.boss ? 3 : 0),
+        };
+
+        return {
+            id:         `gm_enemy_${i}`,
+            name:       e.name || 'Enemy',
+            type:       typeKey,
+            spriteType: arch.sprite,
+            team:       'enemies',
+            col:        cols[i],
+            row:        1 + (i % 2),
+            attackKeys: [atkKey],
+        };
+    });
 }
 
 window.LeonoriaBattle = {
@@ -6476,7 +6545,7 @@ window.LeonoriaBattle = {
             }
         }
         const enemies = context.enemyRoster?.length
-            ? _gameEnemyDefs(context.enemyRoster)
+            ? _gameEnemyDefs(context.enemyRoster, context.partyLevel ?? 1)
             : ENEMY_DEFS;
         UNIT_DEFS = [...heroes, ...enemies];
 

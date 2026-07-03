@@ -293,6 +293,7 @@ function triggerBattle(enc, quest = null) {
         timeOfDay:   GameState.timeOfDay(),
         isDungeon:   false,
         hpByCharId:  s.party.hp,
+        partyLevel:  s.party.level,
         gearBonus:   { hp: g.armor * 8, dmg: g.oil, dodge: g.charm * 2 },
     }, result => applyBattleResult(result, enc, quest));
 }

@@ -63,7 +63,7 @@ window.Quests = (() => {
             const lm    = landmarks.shift();
             const beast = pool.rare[Math.floor(Math.random() * pool.rare.length)];
             out.push(_quest('hunt', lm, beast, [
-                { name: beast, role: 'melee' },
+                { name: beast, role: 'melee', boss: true },
                 { name: 'Spawn of ' + beast, role: 'melee' },
                 { name: 'Spawn of ' + beast, role: 'ranged' },
             ], 1.6));
@@ -218,7 +218,7 @@ window.Quests = (() => {
                     title: `Shard trial at ${sh.name}`,
                     label: `Guardian of ${sh.name}`,
                     roster: [
-                        { name: `Guardian of ${sh.name}`, role: 'melee' },
+                        { name: `Guardian of ${sh.name}`, role: 'melee', boss: true },
                         { name: foe, role: 'melee' },
                         { name: foe, role: 'ranged' },
                         { name: foe, role: 'ranged' },
@@ -234,7 +234,7 @@ window.Quests = (() => {
                 title: main.title,
                 label: main.boss.name,
                 roster: [
-                    { name: main.boss.name, role: 'melee' },
+                    { name: main.boss.name, role: 'melee', boss: true },
                     { name: 'Thrall of ' + main.boss.name, role: 'melee' },
                     { name: 'Thrall of ' + main.boss.name, role: 'melee' },
                     { name: 'Thrall of ' + main.boss.name, role: 'ranged' },
