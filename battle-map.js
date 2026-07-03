@@ -5214,6 +5214,243 @@ function drawGoblinArcher(ctx, cx, by, sel) {
     ctx.fillRect(cx + 2, by2 - 28, 2, 3);
 }
 
+// Wolf — lean quadruped in a hunting crouch; grey pelt, amber eyes.
+// Used by the beast_fast archetype (wolves, worgs, hounds, panthers…).
+function drawWolf(ctx, cx, by, sel) {
+    const C = {
+        fur:'#6a6258', furLit:'#8c8274', furDk:'#443e34',
+        eye:'#e8a820', eyeGlow:'rgba(228,140,20,0.50)',
+        nose:'#16120e', tooth:'#f0ede0',
+    };
+    drawShadow(ctx, cx, by);
+    const by2 = by - 3;
+
+    // Hind legs — wide stance behind the body
+    ctx.fillStyle = C.furDk;
+    ctx.fillRect(cx - 17, by2 - 10, 5, 10);
+    ctx.fillRect(cx + 12, by2 - 10, 5, 10);
+
+    // Body — chest toward the viewer, lit from the right like the goblins
+    ctx.fillStyle = C.furDk;
+    ctx.beginPath(); ctx.ellipse(cx, by2 - 19, 20, 13, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.fur;
+    ctx.beginPath(); ctx.ellipse(cx + 2, by2 - 20, 17, 11, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.furLit;
+    ctx.beginPath(); ctx.ellipse(cx + 6, by2 - 23, 9, 6, -0.3, 0, Math.PI * 2); ctx.fill();
+
+    // Front legs
+    ctx.fillStyle = C.fur;
+    ctx.fillRect(cx - 8, by2 - 13, 5, 13);
+    ctx.fillRect(cx + 4, by2 - 13, 5, 13);
+
+    // Tail — swept low to the left
+    ctx.strokeStyle = C.furDk; ctx.lineWidth = 5; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx - 18, by2 - 22);
+    ctx.quadraticCurveTo(cx - 30, by2 - 26, cx - 32, by2 - 14); ctx.stroke();
+
+    // Head — lowered hunting posture, muzzle toward the heroes
+    ctx.fillStyle = C.furDk; ctx.beginPath(); ctx.arc(cx, by2 - 33, 11, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.fur;   ctx.beginPath(); ctx.arc(cx + 1, by2 - 34, 9, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.furLit;ctx.beginPath(); ctx.arc(cx + 3, by2 - 36, 5, 0, Math.PI * 2); ctx.fill();
+
+    // Ears — pricked triangles
+    ctx.fillStyle = C.furDk;
+    ctx.beginPath(); ctx.moveTo(cx - 8, by2 - 40); ctx.lineTo(cx - 12, by2 - 50); ctx.lineTo(cx - 3, by2 - 43); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(cx + 8, by2 - 40); ctx.lineTo(cx + 12, by2 - 50); ctx.lineTo(cx + 3, by2 - 43); ctx.closePath(); ctx.fill();
+
+    // Eyes — amber glow
+    ctx.shadowColor = C.eyeGlow; ctx.shadowBlur = 7;
+    ctx.fillStyle = C.eye;
+    ctx.beginPath(); ctx.ellipse(cx - 4, by2 - 36, 3, 2, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(cx + 5, by2 - 36, 3, 2, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Muzzle, nose, bared teeth
+    ctx.fillStyle = C.furDk;
+    ctx.beginPath(); ctx.ellipse(cx + 1, by2 - 28, 5, 4, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.nose;
+    ctx.beginPath(); ctx.arc(cx + 1, by2 - 30, 2, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.tooth;
+    ctx.fillRect(cx - 3, by2 - 26, 2, 3); ctx.fillRect(cx + 1, by2 - 25, 2, 3); ctx.fillRect(cx + 4, by2 - 26, 2, 3);
+}
+
+// Brute — hulking mass of hide and muscle; bears, trolls, ogres, behemoths.
+// Bigger than the goblin, head sunk between huge shoulders.
+function drawBrute(ctx, cx, by, sel) {
+    const C = {
+        hide:'#7a5a36', hideLit:'#9c7848', hideDk:'#4c3620',
+        eye:'#d42410', eyeGlow:'rgba(210,40,10,0.50)',
+        claw:'#e8dfc6', tusk:'#f0ead6',
+    };
+    drawShadow(ctx, cx, by);
+    const by2 = by - 4;
+
+    // Legs — tree trunks
+    ctx.fillStyle = C.hideDk;
+    ctx.fillRect(cx - 15, by2 - 12, 10, 12);
+    ctx.fillRect(cx + 5,  by2 - 12, 10, 12);
+
+    // Torso — broad trapezoid, wider at the shoulders
+    ctx.fillStyle = C.hideDk;
+    ctx.beginPath(); ctx.moveTo(cx - 17, by2 - 12); ctx.lineTo(cx + 17, by2 - 12);
+    ctx.lineTo(cx + 23, by2 - 46); ctx.lineTo(cx - 23, by2 - 46); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.hide;
+    ctx.beginPath(); ctx.moveTo(cx - 2, by2 - 12); ctx.lineTo(cx + 17, by2 - 12);
+    ctx.lineTo(cx + 23, by2 - 46); ctx.lineTo(cx - 2, by2 - 46); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.hideLit; ctx.fillRect(cx + 8, by2 - 46, 10, 22);
+
+    // Arms — reach the ground, ending in claws
+    ctx.fillStyle = C.hideDk; ctx.fillRect(cx - 29, by2 - 42, 9, 34);
+    ctx.fillStyle = C.hide;   ctx.fillRect(cx + 20, by2 - 42, 9, 34);
+    ctx.fillStyle = C.claw;
+    for (const ax of [-27, -23, 22, 26]) {
+        ctx.beginPath(); ctx.moveTo(cx + ax, by2 - 8);
+        ctx.lineTo(cx + ax + 1.5, by2 - 2); ctx.lineTo(cx + ax + 3, by2 - 8);
+        ctx.closePath(); ctx.fill();
+    }
+
+    // Head — small, sunk between the shoulders
+    ctx.fillStyle = C.hideDk; ctx.beginPath(); ctx.arc(cx, by2 - 52, 12, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.hide;   ctx.beginPath(); ctx.arc(cx + 2, by2 - 53, 10, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.hideLit;ctx.beginPath(); ctx.arc(cx + 4, by2 - 55, 5, 0, Math.PI * 2); ctx.fill();
+
+    // Eyes — small, deep-set, furious
+    ctx.shadowColor = C.eyeGlow; ctx.shadowBlur = 6;
+    ctx.fillStyle = C.eye;
+    ctx.beginPath(); ctx.ellipse(cx - 3, by2 - 55, 2.5, 1.8, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(cx + 6, by2 - 55, 2.5, 1.8, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Jaw + tusks
+    ctx.fillStyle = C.hideDk;
+    ctx.beginPath(); ctx.ellipse(cx + 1, by2 - 47, 6, 4, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.tusk;
+    ctx.beginPath(); ctx.moveTo(cx - 5, by2 - 46); ctx.lineTo(cx - 6, by2 - 53); ctx.lineTo(cx - 2, by2 - 47); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(cx + 7, by2 - 46); ctx.lineTo(cx + 8, by2 - 53); ctx.lineTo(cx + 4, by2 - 47); ctx.closePath(); ctx.fill();
+}
+
+// Serpent — coiled body, raised hooded head; snakes, wyrms, great spiders.
+function drawSerpent(ctx, cx, by, sel) {
+    const C = {
+        scale:'#4e7c3a', scaleLit:'#6c9e4c', scaleDk:'#2f5222',
+        belly:'#b0b878', eye:'#e8d020', eyeGlow:'rgba(220,200,30,0.55)',
+        tongue:'#c03040', fang:'#f4f0dc',
+    };
+    drawShadow(ctx, cx, by);
+    const by2 = by - 2;
+
+    // Coils — two stacked rings
+    ctx.fillStyle = C.scaleDk;
+    ctx.beginPath(); ctx.ellipse(cx, by2 - 8, 20, 9, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.scale;
+    ctx.beginPath(); ctx.ellipse(cx + 1, by2 - 9, 17, 7, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.scaleDk;
+    ctx.beginPath(); ctx.ellipse(cx, by2 - 18, 15, 7, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.scale;
+    ctx.beginPath(); ctx.ellipse(cx + 1, by2 - 19, 12, 5.5, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.scaleLit;
+    ctx.beginPath(); ctx.ellipse(cx + 5, by2 - 20, 6, 3, -0.2, 0, Math.PI * 2); ctx.fill();
+
+    // Neck — S-curve rising from the coil
+    ctx.strokeStyle = C.scale; ctx.lineWidth = 8; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx - 2, by2 - 22);
+    ctx.quadraticCurveTo(cx - 8, by2 - 34, cx, by2 - 42); ctx.stroke();
+    ctx.strokeStyle = C.scaleLit; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(cx, by2 - 24);
+    ctx.quadraticCurveTo(cx - 5, by2 - 34, cx + 1, by2 - 41); ctx.stroke();
+
+    // Hood + head
+    ctx.fillStyle = C.scaleDk;
+    ctx.beginPath(); ctx.ellipse(cx, by2 - 48, 12, 9, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.scale;
+    ctx.beginPath(); ctx.ellipse(cx + 1, by2 - 49, 9, 7, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.scaleLit;
+    ctx.beginPath(); ctx.ellipse(cx + 3, by2 - 51, 4.5, 3.5, 0, 0, Math.PI * 2); ctx.fill();
+
+    // Eyes — venom-yellow slits
+    ctx.shadowColor = C.eyeGlow; ctx.shadowBlur = 7;
+    ctx.fillStyle = C.eye;
+    ctx.beginPath(); ctx.ellipse(cx - 4, by2 - 50, 2.5, 1.6, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(cx + 5, by2 - 50, 2.5, 1.6, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#201800';
+    ctx.fillRect(cx - 4.5, by2 - 51.5, 1, 3); ctx.fillRect(cx + 4.5, by2 - 51.5, 1, 3);
+
+    // Fangs + flicking tongue
+    ctx.fillStyle = C.fang;
+    ctx.beginPath(); ctx.moveTo(cx - 3, by2 - 44); ctx.lineTo(cx - 2, by2 - 39); ctx.lineTo(cx - 1, by2 - 44); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(cx + 2, by2 - 44); ctx.lineTo(cx + 3, by2 - 39); ctx.lineTo(cx + 4, by2 - 44); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = C.tongue; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(cx + 1, by2 - 43); ctx.lineTo(cx + 1, by2 - 36);
+    ctx.moveTo(cx + 1, by2 - 36); ctx.lineTo(cx - 1, by2 - 33);
+    ctx.moveTo(cx + 1, by2 - 36); ctx.lineTo(cx + 3, by2 - 33); ctx.stroke();
+}
+
+// Undead — skeletal wight in a tattered shroud; cold blue light in the sockets.
+// Ghouls, skeletons, wraiths, the void-touched.
+function drawUndead(ctx, cx, by, sel) {
+    const C = {
+        bone:'#d8d0b8', boneLit:'#efe9d4', boneDk:'#a89e84',
+        shroud:'#2c2620', shroudLt:'#443c32',
+        eye:'#60c8e8', eyeGlow:'rgba(70,190,230,0.55)',
+    };
+    drawShadow(ctx, cx, by);
+    const by2 = by - 3;
+
+    // Tattered shroud — ragged hem
+    ctx.fillStyle = C.shroud;
+    ctx.beginPath();
+    ctx.moveTo(cx - 12, by2); ctx.lineTo(cx - 10, by2 - 6); ctx.lineTo(cx - 7, by2 - 1);
+    ctx.lineTo(cx - 3, by2 - 7); ctx.lineTo(cx + 1, by2); ctx.lineTo(cx + 5, by2 - 6);
+    ctx.lineTo(cx + 9, by2 - 1); ctx.lineTo(cx + 12, by2 - 5);
+    ctx.lineTo(cx + 14, by2 - 34); ctx.lineTo(cx - 14, by2 - 34);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C.shroudLt; ctx.fillRect(cx + 4, by2 - 34, 8, 22);
+
+    // Ribcage showing through the open shroud
+    ctx.strokeStyle = C.bone; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
+    ctx.beginPath();
+    for (let i = 0; i < 4; i++) {
+        const ry = by2 - 30 + i * 4;
+        ctx.moveTo(cx - 6, ry); ctx.quadraticCurveTo(cx, ry + 2.5, cx + 6, ry);
+    }
+    ctx.stroke();
+    ctx.strokeStyle = C.boneDk; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx, by2 - 32); ctx.lineTo(cx, by2 - 16); ctx.stroke();
+
+    // Arms — bare bone, one raised to claw
+    ctx.strokeStyle = C.bone; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(cx - 13, by2 - 32); ctx.lineTo(cx - 18, by2 - 44); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + 13, by2 - 32); ctx.lineTo(cx + 17, by2 - 20); ctx.stroke();
+    // Clawed hand on the raised arm
+    ctx.lineWidth = 1.4;
+    for (const [dx, dy] of [[-3, -5], [0, -6], [3, -5]]) {
+        ctx.beginPath(); ctx.moveTo(cx - 18, by2 - 44); ctx.lineTo(cx - 18 + dx, by2 - 44 + dy); ctx.stroke();
+    }
+
+    // Skull
+    ctx.fillStyle = C.boneDk; ctx.beginPath(); ctx.arc(cx, by2 - 42, 11, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.bone;   ctx.beginPath(); ctx.arc(cx + 1, by2 - 43, 9.5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.boneLit;ctx.beginPath(); ctx.arc(cx + 3, by2 - 45, 5, 0, Math.PI * 2); ctx.fill();
+    // Jaw
+    ctx.fillStyle = C.bone;
+    ctx.beginPath(); ctx.ellipse(cx + 1, by2 - 34, 5, 3, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = C.boneDk; ctx.lineWidth = 0.9;
+    ctx.beginPath();
+    for (const tx of [-3, -1, 1, 3]) { ctx.moveTo(cx + 1 + tx, by2 - 36); ctx.lineTo(cx + 1 + tx, by2 - 33); }
+    ctx.stroke();
+
+    // Eye sockets — black pits with cold blue light
+    ctx.fillStyle = '#0a0806';
+    ctx.beginPath(); ctx.ellipse(cx - 3.5, by2 - 44, 3.5, 3, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(cx + 5.5, by2 - 44, 3.5, 3, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.shadowColor = C.eyeGlow; ctx.shadowBlur = 8;
+    ctx.fillStyle = C.eye;
+    ctx.beginPath(); ctx.arc(cx - 3.5, by2 - 44, 1.6, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx + 5.5, by2 - 44, 1.6, 0, Math.PI * 2); ctx.fill();
+    ctx.shadowBlur = 0;
+}
+
 function _drawSelectRing(ctx, cx, by) {
     ctx.shadowColor = P.selectLine; ctx.shadowBlur = 12;
     ctx.strokeStyle = P.selectLine; ctx.lineWidth = 3;
@@ -5261,6 +5498,10 @@ function drawUnit(ctx, unit) {
         case 'beastcaller':   drawBeastcaller  (ctx, cx, by, sel, anim); break;
         case 'goblin':        drawGoblin       (ctx, cx, by, sel); break;
         case 'goblin_archer': drawGoblinArcher (ctx, cx, by, sel); break;
+        case 'wolf':          drawWolf         (ctx, cx, by, sel); break;
+        case 'brute':         drawBrute        (ctx, cx, by, sel); break;
+        case 'serpent':       drawSerpent      (ctx, cx, by, sel); break;
+        case 'undead':        drawUndead       (ctx, cx, by, sel); break;
     }
 
     // HP bar
@@ -5708,6 +5949,10 @@ function buildUnitPanel() {
                 case 'beastcaller':   drawBeastcaller  (pctx, W/2, H - 6, false); break;
                 case 'goblin':        drawGoblin       (pctx, W/2, H - 6, false); break;
                 case 'goblin_archer': drawGoblinArcher (pctx, W/2, H - 6, false); break;
+                case 'wolf':          drawWolf         (pctx, W/2, H - 6, false); break;
+                case 'brute':         drawBrute        (pctx, W/2, H - 6, false); break;
+                case 'serpent':       drawSerpent      (pctx, W/2, H - 6, false); break;
+                case 'undead':        drawUndead       (pctx, W/2, H - 6, false); break;
             }
         }
 
@@ -5845,6 +6090,8 @@ function buildPortraitCanvas(u) {
             sorcerer: drawSorcerer, warlock: drawWarlock, aquorist: drawAquorist,
             stormcaller: drawStormcaller, lifewhisperer: drawLifewhisperer,
             shaman: drawShaman, bloodsinger: drawBloodsinger, beastcaller: drawBeastcaller,
+            goblin: drawGoblin, goblin_archer: drawGoblinArcher,
+            wolf: drawWolf, brute: drawBrute, serpent: drawSerpent, undead: drawUndead,
         }[u.spriteType || u.type];
         if (drawFn) drawFn(pctx, W/2, H - 8, false);
     }
@@ -6408,28 +6655,28 @@ function applyBiomePalette(biomeId) {
 
 // ── Monster archetypes ────────────────────────────────────────────────────────
 // Bestiary names are classified by keyword into stat/attack archetypes so a
-// wolf pack fights differently from a bandit warband. Sprites reuse the two
-// existing enemy drawings (melee → goblin, ranged → goblin_archer) until
-// per-monster art exists (see GAMEPLAN.md).
+// wolf pack fights differently from a bandit warband. Each archetype has its
+// own sprite (drawWolf/drawBrute/drawSerpent/drawUndead); humanoids keep the
+// goblin drawings.
 const MONSTER_ARCHETYPES = {
     beast_fast: {
         match: /wolf|worg|hound|elk|jackal|panther|cat|stag|raptor/i,
-        stats: { maxHp: 48,  speed: 5, dodge: 24 }, sprite: 'goblin',
+        stats: { maxHp: 48,  speed: 5, dodge: 24 }, sprite: 'wolf',
         attack: { name:'Savage Bite', type:'melee', range:1, damageDice:[2,8],  damageMod:4, hitBase:96, critMin:92, snd:'claw', damage_type:'Physical' },
     },
     beast_heavy: {
         match: /bear|boar|golem|herd|troll|ogre|mammoth|behemoth|bull/i,
-        stats: { maxHp: 115, speed: 2, dodge: 8 },  sprite: 'goblin',
+        stats: { maxHp: 115, speed: 2, dodge: 8 },  sprite: 'brute',
         attack: { name:'Crushing Maul', type:'melee', range:1, damageDice:[3,8], damageMod:6, hitBase:94, critMin:93, snd:'hit', damage_type:'Physical' },
     },
     serpent: {
         match: /serpent|snake|wyrm|spider|viper|leech|worm|crawler/i,
-        stats: { maxHp: 55,  speed: 3, dodge: 20 }, sprite: 'goblin',
+        stats: { maxHp: 55,  speed: 3, dodge: 20 }, sprite: 'serpent',
         attack: { name:'Venomous Bite', type:'melee', range:1, damageDice:[3,6], damageMod:3, hitBase:96, critMin:92, snd:'claw', damage_type:'Blight' },
     },
     undead: {
         match: /undead|ghoul|skeleton|wight|shade|wraith|forgotten|void|corrupted|plague|specter|thrall|lich/i,
-        stats: { maxHp: 82,  speed: 2, dodge: 10 }, sprite: 'goblin',
+        stats: { maxHp: 82,  speed: 2, dodge: 10 }, sprite: 'undead',
         attack: { name:'Grave Claw', type:'melee', range:1, damageDice:[2,10], damageMod:5, hitBase:95, critMin:93, snd:'claw', damage_type:'Shadow' },
     },
     humanoid_ranged: {
@@ -7090,6 +7337,10 @@ function updateInitiativeUI() {
                 case 'beastcaller':   drawBeastcaller  (pctx, 30, 90, false); break;
                 case 'goblin':        drawGoblin       (pctx, 30, 90, false); break;
                 case 'goblin_archer': drawGoblinArcher (pctx, 30, 90, false); break;
+                case 'wolf':          drawWolf         (pctx, 30, 90, false); break;
+                case 'brute':         drawBrute        (pctx, 30, 90, false); break;
+                case 'serpent':       drawSerpent      (pctx, 30, 90, false); break;
+                case 'undead':        drawUndead       (pctx, 30, 90, false); break;
             }
             pctx.restore();
         }
