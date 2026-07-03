@@ -339,7 +339,9 @@ class HexGridManager {
         // Sum of all move_costs along the path (excluding the start cell)
         const costSum = path.slice(1).reduce((sum, c) => sum + (c.move_cost ?? 1), 0);
 
-        if (this.mapType === 'WORLD') {
+        // Everything except DUNGEON is a world map (map.js exports map_type as
+        // the shape preset — 'standard', 'inland', … — never literally 'WORLD')
+        if (this.mapType !== 'DUNGEON') {
             const miles = +(costSum * this.hexSizeUnits).toFixed(2);
             const hours = +(miles / 3).toFixed(2);         // Normal Pace: 3 mph
             const days  = +(hours / 8).toFixed(2);          // 8-hour travel day
