@@ -398,6 +398,22 @@ class HeroParty {
             }
         }
 
+        // Start-of-session pulse: a few expanding rings so the token is easy
+        // to spot, then freezes invisible (fill=freeze holds the faded state)
+        const pulse = mk('circle', { r: R, fill: 'none', stroke: this._light,
+            'stroke-width': sw * 1.4, opacity: 0.9 });
+        for (const [attr, from, to] of [['r', R, R * 3.2], ['opacity', 0.9, 0]]) {
+            const a = document.createElementNS(NS, 'animate');
+            a.setAttribute('attributeName', attr);
+            a.setAttribute('from', from);
+            a.setAttribute('to', to);
+            a.setAttribute('dur', '1.4s');
+            a.setAttribute('repeatCount', '5');
+            a.setAttribute('fill', 'freeze');
+            pulse.appendChild(a);
+        }
+        g.insertBefore(pulse, g.firstChild);
+
         this._token = g;
         this._R = R;
         this.svgEl.appendChild(g);
