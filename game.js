@@ -268,7 +268,7 @@ class HeroParty {
         this._info    = document.getElementById('hero-info');
         this.onMove   = opts.onMove ?? null;   // callback({q, r, cell, cost}) after each move
 
-        const [dark, light] = HeroParty.PALETTES[(this.seed >> 3) % HeroParty.PALETTES.length];
+        const [dark, light] = HeroParty.PALETTES[(this.seed >>> 3) % HeroParty.PALETTES.length];
         const icon = HeroParty.ICONS[this.seed % HeroParty.ICONS.length];
         this._dark  = dark;
         this._light = light;
