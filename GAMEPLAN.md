@@ -16,10 +16,10 @@
 | Phase | Name | Status |
 |-------|------|--------|
 | 1 | Game spine: GameState + scene flow | **BUILT — needs in-browser verification** |
-| 2 | Encounter bridge: overworld → battle → results | **BUILT (v1)** — remaining: biome battle palettes (all battles render Midlands grass), per-monster sprites/stats (rosters map onto goblin/goblin_archer archetypes), loot items, flee option |
+| 2 | Encounter bridge: overworld → battle → results | **BUILT (v1)** — biome battlefield palettes done (BIOME_PALETTES in battle-map.js recolors ground/shrubs/flowers/rocks per biome; tree foliage stays green — known compromise). Remaining: per-monster sprites/stats (rosters map onto goblin/goblin_archer archetypes), loot items, flee option |
 | 3 | Settlements as hubs: shop, inn, rest, rumors | **BUILT (v1)** — inn rest, provisions, temple healing, persistent party wounds (hp carried into battles via hpOverride), food consumed per travel day. Remaining: weapon trader (economy.json prices), reputation, rumors→quests |
 | 4 | Procedural quests + quest log | **BUILT (v1)** — quests.js grammar (hunt/clear/delivery) targeting real map landmarks/settlements, inn rumors offer quests, quest log HUD with direction/distance, event ticker. WotC files moved to context/wotc_reference/. Remaining: dungeon-type quests, campaign-flavor text from leonoria_campaigns.json |
-| 5 | Audio director, fog of war, day/night | **STARTED** — audio-director.js v1 (music/ambience channels, crossfade, autoplay unlock; title theme wired) + CREDITS.md. Remaining: download free music/ambience assets, per-biome/scene tracks, fog of war, overworld day/night tint |
+| 5 | Audio director, fog of war, day/night | **BUILT (v1)** — audio-director.js (music/ambience channels, crossfade, autoplay unlock; title theme wired) + CREDITS.md; fog of war (canvas → single SVG image, path cells revealed, soft edges); day/night CSS tint on the overworld. Remaining: download free music/ambience assets, per-biome/scene tracks |
 | 6 | Main quest arc, final boss, balance | **BUILT (v1)** — seeded legendary boss (legendarybestiary.json) lairs at the farthest landmark, gated by 3 shard trials at landmarks across the map; victory overlay with journey summary. Remaining: dungeon-based lairs, loot items, XP/economy balance pass |
 
 ---

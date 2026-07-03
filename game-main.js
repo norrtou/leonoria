@@ -158,6 +158,7 @@ function startOverworld(isNew) {
         GameState.save();
         $('gw-status').textContent = '';
     }
+    Fog.rebuild();
     updateHUD();
 }
 
@@ -166,11 +167,13 @@ function buildOverworld(state) {
     mapScreen.show(state.world.seed, state.world.params, {
         startQ: state.world.position?.q,
         startR: state.world.position?.r,
-        onMove: ({ q, r, cell, cost }) => {
+        onMove: ({ q, r, cell, cost, path }) => {
+            for (const pc of path ?? []) GameState.markExplored(pc.q, pc.r);
             GameState.setPosition(q, r);
             GameState.advanceTravel(cost);
             GameState.save();
             updateHUD();
+            Fog.rebuild();
 
             if (cell.terrain_type === 'Settlement') {
                 const dq = cell.settlement_name && Quests.deliveryQuestFor(cell.settlement_name);
@@ -219,8 +222,60 @@ let _resizeTimer = null;
 window.addEventListener('resize', () => {
     if (Scenes.current !== 'overworld') return;
     clearTimeout(_resizeTimer);
-    _resizeTimer = setTimeout(() => buildOverworld(GameState.get()), 250);
+    _resizeTimer = setTimeout(() => {
+        buildOverworld(GameState.get());
+        Fog.rebuild();
+    }, 250);
 });
+
+// ─── Fog of war ───────────────────────────────────────────────────────────────
+// Unexplored hexes are covered by a dark layer; explored ones are punched out
+// with soft edges. Per the rendering rules: one offscreen canvas → one <image>
+// in the SVG (all punches accumulated in a single path, single fill).
+const Fog = {
+    _img: null,
+
+    rebuild() {
+        const s     = GameState.get();
+        const grid  = mapScreen?.hero?.hexGrid;
+        const svgEl = $('map-container').querySelector('svg');
+        if (!s || !grid || !svgEl) return;
+
+        const vb = svgEl.viewBox.baseVal;
+        const cv = document.createElement('canvas');
+        cv.width  = Math.max(1, Math.round(vb.width));
+        cv.height = Math.max(1, Math.round(vb.height));
+        const ctx = cv.getContext('2d');
+
+        ctx.fillStyle = 'rgba(16, 12, 5, 0.87)';
+        ctx.fillRect(0, 0, cv.width, cv.height);
+
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.filter = 'blur(12px)';
+        const R = grid.hexSize * 2.6;   // reveal ~2 hexes around each visited cell
+        ctx.beginPath();
+        for (const key of s.world.explored) {
+            const [q, r] = key.split(',').map(Number);
+            const { x, y } = grid.hexToPixel(q, r);
+            ctx.moveTo(x + R, y);
+            ctx.arc(x, y, R, 0, Math.PI * 2);
+        }
+        ctx.fill();
+        ctx.filter = 'none';
+
+        if (this._img?.parentNode) this._img.remove();
+        const img = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+        img.setAttribute('id', 'fog-layer');
+        img.setAttribute('href', cv.toDataURL('image/png'));
+        img.setAttribute('x', vb.x);
+        img.setAttribute('y', vb.y);
+        img.setAttribute('width', vb.width);
+        img.setAttribute('height', vb.height);
+        img.setAttribute('pointer-events', 'none');
+        svgEl.appendChild(img);
+        this._img = img;
+    },
+};
 
 // ─── Battle bridge ────────────────────────────────────────────────────────────
 function triggerBattle(enc, quest = null) {
@@ -233,6 +288,7 @@ function triggerBattle(enc, quest = null) {
     LeonoriaBattle.start({
         party:       s.party,
         enemyRoster: enc.roster,
+        biome:       s.world.params.biome,
         timeOfDay:   GameState.timeOfDay(),
         isDungeon:   false,
         hpByCharId:  s.party.hp,
@@ -319,6 +375,11 @@ function updateHUD() {
     $('hud-day').textContent  = `Day ${s.world.day}`;
     $('hud-time').textContent = GameState.clockLabel();
     $('hud-tod').textContent  = `${TOD_ICON[tod]} ${tod}`;
+
+    // Day/night tint on the world map
+    const vp = $('map-viewport');
+    vp.classList.remove('tod-dawn', 'tod-day', 'tod-dusk', 'tod-night');
+    vp.classList.add(`tod-${tod}`);
 
     // Quest log
     const lines = Quests.logLines();

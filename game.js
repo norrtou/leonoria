@@ -437,7 +437,7 @@ class HeroParty {
 
         const cost = this.hexGrid.calcPathCost(path);
         this._showInfo(cell, cost);
-        if (this.onMove) this.onMove({ q: this.q, r: this.r, cell, cost });
+        if (this.onMove) this.onMove({ q: this.q, r: this.r, cell, cost, path });
 
         clearTimeout(this._clearTimer);
         this._clearTimer = setTimeout(() => this.hexGrid.clearOverlay(), 2200);

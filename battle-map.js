@@ -6324,6 +6324,88 @@ let _gameOnDone     = null;   // pending result callback while a game battle run
 let _seedOverride   = null;   // consumed by the next startBattle()
 let _gameSetupDone  = false;  // one-time event wiring for the game shell
 
+// ── Biome battlefield palettes ────────────────────────────────────────────────
+// Ground colors are sampled from GC/GC2 during generateTerrain, so swapping
+// the array contents (and the P accents) before startBattle recolors the
+// whole battlefield. the_midlands is the original hand-tuned palette.
+// v1 limitation: tree foliage stays green (fine for pines in snow; badlands
+// trees are a known compromise — see GAMEPLAN.md).
+const BIOME_PALETTES = {
+    the_midlands: {
+        gc:  ['#5a9430','#64a234','#6eab3c','#58902c','#74ac3a','#4c8226'],
+        gc2: ['#78b84e','#82c852','#90d064','#74b040','#94cc54','#68a83c'],
+        p:   { shrubDk:'#2a5412', shrub:'#387020', shrubLit:'#50922c',
+               fYellow:'#e8c030', fOrange:'#e86820', fPink:'#d84072', fWhite:'#f0eedc',
+               rockDk:'#4e4e40', rock:'#74746a', rockMid:'#90908a', rockLit:'#aeaea4' },
+    },
+    the_sanctuary_lands: {   // lush, warm, blessed farmland
+        gc:  ['#5fa138','#6bb03e','#77b948','#619c34','#7fba46','#539030'],
+        gc2: ['#84c65a','#8ed660','#9cde72','#80be4c','#a0da62','#74b648'],
+        p:   { shrubDk:'#2f5f16', shrub:'#3f7c26', shrubLit:'#589e32',
+               fYellow:'#f0d040', fOrange:'#f07830', fPink:'#e05082', fWhite:'#f8f6e4' },
+    },
+    the_dark_forests: {      // mossy, shadowed, cold greens
+        gc:  ['#3a6424','#426e28','#4a782e','#365c20','#50802e','#2e521c'],
+        gc2: ['#548a3a','#5c943e','#66a048','#508234','#6a9c40','#48782e'],
+        p:   { shrubDk:'#1c3c0c', shrub:'#285418', shrubLit:'#3a7020',
+               fYellow:'#b8a030', fOrange:'#a85820', fPink:'#8a3060', fWhite:'#c8c8b0' },
+    },
+    the_eternal_winds: {     // snowy tundra
+        gc:  ['#c8d2d8','#d2dce2','#dce6ea','#bec8d0','#e2eaee','#b4c0ca'],
+        gc2: ['#e6eef2','#eef4f6','#f4f8fa','#dae4ea','#f8fbfc','#d0dce4'],
+        p:   { shrubDk:'#4a5e50', shrub:'#5e7462', shrubLit:'#788e7a',
+               fYellow:'#d8d0a8', fOrange:'#c89868', fPink:'#b88898', fWhite:'#ffffff',
+               rockDk:'#586068', rock:'#788088', rockMid:'#98a0a8', rockLit:'#b8c0c8' },
+    },
+    the_badlands: {          // arid ochre and dust
+        gc:  ['#a08040','#a8884a','#b09052','#987838','#b89858','#907030'],
+        gc2: ['#c0a060','#c8a868','#d0b070','#b89858','#d8b878','#b09050'],
+        p:   { shrubDk:'#5a4a1a', shrub:'#786026', shrubLit:'#948034',
+               fYellow:'#d8b850', fOrange:'#c87838', fPink:'#b06048', fWhite:'#e8dcc0',
+               rockDk:'#5e4e3a', rock:'#7e6e56', rockMid:'#9a8a70', rockLit:'#b6a68c' },
+    },
+    the_outer_steppes: {     // dry yellow-green grassland
+        gc:  ['#8a9440','#949e46','#9ea84e','#80883a','#a8b256','#768034'],
+        gc2: ['#aab85e','#b4c264','#becc6e','#a0ac54','#c8d476','#96a24c'],
+        p:   { shrubDk:'#4a501a', shrub:'#626c26', shrubLit:'#7c8834',
+               fYellow:'#e0c848', fOrange:'#d08030', fPink:'#c06858', fWhite:'#ece4c4' },
+    },
+    the_blinding_lands: {    // glaring ice fields
+        gc:  ['#dae4ec','#e2eaf0','#eaf2f6','#d0dce6','#f0f6f8','#c6d4e0'],
+        gc2: ['#f0f6fa','#f6fafc','#fafcfe','#e8f0f6','#fdfeff','#dfe9f2'],
+        p:   { shrubDk:'#50606a', shrub:'#66787e', shrubLit:'#809296',
+               fYellow:'#e4e0c0', fOrange:'#d0b090', fPink:'#c0a0b0', fWhite:'#ffffff',
+               rockDk:'#606a74', rock:'#828c96', rockMid:'#a2acb6', rockLit:'#c2ccd6' },
+    },
+    the_gleam_havens: {      // warm coastal meadows
+        gc:  ['#68a844','#72b24a','#7cbc52','#5e9c3e','#86c65a','#549036'],
+        gc2: ['#8cc866','#96d26e','#a0dc78','#82be5e','#aae682','#78b456'],
+        p:   { shrubDk:'#2e5a18', shrub:'#3e7628', shrubLit:'#569836',
+               fYellow:'#f0d848', fOrange:'#f08838', fPink:'#e86890', fWhite:'#fbf8ea' },
+    },
+    the_boglands: {          // murky swamp
+        gc:  ['#586e30','#607636','#68803c','#50642a','#728a42','#485c26'],
+        gc2: ['#70884a','#789250','#829c58','#688044','#8ca85e','#60783e'],
+        p:   { shrubDk:'#26400e', shrub:'#345818', shrubLit:'#487424',
+               fYellow:'#b0a838', fOrange:'#987030', fPink:'#7a4858', fWhite:'#c4c8a4' },
+    },
+    the_forgotten_kingdom: { // ashen, void-touched grey-purple
+        gc:  ['#5e5a68','#66626e','#6e6a76','#565260','#767280','#4e4a58'],
+        gc2: ['#7a7686','#827e8e','#8a8696','#726e7e','#928ea0','#6a6676'],
+        p:   { shrubDk:'#3a3444', shrub:'#4a4456', shrubLit:'#5e5870',
+               fYellow:'#9a8ca0', fOrange:'#8a6a80', fPink:'#7a5a80', fWhite:'#b8b2c0',
+               rockDk:'#38343e', rock:'#54505c', rockMid:'#6e6a78', rockLit:'#8a8694' },
+    },
+};
+
+function applyBiomePalette(biomeId) {
+    const pal = BIOME_PALETTES[biomeId] ?? BIOME_PALETTES.the_midlands;
+    GC.length  = 0; GC.push(...pal.gc);
+    GC2.length = 0; GC2.push(...pal.gc2);
+    // Reset accents to midlands defaults first so partial overrides are clean
+    Object.assign(P, BIOME_PALETTES.the_midlands.p, pal.p ?? {});
+}
+
 // Spread enemies across the far rows, mirroring the hand-placed ENEMY_DEFS.
 function _gameEnemyDefs(roster) {
     const cols = [5, 2, 8, 3, 7, 1, 9, 4, 6];
@@ -6361,6 +6443,7 @@ window.LeonoriaBattle = {
 
         LIGHTING.mode = context.timeOfDay === 'night' ? 'night' : 'day';
         MAP_TYPE      = context.isDungeon ? 'dungeon' : 'outdoor';
+        if (context.biome) applyBiomePalette(context.biome);
         if (Number.isInteger(context.seed)) _seedOverride = context.seed >>> 0;
 
         const heroes  = context.party?.members?.length

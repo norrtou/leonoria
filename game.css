@@ -230,6 +230,13 @@
 }
 #hud-menu-btn:hover { box-shadow: 0 0 10px rgba(201, 162, 39, 0.3); }
 
+/* ── Day/night tint on the overworld map ─────────────────────────────────── */
+#map-viewport { transition: filter 1.2s; }
+#map-viewport.tod-dawn  { filter: sepia(0.18) brightness(0.94) hue-rotate(-8deg); }
+#map-viewport.tod-day   { filter: none; }
+#map-viewport.tod-dusk  { filter: sepia(0.30) brightness(0.82) hue-rotate(-14deg); }
+#map-viewport.tod-night { filter: brightness(0.52) saturate(0.6) hue-rotate(12deg); }
+
 /* ── Quest log & event ticker ────────────────────────────────────────────── */
 #quest-log {
     position: fixed;
