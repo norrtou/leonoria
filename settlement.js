@@ -40,11 +40,23 @@ window.Settlement = (() => {
         const info  = _findSettlement(name);
         const type  = info?.type ?? 'village';
         const size  = _sizeClass(type);
-        const price = PRICES[size];
         const amen  = window.FantasyMap?._settlementAmenities?.(type) ?? {};
 
+        // Kingdom reputation: every 2 points of standing = 4% discount, cap 20%
+        const kingdom = window.Quests?.kingdomOf?.(name) ?? null;
+        const rep     = kingdom ? (s.reputation[kingdom.id] ?? 0) : 0;
+        const mult    = 1 - Math.min(0.20, rep * 0.02);
+        const base    = PRICES[size];
+        const price   = {
+            rest:       Math.max(1, Math.round(base.rest * mult)),
+            foodPerDay: Math.max(1, Math.round(base.foodPerDay * mult)),
+            temple:     base.temple > 0 ? Math.max(1, Math.round(base.temple * mult)) : 0,
+            mult,
+        };
+
         $('sp-name').textContent = name;
-        $('sp-type').textContent = type.replace(/_/g, ' ');
+        $('sp-type').textContent = type.replace(/_/g, ' ') +
+            (kingdom ? ` · ${kingdom.name}${rep > 0 ? ` (standing +${rep})` : ''}` : '');
 
         const wounded = Object.keys(s.party.hp ?? {}).length > 0;
 

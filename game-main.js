@@ -199,7 +199,8 @@ function buildOverworld(state) {
             const quest = Quests.combatQuestAt(q, r);
             if (quest) {
                 setTimeout(() => triggerBattle(
-                    { label: quest.label, tier: 'uncommon', roster: quest.roster },
+                    { label: quest.label, tier: 'uncommon', roster: quest.roster,
+                      dungeon: !!quest.dungeon },
                     quest), 650);
                 return;
             }
@@ -211,7 +212,9 @@ function buildOverworld(state) {
                 timeOfDay: GameState.timeOfDay(),
                 partySize: s.party.members.length,
             });
-            if (enc) setTimeout(() => triggerBattle(enc), 650);
+            if (enc) { setTimeout(() => triggerBattle(enc), 650); return; }
+
+            maybeTravelEvent();
         },
     });
 }
@@ -227,6 +230,50 @@ window.addEventListener('resize', () => {
         Fog.rebuild();
     }, 250);
 });
+
+// ─── Travel events ────────────────────────────────────────────────────────────
+// Small non-combat happenings on the road — the anti-monotony table.
+// Rolled only when a move produced no encounter, quest fight, or settlement.
+const TRAVEL_FLAVOR = [
+    '🐦 A raven follows the party for miles, then vanishes.',
+    '🦌 A white stag watches from a ridge before bounding away.',
+    '🪦 You pass a lone grave marked with a rusted sword.',
+    '🔥 The remains of a campfire — still warm. Someone left in a hurry.',
+    '🌫 A cold mist clings to the ground until midday.',
+];
+
+const TRAVEL_EVENTS = [
+    { w: 3, run(s) { s.party.food += 1;
+        return '🌿 You forage wild herbs and berries (+1 provisions).'; } },
+    { w: 2, run(s) { const g = 6 + Math.floor(Math.random() * 12); s.party.gold += g;
+        return `💰 A hidden cache among the rocks: +${g} gold.`; } },
+    { w: 2, run(s) {
+        const wounded = Object.keys(s.party.hp);
+        if (!wounded.length) return null;
+        for (const id of wounded) s.party.hp[id] += 12;   // clamped to maxHp in battle
+        return '⛩ An old wayside shrine soothes your wounds.'; } },
+    { w: 2, run(s) {
+        let h = s.world.hour + 2;
+        if (h >= 24) { h -= 24; s.world.day += 1; s.party.food = Math.max(0, s.party.food - 1); }
+        s.world.hour = +h.toFixed(2);
+        return '🌧 Sudden rain turns the ground to mud (+2 hours).'; } },
+    { w: 3, run() { return TRAVEL_FLAVOR[Math.floor(Math.random() * TRAVEL_FLAVOR.length)]; } },
+];
+
+function maybeTravelEvent() {
+    if (Math.random() >= 0.08) return;
+    const s     = GameState.get();
+    const total = TRAVEL_EVENTS.reduce((sum, e) => sum + e.w, 0);
+    let roll    = Math.random() * total;
+    for (const ev of TRAVEL_EVENTS) {
+        roll -= ev.w;
+        if (roll <= 0) {
+            const msg = ev.run(s);
+            if (msg) { GameState.save(); showEvent(msg); updateHUD(); }
+            return;
+        }
+    }
+}
 
 // ─── Fog of war ───────────────────────────────────────────────────────────────
 // Unexplored hexes are covered by a dark layer; explored ones are punched out
@@ -291,7 +338,7 @@ function triggerBattle(enc, quest = null) {
         enemyRoster: enc.roster,
         biome:       s.world.params.biome,
         timeOfDay:   GameState.timeOfDay(),
-        isDungeon:   false,
+        isDungeon:   !!enc.dungeon,
         hpByCharId:  s.party.hp,
         partyLevel:  s.party.level,
         gearBonus:   { hp: g.armor * 8, dmg: g.oil, dodge: g.charm * 2 },

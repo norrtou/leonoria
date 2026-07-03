@@ -36,6 +36,7 @@ window.Quests = (() => {
         const map = _mapData();
         if (!s || !map) return [];
 
+        _currentOrigin = originName;
         const key = `${originName}:${s.world.day}`;
         if (_offerCache[key]) return _offerCache[key].filter(o => !_isActive(o));
 
@@ -44,11 +45,13 @@ window.Quests = (() => {
         const activeTargets = new Set(s.quests.active.map(q => q.target.name));
 
         // Candidate landmarks at a worthwhile-journey distance
-        const landmarks = (map.landmarks ?? [])
+        const allLandmarks = (map.landmarks ?? [])
             .filter(lm => !activeTargets.has(lm.name))
             .map(lm => ({ ...lm, dist: _dist(pos.q, pos.r, lm.q, lm.r) }))
             .filter(lm => lm.dist >= 5 && lm.dist <= 45)
             .sort(() => Math.random() - 0.5);
+        const ruins     = allLandmarks.filter(lm => lm.category === 'ruin');
+        const landmarks = allLandmarks.filter(lm => lm.category !== 'ruin');
 
         const settlements = (map.settlements ?? [])
             .filter(st => st.name !== originName && !activeTargets.has(st.name))
@@ -57,6 +60,22 @@ window.Quests = (() => {
             .sort(() => Math.random() - 0.5);
 
         const out = [];
+
+        // Delve — something stirs beneath a ruin (fought in dungeon mode)
+        if (ruins.length && Math.random() < 0.5) {
+            const lm  = ruins.shift();
+            const foe = pool.uncommon[Math.floor(Math.random() * pool.uncommon.length)]
+                     ?? pool.common[0] ?? 'Restless Dead';
+            out.push({
+                ..._quest('delve', lm, foe, [
+                    { name: `Keeper of ${lm.name}`, role: 'melee', boss: true },
+                    { name: foe, role: 'melee' },
+                    { name: foe, role: 'melee' },
+                    { name: foe, role: 'ranged' },
+                ], 1.3),
+                dungeon: true,
+            });
+        }
 
         // Hunt — a rare beast lairs at a landmark
         if (pool.rare.length && landmarks.length) {
@@ -97,11 +116,13 @@ window.Quests = (() => {
             hunt:     `Slay ${foe}`,
             clear:    `Clear ${place.name}`,
             delivery: `Delivery to ${place.name}`,
+            delve:    `Descend into ${place.name}`,
         };
         const descs = {
             hunt:     `${foe} lairs at ${place.name}. Put an end to it.`,
             clear:    `${place.name} is overrun by ${foe}. Drive them out.`,
             delivery: `Bring a sealed crate safely to ${place.name}.`,
+            delve:    `Something below ${place.name} sends ${foe} to the surface. Go down and end it.`,
         };
         return {
             id:     `q${Date.now()}_${_nextId++}`,
@@ -112,7 +133,23 @@ window.Quests = (() => {
             roster: roster ?? null,
             label:  foe ?? place.name,
             reward: { gold, xp },
+            origin: _currentOrigin,
         };
+    }
+
+    let _currentOrigin = null;   // settlement whose inn is offering, set by offers()
+
+    // Kingdom owning a settlement, from the map export's kingdoms lists
+    function kingdomOf(settlementName) {
+        const kingdoms = _mapData()?.kingdoms ?? [];
+        return kingdoms.find(k => (k.settlements ?? []).includes(settlementName)) ?? null;
+    }
+
+    function _addReputation(settlementName, amount) {
+        const k = kingdomOf(settlementName);
+        if (!k) return;
+        const rep = GameState.get().reputation;
+        rep[k.id] = (rep[k.id] ?? 0) + amount;
     }
 
     function _isActive(offer) {
@@ -149,6 +186,8 @@ window.Quests = (() => {
         s.quests.completed.push({ id: quest.id, title: quest.title, day: s.world.day });
         s.party.gold += quest.reward.gold;
         s.party.xp   += quest.reward.xp;
+        if (quest.origin) _addReputation(quest.origin, 2);
+        if (quest.type === 'delivery') _addReputation(quest.target.name, 1);
         while (s.party.xp >= s.party.level * 100) {
             s.party.xp -= s.party.level * 100;
             s.party.level += 1;
@@ -294,5 +333,5 @@ window.Quests = (() => {
     }
 
     return { offers, accept, complete, combatQuestAt, deliveryQuestFor, logLines,
-             loadLegendary, initMainQuest, mainQuestAt, mainQuestWon };
+             loadLegendary, initMainQuest, mainQuestAt, mainQuestWon, kingdomOf };
 })();
