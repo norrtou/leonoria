@@ -103,14 +103,18 @@ window.Settlement = (() => {
         if ((amen.traders ?? 0) > 0) {
             rows.push(`<div class="sp-rumor">⚖ At the trader:${econ.note ? ` <em>${econ.note}</em>` : ''}</div>`);
 
-            const lootValue = Math.round(
-                (s.party.inventory ?? []).reduce((sum, it) => sum + (it.value ?? 0), 0) * econ.sell);
-            const lootCount = (s.party.inventory ?? []).length;
+            // Equipped weapons stay with their wielders — only loose loot sells
+            const sellable  = (s.party.inventory ?? []).filter(it => !it.equippedBy);
+            const kept      = (s.party.inventory ?? []).length - sellable.length;
+            const lootValue = Math.round(sellable.reduce((sum, it) => sum + (it.value ?? 0), 0) * econ.sell);
             price.sellValue = lootValue;
             rows.push(_action('sell',
                 `🎒 Sell loot — earn ${lootValue} gold`,
-                lootCount ? `${lootCount} item${lootCount !== 1 ? 's' : ''} in the pack.` : 'Nothing to sell.',
-                lootCount > 0));
+                sellable.length
+                    ? `${sellable.length} item${sellable.length !== 1 ? 's' : ''} in the pack.` +
+                      (kept ? ` Equipped weapons (${kept}) stay.` : '')
+                    : 'Nothing to sell.',
+                sellable.length > 0));
 
             const g = s.party.gear;
             price.upgrade = {};
@@ -190,7 +194,7 @@ window.Settlement = (() => {
             s.party.hp    = {};
         } else if (act === 'sell') {
             s.party.gold += price.sellValue ?? 0;
-            s.party.inventory = [];
+            s.party.inventory = (s.party.inventory ?? []).filter(it => it.equippedBy);
         } else if (act === 'armor' || act === 'oil' || act === 'charm') {
             s.party.gold -= price.upgrade?.[act] ?? 0;
             s.party.gear[act] += 1;

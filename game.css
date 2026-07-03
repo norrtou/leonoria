@@ -330,6 +330,105 @@
 .sp-act-sub   { font-size: 13px; color: #b8a678; font-style: italic; }
 .sp-rumor     { font-size: 13px; color: #b8a678; padding: 8px 4px 0; }
 
+/* ── Party equipment panel ───────────────────────────────────────────────── */
+#hud-equip-btn {
+    font-family: inherit;
+    font-size: 14px;
+    color: #d9c9a3;
+    background: none;
+    border: 1px solid #5a4a2a;
+    border-radius: 3px;
+    padding: 2px 10px;
+    cursor: pointer;
+}
+#hud-equip-btn:hover { border-color: var(--gold); color: var(--parchment); }
+
+#equip-panel {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 30;
+    width: 560px;
+    max-height: 82vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #2a2114, #221a0e);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+    padding: 20px 24px;
+    color: var(--parchment);
+    font-family: 'IM Fell English', Georgia, serif;
+}
+#equip-panel[hidden] { display: none; }
+#eq-title { font-size: 26px; letter-spacing: 1px; }
+#eq-hint  { font-size: 13px; color: #b8a678; font-style: italic; }
+#eq-close {
+    font-size: 16px;
+    color: #b8a678;
+    background: none;
+    border: 1px solid #5a4a2a;
+    border-radius: 3px;
+    padding: 4px 10px;
+    cursor: pointer;
+}
+#eq-close:hover { border-color: var(--gold); color: var(--parchment); }
+
+#eq-members { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.eq-member {
+    position: relative;
+    font-family: inherit;
+    width: 164px;
+    text-align: left;
+    color: var(--parchment);
+    background: #322817;
+    border: 1px solid #5a4a2a;
+    border-radius: 3px;
+    padding: 8px 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.eq-member:hover   { border-color: var(--gold); }
+.eq-member.eq-selected { border-color: var(--gold); box-shadow: 0 0 8px rgba(201, 162, 39, 0.35); }
+.eq-portrait { width: 44px; height: 44px; object-fit: cover; border-radius: 3px; border: 1px solid #5a4a2a; }
+.eq-mname   { font-size: 16px; }
+.eq-mclass  { font-size: 12px; color: #b8a678; font-style: italic; text-transform: capitalize; }
+.eq-mweapon { font-size: 12px; color: #d9c9a3; display: flex; align-items: center; gap: 5px; min-height: 20px; }
+.eq-mweapon em { color: #8a7a58; }
+.eq-dmg     { color: #b8a678; }
+.eq-unequip {
+    position: absolute;
+    top: 6px; right: 8px;
+    font-size: 12px;
+    color: #b8a678;
+}
+.eq-unequip:hover { color: #e06040; }
+
+#eq-armory { display: flex; flex-direction: column; gap: 6px; }
+.eq-weapon {
+    font-family: inherit;
+    text-align: left;
+    color: var(--parchment);
+    background: #322817;
+    border: 1px solid #5a4a2a;
+    border-radius: 3px;
+    padding: 7px 12px;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 26px 1fr auto;
+    grid-template-rows: auto auto;
+    column-gap: 10px;
+    align-items: center;
+}
+.eq-weapon:hover { border-color: var(--gold); }
+.eq-weapon.eq-inuse { border-color: #7a6a3a; background: #3a3020; }
+.eq-icon   { width: 22px; height: 22px; grid-row: span 2; }
+.eq-wname  { font-size: 15px; }
+.eq-wstats { font-size: 13px; color: #d9c9a3; grid-row: span 2; text-align: right; }
+.eq-wsub   { font-size: 12px; color: #b8a678; font-style: italic; grid-column: 2; }
+.eq-note   { font-size: 13px; color: #b8a678; padding: 8px 4px; display: flex; align-items: center; gap: 8px; }
+
 /* ── In-game menu overlay ────────────────────────────────────────────────── */
 #menu-overlay {
     position: fixed;

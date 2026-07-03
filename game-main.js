@@ -342,6 +342,7 @@ function triggerBattle(enc, quest = null) {
         hpByCharId:  s.party.hp,
         partyLevel:  s.party.level,
         gearBonus:   { hp: g.armor * 8, dmg: g.oil, dodge: g.charm * 2 },
+        equipment:   Equipment.equippedFor(s),
     }, result => applyBattleResult(result, enc, quest));
 }
 
@@ -513,6 +514,11 @@ window.addEventListener('DOMContentLoaded', async () => {
     initParty();
     initWorld();
     initMenu();
+    Equipment.init();
+    $('hud-equip-btn').addEventListener('click', () => {
+        const p = $('equip-panel');
+        if (p.hidden) Equipment.open(updateHUD); else Equipment.close();
+    });
     $('sp-close').addEventListener('click', () => Settlement.close());
     $('btn-victory-title').addEventListener('click', () => {
         $('victory-overlay').hidden = true;

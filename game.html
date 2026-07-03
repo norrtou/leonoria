@@ -30,6 +30,7 @@
                 <span id="hud-level" title="Party level"></span>
                 <span id="hud-xp" title="Experience"></span>
                 <span id="hud-loot" title="Loot items to sell"></span>
+                <button id="hud-equip-btn" title="Party equipment">⚔ Arms</button>
             </div>
         </div>
         <div id="hud-clock">
@@ -52,6 +53,19 @@
                 <button id="sp-close" title="Leave">✕</button>
             </div>
             <div id="sp-actions"></div>
+        </div>
+
+        <!-- Party equipment panel -->
+        <div id="equip-panel" hidden>
+            <div class="sp-header">
+                <div>
+                    <div id="eq-title">Party Arms</div>
+                    <div id="eq-hint">Choose a member, then a weapon from the pack</div>
+                </div>
+                <button id="eq-close" title="Close">✕</button>
+            </div>
+            <div id="eq-members"></div>
+            <div id="eq-armory"></div>
         </div>
 
         <!-- Victory overlay -->
@@ -199,6 +213,7 @@
     <script src="game-state.js"></script>
     <script src="encounter.js"></script>
     <script src="loot.js"></script>
+    <script src="equipment.js"></script>
     <script src="quests.js"></script>
     <script src="settlement.js"></script>
     <script src="audio-director.js"></script>

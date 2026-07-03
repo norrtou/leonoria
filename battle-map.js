@@ -6527,6 +6527,34 @@ window.LeonoriaBattle = {
             }
         }
 
+        // Equipped weapons (game shell): context.equipment maps charId →
+        // weapon item ({name, dmg:[min,max], damageType, ranged, reach}).
+        // The weapon replaces the hero's first physical attack of the same
+        // kind (melee/ranged); casters without one gain it as an extra option.
+        // dmg range → dice: [min,max] becomes 1d(max-min+1) + (min-1).
+        if (context.equipment) {
+            for (const h of heroes) {
+                const eq = context.equipment[h.id?.replace(/^cchar_/, '')];
+                if (!eq?.dmg) continue;
+                const type = eq.ranged ? 'ranged' : 'melee';
+                const key  = `${h.type}_wpn`;
+                ATTACKS[key] = {
+                    name:       eq.name,
+                    type,
+                    range:      eq.ranged ? 12 : Math.max(1, Number(eq.reach) || 1),
+                    damageDice: [1, Math.max(2, eq.dmg[1] - eq.dmg[0] + 1)],
+                    damageMod:  Math.max(0, eq.dmg[0] - 1),
+                    hitBase:    97, critMin: 92,
+                    snd:        eq.ranged ? 'bow' : 'sword',
+                    damage_type: eq.damageType || 'Physical',
+                };
+                h.attackKeys ??= [];
+                const idx = h.attackKeys.findIndex(k => ATTACKS[k]?.type === type);
+                if (idx >= 0) h.attackKeys[idx] = key;
+                else h.attackKeys.unshift(key);
+            }
+        }
+
         // Trader gear bonuses (game shell): armor → max HP, oils → damage,
         // charms → dodge. charToUnitDef re-registers UNIT_STATS/ATTACKS on
         // every start, so these do not stack across battles.

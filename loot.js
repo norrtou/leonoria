@@ -2,9 +2,10 @@
 // loot.js — Leonoria battle loot (game.html only)
 //
 // Rolls drops after victories: trophies (always, sellable) and occasionally a
-// weapon named from the real weapon system (weapons × materials × quality,
-// data/items/*). v1: loot items are treasure to sell at traders — per-member
-// weapon equipping comes later (see GAMEPLAN.md).
+// weapon from the real weapon system (weapons × materials × quality,
+// data/items/*). Weapon items carry combat stats (dmg range after material ×
+// quality multipliers, dominant damage type from damage_distribution) so they
+// can be equipped per party member (equipment.js).
 // ═══════════════════════════════════════════════════════════════════════════════
 
 window.Loot = (() => {
@@ -50,15 +51,71 @@ window.Loot = (() => {
             .trim();
     }
 
+    // Which materials fit a weapon's material_group (weapon_materials.json
+    // allowed_weapon_categories uses a different taxonomy, so map explicitly)
+    function _materialsFor(weapon) {
+        const group = weapon.material_group;
+        const fits = m => {
+            const cats = m.allowed_weapon_categories ?? [];
+            if (group === 'all_metals')       return cats.includes('all_metals');
+            if (group === 'wooden_only')      return m.id === 'wooden';
+            if (group === 'bone_only')        return m.id === 'bone';
+            if (group === 'stone_only')       return m.id === 'stone';
+            if (group === 'clubs_and_staves') return ['wooden', 'bone', 'stone'].includes(m.id);
+            return true;
+        };
+        const list = _materials.filter(fits);
+        return list.length ? list : _materials;
+    }
+
+    let _itemSeq = 0;
+    const _itemId = () => `it_${Date.now().toString(36)}_${_itemSeq++}`;
+
     function _rollWeapon() {
         if (!_weapons.length || !_materials.length || !_qualities.length) return null;
-        const weapon   = _pick(_weapons);
-        const material = _pick(_materials);
-        const quality  = _rollQuality();
-        const dmgAvg   = ((weapon.base_dmg_range?.[0] ?? 2) + (weapon.base_dmg_range?.[1] ?? 8)) / 2;
-        const value    = Math.max(3, Math.round(
-            8 * dmgAvg * (material.cost_multiplier ?? 1) * (quality.cost_multiplier ?? 1)));
-        return { kind: 'weapon', name: _weaponName(weapon, material, quality), value };
+        const weapon  = _pick(_weapons);
+        const quality = _rollQuality();
+        const isBow   = weapon.tooltip_category === 'Bow';
+        // Bows come as fixed wood types (ash, yew…) — no material roll
+        const material = isBow ? null : _pick(_materialsFor(weapon));
+
+        // Damage: base range × material damage_multiplier × quality roll
+        // multipliers. Bows add damage_bonus_range on top of an arrow baseline.
+        const base = isBow
+            ? [3 + (weapon.damage_bonus_range?.[0] ?? 0), 9 + (weapon.damage_bonus_range?.[1] ?? 2)]
+            : [weapon.base_dmg_range?.[0] ?? 2, weapon.base_dmg_range?.[1] ?? 8];
+        const matMult = material?.damage_multiplier ?? 1;
+        const qMin = quality.damage_roll_multiplier?.min ?? 1;
+        const qMax = quality.damage_roll_multiplier?.max ?? 1;
+        const dmgMin = Math.max(1, Math.round(base[0] * matMult * qMin));
+        const dmgMax = Math.max(dmgMin + 1, Math.round(base[1] * matMult * qMax));
+
+        // Dominant damage type from the weapon's damage_distribution
+        const dist = weapon.damage_distribution ?? [];
+        const damageType = dist.length
+            ? dist.reduce((a, b) => (b.percent ?? 0) > (a.percent ?? 0) ? b : a).type
+            : 'Physical';
+
+        // Value from the BASE damage average — material/quality rarity is
+        // already priced in via the cost multipliers (using the multiplied
+        // damage here would double-count and explode rare-drop prices)
+        const baseAvg = (base[0] + base[1]) / 2;
+        const value   = Math.max(3, Math.round(
+            8 * baseAvg * (material?.cost_multiplier ?? 1) * (quality.cost_multiplier ?? 1)));
+
+        const name = isBow
+            ? `${quality.id === 'normal' ? '' : (quality.name ?? '') + ' '}${weapon.name}`.trim()
+            : _weaponName(weapon, material, quality);
+
+        return {
+            kind: 'weapon', id: _itemId(), name, value,
+            weaponId: weapon.id, category: weapon.tooltip_category ?? 'Blade',
+            material: material?.id ?? weapon.material ?? null, quality: quality.id,
+            dmg: [dmgMin, dmgMax], damageType,
+            ranged: isBow, reach: isBow ? 12 : (Number(weapon.reach_hex) || 1),
+            hands: weapon.hands ?? 1,
+            equippedBy: null,
+        };
     }
 
     // Drops for one victory. `enc` is the encounter object ({label, tier}).
