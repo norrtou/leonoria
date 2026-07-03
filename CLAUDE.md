@@ -2,6 +2,12 @@
 
 Leonoria is a browser-based fantasy RPG with two main components: a **procedural map generator** (`map.html` / `map.js`) and a **character creator** (`characters.html` / `character-creator.js`). A battle map (`battlemap.html`) is also in development.
 
+> **Integration work in progress:** the separate parts are being woven into one
+> playable game (`game.html`). The master plan lives in **`GAMEPLAN.md`** — read it
+> before touching game.html, game-main.js, game-state.js, or anything integration
+> related, and keep its status table updated. The game is **desktop-only**; only
+> index.html/about.html/webdata pages need to stay mobile-friendly.
+
 ---
 
 ## Folder Structure

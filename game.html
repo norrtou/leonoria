@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leonoria — The Game</title>
+    <meta name="description" content="Leonoria — a living fantasy world. Desktop game.">
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="battle-map.css">
+    <link rel="stylesheet" href="game.css">
+</head>
+<body data-page="game">
+
+    <!-- ── OVERWORLD (map layer sits underneath the menu screens) ─────────── -->
+    <div id="screen-overworld" class="game-screen" hidden>
+        <div id="map-viewport">
+            <div id="map-container" aria-label="Leonoria world map" role="img"></div>
+        </div>
+
+        <!-- HUD -->
+        <div id="hud-party">
+            <div id="hud-party-name"></div>
+            <div id="hud-portraits"></div>
+            <div id="hud-resources">
+                <span id="hud-gold" title="Gold"></span>
+                <span id="hud-food" title="Provisions (days)"></span>
+                <span id="hud-level" title="Party level"></span>
+                <span id="hud-xp" title="Experience"></span>
+            </div>
+        </div>
+        <div id="hud-clock">
+            <span id="hud-day"></span>
+            <span id="hud-time"></span>
+            <span id="hud-tod"></span>
+        </div>
+        <div id="quest-log" hidden></div>
+        <div id="event-ticker"></div>
+        <div id="hero-info"></div>
+        <button id="hud-menu-btn" title="Menu (Esc)">☰ Menu</button>
+
+        <!-- Settlement hub panel -->
+        <div id="settlement-panel" hidden>
+            <div class="sp-header">
+                <div>
+                    <div id="sp-name">—</div>
+                    <div id="sp-type">—</div>
+                </div>
+                <button id="sp-close" title="Leave">✕</button>
+            </div>
+            <div id="sp-actions"></div>
+        </div>
+
+        <!-- Victory overlay -->
+        <div id="victory-overlay" hidden>
+            <div class="menu-box victory-box">
+                <h2>⚜ Victory ⚜</h2>
+                <p id="victory-boss-line"><span id="victory-boss"></span> has fallen.<br>Leonoria breathes again.</p>
+                <p id="victory-stats"></p>
+                <button id="btn-victory-title">Return to Title</button>
+            </div>
+        </div>
+
+        <!-- In-game menu overlay -->
+        <div id="menu-overlay" hidden>
+            <div class="menu-box">
+                <h2>Leonoria</h2>
+                <button id="btn-resume">Resume</button>
+                <button id="btn-save-quit">Save &amp; Quit to Title</button>
+                <button id="btn-abandon" class="danger">Abandon Journey</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── BATTLE (DOM mirrors battlemap.html so battle-map.js works as-is) ── -->
+    <div id="screen-battle" class="game-screen" hidden>
+        <div class="battle-container">
+            <div class="battle-header">
+                <h1 class="battle-title" id="battle-encounter-title">⚔ Battle</h1>
+                <div class="battle-info">
+                    <div class="turn-display">
+                        <span>Turn:</span>
+                        <div class="turn-number" id="turn-counter">1</div>
+                    </div>
+                </div>
+                <div style="display:flex;gap:0.6rem;align-items:center;"></div>
+            </div>
+            <div class="battle-canvas-area">
+                <canvas id="hex-background-canvas"></canvas>
+                <canvas id="hex-overlay-canvas"></canvas>
+                <canvas id="unit-canvas"></canvas>
+                <div class="combat-panel" id="combat-panel" style="display:none">
+                    <div class="cp-title" id="cp-name">—</div>
+                    <div id="cp-attacks"></div>
+                    <button class="cp-btn cp-end-btn" id="cp-end-btn">⏭ End Turn</button>
+                </div>
+                <div class="initiative-bar" id="initiative-bar"></div>
+                <div class="combat-log"     id="combat-log"></div>
+                <div class="turn-banner"    id="turn-banner">Round 1</div>
+                <div class="range-warning"  id="range-warning"></div>
+                <div class="battle-result"  id="battle-result"></div>
+            </div>
+        </div>
+        <div class="tooltip" id="tooltip"></div>
+        <div class="cs-overlay" id="cs-overlay" style="display:none">
+            <div class="cs-panel">
+                <button class="cs-close" id="cs-close-btn" title="Close">✕</button>
+                <div id="cs-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── TITLE ──────────────────────────────────────────────────────────── -->
+    <div id="screen-title" class="game-screen menu-screen">
+        <div class="title-inner">
+            <h1 class="game-title">Leonoria</h1>
+            <p class="game-tagline">A living world of fantasy &amp; adventure</p>
+            <div class="title-buttons">
+                <button id="btn-new-journey" class="big-btn">✨ New Journey</button>
+                <button id="btn-continue" class="big-btn" disabled>⟲ Continue</button>
+                <a href="characters.html" class="big-btn link-btn">✦ Character Creator</a>
+                <a href="index.html" class="big-btn link-btn small">← Back to site</a>
+            </div>
+            <p class="title-footer">Pre-alpha · desktop only · see GAMEPLAN.md</p>
+        </div>
+    </div>
+
+    <!-- ── PARTY SELECT ───────────────────────────────────────────────────── -->
+    <div id="screen-party" class="game-screen menu-screen" hidden>
+        <div class="menu-panel">
+            <h2>Choose Your Party</h2>
+            <p class="panel-sub">Parties are created in the <a href="characters.html" target="_blank" rel="noopener">Character Creator</a> and appear here.</p>
+            <div id="party-list"></div>
+            <div class="panel-nav">
+                <button id="btn-party-back" class="nav-back">← Back</button>
+                <button id="btn-party-refresh" title="Reload saved parties">⟳ Refresh</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── WORLD SETUP ────────────────────────────────────────────────────── -->
+    <div id="screen-world" class="game-screen menu-screen" hidden>
+        <div class="menu-panel">
+            <h2>Shape Your World</h2>
+            <p class="panel-sub">The world is generated once, then it is yours to explore.</p>
+
+            <div class="world-form">
+                <label class="wf-row">
+                    <span>Map type</span>
+                    <select id="gw-map-type">
+                        <option value="standard">Standard</option>
+                        <option value="large_island">Large Island</option>
+                        <option value="archipelago">Archipelago</option>
+                        <option value="inland">Inland</option>
+                    </select>
+                </label>
+                <p id="gw-type-desc" class="wf-desc"></p>
+
+                <label class="wf-row">
+                    <span>Region</span>
+                    <select id="gw-biome">
+                        <option value="the_midlands">The Midlands</option>
+                        <option value="the_sanctuary_lands">The Sanctuary Lands</option>
+                        <option value="the_dark_forests">The Dark Forests</option>
+                        <option value="the_eternal_winds">The Eternal Winds</option>
+                        <option value="the_badlands">The Badlands</option>
+                        <option value="the_outer_steppes">The Outer Steppes</option>
+                        <option value="the_blinding_lands">The Blinding Lands</option>
+                        <option value="the_gleam_havens">The Gleam Havens</option>
+                        <option value="the_boglands">The Boglands</option>
+                        <option value="the_forgotten_kingdom">The Forgotten Kingdom</option>
+                    </select>
+                </label>
+
+                <label class="wf-row">
+                    <span>Seed <em>(optional)</em></span>
+                    <input type="number" id="gw-seed" placeholder="Random">
+                </label>
+            </div>
+
+            <div class="panel-nav">
+                <button id="btn-world-back" class="nav-back">← Back</button>
+                <button id="btn-create-world" class="big-btn">Create World &amp; Begin</button>
+            </div>
+            <p id="gw-status" class="wf-desc"></p>
+        </div>
+    </div>
+
+    <script src="mountain-styles.js"></script>
+    <script src="map.js"></script>
+    <script src="HexGridManager.js"></script>
+    <script src="game.js"></script>
+    <script src="data/combat/ai_tactics.js"></script>
+    <script src="battle-map.js"></script>
+    <script src="game-state.js"></script>
+    <script src="encounter.js"></script>
+    <script src="quests.js"></script>
+    <script src="settlement.js"></script>
+    <script src="audio-director.js"></script>
+    <script src="game-main.js"></script>
+</body>
+</html>

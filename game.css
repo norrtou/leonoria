@@ -1,0 +1,382 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   game.css — Leonoria game shell (game.html). Desktop only.
+   Parchment & ink theme matching the map's cartographic style.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+    --ink:        #241c12;
+    --ink-soft:   #4a3c28;
+    --parchment:  #efe6d0;
+    --parch-dark: #e2d4b6;
+    --gold:       #8a6a20;
+    --gold-lit:   #c9a227;
+}
+
+/* ── Screens ─────────────────────────────────────────────────────────────── */
+.game-screen        { position: fixed; inset: 0; }
+.game-screen[hidden]{ display: none !important; }
+
+.menu-screen {
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(ellipse at 50% 35%, rgba(90, 70, 35, 0.25), transparent 65%),
+        linear-gradient(180deg, #17120a 0%, #241b0f 55%, #17120a 100%);
+    color: var(--parchment);
+    font-family: 'IM Fell English', Georgia, serif;
+}
+
+/* ── Title screen ────────────────────────────────────────────────────────── */
+.title-inner { text-align: center; max-width: 560px; padding: 24px; }
+
+.game-title {
+    font-size: 84px;
+    font-weight: normal;
+    letter-spacing: 6px;
+    color: var(--parchment);
+    text-shadow: 0 2px 18px rgba(201, 162, 39, 0.25), 0 1px 2px #000;
+}
+
+.game-tagline {
+    font-style: italic;
+    font-size: 19px;
+    color: #b8a678;
+    margin: 6px 0 42px;
+}
+
+.title-buttons { display: flex; flex-direction: column; gap: 14px; align-items: center; }
+
+.big-btn {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    padding: 12px 38px;
+    min-width: 320px;
+    color: var(--parchment);
+    background: linear-gradient(180deg, #3a2d18, #2a2010);
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: background 0.15s, box-shadow 0.15s;
+}
+.big-btn:hover:not(:disabled) {
+    background: linear-gradient(180deg, #4a3a20, #342814);
+    box-shadow: 0 0 14px rgba(201, 162, 39, 0.3);
+}
+.big-btn:disabled { opacity: 0.35; cursor: default; }
+.big-btn.small    { font-size: 15px; min-width: 0; padding: 8px 22px; border-color: #5a4a2a; }
+
+.title-footer { margin-top: 46px; font-size: 13px; color: #6d5f42; font-style: italic; }
+
+/* ── Menu panels (party select / world setup) ────────────────────────────── */
+.menu-panel {
+    width: min(880px, 92vw);
+    max-height: 88vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #2a2114, #221a0e);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+    padding: 30px 38px 24px;
+}
+
+.menu-panel h2 {
+    font-weight: normal;
+    font-size: 34px;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.panel-sub  { color: #b8a678; font-style: italic; margin-bottom: 22px; }
+.panel-sub a { color: var(--gold-lit, #c9a227); }
+
+.panel-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 22px;
+    gap: 12px;
+}
+
+.panel-nav button {
+    font-family: inherit;
+    font-size: 16px;
+    padding: 9px 20px;
+    color: var(--parchment);
+    background: #322817;
+    border: 1px solid #5a4a2a;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.panel-nav button:hover { border-color: var(--gold); }
+.panel-nav .big-btn     { font-size: 19px; }
+
+.empty-note { color: #b8a678; font-style: italic; line-height: 1.7; padding: 30px 0; text-align: center; }
+.empty-note a { color: #c9a227; }
+
+/* ── Party cards ─────────────────────────────────────────────────────────── */
+#party-list { display: flex; flex-direction: column; gap: 14px; }
+
+.party-card {
+    font-family: inherit;
+    text-align: left;
+    color: var(--parchment);
+    background: #322817;
+    border: 1px solid #5a4a2a;
+    border-radius: 4px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.party-card:hover { border-color: #c9a227; box-shadow: 0 0 12px rgba(201, 162, 39, 0.25); }
+
+.pc-name    { font-size: 22px; letter-spacing: 1px; }
+.pc-count   { font-size: 14px; color: #b8a678; margin-left: 12px; }
+.pc-members { display: flex; gap: 18px; margin-top: 12px; flex-wrap: wrap; }
+
+.pc-member      { display: flex; flex-direction: column; align-items: center; width: 92px; }
+.pc-member img  {
+    width: 68px; height: 68px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #5a4a2a;
+    background: #1a140a;
+}
+.pc-mname { font-size: 14px; margin-top: 6px; text-align: center; }
+.pc-msub  { font-size: 11px; color: #b8a678; text-align: center; text-transform: capitalize; }
+
+/* ── World setup form ────────────────────────────────────────────────────── */
+.world-form { display: flex; flex-direction: column; gap: 16px; max-width: 520px; }
+
+.wf-row       { display: flex; align-items: center; gap: 16px; font-size: 18px; }
+.wf-row span  { width: 150px; }
+.wf-row em    { font-size: 13px; color: #b8a678; }
+
+.wf-row select, .wf-row input {
+    flex: 1;
+    font-family: inherit;
+    font-size: 16px;
+    padding: 8px 10px;
+    color: var(--parchment);
+    background: #1e170c;
+    border: 1px solid #5a4a2a;
+    border-radius: 3px;
+}
+.wf-row select:focus, .wf-row input:focus { outline: none; border-color: #c9a227; }
+
+.wf-desc { color: #b8a678; font-style: italic; font-size: 14px; min-height: 20px; margin-top: 8px; }
+
+/* ── Overworld HUD ───────────────────────────────────────────────────────── */
+#hud-party {
+    position: fixed;
+    top: 14px; left: 14px;
+    z-index: 20;
+    background: rgba(24, 18, 8, 0.88);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 10px 14px;
+    color: #efe6d0;
+    font-family: 'IM Fell English', Georgia, serif;
+    min-width: 190px;
+}
+
+#hud-party-name { font-size: 17px; letter-spacing: 1px; margin-bottom: 7px; }
+
+#hud-portraits      { display: flex; gap: 6px; }
+#hud-portraits img  {
+    width: 42px; height: 42px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #5a4a2a;
+    background: #1a140a;
+}
+
+#hud-resources { display: flex; gap: 16px; margin-top: 8px; font-size: 15px; color: #d9c9a3; }
+
+#hud-clock {
+    position: fixed;
+    top: 14px; right: 14px;
+    z-index: 20;
+    background: rgba(24, 18, 8, 0.88);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 10px 16px;
+    color: #efe6d0;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 16px;
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+}
+#hud-tod { color: #d9c9a3; font-size: 14px; }
+
+#hud-menu-btn {
+    position: fixed;
+    bottom: 16px; right: 16px;
+    z-index: 20;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+    padding: 9px 18px;
+    color: #efe6d0;
+    background: rgba(24, 18, 8, 0.88);
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    cursor: pointer;
+}
+#hud-menu-btn:hover { box-shadow: 0 0 10px rgba(201, 162, 39, 0.3); }
+
+/* ── Quest log & event ticker ────────────────────────────────────────────── */
+#quest-log {
+    position: fixed;
+    top: 160px; left: 14px;
+    z-index: 20;
+    max-width: 300px;
+    background: rgba(24, 18, 8, 0.88);
+    border: 1px solid #5a4a2a;
+    border-radius: 4px;
+    padding: 10px 14px;
+    color: #efe6d0;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 14px;
+}
+#quest-log[hidden] { display: none; }
+
+.ql-title { font-size: 16px; letter-spacing: 1px; color: #c9a227; margin-bottom: 6px; }
+.ql-main  { color: #e8cf7a; }
+.ql-line  { margin-bottom: 6px; line-height: 1.35; }
+.ql-where { display: block; font-size: 12px; color: #b8a678; font-style: italic; }
+
+#event-ticker {
+    position: fixed;
+    top: 70px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 25;
+    background: rgba(24, 18, 8, 0.92);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 9px 22px;
+    color: #efe6d0;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+}
+#event-ticker.visible { opacity: 1; }
+
+/* ── Settlement hub panel ────────────────────────────────────────────────── */
+#settlement-panel {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 30;
+    width: 420px;
+    background: linear-gradient(180deg, #2a2114, #221a0e);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+    padding: 20px 24px;
+    color: var(--parchment);
+    font-family: 'IM Fell English', Georgia, serif;
+}
+#settlement-panel[hidden] { display: none; }
+
+.sp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+#sp-name   { font-size: 26px; letter-spacing: 1px; }
+#sp-type   { font-size: 14px; color: #b8a678; font-style: italic; text-transform: capitalize; }
+
+#sp-close {
+    font-size: 16px;
+    color: #b8a678;
+    background: none;
+    border: 1px solid #5a4a2a;
+    border-radius: 3px;
+    padding: 4px 10px;
+    cursor: pointer;
+}
+#sp-close:hover { border-color: var(--gold); color: var(--parchment); }
+
+#sp-actions { display: flex; flex-direction: column; gap: 10px; }
+
+#sp-actions button {
+    font-family: inherit;
+    text-align: left;
+    color: var(--parchment);
+    background: #322817;
+    border: 1px solid #5a4a2a;
+    border-radius: 3px;
+    padding: 10px 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+#sp-actions button:hover:not(:disabled) { border-color: var(--gold); }
+#sp-actions button:disabled { opacity: 0.45; cursor: default; }
+
+.sp-act-label { font-size: 17px; }
+.sp-act-sub   { font-size: 13px; color: #b8a678; font-style: italic; }
+.sp-rumor     { font-size: 13px; color: #b8a678; padding: 8px 4px 0; }
+
+/* ── In-game menu overlay ────────────────────────────────────────────────── */
+#menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 7, 3, 0.72);
+}
+#menu-overlay[hidden] { display: none; }
+
+.menu-box {
+    background: linear-gradient(180deg, #2a2114, #221a0e);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 34px 46px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    font-family: 'IM Fell English', Georgia, serif;
+    text-align: center;
+}
+.menu-box h2 { color: #efe6d0; font-weight: normal; letter-spacing: 3px; margin-bottom: 10px; }
+
+.menu-box button {
+    font-family: inherit;
+    font-size: 17px;
+    padding: 10px 30px;
+    min-width: 260px;
+    color: #efe6d0;
+    background: #322817;
+    border: 1px solid #5a4a2a;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.menu-box button:hover  { border-color: #c9a227; }
+.menu-box button.danger { color: #d98f7a; }
+.menu-box button.danger:hover { border-color: #a05540; }
+
+/* ── Victory overlay ─────────────────────────────────────────────────────── */
+#victory-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 7, 3, 0.85);
+}
+#victory-overlay[hidden] { display: none; }
+
+.victory-box { border-color: #e8cf7a; box-shadow: 0 0 60px rgba(232, 207, 122, 0.25); }
+.victory-box h2 { color: #e8cf7a; font-size: 40px; }
+#victory-boss-line { color: #efe6d0; font-size: 18px; line-height: 1.6; }
+#victory-boss      { color: #e8cf7a; }
+#victory-stats     { color: #b8a678; font-style: italic; line-height: 1.7; margin-bottom: 8px; }

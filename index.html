@@ -418,6 +418,14 @@
                 inset 0 1px 0 rgba(201,168,76,0.1);
             clip-path: polygon(12px 0%, calc(100% - 12px) 0%, 100% 50%, calc(100% - 12px) 100%, 12px 100%, 0% 50%);
             white-space: nowrap;
+            cursor: pointer;
+            transition: filter 0.15s, transform 0.15s;
+        }
+        .path-btn:hover {
+            filter: brightness(1.25);
+            transform: translateY(-1px);
+        }
+        .path-btn[aria-disabled="true"] {
             opacity: 0.52;
             cursor: not-allowed;
         }
@@ -524,8 +532,8 @@
             <h2 class="path-heading">Choose Your Path</h2>
             <p class="path-sub">Begin by shaping the world and let your story unfold within it — or write your legend first, and watch the map grow to match it.</p>
             <div class="path-buttons">
-                <a href="#" class="path-btn path-btn-golden" aria-disabled="true" tabindex="-1"
-                   title="Coming soon">
+                <a href="game.html" class="path-btn path-btn-golden"
+                   title="Start a new game (desktop only)">
                     <span aria-hidden="true">✨</span>
                     Start a new game
                 </a>

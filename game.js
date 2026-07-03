@@ -257,7 +257,7 @@ class HeroParty {
     // Icon types keyed by name
     static ICONS = ['sword', 'staff', 'crossed', 'bow', 'wand'];
 
-    constructor(hexGrid, svgEl, mapSeed, fantasyMap = null) {
+    constructor(hexGrid, svgEl, mapSeed, fantasyMap = null, opts = {}) {
         this.hexGrid  = hexGrid;
         this.svgEl    = svgEl;
         this.seed     = mapSeed >>> 0;
@@ -266,6 +266,7 @@ class HeroParty {
         this.r        = 0;
         this._token   = null;
         this._info    = document.getElementById('hero-info');
+        this.onMove   = opts.onMove ?? null;   // callback({q, r, cell, cost}) after each move
 
         const [dark, light] = HeroParty.PALETTES[(this.seed >> 3) % HeroParty.PALETTES.length];
         const icon = HeroParty.ICONS[this.seed % HeroParty.ICONS.length];
@@ -273,7 +274,7 @@ class HeroParty {
         this._light = light;
         this._icon  = icon;
 
-        const start = this._findStart();
+        const start = this._restoreStart(opts) ?? this._findStart();
         if (start) { this.q = start.q; this.r = start.r; }
 
         this._buildToken();
@@ -290,6 +291,16 @@ class HeroParty {
             const { q, r } = hexGrid.pixelToHex(sp.x, sp.y);
             this._moveTo(q, r);
         });
+    }
+
+    // ── Restore a saved position (game sessions) ─────────────────────────────
+    // Only used when the cell still exists and is passable — otherwise the
+    // normal start search runs instead.
+    _restoreStart(opts) {
+        if (!Number.isInteger(opts.startQ) || !Number.isInteger(opts.startR)) return null;
+        const cell = this.hexGrid.getCell(opts.startQ, opts.startR);
+        if (!cell || cell.move_cost === null || cell.is_passable === false) return null;
+        return { q: opts.startQ, r: opts.startR };
     }
 
     // ── Find best starting cell ──────────────────────────────────────────────
@@ -426,6 +437,7 @@ class HeroParty {
 
         const cost = this.hexGrid.calcPathCost(path);
         this._showInfo(cell, cost);
+        if (this.onMove) this.onMove({ q: this.q, r: this.r, cell, cost });
 
         clearTimeout(this._clearTimer);
         this._clearTimer = setTimeout(() => this.hexGrid.clearOverlay(), 2200);
@@ -512,16 +524,16 @@ class MapScreen {
         this.currentParams  = { scale: 1 };
     }
 
-    show(seed, params = {}) {
+    show(seed, params = {}, heroOpts = {}) {
         this.container.style.display = 'block';
-        this._build(seed, params);
+        this._build(seed, params, heroOpts);
     }
 
     hide() {
         this.container.style.display = 'none';
     }
 
-    _build(seed, params = {}) {
+    _build(seed, params = {}, heroOpts = {}) {
         this.currentParams = params;
         this.map = new FantasyMap(this.container, seed, params);
         this.map.generate();
@@ -533,7 +545,7 @@ class MapScreen {
         // Init grid and hero using the data auto-populated by generate()
         const svgEl     = this.container.querySelector('svg');
         const hexGrid   = new HexGridManager(MapSaveStore.lastSaved.jsonData, svgEl);
-        this.hero       = new HeroParty(hexGrid, svgEl, this.map.seed, this.map);
+        this.hero       = new HeroParty(hexGrid, svgEl, this.map.seed, this.map, heroOpts);
     }
 
     regenerate(params = this.currentParams) {
@@ -1223,36 +1235,37 @@ class Game {
         body.innerHTML = h;
     }
 
-    _readParams() {
-        const v      = id => +document.getElementById(id).value;
-        const sel    = id => document.getElementById(id).value;
-        const size   = +document.querySelector('.size-btn.active').dataset.size;
-        const p      = val => val / 100;
-        const mapType = sel('param-map-type');
+    // Build FantasyMap generation params from a compact spec. Shared by the
+    // map.html settings panel (via _readParams) and the game shell
+    // (game-main.js), so the seaLevel/mountain formulas live in one place.
+    // Omitted sliders fall back to the map type preset's defaults.
+    static buildParams({ mapType = 'standard', biome = 'the_midlands',
+                         sliders = {}, scale = 1, showTreeSymbols = true } = {}) {
         const typePreset = Game.MAP_TYPE_PRESETS[mapType] ?? Game.MAP_TYPE_PRESETS.standard;
+        const s = { ...typePreset.sliders, ...sliders };
+        const p = val => val / 100;
         // Culture is derived automatically from the selected biome — no manual selection.
-        const biomeId       = sel('param-biome');
-        const biomeCultures = Game.BIOME_CULTURES[biomeId] ?? {};
+        const biomeCultures = Game.BIOME_CULTURES[biome] ?? {};
         const culture       = biomeCultures.dominant ?? 'midlander';
         // seaLevel formula varies by map type so sliders stay meaningful per type
         const seaLevel = mapType === 'inland'
             ? 0.08                                          // nearly all land; valleys become lakes
             : mapType === 'archipelago'
-                ? 0.70 - p(v('param-land')) * 0.18         // default very high ocean
+                ? 0.70 - p(s.land) * 0.18                  // default very high ocean
                 : mapType === 'large_island'
-                    ? 0.58 - p(v('param-land')) * 0.20     // moderate ocean encircling island
-                    : 0.55 - p(v('param-land')) * 0.26;    // standard
+                    ? 0.58 - p(s.land) * 0.20              // moderate ocean encircling island
+                    : 0.55 - p(s.land) * 0.26;             // standard
 
         // For inland the land range is huge (seaLevel≈0.08) so the standard formula
         // would make >60 % of land count as mountains. Scale the offset relative to
         // the actual land elevation band so the slider remains intuitive.
         const landRange      = 1.0 - seaLevel;
         const mountainOffset = mapType === 'inland'
-            ? landRange * (0.55 + (1 - p(v('param-mountains'))) * 0.38)
-            : 0.45 - p(v('param-mountains')) * 0.35;
+            ? landRange * (0.55 + (1 - p(s.mountains)) * 0.38)
+            : 0.45 - p(s.mountains) * 0.35;
 
         return {
-            scale:           size,
+            scale,
             mapType,
             continent:       typePreset.continent,
             ruggedness:      typePreset.ruggedness,
@@ -1260,18 +1273,39 @@ class Game {
             edgeSinkStart:   typePreset.edgeSinkStart  ?? 0,
             islandSeeds:     typePreset.islandSeeds    ?? 0,
             bigIsland:       typePreset.bigIsland      ?? false,
-            biome:           biomeId,
+            biome,
             culture,
             allCultures:     biomeCultures.cultures ?? [],
             seaLevel,
             mountainOffset,
-            forestScale:     p(v('param-forests'))             * 2.5,
-            showTreeSymbols: document.getElementById('param-show-trees').checked,
-            riverScale:      p(v('param-rivers'))              * 2.5,
-            settlementScale: p(v('param-settlements'))         * 2.5,
-            ruinScale:       p(v('param-ruins'))               * 2.5,
-            landmarkCount:   v('param-landmarks'),
+            forestScale:     p(s.forests)     * 2.5,
+            showTreeSymbols,
+            riverScale:      p(s.rivers)      * 2.5,
+            settlementScale: p(s.settlements) * 2.5,
+            ruinScale:       p(s.ruins)       * 2.5,
+            landmarkCount:   s.landmarks,
         };
+    }
+
+    _readParams() {
+        const v    = id => +document.getElementById(id).value;
+        const sel  = id => document.getElementById(id).value;
+        const size = +document.querySelector('.size-btn.active').dataset.size;
+        return Game.buildParams({
+            mapType:         sel('param-map-type'),
+            biome:           sel('param-biome'),
+            scale:           size,
+            showTreeSymbols: document.getElementById('param-show-trees').checked,
+            sliders: {
+                land:        v('param-land'),
+                mountains:   v('param-mountains'),
+                forests:     v('param-forests'),
+                rivers:      v('param-rivers'),
+                settlements: v('param-settlements'),
+                ruins:       v('param-ruins'),
+                landmarks:   v('param-landmarks'),
+            },
+        });
     }
 
     showMap() {
@@ -1825,7 +1859,11 @@ function _initTownPopup() {
 }
 
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', async () => {
+// The JSON data bootstrap is exposed as LeonoriaData.loadAll() so the game
+// shell (game-main.js) can await the same loading step. Idempotent.
+let _leonoriaDataPromise = null;
+function _loadLeonoriaData() {
+    _leonoriaDataPromise ??= (async () => {
     const jsonFiles = [
         'data/map/midlander_settlements.json',          //  0
         'data/map/ancient_settlements.json',            //  1  (root key: secluded_settlements)
@@ -1890,6 +1928,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     } catch (e) {
         console.warn('[Leonoria] JSON data unavailable, using built-in defaults', e);
     }
+    })();
+    return _leonoriaDataPromise;
+}
+window.LeonoriaData = { loadAll: _loadLeonoriaData };
+
+window.addEventListener('DOMContentLoaded', async () => {
+    await _loadLeonoriaData();
     _initTownPopup();
-    new Game();
+    // game.html (data-page="game") boots via game-main.js — the settings-panel
+    // Game shell only runs on map.html.
+    if (document.body.dataset.page !== 'game') new Game();
 });

@@ -6157,7 +6157,8 @@ function hideTeamSelectOverlay() {
 }
 
 function startBattle() {
-    BATTLE_SEED = Math.floor(Math.random() * 0x7fffffff);
+    BATTLE_SEED = _seedOverride ?? Math.floor(Math.random() * 0x7fffffff);
+    _seedOverride = null;
     if (MAP_TYPE === 'dungeon') {
         if (DUNGEON_TYPE === 'basic_room') {
             generateDungeonTerrain();
@@ -6176,6 +6177,9 @@ function startBattle() {
 }
 
 function init() {
+    // game.html drives battles through LeonoriaBattle.start() instead of the
+    // standalone battlemap.html boot (team overlay + auto battle).
+    if (document.body.dataset.page === 'game') return;
     // Render a silent background first so the canvas is not blank under the overlay
     resizeCanvases();
     BATTLE_SEED = Math.floor(Math.random() * 0x7fffffff);
@@ -6306,6 +6310,78 @@ if (document.readyState === 'loading')
     document.addEventListener('DOMContentLoaded', init);
 else
     init();
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// GAME-SHELL API — used by game.html/game-main.js (see GAMEPLAN.md phase 2)
+//
+// LeonoriaBattle.start(context, onDone) runs one battle and reports the result:
+//   context: { party, enemyRoster:[{name, role:'melee'|'ranged'|<unit type>}],
+//              timeOfDay:'dawn'|'day'|'dusk'|'night', seed, isDungeon }
+//   onDone:  ({ victory, survivors:[{id,name,hp,maxHp}], slainEnemies, rounds })
+// ═══════════════════════════════════════════════════════════════════════════════
+
+let _gameOnDone     = null;   // pending result callback while a game battle runs
+let _seedOverride   = null;   // consumed by the next startBattle()
+let _gameSetupDone  = false;  // one-time event wiring for the game shell
+
+// Spread enemies across the far rows, mirroring the hand-placed ENEMY_DEFS.
+function _gameEnemyDefs(roster) {
+    const cols = [5, 2, 8, 3, 7, 1, 9, 4, 6];
+    return roster.slice(0, cols.length).map((e, i) => ({
+        id:   `gm_enemy_${i}`,
+        name: e.name || 'Enemy',
+        type: UNIT_STATS[e.role] ? e.role
+            : (e.role === 'ranged' ? 'goblin_archer' : 'goblin'),
+        team: 'enemies',
+        col:  cols[i],
+        row:  1 + (i % 2),
+    }));
+}
+
+window.LeonoriaBattle = {
+    active: false,
+
+    start(context = {}, onDone = null) {
+        if (!_gameSetupDone) {
+            setupEvents();
+            setupCombatButtons();
+            const csClose = document.getElementById('cs-close-btn');
+            if (csClose) csClose.addEventListener('click', closeCharSheet);
+            window.addEventListener('resize', () => {
+                if (!this.active) return;
+                resizeCanvases();
+                renderBackground();
+                redrawAll();
+            });
+            _gameSetupDone = true;
+        }
+
+        _gameOnDone = typeof onDone === 'function' ? onDone : null;
+        this.active = true;
+
+        LIGHTING.mode = context.timeOfDay === 'night' ? 'night' : 'day';
+        MAP_TYPE      = context.isDungeon ? 'dungeon' : 'outdoor';
+        if (Number.isInteger(context.seed)) _seedOverride = context.seed >>> 0;
+
+        const heroes  = context.party?.members?.length
+            ? partyToHeroDefs(context.party)
+            : DEFAULT_HERO_DEFS;
+        // Carry current wounds into battle (keyed by character id from the
+        // creator; hero unit ids are `cchar_<charId>`)
+        if (context.hpByCharId) {
+            for (const h of heroes) {
+                const hp = context.hpByCharId[h.id?.replace(/^cchar_/, '')];
+                if (Number.isFinite(hp)) h.hpOverride = hp;
+            }
+        }
+        const enemies = context.enemyRoster?.length
+            ? _gameEnemyDefs(context.enemyRoster)
+            : ENEMY_DEFS;
+        UNIT_DEFS = [...heroes, ...enemies];
+
+        startBattle();
+    },
+};
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // COMBAT SYSTEM
@@ -6703,6 +6779,23 @@ function showBattleResult(result) {
     el.textContent = result === 'victory' ? '⚔ Victory!' : '☠ Defeated!';
     el.className   = 'battle-result result-' + result;
     el.style.display = 'block';
+
+    // Game-shell battle: report the outcome instead of auto-rematching
+    if (_gameOnDone) {
+        const cb = _gameOnDone;
+        _gameOnDone = null;
+        const heroes = STATE.units
+            .filter(u => u.team === 'heroes')
+            .map(u => ({ id: u.id, name: u.name, hp: Math.max(0, u.hp), maxHp: u.maxHp }));
+        const slainEnemies = STATE.units.filter(u => u.team === 'enemies' && u.hp <= 0).length;
+        setTimeout(() => {
+            el.style.display = 'none';
+            window.LeonoriaBattle.active = false;
+            cb({ victory: result === 'victory', heroes, slainEnemies, rounds: COMBAT.round });
+        }, 2600);
+        return;
+    }
+
     setTimeout(() => { el.style.display = 'none'; resetBattle(); }, 3200);
 }
 
@@ -7599,7 +7692,8 @@ function startCombat() {
     COMBAT.active = true;
     for (const u of STATE.units) {
         const s = UNIT_STATS[u.type];
-        u.hp         = s.maxHp;
+        // hpOverride: game-shell battles carry wounds between fights
+        u.hp         = Math.max(1, Math.min(u.hpOverride ?? s.maxHp, s.maxHp));
         u.maxHp      = s.maxHp;
         u.dodge      = s.dodge;
         u.hasActed   = false;
