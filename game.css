@@ -188,6 +188,8 @@
 #hud-party-name { font-size: 17px; letter-spacing: 1px; margin-bottom: 7px; }
 
 #hud-portraits      { display: flex; gap: 6px; }
+#hud-portraits img  { cursor: pointer; }
+#hud-portraits img:hover { border-color: var(--gold); }
 #hud-portraits img  {
     width: 42px; height: 42px;
     object-fit: cover;

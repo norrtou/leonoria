@@ -427,8 +427,9 @@ function updateHUD() {
     for (const m of s.party.members) {
         const img = document.createElement('img');
         img.src = m.portrait || 'assets/images/characterportraits/ashenfemale.jpg';
-        img.title = `${m.name} — ${(m.race || '').replace(/_/g, ' ')} ${(m.cls || '').replace(/_/g, ' ')}`;
+        img.title = `${m.name} — ${(m.race || '').replace(/_/g, ' ')} ${(m.cls || '').replace(/_/g, ' ')} · click for equipment (I)`;
         img.alt = m.name || '';
+        img.addEventListener('click', () => Equipment.open(updateHUD, m.id));
         ports.appendChild(img);
     }
 
@@ -488,7 +489,11 @@ function initMenu() {
     $('btn-resume').addEventListener('click', () => toggle(false));
 
     document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && Scenes.current === 'overworld') toggle(overlay.hidden);
+        if (e.key !== 'Escape' || Scenes.current !== 'overworld') return;
+        // An open equipment panel swallows Escape before the menu toggles
+        const eq = $('equip-panel');
+        if (eq && !eq.hidden) { Equipment.close(); return; }
+        toggle(overlay.hidden);
     });
 
     $('btn-save-quit').addEventListener('click', () => {
@@ -515,9 +520,14 @@ window.addEventListener('DOMContentLoaded', async () => {
     initWorld();
     initMenu();
     Equipment.init();
-    $('hud-equip-btn').addEventListener('click', () => {
-        const p = $('equip-panel');
-        if (p.hidden) Equipment.open(updateHUD); else Equipment.close();
+    const toggleEquip = () => {
+        if ($('equip-panel').hidden) Equipment.open(updateHUD); else Equipment.close();
+    };
+    $('hud-equip-btn').addEventListener('click', toggleEquip);
+    document.addEventListener('keydown', e => {
+        if (e.key.toLowerCase() !== 'i' || Scenes.current !== 'overworld') return;
+        if (e.target.matches?.('input, textarea, select')) return;
+        toggleEquip();
     });
     $('sp-close').addEventListener('click', () => Settlement.close());
     $('btn-victory-title').addEventListener('click', () => {

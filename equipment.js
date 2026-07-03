@@ -42,10 +42,11 @@ window.Equipment = (() => {
     let _onChange = null;
     let _selected = null;   // selected member charId
 
-    function open(onChange) {
+    function open(onChange, selectId = null) {
         _onChange = onChange ?? _onChange;
         const s = GameState.get();
         if (!s) return;
+        if (selectId && s.party.members.some(m => m.id === selectId)) _selected = selectId;
         if (!_selected || !s.party.members.some(m => m.id === _selected)) {
             _selected = s.party.members[0]?.id ?? null;
         }
