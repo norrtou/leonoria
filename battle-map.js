@@ -6670,6 +6670,7 @@ const COMBAT = {
     attackMode    : false,
     selectedAttack: null, // key into ATTACKS for the player-chosen action
     animating     : false,
+    fled          : false, // party escaped — battle is over without a winner
 };
 
 // ── Sound file mapping ────────────────────────────────────────────────────────
@@ -6946,7 +6947,9 @@ function showRangeWarning(msg) {
 // ── Battle result ─────────────────────────────────────────────────────────────
 function showBattleResult(result) {
     const el = document.getElementById('battle-result');
-    el.textContent = result === 'victory' ? '⚔ Victory!' : '☠ Defeated!';
+    el.textContent = result === 'victory' ? '⚔ Victory!'
+                   : result === 'fled'    ? '🏃 Escaped!'
+                   : '☠ Defeated!';
     el.className   = 'battle-result result-' + result;
     el.style.display = 'block';
 
@@ -6961,7 +6964,7 @@ function showBattleResult(result) {
         setTimeout(() => {
             el.style.display = 'none';
             window.LeonoriaBattle.active = false;
-            cb({ victory: result === 'victory', heroes, slainEnemies, rounds: COMBAT.round });
+            cb({ victory: result === 'victory', fled: result === 'fled', heroes, slainEnemies, rounds: COMBAT.round });
         }, 2600);
         return;
     }
@@ -6971,6 +6974,7 @@ function showBattleResult(result) {
 
 // ── Check battle end ──────────────────────────────────────────────────────────
 function checkBattleEnd() {
+    if (COMBAT.fled) return true;
     const heroes  = STATE.units.filter(u => u.team === 'heroes'  && u.hp > 0).length;
     const enemies = STATE.units.filter(u => u.team === 'enemies' && u.hp > 0).length;
     if (heroes  === 0) { showBattleResult('defeat');  return true; }
@@ -7826,6 +7830,24 @@ function setupCombatButtons() {
     document.getElementById('cp-end-btn').addEventListener('click', () => {
         if (!COMBAT.animating) endUnitTurn();
     });
+
+    // Flee (game-shell battles only — the button exists only in game.html).
+    // Success ends the battle with { fled: true }; failure wastes the turn.
+    const fleeBtn = document.getElementById('cp-flee-btn');
+    if (fleeBtn) fleeBtn.addEventListener('click', () => {
+        if (COMBAT.animating || COMBAT.fled) return;
+        const cur = getCurrentUnit();
+        if (!cur || cur.team !== 'heroes') return;
+        if (Math.random() < 0.6) {
+            COMBAT.fled = true;
+            combatLog(`🏃 ${cur.name} signals the retreat — the party escapes!`);
+            showBattleResult('fled');
+        } else {
+            combatLog(`🏃 ${cur.name} tries to flee, but the escape is cut off!`);
+            showRangeWarning('The enemies cut off your escape!');
+            endUnitTurn();
+        }
+    });
 }
 
 // ── Reset battle ──────────────────────────────────────────────────────────────
@@ -7846,6 +7868,7 @@ function resetBattle() {
     COMBAT.attackMode     = false;
     COMBAT.selectedAttack = null;
     COMBAT.animating      = false;
+    COMBAT.fled           = false;
     STATE.selected    = null;
     STATE.moveRange   = [];
     STATE.attackRange = [];
@@ -7860,6 +7883,7 @@ function resetBattle() {
 // ── Start combat ──────────────────────────────────────────────────────────────
 function startCombat() {
     COMBAT.active = true;
+    COMBAT.fled   = false;
     for (const u of STATE.units) {
         const s = UNIT_STATS[u.type];
         // hpOverride: game-shell battles carry wounds between fights

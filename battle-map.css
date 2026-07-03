@@ -174,6 +174,12 @@
             border-color: rgba(80,140,160,0.45);
         }
         .cp-end-btn:hover { background: linear-gradient(170deg,#243840,#141c22); border-color:#60a8c0; }
+        .cp-flee-btn {
+            background: linear-gradient(170deg,#2e2418,#181008);
+            color: #c0a070;
+            border-color: rgba(160,120,70,0.45);
+        }
+        .cp-flee-btn:hover { background: linear-gradient(170deg,#403020,#221810); border-color:#c09858; }
 
         /* ── Initiative bar ── */
         .initiative-bar {
@@ -304,6 +310,7 @@
         }
         .result-victory { color:#ffd040; text-shadow:0 0 32px rgba(255,200,0,0.7), 0 4px 20px rgba(0,0,0,0.9); }
         .result-defeat  { color:#ff4040; text-shadow:0 0 32px rgba(255,60,0,0.7),  0 4px 20px rgba(0,0,0,0.9); }
+        .result-fled    { color:#c0d0d8; text-shadow:0 0 32px rgba(160,200,220,0.6), 0 4px 20px rgba(0,0,0,0.9); }
 
         /* ── Morality bar (shared between character creator style and cs) ── */
         .cs-morality-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.55rem; }

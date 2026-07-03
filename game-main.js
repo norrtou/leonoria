@@ -370,6 +370,8 @@ function applyBattleResult(result, enc, quest = null) {
             s.party.xp -= s.party.level * 100;
             s.party.level += 1;
         }
+    } else if (result.fled) {
+        // Escaped: no rewards, no penalty beyond wounds already taken
     } else {
         // Defeat: the party wakes at dawn, battered and robbed — no permadeath
         s.party.gold = Math.floor(s.party.gold / 2);
@@ -393,6 +395,8 @@ function applyBattleResult(result, enc, quest = null) {
         showEvent(`✓ ${quest.title} — ${quest.reward.gold} gold, ${quest.reward.xp} xp`);
     } else if (result.victory) {
         showEvent(`⚔ ${enc.label} defeated`);
+    } else if (result.fled) {
+        showEvent(`🏃 The party slips away from ${enc.label}`);
     } else {
         showEvent('☠ The party wakes at dawn, battered and robbed…');
     }
