@@ -19,14 +19,19 @@
     <meta property="og:title" content="Leonoria — A Living World of Fantasy &amp; Adventure">
     <meta property="og:description" content="A sanctuary for bold adventurers. Explore procedurally generated table top role playing game worlds, create maps, build characters, and weave your own legends.">
     <meta property="og:url" content="https://norrtou.github.io/leonoria/">
-    <meta property="og:image" content="https://norrtou.github.io/leonoria/webpageassets/leonoria1.jpg">
+    <meta property="og:image" content="https://norrtou.github.io/leonoria/assets/images/og-cover.jpg">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="536">
+    <meta property="og:image:alt" content="Leonoria — an illustrated fantasy landscape of mountains, forests, a river valley, and a distant castle">
     <meta property="og:site_name" content="Leonoria">
+    <meta property="og:locale" content="en_US">
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Leonoria — A Living World of Fantasy &amp; Adventure">
     <meta name="twitter:description" content="A sanctuary for bold adventurers. Explore procedurally generated table top role playing game worlds, create maps, build characters, and weave your own legends.">
-    <meta name="twitter:image" content="https://norrtou.github.io/leonoria/webpageassets/leonoria1.jpg">
+    <meta name="twitter:image" content="https://norrtou.github.io/leonoria/assets/images/og-cover.jpg">
+    <meta name="twitter:image:alt" content="Leonoria — an illustrated fantasy landscape of mountains, forests, a river valley, and a distant castle">
 
     <!-- Mobile / PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,18 +39,57 @@
     <meta name="apple-mobile-web-app-title" content="Leonoria">
     <meta name="theme-color" content="#141d0e">
 
+    <!-- Icons & manifest -->
+    <link rel="icon" href="assets/images/favicon.ico" sizes="48x48">
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+
     <!-- Structured data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Leonoria",
-      "url": "https://norrtou.github.io/leonoria/",
-      "description": "A procedurally generated table top role playing game world builder and adventure platform.",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://norrtou.github.io/leonoria/map.html"
-      }
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://norrtou.github.io/leonoria/#website",
+          "name": "Leonoria",
+          "url": "https://norrtou.github.io/leonoria/",
+          "description": "A procedurally generated table top role playing game world builder and adventure platform.",
+          "inLanguage": "en",
+          "publisher": { "@id": "https://norrtou.github.io/leonoria/#org" }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://norrtou.github.io/leonoria/#org",
+          "name": "Norrtou Creations",
+          "url": "https://norrtou.se",
+          "logo": "https://norrtou.github.io/leonoria/assets/images/icon-512.png"
+        },
+        {
+          "@type": "VideoGame",
+          "@id": "https://norrtou.github.io/leonoria/#game",
+          "name": "Leonoria",
+          "url": "https://norrtou.github.io/leonoria/",
+          "image": "https://norrtou.github.io/leonoria/assets/images/og-cover.jpg",
+          "description": "A free browser-based fantasy RPG: procedurally generated worlds, a character creator with 39 classes and 13 races, turn-based hex battles, and dungeon delving.",
+          "genre": ["Role-playing game", "Fantasy", "Turn-based strategy"],
+          "playMode": "SinglePlayer",
+          "gamePlatform": "Web browser",
+          "applicationCategory": "Game",
+          "operatingSystem": "Any (desktop web browser)",
+          "isAccessibleForFree": true,
+          "inLanguage": "en",
+          "author": { "@id": "https://norrtou.github.io/leonoria/#org" },
+          "publisher": { "@id": "https://norrtou.github.io/leonoria/#org" },
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          }
+        }
+      ]
     }
     </script>
 
@@ -506,7 +550,7 @@
     <main id="main-content" class="page-wrapper">
 
         <h1 class="site-title">Leonoria</h1>
-        <p class="site-subtitle">A Living World of Fantasy &amp; Adventure v0.1.9</p>
+        <p class="site-subtitle">A Living World of Fantasy &amp; Adventure v0.1.10</p>
 
         <!-- Hero image -->
         <figure class="hero-figure" aria-label="Leonoria — a sweeping fantasy landscape">

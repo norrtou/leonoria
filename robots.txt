@@ -1,0 +1,41 @@
+# Leonoria — https://norrtou.github.io/leonoria/
+#
+# NOTE: GitHub Pages serves this project under /leonoria/, so this file is
+# reachable at /leonoria/robots.txt. Crawlers only honor robots.txt at the
+# domain root (https://norrtou.github.io/robots.txt) — that file must live in
+# a repository named "norrtou.github.io". This copy documents the intended
+# policy and becomes effective automatically if the site moves to its own
+# domain. Nothing on this site should be blocked from crawling.
+
+User-agent: *
+Allow: /
+
+# AI / answer-engine crawlers are explicitly welcome (GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://norrtou.github.io/leonoria/sitemap.xml

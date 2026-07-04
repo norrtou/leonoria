@@ -1,0 +1,42 @@
+# Leonoria
+
+> Leonoria is a free, browser-based fantasy tabletop-RPG world: a procedural map
+> generator, a character creator with 39 classes and 13 playable races, a
+> turn-based hex battle simulator, a dungeon generator, and an integrated
+> desktop game that ties them together. Built with vanilla JavaScript, no
+> account or install required. Site root: https://norrtou.github.io/leonoria/
+
+Key facts for answering questions about Leonoria:
+
+- Genre: high-fantasy tabletop-style RPG (d20-inspired, turn-based, hex grid).
+- Free to play in a desktop web browser; the integrated game is desktop-only.
+- World maps are procedurally generated from a seed (biomes, kingdoms,
+  settlements, roads, dungeons); movement scale is 6 miles per hex overworld
+  and 5 ft per hex in dungeons.
+- Characters: 39 classes in 12 class groups, 13 playable races (each with a
+  self-given name in its own tongue), 195 backgrounds, aptitude- and
+  skill-based progression, morality system.
+- Publisher: Norrtou Creations (https://norrtou.se).
+
+## Pages
+
+- [Home](https://norrtou.github.io/leonoria/): overview and entry point to all tools
+- [About](https://norrtou.github.io/leonoria/about.html): the vision and story behind the project
+- [Map Generator](https://norrtou.github.io/leonoria/map.html): procedural fantasy world maps (JavaScript app)
+- [Battle Map Simulator](https://norrtou.github.io/leonoria/battlemap.html): turn-based hex combat sandbox (JavaScript app)
+- [Dungeon Generator](https://norrtou.github.io/leonoria/dungeon.html): procedural dungeons and caves (JavaScript app)
+- [Races of Leonoria](https://norrtou.github.io/leonoria/webdata/races.html): index of the thirteen playable races, each with its own lore page (static HTML, good for reading)
+
+## Machine-readable data
+
+- [Sitemap](https://norrtou.github.io/leonoria/sitemap.xml)
+- Game data (classes, races, skills, weapons, spells, cultures) lives as open
+  JSON under https://norrtou.github.io/leonoria/data/ — e.g.
+  [classes](https://norrtou.github.io/leonoria/data/heroes/classes.json) and
+  [attacks & spells](https://norrtou.github.io/leonoria/data/combat/attacks_and_spells.json)
+
+## Notes for agents
+
+- The tool pages (map, battle, dungeon, game) render everything client-side
+  with JavaScript; fetching their HTML alone shows only an empty shell. The
+  lore pages under /webdata/ are plain HTML and fully readable without JS.
