@@ -18,6 +18,61 @@ window.Quests = (() => {
 
     function _mapData() { return window.MapSaveStore?.lastSaved?.jsonData ?? null; }
 
+    // ── Campaign flavor (data/campaigns/leonoria_campaigns.json) ─────────────
+    // Campaign seeds keyed by primary_biome color quest text with the biome's
+    // factions/loot, and give the main quest its hook. Purely cosmetic —
+    // biomes without a campaign seed keep the plain descriptions.
+
+    let _campaigns = null;   // biome_id → [campaign seeds]
+    async function loadCampaigns() {
+        if (_campaigns) return;
+        _campaigns = {};
+        try {
+            const data = await fetch('data/campaigns/leonoria_campaigns.json').then(r => r.json());
+            for (const list of Object.values(data.campaigns ?? {}))
+                for (const c of list)
+                    (_campaigns[c.primary_biome] ??= []).push(c);
+        } catch (_) { /* flavor is optional */ }
+    }
+
+    function _pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function _campaign() {
+        const list = _campaigns?.[GameState.get()?.world.params.biome];
+        return list?.length ? _pick(list) : null;
+    }
+
+    // One flavor sentence in the biome campaign's voice, appended to the desc.
+    function _flavor(type) {
+        const c = _campaign();
+        if (!c) return '';
+        const faction = _pick(c.key_factions ?? ['locals']).replace(/\s*\(.*\)$/, '');
+        const loot    = (c.loot_profile ?? []).length ? _pick(c.loot_profile).toLowerCase() : null;
+        const lines = {
+            hunt: [
+                `The ${faction} have already lost hunters to it.`,
+                `The ${faction} pay well for proof of its death.`,
+                ...(loot ? [`They say its lair is littered with ${loot}.`] : []),
+            ],
+            clear: [
+                `The ${faction} want the place back.`,
+                `Even the ${faction} refuse to go near it now.`,
+                ...(loot ? [`Whoever holds it controls the ${loot} trade.`] : []),
+            ],
+            delivery: [
+                `The crate bears the seal of the ${faction}. Do not open it.`,
+                `The ${faction} ask no questions, and expect none in return.`,
+            ],
+            delve: [
+                `The ${faction} sealed the lower halls long ago. The seal has not held.`,
+                `Whatever the ${faction} left down there, it is waking.`,
+                ...(loot ? [`Old records speak of ${loot} in the depths.`] : []),
+            ],
+        };
+        const pool = lines[type];
+        return pool?.length ? ' ' + _pick(pool) : '';
+    }
+
     // Straight-line hex distance approximation — good enough for HUD display
     // and offer filtering (path cost varies with terrain anyway).
     function _dist(q1, r1, q2, r2) {
@@ -124,11 +179,12 @@ window.Quests = (() => {
             delivery: `Bring a sealed crate safely to ${place.name}.`,
             delve:    `Something below ${place.name} sends ${foe} to the surface. Go down and end it.`,
         };
+        const desc = descs[type] + _flavor(type);
         return {
             id:     `q${Date.now()}_${_nextId++}`,
             type,
             title:  titles[type],
-            desc:   descs[type],
+            desc,
             target: { name: place.name, q: place.q, r: place.r },
             roster: roster ?? null,
             label:  foe ?? place.name,
@@ -228,12 +284,14 @@ window.Quests = (() => {
             .filter((lm, i, arr) => arr.findIndex(o => o.name === lm.name) === i)
             .map(lm => ({ name: lm.name, q: lm.q, r: lm.r, done: false }));
 
+        const camp = _campaign();
         s.quests.main = {
             title:  `Destroy ${boss.name}`,
             boss:   { name: boss.name, title: boss.title ?? '' },
             lair:   { name: lair.name, q: lair.q, r: lair.r },
             shards,
             done:   false,
+            campaign: camp ? { title: camp.title, hook: camp.starting_hook } : null,
         };
         GameState.save();
     }
@@ -319,6 +377,7 @@ window.Quests = (() => {
             lines.push({
                 main: true,
                 title: main.title,
+                camp:  main.campaign?.title ?? null,
                 place: left > 0 ? `Shard trial: ${next.name} (${left} left)` : `Lair: ${next.name}`,
                 dist: d, dir,
             });
@@ -333,5 +392,6 @@ window.Quests = (() => {
     }
 
     return { offers, accept, complete, combatQuestAt, deliveryQuestFor, logLines,
-             loadLegendary, initMainQuest, mainQuestAt, mainQuestWon, kingdomOf };
+             loadLegendary, loadCampaigns, initMainQuest, mainQuestAt, mainQuestWon,
+             kingdomOf };
 })();

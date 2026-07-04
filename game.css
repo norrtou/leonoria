@@ -259,11 +259,14 @@
 .ql-main  { color: #e8cf7a; }
 .ql-line  { margin-bottom: 6px; line-height: 1.35; }
 .ql-where { display: block; font-size: 12px; color: #b8a678; font-style: italic; }
+.ql-camp  { display: block; font-size: 12px; color: #c9a227; font-style: italic; }
 
 #event-ticker {
     position: fixed;
     top: 70px; left: 50%;
     transform: translateX(-50%);
+    max-width: min(720px, 80vw);
+    text-align: center;
     z-index: 25;
     background: rgba(24, 18, 8, 0.92);
     border: 1px solid var(--gold);

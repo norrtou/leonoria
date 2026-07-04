@@ -157,6 +157,8 @@ function startOverworld(isNew) {
         Quests.initMainQuest();   // seed the boss lair + shard trials
         GameState.save();
         $('gw-status').textContent = '';
+        const hook = GameState.get().quests.main?.campaign?.hook;
+        if (hook) showEvent(`⚜ ${hook}`, 14000);
     }
     Fog.rebuild();
     updateHUD();
@@ -490,6 +492,7 @@ function updateHUD() {
         log.hidden = false;
         log.innerHTML = '<div class="ql-title">Quests</div>' + lines.map(l =>
             `<div class="ql-line${l.main ? ' ql-main' : ''}">${l.main ? '⚜' : '◈'} ${l.title}
+                ${l.camp ? `<span class="ql-camp">${l.camp}</span>` : ''}
                 <span class="ql-where">${l.place} · ${l.dir} ${l.dist} hexes</span>
             </div>`).join('');
     }
@@ -510,12 +513,12 @@ function showVictory() {
 
 // Transient event line (quest completed, battle outcome, …)
 let _eventTimer = null;
-function showEvent(msg) {
+function showEvent(msg, ms = 5000) {
     const el = $('event-ticker');
     el.textContent = msg;
     el.classList.add('visible');
     clearTimeout(_eventTimer);
-    _eventTimer = setTimeout(() => el.classList.remove('visible'), 5000);
+    _eventTimer = setTimeout(() => el.classList.remove('visible'), ms);
 }
 
 // ─── In-game menu ─────────────────────────────────────────────────────────────
@@ -580,7 +583,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     // without it would silently fall back to built-in defaults.
     $('btn-new-journey').disabled = true;
     $('btn-continue').disabled    = true;
-    await Promise.all([LeonoriaData.loadAll(), Encounter.load(), Quests.loadLegendary(), Loot.load()]);
+    await Promise.all([LeonoriaData.loadAll(), Encounter.load(), Quests.loadLegendary(),
+                       Quests.loadCampaigns(), Loot.load()]);
     $('btn-new-journey').disabled = false;
     $('btn-continue').disabled    = !GameState.hasSave();
 });
