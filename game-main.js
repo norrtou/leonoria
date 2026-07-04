@@ -536,6 +536,13 @@ function initMenu() {
         AudioDirector.setMuted(!AudioDirector.muted);
         $('btn-mute').textContent = AudioDirector.muted ? '🔇 Sound: Off' : '🔊 Sound: On';
     });
+    $('btn-mute').textContent = AudioDirector.muted ? '🔇 Sound: Off' : '🔊 Sound: On';
+
+    for (const c of ['music', 'ambience', 'sfx']) {
+        const slider = $(`vol-${c}`);
+        slider.value = Math.round(AudioDirector.getVolume(c) * 100);
+        slider.addEventListener('input', () => AudioDirector.setVolume(c, slider.value / 100));
+    }
 
     document.addEventListener('keydown', e => {
         if (e.key !== 'Escape' || Scenes.current !== 'overworld') return;

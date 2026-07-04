@@ -506,6 +506,26 @@
 .menu-box button.danger { color: #d98f7a; }
 .menu-box button.danger:hover { border-color: #a05540; }
 
+.menu-volumes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px 0 2px;
+}
+.menu-volumes label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #cfc4a8;
+    font-size: 15px;
+    white-space: pre;
+}
+.menu-volumes input[type="range"] {
+    width: 150px;
+    accent-color: var(--gold);
+}
+
 /* ── Victory overlay ─────────────────────────────────────────────────────── */
 #victory-overlay {
     position: fixed;

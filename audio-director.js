@@ -70,6 +70,24 @@ window.AudioDirector = (() => {
     let _pending  = [];   // [channel, key] queued before the first user gesture
     let _muted    = false;
 
+    // Per-channel volume multipliers (0–1) on top of each track's base volume.
+    // 'sfx' is read by battle-map.js's playSound. Persisted across sessions.
+    const PREFS_KEY = 'leonoria_audio_prefs';
+    const _vol = { music: 1, ambience: 1, sfx: 1 };
+    try {
+        const p = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
+        for (const c of ['music', 'ambience', 'sfx'])
+            if (typeof p[c] === 'number') _vol[c] = Math.max(0, Math.min(1, p[c]));
+        if (p.muted) _muted = true;
+    } catch (_) {}
+    function _savePrefs() {
+        try { localStorage.setItem(PREFS_KEY, JSON.stringify({ ..._vol, muted: _muted })); }
+        catch (_) {}
+    }
+    function _target(channel, key) {
+        return _muted ? 0 : (TRACKS[key]?.volume ?? 0.3) * _vol[channel];
+    }
+
     // Autoplay unlock: first pointer/key gesture releases queued playback
     function _unlock() {
         if (_unlocked) return;
@@ -109,7 +127,7 @@ window.AudioDirector = (() => {
         audio.loop   = true;
         audio.volume = 0;
         audio.play().catch(() => {});   // rejected before gesture — harmless
-        _fade(audio, 0, _muted ? 0 : track.volume, FADE_MS);
+        _fade(audio, 0, _target(channel, key), FADE_MS);
 
         ch.audio = audio;
         ch.key   = key;
@@ -161,10 +179,21 @@ window.AudioDirector = (() => {
 
         setMuted(m) {
             _muted = !!m;
-            for (const ch of Object.values(_ch)) {
-                if (ch.audio) ch.audio.volume = _muted ? 0 : (TRACKS[ch.key]?.volume ?? 0.3);
+            for (const [name, ch] of Object.entries(_ch)) {
+                if (ch.audio) ch.audio.volume = _target(name, ch.key);
             }
+            _savePrefs();
         },
         get muted() { return _muted; },
+
+        // Per-channel volume multiplier 0–1 ('music' | 'ambience' | 'sfx')
+        setVolume(channel, v) {
+            if (!(channel in _vol)) return;
+            _vol[channel] = Math.max(0, Math.min(1, v));
+            const ch = _ch[channel];
+            if (ch?.audio) ch.audio.volume = _target(channel, ch.key);
+            _savePrefs();
+        },
+        getVolume(channel) { return _vol[channel] ?? 1; },
     };
 })();

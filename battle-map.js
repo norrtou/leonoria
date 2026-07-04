@@ -6982,7 +6982,7 @@ function playSound(type) {
     const src = _audioCtx.createBufferSource();
     src.buffer = buf;
     const gain = _audioCtx.createGain();
-    gain.gain.value = 0.75;
+    gain.gain.value = 0.75 * (window.AudioDirector?.getVolume?.('sfx') ?? 1);
     src.connect(gain);
     gain.connect(_audioCtx.destination);
     src.start();
