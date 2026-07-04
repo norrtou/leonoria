@@ -526,6 +526,45 @@
     accent-color: var(--gold);
 }
 
+/* ── Battle sound popover ─────────────────────────────────────────────────── */
+#battle-audio-btn {
+    font-size: 18px;
+    padding: 6px 12px;
+    color: #efe6d0;
+    background: #322817;
+    border: 1px solid #5a4a2a;
+    border-radius: 3px;
+    cursor: pointer;
+}
+#battle-audio-btn:hover { border-color: #c9a227; }
+
+#battle-audio-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 80;
+    background: linear-gradient(180deg, #2a2114, #221a0e);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: 'IM Fell English', Georgia, serif;
+}
+#battle-audio-panel[hidden] { display: none; }
+#battle-audio-panel button {
+    font-family: inherit;
+    font-size: 15px;
+    padding: 7px 16px;
+    color: #efe6d0;
+    background: #322817;
+    border: 1px solid #5a4a2a;
+    border-radius: 3px;
+    cursor: pointer;
+}
+#battle-audio-panel button:hover { border-color: #c9a227; }
+
 /* ── Victory overlay ─────────────────────────────────────────────────────── */
 #victory-overlay {
     position: fixed;

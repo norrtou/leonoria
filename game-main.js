@@ -529,26 +529,17 @@ function initMenu() {
     const overlay = $('menu-overlay');
     const toggle  = show => { overlay.hidden = !show; };
 
-    $('hud-menu-btn').addEventListener('click', () => toggle(true));
+    $('hud-menu-btn').addEventListener('click', () => { syncAudioControls(); toggle(true); });
     $('btn-resume').addEventListener('click', () => toggle(false));
 
-    $('btn-mute').addEventListener('click', () => {
-        AudioDirector.setMuted(!AudioDirector.muted);
-        $('btn-mute').textContent = AudioDirector.muted ? '🔇 Sound: Off' : '🔊 Sound: On';
-    });
-    $('btn-mute').textContent = AudioDirector.muted ? '🔇 Sound: Off' : '🔊 Sound: On';
-
-    for (const c of ['music', 'ambience', 'sfx']) {
-        const slider = $(`vol-${c}`);
-        slider.value = Math.round(AudioDirector.getVolume(c) * 100);
-        slider.addEventListener('input', () => AudioDirector.setVolume(c, slider.value / 100));
-    }
+    initAudioControls();
 
     document.addEventListener('keydown', e => {
         if (e.key !== 'Escape' || Scenes.current !== 'overworld') return;
         // An open equipment panel swallows Escape before the menu toggles
         const eq = $('equip-panel');
         if (eq && !eq.hidden) { Equipment.close(); return; }
+        if (overlay.hidden) syncAudioControls();
         toggle(overlay.hidden);
     });
 
@@ -566,6 +557,47 @@ function initMenu() {
         $('btn-continue').disabled = true;
         Scenes.show('title');
     });
+}
+
+// ─── Audio controls (Esc menu + battle 🔊 popover share AudioDirector) ────────
+// Two control sets exist: 'btn-mute'/'vol-*' in the menu overlay and
+// 'bt-mute'/'bvol-*' in the battle header. Sync runs when either opens.
+function syncAudioControls() {
+    for (const id of ['btn-mute', 'bt-mute']) {
+        const el = $(id);
+        if (el) el.textContent = AudioDirector.muted ? '🔇 Sound: Off' : '🔊 Sound: On';
+    }
+    for (const prefix of ['vol', 'bvol']) {
+        for (const c of ['music', 'ambience', 'sfx']) {
+            const el = $(`${prefix}-${c}`);
+            if (el) el.value = Math.round(AudioDirector.getVolume(c) * 100);
+        }
+    }
+}
+
+function initAudioControls() {
+    for (const id of ['btn-mute', 'bt-mute']) {
+        $(id).addEventListener('click', () => {
+            AudioDirector.setMuted(!AudioDirector.muted);
+            syncAudioControls();
+        });
+    }
+    for (const prefix of ['vol', 'bvol']) {
+        for (const c of ['music', 'ambience', 'sfx']) {
+            const slider = $(`${prefix}-${c}`);
+            slider.addEventListener('input', () => AudioDirector.setVolume(c, slider.value / 100));
+        }
+    }
+    syncAudioControls();
+
+    const panel = $('battle-audio-panel');
+    $('battle-audio-btn').addEventListener('click', e => {
+        e.stopPropagation();
+        if (panel.hidden) syncAudioControls();
+        panel.hidden = !panel.hidden;
+    });
+    panel.addEventListener('click', e => e.stopPropagation());
+    document.addEventListener('click', () => { panel.hidden = true; });
 }
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────

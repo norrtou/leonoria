@@ -116,7 +116,17 @@
                         <div class="turn-number" id="turn-counter">1</div>
                     </div>
                 </div>
-                <div style="display:flex;gap:0.6rem;align-items:center;"></div>
+                <div style="display:flex;gap:0.6rem;align-items:center;position:relative;">
+                    <button id="battle-audio-btn" title="Sound settings">🔊</button>
+                    <div id="battle-audio-panel" hidden>
+                        <button id="bt-mute">🔊 Sound: On</button>
+                        <div class="menu-volumes">
+                            <label>🎵 Music    <input type="range" id="bvol-music"    min="0" max="100"></label>
+                            <label>🌲 Ambience <input type="range" id="bvol-ambience" min="0" max="100"></label>
+                            <label>⚔ Effects  <input type="range" id="bvol-sfx"      min="0" max="100"></label>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="battle-canvas-area">
                 <canvas id="hex-background-canvas"></canvas>
