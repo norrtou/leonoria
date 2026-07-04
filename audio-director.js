@@ -14,7 +14,50 @@ window.AudioDirector = (() => {
 
     const TRACKS = {
         theme: { src: 'assets/sounds/leonoriatheme.mp3', volume: 0.35 },
-        // Future: per-biome overworld themes, settlement, battle, dungeon…
+
+        // Music — Kevin MacLeod (incompetech.com), CC-BY 4.0. See CREDITS.md.
+        ow_heartland: { src: 'assets/sounds/music/teller-of-the-tales.mp3', volume: 0.30 },
+        ow_coast:     { src: 'assets/sounds/music/suonatore-di-liuto.mp3',  volume: 0.30 },
+        ow_darkwood:  { src: 'assets/sounds/music/skye-cuillin.mp3',        volume: 0.30 },
+        ow_mystic:    { src: 'assets/sounds/music/achaidh-cheide.mp3',      volume: 0.30 },
+        ow_cold:      { src: 'assets/sounds/music/frost-waltz.mp3',         volume: 0.30 },
+        ow_arid:      { src: 'assets/sounds/music/desert-city.mp3',         volume: 0.30 },
+        ow_swamp:     { src: 'assets/sounds/music/dark-fog.mp3',            volume: 0.28 },
+        ow_underdark: { src: 'assets/sounds/music/penumbra.mp3',            volume: 0.28 },
+        battle:       { src: 'assets/sounds/music/five-armies.mp3',         volume: 0.38 },
+        dungeon:      { src: 'assets/sounds/music/ossuary-6-air.mp3',       volume: 0.30 },
+        tavern:       { src: 'assets/sounds/music/master-of-the-feast.mp3', volume: 0.30 },
+
+        // Ambience loops — OpenGameArt (CC0 / CC-BY). See CREDITS.md.
+        amb_forest: { src: 'assets/sounds/ambience/forest.ogg',     volume: 0.20 },
+        amb_wind:   { src: 'assets/sounds/ambience/wind.ogg',       volume: 0.18 },
+        amb_cave:   { src: 'assets/sounds/ambience/cave-drips.ogg', volume: 0.22 },
+    };
+
+    // Overworld biome → music / ambience track keys
+    const BIOME_MUSIC = {
+        the_midlands:          'ow_heartland',
+        the_gleam_havens:      'ow_coast',
+        the_dark_forests:      'ow_darkwood',
+        the_sanctuary_lands:   'ow_mystic',
+        the_eternal_winds:     'ow_cold',
+        the_badlands:          'ow_arid',
+        the_outer_steppes:     'ow_arid',
+        the_blinding_lands:    'ow_arid',
+        the_boglands:          'ow_swamp',
+        the_forgotten_kingdom: 'ow_underdark',
+    };
+    const BIOME_AMBIENCE = {
+        the_midlands:          'amb_forest',
+        the_gleam_havens:      'amb_forest',
+        the_dark_forests:      'amb_forest',
+        the_sanctuary_lands:   'amb_forest',
+        the_boglands:          'amb_forest',
+        the_eternal_winds:     'amb_wind',
+        the_badlands:          'amb_wind',
+        the_outer_steppes:     'amb_wind',
+        the_blinding_lands:    'amb_wind',
+        the_forgotten_kingdom: 'amb_cave',
     };
 
     const FADE_MS = 1500;
@@ -31,7 +74,10 @@ window.AudioDirector = (() => {
     function _unlock() {
         if (_unlocked) return;
         _unlocked = true;
-        for (const [channel, key] of _pending) _play(channel, key);
+        // Only the last queued track per channel — earlier ones were superseded
+        const last = {};
+        for (const [channel, key] of _pending) last[channel] = key;
+        for (const [channel, key] of Object.entries(last)) _play(channel, key);
         _pending = [];
     }
     document.addEventListener('pointerdown', _unlock, { once: true });
@@ -74,6 +120,34 @@ window.AudioDirector = (() => {
         play(channel, key) {
             if (!_unlocked) { _pending.push([channel, key]); return; }
             _play(channel, key);
+        },
+
+        // One entry point for scene transitions. `scene` is a Scenes name
+        // (or 'settlement' for the hub panel); `biomeId` picks the overworld
+        // tracks. Repeat calls with the same track are no-ops (_play guards).
+        playScene(scene, biomeId) {
+            switch (scene) {
+                case 'overworld': {
+                    this.play('music', BIOME_MUSIC[biomeId] ?? 'ow_heartland');
+                    const amb = BIOME_AMBIENCE[biomeId];
+                    if (amb) this.play('ambience', amb); else this.stop('ambience');
+                    break;
+                }
+                case 'settlement':
+                    this.play('music', 'tavern');           // ambience keeps running
+                    break;
+                case 'battle':
+                    this.play('music', 'battle');           // ambience keeps running
+                    break;
+                case 'dungeon':
+                    this.play('music', 'dungeon');
+                    this.play('ambience', 'amb_cave');
+                    break;
+                case 'title': case 'party': case 'world':
+                    this.play('music', 'theme');
+                    this.stop('ambience');
+                    break;
+            }
         },
 
         stop(channel) {

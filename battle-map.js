@@ -6977,6 +6977,7 @@ const _audioBuffers = {};
 function playSound(type) {
     const buf = _audioBuffers[type];
     if (!buf) return;
+    if (window.AudioDirector?.muted) return;   // game menu sound toggle
     if (_audioCtx.state === 'suspended') _audioCtx.resume();
     const src = _audioCtx.createBufferSource();
     src.buffer = buf;

@@ -24,6 +24,7 @@ const Scenes = {
             if (el) el.hidden = (n !== name);
         }
         this.current = name;
+        AudioDirector.playScene(name, GameState.get()?.world?.params?.biome);
     },
 };
 
@@ -185,9 +186,11 @@ function buildOverworld(state) {
                     updateHUD();
                 }
                 Settlement.open(cell, updateHUD);
+                AudioDirector.playScene('settlement');
                 return;                          // safe ground — no encounters
             }
             Settlement.close();
+            AudioDirector.playScene('overworld', GameState.get().world.params.biome);
 
             // Main quest fight (shard trial / boss lair) takes precedence
             const mq = Quests.mainQuestAt(q, r);
@@ -529,6 +532,11 @@ function initMenu() {
     $('hud-menu-btn').addEventListener('click', () => toggle(true));
     $('btn-resume').addEventListener('click', () => toggle(false));
 
+    $('btn-mute').addEventListener('click', () => {
+        AudioDirector.setMuted(!AudioDirector.muted);
+        $('btn-mute').textContent = AudioDirector.muted ? '🔇 Sound: Off' : '🔊 Sound: On';
+    });
+
     document.addEventListener('keydown', e => {
         if (e.key !== 'Escape' || Scenes.current !== 'overworld') return;
         // An open equipment panel swallows Escape before the menu toggles
@@ -570,14 +578,18 @@ window.addEventListener('DOMContentLoaded', async () => {
         if (e.target.matches?.('input, textarea, select')) return;
         toggleEquip();
     });
-    $('sp-close').addEventListener('click', () => Settlement.close());
+    $('sp-close').addEventListener('click', () => {
+        Settlement.close();
+        AudioDirector.playScene('overworld', GameState.get()?.world?.params?.biome);
+    });
     $('ds-leave').addEventListener('click', leaveDungeon);
     $('btn-victory-title').addEventListener('click', () => {
         $('victory-overlay').hidden = true;
         $('btn-continue').disabled = false;
         Scenes.show('title');
     });
-    AudioDirector.play('music', 'theme');   // starts on first user gesture
+    // Title music is queued by Scenes.show('title') above and starts on the
+    // first user gesture (autoplay policy).
 
     // Keep world entry locked until the map JSON data is in — generating
     // without it would silently fall back to built-in defaults.
