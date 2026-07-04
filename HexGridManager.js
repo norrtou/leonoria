@@ -450,13 +450,17 @@ class HexGridManager {
      */
     _normalise(raw) {
         if (raw.terrain_type !== undefined) {
-            // Flat export format from _buildExportData()
+            // Flat export format from _buildExportData(). Optional fields
+            // (settlement_name, features) must survive — the game reads them
+            // off getCell() results for settlement entry and the HUD.
             return {
                 q:            raw.q,
                 r:            raw.r,
                 terrain_type: raw.terrain_type,
                 move_cost:    raw.move_cost,
                 is_passable:  raw.is_passable ?? (raw.move_cost !== null),
+                ...(raw.settlement_name !== undefined && { settlement_name: raw.settlement_name }),
+                ...(raw.features        !== undefined && { features:        raw.features }),
             };
         }
         // Nested template format (data/map_data.json)

@@ -5781,10 +5781,16 @@ class FantasyMap {
             const hn = h - SL;
 
             if (!hm.isLand(c, r))   return { terrain_type: 'Sea',       move_cost: null, is_passable: false };
+
+            // Settlements win over every other land classification — a village
+            // in the woods must still export as a Settlement hex, or it can
+            // never be entered in the game (its cell would read Forest/Hills).
+            const key = r * hm.cols + c;
+            if (settleCells.has(key)) return { terrain_type: 'Settlement', move_cost: 1.0, is_passable: true };
+
             if (hm.isHighPeak(c, r)) return { terrain_type: 'High Peak', move_cost: null, is_passable: false };
             if (hm.isMountain(c, r)) return { terrain_type: 'Mountain',  move_cost: 2.0,  is_passable: true  };
 
-            const key = r * hm.cols + c;
             if (forestCells.has(key)) return { terrain_type: 'Forest', move_cost: 2.0, is_passable: true };
 
             if (wetlandDensity > 0 && hn < 0.06) {
@@ -5796,7 +5802,6 @@ class FantasyMap {
 
             if (hn > 0.10) return { terrain_type: 'Hills', move_cost: 2.0, is_passable: true };
 
-            if (settleCells.has(key)) return { terrain_type: 'Settlement', move_cost: 1.0, is_passable: true };
             if (hm.isCoast(c, r))     return { terrain_type: 'Coast',      move_cost: 1.0, is_passable: true };
 
             return { terrain_type: BIOME_PLAIN[biomeId] ?? 'Plains', move_cost: 1.0, is_passable: true };

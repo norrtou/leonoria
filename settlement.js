@@ -49,6 +49,27 @@ window.Settlement = (() => {
         return list.find(s => s.name === name) ?? null;
     }
 
+    // Scene art for the panel header — picks from the landmarkimages set by
+    // culture, biome and settlement type (same art pool as map.html's popup).
+    function _artFor(info, biomeId) {
+        const type = info?.type ?? 'village';
+        const cult = String(info?.culture ?? '');
+        const ctx  = String(info?.terrain_context ?? '');
+        const art  = f => `assets/images/landmarkimages/${f}`;
+
+        if (biomeId === 'the_forgotten_kingdom')
+            return art(/orc|ravager|wildmen/.test(cult) ? 'orcunderdarktown.jpg' : 'humanunderdarktown.jpg');
+        if (/orc|ravager|wildmen/.test(cult))            return art('orctown.jpg');
+        if (/archon|ancient|secluded|grey/.test(cult))   return art('wizardtown.jpg');
+        if (/mountain|hill/.test(ctx))                   return art('humanmountaintown.jpg');
+        if (['capital', 'city', 'port_city', 'fortress'].includes(type)) return art('humancapital.jpg');
+        if (type === 'market_town')                      return art('humanlargetown.jpg');
+        if (['town', 'port'].includes(type))             return art('humansmalltown.jpg');
+        if (type === 'fishing_village')                  return art('humansmalltown2.jpg');
+        if (/forest/.test(ctx))                          return art('humancottage.jpg');
+        return art('humancountryside.jpg');
+    }
+
     // ── Panel rendering ──────────────────────────────────────────────────────
     let _onChange = null;
 
@@ -77,6 +98,13 @@ window.Settlement = (() => {
         $('sp-name').textContent = name;
         $('sp-type').textContent = type.replace(/_/g, ' ') +
             (kingdom ? ` · ${kingdom.name}${rep > 0 ? ` (standing +${rep})` : ''}` : '');
+
+        const img = $('sp-img');
+        if (img) {
+            img.src    = _artFor(info, GameState.get().world?.params?.biome);
+            img.hidden = false;
+            img.onerror = () => { img.hidden = true; };
+        }
 
         const wounded = Object.keys(s.party.hp ?? {}).length > 0;
 

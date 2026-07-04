@@ -288,6 +288,8 @@
     transform: translate(-50%, -50%);
     z-index: 30;
     width: 420px;
+    max-height: 92vh;
+    overflow-y: auto;
     background: linear-gradient(180deg, #2a2114, #221a0e);
     border: 1px solid var(--gold);
     border-radius: 4px;
@@ -297,6 +299,17 @@
     font-family: 'IM Fell English', Georgia, serif;
 }
 #settlement-panel[hidden] { display: none; }
+
+#sp-img {
+    display: block;
+    width: calc(100% + 48px);
+    margin: -20px -24px 14px;
+    height: 150px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--gold);
+    border-radius: 4px 4px 0 0;
+}
+#sp-img[hidden] { display: none; }
 
 .sp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
 #sp-name   { font-size: 26px; letter-spacing: 1px; }
@@ -467,6 +480,67 @@
 .eq-note   { font-size: 13px; color: #b8a678; padding: 8px 4px; display: flex; align-items: center; gap: 8px; }
 
 /* ── In-game menu overlay ────────────────────────────────────────────────── */
+/* ── Lore popup (journey intro, ambushes, defeat) ────────────────────────── */
+#lore-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 7, 3, 0.78);
+}
+#lore-popup[hidden] { display: none; }
+
+.lore-box {
+    width: 560px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #2a2114, #221a0e);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    box-shadow: 0 12px 60px rgba(0, 0, 0, 0.8);
+    padding: 28px 34px 24px;
+    font-family: 'IM Fell English', Georgia, serif;
+    text-align: center;
+}
+#lp-title {
+    font-size: 28px;
+    color: var(--gold);
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+}
+#lp-title::after {
+    content: '❧ ✦ ❧';
+    display: block;
+    font-size: 12px;
+    color: #7a6a42;
+    margin-top: 8px;
+}
+#lp-body {
+    margin: 14px 0 20px;
+    text-align: left;
+    color: #e2d5b2;
+    font-size: 16px;
+    line-height: 1.65;
+}
+#lp-body p  { margin: 0 0 12px; }
+#lp-body p:last-child { margin-bottom: 0; }
+#lp-body em { color: var(--gold); font-style: italic; }
+#lp-btn {
+    font-family: inherit;
+    font-size: 17px;
+    padding: 9px 30px;
+    color: #efe6d0;
+    background: linear-gradient(180deg, #3a2f1a, #2a2010);
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+#lp-btn:hover { background: linear-gradient(180deg, #4a3d22, #342a14); }
+
 #menu-overlay {
     position: fixed;
     inset: 0;

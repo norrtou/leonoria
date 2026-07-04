@@ -291,7 +291,9 @@ window.Quests = (() => {
             lair:   { name: lair.name, q: lair.q, r: lair.r },
             shards,
             done:   false,
-            campaign: camp ? { title: camp.title, hook: camp.starting_hook } : null,
+            campaign: camp ? { title: camp.title, hook: camp.starting_hook,
+                               tone: camp.tone ?? null,
+                               factions: camp.key_factions ?? [] } : null,
         };
         GameState.save();
     }

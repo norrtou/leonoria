@@ -158,8 +158,7 @@ function startOverworld(isNew) {
         Quests.initMainQuest();   // seed the boss lair + shard trials
         GameState.save();
         $('gw-status').textContent = '';
-        const hook = GameState.get().quests.main?.campaign?.hook;
-        if (hook) showEvent(`⚜ ${hook}`, 14000);
+        showJourneyIntro();
     }
     Fog.rebuild();
     updateHUD();
@@ -248,6 +247,19 @@ const TRAVEL_FLAVOR = [
     '🪦 You pass a lone grave marked with a rusted sword.',
     '🔥 The remains of a campfire — still warm. Someone left in a hurry.',
     '🌫 A cold mist clings to the ground until midday.',
+    '🐺 Far off, a howl — answered by another, closer.',
+    '🌳 An oak split by old lightning; travelers have hammered coins into the bark.',
+    '👣 Boot prints join the road, walk beside it a while, and never leave it.',
+    '🕯 A wayside shrine, its candle lit. No one is anywhere in sight.',
+    '🦅 A hawk circles the party twice, screams once, and is gone.',
+    '🛞 A cart abandoned mid-road, one wheel still slowly turning.',
+    '🌾 The wind combs the grass in long waves, like something breathing.',
+    '🎶 For a moment — distant singing. Then only the wind again.',
+    '🪶 White feathers scattered across the trail. Too many. Too large.',
+    '🌒 The moon rises early and pale, like it wants to see this.',
+    '⚔ Two rusted swords crossed over a cairn. You do not disturb them.',
+    '🐍 Something long slides off a sun-warmed stone as you pass.',
+    '🏚 A roofless cottage back from the road. The garden is still tended.',
 ];
 
 const TRAVEL_EVENTS = [
@@ -358,10 +370,117 @@ function leaveDungeon() {
     updateHUD();
 }
 
+// ─── Lore popup ───────────────────────────────────────────────────────────────
+// One reusable parchment modal: journey intro, ambush announcements, defeat.
+function showLore({ title, body, btn = 'Continue', onClose = null }) {
+    $('lp-title').textContent = title;
+    $('lp-body').innerHTML    = body;
+    $('lp-btn').textContent   = btn;
+    $('lore-popup').hidden    = false;
+    $('lp-btn').onclick = () => {
+        $('lore-popup').hidden = true;
+        if (onClose) onClose();
+    };
+}
+
+const BIOME_INTRO = {
+    the_midlands:          'The Midlands lie green and quilted with farms, but the roads between the kingdoms have grown long and lawless, and the milestones no longer tell the truth.',
+    the_sanctuary_lands:   'The Sanctuary Lands were promised safe by treaties older than memory. The grass grows high here — high enough to hide what no treaty binds.',
+    the_dark_forests:      'The Dark Forests do not end so much as decide, here and there, to let a road through. Every village stands in a clearing it must defend nightly from the trees.',
+    the_eternal_winds:     'On the tundra of the Eternal Winds the sky does all the talking. What lives here has learned to be low, patient, and very hard to kill.',
+    the_badlands:          'The Badlands are an oath the land broke. Dry riverbeds remember water, ruined wells remember travelers, and the vultures remember everything.',
+    the_outer_steppes:     'The Outer Steppes roll to the horizon without apology — moor, stone, and wind. Riders cross in days what walkers pay for in weeks.',
+    the_blinding_lands:    'In the Blinding Lands the light itself is a hazard, glancing white off salt and bone. Shade is currency here, and someone always collects.',
+    the_gleam_havens:      'The Gleam Havens glitter with savanna gold and merchant promises. Both run out a day\'s march past the last watchtower.',
+    the_boglands:          'The Boglands swallow sound, footprints, and the occasional census-taker. The marsh folk say the water keeps what it is owed.',
+    the_forgotten_kingdom: 'Below the world lies the Forgotten Kingdom, its halls still lit by fires no one feeds. What was buried there was buried for cause.',
+};
+
+function showJourneyIntro() {
+    const s    = GameState.get();
+    const main = s.quests.main;
+    const camp = main?.campaign;
+
+    const paras = [];
+    paras.push(BIOME_INTRO[s.world.params.biome] ??
+        'The wilds of Leonoria stretch before you, unmapped and unkind.');
+    if (camp?.hook) paras.push(camp.hook);
+    if (camp?.factions?.length)
+        paras.push(`In the taverns they speak carefully of the ${camp.factions.slice(0, 2).join(' and the ')} — and more carefully still of those who ask about them.`);
+    if (main?.boss?.name)
+        paras.push(`And beneath every rumor, one name keeps returning: <em>${main.boss.name}</em>. Somewhere far from here, it waits.`);
+    paras.push(`${s.party.name} — ${s.party.members.length} souls, ${s.party.gold} gold, and a road that only goes forward.`);
+
+    showLore({
+        title: camp?.title ?? 'The Journey Begins',
+        body:  paras.map(p => `<p>${p}</p>`).join(''),
+        btn:   '⚔ Begin the Journey',
+    });
+}
+
+// Ambush flavor: one line picked by tier/place/time, foes woven in.
+const AMBUSH_LINES = {
+    common: [
+        'The birds go quiet. Then {foes} are simply <em>there</em>.',
+        'Too late you notice the tracks are fresh — {foes}, and they found you first.',
+        '{Foes} break from cover, fast and hungry.',
+        'A smell on the wind, a wrong shadow — then {foes}, closing in.',
+    ],
+    uncommon: [
+        'This is no chance meeting. {Foes} have been waiting for someone on this road — and you will do.',
+        'The ground is littered with old bones. {Foes} intend to add to the pile.',
+        '{Foes} fan out with unsettling discipline. Someone taught them to hunt.',
+    ],
+    boss: [
+        'The air itself seems to recoil. {Foes} — and it has been expecting you.',
+        'Every instinct you own says the same word: <em>run</em>. {Foes} would enjoy that.',
+    ],
+    dungeon: [
+        'Torchlight catches eyes in the dark — {foes}.',
+        'From the black of the tunnels, {foes} come crawling toward the light.',
+        'The echo of your footsteps returns wrong. {Foes} have joined it.',
+    ],
+    night: [
+        'Night was their plan all along — {foes} circle in from the dark.',
+        'The campfire light reaches ten paces. {Foes} wait at eleven.',
+    ],
+};
+
+function _foesLabel(enc) {
+    const names = {};
+    for (const e of enc.roster ?? []) names[e.name] = (names[e.name] ?? 0) + 1;
+    const parts = Object.entries(names).map(([n, c]) =>
+        c > 1 ? `${c} ${n}${/s$/i.test(n) ? '' : 's'}` : (enc.tier === 'boss' ? n : `a ${n}`));
+    return parts.join(' and ') || enc.label;
+}
+
+function ambushBody(enc) {
+    const pool =
+        enc.tier === 'boss' ? AMBUSH_LINES.boss :
+        enc.dungeon         ? AMBUSH_LINES.dungeon :
+        GameState.timeOfDay() === 'night' && Math.random() < 0.5 ? AMBUSH_LINES.night :
+        AMBUSH_LINES[enc.tier] ?? AMBUSH_LINES.common;
+    const line = pool[Math.floor(Math.random() * pool.length)];
+    const foes = _foesLabel(enc);
+    return `<p>${line
+        .replace('{foes}', `<em>${foes}</em>`)
+        .replace('{Foes}', `<em>${foes.charAt(0).toUpperCase()}${foes.slice(1)}</em>`)}</p>`;
+}
+
 // ─── Battle bridge ────────────────────────────────────────────────────────────
 function triggerBattle(enc, quest = null) {
     if (LeonoriaBattle.active) return;
     if (Scenes.current !== 'overworld' && Scenes.current !== 'dungeon') return;
+    showLore({
+        title:   `⚔ ${enc.label}`,
+        body:    ambushBody(enc),
+        btn:     '⚔ To arms!',
+        onClose: () => startBattle(enc, quest),
+    });
+}
+
+function startBattle(enc, quest = null) {
+    if (LeonoriaBattle.active) return;
     const s = GameState.get();
 
     $('battle-encounter-title').textContent = `⚔ ${enc.label}`;
@@ -437,7 +556,13 @@ function applyBattleResult(result, enc, quest = null) {
     } else if (result.fled) {
         showEvent(`🏃 The party slips away from ${enc.label}`);
     } else {
-        showEvent('☠ The party wakes at dawn, battered and robbed…');
+        showLore({
+            title: '☠ Darkness Takes You',
+            body:  '<p>The last thing you remember is the ground coming up to meet you.</p>' +
+                   '<p>You wake at dawn in a cold camp off the road — someone, or something, dragged you clear of the field. Half your gold is gone; your wounds are bound with strips of your own cloaks.</p>' +
+                   '<p>The road does not care. It is still there, waiting.</p>',
+            btn:   'Rise',
+        });
     }
 
     GameState.save();
