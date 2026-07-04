@@ -7604,6 +7604,29 @@ function _aiRangedHeroes(heroes) {
     });
 }
 
+// BFS distance field: for every free hex, the number of free-hex steps to the
+// nearest hex adjacent to `target`, flowing AROUND blocked hexes and living
+// units. Lets melee movement route around obstacles instead of deadlocking
+// behind them (straight-line distance can't see a pillar in the way).
+function _aiDistField(unit, target) {
+    const dist  = new Map();
+    const queue = [];
+    for (const [nc, nr] of hexNeighbours(target.col, target.row)) {
+        if (_aiHexFree(nc, nr, unit)) { dist.set(nc + ',' + nr, 0); queue.push([nc, nr]); }
+    }
+    for (let i = 0; i < queue.length; i++) {
+        const [c, r] = queue[i];
+        const d = dist.get(c + ',' + r);
+        for (const [nc, nr] of hexNeighbours(c, r)) {
+            const k = nc + ',' + nr;
+            if (dist.has(k) || !_aiHexFree(nc, nr, unit)) continue;
+            dist.set(k, d + 1);
+            queue.push([nc, nr]);
+        }
+    }
+    return dist;
+}
+
 // How many heroes in `list` have clear LOS to position (c,r)?
 // Temporarily moves `unit` there for the check.
 function _aiCountExposed(unit, c, r, list) {
@@ -7645,24 +7668,38 @@ function aiPickTarget(unit, tactics) {
 }
 
 // ── Melee movement ────────────────────────────────────────────────────────────
-// Steps one hex at a time. Constraint: each step MUST reduce distance to target
-// (never sidestep, never retreat). Among advancing hexes, covered ones are
-// preferred when seekCover is true.
+// Steps one hex at a time along the shortest FREE path to the target (BFS
+// distance field), so obstacles are routed around instead of deadlocking the
+// unit behind a pillar. Constraint: each step MUST reduce the path distance
+// (never sidestep, never retreat). Among equally-advancing hexes, covered ones
+// are preferred when seekCover is true. If no path exists (target boxed in by
+// other units), fall back to raw-distance advancing so monsters still queue up.
 
 function aiMeleeMoveTowards(unit, target, steps, tactics) {
     const heroes      = STATE.units.filter(u => u.team === 'heroes' && u.hp > 0);
     const rangedHeros = _aiRangedHeroes(heroes);
     const maxR        = Math.max(1, rangedHeros.length);
+    const field       = _aiDistField(unit, target);
 
     for (let s = 0; s < steps; s++) {
-        const curDist = hexDist(unit.col, unit.row, target.col, target.row);
-        const nbrs    = hexNeighbours(unit.col, unit.row);
+        if (hexDist(unit.col, unit.row, target.col, target.row) <= 1) break;
+        const curPathD = field.get(unit.col + ',' + unit.row);
+        const curDist  = hexDist(unit.col, unit.row, target.col, target.row);
+        const nbrs     = hexNeighbours(unit.col, unit.row);
 
         let best = null, bestScore = Infinity;
         for (const [nc, nr] of nbrs) {
             if (!_aiHexFree(nc, nr, unit)) continue;
-            const d = hexDist(nc, nr, target.col, target.row);
-            if (d >= curDist) continue;          // must advance — no exceptions
+            // Advance along the free path when one exists; otherwise advance
+            // by raw distance (old behaviour — packs units around a crowd).
+            let d;
+            if (curPathD !== undefined) {
+                d = field.get(nc + ',' + nr);
+                if (d === undefined || d >= curPathD) continue;   // must advance
+            } else {
+                d = hexDist(nc, nr, target.col, target.row);
+                if (d >= curDist) continue;                       // must advance
+            }
 
             let score = d;                       // primary: get closer
             if (tactics && tactics.seekCover) {
