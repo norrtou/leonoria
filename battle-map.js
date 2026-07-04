@@ -6662,22 +6662,22 @@ const MONSTER_ARCHETYPES = {
     beast_fast: {
         match: /wolf|worg|hound|elk|jackal|panther|cat|stag|raptor/i,
         stats: { maxHp: 48,  speed: 5, dodge: 24 }, sprite: 'wolf',
-        attack: { name:'Savage Bite', type:'melee', range:1, damageDice:[2,8],  damageMod:4, hitBase:96, critMin:92, snd:'claw', damage_type:'Physical' },
+        attack: { name:'Savage Bite', type:'melee', range:1, damageDice:[2,8],  damageMod:4, hitBase:96, critMin:92, snd:'wolf', damage_type:'Physical' },
     },
     beast_heavy: {
         match: /bear|boar|golem|herd|troll|ogre|mammoth|behemoth|bull/i,
         stats: { maxHp: 115, speed: 2, dodge: 8 },  sprite: 'brute',
-        attack: { name:'Crushing Maul', type:'melee', range:1, damageDice:[3,8], damageMod:6, hitBase:94, critMin:93, snd:'hit', damage_type:'Physical' },
+        attack: { name:'Crushing Maul', type:'melee', range:1, damageDice:[3,8], damageMod:6, hitBase:94, critMin:93, snd:'brute', damage_type:'Physical' },
     },
     serpent: {
         match: /serpent|snake|wyrm|spider|viper|leech|worm|crawler/i,
         stats: { maxHp: 55,  speed: 3, dodge: 20 }, sprite: 'serpent',
-        attack: { name:'Venomous Bite', type:'melee', range:1, damageDice:[3,6], damageMod:3, hitBase:96, critMin:92, snd:'claw', damage_type:'Blight' },
+        attack: { name:'Venomous Bite', type:'melee', range:1, damageDice:[3,6], damageMod:3, hitBase:96, critMin:92, snd:'serpent', damage_type:'Blight' },
     },
     undead: {
         match: /undead|ghoul|skeleton|wight|shade|wraith|forgotten|void|corrupted|plague|specter|thrall|lich/i,
         stats: { maxHp: 82,  speed: 2, dodge: 10 }, sprite: 'undead',
-        attack: { name:'Grave Claw', type:'melee', range:1, damageDice:[2,10], damageMod:5, hitBase:95, critMin:93, snd:'claw', damage_type:'Shadow' },
+        attack: { name:'Grave Claw', type:'melee', range:1, damageDice:[2,10], damageMod:5, hitBase:95, critMin:93, snd:'undead', damage_type:'Shadow' },
     },
     humanoid_ranged: {
         match: /archer|bow|hunter|stalker|sniper|slinger/i,
@@ -6756,6 +6756,7 @@ window.LeonoriaBattle = {
 
         _gameOnDone = typeof onDone === 'function' ? onDone : null;
         this.active = true;
+        playSound('battlehorn');   // ambush stinger over the music crossfade
 
         LIGHTING.mode = context.timeOfDay === 'night' ? 'night' : 'day';
         MAP_TYPE      = context.isDungeon ? 'dungeon' : 'outdoor';
@@ -6959,7 +6960,39 @@ const SOUND_FILES = {
     'arrowhit': 'assets/sounds/arrowhit.mp3',
     'fire':     'assets/sounds/spells/fireballlaunch.mp3',
     'firehit':  'assets/sounds/spells/firespellhit.mp3',
+    'lightning':    'assets/sounds/spells/lightning1.mp3',
+    'lightninghit': 'assets/sounds/spells/lightninghit.mp3',
+    'ray':          'assets/sounds/spells/ray.mp3',
+    'spellcast':    'assets/sounds/spells/spellcast.ogg',
+    'arcanehit':    'assets/sounds/spells/arcanehit.ogg',
+    'smite':        'assets/sounds/spells/smite.ogg',
+    'icecast':      'assets/sounds/spells/icecast.ogg',
+    'icehit':       'assets/sounds/spells/icehit.ogg',
+    'shadowhit':    'assets/sounds/spells/shadowhit.ogg',
+    'naturehit':    'assets/sounds/spells/naturehit.ogg',
+    'wolf':         'assets/sounds/monsters/wolf.ogg',
+    'brute':        'assets/sounds/monsters/brute.ogg',
+    'serpent':      'assets/sounds/monsters/serpent.ogg',
+    'undead':       'assets/sounds/monsters/undead.ogg',
+    'mdeath':       'assets/sounds/monsters/death.ogg',
+    'battlehorn':   'assets/sounds/battlehorn.ogg',
 };
+
+// Spell cast/impact sounds by damage type. Cast falls back to the generic
+// 'spellcast' whoosh, impact to 'firehit' (the original default).
+const SPELL_CAST_SND = {
+    Fire: 'fire', Lightning: 'lightning', Cold: 'icecast', Water: 'icecast',
+    Arcane: 'ray', Spirit: 'ray',
+};
+const SPELL_HIT_SND = {
+    Fire: 'firehit', Lightning: 'lightninghit', Cold: 'icehit', Water: 'icehit',
+    Radiant: 'smite', Spirit: 'smite', Arcane: 'arcanehit',
+    Shadow: 'shadowhit', Void: 'shadowhit', Nature: 'naturehit', Blight: 'naturehit',
+};
+function castSnd(atk) {
+    if (atk.type === 'spell') return SPELL_CAST_SND[atk.damage_type] ?? 'spellcast';
+    return atk.snd;
+}
 
 const _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const _audioBuffers = {};
@@ -7946,7 +7979,8 @@ function resolveAttack(attacker, target, onDone) {
             fromBy, toBy,
             projOuter, projCore, projGlow);
         if (atk.type === 'ranged' && !isMiss) setTimeout(() => playSound('arrowhit'), 160);
-        if (atk.type === 'spell'  && !isMiss) setTimeout(() => playSound('firehit'),  160);
+        if (atk.type === 'spell'  && !isMiss) setTimeout(() =>
+            playSound(SPELL_HIT_SND[atk.damage_type] ?? 'firehit'), 160);
     }
     // Launch swing/stab for melee attacks
     if (atk.type === 'melee') {
@@ -7979,10 +8013,10 @@ function resolveAttack(attacker, target, onDone) {
     // Ranged/spell sounds are launch sounds (bow twang, fire whoosh) — play now.
     // Melee sounds start with swing animation (synced at 400ms duration).
     if (atk.type === 'melee') {
-        if (!isMiss) playSound(atk.snd);
+        if (!isMiss) playSound(castSnd(atk));
         else playSound('miss');
     } else {
-        playSound(atk.snd);
+        playSound(castSnd(atk));
     }
 
     updateCombatPanel();
@@ -8030,7 +8064,10 @@ function resolveAttack(attacker, target, onDone) {
             }
             showFloatDmg(target.col, target.row, dmg, isCrit, false);
 
-            if (target.hp <= 0) combatLog('  ✝ ' + target.name + ' is slain!');
+            if (target.hp <= 0) {
+                combatLog('  ✝ ' + target.name + ' is slain!');
+                if (target.team === 'enemies') setTimeout(() => playSound('mdeath'), 220);
+            }
         }
 
         attacker.hasActed = true;
