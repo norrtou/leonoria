@@ -45,6 +45,14 @@ Re-encoded to VBR MP3:
   origin to be documented.
 - `assets/sounds/monsters/serpent.ogg` — synthesized hiss (project-own,
   ffmpeg band-passed noise).
+- `assets/sounds/whip.ogg` — synthesized whip crack (project-own, ffmpeg
+  noise whoosh + burst).
+- `assets/sounds/spear.ogg` — mix of "RPG Sound Pack" battle/swing2.wav
+  (artisticdude, CC0) and the project-own stab.wav.
+- `assets/sounds/axe.ogg` — chop from "Tree chop & fall (thud)", kheetor,
+  https://opengameart.org/content/tree-chop-fall-thud, CC0. Trimmed.
+- `assets/sounds/shieldbash.ogg` — from "10 Impact/Shield Blocks",
+  StarNinjas, https://opengameart.org/content/10-impactshield-blocks, CC0.
 - From **"RPG Sound Pack" by artisticdude**,
   https://opengameart.org/content/rpg-sound-pack, CC0:
   - `assets/sounds/monsters/wolf.ogg` (NPC/misc/wolfman.wav)

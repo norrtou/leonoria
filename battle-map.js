@@ -391,11 +391,11 @@ const DAMAGE_TYPE_ORB = {
 const SKILL_ATTACK_MAP = {
     'Swordsmanship':  { name:'Sword Strike',   type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:92, snd:'sword', damage_type:'Physical' },
     'Archery':        { name:'Arrow Shot',      type:'ranged', range:12, damageDice:[2,6],  damageMod:3,  hitBase:98, critMin:94, snd:'bow',   damage_type:'Physical' },
-    'Axewielding':    { name:'Axe Strike',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:90, snd:'sword', damage_type:'Physical' },
-    'Blunt Force':    { name:'Mace Smash',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:2,  hitBase:98, critMin:93, snd:'sword', damage_type:'Physical' },
+    'Axewielding':    { name:'Axe Strike',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:4,  hitBase:98, critMin:90, snd:'axe',   damage_type:'Physical' },
+    'Blunt Force':    { name:'Mace Smash',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:2,  hitBase:98, critMin:93, snd:'hit',   damage_type:'Physical' },
     'Small Arms':     { name:'Knife Strike',    type:'melee',  range:1,  damageDice:[2,6],  damageMod:2,  hitBase:98, critMin:91, snd:'stab',  damage_type:'Physical' },
-    'Polearms':       { name:'Spear Jab',       type:'melee',  range:2,  damageDice:[1,10], damageMod:3,  hitBase:98, critMin:93, snd:'sword', damage_type:'Physical' },
-    'Shield Fighting':{ name:'Shield Bash',     type:'melee',  range:1,  damageDice:[1,8],  damageMod:2,  hitBase:98, critMin:94, snd:'sword', damage_type:'Physical' },
+    'Polearms':       { name:'Spear Jab',       type:'melee',  range:2,  damageDice:[1,10], damageMod:3,  hitBase:98, critMin:93, snd:'spear', damage_type:'Physical' },
+    'Shield Fighting':{ name:'Shield Bash',     type:'melee',  range:1,  damageDice:[1,8],  damageMod:2,  hitBase:98, critMin:94, snd:'shieldbash', damage_type:'Physical' },
     'Crossbow':       { name:'Crossbow Bolt',   type:'ranged', range:10, damageDice:[2,8],  damageMod:2,  hitBase:98, critMin:93, snd:'bow',   damage_type:'Physical' },
     'Blowgun & Sling':{ name:'Sling Shot',      type:'ranged', range:8,  damageDice:[1,6],  damageMod:1,  hitBase:98, critMin:95, snd:'bow',   damage_type:'Physical' },
     'Stealth':        { name:'Shadow Jab',      type:'melee',  range:1,  damageDice:[2,8],  damageMod:3,  hitBase:98, critMin:88, snd:'stab',  damage_type:'Physical' },
@@ -6793,7 +6793,7 @@ window.LeonoriaBattle = {
                     damageDice: [1, Math.max(2, eq.dmg[1] - eq.dmg[0] + 1)],
                     damageMod:  Math.max(0, eq.dmg[0] - 1),
                     hitBase:    97, critMin: 92,
-                    snd:        eq.ranged ? 'bow' : 'sword',
+                    snd:        eq.ranged ? 'bow' : (WEAPON_CAT_SND[eq.category] ?? 'sword'),
                     damage_type: eq.damageType || 'Physical',
                 };
                 h.attackKeys ??= [];
@@ -6976,6 +6976,20 @@ const SOUND_FILES = {
     'undead':       'assets/sounds/monsters/undead.ogg',
     'mdeath':       'assets/sounds/monsters/death.ogg',
     'battlehorn':   'assets/sounds/battlehorn.ogg',
+    'axe':          'assets/sounds/axe.ogg',
+    'shieldbash':   'assets/sounds/shieldbash.ogg',
+    'spear':        'assets/sounds/spear.ogg',
+    'whip':         'assets/sounds/whip.ogg',
+};
+
+// Equipped-weapon melee sound by tooltip category ('hit' is the heavy thud)
+const WEAPON_CAT_SND = {
+    Sword: 'sword', Blade: 'sword',
+    Axe: 'axe', Pick: 'axe',
+    Club: 'hit', Mace: 'hit', Hammer: 'hit', Staff: 'hit',
+    Improvised: 'hit', 'Fist Weapon': 'hit',
+    Flail: 'whip', Chain: 'whip', Whip: 'whip',
+    Spear: 'spear', Polearm: 'spear', Mounted: 'spear',
 };
 
 // Spell cast/impact sounds by damage type. Cast falls back to the generic
